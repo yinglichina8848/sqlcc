@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: ast_dml_nodes.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li><li class="navelem"><a class="el" href="dir_3f40bfae0b1f6b03444daffc78cbbe28.html">ast</a></li><li class="navelem"><a class="el" href="dir_3b9d5705d5efbf8bbf1ee1a552e68171.html">dml</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">ast_dml_nodes.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>DML相关AST节点实现  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="ast__node_8h_source.html">../ast_node.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ast__nodes_8h_source.html">../ast_nodes.h</a>&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+ast_dml_nodes.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="ast__dml__nodes_8cpp__incl.png" border="0" usemap="#aast__dml__nodes_8cpp" alt=""/></div>
+<map name="aast__dml__nodes_8cpp" id="aast__dml__nodes_8cpp">
+<area shape="rect" title="DML相关AST节点实现" alt="" coords="928,5,1075,31"/>
+<area shape="rect" href="ast__node_8h.html" title=" " alt="" coords="1046,445,1152,471"/>
+<area shape="poly" title=" " alt="" coords="988,33,933,80,900,114,869,153,843,195,827,238,824,259,825,281,830,302,840,323,858,346,879,367,929,401,983,425,1034,441,1032,446,981,430,926,406,876,372,854,350,835,325,825,304,820,282,819,259,822,237,839,192,865,150,896,111,930,76,985,29"/>
+<area shape="rect" href="ast__nodes_8h.html" title=" " alt="" coords="946,79,1058,104"/>
+<area shape="poly" title=" " alt="" coords="1004,31,1004,65,999,65,999,31"/>
+<area shape="rect" title=" " alt="" coords="1082,79,1162,104"/>
+<area shape="poly" title=" " alt="" coords="1022,28,1091,69,1089,74,1020,33"/>
+<area shape="rect" title=" " alt="" coords="1202,519,1279,544"/>
+<area shape="poly" title=" " alt="" coords="1123,468,1206,510,1204,515,1121,473"/>
+<area shape="rect" title=" " alt="" coords="878,519,936,544"/>
+<area shape="poly" title=" " alt="" coords="1069,473,950,517,949,512,1067,468"/>
+<area shape="poly" title=" " alt="" coords="1058,100,1070,101,1162,105,1281,105,1342,108,1396,115,1441,129,1459,138,1473,150,1480,163,1481,176,1470,201,1428,252,1401,292,1367,326,1309,365,1247,400,1146,443,1144,438,1245,395,1306,361,1364,322,1396,288,1424,249,1466,198,1476,175,1475,164,1469,154,1456,143,1439,134,1395,121,1341,113,1281,110,1162,110,1069,107,1057,105"/>
+<area shape="poly" title=" " alt="" coords="1058,100,1070,101,1149,110,1217,113,1332,115,1446,122,1513,132,1590,149,1659,159,1723,165,1749,172,1770,185,1784,206,1788,236,1788,386,1784,405,1772,423,1753,438,1729,452,1667,476,1591,494,1509,508,1428,519,1293,530,1293,525,1427,513,1508,503,1590,489,1665,470,1727,447,1750,434,1768,419,1779,403,1783,386,1783,237,1779,208,1766,189,1747,177,1722,170,1659,164,1589,155,1512,137,1446,127,1332,120,1216,119,1149,115,1069,107,1058,105"/>
+<area shape="poly" title=" " alt="" coords="946,97,793,102,594,112,399,129,318,141,259,155,198,178,141,208,90,244,49,285,20,330,12,352,8,376,10,399,16,422,28,446,46,469,62,479,90,488,173,503,285,514,413,521,674,527,864,528,864,533,674,533,413,526,284,519,173,508,88,493,60,484,43,473,24,449,11,424,4,400,3,375,7,351,15,327,44,282,86,240,138,203,196,173,257,149,317,136,398,124,593,107,793,96,945,91"/>
+<area shape="rect" href="statement_8h.html" title=" " alt="" coords="1030,372,1131,397"/>
+<area shape="poly" title=" " alt="" coords="1007,103,1076,358,1071,359,1002,105"/>
+<area shape="rect" href="node__visitor_8h.html" title=" " alt="" coords="1178,299,1292,324"/>
+<area shape="poly" title=" " alt="" coords="1016,102,1214,287,1211,291,1012,106"/>
+<area shape="rect" title=" " alt="" coords="1521,445,1584,471"/>
+<area shape="poly" title=" " alt="" coords="1058,100,1070,101,1190,113,1284,117,1377,125,1431,134,1494,149,1562,160,1623,166,1649,173,1669,186,1682,206,1687,236,1687,313,1684,334,1677,354,1653,390,1621,419,1589,440,1586,436,1617,415,1649,386,1672,352,1679,333,1682,313,1682,237,1677,208,1665,190,1647,178,1622,171,1561,165,1493,155,1430,139,1376,130,1283,122,1189,118,1069,107,1058,105"/>
+<area shape="rect" href="ast__ddl__nodes_8h.html" title=" " alt="" coords="850,299,1001,324"/>
+<area shape="poly" title=" " alt="" coords="993,106,976,127,960,153,948,188,939,223,930,285,925,284,934,222,943,186,955,151,971,124,988,103"/>
+<area shape="rect" title=" " alt="" coords="74,445,198,471"/>
+<area shape="poly" title=" " alt="" coords="946,99,739,114,469,143,342,162,237,184,196,197,165,210,145,223,139,237,139,313,139,432,134,432,134,313,134,236,141,220,162,205,194,192,235,179,341,157,469,137,738,109,945,93"/>
+<area shape="rect" href="ast__dml__nodes_8h.html" title=" " alt="" coords="1297,152,1458,177"/>
+<area shape="poly" title=" " alt="" coords="1059,101,1304,147,1303,152,1058,106"/>
+<area shape="poly" title=" " alt="" coords="1086,397,1095,432,1090,433,1081,398"/>
+<area shape="poly" title=" " alt="" coords="1211,326,1119,369,1117,364,1209,322"/>
+<area shape="rect" href="expression_8h.html" title=" " alt="" coords="1308,372,1413,397"/>
+<area shape="poly" title=" " alt="" coords="1257,322,1329,363,1327,367,1254,326"/>
+<area shape="poly" title=" " alt="" coords="1319,400,1155,444,1154,439,1318,395"/>
+<area shape="poly" title=" " alt="" coords="1333,400,1299,419,1268,447,1253,476,1246,506,1241,504,1248,474,1264,444,1296,415,1330,395"/>
+<area shape="poly" title=" " alt="" coords="1339,400,1263,435,1165,473,1049,505,951,525,949,520,1048,500,1164,468,1260,430,1336,395"/>
+<area shape="rect" href="operator__kind_8h.html" title=" " alt="" coords="1278,445,1414,471"/>
+<area shape="poly" title=" " alt="" coords="1361,398,1354,432,1348,431,1355,397"/>
+<area shape="poly" title=" " alt="" coords="1392,395,1509,438,1507,443,1390,400"/>
+<area shape="poly" title=" " alt="" coords="939,322,1019,395,1072,435,1069,439,1016,399,935,326"/>
+<area shape="poly" title=" " alt="" coords="933,323,946,353,969,392,999,433,1037,469,1073,489,1113,505,1188,522,1187,527,1111,510,1071,494,1033,473,995,437,964,395,942,355,928,325"/>
+<area shape="poly" title=" " alt="" coords="850,317,615,328,471,338,329,353,203,374,150,386,107,400,75,415,57,432,52,449,64,469,79,479,106,488,187,502,296,513,421,520,676,527,864,528,863,533,676,532,421,526,296,518,187,508,105,493,77,483,60,472,47,450,52,429,72,411,105,395,149,381,202,368,328,348,470,333,614,323,850,312"/>
+<area shape="poly" title=" " alt="" coords="952,322,1044,364,1042,369,949,326"/>
+<area shape="poly" title=" " alt="" coords="1002,315,1230,334,1345,350,1427,369,1457,383,1485,400,1531,434,1528,438,1482,404,1454,388,1425,375,1344,355,1230,340,1001,320"/>
+<area shape="rect" href="data__types_8h.html" title=" " alt="" coords="483,372,614,397"/>
+<area shape="poly" title=" " alt="" coords="866,327,623,372,622,367,865,321"/>
+<area shape="poly" title=" " alt="" coords="604,395,1189,517,1188,522,603,400"/>
+<area shape="poly" title=" " alt="" coords="483,388,396,392,310,404,277,415,256,429,252,437,251,446,255,457,264,469,275,476,294,483,354,496,526,513,717,523,864,527,864,532,717,528,526,518,353,501,293,488,272,481,260,473,250,459,246,447,246,436,252,425,275,410,308,399,395,387,483,383"/>
+<area shape="rect" title=" " alt="" coords="274,445,340,471"/>
+<area shape="poly" title=" " alt="" coords="510,400,355,445,353,440,509,395"/>
+<area shape="rect" title=" " alt="" coords="365,445,428,471"/>
+<area shape="poly" title=" " alt="" coords="525,400,435,442,432,437,523,395"/>
+<area shape="rect" title=" " alt="" coords="452,445,538,471"/>
+<area shape="poly" title=" " alt="" coords="542,399,514,436,510,433,537,396"/>
+<area shape="rect" title=" " alt="" coords="563,445,638,471"/>
+<area shape="poly" title=" " alt="" coords="559,396,586,433,582,436,555,399"/>
+<area shape="rect" title=" " alt="" coords="662,445,736,471"/>
+<area shape="poly" title=" " alt="" coords="574,395,663,437,661,442,571,400"/>
+<area shape="rect" title=" " alt="" coords="760,445,819,471"/>
+<area shape="poly" title=" " alt="" coords="588,395,748,442,746,447,586,400"/>
+<area shape="poly" title=" " alt="" coords="483,400,212,446,212,441,482,395"/>
+<area shape="poly" title=" " alt="" coords="1389,176,1407,210,1412,231,1408,252,1394,278,1377,295,1331,326,1247,376,1133,441,1130,436,1245,372,1328,322,1373,291,1389,275,1403,250,1406,231,1402,212,1385,179"/>
+<area shape="poly" title=" " alt="" coords="1417,175,1460,194,1501,223,1562,284,1589,314,1610,344,1624,375,1628,406,1620,439,1598,472,1577,488,1546,501,1464,519,1373,528,1293,532,1293,527,1373,523,1464,513,1545,496,1575,484,1594,469,1615,437,1622,406,1618,376,1605,347,1585,317,1558,288,1497,227,1457,199,1415,180"/>
+<area shape="poly" title=" " alt="" coords="1297,176,1174,192,1033,217,966,233,907,253,861,275,830,300,817,325,813,353,817,381,827,410,857,465,890,507,885,510,853,468,822,413,812,383,808,353,812,324,826,297,858,271,905,248,965,228,1032,212,1173,186,1297,171"/>
+<area shape="poly" title=" " alt="" coords="1342,180,1296,198,1240,224,1183,258,1132,301,1109,330,1093,361,1088,358,1105,327,1128,297,1180,253,1237,219,1294,193,1340,175"/>
+<area shape="poly" title=" " alt="" coords="1402,175,1429,195,1452,224,1463,251,1467,275,1464,299,1452,325,1431,350,1405,368,1402,364,1428,346,1447,323,1459,297,1462,275,1458,253,1447,227,1426,199,1399,180"/>
+<area shape="poly" title=" " alt="" coords="1407,175,1442,195,1474,224,1507,277,1530,335,1544,389,1552,432,1547,433,1539,390,1525,336,1502,279,1470,227,1439,199,1405,180"/>
+<area shape="rect" href="ast_2set__operation_8h.html" title=" " alt="" coords="1258,225,1393,251"/>
+<area shape="poly" title=" " alt="" coords="1371,179,1344,216,1340,213,1367,176"/>
+<area shape="poly" title=" " alt="" coords="1328,251,1324,287,1318,307,1306,326,1282,347,1257,355,1231,361,1202,374,1158,406,1122,438,1119,434,1155,402,1199,370,1229,356,1256,350,1279,342,1302,322,1313,305,1319,286,1323,251"/>
+<area shape="poly" title=" " alt="" coords="1338,249,1388,310,1413,344,1428,371,1438,399,1443,423,1441,447,1428,472,1400,499,1365,516,1328,527,1293,532,1292,526,1327,522,1363,511,1397,495,1424,469,1436,445,1438,424,1433,401,1423,373,1409,347,1384,313,1334,253"/>
+<area shape="poly" title=" " alt="" coords="1258,245,1143,253,1011,264,898,280,859,290,840,300,836,311,840,323,849,344,859,359,884,383,908,407,919,423,928,445,931,461,930,477,922,507,916,505,925,476,926,461,923,446,915,426,904,410,880,387,855,362,844,346,835,325,831,310,836,297,857,285,897,275,1010,259,1142,247,1258,240"/>
+<area shape="poly" title=" " alt="" coords="1282,253,1226,272,1169,301,1130,331,1100,363,1096,360,1127,327,1166,296,1224,267,1280,248"/>
+<area shape="poly" title=" " alt="" coords="1313,253,1263,292,1259,288,1310,249"/>
+<area shape="poly" title=" " alt="" coords="1343,249,1401,297,1476,371,1535,433,1531,437,1472,374,1397,301,1340,253"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1sql__parser" id="r_namespacesqlcc_1_1sql__parser"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sqlcc::sql_parser</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>DML相关AST节点实现 </p>
+<p>包含数据操作语言（DML）相关的AST节点实现，包括：</p><ul>
+<li>SelectStatement及其相关类</li>
+<li>InsertStatement</li>
+<li>UpdateStatement</li>
+<li>DeleteStatement </li>
+</ul>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

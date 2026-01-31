@@ -1,0 +1,1072 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::StorageAccessorImpl类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html">StorageAccessorImpl</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1StorageAccessorImpl-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::StorageAccessorImpl类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="storage__accessor__impl_8h_source.html">storage_accessor_impl.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::StorageAccessorImpl 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1StorageAccessorImpl__inherit__graph.png" border="0" usemap="#asqlcc_1_1StorageAccessorImpl_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1StorageAccessorImpl_inherit__map" id="asqlcc_1_1StorageAccessorImpl_inherit__map">
+<area shape="rect" title=" " alt="" coords="5,79,205,104"/>
+<area shape="rect" href="classsqlcc_1_1StorageAccessor.html" title=" " alt="" coords="20,5,191,31"/>
+<area shape="poly" title=" " alt="" coords="108,44,108,79,103,79,103,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<div class="dynheader">
+sqlcc::StorageAccessorImpl 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1StorageAccessorImpl__coll__graph.png" border="0" usemap="#asqlcc_1_1StorageAccessorImpl_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1StorageAccessorImpl_coll__map" id="asqlcc_1_1StorageAccessorImpl_coll__map">
+<area shape="rect" title=" " alt="" coords="5,79,205,104"/>
+<area shape="rect" href="classsqlcc_1_1StorageAccessor.html" title=" " alt="" coords="20,5,191,31"/>
+<area shape="poly" title=" " alt="" coords="108,44,108,79,103,79,103,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a6b082313a176cea15f7ba7e4e749b462" id="r_a6b082313a176cea15f7ba7e4e749b462"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#a6b082313a176cea15f7ba7e4e749b462">StorageAccessorImpl</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; storage_engine)</td></tr>
+<tr class="separator:a6b082313a176cea15f7ba7e4e749b462"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fdc9a7babfb6e995249e703ff3906ef" id="r_a2fdc9a7babfb6e995249e703ff3906ef"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#a2fdc9a7babfb6e995249e703ff3906ef">insertRecord</a> (const std::string &amp;table, const std::vector&lt; std::string &gt; &amp;record) override</td></tr>
+<tr class="separator:a2fdc9a7babfb6e995249e703ff3906ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdcc077dbc3b2b13685e1dfcf551e625" id="r_acdcc077dbc3b2b13685e1dfcf551e625"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#acdcc077dbc3b2b13685e1dfcf551e625">updateRecord</a> (const std::string &amp;table, const std::string &amp;record_id, const std::vector&lt; std::string &gt; &amp;record) override</td></tr>
+<tr class="separator:acdcc077dbc3b2b13685e1dfcf551e625"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad08bf3a5f4ca6e6f965e2d6ba8b11955" id="r_ad08bf3a5f4ca6e6f965e2d6ba8b11955"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#ad08bf3a5f4ca6e6f965e2d6ba8b11955">deleteRecord</a> (const std::string &amp;table, const std::string &amp;record_id) override</td></tr>
+<tr class="separator:ad08bf3a5f4ca6e6f965e2d6ba8b11955"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2acae5d8d4c86058cdd977ff722d8da" id="r_af2acae5d8d4c86058cdd977ff722d8da"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#af2acae5d8d4c86058cdd977ff722d8da">queryRecords</a> (const std::string &amp;table, const std::string &amp;conditions) override</td></tr>
+<tr class="separator:af2acae5d8d4c86058cdd977ff722d8da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace2ca19cbd9baf2a5b48a5ea2dc5d907" id="r_ace2ca19cbd9baf2a5b48a5ea2dc5d907"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; class <a class="el" href="structsqlcc_1_1TableMetadata.html">TableMetadata</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#ace2ca19cbd9baf2a5b48a5ea2dc5d907">getTableMetadata</a> (const std::string &amp;table) override</td></tr>
+<tr class="separator:ace2ca19cbd9baf2a5b48a5ea2dc5d907"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a947447595b938b4d7c58524a341aaa96" id="r_a947447595b938b4d7c58524a341aaa96"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#a947447595b938b4d7c58524a341aaa96">tableExists</a> (const std::string &amp;table) override</td></tr>
+<tr class="separator:a947447595b938b4d7c58524a341aaa96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fca260c6e45a1654a7e375b02feb447" id="r_a9fca260c6e45a1654a7e375b02feb447"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#a9fca260c6e45a1654a7e375b02feb447">createTable</a> (const std::string &amp;table, const std::string &amp;schema) override</td></tr>
+<tr class="separator:a9fca260c6e45a1654a7e375b02feb447"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6607fa7a97805c9b41acaeee3ab8bde8" id="r_a6607fa7a97805c9b41acaeee3ab8bde8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#a6607fa7a97805c9b41acaeee3ab8bde8">dropTable</a> (const std::string &amp;table) override</td></tr>
+<tr class="separator:a6607fa7a97805c9b41acaeee3ab8bde8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsqlcc_1_1StorageAccessor"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsqlcc_1_1StorageAccessor')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsqlcc_1_1StorageAccessor.html">sqlcc::StorageAccessor</a></td></tr>
+<tr class="memitem:a36f39e4c88fd6b5a2294c6542a92be5e inherit pub_methods_classsqlcc_1_1StorageAccessor" id="r_a36f39e4c88fd6b5a2294c6542a92be5e"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageAccessor.html#a36f39e4c88fd6b5a2294c6542a92be5e">~StorageAccessor</a> ()=default</td></tr>
+<tr class="separator:a36f39e4c88fd6b5a2294c6542a92be5e inherit pub_methods_classsqlcc_1_1StorageAccessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a583511c97db56f5e23c231a00e79b52e" id="r_a583511c97db56f5e23c231a00e79b52e"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#a583511c97db56f5e23c231a00e79b52e">storage_engine_</a></td></tr>
+<tr class="separator:a583511c97db56f5e23c231a00e79b52e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么StorageAccessorImpl需要适配器模式？</p>
+<p>StorageEngine接口过于复杂，而上层组件需要简单的存储访问接口：</p><ul>
+<li>复杂性隔离：隐藏StorageEngine的复杂实现细节</li>
+<li>接口简化：提供简洁易用的存储访问API</li>
+<li>错误处理：统一的错误处理和异常转换</li>
+<li>性能监控：存储操作的性能统计和监控</li>
+<li>测试支持：便于mock和单元测试</li>
+</ul>
+<p>WHAT: <a class="el" href="classsqlcc_1_1StorageAccessorImpl.html">StorageAccessorImpl</a> - StorageAccessor接口的具体实现</p>
+<p>基于StorageEngine实现存储访问器接口的适配器类：</p><ul>
+<li>接口实现：完整实现StorageAccessor定义的所有方法</li>
+<li>功能委托：将所有操作委托给底层的StorageEngine实例</li>
+<li>结果转换：将StorageEngine的结果转换为接口要求的格式</li>
+<li>错误处理：统一的存储操作错误处理机制</li>
+<li>资源管理：智能指针管理StorageEngine生命周期</li>
+</ul>
+<p>核心特性：</p><ul>
+<li>组合设计：持有StorageEngine实例，通过组合提供功能</li>
+<li>方法适配：将StorageEngine复杂方法适配为简单接口</li>
+<li>类型转换：数据格式在StorageEngine和接口间的转换</li>
+<li>异常安全：保证操作的异常安全性和资源清理</li>
+<li>线程安全：支持多线程环境下的并发访问</li>
+</ul>
+<p>HOW: StorageAccessorImpl的具体实现机制</p>
+<ol type="1">
+<li>构造函数实现：<ul>
+<li>依赖注入：通过构造函数接收StorageEngine智能指针</li>
+<li>参数验证：检查storage_engine的有效性</li>
+<li>成员初始化：存储StorageEngine引用供后续使用</li>
+<li>资源准备：初始化必要的内部状态和资源</li>
+</ul>
+</li>
+<li>CRUD操作适配：<ul>
+<li><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#a2fdc9a7babfb6e995249e703ff3906ef">insertRecord()</a>：适配StorageEngine的插入接口</li>
+<li><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#acdcc077dbc3b2b13685e1dfcf551e625">updateRecord()</a>：适配StorageEngine的更新接口，支持条件更新</li>
+<li><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#ad08bf3a5f4ca6e6f965e2d6ba8b11955">deleteRecord()</a>：适配StorageEngine的删除接口</li>
+<li><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#af2acae5d8d4c86058cdd977ff722d8da">queryRecords()</a>：适配StorageEngine的查询接口，支持复杂条件</li>
+</ul>
+</li>
+<li>元数据操作适配：<ul>
+<li><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#ace2ca19cbd9baf2a5b48a5ea2dc5d907">getTableMetadata()</a>：获取并转换表元数据信息</li>
+<li><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#a947447595b938b4d7c58524a341aaa96">tableExists()</a>：高效的表存在性检查</li>
+<li>元数据缓存：可选的元数据缓存优化</li>
+</ul>
+</li>
+<li>表管理操作适配：<ul>
+<li><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#a9fca260c6e45a1654a7e375b02feb447">createTable()</a>：解析schema并调用StorageEngine创建表</li>
+<li><a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#a6607fa7a97805c9b41acaeee3ab8bde8">dropTable()</a>：调用StorageEngine删除表</li>
+<li>DDL权限：表管理操作的权限验证</li>
+</ul>
+</li>
+<li>私有成员设计：<ul>
+<li>storage_engine_：StorageEngine的智能指针成员</li>
+<li>生命周期管理：通过智能指针自动管理资源</li>
+<li>线程安全：智能指针的线程安全保证</li>
+<li>空值检查：在每次使用前验证有效性 </li>
+</ul>
+</li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a6b082313a176cea15f7ba7e4e749b462" name="a6b082313a176cea15f7ba7e4e749b462"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b082313a176cea15f7ba7e4e749b462">&#9670;&#160;</a></span>StorageAccessorImpl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::StorageAccessorImpl::StorageAccessorImpl </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td>
+          <td class="paramname"><em>storage_engine</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么构造函数需要显式关键字？</p>
+<p>防止隐式类型转换，避免误用：</p><ul>
+<li>类型安全：防止意外的隐式构造</li>
+<li>明确意图：构造函数调用必须明确指定</li>
+<li>编译检查：编译时发现可能的错误用法</li>
+<li>API清晰：接口使用意图更明确</li>
+</ul>
+<p>WHAT: StorageAccessorImpl构造函数 - 创建存储访问器实例</p>
+<p>通过依赖注入创建存储访问器实现：</p><ul>
+<li>storage_engine：底层存储引擎的智能指针</li>
+<li>资源所有权：通过智能指针管理存储引擎生命周期</li>
+<li>依赖关系：建立与存储引擎的组合关系</li>
+<li>初始化验证：确保依赖组件的有效性</li>
+</ul>
+<p>HOW: 构造函数的实现细节</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>检查storage_engine是否为空指针</li>
+<li>验证智能指针的有效性</li>
+<li>确保存储引擎已正确初始化</li>
+</ul>
+</li>
+<li>成员初始化：<ul>
+<li>将storage_engine赋值给成员变量</li>
+<li>智能指针的拷贝构造，保证引用计数正确</li>
+<li>建立对象间的组合关系</li>
+</ul>
+</li>
+<li>异常处理：<ul>
+<li>构造函数可能抛出异常的处理</li>
+<li>资源清理：异常情况下保证资源正确释放</li>
+<li>错误日志：记录初始化失败的原因</li>
+</ul>
+</li>
+<li>线程安全：<ul>
+<li>智能指针的线程安全保证</li>
+<li>成员变量初始化的原子性</li>
+<li>多线程环境下的安全构造 </li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a9fca260c6e45a1654a7e375b02feb447" name="a9fca260c6e45a1654a7e375b02feb447"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fca260c6e45a1654a7e375b02feb447">&#9670;&#160;</a></span>createTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StorageAccessorImpl::createTable </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>schema</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要createTable方法？</p>
+<p>表创建是数据库模式定义的核心操作：</p><ul>
+<li>模式定义：定义数据的结构和约束</li>
+<li>存储分配：为新表分配必要的存储空间</li>
+<li>索引创建：自动创建主键和唯一约束的索引</li>
+<li>权限设置：为表设置适当的访问权限</li>
+<li>元数据注册：在系统目录中注册表信息</li>
+</ul>
+<p>WHAT: createTable - 创建新数据表</p>
+<p>根据提供的schema创建新的数据表：</p><ul>
+<li>table：新表的名称</li>
+<li>schema：表的结构定义（SQL CREATE TABLE语句格式）</li>
+<li>返回值：创建操作是否成功</li>
+<li>完整性保证：确保表结构定义的完整性和正确性</li>
+<li>权限验证：检查创建表的权限</li>
+</ul>
+<p>HOW: createTable的实现机制</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>检查表名和schema的有效性</li>
+<li>验证表名的唯一性和格式</li>
+<li>解析并验证schema的语法正确性</li>
+</ul>
+</li>
+<li>权限检查：<ul>
+<li>验证用户是否有创建表的权限</li>
+<li>检查数据库级别的创建权限</li>
+<li>处理权限不足的情况</li>
+</ul>
+</li>
+<li>schema解析：<ul>
+<li>解析schema字符串为表结构定义</li>
+<li>提取字段定义、约束、主键等信息</li>
+<li>验证结构定义的完整性和一致性</li>
+</ul>
+</li>
+<li>表存在性检查：<ul>
+<li>确保同名表不存在</li>
+<li>处理表已存在的错误情况</li>
+</ul>
+</li>
+<li>存储引擎调用：<ul>
+<li>调用storage_engine_-&gt;<a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#a9fca260c6e45a1654a7e375b02feb447">createTable()</a></li>
+<li>传递解析后的表结构信息</li>
+<li>处理存储引擎的创建结果</li>
+</ul>
+</li>
+<li>元数据注册：<ul>
+<li>在系统目录中注册新表的信息</li>
+<li>创建必要的索引结构</li>
+<li>更新相关的缓存信息</li>
+</ul>
+</li>
+<li>结果返回：<ul>
+<li>成功创建返回true</li>
+<li>创建失败返回false并记录原因</li>
+<li>支持事务创建的回滚机制 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1StorageAccessor.html#adb976e7b04443c80bf0362051ed964f3">sqlcc::StorageAccessor</a>.</p>
+
+</div>
+</div>
+<a id="ad08bf3a5f4ca6e6f965e2d6ba8b11955" name="ad08bf3a5f4ca6e6f965e2d6ba8b11955"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad08bf3a5f4ca6e6f965e2d6ba8b11955">&#9670;&#160;</a></span>deleteRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StorageAccessorImpl::deleteRecord </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>record_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要deleteRecord方法？</p>
+<p>数据删除是数据库系统的核心操作：</p><ul>
+<li>数据清理：移除不再需要的数据记录</li>
+<li>空间回收：释放存储空间给新数据使用</li>
+<li>引用维护：处理级联删除和引用完整性</li>
+<li>审计记录：记录数据删除操作</li>
+<li>安全删除：防止意外删除重要数据</li>
+</ul>
+<p>WHAT: deleteRecord - 删除指定表中的记录</p>
+<p>根据记录ID删除表中的指定记录：</p><ul>
+<li>table：目标表的名称</li>
+<li>record_id：要删除记录的唯一标识</li>
+<li>返回值：删除操作是否成功</li>
+<li>精确删除：基于记录ID的精确删除</li>
+<li>级联处理：自动处理外键约束的级联删除</li>
+</ul>
+<p>HOW: deleteRecord的实现机制</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>检查表名和记录ID的有效性</li>
+<li>验证删除权限</li>
+<li>确保操作的安全性</li>
+</ul>
+</li>
+<li>记录存在性检查：<ul>
+<li>验证记录ID对应的记录是否存在</li>
+<li>不存在时返回false并记录错误</li>
+</ul>
+</li>
+<li>引用完整性检查：<ul>
+<li>检查是否有其他表引用此记录</li>
+<li>处理外键约束的级联删除策略</li>
+<li>防止破坏数据引用完整性</li>
+</ul>
+</li>
+<li>存储引擎调用：<ul>
+<li>调用storage_engine_-&gt;<a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#ad08bf3a5f4ca6e6f965e2d6ba8b11955">deleteRecord()</a></li>
+<li>传递表名和记录ID</li>
+<li>处理存储引擎的删除结果</li>
+</ul>
+</li>
+<li>资源清理：<ul>
+<li>更新相关索引，移除删除记录的索引项</li>
+<li>释放记录占用的存储空间</li>
+<li>清理相关的缓存数据</li>
+</ul>
+</li>
+<li>结果返回：<ul>
+<li>成功删除返回true</li>
+<li>删除失败返回false并记录原因</li>
+<li>支持事务回滚的错误处理 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1StorageAccessor.html#adbc95e700263053d6358a15f64f479a8">sqlcc::StorageAccessor</a>.</p>
+
+</div>
+</div>
+<a id="a6607fa7a97805c9b41acaeee3ab8bde8" name="a6607fa7a97805c9b41acaeee3ab8bde8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6607fa7a97805c9b41acaeee3ab8bde8">&#9670;&#160;</a></span>dropTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StorageAccessorImpl::dropTable </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要dropTable方法？</p>
+<p>表删除是数据库模式管理的核心操作：</p><ul>
+<li>空间回收：释放表占用的存储空间</li>
+<li>引用清理：处理对该表的引用和外键约束</li>
+<li>索引删除：删除表相关的所有索引</li>
+<li>元数据清理：在系统目录中移除表信息</li>
+<li>权限管理：验证删除表的权限</li>
+</ul>
+<p>WHAT: dropTable - 删除指定的数据表</p>
+<p>删除数据库中的指定表及其所有相关数据：</p><ul>
+<li>table：要删除的表名</li>
+<li>返回值：删除操作是否成功</li>
+<li>级联删除：自动处理相关的约束和引用</li>
+<li>数据清理：删除所有数据和索引</li>
+<li>权限验证：检查删除表的权限</li>
+</ul>
+<p>HOW: dropTable的实现机制</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>检查表名的有效性</li>
+<li>验证表的存在性</li>
+<li>确保不是系统关键表</li>
+</ul>
+</li>
+<li>权限检查：<ul>
+<li>验证用户是否有删除表的权限</li>
+<li>检查表的所有者权限</li>
+<li>处理权限不足的情况</li>
+</ul>
+</li>
+<li>引用完整性检查：<ul>
+<li>检查是否有其他表引用此表</li>
+<li>处理外键约束的级联删除策略</li>
+<li>防止破坏数据库的引用完整性</li>
+</ul>
+</li>
+<li>表存在性确认：<ul>
+<li>最后一次确认表确实存在</li>
+<li>处理并发删除的情况</li>
+</ul>
+</li>
+<li>存储引擎调用：<ul>
+<li>调用storage_engine_-&gt;<a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#a6607fa7a97805c9b41acaeee3ab8bde8">dropTable()</a></li>
+<li>传递表名参数</li>
+<li>处理存储引擎的删除结果</li>
+</ul>
+</li>
+<li>资源清理：<ul>
+<li>删除表相关的所有索引</li>
+<li>释放表占用的存储空间</li>
+<li>清理相关的缓存和临时文件</li>
+</ul>
+</li>
+<li>元数据更新：<ul>
+<li>从系统目录中移除表信息</li>
+<li>更新相关的统计信息</li>
+<li>通知相关的监控和审计系统</li>
+</ul>
+</li>
+<li>结果返回：<ul>
+<li>成功删除返回true</li>
+<li>删除失败返回false并记录原因</li>
+<li>支持事务删除的回滚机制 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1StorageAccessor.html#ab06b834e193a65eaa40b7ed3baaa0e93">sqlcc::StorageAccessor</a>.</p>
+
+</div>
+</div>
+<a id="ace2ca19cbd9baf2a5b48a5ea2dc5d907" name="ace2ca19cbd9baf2a5b48a5ea2dc5d907"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace2ca19cbd9baf2a5b48a5ea2dc5d907">&#9670;&#160;</a></span>getTableMetadata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; class <a class="el" href="structsqlcc_1_1TableMetadata.html">TableMetadata</a> &gt; sqlcc::StorageAccessorImpl::getTableMetadata </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要getTableMetadata方法？</p>
+<p>表元数据是理解和操作表结构的基础：</p><ul>
+<li>结构理解：了解表的字段、类型、约束等信息</li>
+<li>动态查询：根据元数据构建动态查询</li>
+<li>数据验证：验证数据格式是否符合表结构</li>
+<li>应用集成：为上层应用提供表结构信息</li>
+<li>模式演进：支持表的结构变更和版本管理</li>
+</ul>
+<p>WHAT: getTableMetadata - 获取表的元数据信息</p>
+<p>获取指定表的完整元数据信息：</p><ul>
+<li>table：目标表的名称</li>
+<li>返回值：表的元数据智能指针</li>
+<li>元数据内容：字段定义、约束、主键、外键等</li>
+<li>缓存优化：支持元数据的缓存以提升性能</li>
+<li>权限检查：检查获取元数据的权限</li>
+</ul>
+<p>HOW: getTableMetadata的实现机制</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>检查表名的有效性</li>
+<li>验证表的存在性</li>
+<li>检查访问元数据的权限</li>
+</ul>
+</li>
+<li>缓存检查：<ul>
+<li>检查元数据缓存中是否存在该表的元数据</li>
+<li>缓存命中时直接返回缓存结果</li>
+<li>缓存未命中时从存储引擎获取</li>
+</ul>
+</li>
+<li>存储引擎调用：<ul>
+<li>调用storage_engine_-&gt;<a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#ace2ca19cbd9baf2a5b48a5ea2dc5d907">getTableMetadata()</a></li>
+<li>传递表名参数</li>
+<li>获取存储引擎返回的元数据对象</li>
+</ul>
+</li>
+<li>元数据转换：<ul>
+<li>将存储引擎的元数据格式转换为接口格式</li>
+<li>验证元数据的完整性和正确性</li>
+<li>处理元数据的序列化和反序列化</li>
+</ul>
+</li>
+<li>缓存更新：<ul>
+<li>将获取的元数据存入缓存</li>
+<li>设置适当的缓存过期策略</li>
+<li>处理缓存一致性问题</li>
+</ul>
+</li>
+<li>结果返回：<ul>
+<li>返回元数据的智能指针</li>
+<li>nullptr表示表不存在或权限不足</li>
+<li>异常情况下保证资源清理 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1StorageAccessor.html#aeb9be70520ec8fb99d9b4b8aea1ad09f">sqlcc::StorageAccessor</a>.</p>
+
+</div>
+</div>
+<a id="a2fdc9a7babfb6e995249e703ff3906ef" name="a2fdc9a7babfb6e995249e703ff3906ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fdc9a7babfb6e995249e703ff3906ef">&#9670;&#160;</a></span>insertRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StorageAccessorImpl::insertRecord </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>record</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要insertRecord方法？</p>
+<p>数据插入是数据库系统的核心操作：</p><ul>
+<li>数据持久化：将新数据存储到持久化存储中</li>
+<li>完整性保证：确保数据完整性约束得到满足</li>
+<li>并发控制：多用户环境下的并发插入处理</li>
+<li>性能优化：批量插入和索引维护</li>
+<li>事务支持：插入操作的事务语义</li>
+</ul>
+<p>WHAT: insertRecord - 插入新记录到指定表</p>
+<p>将一条记录插入到指定的数据表中：</p><ul>
+<li>table：目标表的名称</li>
+<li>record：要插入的记录数据（字段值的向量）</li>
+<li>返回值：插入操作是否成功</li>
+<li>约束检查：自动检查主键、唯一等约束</li>
+<li>索引更新：自动更新相关索引</li>
+</ul>
+<p>HOW: insertRecord的实现机制</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>检查表名是否为空或无效</li>
+<li>验证记录数据的完整性</li>
+<li>确保记录格式符合表结构</li>
+</ul>
+</li>
+<li>表存在性检查：<ul>
+<li>调用tableExists()验证表是否存在</li>
+<li>不存在时返回false并记录错误</li>
+</ul>
+</li>
+<li>数据完整性检查：<ul>
+<li>检查必填字段是否都有值</li>
+<li>验证字段类型和格式正确性</li>
+<li>执行唯一约束和外键约束检查</li>
+</ul>
+</li>
+<li>存储引擎调用：<ul>
+<li>调用storage_engine_-&gt;<a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#a2fdc9a7babfb6e995249e703ff3906ef">insertRecord()</a></li>
+<li>传递表名和记录数据</li>
+<li>处理存储引擎返回的结果</li>
+</ul>
+</li>
+<li>结果处理：<ul>
+<li>成功时返回true</li>
+<li>失败时返回false并记录错误信息</li>
+<li>异常情况下保证数据一致性 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1StorageAccessor.html#a0d48fdb4969a3dbdd411e085c8c1569a">sqlcc::StorageAccessor</a>.</p>
+
+</div>
+</div>
+<a id="af2acae5d8d4c86058cdd977ff722d8da" name="af2acae5d8d4c86058cdd977ff722d8da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2acae5d8d4c86058cdd977ff722d8da">&#9670;&#160;</a></span>queryRecords()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::vector&lt; std::string &gt; &gt; sqlcc::StorageAccessorImpl::queryRecords </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>conditions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要queryRecords方法？</p>
+<p>数据查询是数据库系统最频繁的操作：</p><ul>
+<li>数据检索：根据条件查找符合要求的数据</li>
+<li>性能优化：高效的查询执行和结果返回</li>
+<li>灵活条件：支持复杂的查询条件和逻辑</li>
+<li>结果排序：支持结果的排序和分页</li>
+<li>索引利用：自动选择最优的查询执行计划</li>
+</ul>
+<p>WHAT: queryRecords - 查询指定表的记录</p>
+<p>根据查询条件从表中检索符合要求的记录：</p><ul>
+<li>table：要查询的表名</li>
+<li>conditions：查询条件字符串（SQL WHERE子句格式）</li>
+<li>返回值：符合条件的记录列表</li>
+<li>结果格式：每条记录为字段值的向量</li>
+<li>查询优化：自动选择最优的查询执行策略</li>
+</ul>
+<p>HOW: queryRecords的实现机制</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>检查表名和查询条件字符串的有效性</li>
+<li>验证查询语法的正确性</li>
+<li>确保查询的安全性（防止SQL注入）</li>
+</ul>
+</li>
+<li>查询条件解析：<ul>
+<li>解析conditions字符串为查询条件树</li>
+<li>验证条件字段的有效性</li>
+<li>优化查询条件的执行顺序</li>
+</ul>
+</li>
+<li>查询计划生成：<ul>
+<li>分析可用的索引</li>
+<li>选择最优的查询执行策略</li>
+<li>生成查询执行计划</li>
+</ul>
+</li>
+<li>存储引擎调用：<ul>
+<li>调用storage_engine_-&gt;<a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#af2acae5d8d4c86058cdd977ff722d8da">queryRecords()</a></li>
+<li>传递表名和解析后的查询条件</li>
+<li>获取查询结果的迭代器或结果集</li>
+</ul>
+</li>
+<li>结果处理：<ul>
+<li>将存储引擎结果转换为接口要求的格式</li>
+<li>处理结果的分页和排序</li>
+<li>应用查询后的过滤条件</li>
+</ul>
+</li>
+<li>性能监控：<ul>
+<li>记录查询执行时间</li>
+<li>统计查询结果数量</li>
+<li>监控查询性能指标</li>
+</ul>
+</li>
+<li>结果返回：<ul>
+<li>返回符合条件的记录向量</li>
+<li>空结果集表示无符合条件的记录</li>
+<li>异常情况下保证资源正确释放 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1StorageAccessor.html#a2d59b078f0b25c905ece38ce5d5d2926">sqlcc::StorageAccessor</a>.</p>
+
+</div>
+</div>
+<a id="a947447595b938b4d7c58524a341aaa96" name="a947447595b938b4d7c58524a341aaa96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a947447595b938b4d7c58524a341aaa96">&#9670;&#160;</a></span>tableExists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StorageAccessorImpl::tableExists </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要tableExists方法？</p>
+<p>表的存在性检查是许多操作的前提：</p><ul>
+<li>操作前验证：确保操作的表确实存在</li>
+<li>错误预防：避免对不存在表的操作</li>
+<li>性能优化：快速的存在性检查比实际操作更高效</li>
+<li>用户反馈：提供明确的表不存在错误信息</li>
+<li>并发安全：在高并发环境下的安全检查</li>
+</ul>
+<p>WHAT: tableExists - 检查指定表是否存在</p>
+<p>验证数据库中是否存在指定的表：</p><ul>
+<li>table：要检查的表名</li>
+<li>返回值：true表示表存在，false表示不存在</li>
+<li>权限无关：只检查存在性，不涉及访问权限</li>
+<li>缓存友好：适合频繁调用的存在性检查</li>
+<li>异常安全：保证检查操作不会抛出异常</li>
+</ul>
+<p>HOW: tableExists的实现机制</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>检查表名字符串的有效性</li>
+<li>验证表名的格式和长度限制</li>
+<li>处理特殊字符和保留字</li>
+</ul>
+</li>
+<li>缓存检查：<ul>
+<li>检查表存在性缓存</li>
+<li>缓存命中时直接返回结果</li>
+<li>减少对存储引擎的实际调用</li>
+</ul>
+</li>
+<li>存储引擎调用：<ul>
+<li>调用storage_engine_-&gt;<a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#a947447595b938b4d7c58524a341aaa96">tableExists()</a></li>
+<li>传递表名参数</li>
+<li>获取存在性检查结果</li>
+</ul>
+</li>
+<li>缓存更新：<ul>
+<li>更新表存在性缓存</li>
+<li>设置适当的缓存过期时间</li>
+<li>处理缓存一致性更新</li>
+</ul>
+</li>
+<li>结果返回：<ul>
+<li>返回布尔值表示存在性</li>
+<li>异常情况下返回false</li>
+<li>记录检查过程中的错误信息 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1StorageAccessor.html#a67a290dc19b04d132badfd0a504ec162">sqlcc::StorageAccessor</a>.</p>
+
+</div>
+</div>
+<a id="acdcc077dbc3b2b13685e1dfcf551e625" name="acdcc077dbc3b2b13685e1dfcf551e625"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdcc077dbc3b2b13685e1dfcf551e625">&#9670;&#160;</a></span>updateRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StorageAccessorImpl::updateRecord </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>record_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>record</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要updateRecord方法？</p>
+<p>数据更新是数据库系统的核心操作之一：</p><ul>
+<li>数据维护：修改已存在的数据记录</li>
+<li>版本控制：支持数据的版本更新</li>
+<li>并发处理：多用户同时更新时的冲突解决</li>
+<li>审计追踪：记录数据的变更历史</li>
+<li>完整性维护：更新时保持数据一致性</li>
+</ul>
+<p>WHAT: updateRecord - 更新指定表中的记录</p>
+<p>根据记录ID更新表中的现有记录：</p><ul>
+<li>table：目标表的名称</li>
+<li>record_id：要更新的记录唯一标识</li>
+<li>record：新的记录数据</li>
+<li>返回值：更新操作是否成功</li>
+<li>条件更新：基于记录ID的精确更新</li>
+<li>约束验证：更新后的数据必须满足所有约束</li>
+</ul>
+<p>HOW: updateRecord的实现机制</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>检查表名和记录ID的有效性</li>
+<li>验证新记录数据的完整性</li>
+<li>确保数据格式符合表结构要求</li>
+</ul>
+</li>
+<li>记录存在性检查：<ul>
+<li>验证记录ID对应的记录是否存在</li>
+<li>不存在时返回false并记录错误</li>
+</ul>
+</li>
+<li>数据一致性检查：<ul>
+<li>检查更新后的数据是否满足约束条件</li>
+<li>验证唯一约束和外键约束</li>
+<li>确保引用完整性</li>
+</ul>
+</li>
+<li>存储引擎调用：<ul>
+<li>调用storage_engine_-&gt;<a class="el" href="classsqlcc_1_1StorageAccessorImpl.html#acdcc077dbc3b2b13685e1dfcf551e625">updateRecord()</a></li>
+<li>传递表名、记录ID和新记录数据</li>
+<li>处理存储引擎的更新结果</li>
+</ul>
+</li>
+<li>索引维护：<ul>
+<li>更新相关索引以反映数据变更</li>
+<li>处理索引更新的性能优化</li>
+</ul>
+</li>
+<li>结果返回：<ul>
+<li>成功更新返回true</li>
+<li>更新失败返回false并记录原因</li>
+<li>支持部分更新的错误处理 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1StorageAccessor.html#acd6f2d9f74d1faab892a8e05a1f79af2">sqlcc::StorageAccessor</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a583511c97db56f5e23c231a00e79b52e" name="a583511c97db56f5e23c231a00e79b52e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a583511c97db56f5e23c231a00e79b52e">&#9670;&#160;</a></span>storage_engine_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a>&gt; sqlcc::StorageAccessorImpl::storage_engine_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要私有成员storage_engine_？</p>
+<p>StorageAccessorImpl通过组合StorageEngine提供功能：</p><ul>
+<li>功能委托：所有实际操作都委托给StorageEngine</li>
+<li>资源管理：智能指针管理StorageEngine的生命周期</li>
+<li>依赖注入：通过构造函数注入，符合依赖倒置原则</li>
+<li>测试友好：可以注入mock对象进行单元测试</li>
+<li>封装隔离：隐藏StorageEngine的具体实现细节</li>
+</ul>
+<p>WHAT: storage_engine_ - 底层存储引擎的智能指针</p>
+<p>持有StorageEngine实例的私有成员变量：</p><ul>
+<li>类型：std::shared_ptr&lt;StorageEngine&gt;</li>
+<li>生命周期：与StorageAccessorImpl实例一致</li>
+<li>线程安全：智能指针的线程安全保证</li>
+<li>所有权共享：允许多个StorageAccessorImpl共享同一StorageEngine</li>
+</ul>
+<p>HOW: storage_engine_成员的使用和管理</p>
+<ol type="1">
+<li>初始化：<ul>
+<li>在构造函数中通过参数赋值</li>
+<li>shared_ptr的拷贝构造</li>
+<li>引用计数的正确维护</li>
+</ul>
+</li>
+<li>使用模式：<ul>
+<li>在所有接口方法中调用对应的StorageEngine方法</li>
+<li>每次使用前检查指针的有效性</li>
+<li>处理StorageEngine可能返回的异常</li>
+</ul>
+</li>
+<li>生命周期管理：<ul>
+<li>智能指针自动管理内存释放</li>
+<li>多个StorageAccessorImpl可以共享同一StorageEngine</li>
+<li>StorageEngine的销毁由最后一个shared_ptr决定</li>
+</ul>
+</li>
+<li>线程安全：<ul>
+<li>shared_ptr的引用计数操作是线程安全的</li>
+<li>StorageEngine实例需要保证自身的线程安全</li>
+<li>多线程环境下的并发访问保护</li>
+</ul>
+</li>
+<li>错误处理：<ul>
+<li>检查storage_engine_是否为空</li>
+<li>处理StorageEngine方法可能抛出的异常</li>
+<li>记录操作失败的详细错误信息 </li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage__accessor__impl_8h_source.html">storage_accessor_impl.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

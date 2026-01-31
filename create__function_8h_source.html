@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: create_function.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li><li class="navelem"><a class="el" href="dir_039cc34cb916358c9476a0577894d2ad.html">function</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">create_function.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="create__function_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifndef SQLCC_SQL_PARSER_CREATE_FUNCTION_H</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define SQLCC_SQL_PARSER_CREATE_FUNCTION_H</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;../ast/ast_node.h&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;<a class="code" href="function__parameter_8h.html">function/function_parameter.h</a>&quot;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;datatype.h&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">// 创建函数语句</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">class </span>CreateFunctionStatement : <span class="keyword">public</span> DDLStatement {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aa9f424ca9121401fac4c68baac6efca6">   25</a></span>    <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aa9f424ca9121401fac4c68baac6efca6">CreateFunctionStatement</a>(<span class="keyword">const</span> std::string&amp; function_name,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                           <span class="keyword">const</span> std::vector&lt;FunctionParameter&gt;&amp; parameters,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                           <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#ac957dddbae6340c826f93de7af6fd38d">DataType</a> return_type,</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                           <span class="keyword">const</span> std::string&amp; function_body,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                           <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#ab0f5393dbcc9366c532466cfb731e5c3">is_replace</a> = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aa78e33d1022d92b48040766014c7010c">   31</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aa78e33d1022d92b48040766014c7010c">get_function_name</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a8be1a625208c6b824049531f85180bec">   32</a></span>    <span class="keyword">const</span> std::vector&lt;FunctionParameter&gt;&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a8be1a625208c6b824049531f85180bec">get_parameters</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a4f40cc611707b803fc8560a22cd32588">   33</a></span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#ac957dddbae6340c826f93de7af6fd38d">DataType</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a4f40cc611707b803fc8560a22cd32588">get_return_type</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a45a208f79f3bc162effb609654e01ad2">   34</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a45a208f79f3bc162effb609654e01ad2">get_function_body</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#ab0f5393dbcc9366c532466cfb731e5c3">   35</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#ab0f5393dbcc9366c532466cfb731e5c3">is_replace</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#afb2fdf1f1382f78853e74a69534d7c45">   37</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#afb2fdf1f1382f78853e74a69534d7c45">accept</a>(ASTVisitor&amp; visitor) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aef5059652c38f83951dd058df115708f">   38</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aef5059652c38f83951dd058df115708f">to_string</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a6f627f7112c615e67afbd66bbc2b87c1">   41</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a6f627f7112c615e67afbd66bbc2b87c1">function_name_</a>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a2a399c2dcd0016d1f22ccbabbab941c8">   42</a></span>    std::vector&lt;FunctionParameter&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a2a399c2dcd0016d1f22ccbabbab941c8">parameters_</a>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aa064e585f9a9a364fe9d1ead6c09a34e">   43</a></span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#ac957dddbae6340c826f93de7af6fd38d">DataType</a> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aa064e585f9a9a364fe9d1ead6c09a34e">return_type_</a>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#adf13001d24b09cc573965c43370ceb65">   44</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#adf13001d24b09cc573965c43370ceb65">function_body_</a>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a099dea5a64c43149242458f3eff63aa9">   45</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a099dea5a64c43149242458f3eff63aa9">is_replace_</a>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>};</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SQL_PARSER_CREATE_FUNCTION_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateFunctionStatement_html_a099dea5a64c43149242458f3eff63aa9"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a099dea5a64c43149242458f3eff63aa9">sqlcc::sql_parser::CreateFunctionStatement::is_replace_</a></div><div class="ttdeci">bool is_replace_</div><div class="ttdef"><b>Definition</b> create_function.h:45</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateFunctionStatement_html_a2a399c2dcd0016d1f22ccbabbab941c8"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a2a399c2dcd0016d1f22ccbabbab941c8">sqlcc::sql_parser::CreateFunctionStatement::parameters_</a></div><div class="ttdeci">std::vector&lt; FunctionParameter &gt; parameters_</div><div class="ttdef"><b>Definition</b> create_function.h:42</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateFunctionStatement_html_a45a208f79f3bc162effb609654e01ad2"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a45a208f79f3bc162effb609654e01ad2">sqlcc::sql_parser::CreateFunctionStatement::get_function_body</a></div><div class="ttdeci">const std::string &amp; get_function_body() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateFunctionStatement_html_a4f40cc611707b803fc8560a22cd32588"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a4f40cc611707b803fc8560a22cd32588">sqlcc::sql_parser::CreateFunctionStatement::get_return_type</a></div><div class="ttdeci">DataType get_return_type() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateFunctionStatement_html_a6f627f7112c615e67afbd66bbc2b87c1"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a6f627f7112c615e67afbd66bbc2b87c1">sqlcc::sql_parser::CreateFunctionStatement::function_name_</a></div><div class="ttdeci">std::string function_name_</div><div class="ttdef"><b>Definition</b> create_function.h:41</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateFunctionStatement_html_a8be1a625208c6b824049531f85180bec"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a8be1a625208c6b824049531f85180bec">sqlcc::sql_parser::CreateFunctionStatement::get_parameters</a></div><div class="ttdeci">const std::vector&lt; FunctionParameter &gt; &amp; get_parameters() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateFunctionStatement_html_aa064e585f9a9a364fe9d1ead6c09a34e"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aa064e585f9a9a364fe9d1ead6c09a34e">sqlcc::sql_parser::CreateFunctionStatement::return_type_</a></div><div class="ttdeci">DataType return_type_</div><div class="ttdef"><b>Definition</b> create_function.h:43</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateFunctionStatement_html_aa78e33d1022d92b48040766014c7010c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aa78e33d1022d92b48040766014c7010c">sqlcc::sql_parser::CreateFunctionStatement::get_function_name</a></div><div class="ttdeci">const std::string &amp; get_function_name() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateFunctionStatement_html_aa9f424ca9121401fac4c68baac6efca6"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aa9f424ca9121401fac4c68baac6efca6">sqlcc::sql_parser::CreateFunctionStatement::CreateFunctionStatement</a></div><div class="ttdeci">CreateFunctionStatement(const std::string &amp;function_name, const std::vector&lt; FunctionParameter &gt; &amp;parameters, DataType return_type, const std::string &amp;function_body, bool is_replace=false)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateFunctionStatement_html_ab0f5393dbcc9366c532466cfb731e5c3"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#ab0f5393dbcc9366c532466cfb731e5c3">sqlcc::sql_parser::CreateFunctionStatement::is_replace</a></div><div class="ttdeci">bool is_replace() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateFunctionStatement_html_adf13001d24b09cc573965c43370ceb65"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#adf13001d24b09cc573965c43370ceb65">sqlcc::sql_parser::CreateFunctionStatement::function_body_</a></div><div class="ttdeci">std::string function_body_</div><div class="ttdef"><b>Definition</b> create_function.h:44</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateFunctionStatement_html_aef5059652c38f83951dd058df115708f"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aef5059652c38f83951dd058df115708f">sqlcc::sql_parser::CreateFunctionStatement::to_string</a></div><div class="ttdeci">std::string to_string() const override</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateFunctionStatement_html_afb2fdf1f1382f78853e74a69534d7c45"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#afb2fdf1f1382f78853e74a69534d7c45">sqlcc::sql_parser::CreateFunctionStatement::accept</a></div><div class="ttdeci">void accept(ASTVisitor &amp;visitor) override</div></div>
+<div class="ttc" id="afunction__parameter_8h_html"><div class="ttname"><a href="function__parameter_8h.html">function_parameter.h</a></div><div class="ttdoc">函数参数定义头文件</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_ac957dddbae6340c826f93de7af6fd38d"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#ac957dddbae6340c826f93de7af6fd38d">sqlcc::sql_parser::DataType</a></div><div class="ttdeci">DataType</div><div class="ttdoc">数据类型枚举</div><div class="ttdef"><b>Definition</b> data_types.h:135</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

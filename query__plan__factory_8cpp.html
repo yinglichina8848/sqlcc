@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: query_plan_factory.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bd0755c95a42e835fb06f38bbeb1d6ed.html">execution</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">query_plan_factory.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="query__plan__factory_8h_source.html">query_plan_factory.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="execution_2unified__query__plan_8h_source.html">unified_query_plan.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+query_plan_factory.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="query__plan__factory_8cpp__incl.png" border="0" usemap="#aquery__plan__factory_8cpp" alt=""/></div>
+<map name="aquery__plan__factory_8cpp" id="aquery__plan__factory_8cpp">
+<area shape="rect" title=" " alt="" coords="91,5,263,31"/>
+<area shape="rect" href="query__plan__factory_8h.html" title=" " alt="" coords="5,233,163,258"/>
+<area shape="poly" title=" " alt="" coords="175,32,96,221,92,219,170,30"/>
+<area shape="rect" href="execution_2unified__query__plan_8h.html" title=" " alt="" coords="225,79,383,104"/>
+<area shape="poly" title=" " alt="" coords="199,28,273,69,270,74,196,33"/>
+<area shape="rect" title=" " alt="" coords="300,313,377,339"/>
+<area shape="poly" title=" " alt="" coords="122,255,289,307,288,312,120,261"/>
+<area shape="rect" title=" " alt="" coords="171,313,229,339"/>
+<area shape="poly" title=" " alt="" coords="103,256,173,303,170,308,100,260"/>
+<area shape="rect" title=" " alt="" coords="22,313,146,339"/>
+<area shape="poly" title=" " alt="" coords="87,258,87,299,81,299,81,258"/>
+<area shape="poly" title=" " alt="" coords="383,95,445,102,509,113,563,128,584,138,598,150,608,166,612,181,612,195,607,209,586,234,554,256,514,275,472,292,391,315,390,310,470,287,512,270,551,251,582,230,602,206,607,194,607,181,603,168,594,154,581,143,561,133,508,118,445,107,383,100"/>
+<area shape="poly" title=" " alt="" coords="282,106,253,126,228,153,212,191,203,230,201,300,195,300,198,230,207,189,223,151,249,122,279,102"/>
+<area shape="rect" title=" " alt="" coords="238,152,301,177"/>
+<area shape="poly" title=" " alt="" coords="301,106,283,141,279,138,296,103"/>
+<area shape="rect" href="ast__node_8h.html" title=" " alt="" coords="264,225,413,265"/>
+<area shape="poly" title=" " alt="" coords="309,103,334,211,329,212,304,105"/>
+<area shape="rect" href="statement_8h.html" title=" " alt="" coords="376,152,584,177"/>
+<area shape="poly" title=" " alt="" coords="333,102,439,144,437,149,331,106"/>
+<area shape="poly" title=" " alt="" coords="341,266,341,299,336,299,336,266"/>
+<area shape="poly" title=" " alt="" coords="307,268,234,309,231,304,304,263"/>
+<area shape="poly" title=" " alt="" coords="460,180,386,221,383,216,458,175"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么需要查询计划工厂？</p>
+<p>数据库系统需要一个统一的工厂来创建不同类型的查询计划实例。没有查询计划工厂，每次需要创建查询计划时都要手动处理对象创建、依赖注入、配置设置等复杂逻辑，导致代码重复、维护困难和错误风险。</p>
+<p>主要问题解决：</p><ol type="1">
+<li>对象创建统一化：提供标准化的查询计划创建接口</li>
+<li>依赖管理集中化：统一处理数据库管理器、用户管理器等依赖</li>
+<li>配置管理标准化：确保所有查询计划使用一致的配置</li>
+<li>错误处理规范化：统一处理创建过程中的异常情况</li>
+<li>扩展性支持：便于添加新的查询计划类型</li>
+</ol>
+<p>查询计划工厂失败的影响：</p><ul>
+<li>查询计划创建失败：无法执行任何SQL查询</li>
+<li>依赖注入错误：查询计划无法正确访问数据库资源</li>
+<li>配置不一致：不同查询使用不同的配置参数</li>
+<li>内存泄露：对象创建和管理不当导致资源泄露</li>
+</ul>
+<p>WHAT: 这实现了什么功能？</p>
+<p>查询计划工厂提供完整的查询计划生命周期管理功能：</p><ul>
+<li>计划实例创建：根据SQL语句类型创建相应的查询计划对象</li>
+<li>依赖注入管理：自动为查询计划注入必要的依赖组件</li>
+<li>配置参数设置：应用统一的系统配置到查询计划</li>
+<li>资源分配优化：合理分配内存和计算资源给查询计划</li>
+<li>错误检测验证：检查查询计划创建的完整性和正确性</li>
+</ul>
+<p>核心组件：</p><ul>
+<li>QueryPlanFactory：查询计划工厂主类</li>
+<li>PlanBuilder：查询计划构建器</li>
+<li>DependencyInjector：依赖注入管理器</li>
+<li>ConfigurationManager：配置参数管理器</li>
+<li>ResourceAllocator：资源分配器</li>
+</ul>
+<p>HOW: 如何实现的？</p>
+<p>技术实现要点：</p><ol type="1">
+<li>工厂方法模式：根据语句类型选择合适的计划创建方法</li>
+<li>智能指针管理：使用std::unique_ptr管理查询计划对象生命周期</li>
+<li>依赖注入：构造函数参数注入所有必要依赖</li>
+<li>异常安全：try-catch块确保创建过程的异常安全性</li>
+<li>类型检查：运行时类型检查确保正确的计划创建</li>
+<li>资源清理：RAII机制确保资源正确释放</li>
+</ol>
+<p>架构设计：</p><ul>
+<li>抽象工厂模式：定义查询计划创建的抽象接口</li>
+<li>建造者模式：分步骤构建复杂的查询计划对象</li>
+<li>单例模式：确保工厂实例的全局唯一性</li>
+<li>策略模式：可插拔的计划创建策略</li>
+<li>模板方法：标准化的计划创建流程</li>
+</ul>
+<p>性能优化：</p><ul>
+<li>对象池复用：复用查询计划对象的内存分配</li>
+<li>延迟初始化：按需初始化依赖组件</li>
+<li>缓存机制：缓存常用配置和依赖对象</li>
+<li>并行创建：支持并发查询计划创建</li>
+<li>内存预分配：预先分配必要的内存空间</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>该实现专为SQLCC数据库系统优化，支持高效的查询计划创建和管理 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>include/execution/query_plan_factory.h </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

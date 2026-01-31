@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: transaction_control_manager.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c4da858a4a51ad367068831bac354363.html">sql_executor</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">transaction_control_manager.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="transaction__control__manager_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span>sql_executor {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">// Forward declarations</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">class </span>SetTransactionStatement;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">class </span>TransactionControlManager {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a0d6f44e00401bb80fd9c44b4add2ea6b">   21</a></span>    <span class="keyword">static</span> <a class="code hl_class" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html">TransactionControlManager</a>&amp; <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a0d6f44e00401bb80fd9c44b4add2ea6b">getInstance</a>();</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="comment">// SAVEPOINT管理</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ac183560eff0a3ccd6c5c5bd832de52cc">   24</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ac183560eff0a3ccd6c5c5bd832de52cc">createSavepoint</a>(<span class="keyword">const</span> std::string&amp; savepointName);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a50f5909e44cfd9901611431e0ef13eb1">   25</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a50f5909e44cfd9901611431e0ef13eb1">releaseSavepoint</a>(<span class="keyword">const</span> std::string&amp; savepointName);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ac2433adf23de97bc7d6d8724104df9de">   26</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ac2433adf23de97bc7d6d8724104df9de">rollbackToSavepoint</a>(<span class="keyword">const</span> std::string&amp; savepointName);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a6830288875e147f71dc5515ec9d0e1e7">   27</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a6830288875e147f71dc5515ec9d0e1e7">savepointExists</a>(<span class="keyword">const</span> std::string&amp; savepointName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// SET TRANSACTION</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ae55c96e1ef3e9fd0b0868a0e97bdce85">   30</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ae55c96e1ef3e9fd0b0868a0e97bdce85">setTransactionIsolation</a>(<a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1SetTransactionStatement.html#aaaa62eed0433cf8b310869d97f27de70">sql_parser::SetTransactionStatement::IsolationLevel</a> level);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ab4feaf2d635ed874137ec6ac8ae0067d">   31</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ab4feaf2d635ed874137ec6ac8ae0067d">setTransactionAccessMode</a>(<a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1SetTransactionStatement.html#a0a58d8f607ddddf8bb632330012c6b04">sql_parser::SetTransactionStatement::AccessMode</a> mode);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a936470012b493137e1ec91eceddf3cdf">   32</a></span>    <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1SetTransactionStatement.html#aaaa62eed0433cf8b310869d97f27de70">sql_parser::SetTransactionStatement::IsolationLevel</a> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a936470012b493137e1ec91eceddf3cdf">getCurrentIsolationLevel</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a110bda0e21943bb4a77469040bc671f2">   33</a></span>    <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1SetTransactionStatement.html#a0a58d8f607ddddf8bb632330012c6b04">sql_parser::SetTransactionStatement::AccessMode</a> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a110bda0e21943bb4a77469040bc671f2">getCurrentAccessMode</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="comment">// 事务统计</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a965a3ccd18c243901fb21e9cb75261bd">   36</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a965a3ccd18c243901fb21e9cb75261bd">getTransactionInfo</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a9574ab809ad5a3537e81aea22fd4b0f6">   39</a></span>    <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a9574ab809ad5a3537e81aea22fd4b0f6">TransactionControlManager</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo.html">SavepointInfo</a> {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo.html#a80efbd030bfcf77cd628f4f9ca7dabe3">name</a>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordtype">long</span> <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo.html#aa6624e06f13e6bcca142352d68963149">transaction_id</a>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo.html#a03cb3a9634e510a5b9627967fa2bddb4">created_by</a>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keywordtype">long</span> <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo.html#ad267c0fff10ccd20c07f77cd476062a4">created_time</a>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    };</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    std::unordered_map&lt;std::string, SavepointInfo&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a67ec6f0659652c51867ac3592a129f3e">savepoints_</a>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1SetTransactionStatement.html#aaaa62eed0433cf8b310869d97f27de70">sql_parser::SetTransactionStatement::IsolationLevel</a> <a class="code hl_variable" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a5983f2382489eff72f7f8d47692b5b82">current_isolation_level_</a>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1SetTransactionStatement.html#a0a58d8f607ddddf8bb632330012c6b04">sql_parser::SetTransactionStatement::AccessMode</a> <a class="code hl_variable" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ad54f14471f224f4e9358e7b48be64848">current_access_mode_</a>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordtype">long</span> <a class="code hl_variable" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#aab4b6f7fb21777dc50253d7cec52054c">current_transaction_id_</a> = 0;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordtype">long</span> <a class="code hl_variable" href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ae7f5fb2aef779d9fe760b95d32544de8">next_savepoint_id_</a> = 1;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>};</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>} <span class="comment">// namespace sql_executor</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html">sqlcc::sql_executor::TransactionControlManager</a></div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:80</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_a0d6f44e00401bb80fd9c44b4add2ea6b"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a0d6f44e00401bb80fd9c44b4add2ea6b">sqlcc::sql_executor::TransactionControlManager::getInstance</a></div><div class="ttdeci">static TransactionControlManager &amp; getInstance()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_a110bda0e21943bb4a77469040bc671f2"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a110bda0e21943bb4a77469040bc671f2">sqlcc::sql_executor::TransactionControlManager::getCurrentAccessMode</a></div><div class="ttdeci">sql_parser::SetTransactionStatement::AccessMode getCurrentAccessMode() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_a50f5909e44cfd9901611431e0ef13eb1"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a50f5909e44cfd9901611431e0ef13eb1">sqlcc::sql_executor::TransactionControlManager::releaseSavepoint</a></div><div class="ttdeci">bool releaseSavepoint(const std::string &amp;savepointName)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_a5983f2382489eff72f7f8d47692b5b82"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a5983f2382489eff72f7f8d47692b5b82">sqlcc::sql_executor::TransactionControlManager::current_isolation_level_</a></div><div class="ttdeci">sql_parser::SetTransactionStatement::IsolationLevel current_isolation_level_</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:110</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_a67ec6f0659652c51867ac3592a129f3e"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a67ec6f0659652c51867ac3592a129f3e">sqlcc::sql_executor::TransactionControlManager::savepoints_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, SavepointInfo &gt; savepoints_</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:109</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_a6830288875e147f71dc5515ec9d0e1e7"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a6830288875e147f71dc5515ec9d0e1e7">sqlcc::sql_executor::TransactionControlManager::savepointExists</a></div><div class="ttdeci">bool savepointExists(const std::string &amp;savepointName) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_a936470012b493137e1ec91eceddf3cdf"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a936470012b493137e1ec91eceddf3cdf">sqlcc::sql_executor::TransactionControlManager::getCurrentIsolationLevel</a></div><div class="ttdeci">sql_parser::SetTransactionStatement::IsolationLevel getCurrentIsolationLevel() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_a9574ab809ad5a3537e81aea22fd4b0f6"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a9574ab809ad5a3537e81aea22fd4b0f6">sqlcc::sql_executor::TransactionControlManager::TransactionControlManager</a></div><div class="ttdeci">TransactionControlManager()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_a965a3ccd18c243901fb21e9cb75261bd"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#a965a3ccd18c243901fb21e9cb75261bd">sqlcc::sql_executor::TransactionControlManager::getTransactionInfo</a></div><div class="ttdeci">std::string getTransactionInfo() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_aab4b6f7fb21777dc50253d7cec52054c"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#aab4b6f7fb21777dc50253d7cec52054c">sqlcc::sql_executor::TransactionControlManager::current_transaction_id_</a></div><div class="ttdeci">long current_transaction_id_</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:114</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_ab4feaf2d635ed874137ec6ac8ae0067d"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ab4feaf2d635ed874137ec6ac8ae0067d">sqlcc::sql_executor::TransactionControlManager::setTransactionAccessMode</a></div><div class="ttdeci">bool setTransactionAccessMode(sql_parser::SetTransactionStatement::AccessMode mode)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_ac183560eff0a3ccd6c5c5bd832de52cc"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ac183560eff0a3ccd6c5c5bd832de52cc">sqlcc::sql_executor::TransactionControlManager::createSavepoint</a></div><div class="ttdeci">bool createSavepoint(const std::string &amp;savepointName)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_ac2433adf23de97bc7d6d8724104df9de"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ac2433adf23de97bc7d6d8724104df9de">sqlcc::sql_executor::TransactionControlManager::rollbackToSavepoint</a></div><div class="ttdeci">bool rollbackToSavepoint(const std::string &amp;savepointName)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_ad54f14471f224f4e9358e7b48be64848"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ad54f14471f224f4e9358e7b48be64848">sqlcc::sql_executor::TransactionControlManager::current_access_mode_</a></div><div class="ttdeci">sql_parser::SetTransactionStatement::AccessMode current_access_mode_</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:112</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_ae55c96e1ef3e9fd0b0868a0e97bdce85"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ae55c96e1ef3e9fd0b0868a0e97bdce85">sqlcc::sql_executor::TransactionControlManager::setTransactionIsolation</a></div><div class="ttdeci">bool setTransactionIsolation(sql_parser::SetTransactionStatement::IsolationLevel level)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1TransactionControlManager_html_ae7f5fb2aef779d9fe760b95d32544de8"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1TransactionControlManager.html#ae7f5fb2aef779d9fe760b95d32544de8">sqlcc::sql_executor::TransactionControlManager::next_savepoint_id_</a></div><div class="ttdeci">long next_savepoint_id_</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:115</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetTransactionStatement_html_a0a58d8f607ddddf8bb632330012c6b04"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetTransactionStatement.html#a0a58d8f607ddddf8bb632330012c6b04">sqlcc::sql_parser::SetTransactionStatement::AccessMode</a></div><div class="ttdeci">AccessMode</div><div class="ttdef"><b>Definition</b> advanced_sql92_features.h:60</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetTransactionStatement_html_aaaa62eed0433cf8b310869d97f27de70"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetTransactionStatement.html#aaaa62eed0433cf8b310869d97f27de70">sqlcc::sql_parser::SetTransactionStatement::IsolationLevel</a></div><div class="ttdeci">IsolationLevel</div><div class="ttdef"><b>Definition</b> advanced_sql92_features.h:53</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo_html"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo.html">sqlcc::sql_executor::TransactionControlManager::SavepointInfo</a></div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:102</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo_html_a03cb3a9634e510a5b9627967fa2bddb4"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo.html#a03cb3a9634e510a5b9627967fa2bddb4">sqlcc::sql_executor::TransactionControlManager::SavepointInfo::created_by</a></div><div class="ttdeci">std::string created_by</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:105</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo_html_a80efbd030bfcf77cd628f4f9ca7dabe3"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo.html#a80efbd030bfcf77cd628f4f9ca7dabe3">sqlcc::sql_executor::TransactionControlManager::SavepointInfo::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:103</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo_html_aa6624e06f13e6bcca142352d68963149"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo.html#aa6624e06f13e6bcca142352d68963149">sqlcc::sql_executor::TransactionControlManager::SavepointInfo::transaction_id</a></div><div class="ttdeci">long transaction_id</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:104</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo_html_ad267c0fff10ccd20c07f77cd476062a4"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1TransactionControlManager_1_1SavepointInfo.html#ad267c0fff10ccd20c07f77cd476062a4">sqlcc::sql_executor::TransactionControlManager::SavepointInfo::created_time</a></div><div class="ttdeci">long created_time</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:106</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

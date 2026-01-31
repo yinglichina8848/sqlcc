@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: set_operation.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">set_operation.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="set__operation_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#ifndef SQLCC_SQL_PARSER_SET_OPERATION_H</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="preprocessor">#define SQLCC_SQL_PARSER_SET_OPERATION_H</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="preprocessor">#include &quot;<a class="code" href="ast__node_8h.html">ast/ast_node.h</a>&quot;</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#include &quot;<a class="code" href="statement_8h.html">ast/statement.h</a>&quot;</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="preprocessor">#include &quot;<a class="code" href="node__visitor_8h.html">ast/node_visitor.h</a>&quot;</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="comment">// Forward declarations</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span><span class="keyword">class </span>SelectStatement;</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
+<div class="foldopen" id="foldopen00169" data-start="{" data-end="};">
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361">  169</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361">SetOperationType</a> {</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361ab50339a10e1de285ac99d4c3990b8693">NONE</a>,       <span class="comment">// 无操作（用于表示未找到集合操作）</span></div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361aea931da33de8ba05c3635a51c2b25d75">UNION</a>,      <span class="comment">// UNION操作</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361a24bdbe2bcaf533b7b3f0bd58bfa7f291">INTERSECT</a>,  <span class="comment">// INTERSECT操作</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361acd399d591cad990aea7cdeab7753d0f2">EXCEPT</a>      <span class="comment">// EXCEPT操作</span></div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>};</div>
+</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="keyword">class </span>SetOperation : <span class="keyword">public</span> Statement {</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a24c17ccb7d1f99067797638d53a95ea5">  189</a></span>    <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a24c17ccb7d1f99067797638d53a95ea5">SetOperation</a>(<a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361">SetOperationType</a> operationType, </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>                 std::unique_ptr&lt;SelectStatement&gt; leftOperand,</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>                 std::unique_ptr&lt;SelectStatement&gt; rightOperand,</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                 <span class="keywordtype">bool</span> allFlag = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a78505e77b6c072566c2536d442f307e4">  194</a></span>    <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a78505e77b6c072566c2536d442f307e4">~SetOperation</a>();</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    <span class="comment">// Getters</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#aa1bb64f7f0d1bafb3e3d3d2a30227135">  197</a></span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361">SetOperationType</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#aa1bb64f7f0d1bafb3e3d3d2a30227135">getOperationType</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ac6ec540c90531bf7b68a31e0aabb731c">  198</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ac6ec540c90531bf7b68a31e0aabb731c">getOperationName</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a9c3193dc33ef6c8feca0025e746dfeed">  199</a></span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a>* <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a9c3193dc33ef6c8feca0025e746dfeed">getLeftOperand</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#afe1a4005a96001f394787310088145b9">  200</a></span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a>* <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#afe1a4005a96001f394787310088145b9">getRightOperand</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a169e4e1aabe78d4dfd763f023eaaaf5f">  201</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a169e4e1aabe78d4dfd763f023eaaaf5f">isAll</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <span class="comment">// ORDER BY support</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a5a49a2c4d386419c302d2cd8c0477a74">  204</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a5a49a2c4d386419c302d2cd8c0477a74">setOrderBy</a>(std::vector&lt;std::string&gt; columns, std::vector&lt;bool&gt; ascending);</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a9bf02fd6170adcb360319e1ded59d06a">  205</a></span>    <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a9bf02fd6170adcb360319e1ded59d06a">getOrderByColumns</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a2dc83e7af27bb9a22b18388e37037e56">  206</a></span>    <span class="keyword">const</span> std::vector&lt;bool&gt;&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a2dc83e7af27bb9a22b18388e37037e56">getOrderByAscending</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ab9531ca0fc266c5a4d45c95629c91221">  207</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ab9531ca0fc266c5a4d45c95629c91221">hasOrderBy</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span> </div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    <span class="comment">// LIMIT support</span></div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#aea0a0669e24d135804f3a852ee87854d">  210</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#aea0a0669e24d135804f3a852ee87854d">setLimit</a>(<span class="keywordtype">size_t</span> limit);</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ae2c16f827d2cc05dcdc0f85d56063240">  211</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ae2c16f827d2cc05dcdc0f85d56063240">getLimit</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a240b8d1bad852f25926f7813fb423ee5">  212</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a240b8d1bad852f25926f7813fb423ee5">hasLimit</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span> </div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    <span class="comment">// Node interface</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a3508697cf5b9a9d68978ba60d62ee7dd">  215</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a3508697cf5b9a9d68978ba60d62ee7dd">accept</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">NodeVisitor</a>&amp; visitor);</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span> </div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361">SetOperationType</a> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a50cb879e9fd922ddad8a250d04118857">operationType_</a>;</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    std::unique_ptr&lt;SelectStatement&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a82f662389928d564479d67c5072468ce">leftOperand_</a>;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    std::unique_ptr&lt;SelectStatement&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ac900bf813501fbdaf2d86421dd2e2ac8">rightOperand_</a>;</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a6823e961caba44ca2b06581c8acabbaf">allFlag_</a>;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    std::string <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a653dd4e1e4a2210b75f7f7e70ba8bede">operationName_</a>;</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="comment">// ORDER BY support</span></div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    std::vector&lt;std::string&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ad57a2aeab7e9b01b42a0716135503e28">orderByColumns_</a>;</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    std::vector&lt;bool&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ae7582ab862b9e10fdb6e03fab603539d">orderByAscending_</a>;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    </div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="comment">// LIMIT support</span></div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a2e3a1104bf5403d68a8cc90fbe948be2">limit_</a>;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#aedd6dcc9d57af5c046125c7e6cd3d796">hasLimit_</a>;</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>};</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SQL_PARSER_SET_OPERATION_H</span></div>
+<div class="ttc" id="aast__node_8h_html"><div class="ttname"><a href="ast__node_8h.html">ast_node.h</a></div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SelectStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sqlcc::sql_parser::SelectStatement</a></div><div class="ttdef"><b>Definition</b> ast_dml_nodes.h:78</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_a169e4e1aabe78d4dfd763f023eaaaf5f"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a169e4e1aabe78d4dfd763f023eaaaf5f">sqlcc::sql_parser::SetOperation::isAll</a></div><div class="ttdeci">bool isAll() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_a240b8d1bad852f25926f7813fb423ee5"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a240b8d1bad852f25926f7813fb423ee5">sqlcc::sql_parser::SetOperation::hasLimit</a></div><div class="ttdeci">bool hasLimit() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_a24c17ccb7d1f99067797638d53a95ea5"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a24c17ccb7d1f99067797638d53a95ea5">sqlcc::sql_parser::SetOperation::SetOperation</a></div><div class="ttdeci">SetOperation(SetOperationType operationType, std::unique_ptr&lt; SelectStatement &gt; leftOperand, std::unique_ptr&lt; SelectStatement &gt; rightOperand, bool allFlag=false)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_a2dc83e7af27bb9a22b18388e37037e56"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a2dc83e7af27bb9a22b18388e37037e56">sqlcc::sql_parser::SetOperation::getOrderByAscending</a></div><div class="ttdeci">const std::vector&lt; bool &gt; &amp; getOrderByAscending() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_a2e3a1104bf5403d68a8cc90fbe948be2"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a2e3a1104bf5403d68a8cc90fbe948be2">sqlcc::sql_parser::SetOperation::limit_</a></div><div class="ttdeci">size_t limit_</div><div class="ttdef"><b>Definition</b> ast/set_operation.h:229</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_a3508697cf5b9a9d68978ba60d62ee7dd"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a3508697cf5b9a9d68978ba60d62ee7dd">sqlcc::sql_parser::SetOperation::accept</a></div><div class="ttdeci">void accept(NodeVisitor &amp;visitor)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_a50cb879e9fd922ddad8a250d04118857"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a50cb879e9fd922ddad8a250d04118857">sqlcc::sql_parser::SetOperation::operationType_</a></div><div class="ttdeci">SetOperationType operationType_</div><div class="ttdef"><b>Definition</b> ast/set_operation.h:218</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_a5a49a2c4d386419c302d2cd8c0477a74"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a5a49a2c4d386419c302d2cd8c0477a74">sqlcc::sql_parser::SetOperation::setOrderBy</a></div><div class="ttdeci">void setOrderBy(std::vector&lt; std::string &gt; columns, std::vector&lt; bool &gt; ascending)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_a653dd4e1e4a2210b75f7f7e70ba8bede"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a653dd4e1e4a2210b75f7f7e70ba8bede">sqlcc::sql_parser::SetOperation::operationName_</a></div><div class="ttdeci">std::string operationName_</div><div class="ttdef"><b>Definition</b> ast/set_operation.h:222</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_a6823e961caba44ca2b06581c8acabbaf"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a6823e961caba44ca2b06581c8acabbaf">sqlcc::sql_parser::SetOperation::allFlag_</a></div><div class="ttdeci">bool allFlag_</div><div class="ttdef"><b>Definition</b> ast/set_operation.h:221</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_a78505e77b6c072566c2536d442f307e4"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a78505e77b6c072566c2536d442f307e4">sqlcc::sql_parser::SetOperation::~SetOperation</a></div><div class="ttdeci">~SetOperation()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_a82f662389928d564479d67c5072468ce"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a82f662389928d564479d67c5072468ce">sqlcc::sql_parser::SetOperation::leftOperand_</a></div><div class="ttdeci">std::unique_ptr&lt; SelectStatement &gt; leftOperand_</div><div class="ttdef"><b>Definition</b> ast/set_operation.h:219</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_a9bf02fd6170adcb360319e1ded59d06a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a9bf02fd6170adcb360319e1ded59d06a">sqlcc::sql_parser::SetOperation::getOrderByColumns</a></div><div class="ttdeci">const std::vector&lt; std::string &gt; &amp; getOrderByColumns() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_a9c3193dc33ef6c8feca0025e746dfeed"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a9c3193dc33ef6c8feca0025e746dfeed">sqlcc::sql_parser::SetOperation::getLeftOperand</a></div><div class="ttdeci">SelectStatement * getLeftOperand() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_aa1bb64f7f0d1bafb3e3d3d2a30227135"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#aa1bb64f7f0d1bafb3e3d3d2a30227135">sqlcc::sql_parser::SetOperation::getOperationType</a></div><div class="ttdeci">SetOperationType getOperationType() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_ab9531ca0fc266c5a4d45c95629c91221"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ab9531ca0fc266c5a4d45c95629c91221">sqlcc::sql_parser::SetOperation::hasOrderBy</a></div><div class="ttdeci">bool hasOrderBy() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_ac6ec540c90531bf7b68a31e0aabb731c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ac6ec540c90531bf7b68a31e0aabb731c">sqlcc::sql_parser::SetOperation::getOperationName</a></div><div class="ttdeci">const std::string &amp; getOperationName() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_ac900bf813501fbdaf2d86421dd2e2ac8"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ac900bf813501fbdaf2d86421dd2e2ac8">sqlcc::sql_parser::SetOperation::rightOperand_</a></div><div class="ttdeci">std::unique_ptr&lt; SelectStatement &gt; rightOperand_</div><div class="ttdef"><b>Definition</b> ast/set_operation.h:220</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_ad57a2aeab7e9b01b42a0716135503e28"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ad57a2aeab7e9b01b42a0716135503e28">sqlcc::sql_parser::SetOperation::orderByColumns_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; orderByColumns_</div><div class="ttdef"><b>Definition</b> ast/set_operation.h:225</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_ae2c16f827d2cc05dcdc0f85d56063240"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ae2c16f827d2cc05dcdc0f85d56063240">sqlcc::sql_parser::SetOperation::getLimit</a></div><div class="ttdeci">size_t getLimit() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_ae7582ab862b9e10fdb6e03fab603539d"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#ae7582ab862b9e10fdb6e03fab603539d">sqlcc::sql_parser::SetOperation::orderByAscending_</a></div><div class="ttdeci">std::vector&lt; bool &gt; orderByAscending_</div><div class="ttdef"><b>Definition</b> ast/set_operation.h:226</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_aea0a0669e24d135804f3a852ee87854d"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#aea0a0669e24d135804f3a852ee87854d">sqlcc::sql_parser::SetOperation::setLimit</a></div><div class="ttdeci">void setLimit(size_t limit)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_aedd6dcc9d57af5c046125c7e6cd3d796"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#aedd6dcc9d57af5c046125c7e6cd3d796">sqlcc::sql_parser::SetOperation::hasLimit_</a></div><div class="ttdeci">bool hasLimit_</div><div class="ttdef"><b>Definition</b> ast/set_operation.h:230</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SetOperation_html_afe1a4005a96001f394787310088145b9"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SetOperation.html#afe1a4005a96001f394787310088145b9">sqlcc::sql_parser::SetOperation::getRightOperand</a></div><div class="ttdeci">SelectStatement * getRightOperand() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">sqlcc::sql_parser::ast::NodeVisitor</a></div><div class="ttdef"><b>Definition</b> node_visitor.h:27</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_acc63cbdc68efc7a71135a19a9d63e361"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361">sqlcc::sql_parser::SetOperationType</a></div><div class="ttdeci">SetOperationType</div><div class="ttdef"><b>Definition</b> ast/set_operation.h:169</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_acc63cbdc68efc7a71135a19a9d63e361a24bdbe2bcaf533b7b3f0bd58bfa7f291"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361a24bdbe2bcaf533b7b3f0bd58bfa7f291">sqlcc::sql_parser::SetOperationType::INTERSECT</a></div><div class="ttdeci">@ INTERSECT</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_acc63cbdc68efc7a71135a19a9d63e361ab50339a10e1de285ac99d4c3990b8693"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361ab50339a10e1de285ac99d4c3990b8693">sqlcc::sql_parser::SetOperationType::NONE</a></div><div class="ttdeci">@ NONE</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_acc63cbdc68efc7a71135a19a9d63e361acd399d591cad990aea7cdeab7753d0f2"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361acd399d591cad990aea7cdeab7753d0f2">sqlcc::sql_parser::SetOperationType::EXCEPT</a></div><div class="ttdeci">@ EXCEPT</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_acc63cbdc68efc7a71135a19a9d63e361aea931da33de8ba05c3635a51c2b25d75"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361aea931da33de8ba05c3635a51c2b25d75">sqlcc::sql_parser::SetOperationType::UNION</a></div><div class="ttdeci">@ UNION</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="anode__visitor_8h_html"><div class="ttname"><a href="node__visitor_8h.html">node_visitor.h</a></div></div>
+<div class="ttc" id="astatement_8h_html"><div class="ttname"><a href="statement_8h.html">statement.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

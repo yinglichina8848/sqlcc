@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: page_raii.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li><li class="navelem"><a class="el" href="dir_df293a48f8915dae2bf68a254a1b961b.html">table_storage</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">page_raii.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="page__raii_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;../../page/page.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;../storage_engine.h&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span>storage_engine {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>} <span class="comment">// namespace storage_engine</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">namespace </span>storage_engine {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span>table_storage {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="foldopen" id="foldopen00017" data-start="{" data-end="};">
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html">   17</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html">PageRAII</a> {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="comment">// Constructor - takes ownership of the page through RAII pattern</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <a class="code hl_class" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html">PageRAII</a>(<a class="code hl_class" href="classsqlcc_1_1Page.html">Page</a>* page, std::shared_ptr&lt;StorageEngine&gt; storage_engine, int32_t page_id);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="comment">// Destructor - automatically unpins the page</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <a class="code hl_function" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a1464536e92a93a9aac01ccf06fdb6994">~PageRAII</a>();</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="comment">// Move constructor</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_class" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html">PageRAII</a>(<a class="code hl_class" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html">PageRAII</a>&amp;&amp; other) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="comment">// Move assignment operator</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <a class="code hl_class" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html">PageRAII</a>&amp; <a class="code hl_function" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a81a708361ed4ed681d6a455f23121949">operator=</a>(<a class="code hl_class" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html">PageRAII</a>&amp;&amp; other) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="comment">// Delete copy operations for RAII pattern</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#ab421c56a1064b3b01362b4e5666f3f97">   32</a></span>    <a class="code hl_function" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#ab421c56a1064b3b01362b4e5666f3f97">PageRAII</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html">PageRAII</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a74b792406e756e45267566a6c6adce5e">   33</a></span>    <a class="code hl_class" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html">PageRAII</a>&amp; <a class="code hl_function" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a74b792406e756e45267566a6c6adce5e">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html">PageRAII</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="comment">// Access methods</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordtype">char</span>* <a class="code hl_function" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a2e9bb2838f4f389d7c0e0c7a4c90fe5b">GetData</a>();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_function" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a2e9bb2838f4f389d7c0e0c7a4c90fe5b">GetData</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="comment">// Manual unpin method</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#abf43b00b3f4269d75af05d74a84199f9">Unpin</a>(<span class="keywordtype">bool</span> is_dirty = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a844e1707fc6845bccc24be7615e23180">   43</a></span>    <a class="code hl_class" href="classsqlcc_1_1Page.html">Page</a>* <a class="code hl_variable" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a844e1707fc6845bccc24be7615e23180">page_</a>;                              </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a76b4cf78ee4512d11ca73009f7ef33aa">   44</a></span>    std::shared_ptr&lt;StorageEngine&gt; <a class="code hl_variable" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a76b4cf78ee4512d11ca73009f7ef33aa">storage_engine_</a>;  </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a199f899aa4b3d2398c316f789ffd275d">   45</a></span>    int32_t <a class="code hl_variable" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a199f899aa4b3d2398c316f789ffd275d">page_id_</a>;                         </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#ad814639d0d8db07d48cd7e7118d6bf23">   46</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#ad814639d0d8db07d48cd7e7118d6bf23">pinned_</a>;                             </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>};</div>
+</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>} <span class="comment">// namespace table_storage</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>} <span class="comment">// namespace storage_engine</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1Page_html"><div class="ttname"><a href="classsqlcc_1_1Page.html">sqlcc::Page</a></div><div class="ttdoc">数据库页面类，表示一个8KB的定长页面</div><div class="ttdef"><b>Definition</b> page.h:22</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII_html"><div class="ttname"><a href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html">sqlcc::storage_engine::table_storage::PageRAII</a></div><div class="ttdef"><b>Definition</b> page_raii.h:17</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII_html_a1464536e92a93a9aac01ccf06fdb6994"><div class="ttname"><a href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a1464536e92a93a9aac01ccf06fdb6994">sqlcc::storage_engine::table_storage::PageRAII::~PageRAII</a></div><div class="ttdeci">~PageRAII()</div><div class="ttdef"><b>Definition</b> page_raii.cpp:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII_html_a199f899aa4b3d2398c316f789ffd275d"><div class="ttname"><a href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a199f899aa4b3d2398c316f789ffd275d">sqlcc::storage_engine::table_storage::PageRAII::page_id_</a></div><div class="ttdeci">int32_t page_id_</div><div class="ttdoc">Page ID</div><div class="ttdef"><b>Definition</b> page_raii.h:45</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII_html_a2e9bb2838f4f389d7c0e0c7a4c90fe5b"><div class="ttname"><a href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a2e9bb2838f4f389d7c0e0c7a4c90fe5b">sqlcc::storage_engine::table_storage::PageRAII::GetData</a></div><div class="ttdeci">char * GetData()</div><div class="ttdef"><b>Definition</b> page_raii.cpp:60</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII_html_a74b792406e756e45267566a6c6adce5e"><div class="ttname"><a href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a74b792406e756e45267566a6c6adce5e">sqlcc::storage_engine::table_storage::PageRAII::operator=</a></div><div class="ttdeci">PageRAII &amp; operator=(const PageRAII &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII_html_a76b4cf78ee4512d11ca73009f7ef33aa"><div class="ttname"><a href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a76b4cf78ee4512d11ca73009f7ef33aa">sqlcc::storage_engine::table_storage::PageRAII::storage_engine_</a></div><div class="ttdeci">std::shared_ptr&lt; StorageEngine &gt; storage_engine_</div><div class="ttdoc">Storage engine instance</div><div class="ttdef"><b>Definition</b> page_raii.h:44</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII_html_a81a708361ed4ed681d6a455f23121949"><div class="ttname"><a href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a81a708361ed4ed681d6a455f23121949">sqlcc::storage_engine::table_storage::PageRAII::operator=</a></div><div class="ttdeci">PageRAII &amp; operator=(PageRAII &amp;&amp;other) noexcept</div><div class="ttdef"><b>Definition</b> page_raii.cpp:41</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII_html_a844e1707fc6845bccc24be7615e23180"><div class="ttname"><a href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#a844e1707fc6845bccc24be7615e23180">sqlcc::storage_engine::table_storage::PageRAII::page_</a></div><div class="ttdeci">Page * page_</div><div class="ttdoc">Pointer to the page</div><div class="ttdef"><b>Definition</b> page_raii.h:43</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII_html_ab421c56a1064b3b01362b4e5666f3f97"><div class="ttname"><a href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#ab421c56a1064b3b01362b4e5666f3f97">sqlcc::storage_engine::table_storage::PageRAII::PageRAII</a></div><div class="ttdeci">PageRAII(const PageRAII &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII_html_abf43b00b3f4269d75af05d74a84199f9"><div class="ttname"><a href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#abf43b00b3f4269d75af05d74a84199f9">sqlcc::storage_engine::table_storage::PageRAII::Unpin</a></div><div class="ttdeci">void Unpin(bool is_dirty=false)</div><div class="ttdef"><b>Definition</b> page_raii.cpp:86</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII_html_ad814639d0d8db07d48cd7e7118d6bf23"><div class="ttname"><a href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#ad814639d0d8db07d48cd7e7118d6bf23">sqlcc::storage_engine::table_storage::PageRAII::pinned_</a></div><div class="ttdeci">bool pinned_</div><div class="ttdoc">Whether the page is still pinned</div><div class="ttdef"><b>Definition</b> page_raii.h:46</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

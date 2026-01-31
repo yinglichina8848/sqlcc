@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: connection_handler.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fc4c7f03e1a69a98c370fae55a743828.html">network</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">connection_handler.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="connection__handler_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span> </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span><span class="preprocessor">#include &lt;queue&gt;</span></div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span><span class="preprocessor">#include &quot;<a class="code" href="file__descriptor_8h.html">utils/file_descriptor.h</a>&quot;</span></div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span><span class="preprocessor">#include &quot;../sql_executor.h&quot;</span></div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="preprocessor">#include &quot;<a class="code" href="message__types_8h.html">message_types.h</a>&quot;</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span><span class="preprocessor">#include &quot;../permission_validator.h&quot;</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="preprocessor">#include &quot;<a class="code" href="encryption_8h.html">network/encryption.h</a>&quot;</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="comment">// Forward declarations for OpenSSL</span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno"><a class="line" href="connection__handler_8h.html#a71f21e09bf365489dab9d85bd4785e24">  237</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>ssl_st <a class="code hl_typedef" href="connection__handler_8h.html#a71f21e09bf365489dab9d85bd4785e24">SSL</a>;</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc_1_1network.html">network</a> {</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span><span class="keyword">class </span>SessionManager;</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="keyword">class </span>Session;</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
+<div class="foldopen" id="foldopen00254" data-start="{" data-end="};">
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ConnectionHandler.html">  254</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1network_1_1ConnectionHandler.html">ConnectionHandler</a> {</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    <a class="code hl_class" href="classsqlcc_1_1network_1_1ConnectionHandler.html">ConnectionHandler</a>(<a class="code hl_class" href="classsqlcc_1_1FileDescriptor.html">sqlcc::FileDescriptor</a>&amp;&amp; fd,</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>                     std::shared_ptr&lt;SessionManager&gt; session_manager,</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>                     std::shared_ptr&lt;sqlcc::SqlExecutor&gt; sql_executor,</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>                     std::shared_ptr&lt;sqlcc::UserManager&gt; user_manager);</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span> </div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a73918eac18dff83333a95210c494fe7c">~ConnectionHandler</a>();</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#aff642bfa310af186fffeacbbb0f797f3">SetTLS</a>(<a class="code hl_typedef" href="connection__handler_8h.html#a71f21e09bf365489dab9d85bd4785e24">SSL</a>* ssl, <span class="keywordtype">bool</span> enabled);</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a9b7887355be4394879cb646492c53b20">SetAESEncryptor</a>(std::shared_ptr&lt;AESEncryptor&gt; encryptor);</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span> </div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#ac5cfb97f4898e1b7f74d0de2840a85ce">GetFd</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span> </div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#abf9836e28bd586427be2b63caad9aa8a">IsClosed</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span> </div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a94ac70f4affd6baa8792bf6aaab1dfbf">HandleEvent</a>(uint32_t events);</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span> </div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a015adb2553b6453cf6504fd4f4f5fa1c">SendMessage</a>(<span class="keyword">const</span> std::vector&lt;char&gt;&amp; message);</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span> </div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>    std::vector&lt;char&gt; <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#ab6b1c21d88860a5d05fcf8d8dd76c42d">EncryptMessage</a>(<span class="keyword">const</span> std::vector&lt;char&gt;&amp; message);</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span> </div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>    std::vector&lt;char&gt; <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a637fe195a9b803d45c788b35d2215b35">DecryptMessage</a>(<span class="keyword">const</span> std::vector&lt;char&gt;&amp; message);</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span> </div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#ab69677ac35a985b7202a9816e574a95e">HandleRead</a>();</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span> </div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a5c731b6dce5709ce8d4c167e2f6914e7">HandleWrite</a>();</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span> </div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#ab4b0b31a2a3a99fc43ad1180e5fcb84f">ProcessMessage</a>(<span class="keyword">const</span> std::vector&lt;char&gt;&amp; data);</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#aaf10658d8dadc73e66a45782f4de0f40">HandleConnectMessage</a>(<span class="keyword">const</span> std::vector&lt;char&gt;&amp; data);</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span> </div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a2838025dcb831ce124988079bb3bd101">HandleAuthMessage</a>(<span class="keyword">const</span> std::vector&lt;char&gt;&amp; data);</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span> </div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a850c0a5d231adb34578786865f39dcc0">HandleQueryMessage</a>(<span class="keyword">const</span> std::vector&lt;char&gt;&amp; data);</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span> </div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a5527d9ba38b09712f340e49766d833b0">HandleKeyExchangeMessage</a>(<span class="keyword">const</span> std::vector&lt;char&gt;&amp; data);</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span> </div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#aac602f08af112725cb71fa8ae2330482">SendErrorMessage</a>(<span class="keyword">const</span> std::string&amp; error);</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span> </div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a31c9c3e77a84b8cd50f01d143261303f">TrySendImmediately</a>(<span class="keyword">const</span> std::vector&lt;char&gt;&amp; data);</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span> </div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a24b89f3fb154d1f5f35ebbba15dd0b13">Close</a>();</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span> </div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>    <a class="code hl_enumeration" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">sqlcc::PermissionOperation</a> <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a5c777654a36eb0fc7ef94d723eb2692f">AnalyzeQueryOperation</a>(<span class="keyword">const</span> std::string&amp; query);</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span> </div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>    std::string <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a2ffca47422238d1a05e06f3dd123f085">ExtractDatabaseFromQuery</a>(<span class="keyword">const</span> std::string&amp; query);</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span> </div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>    std::string <a class="code hl_function" href="classsqlcc_1_1network_1_1ConnectionHandler.html#af4871c8dd661027c0d6b027525a0867d">ExtractTableFromQuery</a>(<span class="keyword">const</span> std::string&amp; query);</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span> </div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a2e0729709c09f3cf6331bfbc818d1d90">  404</a></span>    <a class="code hl_class" href="classsqlcc_1_1FileDescriptor.html">sqlcc::FileDescriptor</a> <a class="code hl_variable" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a2e0729709c09f3cf6331bfbc818d1d90">fd_</a>;                              </div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a4bc9f57768bd31487fd70a93433fed8f">  405</a></span>    std::shared_ptr&lt;SessionManager&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a4bc9f57768bd31487fd70a93433fed8f">session_manager_</a>;       </div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ConnectionHandler.html#aafbcdfdd4ef0d522ee4cfe698f473ac1">  406</a></span>    std::shared_ptr&lt;sqlcc::SqlExecutor&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1ConnectionHandler.html#aafbcdfdd4ef0d522ee4cfe698f473ac1">sql_executor_</a>;      </div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a0fbd81ee9e97550bad35db876a2b21f3">  407</a></span>    std::shared_ptr&lt;sqlcc::UserManager&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a0fbd81ee9e97550bad35db876a2b21f3">user_manager_</a>;      </div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a39bfae03d328d4313813204829b1964b">  408</a></span>    std::shared_ptr&lt;sqlcc::PermissionValidator&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a39bfae03d328d4313813204829b1964b">permission_validator_</a>; </div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ConnectionHandler.html#abba44ef826548143ee0a2bc1d7154966">  409</a></span>    std::shared_ptr&lt;Session&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1ConnectionHandler.html#abba44ef826548143ee0a2bc1d7154966">session_</a>;                      </div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a209a0ecc167cb5aae86820fea9bd4ebf">  410</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a209a0ecc167cb5aae86820fea9bd4ebf">closed_</a>;                                           </div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a3f467ddb730965d1a663242bd6a1e17a">  411</a></span>    std::queue&lt;std::vector&lt;char&gt;&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a3f467ddb730965d1a663242bd6a1e17a">write_queue_</a>;            </div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a34319e10eba112051220f8747e53dd34">  412</a></span>    std::mutex <a class="code hl_variable" href="classsqlcc_1_1network_1_1ConnectionHandler.html#a34319e10eba112051220f8747e53dd34">write_mutex_</a>;                                </div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span> </div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>    <span class="comment">// TLS相关成员</span></div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span><span class="preprocessor">#ifdef __linux__</span></div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>    <a class="code hl_typedef" href="connection__handler_8h.html#a71f21e09bf365489dab9d85bd4785e24">SSL</a>* ssl_;                                              </div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>    <span class="keywordtype">bool</span> tls_enabled_;                                      </div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span> </div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>    <span class="comment">// AES加密相关成员</span></div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ConnectionHandler.html#ab23c70273ece949b243a53ec6a7eb0bd">  421</a></span>    std::shared_ptr&lt;AESEncryptor&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1ConnectionHandler.html#ab23c70273ece949b243a53ec6a7eb0bd">aes_encryptor_</a>;           </div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>};</div>
+</div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span> </div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>} <span class="comment">// namespace network</span></div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1FileDescriptor_html"><div class="ttname"><a href="classsqlcc_1_1FileDescriptor.html">sqlcc::FileDescriptor</a></div><div class="ttdoc">RAII wrapper for file descriptors</div><div class="ttdef"><b>Definition</b> file_descriptor.h:14</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html">sqlcc::network::ConnectionHandler</a></div><div class="ttdoc">连接处理器类，负责单个客户端连接的处理</div><div class="ttdef"><b>Definition</b> connection_handler.h:254</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a015adb2553b6453cf6504fd4f4f5fa1c"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a015adb2553b6453cf6504fd4f4f5fa1c">sqlcc::network::ConnectionHandler::SendMessage</a></div><div class="ttdeci">void SendMessage(const std::vector&lt; char &gt; &amp;message)</div><div class="ttdoc">发送消息</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:98</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a0fbd81ee9e97550bad35db876a2b21f3"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a0fbd81ee9e97550bad35db876a2b21f3">sqlcc::network::ConnectionHandler::user_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; sqlcc::UserManager &gt; user_manager_</div><div class="ttdoc">用户管理器</div><div class="ttdef"><b>Definition</b> connection_handler.h:407</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a209a0ecc167cb5aae86820fea9bd4ebf"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a209a0ecc167cb5aae86820fea9bd4ebf">sqlcc::network::ConnectionHandler::closed_</a></div><div class="ttdeci">bool closed_</div><div class="ttdoc">连接关闭标志</div><div class="ttdef"><b>Definition</b> connection_handler.h:410</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a24b89f3fb154d1f5f35ebbba15dd0b13"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a24b89f3fb154d1f5f35ebbba15dd0b13">sqlcc::network::ConnectionHandler::Close</a></div><div class="ttdeci">void Close()</div><div class="ttdoc">关闭连接</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:526</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a2838025dcb831ce124988079bb3bd101"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a2838025dcb831ce124988079bb3bd101">sqlcc::network::ConnectionHandler::HandleAuthMessage</a></div><div class="ttdeci">void HandleAuthMessage(const std::vector&lt; char &gt; &amp;data)</div><div class="ttdoc">处理认证消息</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:287</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a2e0729709c09f3cf6331bfbc818d1d90"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a2e0729709c09f3cf6331bfbc818d1d90">sqlcc::network::ConnectionHandler::fd_</a></div><div class="ttdeci">sqlcc::FileDescriptor fd_</div><div class="ttdoc">文件描述符</div><div class="ttdef"><b>Definition</b> connection_handler.h:404</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a2ffca47422238d1a05e06f3dd123f085"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a2ffca47422238d1a05e06f3dd123f085">sqlcc::network::ConnectionHandler::ExtractDatabaseFromQuery</a></div><div class="ttdeci">std::string ExtractDatabaseFromQuery(const std::string &amp;query)</div><div class="ttdoc">从查询中提取数据库名</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:600</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a31c9c3e77a84b8cd50f01d143261303f"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a31c9c3e77a84b8cd50f01d143261303f">sqlcc::network::ConnectionHandler::TrySendImmediately</a></div><div class="ttdeci">bool TrySendImmediately(const std::vector&lt; char &gt; &amp;data)</div><div class="ttdoc">尝试立即发送数据</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:480</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a34319e10eba112051220f8747e53dd34"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a34319e10eba112051220f8747e53dd34">sqlcc::network::ConnectionHandler::write_mutex_</a></div><div class="ttdeci">std::mutex write_mutex_</div><div class="ttdoc">写队列互斥锁</div><div class="ttdef"><b>Definition</b> connection_handler.h:412</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a39bfae03d328d4313813204829b1964b"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a39bfae03d328d4313813204829b1964b">sqlcc::network::ConnectionHandler::permission_validator_</a></div><div class="ttdeci">std::shared_ptr&lt; sqlcc::PermissionValidator &gt; permission_validator_</div><div class="ttdoc">权限验证器</div><div class="ttdef"><b>Definition</b> connection_handler.h:408</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a3f467ddb730965d1a663242bd6a1e17a"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a3f467ddb730965d1a663242bd6a1e17a">sqlcc::network::ConnectionHandler::write_queue_</a></div><div class="ttdeci">std::queue&lt; std::vector&lt; char &gt; &gt; write_queue_</div><div class="ttdoc">写队列</div><div class="ttdef"><b>Definition</b> connection_handler.h:411</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a4bc9f57768bd31487fd70a93433fed8f"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a4bc9f57768bd31487fd70a93433fed8f">sqlcc::network::ConnectionHandler::session_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; SessionManager &gt; session_manager_</div><div class="ttdoc">会话管理器</div><div class="ttdef"><b>Definition</b> connection_handler.h:405</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a5527d9ba38b09712f340e49766d833b0"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a5527d9ba38b09712f340e49766d833b0">sqlcc::network::ConnectionHandler::HandleKeyExchangeMessage</a></div><div class="ttdeci">void HandleKeyExchangeMessage(const std::vector&lt; char &gt; &amp;data)</div><div class="ttdoc">处理密钥交换消息</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:412</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a5c731b6dce5709ce8d4c167e2f6914e7"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a5c731b6dce5709ce8d4c167e2f6914e7">sqlcc::network::ConnectionHandler::HandleWrite</a></div><div class="ttdeci">void HandleWrite()</div><div class="ttdoc">处理写事件</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:222</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a5c777654a36eb0fc7ef94d723eb2692f"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a5c777654a36eb0fc7ef94d723eb2692f">sqlcc::network::ConnectionHandler::AnalyzeQueryOperation</a></div><div class="ttdeci">sqlcc::PermissionOperation AnalyzeQueryOperation(const std::string &amp;query)</div><div class="ttdoc">分析查询操作类型</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:554</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a637fe195a9b803d45c788b35d2215b35"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a637fe195a9b803d45c788b35d2215b35">sqlcc::network::ConnectionHandler::DecryptMessage</a></div><div class="ttdeci">std::vector&lt; char &gt; DecryptMessage(const std::vector&lt; char &gt; &amp;message)</div><div class="ttdoc">解密消息</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:135</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a73918eac18dff83333a95210c494fe7c"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a73918eac18dff83333a95210c494fe7c">sqlcc::network::ConnectionHandler::~ConnectionHandler</a></div><div class="ttdeci">~ConnectionHandler()</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:48</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a850c0a5d231adb34578786865f39dcc0"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a850c0a5d231adb34578786865f39dcc0">sqlcc::network::ConnectionHandler::HandleQueryMessage</a></div><div class="ttdeci">void HandleQueryMessage(const std::vector&lt; char &gt; &amp;data)</div><div class="ttdoc">处理查询消息</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:346</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a94ac70f4affd6baa8792bf6aaab1dfbf"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a94ac70f4affd6baa8792bf6aaab1dfbf">sqlcc::network::ConnectionHandler::HandleEvent</a></div><div class="ttdeci">void HandleEvent(uint32_t events)</div><div class="ttdoc">处理事件</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:80</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_a9b7887355be4394879cb646492c53b20"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#a9b7887355be4394879cb646492c53b20">sqlcc::network::ConnectionHandler::SetAESEncryptor</a></div><div class="ttdeci">void SetAESEncryptor(std::shared_ptr&lt; AESEncryptor &gt; encryptor)</div><div class="ttdoc">设置AES加密器</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:63</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_aac602f08af112725cb71fa8ae2330482"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#aac602f08af112725cb71fa8ae2330482">sqlcc::network::ConnectionHandler::SendErrorMessage</a></div><div class="ttdeci">void SendErrorMessage(const std::string &amp;error)</div><div class="ttdoc">发送错误消息</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:471</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_aaf10658d8dadc73e66a45782f4de0f40"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#aaf10658d8dadc73e66a45782f4de0f40">sqlcc::network::ConnectionHandler::HandleConnectMessage</a></div><div class="ttdeci">void HandleConnectMessage(const std::vector&lt; char &gt; &amp;data)</div><div class="ttdoc">处理连接消息</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:269</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_aafbcdfdd4ef0d522ee4cfe698f473ac1"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#aafbcdfdd4ef0d522ee4cfe698f473ac1">sqlcc::network::ConnectionHandler::sql_executor_</a></div><div class="ttdeci">std::shared_ptr&lt; sqlcc::SqlExecutor &gt; sql_executor_</div><div class="ttdoc">SQL执行器</div><div class="ttdef"><b>Definition</b> connection_handler.h:406</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_ab23c70273ece949b243a53ec6a7eb0bd"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#ab23c70273ece949b243a53ec6a7eb0bd">sqlcc::network::ConnectionHandler::aes_encryptor_</a></div><div class="ttdeci">std::shared_ptr&lt; AESEncryptor &gt; aes_encryptor_</div><div class="ttdoc">AES加密器</div><div class="ttdef"><b>Definition</b> connection_handler.h:421</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_ab4b0b31a2a3a99fc43ad1180e5fcb84f"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#ab4b0b31a2a3a99fc43ad1180e5fcb84f">sqlcc::network::ConnectionHandler::ProcessMessage</a></div><div class="ttdeci">void ProcessMessage(const std::vector&lt; char &gt; &amp;data)</div><div class="ttdoc">处理消息</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:236</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_ab69677ac35a985b7202a9816e574a95e"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#ab69677ac35a985b7202a9816e574a95e">sqlcc::network::ConnectionHandler::HandleRead</a></div><div class="ttdeci">void HandleRead()</div><div class="ttdoc">处理读事件</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:153</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_ab6b1c21d88860a5d05fcf8d8dd76c42d"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#ab6b1c21d88860a5d05fcf8d8dd76c42d">sqlcc::network::ConnectionHandler::EncryptMessage</a></div><div class="ttdeci">std::vector&lt; char &gt; EncryptMessage(const std::vector&lt; char &gt; &amp;message)</div><div class="ttdoc">加密消息</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:117</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_abba44ef826548143ee0a2bc1d7154966"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#abba44ef826548143ee0a2bc1d7154966">sqlcc::network::ConnectionHandler::session_</a></div><div class="ttdeci">std::shared_ptr&lt; Session &gt; session_</div><div class="ttdoc">当前会话</div><div class="ttdef"><b>Definition</b> connection_handler.h:409</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_abf9836e28bd586427be2b63caad9aa8a"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#abf9836e28bd586427be2b63caad9aa8a">sqlcc::network::ConnectionHandler::IsClosed</a></div><div class="ttdeci">bool IsClosed() const</div><div class="ttdoc">检查连接是否已关闭</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:76</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_ac5cfb97f4898e1b7f74d0de2840a85ce"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#ac5cfb97f4898e1b7f74d0de2840a85ce">sqlcc::network::ConnectionHandler::GetFd</a></div><div class="ttdeci">int GetFd() const</div><div class="ttdoc">获取文件描述符</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:72</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_af4871c8dd661027c0d6b027525a0867d"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#af4871c8dd661027c0d6b027525a0867d">sqlcc::network::ConnectionHandler::ExtractTableFromQuery</a></div><div class="ttdeci">std::string ExtractTableFromQuery(const std::string &amp;query)</div><div class="ttdoc">从查询中提取表名</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:635</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ConnectionHandler_html_aff642bfa310af186fffeacbbb0f797f3"><div class="ttname"><a href="classsqlcc_1_1network_1_1ConnectionHandler.html#aff642bfa310af186fffeacbbb0f797f3">sqlcc::network::ConnectionHandler::SetTLS</a></div><div class="ttdeci">void SetTLS(SSL *ssl, bool enabled)</div><div class="ttdoc">设置TLS连接</div><div class="ttdef"><b>Definition</b> connection_handler.cpp:53</div></div>
+<div class="ttc" id="aconnection__handler_8h_html_a71f21e09bf365489dab9d85bd4785e24"><div class="ttname"><a href="connection__handler_8h.html#a71f21e09bf365489dab9d85bd4785e24">SSL</a></div><div class="ttdeci">struct ssl_st SSL</div><div class="ttdef"><b>Definition</b> connection_handler.h:237</div></div>
+<div class="ttc" id="aencryption_8h_html"><div class="ttname"><a href="encryption_8h.html">encryption.h</a></div></div>
+<div class="ttc" id="afile__descriptor_8h_html"><div class="ttname"><a href="file__descriptor_8h.html">file_descriptor.h</a></div></div>
+<div class="ttc" id="amessage__types_8h_html"><div class="ttname"><a href="message__types_8h.html">message_types.h</a></div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html"><div class="ttname"><a href="namespacesqlcc_1_1network.html">sqlcc::network</a></div><div class="ttdef"><b>Definition</b> client_main.cpp:286</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">sqlcc::PermissionOperation</a></div><div class="ttdeci">PermissionOperation</div><div class="ttdoc">Represents a generic, abstract operation that requires a permission check. These operations are decou...</div><div class="ttdef"><b>Definition</b> core/permission_validator.h:54</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

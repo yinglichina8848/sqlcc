@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: enhanced_alter_table_manager.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c4da858a4a51ad367068831bac354363.html">sql_executor</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">enhanced_alter_table_manager.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="enhanced__alter__table__manager_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span>sql_executor {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">// Forward declarations</span></div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="}">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1sql__executor_1_1sql__parser.html">   12</a></span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">class </span>AlterTableStatement;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">class </span>AddColumnAction;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">class </span>DropColumnAction;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">class </span>ModifyColumnAction;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">class </span>RenameColumnAction;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">class </span>AddConstraintAction;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">class </span>DropConstraintAction;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">class </span>RenameTableAction;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>} <span class="comment">// namespace sql_parser</span></div>
+</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html">EnhancedAlterTableManager</a> {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a4335c3bcfc65e820addfba6c5a2ac2bc">   29</a></span>    <span class="keyword">static</span> <a class="code hl_class" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html">EnhancedAlterTableManager</a>&amp; <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a4335c3bcfc65e820addfba6c5a2ac2bc">getInstance</a>();</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="comment">// 主要ALTER TABLE操作</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a509abc4962933da07bf52827c22f8fb3">alterTable</a>(<span class="keyword">const</span> sql_parser::AlterTableStatement&amp; stmt);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="comment">// 列操作</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ac499ba9ffa49ff0a666b22babfb0430e">addColumn</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> sql_parser::AddColumnAction&amp; action);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ac4256683b41b147fc3a67d097ac2ee1e">dropColumn</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> sql_parser::DropColumnAction&amp; action);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a1aab3f5393dbc1f6ff9902a8a231973d">modifyColumn</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> sql_parser::ModifyColumnAction&amp; action);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a71ffe9ca3b79438fbea6a855223081c1">renameColumn</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> sql_parser::RenameColumnAction&amp; action);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="comment">// 约束操作</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a7a4afd8727a6e10c7557bddbee867ff6">addConstraint</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> sql_parser::AddConstraintAction&amp; action);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a0584e49cc9779a6001a6892ba41e2c07">dropConstraint</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> sql_parser::DropConstraintAction&amp; action);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="comment">// 表操作</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a558838b1403def224a414d34209efbb5">renameTable</a>(<span class="keyword">const</span> sql_parser::RenameTableAction&amp; action);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="comment">// 验证操作</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a6ec696b82be51382eb0a6f68e64de1eb">validateAlterTable</a>(<span class="keyword">const</span> sql_parser::AlterTableStatement&amp; stmt);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#aaedc40f8f6efced5967060ba2eacfda4">canAddColumn</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> std::string&amp; columnName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#af5538a1119abf0b19ed42aa2cbea0d7f">canDropColumn</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> std::string&amp; columnName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a2ac7bef8e83fcb945435dd27510dc98f">canModifyColumn</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> std::string&amp; columnName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="comment">// 依赖管理</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ac2f4f275f25ac6ca329940258fc4a862">getColumnDependencies</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> std::string&amp; columnName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a1e3dc8252431678536d711ac711b307d">hasColumnDependencies</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> std::string&amp; columnName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// 统计信息</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ab48503065f3eae6859b8e2684025551e">getAlterTableStatistics</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#aa4146e8948cfe56e824dba537d2909d8">   61</a></span>    <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#aa4146e8948cfe56e824dba537d2909d8">EnhancedAlterTableManager</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="foldopen" id="foldopen00063" data-start="{" data-end="};">
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html">   63</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html">AlterOperation</a> {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#a5e28edc0635e5669d2382985f4adfc4f">   64</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#a5e28edc0635e5669d2382985f4adfc4f">tableName</a>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#ac06a802f656f0243777f4402dc938cd4">   65</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#ac06a802f656f0243777f4402dc938cd4">operationType</a>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#a1f942e1c0484a6e368e0f4b103b0cf70">   66</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#a1f942e1c0484a6e368e0f4b103b0cf70">details</a>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#a4a8f2829c850d2eb1273adfc62eea0bf">   67</a></span>        <span class="keywordtype">long</span> <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#a4a8f2829c850d2eb1273adfc62eea0bf">timestamp</a>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#a42e44304a951fb2f5dc4c66bdfa544c3">   68</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#a42e44304a951fb2f5dc4c66bdfa544c3">success</a>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    };</div>
+</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a86e74119fec2ac98c25c95d8bbf74768">   71</a></span>    std::vector&lt;AlterOperation&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a86e74119fec2ac98c25c95d8bbf74768">operation_history_</a>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ad823f4efa7c4e360a7f92e38316e8128">   72</a></span>    <span class="keywordtype">long</span> <a class="code hl_variable" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ad823f4efa7c4e360a7f92e38316e8128">next_operation_id_</a> = 1;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="comment">// 内部辅助方法</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a024ca94235ba62f47f7d43519818d0a4">executeColumnAction</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> std::string&amp; actionType, <span class="keyword">const</span> std::string&amp; columnName);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#af698bee78726d40c370a9fe76568e097">executeConstraintAction</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> std::string&amp; actionType, <span class="keyword">const</span> std::string&amp; constraintName);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ada49dd35078edb0d6cc5778f0395819b">recordOperation</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> std::string&amp; operationType,</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                        <span class="keyword">const</span> std::string&amp; details, <span class="keywordtype">bool</span> success);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>};</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>} <span class="comment">// namespace sql_executor</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html">sqlcc::sql_executor::EnhancedAlterTableManager</a></div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:174</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_a024ca94235ba62f47f7d43519818d0a4"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a024ca94235ba62f47f7d43519818d0a4">sqlcc::sql_executor::EnhancedAlterTableManager::executeColumnAction</a></div><div class="ttdeci">bool executeColumnAction(const std::string &amp;tableName, const std::string &amp;actionType, const std::string &amp;columnName)</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.cpp:181</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_a0584e49cc9779a6001a6892ba41e2c07"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a0584e49cc9779a6001a6892ba41e2c07">sqlcc::sql_executor::EnhancedAlterTableManager::dropConstraint</a></div><div class="ttdeci">bool dropConstraint(const std::string &amp;tableName, const std::string &amp;constraintName)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_a1aab3f5393dbc1f6ff9902a8a231973d"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a1aab3f5393dbc1f6ff9902a8a231973d">sqlcc::sql_executor::EnhancedAlterTableManager::modifyColumn</a></div><div class="ttdeci">bool modifyColumn(const std::string &amp;tableName, const sql_parser::ModifyColumnAction &amp;action)</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.cpp:66</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_a1e3dc8252431678536d711ac711b307d"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a1e3dc8252431678536d711ac711b307d">sqlcc::sql_executor::EnhancedAlterTableManager::hasColumnDependencies</a></div><div class="ttdeci">bool hasColumnDependencies(const std::string &amp;tableName, const std::string &amp;columnName) const</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.cpp:162</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_a2ac7bef8e83fcb945435dd27510dc98f"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a2ac7bef8e83fcb945435dd27510dc98f">sqlcc::sql_executor::EnhancedAlterTableManager::canModifyColumn</a></div><div class="ttdeci">bool canModifyColumn(const std::string &amp;tableName, const std::string &amp;columnName) const</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.cpp:152</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_a4335c3bcfc65e820addfba6c5a2ac2bc"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a4335c3bcfc65e820addfba6c5a2ac2bc">sqlcc::sql_executor::EnhancedAlterTableManager::getInstance</a></div><div class="ttdeci">static EnhancedAlterTableManager &amp; getInstance()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_a509abc4962933da07bf52827c22f8fb3"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a509abc4962933da07bf52827c22f8fb3">sqlcc::sql_executor::EnhancedAlterTableManager::alterTable</a></div><div class="ttdeci">bool alterTable(const sql_parser::AlterTableStatement &amp;stmt)</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.cpp:15</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_a558838b1403def224a414d34209efbb5"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a558838b1403def224a414d34209efbb5">sqlcc::sql_executor::EnhancedAlterTableManager::renameTable</a></div><div class="ttdeci">bool renameTable(const sql_parser::RenameTableAction &amp;action)</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.cpp:119</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_a6ec696b82be51382eb0a6f68e64de1eb"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a6ec696b82be51382eb0a6f68e64de1eb">sqlcc::sql_executor::EnhancedAlterTableManager::validateAlterTable</a></div><div class="ttdeci">bool validateAlterTable(const sql_parser::AlterTableStatement &amp;stmt)</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.cpp:128</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_a71ffe9ca3b79438fbea6a855223081c1"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a71ffe9ca3b79438fbea6a855223081c1">sqlcc::sql_executor::EnhancedAlterTableManager::renameColumn</a></div><div class="ttdeci">bool renameColumn(const std::string &amp;tableName, const std::string &amp;oldName, const std::string &amp;newName)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_a7a4afd8727a6e10c7557bddbee867ff6"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a7a4afd8727a6e10c7557bddbee867ff6">sqlcc::sql_executor::EnhancedAlterTableManager::addConstraint</a></div><div class="ttdeci">bool addConstraint(const std::string &amp;tableName, const sql_parser::TableConstraint &amp;constraint)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_a86e74119fec2ac98c25c95d8bbf74768"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a86e74119fec2ac98c25c95d8bbf74768">sqlcc::sql_executor::EnhancedAlterTableManager::operation_history_</a></div><div class="ttdeci">std::vector&lt; AlterOperation &gt; operation_history_</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.h:71</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_aa4146e8948cfe56e824dba537d2909d8"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#aa4146e8948cfe56e824dba537d2909d8">sqlcc::sql_executor::EnhancedAlterTableManager::EnhancedAlterTableManager</a></div><div class="ttdeci">EnhancedAlterTableManager()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_aaedc40f8f6efced5967060ba2eacfda4"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#aaedc40f8f6efced5967060ba2eacfda4">sqlcc::sql_executor::EnhancedAlterTableManager::canAddColumn</a></div><div class="ttdeci">bool canAddColumn(const std::string &amp;tableName, const std::string &amp;columnName) const</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.cpp:142</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_ab48503065f3eae6859b8e2684025551e"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ab48503065f3eae6859b8e2684025551e">sqlcc::sql_executor::EnhancedAlterTableManager::getAlterTableStatistics</a></div><div class="ttdeci">std::string getAlterTableStatistics() const</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.cpp:166</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_ac2f4f275f25ac6ca329940258fc4a862"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ac2f4f275f25ac6ca329940258fc4a862">sqlcc::sql_executor::EnhancedAlterTableManager::getColumnDependencies</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getColumnDependencies(const std::string &amp;tableName, const std::string &amp;columnName) const</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.cpp:157</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_ac4256683b41b147fc3a67d097ac2ee1e"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ac4256683b41b147fc3a67d097ac2ee1e">sqlcc::sql_executor::EnhancedAlterTableManager::dropColumn</a></div><div class="ttdeci">bool dropColumn(const std::string &amp;tableName, const std::string &amp;columnName)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_ac499ba9ffa49ff0a666b22babfb0430e"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ac499ba9ffa49ff0a666b22babfb0430e">sqlcc::sql_executor::EnhancedAlterTableManager::addColumn</a></div><div class="ttdeci">bool addColumn(const std::string &amp;tableName, const sql_parser::ColumnDefinition &amp;columnDef)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_ad823f4efa7c4e360a7f92e38316e8128"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ad823f4efa7c4e360a7f92e38316e8128">sqlcc::sql_executor::EnhancedAlterTableManager::next_operation_id_</a></div><div class="ttdeci">long next_operation_id_</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.h:72</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_ada49dd35078edb0d6cc5778f0395819b"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ada49dd35078edb0d6cc5778f0395819b">sqlcc::sql_executor::EnhancedAlterTableManager::recordOperation</a></div><div class="ttdeci">void recordOperation(const std::string &amp;tableName, const std::string &amp;operationType, const std::string &amp;details, bool success)</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.cpp:193</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_af5538a1119abf0b19ed42aa2cbea0d7f"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#af5538a1119abf0b19ed42aa2cbea0d7f">sqlcc::sql_executor::EnhancedAlterTableManager::canDropColumn</a></div><div class="ttdeci">bool canDropColumn(const std::string &amp;tableName, const std::string &amp;columnName) const</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.cpp:147</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_html_af698bee78726d40c370a9fe76568e097"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#af698bee78726d40c370a9fe76568e097">sqlcc::sql_executor::EnhancedAlterTableManager::executeConstraintAction</a></div><div class="ttdeci">bool executeConstraintAction(const std::string &amp;tableName, const std::string &amp;actionType, const std::string &amp;constraintName)</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.cpp:187</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation_html"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html">sqlcc::sql_executor::EnhancedAlterTableManager::AlterOperation</a></div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.h:63</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation_html_a1f942e1c0484a6e368e0f4b103b0cf70"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#a1f942e1c0484a6e368e0f4b103b0cf70">sqlcc::sql_executor::EnhancedAlterTableManager::AlterOperation::details</a></div><div class="ttdeci">std::string details</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.h:66</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation_html_a42e44304a951fb2f5dc4c66bdfa544c3"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#a42e44304a951fb2f5dc4c66bdfa544c3">sqlcc::sql_executor::EnhancedAlterTableManager::AlterOperation::success</a></div><div class="ttdeci">bool success</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.h:68</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation_html_a4a8f2829c850d2eb1273adfc62eea0bf"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#a4a8f2829c850d2eb1273adfc62eea0bf">sqlcc::sql_executor::EnhancedAlterTableManager::AlterOperation::timestamp</a></div><div class="ttdeci">long timestamp</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.h:67</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation_html_a5e28edc0635e5669d2382985f4adfc4f"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#a5e28edc0635e5669d2382985f4adfc4f">sqlcc::sql_executor::EnhancedAlterTableManager::AlterOperation::tableName</a></div><div class="ttdeci">std::string tableName</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.h:64</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation_html_ac06a802f656f0243777f4402dc938cd4"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html#ac06a802f656f0243777f4402dc938cd4">sqlcc::sql_executor::EnhancedAlterTableManager::AlterOperation::operationType</a></div><div class="ttdeci">std::string operationType</div><div class="ttdef"><b>Definition</b> enhanced_alter_table_manager.h:65</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

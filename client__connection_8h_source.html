@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: client_connection.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fc4c7f03e1a69a98c370fae55a743828.html">network</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">client_connection.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="client__connection_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="preprocessor">#include &quot;<a class="code" href="ssl__wrapper_8h.html">utils/ssl_wrapper.h</a>&quot;</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="preprocessor">#include &quot;<a class="code" href="file__descriptor_8h.html">utils/file_descriptor.h</a>&quot;</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span> </div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc_1_1network.html">network</a> {</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="foldopen" id="foldopen00207" data-start="{" data-end="};">
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ClientConnection.html">  207</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1network_1_1ClientConnection.html">ClientConnection</a> {</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    <a class="code hl_class" href="classsqlcc_1_1network_1_1ClientConnection.html">ClientConnection</a>(<span class="keyword">const</span> std::string&amp; host, <span class="keywordtype">int</span> port);</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    <a class="code hl_function" href="classsqlcc_1_1network_1_1ClientConnection.html#a2634186b4f9af77ddead5b87f75baf28">~ClientConnection</a>();</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ClientConnection.html#a454afdf7e5d7444d724df2bda91f59f9">EnableTLS</a>(<span class="keywordtype">bool</span> enabled);</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="preprocessor">#ifdef __linux__</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    <span class="keywordtype">bool</span> ConfigureTLSClient(<span class="keyword">const</span> std::string&amp; ca_cert_path);</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ClientConnection.html#aa820ab4732c0bced15ba0a661236f9ae">Connect</a>();</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ClientConnection.html#aca4d86e5fe6035020b8106a5ec3381b0">Disconnect</a>();</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span> </div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ClientConnection.html#a54a1f4529626ba8b9541951dde4dcd48">IsConnected</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span> </div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ClientConnection.html#a33e9719d86af0c9a0c11fd90cf5e12aa">SendData</a>(<span class="keyword">const</span> std::vector&lt;char&gt;&amp; data);</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    std::vector&lt;char&gt; <a class="code hl_function" href="classsqlcc_1_1network_1_1ClientConnection.html#a6cdb2d1ff7c67375bb88ab559467025d">ReceiveData</a>();</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ClientConnection.html#a6e5dba2c90b5a0702b116bf8d2fcbbfa">  267</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1network_1_1ClientConnection.html#a6e5dba2c90b5a0702b116bf8d2fcbbfa">host_</a>;                    </div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ClientConnection.html#aa4f5e40f62316747fc2b886faf90c02f">  268</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1ClientConnection.html#aa4f5e40f62316747fc2b886faf90c02f">port_</a>;                           </div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ClientConnection.html#a7366f2ad7106c0e881d510a488b2d944">  269</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1ClientConnection.html#a7366f2ad7106c0e881d510a488b2d944">connected_</a>;                     </div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ClientConnection.html#a220e861ce7ac4d77997991af7b6e30ad">  270</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1ClientConnection.html#a220e861ce7ac4d77997991af7b6e30ad">tls_enabled_</a>;                   </div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ClientConnection.html#a354ec535ba5e47fea6d21be5216fd91e">  271</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1network_1_1ClientConnection.html#a354ec535ba5e47fea6d21be5216fd91e">ca_cert_path_</a>;           </div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    <span class="comment">// Linux specific members</span></div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span><span class="preprocessor">#ifdef __linux__</span></div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    <a class="code hl_class" href="classsqlcc_1_1FileDescriptor.html">sqlcc::FileDescriptor</a> socket_fd_;  </div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    <a class="code hl_class" href="classsqlcc_1_1utils_1_1SSLSocket.html">sqlcc::utils::SSLSocket</a> ssl_;             </div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <a class="code hl_class" href="classsqlcc_1_1utils_1_1SSLContext.html">sqlcc::utils::SSLContext</a> ssl_ctx_;        </div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>};</div>
+</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>} <span class="comment">// namespace network</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1FileDescriptor_html"><div class="ttname"><a href="classsqlcc_1_1FileDescriptor.html">sqlcc::FileDescriptor</a></div><div class="ttdoc">RAII wrapper for file descriptors</div><div class="ttdef"><b>Definition</b> file_descriptor.h:14</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ClientConnection_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1ClientConnection.html">sqlcc::network::ClientConnection</a></div><div class="ttdoc">客户端连接类，管理TCP连接和TLS握手</div><div class="ttdef"><b>Definition</b> client_connection.h:207</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ClientConnection_html_a220e861ce7ac4d77997991af7b6e30ad"><div class="ttname"><a href="classsqlcc_1_1network_1_1ClientConnection.html#a220e861ce7ac4d77997991af7b6e30ad">sqlcc::network::ClientConnection::tls_enabled_</a></div><div class="ttdeci">bool tls_enabled_</div><div class="ttdoc">TLS启用状态</div><div class="ttdef"><b>Definition</b> client_connection.h:270</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ClientConnection_html_a2634186b4f9af77ddead5b87f75baf28"><div class="ttname"><a href="classsqlcc_1_1network_1_1ClientConnection.html#a2634186b4f9af77ddead5b87f75baf28">sqlcc::network::ClientConnection::~ClientConnection</a></div><div class="ttdeci">~ClientConnection()</div><div class="ttdoc">析构函数，确保连接正确关闭</div><div class="ttdef"><b>Definition</b> client_connection.cpp:32</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ClientConnection_html_a33e9719d86af0c9a0c11fd90cf5e12aa"><div class="ttname"><a href="classsqlcc_1_1network_1_1ClientConnection.html#a33e9719d86af0c9a0c11fd90cf5e12aa">sqlcc::network::ClientConnection::SendData</a></div><div class="ttdeci">bool SendData(const std::vector&lt; char &gt; &amp;data)</div><div class="ttdoc">发送数据</div><div class="ttdef"><b>Definition</b> client_connection.cpp:160</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ClientConnection_html_a354ec535ba5e47fea6d21be5216fd91e"><div class="ttname"><a href="classsqlcc_1_1network_1_1ClientConnection.html#a354ec535ba5e47fea6d21be5216fd91e">sqlcc::network::ClientConnection::ca_cert_path_</a></div><div class="ttdeci">std::string ca_cert_path_</div><div class="ttdoc">CA证书路径</div><div class="ttdef"><b>Definition</b> client_connection.h:271</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ClientConnection_html_a454afdf7e5d7444d724df2bda91f59f9"><div class="ttname"><a href="classsqlcc_1_1network_1_1ClientConnection.html#a454afdf7e5d7444d724df2bda91f59f9">sqlcc::network::ClientConnection::EnableTLS</a></div><div class="ttdeci">void EnableTLS(bool enabled)</div><div class="ttdoc">启用TLS加密</div><div class="ttdef"><b>Definition</b> client_connection.cpp:36</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ClientConnection_html_a54a1f4529626ba8b9541951dde4dcd48"><div class="ttname"><a href="classsqlcc_1_1network_1_1ClientConnection.html#a54a1f4529626ba8b9541951dde4dcd48">sqlcc::network::ClientConnection::IsConnected</a></div><div class="ttdeci">bool IsConnected() const</div><div class="ttdoc">检查连接状态</div><div class="ttdef"><b>Definition</b> client_connection.cpp:156</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ClientConnection_html_a6cdb2d1ff7c67375bb88ab559467025d"><div class="ttname"><a href="classsqlcc_1_1network_1_1ClientConnection.html#a6cdb2d1ff7c67375bb88ab559467025d">sqlcc::network::ClientConnection::ReceiveData</a></div><div class="ttdeci">std::vector&lt; char &gt; ReceiveData()</div><div class="ttdoc">接收数据</div><div class="ttdef"><b>Definition</b> client_connection.cpp:197</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ClientConnection_html_a6e5dba2c90b5a0702b116bf8d2fcbbfa"><div class="ttname"><a href="classsqlcc_1_1network_1_1ClientConnection.html#a6e5dba2c90b5a0702b116bf8d2fcbbfa">sqlcc::network::ClientConnection::host_</a></div><div class="ttdeci">std::string host_</div><div class="ttdoc">服务器主机地址</div><div class="ttdef"><b>Definition</b> client_connection.h:267</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ClientConnection_html_a7366f2ad7106c0e881d510a488b2d944"><div class="ttname"><a href="classsqlcc_1_1network_1_1ClientConnection.html#a7366f2ad7106c0e881d510a488b2d944">sqlcc::network::ClientConnection::connected_</a></div><div class="ttdeci">bool connected_</div><div class="ttdoc">连接状态</div><div class="ttdef"><b>Definition</b> client_connection.h:269</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ClientConnection_html_aa4f5e40f62316747fc2b886faf90c02f"><div class="ttname"><a href="classsqlcc_1_1network_1_1ClientConnection.html#aa4f5e40f62316747fc2b886faf90c02f">sqlcc::network::ClientConnection::port_</a></div><div class="ttdeci">int port_</div><div class="ttdoc">服务器端口号</div><div class="ttdef"><b>Definition</b> client_connection.h:268</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ClientConnection_html_aa820ab4732c0bced15ba0a661236f9ae"><div class="ttname"><a href="classsqlcc_1_1network_1_1ClientConnection.html#aa820ab4732c0bced15ba0a661236f9ae">sqlcc::network::ClientConnection::Connect</a></div><div class="ttdeci">bool Connect()</div><div class="ttdoc">配置TLS客户端证书验证</div><div class="ttdef"><b>Definition</b> client_connection.cpp:51</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ClientConnection_html_aca4d86e5fe6035020b8106a5ec3381b0"><div class="ttname"><a href="classsqlcc_1_1network_1_1ClientConnection.html#aca4d86e5fe6035020b8106a5ec3381b0">sqlcc::network::ClientConnection::Disconnect</a></div><div class="ttdeci">void Disconnect()</div><div class="ttdoc">断开连接</div><div class="ttdef"><b>Definition</b> client_connection.cpp:140</div></div>
+<div class="ttc" id="aclasssqlcc_1_1utils_1_1SSLContext_html"><div class="ttname"><a href="classsqlcc_1_1utils_1_1SSLContext.html">sqlcc::utils::SSLContext</a></div><div class="ttdef"><b>Definition</b> ssl_wrapper.h:298</div></div>
+<div class="ttc" id="aclasssqlcc_1_1utils_1_1SSLSocket_html"><div class="ttname"><a href="classsqlcc_1_1utils_1_1SSLSocket.html">sqlcc::utils::SSLSocket</a></div><div class="ttdef"><b>Definition</b> ssl_wrapper.h:316</div></div>
+<div class="ttc" id="afile__descriptor_8h_html"><div class="ttname"><a href="file__descriptor_8h.html">file_descriptor.h</a></div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html"><div class="ttname"><a href="namespacesqlcc_1_1network.html">sqlcc::network</a></div><div class="ttdef"><b>Definition</b> client_main.cpp:286</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="assl__wrapper_8h_html"><div class="ttname"><a href="ssl__wrapper_8h.html">ssl_wrapper.h</a></div><div class="ttdoc">SSL资源RAII包装器 - 深度安全改进版</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

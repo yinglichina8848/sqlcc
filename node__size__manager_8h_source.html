@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: node_size_manager.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">node_size_manager.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="node__size__manager_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef STORAGE_ENGINE_NODE_SIZE_MANAGER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define STORAGE_ENGINE_NODE_SIZE_MANAGER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">class </span>StorageEngine;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="structsqlcc_1_1NodeSizeStats.html">   21</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1NodeSizeStats.html">NodeSizeStats</a> {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="structsqlcc_1_1NodeSizeStats.html#a92dc5c255e7864c5be13299d8f3623d8">   22</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1NodeSizeStats.html#a92dc5c255e7864c5be13299d8f3623d8">total_entries</a> = 0;        <span class="comment">// 总条目数</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="structsqlcc_1_1NodeSizeStats.html#a04805274c362ce8716306a8e24a679e2">   23</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1NodeSizeStats.html#a04805274c362ce8716306a8e24a679e2">total_size</a> = 0;           <span class="comment">// 总大小（字节）</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="structsqlcc_1_1NodeSizeStats.html#a76d5721e7e0400125d0c11386fe2d439">   24</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1NodeSizeStats.html#a76d5721e7e0400125d0c11386fe2d439">avg_entry_size</a> = 0;       <span class="comment">// 平均条目大小</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="structsqlcc_1_1NodeSizeStats.html#abee80338aa7904b7258642fb27d28eac">   25</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1NodeSizeStats.html#abee80338aa7904b7258642fb27d28eac">min_entry_size</a> = 0;       <span class="comment">// 最小条目大小</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="structsqlcc_1_1NodeSizeStats.html#a446fdf306308a6f32bd0103108a73de8">   26</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1NodeSizeStats.html#a446fdf306308a6f32bd0103108a73de8">max_entry_size</a> = 0;       <span class="comment">// 最大条目大小</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="structsqlcc_1_1NodeSizeStats.html#ae99de31acdab6c724a0a82ac133393d2">   27</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structsqlcc_1_1NodeSizeStats.html#ae99de31acdab6c724a0a82ac133393d2">size_variance</a> = 0.0;      <span class="comment">// 大小方差</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="structsqlcc_1_1NodeSizeStats.html#a3ce46e546db4c8f534bb63d660a258cb">   28</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1NodeSizeStats.html#a3ce46e546db4c8f534bb63d660a258cb">recommended_node_capacity</a> = 0;  <span class="comment">// 推荐的节点容量</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="structsqlcc_1_1NodeSizeStats.html#ab5fc4cd1a6eddb1d6bf847b8fb1b3e96">update_stats</a>(<span class="keyword">const</span> std::vector&lt;size_t&gt;&amp; entry_sizes);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="structsqlcc_1_1NodeSizeStats.html#a0e6594f280f5a64e6844c97d0b19ddf1">calculate_recommendations</a>();</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>};</div>
+</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="foldopen" id="foldopen00048" data-start="{" data-end="};">
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classsqlcc_1_1NodeSizeManager.html">   48</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1NodeSizeManager.html">NodeSizeManager</a> {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="comment">// 常量定义</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classsqlcc_1_1NodeSizeManager.html#a9ef61132c97119c3208115b0f7abed92">   51</a></span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1NodeSizeManager.html#a9ef61132c97119c3208115b0f7abed92">MIN_CAPACITY</a> = 4;      <span class="comment">// 最小节点容量</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classsqlcc_1_1NodeSizeManager.html#a1499fd9f2604ce55df99f6d3368ffbce">   52</a></span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1NodeSizeManager.html#a1499fd9f2604ce55df99f6d3368ffbce">MAX_CAPACITY</a> = 4096;   <span class="comment">// 最大节点容量</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classsqlcc_1_1NodeSizeManager.html#a6098d7b2b73bce32f9678940a7af7701">   53</a></span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1NodeSizeManager.html#a6098d7b2b73bce32f9678940a7af7701">DEFAULT_CAPACITY</a> = 256; <span class="comment">// 默认节点容量</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classsqlcc_1_1NodeSizeManager.html#afe30a191bae8ecffc599773f05596ee2">   54</a></span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1NodeSizeManager.html#afe30a191bae8ecffc599773f05596ee2">MIN_SAMPLES</a> = 10;      <span class="comment">// 最小采样数</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="classsqlcc_1_1NodeSizeManager.html#a5e911f4757e79a8078a612a1fe1a6bde">   55</a></span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">double</span> <a class="code hl_variable" href="classsqlcc_1_1NodeSizeManager.html#a5e911f4757e79a8078a612a1fe1a6bde">SPLIT_THRESHOLD</a> = 0.8; <span class="comment">// 分裂阈值</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keyword">static</span> <a class="code hl_class" href="classsqlcc_1_1NodeSizeManager.html">NodeSizeManager</a>&amp; <a class="code hl_function" href="classsqlcc_1_1NodeSizeManager.html#a29ab4102f56ec5d50e05a49f7f67e1d9">get_instance</a>();</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1NodeSizeManager.html#a6b82bf3bedbae9522ba1d6d8e1ae4a29">record_node_stats</a>(<span class="keyword">const</span> std::string&amp; node_type,</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                          <span class="keyword">const</span> std::vector&lt;size_t&gt;&amp; entry_sizes,</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                          <span class="keywordtype">size_t</span> current_capacity);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1NodeSizeManager.html#aae9b71de8d7314cda0d7048dac8ee8a4">get_recommended_capacity</a>(<span class="keyword">const</span> std::string&amp; node_type) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1NodeSizeManager.html#aee9593f6b3ba0aa2a8aeee15e1cd8a63">should_split_node</a>(<span class="keyword">const</span> std::string&amp; node_type,</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                          <span class="keywordtype">size_t</span> current_entries,</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                          <span class="keywordtype">size_t</span> current_size) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <a class="code hl_struct" href="structsqlcc_1_1NodeSizeStats.html">NodeSizeStats</a> <a class="code hl_function" href="classsqlcc_1_1NodeSizeManager.html#a5aacbb6596f908699ea5c3619feee5c0">get_stats</a>(<span class="keyword">const</span> std::string&amp; node_type) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1NodeSizeManager.html#af66e4c8fc9d585d8298da58cb07fcad4">reset_stats</a>(<span class="keyword">const</span> std::string&amp; node_type);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    std::string <a class="code hl_function" href="classsqlcc_1_1NodeSizeManager.html#a5edc05208a188ba862f31f5b5a0503a5">get_performance_report</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="classsqlcc_1_1NodeSizeManager.html#ace9ab852bd715f528210ac12aa73e16c">  111</a></span>    <a class="code hl_function" href="classsqlcc_1_1NodeSizeManager.html#ace9ab852bd715f528210ac12aa73e16c">NodeSizeManager</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="classsqlcc_1_1NodeSizeManager.html#a5d4707669a22663803e2b3c71b4afd13">  112</a></span>    <a class="code hl_function" href="classsqlcc_1_1NodeSizeManager.html#a5d4707669a22663803e2b3c71b4afd13">~NodeSizeManager</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="classsqlcc_1_1NodeSizeManager.html#a57ec96d6e9a8db1a8db02fe461c8620a">  113</a></span>    <a class="code hl_function" href="classsqlcc_1_1NodeSizeManager.html#a57ec96d6e9a8db1a8db02fe461c8620a">NodeSizeManager</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1NodeSizeManager.html">NodeSizeManager</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="classsqlcc_1_1NodeSizeManager.html#accf5341def19008a405cf25b7d3586eb">  114</a></span>    <a class="code hl_class" href="classsqlcc_1_1NodeSizeManager.html">NodeSizeManager</a>&amp; <a class="code hl_function" href="classsqlcc_1_1NodeSizeManager.html#accf5341def19008a405cf25b7d3586eb">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1NodeSizeManager.html">NodeSizeManager</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1NodeSizeManager.html#aa1b4986ef22aede6c5629be982478b91">calculate_dynamic_capacity</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1NodeSizeStats.html">NodeSizeStats</a>&amp; stats) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1NodeSizeManager.html#af36cba678b7b03e92e6a0be103fdf7b1">update_stats</a>(<span class="keyword">const</span> std::string&amp; node_type,</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                     <span class="keyword">const</span> std::vector&lt;size_t&gt;&amp; entry_sizes);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="comment">// 成员变量</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="classsqlcc_1_1NodeSizeManager.html#a78c435e72c12cd5ca26ab58eb518391b">  132</a></span>    <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1NodeSizeManager.html#a78c435e72c12cd5ca26ab58eb518391b">mutex_</a>;  <span class="comment">// 互斥锁</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="classsqlcc_1_1NodeSizeManager.html#aef8d741f0885b417fea83c8d3e420347">  133</a></span>    std::unordered_map&lt;std::string, NodeSizeStats&gt; <a class="code hl_variable" href="classsqlcc_1_1NodeSizeManager.html#aef8d741f0885b417fea83c8d3e420347">node_stats_</a>;  <span class="comment">// 节点统计信息</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="classsqlcc_1_1NodeSizeManager.html#a79e733c76191143ff89447877bf8bfb8">  134</a></span>    std::unordered_map&lt;std::string, std::atomic&lt;size_t&gt;&gt; <a class="code hl_variable" href="classsqlcc_1_1NodeSizeManager.html#a79e733c76191143ff89447877bf8bfb8">sample_counts_</a>;  <span class="comment">// 采样计数</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>};</div>
+</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="preprocessor">#endif </span><span class="comment">// STORAGE_ENGINE_NODE_SIZE_MANAGER_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html">sqlcc::NodeSizeManager</a></div><div class="ttdoc">节点大小管理器</div><div class="ttdef"><b>Definition</b> node_size_manager.h:48</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_a1499fd9f2604ce55df99f6d3368ffbce"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#a1499fd9f2604ce55df99f6d3368ffbce">sqlcc::NodeSizeManager::MAX_CAPACITY</a></div><div class="ttdeci">static constexpr size_t MAX_CAPACITY</div><div class="ttdef"><b>Definition</b> node_size_manager.h:52</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_a29ab4102f56ec5d50e05a49f7f67e1d9"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#a29ab4102f56ec5d50e05a49f7f67e1d9">sqlcc::NodeSizeManager::get_instance</a></div><div class="ttdeci">static NodeSizeManager &amp; get_instance()</div><div class="ttdoc">获取单例实例</div><div class="ttdef"><b>Definition</b> node_size_manager.cpp:70</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_a57ec96d6e9a8db1a8db02fe461c8620a"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#a57ec96d6e9a8db1a8db02fe461c8620a">sqlcc::NodeSizeManager::NodeSizeManager</a></div><div class="ttdeci">NodeSizeManager(const NodeSizeManager &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_a5aacbb6596f908699ea5c3619feee5c0"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#a5aacbb6596f908699ea5c3619feee5c0">sqlcc::NodeSizeManager::get_stats</a></div><div class="ttdeci">NodeSizeStats get_stats(const std::string &amp;node_type) const</div><div class="ttdoc">获取统计信息</div><div class="ttdef"><b>Definition</b> node_size_manager.cpp:123</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_a5d4707669a22663803e2b3c71b4afd13"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#a5d4707669a22663803e2b3c71b4afd13">sqlcc::NodeSizeManager::~NodeSizeManager</a></div><div class="ttdeci">~NodeSizeManager()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_a5e911f4757e79a8078a612a1fe1a6bde"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#a5e911f4757e79a8078a612a1fe1a6bde">sqlcc::NodeSizeManager::SPLIT_THRESHOLD</a></div><div class="ttdeci">static constexpr double SPLIT_THRESHOLD</div><div class="ttdef"><b>Definition</b> node_size_manager.h:55</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_a5edc05208a188ba862f31f5b5a0503a5"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#a5edc05208a188ba862f31f5b5a0503a5">sqlcc::NodeSizeManager::get_performance_report</a></div><div class="ttdeci">std::string get_performance_report() const</div><div class="ttdoc">生成性能报告</div><div class="ttdef"><b>Definition</b> node_size_manager.cpp:141</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_a6098d7b2b73bce32f9678940a7af7701"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#a6098d7b2b73bce32f9678940a7af7701">sqlcc::NodeSizeManager::DEFAULT_CAPACITY</a></div><div class="ttdeci">static constexpr size_t DEFAULT_CAPACITY</div><div class="ttdef"><b>Definition</b> node_size_manager.h:53</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_a6b82bf3bedbae9522ba1d6d8e1ae4a29"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#a6b82bf3bedbae9522ba1d6d8e1ae4a29">sqlcc::NodeSizeManager::record_node_stats</a></div><div class="ttdeci">void record_node_stats(const std::string &amp;node_type, const std::vector&lt; size_t &gt; &amp;entry_sizes, size_t current_capacity)</div><div class="ttdoc">记录节点统计信息</div><div class="ttdef"><b>Definition</b> node_size_manager.cpp:75</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_a78c435e72c12cd5ca26ab58eb518391b"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#a78c435e72c12cd5ca26ab58eb518391b">sqlcc::NodeSizeManager::mutex_</a></div><div class="ttdeci">std::mutex mutex_</div><div class="ttdef"><b>Definition</b> node_size_manager.h:132</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_a79e733c76191143ff89447877bf8bfb8"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#a79e733c76191143ff89447877bf8bfb8">sqlcc::NodeSizeManager::sample_counts_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::atomic&lt; size_t &gt; &gt; sample_counts_</div><div class="ttdef"><b>Definition</b> node_size_manager.h:134</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_a9ef61132c97119c3208115b0f7abed92"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#a9ef61132c97119c3208115b0f7abed92">sqlcc::NodeSizeManager::MIN_CAPACITY</a></div><div class="ttdeci">static constexpr size_t MIN_CAPACITY</div><div class="ttdef"><b>Definition</b> node_size_manager.h:51</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_aa1b4986ef22aede6c5629be982478b91"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#aa1b4986ef22aede6c5629be982478b91">sqlcc::NodeSizeManager::calculate_dynamic_capacity</a></div><div class="ttdeci">size_t calculate_dynamic_capacity(const NodeSizeStats &amp;stats) const</div><div class="ttdoc">计算动态容量</div><div class="ttdef"><b>Definition</b> node_size_manager.cpp:177</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_aae9b71de8d7314cda0d7048dac8ee8a4"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#aae9b71de8d7314cda0d7048dac8ee8a4">sqlcc::NodeSizeManager::get_recommended_capacity</a></div><div class="ttdeci">size_t get_recommended_capacity(const std::string &amp;node_type) const</div><div class="ttdoc">获取推荐容量</div><div class="ttdef"><b>Definition</b> node_size_manager.cpp:82</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_accf5341def19008a405cf25b7d3586eb"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#accf5341def19008a405cf25b7d3586eb">sqlcc::NodeSizeManager::operator=</a></div><div class="ttdeci">NodeSizeManager &amp; operator=(const NodeSizeManager &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_ace9ab852bd715f528210ac12aa73e16c"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#ace9ab852bd715f528210ac12aa73e16c">sqlcc::NodeSizeManager::NodeSizeManager</a></div><div class="ttdeci">NodeSizeManager()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_aee9593f6b3ba0aa2a8aeee15e1cd8a63"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#aee9593f6b3ba0aa2a8aeee15e1cd8a63">sqlcc::NodeSizeManager::should_split_node</a></div><div class="ttdeci">bool should_split_node(const std::string &amp;node_type, size_t current_entries, size_t current_size) const</div><div class="ttdoc">判断是否需要分裂节点</div><div class="ttdef"><b>Definition</b> node_size_manager.cpp:96</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_aef8d741f0885b417fea83c8d3e420347"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#aef8d741f0885b417fea83c8d3e420347">sqlcc::NodeSizeManager::node_stats_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, NodeSizeStats &gt; node_stats_</div><div class="ttdef"><b>Definition</b> node_size_manager.h:133</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_af36cba678b7b03e92e6a0be103fdf7b1"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#af36cba678b7b03e92e6a0be103fdf7b1">sqlcc::NodeSizeManager::update_stats</a></div><div class="ttdeci">void update_stats(const std::string &amp;node_type, const std::vector&lt; size_t &gt; &amp;entry_sizes)</div><div class="ttdoc">更新统计信息</div><div class="ttdef"><b>Definition</b> node_size_manager.cpp:212</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_af66e4c8fc9d585d8298da58cb07fcad4"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#af66e4c8fc9d585d8298da58cb07fcad4">sqlcc::NodeSizeManager::reset_stats</a></div><div class="ttdeci">void reset_stats(const std::string &amp;node_type)</div><div class="ttdoc">重置统计信息</div><div class="ttdef"><b>Definition</b> node_size_manager.cpp:134</div></div>
+<div class="ttc" id="aclasssqlcc_1_1NodeSizeManager_html_afe30a191bae8ecffc599773f05596ee2"><div class="ttname"><a href="classsqlcc_1_1NodeSizeManager.html#afe30a191bae8ecffc599773f05596ee2">sqlcc::NodeSizeManager::MIN_SAMPLES</a></div><div class="ttdeci">static constexpr size_t MIN_SAMPLES</div><div class="ttdef"><b>Definition</b> node_size_manager.h:54</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1NodeSizeStats_html"><div class="ttname"><a href="structsqlcc_1_1NodeSizeStats.html">sqlcc::NodeSizeStats</a></div><div class="ttdoc">节点大小统计信息</div><div class="ttdef"><b>Definition</b> node_size_manager.h:21</div></div>
+<div class="ttc" id="astructsqlcc_1_1NodeSizeStats_html_a04805274c362ce8716306a8e24a679e2"><div class="ttname"><a href="structsqlcc_1_1NodeSizeStats.html#a04805274c362ce8716306a8e24a679e2">sqlcc::NodeSizeStats::total_size</a></div><div class="ttdeci">size_t total_size</div><div class="ttdef"><b>Definition</b> node_size_manager.h:23</div></div>
+<div class="ttc" id="astructsqlcc_1_1NodeSizeStats_html_a0e6594f280f5a64e6844c97d0b19ddf1"><div class="ttname"><a href="structsqlcc_1_1NodeSizeStats.html#a0e6594f280f5a64e6844c97d0b19ddf1">sqlcc::NodeSizeStats::calculate_recommendations</a></div><div class="ttdeci">void calculate_recommendations()</div><div class="ttdoc">计算推荐容量</div><div class="ttdef"><b>Definition</b> node_size_manager.cpp:40</div></div>
+<div class="ttc" id="astructsqlcc_1_1NodeSizeStats_html_a3ce46e546db4c8f534bb63d660a258cb"><div class="ttname"><a href="structsqlcc_1_1NodeSizeStats.html#a3ce46e546db4c8f534bb63d660a258cb">sqlcc::NodeSizeStats::recommended_node_capacity</a></div><div class="ttdeci">size_t recommended_node_capacity</div><div class="ttdef"><b>Definition</b> node_size_manager.h:28</div></div>
+<div class="ttc" id="astructsqlcc_1_1NodeSizeStats_html_a446fdf306308a6f32bd0103108a73de8"><div class="ttname"><a href="structsqlcc_1_1NodeSizeStats.html#a446fdf306308a6f32bd0103108a73de8">sqlcc::NodeSizeStats::max_entry_size</a></div><div class="ttdeci">size_t max_entry_size</div><div class="ttdef"><b>Definition</b> node_size_manager.h:26</div></div>
+<div class="ttc" id="astructsqlcc_1_1NodeSizeStats_html_a76d5721e7e0400125d0c11386fe2d439"><div class="ttname"><a href="structsqlcc_1_1NodeSizeStats.html#a76d5721e7e0400125d0c11386fe2d439">sqlcc::NodeSizeStats::avg_entry_size</a></div><div class="ttdeci">size_t avg_entry_size</div><div class="ttdef"><b>Definition</b> node_size_manager.h:24</div></div>
+<div class="ttc" id="astructsqlcc_1_1NodeSizeStats_html_a92dc5c255e7864c5be13299d8f3623d8"><div class="ttname"><a href="structsqlcc_1_1NodeSizeStats.html#a92dc5c255e7864c5be13299d8f3623d8">sqlcc::NodeSizeStats::total_entries</a></div><div class="ttdeci">size_t total_entries</div><div class="ttdef"><b>Definition</b> node_size_manager.h:22</div></div>
+<div class="ttc" id="astructsqlcc_1_1NodeSizeStats_html_ab5fc4cd1a6eddb1d6bf847b8fb1b3e96"><div class="ttname"><a href="structsqlcc_1_1NodeSizeStats.html#ab5fc4cd1a6eddb1d6bf847b8fb1b3e96">sqlcc::NodeSizeStats::update_stats</a></div><div class="ttdeci">void update_stats(const std::vector&lt; size_t &gt; &amp;entry_sizes)</div><div class="ttdoc">更新统计信息</div><div class="ttdef"><b>Definition</b> node_size_manager.cpp:11</div></div>
+<div class="ttc" id="astructsqlcc_1_1NodeSizeStats_html_abee80338aa7904b7258642fb27d28eac"><div class="ttname"><a href="structsqlcc_1_1NodeSizeStats.html#abee80338aa7904b7258642fb27d28eac">sqlcc::NodeSizeStats::min_entry_size</a></div><div class="ttdeci">size_t min_entry_size</div><div class="ttdef"><b>Definition</b> node_size_manager.h:25</div></div>
+<div class="ttc" id="astructsqlcc_1_1NodeSizeStats_html_ae99de31acdab6c724a0a82ac133393d2"><div class="ttname"><a href="structsqlcc_1_1NodeSizeStats.html#ae99de31acdab6c724a0a82ac133393d2">sqlcc::NodeSizeStats::size_variance</a></div><div class="ttdeci">double size_variance</div><div class="ttdef"><b>Definition</b> node_size_manager.h:27</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

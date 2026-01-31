@@ -1,0 +1,1683 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::DataIntegrityValidator类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html">DataIntegrityValidator</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1DataIntegrityValidator-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::DataIntegrityValidator类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="storage_2data__integrity__validator_8h_source.html">data_integrity_validator.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::DataIntegrityValidator 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1DataIntegrityValidator__coll__graph.png" border="0" usemap="#asqlcc_1_1DataIntegrityValidator_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1DataIntegrityValidator_coll__map" id="asqlcc_1_1DataIntegrityValidator_coll__map">
+<area shape="rect" title=" " alt="" coords="409,129,616,155"/>
+<area shape="rect" href="classsqlcc_1_1CheckConstraintParser.html" title=" " alt="" coords="17,5,228,31"/>
+<area shape="poly" title=" " alt="" coords="242,28,314,42,386,64,449,95,496,127,493,132,446,100,384,68,313,47,241,33"/>
+<area shape="rect" href="classsqlcc_1_1ForeignKeyValidator.html" title=" " alt="" coords="26,55,219,80"/>
+<area shape="poly" title=" " alt="" coords="234,79,386,105,470,127,469,132,385,110,233,84"/>
+<area shape="rect" href="classsqlcc_1_1UniqueConstraintValidator.html" title=" " alt="" coords="5,104,240,129"/>
+<area shape="poly" title=" " alt="" coords="254,122,409,133,409,138,253,128"/>
+<area shape="rect" href="classsqlcc_1_1DefaultValueHandler.html" title=" " alt="" coords="23,153,222,179"/>
+<area shape="poly" title=" " alt="" coords="236,164,385,158,436,152,437,157,386,163,236,169"/>
+<area shape="rect" href="structsqlcc_1_1IntegrityValidationConfig.html" title=" " alt="" coords="31,203,214,243"/>
+<area shape="poly" title=" " alt="" coords="227,211,305,201,385,185,436,169,480,152,482,157,437,174,386,190,306,206,228,217"/>
+<area shape="rect" href="structsqlcc_1_1DataIntegrityValidator_1_1IntegrityStats.html" title=" " alt="" coords="19,267,226,307"/>
+<area shape="poly" title=" " alt="" coords="239,269,312,253,384,228,417,210,448,190,495,153,499,157,451,195,420,215,386,232,314,258,240,275"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1DataIntegrityValidator_1_1IntegrityStats.html">IntegrityStats</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a526f5db1b95180c8de8f9b1d6bb39622" id="r_a526f5db1b95180c8de8f9b1d6bb39622"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a526f5db1b95180c8de8f9b1d6bb39622">DataIntegrityValidator</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; storage_engine, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt; transaction_manager=nullptr)</td></tr>
+<tr class="separator:a526f5db1b95180c8de8f9b1d6bb39622"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cde9f35378e3a84d1e0bfe46d050b42" id="r_a6cde9f35378e3a84d1e0bfe46d050b42"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a6cde9f35378e3a84d1e0bfe46d050b42">~DataIntegrityValidator</a> ()=default</td></tr>
+<tr class="separator:a6cde9f35378e3a84d1e0bfe46d050b42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67bf22ad32e13870afa92e53ccf1b7b2" id="r_a67bf22ad32e13870afa92e53ccf1b7b2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a67bf22ad32e13870afa92e53ccf1b7b2">ValidateConstraints</a> (const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;column_names, const std::vector&lt; std::string &gt; &amp;column_types, const std::vector&lt; std::string &gt; &amp;values, int32_t record_id=-1) const</td></tr>
+<tr class="separator:a67bf22ad32e13870afa92e53ccf1b7b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ae8ad97fd9031dee8759214b2f63d2b" id="r_a7ae8ad97fd9031dee8759214b2f63d2b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a7ae8ad97fd9031dee8759214b2f63d2b">AddConstraint</a> (const <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> &amp;rule)</td></tr>
+<tr class="separator:a7ae8ad97fd9031dee8759214b2f63d2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acce0343e095da5fbfdc20d751663e0b5" id="r_acce0343e095da5fbfdc20d751663e0b5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#acce0343e095da5fbfdc20d751663e0b5">RemoveConstraint</a> (const std::string &amp;table_name, const std::string &amp;constraint_name)</td></tr>
+<tr class="separator:acce0343e095da5fbfdc20d751663e0b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78b3b798d24e6c4027a005953c738ca2" id="r_a78b3b798d24e6c4027a005953c738ca2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a78b3b798d24e6c4027a005953c738ca2">EnableConstraint</a> (const std::string &amp;table_name, const std::string &amp;constraint_name)</td></tr>
+<tr class="separator:a78b3b798d24e6c4027a005953c738ca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab1d00d007da2cb4ba807838227ed0a7" id="r_aab1d00d007da2cb4ba807838227ed0a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#aab1d00d007da2cb4ba807838227ed0a7">DisableConstraint</a> (const std::string &amp;table_name, const std::string &amp;constraint_name)</td></tr>
+<tr class="separator:aab1d00d007da2cb4ba807838227ed0a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a4b220f3a69862253e76451534b4373" id="r_a4a4b220f3a69862253e76451534b4373"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a4a4b220f3a69862253e76451534b4373">GetConstraint</a> (const std::string &amp;table_name, const std::string &amp;constraint_name) const</td></tr>
+<tr class="separator:a4a4b220f3a69862253e76451534b4373"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea14307c97e824d76caf996067dcce93" id="r_aea14307c97e824d76caf996067dcce93"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#aea14307c97e824d76caf996067dcce93">GetTableConstraints</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="separator:aea14307c97e824d76caf996067dcce93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaa84b4acd54962623666878620be842" id="r_aaaa84b4acd54962623666878620be842"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#aaaa84b4acd54962623666878620be842">GetColumnConstraints</a> (const std::string &amp;table_name, const std::string &amp;column_name) const</td></tr>
+<tr class="separator:aaaa84b4acd54962623666878620be842"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a1e3963a94f4fbc2c1f68a969711f60" id="r_a6a1e3963a94f4fbc2c1f68a969711f60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a6a1e3963a94f4fbc2c1f68a969711f60">SetValidationConfig</a> (const <a class="el" href="structsqlcc_1_1IntegrityValidationConfig.html">IntegrityValidationConfig</a> &amp;config)</td></tr>
+<tr class="separator:a6a1e3963a94f4fbc2c1f68a969711f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa972e399925bb47877882fa966244f46" id="r_aa972e399925bb47877882fa966244f46"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structsqlcc_1_1IntegrityValidationConfig.html">IntegrityValidationConfig</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#aa972e399925bb47877882fa966244f46">GetValidationConfig</a> () const</td></tr>
+<tr class="separator:aa972e399925bb47877882fa966244f46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbae3206695df4103eaf96c752dc63e7" id="r_abbae3206695df4103eaf96c752dc63e7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1DataIntegrityValidator_1_1IntegrityStats.html">IntegrityStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#abbae3206695df4103eaf96c752dc63e7">GetIntegrityStats</a> () const</td></tr>
+<tr class="separator:abbae3206695df4103eaf96c752dc63e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a353a1b53f95cb854c5bed89eaa3861c0" id="r_a353a1b53f95cb854c5bed89eaa3861c0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a353a1b53f95cb854c5bed89eaa3861c0">ValidateConstraintsBatch</a> (const std::string &amp;table_name, const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;record_batch) const</td></tr>
+<tr class="separator:a353a1b53f95cb854c5bed89eaa3861c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a526f5db1b95180c8de8f9b1d6bb39622" id="r_a526f5db1b95180c8de8f9b1d6bb39622"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a526f5db1b95180c8de8f9b1d6bb39622">DataIntegrityValidator</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; storage_engine, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt; transaction_manager=nullptr)</td></tr>
+<tr class="separator:a526f5db1b95180c8de8f9b1d6bb39622"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cde9f35378e3a84d1e0bfe46d050b42" id="r_a6cde9f35378e3a84d1e0bfe46d050b42"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a6cde9f35378e3a84d1e0bfe46d050b42">~DataIntegrityValidator</a> ()=default</td></tr>
+<tr class="separator:a6cde9f35378e3a84d1e0bfe46d050b42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67bf22ad32e13870afa92e53ccf1b7b2" id="r_a67bf22ad32e13870afa92e53ccf1b7b2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a67bf22ad32e13870afa92e53ccf1b7b2">ValidateConstraints</a> (const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;column_names, const std::vector&lt; std::string &gt; &amp;column_types, const std::vector&lt; std::string &gt; &amp;values, int32_t record_id=-1) const</td></tr>
+<tr class="separator:a67bf22ad32e13870afa92e53ccf1b7b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ae8ad97fd9031dee8759214b2f63d2b" id="r_a7ae8ad97fd9031dee8759214b2f63d2b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a7ae8ad97fd9031dee8759214b2f63d2b">AddConstraint</a> (const <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> &amp;rule)</td></tr>
+<tr class="separator:a7ae8ad97fd9031dee8759214b2f63d2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acce0343e095da5fbfdc20d751663e0b5" id="r_acce0343e095da5fbfdc20d751663e0b5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#acce0343e095da5fbfdc20d751663e0b5">RemoveConstraint</a> (const std::string &amp;table_name, const std::string &amp;constraint_name)</td></tr>
+<tr class="separator:acce0343e095da5fbfdc20d751663e0b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78b3b798d24e6c4027a005953c738ca2" id="r_a78b3b798d24e6c4027a005953c738ca2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a78b3b798d24e6c4027a005953c738ca2">EnableConstraint</a> (const std::string &amp;table_name, const std::string &amp;constraint_name)</td></tr>
+<tr class="separator:a78b3b798d24e6c4027a005953c738ca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab1d00d007da2cb4ba807838227ed0a7" id="r_aab1d00d007da2cb4ba807838227ed0a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#aab1d00d007da2cb4ba807838227ed0a7">DisableConstraint</a> (const std::string &amp;table_name, const std::string &amp;constraint_name)</td></tr>
+<tr class="separator:aab1d00d007da2cb4ba807838227ed0a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a4b220f3a69862253e76451534b4373" id="r_a4a4b220f3a69862253e76451534b4373"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a4a4b220f3a69862253e76451534b4373">GetConstraint</a> (const std::string &amp;table_name, const std::string &amp;constraint_name) const</td></tr>
+<tr class="separator:a4a4b220f3a69862253e76451534b4373"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea14307c97e824d76caf996067dcce93" id="r_aea14307c97e824d76caf996067dcce93"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#aea14307c97e824d76caf996067dcce93">GetTableConstraints</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="separator:aea14307c97e824d76caf996067dcce93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaa84b4acd54962623666878620be842" id="r_aaaa84b4acd54962623666878620be842"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#aaaa84b4acd54962623666878620be842">GetColumnConstraints</a> (const std::string &amp;table_name, const std::string &amp;column_name) const</td></tr>
+<tr class="separator:aaaa84b4acd54962623666878620be842"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a1e3963a94f4fbc2c1f68a969711f60" id="r_a6a1e3963a94f4fbc2c1f68a969711f60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a6a1e3963a94f4fbc2c1f68a969711f60">SetValidationConfig</a> (const <a class="el" href="structsqlcc_1_1IntegrityValidationConfig.html">IntegrityValidationConfig</a> &amp;config)</td></tr>
+<tr class="separator:a6a1e3963a94f4fbc2c1f68a969711f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa972e399925bb47877882fa966244f46" id="r_aa972e399925bb47877882fa966244f46"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structsqlcc_1_1IntegrityValidationConfig.html">IntegrityValidationConfig</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#aa972e399925bb47877882fa966244f46">GetValidationConfig</a> () const</td></tr>
+<tr class="separator:aa972e399925bb47877882fa966244f46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4ef6d22e4a91797402348c610ac369d" id="r_ae4ef6d22e4a91797402348c610ac369d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1DataIntegrityValidator_1_1IntegrityStats.html">IntegrityStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#ae4ef6d22e4a91797402348c610ac369d">GetIntegrityStats</a> () const</td></tr>
+<tr class="separator:ae4ef6d22e4a91797402348c610ac369d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a353a1b53f95cb854c5bed89eaa3861c0" id="r_a353a1b53f95cb854c5bed89eaa3861c0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a353a1b53f95cb854c5bed89eaa3861c0">ValidateConstraintsBatch</a> (const std::string &amp;table_name, const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;record_batch) const</td></tr>
+<tr class="separator:a353a1b53f95cb854c5bed89eaa3861c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a1d2c515aa8450c5e29917a5b5077f8ef" id="r_a1d2c515aa8450c5e29917a5b5077f8ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a1d2c515aa8450c5e29917a5b5077f8ef">ValidateNotNullConstraints</a> (const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;column_names, const std::vector&lt; std::string &gt; &amp;values) const</td></tr>
+<tr class="separator:a1d2c515aa8450c5e29917a5b5077f8ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a157cb016c8c262419af1e7eb141b62fb" id="r_a157cb016c8c262419af1e7eb141b62fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a157cb016c8c262419af1e7eb141b62fb">ValidateUniqueConstraints</a> (const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;column_names, const std::vector&lt; std::string &gt; &amp;values, int32_t record_id) const</td></tr>
+<tr class="separator:a157cb016c8c262419af1e7eb141b62fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32fe144423c8662ecea77d854df43cd3" id="r_a32fe144423c8662ecea77d854df43cd3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a32fe144423c8662ecea77d854df43cd3">ValidateForeignKeyConstraints</a> (const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;column_names, const std::vector&lt; std::string &gt; &amp;values) const</td></tr>
+<tr class="separator:a32fe144423c8662ecea77d854df43cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cc0df30a45fc85e6978b40760656456" id="r_a9cc0df30a45fc85e6978b40760656456"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a9cc0df30a45fc85e6978b40760656456">ValidateCheckConstraints</a> (const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;column_names, const std::vector&lt; std::string &gt; &amp;values) const</td></tr>
+<tr class="separator:a9cc0df30a45fc85e6978b40760656456"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee8eb1fafae28a389a3c47474c1396c6" id="r_aee8eb1fafae28a389a3c47474c1396c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#aee8eb1fafae28a389a3c47474c1396c6">UpdateIntegrityStats</a> (<a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> result, std::chrono::microseconds duration) const</td></tr>
+<tr class="separator:aee8eb1fafae28a389a3c47474c1396c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac421943dcf86286a5d226d0d80aabed" id="r_aac421943dcf86286a5d226d0d80aabed"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#aac421943dcf86286a5d226d0d80aabed">GenerateConstraintKey</a> (const std::string &amp;table_name, const std::string &amp;constraint_name) const</td></tr>
+<tr class="separator:aac421943dcf86286a5d226d0d80aabed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d2c515aa8450c5e29917a5b5077f8ef" id="r_a1d2c515aa8450c5e29917a5b5077f8ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a1d2c515aa8450c5e29917a5b5077f8ef">ValidateNotNullConstraints</a> (const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;column_names, const std::vector&lt; std::string &gt; &amp;values) const</td></tr>
+<tr class="separator:a1d2c515aa8450c5e29917a5b5077f8ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a157cb016c8c262419af1e7eb141b62fb" id="r_a157cb016c8c262419af1e7eb141b62fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a157cb016c8c262419af1e7eb141b62fb">ValidateUniqueConstraints</a> (const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;column_names, const std::vector&lt; std::string &gt; &amp;values, int32_t record_id) const</td></tr>
+<tr class="separator:a157cb016c8c262419af1e7eb141b62fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32fe144423c8662ecea77d854df43cd3" id="r_a32fe144423c8662ecea77d854df43cd3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a32fe144423c8662ecea77d854df43cd3">ValidateForeignKeyConstraints</a> (const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;column_names, const std::vector&lt; std::string &gt; &amp;values) const</td></tr>
+<tr class="separator:a32fe144423c8662ecea77d854df43cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cc0df30a45fc85e6978b40760656456" id="r_a9cc0df30a45fc85e6978b40760656456"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a9cc0df30a45fc85e6978b40760656456">ValidateCheckConstraints</a> (const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;column_names, const std::vector&lt; std::string &gt; &amp;values) const</td></tr>
+<tr class="separator:a9cc0df30a45fc85e6978b40760656456"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee8eb1fafae28a389a3c47474c1396c6" id="r_aee8eb1fafae28a389a3c47474c1396c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#aee8eb1fafae28a389a3c47474c1396c6">UpdateIntegrityStats</a> (<a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> result, std::chrono::microseconds duration) const</td></tr>
+<tr class="separator:aee8eb1fafae28a389a3c47474c1396c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac421943dcf86286a5d226d0d80aabed" id="r_aac421943dcf86286a5d226d0d80aabed"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#aac421943dcf86286a5d226d0d80aabed">GenerateConstraintKey</a> (const std::string &amp;table_name, const std::string &amp;constraint_name) const</td></tr>
+<tr class="separator:aac421943dcf86286a5d226d0d80aabed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a0dd7654b98209ab7507955b5af96fdba" id="r_a0dd7654b98209ab7507955b5af96fdba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html">CheckConstraintParser</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a0dd7654b98209ab7507955b5af96fdba">check_parser_</a></td></tr>
+<tr class="separator:a0dd7654b98209ab7507955b5af96fdba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98dcb531324c6d064a3c95a6be7ca247" id="r_a98dcb531324c6d064a3c95a6be7ca247"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ForeignKeyValidator.html">ForeignKeyValidator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a98dcb531324c6d064a3c95a6be7ca247">fk_validator_</a></td></tr>
+<tr class="separator:a98dcb531324c6d064a3c95a6be7ca247"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d22dd02669eb2da9c1512e5384b84ea" id="r_a3d22dd02669eb2da9c1512e5384b84ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1UniqueConstraintValidator.html">UniqueConstraintValidator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a3d22dd02669eb2da9c1512e5384b84ea">unique_validator_</a></td></tr>
+<tr class="separator:a3d22dd02669eb2da9c1512e5384b84ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a126229cbaa416cbaa27308d3fb66568d" id="r_a126229cbaa416cbaa27308d3fb66568d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1DefaultValueHandler.html">DefaultValueHandler</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a126229cbaa416cbaa27308d3fb66568d">default_handler_</a></td></tr>
+<tr class="separator:a126229cbaa416cbaa27308d3fb66568d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9a3f4aa262224e9e6257490602bce9a" id="r_ac9a3f4aa262224e9e6257490602bce9a"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#ac9a3f4aa262224e9e6257490602bce9a">storage_engine_</a></td></tr>
+<tr class="separator:ac9a3f4aa262224e9e6257490602bce9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb0be9f555916bff0437601eef9747d5" id="r_acb0be9f555916bff0437601eef9747d5"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#acb0be9f555916bff0437601eef9747d5">transaction_manager_</a></td></tr>
+<tr class="separator:acb0be9f555916bff0437601eef9747d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6b8028f8257e1fc1aad92d8d3cebc26" id="r_ac6b8028f8257e1fc1aad92d8d3cebc26"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::vector&lt; <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#ac6b8028f8257e1fc1aad92d8d3cebc26">table_constraints_</a></td></tr>
+<tr class="separator:ac6b8028f8257e1fc1aad92d8d3cebc26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6194a97554b61bfe2f678df2ec9f9768" id="r_a6194a97554b61bfe2f678df2ec9f9768"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1IntegrityValidationConfig.html">IntegrityValidationConfig</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a6194a97554b61bfe2f678df2ec9f9768">config_</a></td></tr>
+<tr class="separator:a6194a97554b61bfe2f678df2ec9f9768"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f7b9ef56acf66d52b879d2d8e98eaed" id="r_a7f7b9ef56acf66d52b879d2d8e98eaed"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a7f7b9ef56acf66d52b879d2d8e98eaed">stats_mutex_</a></td></tr>
+<tr class="separator:a7f7b9ef56acf66d52b879d2d8e98eaed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e7b0ad4e4733faea3eb32a19b3caaa1" id="r_a6e7b0ad4e4733faea3eb32a19b3caaa1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1DataIntegrityValidator_1_1IntegrityStats.html">IntegrityStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#a6e7b0ad4e4733faea3eb32a19b3caaa1">stats_</a></td></tr>
+<tr class="separator:a6e7b0ad4e4733faea3eb32a19b3caaa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6c4245fbb936ca71d77c1d906dd21ab" id="r_ad6c4245fbb936ca71d77c1d906dd21ab"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#ad6c4245fbb936ca71d77c1d906dd21ab">validation_times_</a></td></tr>
+<tr class="separator:ad6c4245fbb936ca71d77c1d906dd21ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a526f5db1b95180c8de8f9b1d6bb39622" name="a526f5db1b95180c8de8f9b1d6bb39622"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a526f5db1b95180c8de8f9b1d6bb39622">&#9670;&#160;</a></span>DataIntegrityValidator() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::DataIntegrityValidator::DataIntegrityValidator </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td>
+          <td class="paramname"><em>storage_engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>transaction_manager</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6cde9f35378e3a84d1e0bfe46d050b42" name="a6cde9f35378e3a84d1e0bfe46d050b42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cde9f35378e3a84d1e0bfe46d050b42">&#9670;&#160;</a></span>~DataIntegrityValidator() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::DataIntegrityValidator::~DataIntegrityValidator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a526f5db1b95180c8de8f9b1d6bb39622" name="a526f5db1b95180c8de8f9b1d6bb39622"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a526f5db1b95180c8de8f9b1d6bb39622">&#9670;&#160;</a></span>DataIntegrityValidator() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::DataIntegrityValidator::DataIntegrityValidator </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td>
+          <td class="paramname"><em>storage_engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>transaction_manager</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6cde9f35378e3a84d1e0bfe46d050b42" name="a6cde9f35378e3a84d1e0bfe46d050b42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cde9f35378e3a84d1e0bfe46d050b42">&#9670;&#160;</a></span>~DataIntegrityValidator() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::DataIntegrityValidator::~DataIntegrityValidator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a7ae8ad97fd9031dee8759214b2f63d2b" name="a7ae8ad97fd9031dee8759214b2f63d2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ae8ad97fd9031dee8759214b2f63d2b">&#9670;&#160;</a></span>AddConstraint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DataIntegrityValidator::AddConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> &amp;&#160;</td>
+          <td class="paramname"><em>rule</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7ae8ad97fd9031dee8759214b2f63d2b" name="a7ae8ad97fd9031dee8759214b2f63d2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ae8ad97fd9031dee8759214b2f63d2b">&#9670;&#160;</a></span>AddConstraint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DataIntegrityValidator::AddConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> &amp;&#160;</td>
+          <td class="paramname"><em>rule</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aab1d00d007da2cb4ba807838227ed0a7" name="aab1d00d007da2cb4ba807838227ed0a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab1d00d007da2cb4ba807838227ed0a7">&#9670;&#160;</a></span>DisableConstraint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DataIntegrityValidator::DisableConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aab1d00d007da2cb4ba807838227ed0a7" name="aab1d00d007da2cb4ba807838227ed0a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab1d00d007da2cb4ba807838227ed0a7">&#9670;&#160;</a></span>DisableConstraint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DataIntegrityValidator::DisableConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78b3b798d24e6c4027a005953c738ca2" name="a78b3b798d24e6c4027a005953c738ca2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78b3b798d24e6c4027a005953c738ca2">&#9670;&#160;</a></span>EnableConstraint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DataIntegrityValidator::EnableConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78b3b798d24e6c4027a005953c738ca2" name="a78b3b798d24e6c4027a005953c738ca2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78b3b798d24e6c4027a005953c738ca2">&#9670;&#160;</a></span>EnableConstraint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DataIntegrityValidator::EnableConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aac421943dcf86286a5d226d0d80aabed" name="aac421943dcf86286a5d226d0d80aabed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac421943dcf86286a5d226d0d80aabed">&#9670;&#160;</a></span>GenerateConstraintKey() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::DataIntegrityValidator::GenerateConstraintKey </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aac421943dcf86286a5d226d0d80aabed" name="aac421943dcf86286a5d226d0d80aabed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac421943dcf86286a5d226d0d80aabed">&#9670;&#160;</a></span>GenerateConstraintKey() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::DataIntegrityValidator::GenerateConstraintKey </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaaa84b4acd54962623666878620be842" name="aaaa84b4acd54962623666878620be842"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaa84b4acd54962623666878620be842">&#9670;&#160;</a></span>GetColumnConstraints() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> &gt; sqlcc::DataIntegrityValidator::GetColumnConstraints </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>column_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaaa84b4acd54962623666878620be842" name="aaaa84b4acd54962623666878620be842"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaa84b4acd54962623666878620be842">&#9670;&#160;</a></span>GetColumnConstraints() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> &gt; sqlcc::DataIntegrityValidator::GetColumnConstraints </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>column_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4a4b220f3a69862253e76451534b4373" name="a4a4b220f3a69862253e76451534b4373"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a4b220f3a69862253e76451534b4373">&#9670;&#160;</a></span>GetConstraint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> * sqlcc::DataIntegrityValidator::GetConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4a4b220f3a69862253e76451534b4373" name="a4a4b220f3a69862253e76451534b4373"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a4b220f3a69862253e76451534b4373">&#9670;&#160;</a></span>GetConstraint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> * sqlcc::DataIntegrityValidator::GetConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abbae3206695df4103eaf96c752dc63e7" name="abbae3206695df4103eaf96c752dc63e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbae3206695df4103eaf96c752dc63e7">&#9670;&#160;</a></span>GetIntegrityStats() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1DataIntegrityValidator_1_1IntegrityStats.html">DataIntegrityValidator::IntegrityStats</a> sqlcc::DataIntegrityValidator::GetIntegrityStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae4ef6d22e4a91797402348c610ac369d" name="ae4ef6d22e4a91797402348c610ac369d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4ef6d22e4a91797402348c610ac369d">&#9670;&#160;</a></span>GetIntegrityStats() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1DataIntegrityValidator_1_1IntegrityStats.html">IntegrityStats</a> sqlcc::DataIntegrityValidator::GetIntegrityStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aea14307c97e824d76caf996067dcce93" name="aea14307c97e824d76caf996067dcce93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea14307c97e824d76caf996067dcce93">&#9670;&#160;</a></span>GetTableConstraints() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> &gt; sqlcc::DataIntegrityValidator::GetTableConstraints </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aea14307c97e824d76caf996067dcce93" name="aea14307c97e824d76caf996067dcce93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea14307c97e824d76caf996067dcce93">&#9670;&#160;</a></span>GetTableConstraints() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> &gt; sqlcc::DataIntegrityValidator::GetTableConstraints </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa972e399925bb47877882fa966244f46" name="aa972e399925bb47877882fa966244f46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa972e399925bb47877882fa966244f46">&#9670;&#160;</a></span>GetValidationConfig() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structsqlcc_1_1IntegrityValidationConfig.html">IntegrityValidationConfig</a> &amp; sqlcc::DataIntegrityValidator::GetValidationConfig </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa972e399925bb47877882fa966244f46" name="aa972e399925bb47877882fa966244f46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa972e399925bb47877882fa966244f46">&#9670;&#160;</a></span>GetValidationConfig() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structsqlcc_1_1IntegrityValidationConfig.html">IntegrityValidationConfig</a> &amp; sqlcc::DataIntegrityValidator::GetValidationConfig </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acce0343e095da5fbfdc20d751663e0b5" name="acce0343e095da5fbfdc20d751663e0b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acce0343e095da5fbfdc20d751663e0b5">&#9670;&#160;</a></span>RemoveConstraint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DataIntegrityValidator::RemoveConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acce0343e095da5fbfdc20d751663e0b5" name="acce0343e095da5fbfdc20d751663e0b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acce0343e095da5fbfdc20d751663e0b5">&#9670;&#160;</a></span>RemoveConstraint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DataIntegrityValidator::RemoveConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6a1e3963a94f4fbc2c1f68a969711f60" name="a6a1e3963a94f4fbc2c1f68a969711f60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a1e3963a94f4fbc2c1f68a969711f60">&#9670;&#160;</a></span>SetValidationConfig() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DataIntegrityValidator::SetValidationConfig </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1IntegrityValidationConfig.html">IntegrityValidationConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>config</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6a1e3963a94f4fbc2c1f68a969711f60" name="a6a1e3963a94f4fbc2c1f68a969711f60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a1e3963a94f4fbc2c1f68a969711f60">&#9670;&#160;</a></span>SetValidationConfig() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DataIntegrityValidator::SetValidationConfig </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1IntegrityValidationConfig.html">IntegrityValidationConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>config</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aee8eb1fafae28a389a3c47474c1396c6" name="aee8eb1fafae28a389a3c47474c1396c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee8eb1fafae28a389a3c47474c1396c6">&#9670;&#160;</a></span>UpdateIntegrityStats() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DataIntegrityValidator::UpdateIntegrityStats </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::microseconds&#160;</td>
+          <td class="paramname"><em>duration</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aee8eb1fafae28a389a3c47474c1396c6" name="aee8eb1fafae28a389a3c47474c1396c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee8eb1fafae28a389a3c47474c1396c6">&#9670;&#160;</a></span>UpdateIntegrityStats() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DataIntegrityValidator::UpdateIntegrityStats </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::microseconds&#160;</td>
+          <td class="paramname"><em>duration</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9cc0df30a45fc85e6978b40760656456" name="a9cc0df30a45fc85e6978b40760656456"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cc0df30a45fc85e6978b40760656456">&#9670;&#160;</a></span>ValidateCheckConstraints() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> sqlcc::DataIntegrityValidator::ValidateCheckConstraints </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9cc0df30a45fc85e6978b40760656456" name="a9cc0df30a45fc85e6978b40760656456"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cc0df30a45fc85e6978b40760656456">&#9670;&#160;</a></span>ValidateCheckConstraints() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> sqlcc::DataIntegrityValidator::ValidateCheckConstraints </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a67bf22ad32e13870afa92e53ccf1b7b2" name="a67bf22ad32e13870afa92e53ccf1b7b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67bf22ad32e13870afa92e53ccf1b7b2">&#9670;&#160;</a></span>ValidateConstraints() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> sqlcc::DataIntegrityValidator::ValidateConstraints </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_types</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em> = <code>-1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a67bf22ad32e13870afa92e53ccf1b7b2" name="a67bf22ad32e13870afa92e53ccf1b7b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67bf22ad32e13870afa92e53ccf1b7b2">&#9670;&#160;</a></span>ValidateConstraints() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> sqlcc::DataIntegrityValidator::ValidateConstraints </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_types</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em> = <code>-1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a353a1b53f95cb854c5bed89eaa3861c0" name="a353a1b53f95cb854c5bed89eaa3861c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a353a1b53f95cb854c5bed89eaa3861c0">&#9670;&#160;</a></span>ValidateConstraintsBatch() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> &gt; sqlcc::DataIntegrityValidator::ValidateConstraintsBatch </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>record_batch</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a353a1b53f95cb854c5bed89eaa3861c0" name="a353a1b53f95cb854c5bed89eaa3861c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a353a1b53f95cb854c5bed89eaa3861c0">&#9670;&#160;</a></span>ValidateConstraintsBatch() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> &gt; sqlcc::DataIntegrityValidator::ValidateConstraintsBatch </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>record_batch</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a32fe144423c8662ecea77d854df43cd3" name="a32fe144423c8662ecea77d854df43cd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32fe144423c8662ecea77d854df43cd3">&#9670;&#160;</a></span>ValidateForeignKeyConstraints() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> sqlcc::DataIntegrityValidator::ValidateForeignKeyConstraints </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a32fe144423c8662ecea77d854df43cd3" name="a32fe144423c8662ecea77d854df43cd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32fe144423c8662ecea77d854df43cd3">&#9670;&#160;</a></span>ValidateForeignKeyConstraints() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> sqlcc::DataIntegrityValidator::ValidateForeignKeyConstraints </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1d2c515aa8450c5e29917a5b5077f8ef" name="a1d2c515aa8450c5e29917a5b5077f8ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d2c515aa8450c5e29917a5b5077f8ef">&#9670;&#160;</a></span>ValidateNotNullConstraints() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> sqlcc::DataIntegrityValidator::ValidateNotNullConstraints </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1d2c515aa8450c5e29917a5b5077f8ef" name="a1d2c515aa8450c5e29917a5b5077f8ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d2c515aa8450c5e29917a5b5077f8ef">&#9670;&#160;</a></span>ValidateNotNullConstraints() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> sqlcc::DataIntegrityValidator::ValidateNotNullConstraints </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a157cb016c8c262419af1e7eb141b62fb" name="a157cb016c8c262419af1e7eb141b62fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a157cb016c8c262419af1e7eb141b62fb">&#9670;&#160;</a></span>ValidateUniqueConstraints() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> sqlcc::DataIntegrityValidator::ValidateUniqueConstraints </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a157cb016c8c262419af1e7eb141b62fb" name="a157cb016c8c262419af1e7eb141b62fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a157cb016c8c262419af1e7eb141b62fb">&#9670;&#160;</a></span>ValidateUniqueConstraints() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a5645daefac8419accf66c2813d0e2a5b">ConstraintValidationResult</a> sqlcc::DataIntegrityValidator::ValidateUniqueConstraints </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a0dd7654b98209ab7507955b5af96fdba" name="a0dd7654b98209ab7507955b5af96fdba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dd7654b98209ab7507955b5af96fdba">&#9670;&#160;</a></span>check_parser_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html">CheckConstraintParser</a> sqlcc::DataIntegrityValidator::check_parser_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6194a97554b61bfe2f678df2ec9f9768" name="a6194a97554b61bfe2f678df2ec9f9768"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6194a97554b61bfe2f678df2ec9f9768">&#9670;&#160;</a></span>config_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1IntegrityValidationConfig.html">IntegrityValidationConfig</a> sqlcc::DataIntegrityValidator::config_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a126229cbaa416cbaa27308d3fb66568d" name="a126229cbaa416cbaa27308d3fb66568d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a126229cbaa416cbaa27308d3fb66568d">&#9670;&#160;</a></span>default_handler_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1DefaultValueHandler.html">DefaultValueHandler</a> sqlcc::DataIntegrityValidator::default_handler_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a98dcb531324c6d064a3c95a6be7ca247" name="a98dcb531324c6d064a3c95a6be7ca247"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98dcb531324c6d064a3c95a6be7ca247">&#9670;&#160;</a></span>fk_validator_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ForeignKeyValidator.html">ForeignKeyValidator</a> sqlcc::DataIntegrityValidator::fk_validator_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6e7b0ad4e4733faea3eb32a19b3caaa1" name="a6e7b0ad4e4733faea3eb32a19b3caaa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e7b0ad4e4733faea3eb32a19b3caaa1">&#9670;&#160;</a></span>stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1DataIntegrityValidator_1_1IntegrityStats.html">IntegrityStats</a> sqlcc::DataIntegrityValidator::stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7f7b9ef56acf66d52b879d2d8e98eaed" name="a7f7b9ef56acf66d52b879d2d8e98eaed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f7b9ef56acf66d52b879d2d8e98eaed">&#9670;&#160;</a></span>stats_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::DataIntegrityValidator::stats_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac9a3f4aa262224e9e6257490602bce9a" name="ac9a3f4aa262224e9e6257490602bce9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9a3f4aa262224e9e6257490602bce9a">&#9670;&#160;</a></span>storage_engine_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; sqlcc::DataIntegrityValidator::storage_engine_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac6b8028f8257e1fc1aad92d8d3cebc26" name="ac6b8028f8257e1fc1aad92d8d3cebc26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6b8028f8257e1fc1aad92d8d3cebc26">&#9670;&#160;</a></span>table_constraints_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; std::string, std::vector&lt; <a class="el" href="structsqlcc_1_1ConstraintRule.html">ConstraintRule</a> &gt; &gt; sqlcc::DataIntegrityValidator::table_constraints_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acb0be9f555916bff0437601eef9747d5" name="acb0be9f555916bff0437601eef9747d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb0be9f555916bff0437601eef9747d5">&#9670;&#160;</a></span>transaction_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt; sqlcc::DataIntegrityValidator::transaction_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3d22dd02669eb2da9c1512e5384b84ea" name="a3d22dd02669eb2da9c1512e5384b84ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d22dd02669eb2da9c1512e5384b84ea">&#9670;&#160;</a></span>unique_validator_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1UniqueConstraintValidator.html">UniqueConstraintValidator</a> sqlcc::DataIntegrityValidator::unique_validator_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad6c4245fbb936ca71d77c1d906dd21ab" name="ad6c4245fbb936ca71d77c1d906dd21ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6c4245fbb936ca71d77c1d906dd21ab">&#9670;&#160;</a></span>validation_times_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; double &gt; sqlcc::DataIntegrityValidator::validation_times_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage_2data__integrity__validator_8h_source.html">storage/data_integrity_validator.h</a></li>
+<li><a class="el" href="storage__engine_2data__integrity__validator_8h_source.html">storage_engine/data_integrity_validator.h</a></li>
+<li><a class="el" href="data__integrity__validator_8cpp.html">data_integrity_validator.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: dml_execution_strategy.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bd0755c95a42e835fb06f38bbeb1d6ed.html">execution</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">dml_execution_strategy.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="dml__execution__strategy_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span><span class="preprocessor">#ifndef SQLCC_EXECUTION_DML_EXECUTION_STRATEGY_H</span></div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span><span class="preprocessor">#define SQLCC_EXECUTION_DML_EXECUTION_STRATEGY_H</span></div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="preprocessor">#include &quot;../sql_parser/ast/ast_node.h&quot;</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="preprocessor">#include &quot;../sql_parser/ast/ast_nodes.h&quot;</span></div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span> </div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span><span class="preprocessor">#include &quot;../core/execution_result.h&quot;</span></div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span><span class="preprocessor">#include &quot;<a class="code" href="execution_2execution__strategy_8h.html">execution_strategy.h</a>&quot;</span></div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span><span class="preprocessor">#include &quot;../core/execution_context.h&quot;</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span> </div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span> </div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span><span class="keyword">struct </span>TableMetadata;</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span> </div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span><span class="comment">// DML执行策略类</span></div>
+<div class="foldopen" id="foldopen00257" data-start="{" data-end="};">
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DMLExecutionStrategy.html">  257</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1DMLExecutionStrategy.html">DMLExecutionStrategy</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1ExecutionStrategy.html">ExecutionStrategy</a> {</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DMLExecutionStrategy.html#ace730a6fa2c65a40306583130ccabeeb">  259</a></span>    <a class="code hl_function" href="classsqlcc_1_1DMLExecutionStrategy.html#ace730a6fa2c65a40306583130ccabeeb">DMLExecutionStrategy</a>();</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DMLExecutionStrategy.html#a5c58ba55f794e1d700b95eba80750e7d">  260</a></span>    <a class="code hl_function" href="classsqlcc_1_1DMLExecutionStrategy.html#a5c58ba55f794e1d700b95eba80750e7d">~DMLExecutionStrategy</a>() <span class="keyword">override</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span> </div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> <a class="code hl_function" href="classsqlcc_1_1DMLExecutionStrategy.html#a08f6a6205ea65e0b2b216e1c842e8e2d">execute</a>(std::unique_ptr&lt;sql_parser::Statement&gt; stmt,</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>                           <a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1DMLExecutionStrategy.html#aac562ac815f1683a78eaa10488a4cef2">checkPermission</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a>&amp; stmt,</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>                        <span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1DMLExecutionStrategy.html#afa9d83a3d6aceb7fac4fabb8d45fac14">validate</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a>&amp; stmt,</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>                 <span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DMLExecutionStrategy.html#a75d4b95201c9d5331fe97cf7ef3c349b">  268</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1DMLExecutionStrategy.html#a75d4b95201c9d5331fe97cf7ef3c349b">getStrategyName</a>()<span class="keyword"> const override </span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;DMLExecutionStrategy&quot;</span>; }</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span> </div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> <a class="code hl_function" href="classsqlcc_1_1DMLExecutionStrategy.html#a69f872b42717954dfb76ef24e8e4b869">executeInsert</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1InsertStatement.html">sql_parser::InsertStatement</a>&amp; stmt,</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>                                 <a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context);</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> <a class="code hl_function" href="classsqlcc_1_1DMLExecutionStrategy.html#a8051e96817f0b981ab8171f72b5ea66e">executeUpdate</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1UpdateStatement.html">sql_parser::UpdateStatement</a>&amp; stmt,</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>                                 <a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context);</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> <a class="code hl_function" href="classsqlcc_1_1DMLExecutionStrategy.html#ad61cd2e6ad6bd83ebef327c917f9b7cb">executeDelete</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1DeleteStatement.html">sql_parser::DeleteStatement</a>&amp; stmt,</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>                                 <a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context);</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> <a class="code hl_function" href="classsqlcc_1_1DMLExecutionStrategy.html#a11f85176c95dab1571c55f1f7975c571">executeSelect</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a>&amp; stmt,</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>                                 <a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context);</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> <a class="code hl_function" href="classsqlcc_1_1DMLExecutionStrategy.html#adde2fa0d9c2a54713159068e017a2727">executeJoinSelect</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a>&amp; stmt,</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>                                     <a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context);</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> <a class="code hl_function" href="classsqlcc_1_1DMLExecutionStrategy.html#a8aa099ff8c7acd4c3ff975129422560e">executeGroupBySelect</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a>&amp; stmt,</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>                                        <a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context);</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> <a class="code hl_function" href="classsqlcc_1_1DMLExecutionStrategy.html#a211ede1693ce99d68711c32b76396f84">executeAggregateSelect</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a>&amp; stmt,</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>                                          <a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context);</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>    <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> <a class="code hl_function" href="classsqlcc_1_1DMLExecutionStrategy.html#ab31e5f34a768ba4b4aecf614034a7264">executeSimpleSelect</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a>&amp; stmt,</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>                                       <a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context);</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>};</div>
+</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span> </div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span> </div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_EXECUTION_DML_EXECUTION_STRATEGY_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html">sqlcc::DMLExecutionStrategy</a></div><div class="ttdoc">Concrete Strategy for handling Data Manipulation Language (DML) statements. Responsible for SELECT,...</div><div class="ttdef"><b>Definition</b> dml_execution_strategy.h:257</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html_a08f6a6205ea65e0b2b216e1c842e8e2d"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html#a08f6a6205ea65e0b2b216e1c842e8e2d">sqlcc::DMLExecutionStrategy::execute</a></div><div class="ttdeci">ExecutionResult execute(std::unique_ptr&lt; sql_parser::Statement &gt; stmt, ExecutionContext &amp;context) override</div><div class="ttdef"><b>Definition</b> dml_execution_strategy.cpp:14</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html_a11f85176c95dab1571c55f1f7975c571"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html#a11f85176c95dab1571c55f1f7975c571">sqlcc::DMLExecutionStrategy::executeSelect</a></div><div class="ttdeci">ExecutionResult executeSelect(const sql_parser::SelectStatement &amp;stmt, ExecutionContext &amp;context)</div><div class="ttdef"><b>Definition</b> dml_execution_strategy.cpp:172</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html_a211ede1693ce99d68711c32b76396f84"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html#a211ede1693ce99d68711c32b76396f84">sqlcc::DMLExecutionStrategy::executeAggregateSelect</a></div><div class="ttdeci">ExecutionResult executeAggregateSelect(const sql_parser::SelectStatement &amp;stmt, ExecutionContext &amp;context)</div><div class="ttdef"><b>Definition</b> dml_execution_strategy.cpp:225</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html_a5c58ba55f794e1d700b95eba80750e7d"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html#a5c58ba55f794e1d700b95eba80750e7d">sqlcc::DMLExecutionStrategy::~DMLExecutionStrategy</a></div><div class="ttdeci">~DMLExecutionStrategy() override=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html_a69f872b42717954dfb76ef24e8e4b869"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html#a69f872b42717954dfb76ef24e8e4b869">sqlcc::DMLExecutionStrategy::executeInsert</a></div><div class="ttdeci">ExecutionResult executeInsert(const sql_parser::InsertStatement &amp;stmt, ExecutionContext &amp;context)</div><div class="ttdef"><b>Definition</b> dml_execution_strategy.cpp:121</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html_a75d4b95201c9d5331fe97cf7ef3c349b"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html#a75d4b95201c9d5331fe97cf7ef3c349b">sqlcc::DMLExecutionStrategy::getStrategyName</a></div><div class="ttdeci">std::string getStrategyName() const override</div><div class="ttdef"><b>Definition</b> dml_execution_strategy.h:268</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html_a8051e96817f0b981ab8171f72b5ea66e"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html#a8051e96817f0b981ab8171f72b5ea66e">sqlcc::DMLExecutionStrategy::executeUpdate</a></div><div class="ttdeci">ExecutionResult executeUpdate(const sql_parser::UpdateStatement &amp;stmt, ExecutionContext &amp;context)</div><div class="ttdef"><b>Definition</b> dml_execution_strategy.cpp:138</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html_a8aa099ff8c7acd4c3ff975129422560e"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html#a8aa099ff8c7acd4c3ff975129422560e">sqlcc::DMLExecutionStrategy::executeGroupBySelect</a></div><div class="ttdeci">ExecutionResult executeGroupBySelect(const sql_parser::SelectStatement &amp;stmt, ExecutionContext &amp;context)</div><div class="ttdef"><b>Definition</b> dml_execution_strategy.cpp:208</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html_aac562ac815f1683a78eaa10488a4cef2"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html#aac562ac815f1683a78eaa10488a4cef2">sqlcc::DMLExecutionStrategy::checkPermission</a></div><div class="ttdeci">bool checkPermission(const sql_parser::Statement &amp;stmt, const ExecutionContext &amp;context) override</div><div class="ttdef"><b>Definition</b> dml_execution_strategy.cpp:40</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html_ab31e5f34a768ba4b4aecf614034a7264"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html#ab31e5f34a768ba4b4aecf614034a7264">sqlcc::DMLExecutionStrategy::executeSimpleSelect</a></div><div class="ttdeci">ExecutionResult executeSimpleSelect(const sql_parser::SelectStatement &amp;stmt, ExecutionContext &amp;context)</div><div class="ttdef"><b>Definition</b> dml_execution_strategy.cpp:242</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html_ace730a6fa2c65a40306583130ccabeeb"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html#ace730a6fa2c65a40306583130ccabeeb">sqlcc::DMLExecutionStrategy::DMLExecutionStrategy</a></div><div class="ttdeci">DMLExecutionStrategy()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html_ad61cd2e6ad6bd83ebef327c917f9b7cb"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html#ad61cd2e6ad6bd83ebef327c917f9b7cb">sqlcc::DMLExecutionStrategy::executeDelete</a></div><div class="ttdeci">ExecutionResult executeDelete(const sql_parser::DeleteStatement &amp;stmt, ExecutionContext &amp;context)</div><div class="ttdef"><b>Definition</b> dml_execution_strategy.cpp:155</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html_adde2fa0d9c2a54713159068e017a2727"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html#adde2fa0d9c2a54713159068e017a2727">sqlcc::DMLExecutionStrategy::executeJoinSelect</a></div><div class="ttdeci">ExecutionResult executeJoinSelect(const sql_parser::SelectStatement &amp;stmt, ExecutionContext &amp;context)</div><div class="ttdef"><b>Definition</b> dml_execution_strategy.cpp:191</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DMLExecutionStrategy_html_afa9d83a3d6aceb7fac4fabb8d45fac14"><div class="ttname"><a href="classsqlcc_1_1DMLExecutionStrategy.html#afa9d83a3d6aceb7fac4fabb8d45fac14">sqlcc::DMLExecutionStrategy::validate</a></div><div class="ttdeci">bool validate(const sql_parser::Statement &amp;stmt, const ExecutionContext &amp;context) override</div><div class="ttdef"><b>Definition</b> dml_execution_strategy.cpp:61</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ExecutionContext_html"><div class="ttname"><a href="classsqlcc_1_1ExecutionContext.html">sqlcc::ExecutionContext</a></div><div class="ttdef"><b>Definition</b> execution_context.h:162</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ExecutionStrategy_html"><div class="ttname"><a href="classsqlcc_1_1ExecutionStrategy.html">sqlcc::ExecutionStrategy</a></div><div class="ttdoc">The abstract &quot;Strategy&quot; interface for executing different categories of SQL statements.</div><div class="ttdef"><b>Definition</b> execution/execution_strategy.h:224</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DeleteStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DeleteStatement.html">sqlcc::sql_parser::DeleteStatement</a></div><div class="ttdef"><b>Definition</b> ast_dml_nodes.h:190</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1InsertStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1InsertStatement.html">sqlcc::sql_parser::InsertStatement</a></div><div class="ttdef"><b>Definition</b> ast_dml_nodes.h:132</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SelectStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sqlcc::sql_parser::SelectStatement</a></div><div class="ttdef"><b>Definition</b> ast_dml_nodes.h:78</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Statement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Statement.html">sqlcc::sql_parser::Statement</a></div><div class="ttdef"><b>Definition</b> statement.h:11</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1UpdateStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1UpdateStatement.html">sqlcc::sql_parser::UpdateStatement</a></div><div class="ttdef"><b>Definition</b> ast_dml_nodes.h:165</div></div>
+<div class="ttc" id="aexecution_2execution__strategy_8h_html"><div class="ttname"><a href="execution_2execution__strategy_8h.html">execution_strategy.h</a></div><div class="ttdoc">执行策略基类头文件</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html">sqlcc::ExecutionResult</a></div><div class="ttdoc">执行结果结构体 用于表示SQL查询的执行结果</div><div class="ttdef"><b>Definition</b> execution_result.h:178</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

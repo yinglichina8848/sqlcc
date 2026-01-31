@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: prefetcher.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li><li class="navelem"><a class="el" href="dir_7f0a8dd1fe8e7e8a706b487bbe8b773b.html">buffer_pool</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">storage_engine/buffer_pool/prefetcher.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="storage__engine_2buffer__pool_2prefetcher_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;condition_variable&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;queue&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;../../storage/disk_manager.h&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;../../page/page.h&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;../../utils/config_manager.h&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">struct </span>PrefetchRequest {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  int32_t <a class="code hl_variable" href="structsqlcc_1_1PrefetchRequest.html#a2f152d26aeb486f76d5f604f662fc07c">page_id</a>;                                    <span class="comment">// 页面ID</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>  int32_t <a class="code hl_variable" href="structsqlcc_1_1PrefetchRequest.html#a27a53e7f9d6a254824a1c456a6860a11">transaction_id</a>;                             <span class="comment">// 事务ID</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  std::chrono::steady_clock::time_point <a class="code hl_variable" href="structsqlcc_1_1PrefetchRequest.html#a62f3ebe1b4835346f6ecba7e03871a49">request_time</a>; <span class="comment">// 请求时间</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>  <span class="keywordtype">int</span> <a class="code hl_variable" href="structsqlcc_1_1PrefetchRequest.html#a8dcd992f4b29a5e43966742242ad4aa2">priority</a>;                                       <span class="comment">// 优先级</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="}">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="structsqlcc_1_1PrefetchRequest.html#a0829bc4332f2bed974db491a8e4e8f44">   27</a></span>  <a class="code hl_function" href="structsqlcc_1_1PrefetchRequest.html#a0829bc4332f2bed974db491a8e4e8f44">PrefetchRequest</a>(int32_t pid, int32_t tid, <span class="keywordtype">int</span> p = 0)</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>      : <a class="code hl_variable" href="structsqlcc_1_1PrefetchRequest.html#a2f152d26aeb486f76d5f604f662fc07c">page_id</a>(pid), <a class="code hl_variable" href="structsqlcc_1_1PrefetchRequest.html#a27a53e7f9d6a254824a1c456a6860a11">transaction_id</a>(tid), <a class="code hl_variable" href="structsqlcc_1_1PrefetchRequest.html#a8dcd992f4b29a5e43966742242ad4aa2">priority</a>(p),</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <a class="code hl_variable" href="structsqlcc_1_1PrefetchRequest.html#a62f3ebe1b4835346f6ecba7e03871a49">request_time</a>(std::chrono::steady_clock::now()) {}</div>
+</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <span class="comment">// 比较操作符，用于优先级队列</span></div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="}">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="structsqlcc_1_1PrefetchRequest.html#a1816dd8bad3cf6e382e72d6ccdcbf1a0">   32</a></span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="structsqlcc_1_1PrefetchRequest.html#a1816dd8bad3cf6e382e72d6ccdcbf1a0">operator&lt;</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1PrefetchRequest.html">PrefetchRequest</a> &amp;other)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="comment">// 优先级高的排在前面</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="structsqlcc_1_1PrefetchRequest.html#a8dcd992f4b29a5e43966742242ad4aa2">priority</a> != other.priority) {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>      <span class="keywordflow">return</span> <a class="code hl_variable" href="structsqlcc_1_1PrefetchRequest.html#a8dcd992f4b29a5e43966742242ad4aa2">priority</a> &lt; other.priority;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    }</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="comment">// 优先级相同，请求时间早的排在前面</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="structsqlcc_1_1PrefetchRequest.html#a62f3ebe1b4835346f6ecba7e03871a49">request_time</a> &gt; other.request_time;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  }</div>
+</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>};</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">class </span>Prefetcher {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  <span class="keyword">struct </span>PrefetcherStats {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a2c6c3e9c33e1dd67272608464a47bec6">total_prefetches</a>{0};        <span class="comment">// 总预取次数</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a0ad287beafc70cad74e38a35e3d98b1c">successful_prefetches</a>{0};   <span class="comment">// 成功预取次数</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#abffdcf0c75e0b6c044ce8e5bf6f5b8ab">hit_prefetches</a>{0};          <span class="comment">// 预取命中次数</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a21f717706a483358db46130c1b2538c5">wasted_prefetches</a>{0};       <span class="comment">// 浪费的预取次数</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    std::chrono::microseconds <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#ae8a7e9a03df68574a60845e8cea752b7">avg_prefetch_time</a>{0}; <span class="comment">// 平均预取时间</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="comment">// 默认构造函数</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#afe290042efcf13c579faaf0667b22775">   60</a></span>    <a class="code hl_function" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#afe290042efcf13c579faaf0667b22775">PrefetcherStats</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="comment">// 拷贝构造函数（需要处理原子变量的不可拷贝性）</span></div>
+<div class="foldopen" id="foldopen00063" data-start="{" data-end="}">
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a07541b7a12f4fef25158fdb108bf3e9d">   63</a></span>    <a class="code hl_function" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a07541b7a12f4fef25158fdb108bf3e9d">PrefetcherStats</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a> &amp;other) {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>      <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a2c6c3e9c33e1dd67272608464a47bec6">total_prefetches</a>.store(other.total_prefetches.load());</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>      <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a0ad287beafc70cad74e38a35e3d98b1c">successful_prefetches</a>.store(other.successful_prefetches.load());</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>      <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#abffdcf0c75e0b6c044ce8e5bf6f5b8ab">hit_prefetches</a>.store(other.hit_prefetches.load());</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>      <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a21f717706a483358db46130c1b2538c5">wasted_prefetches</a>.store(other.wasted_prefetches.load());</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>      <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#ae8a7e9a03df68574a60845e8cea752b7">avg_prefetch_time</a> = other.avg_prefetch_time;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    }</div>
+</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="comment">// 移动构造函数</span></div>
+<div class="foldopen" id="foldopen00072" data-start="{" data-end="}">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#ae2c9f27691027f9b1e232caa78bbcff4">   72</a></span>    <a class="code hl_function" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#ae2c9f27691027f9b1e232caa78bbcff4">PrefetcherStats</a>(<a class="code hl_struct" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a> &amp;&amp;other) <span class="keyword">noexcept</span> {</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>      <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a2c6c3e9c33e1dd67272608464a47bec6">total_prefetches</a>.store(other.total_prefetches.load());</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>      <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a0ad287beafc70cad74e38a35e3d98b1c">successful_prefetches</a>.store(other.successful_prefetches.load());</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>      <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#abffdcf0c75e0b6c044ce8e5bf6f5b8ab">hit_prefetches</a>.store(other.hit_prefetches.load());</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>      <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a21f717706a483358db46130c1b2538c5">wasted_prefetches</a>.store(other.wasted_prefetches.load());</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>      <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#ae8a7e9a03df68574a60845e8cea752b7">avg_prefetch_time</a> = std::move(other.avg_prefetch_time);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    }</div>
+</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="comment">// 拷贝赋值操作符</span></div>
+<div class="foldopen" id="foldopen00081" data-start="{" data-end="}">
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a8208ac83f192dd1308dc91834d2ad85a">   81</a></span>    <a class="code hl_struct" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a> &amp;<a class="code hl_function" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a8208ac83f192dd1308dc91834d2ad85a">operator=</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a> &amp;other) {</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>      <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;other) {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a2c6c3e9c33e1dd67272608464a47bec6">total_prefetches</a>.store(other.total_prefetches.load());</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a0ad287beafc70cad74e38a35e3d98b1c">successful_prefetches</a>.store(other.successful_prefetches.load());</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#abffdcf0c75e0b6c044ce8e5bf6f5b8ab">hit_prefetches</a>.store(other.hit_prefetches.load());</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a21f717706a483358db46130c1b2538c5">wasted_prefetches</a>.store(other.wasted_prefetches.load());</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#ae8a7e9a03df68574a60845e8cea752b7">avg_prefetch_time</a> = other.avg_prefetch_time;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>      }</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>      <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    }</div>
+</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="comment">// 移动赋值操作符</span></div>
+<div class="foldopen" id="foldopen00093" data-start="{" data-end="}">
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#ab9906565d1b2b643eb647f6f31037999">   93</a></span>    <a class="code hl_struct" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a> &amp;<a class="code hl_function" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#ab9906565d1b2b643eb647f6f31037999">operator=</a>(<a class="code hl_struct" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a> &amp;&amp;other) <span class="keyword">noexcept</span> {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>      <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;other) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a2c6c3e9c33e1dd67272608464a47bec6">total_prefetches</a>.store(other.total_prefetches.load());</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a0ad287beafc70cad74e38a35e3d98b1c">successful_prefetches</a>.store(other.successful_prefetches.load());</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#abffdcf0c75e0b6c044ce8e5bf6f5b8ab">hit_prefetches</a>.store(other.hit_prefetches.load());</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a21f717706a483358db46130c1b2538c5">wasted_prefetches</a>.store(other.wasted_prefetches.load());</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#ae8a7e9a03df68574a60845e8cea752b7">avg_prefetch_time</a> = std::move(other.avg_prefetch_time);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>      }</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>      <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    }</div>
+</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="foldopen" id="foldopen00104" data-start="{" data-end="}">
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#aa101cf196f6678c2348577e50dcd4be9">  104</a></span>    <span class="keywordtype">double</span> <a class="code hl_function" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#aa101cf196f6678c2348577e50dcd4be9">hit_rate</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>      <span class="keywordtype">size_t</span> total = <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a0ad287beafc70cad74e38a35e3d98b1c">successful_prefetches</a>.load();</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>      <span class="keywordflow">return</span> total &gt; 0</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                 ? (<span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#abffdcf0c75e0b6c044ce8e5bf6f5b8ab">hit_prefetches</a>.load()) * 100.0) / total</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                 : 0.0;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    }</div>
+</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="foldopen" id="foldopen00111" data-start="{" data-end="}">
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a503e779a26bbe5e4c55119e75d7a2a35">  111</a></span>    <span class="keywordtype">double</span> <a class="code hl_function" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a503e779a26bbe5e4c55119e75d7a2a35">waste_rate</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>      <span class="keywordtype">size_t</span> total = <a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a0ad287beafc70cad74e38a35e3d98b1c">successful_prefetches</a>.load();</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>      <span class="keywordflow">return</span> total &gt; 0</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                 ? (<span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a21f717706a483358db46130c1b2538c5">wasted_prefetches</a>.load()) * 100.0) /</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                       total</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                 : 0.0;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    }</div>
+</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  };</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#a79fd1d607634c65ad461893f614ae5ae">  125</a></span>  <span class="keyword">explicit</span> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#a79fd1d607634c65ad461893f614ae5ae">Prefetcher</a>(<a class="code hl_class" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager, <a class="code hl_class" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;disk_manager);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#a39f0e38455bdd465d9df2ac144e5963f">  130</a></span>  <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#a39f0e38455bdd465d9df2ac144e5963f">~Prefetcher</a>();</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#a84caab77e5d76ea1abd85894a540eb57">  135</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#a84caab77e5d76ea1abd85894a540eb57">Start</a>();</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#aae47958f2e2ebdac7c0d077c4af82eae">  140</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#aae47958f2e2ebdac7c0d077c4af82eae">Stop</a>();</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#aba4deb3eb77db69650ab874e32a194bf">  147</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#aba4deb3eb77db69650ab874e32a194bf">NotifyPageAccess</a>(int32_t transaction_id, int32_t page_id);</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#a1280f4de6b3eab30fb796b34f55d33d5">  155</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#a1280f4de6b3eab30fb796b34f55d33d5">RequestPrefetch</a>(int32_t page_id, int32_t transaction_id = -1,</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>                       <span class="keywordtype">int</span> priority = 0);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#a826a0e5059ad7eb7e303cbd95a362ea7">  164</a></span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#a826a0e5059ad7eb7e303cbd95a362ea7">GetPrefetchedPage</a>(int32_t page_id, <a class="code hl_class" href="classsqlcc_1_1Page.html">Page</a> &amp;page);</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#aaa865535a9d022da72c77145ce9f9ed8">  170</a></span>  <a class="code hl_struct" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#aaa865535a9d022da72c77145ce9f9ed8">GetStats</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#af9e898175f5cebc2638bc76611ef14e2">  175</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#af9e898175f5cebc2638bc76611ef14e2">ResetStats</a>();</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#a0fdc0a72a2207f5eb097fa38e43eed7d">  181</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#a0fdc0a72a2207f5eb097fa38e43eed7d">SetEnabled</a>(<span class="keywordtype">bool</span> enabled);</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#ad7de5392c64f3b4063e9f17a82695c48">  187</a></span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#ad7de5392c64f3b4063e9f17a82695c48">IsEnabled</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#ad01dd71b88e8f5b17c95bb5af3bd497d">  193</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#ad01dd71b88e8f5b17c95bb5af3bd497d">PrefetchWorker</a>();</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#a931416d26a85a6db3708764138287021">  201</a></span>  std::vector&lt;int32_t&gt; <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#a931416d26a85a6db3708764138287021">PredictNextPages</a>(int32_t transaction_id,</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>                                        int32_t current_page_id);</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#a87af8f9acfb33439f937334ef36247cd">  209</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#a87af8f9acfb33439f937334ef36247cd">UpdateAccessHistory</a>(int32_t transaction_id, int32_t page_id);</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#a4b523876ed0415d2c8fbcdd8a7acac26">  216</a></span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#a4b523876ed0415d2c8fbcdd8a7acac26">DoPrefetch</a>(int32_t page_id);</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#a8e58737f4c7e7487cf83832a2cf29fd2">  221</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#a8e58737f4c7e7487cf83832a2cf29fd2">CleanupExpiredPages</a>();</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Prefetcher.html#a60cedd6cd7ff2ffce8060c9aedca7da2">  226</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Prefetcher.html#a60cedd6cd7ff2ffce8060c9aedca7da2">UpdateConfig</a>();</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>  <span class="comment">// 配置和依赖</span></div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>  <a class="code hl_class" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;<a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#a2cb9ee6848f70d8eb80e6db9e0591b8d">config_manager_</a>;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>  <a class="code hl_class" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;<a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#afcde6ef4a06803763b5be899fe96693b">disk_manager_</a>;</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span> </div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>  <span class="comment">// 预取缓存</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>  std::unordered_map&lt;int32_t, Page&gt; <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#a330181598914e196570bbb8845cbd47d">prefetch_cache_</a>;</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>  <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#a52ed94f6080dfe6321cd0c94b4501ef1">cache_mutex_</a>;</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>  <span class="comment">// 预取请求队列</span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>  std::priority_queue&lt;PrefetchRequest&gt; <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#a097e9e8bf9c4c55c33f94e4119918de5">prefetch_queue_</a>;</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>  <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#a1601c2c111dbca7ebb6103abc8bc23b0">queue_mutex_</a>;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>  std::condition_variable <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#a76608c2f72eb9ff58b287129ef644a37">queue_cv_</a>;</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span> </div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>  <span class="comment">// 访问历史</span></div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>  std::unordered_map&lt;int32_t, std::vector&lt;int32_t&gt;&gt; <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#a2ef089536c3e6c34b8edbd546bc6879c">access_history_</a>;</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>  <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#ab818252ecdc8659a96f360cc9ae79316">history_mutex_</a>;</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span> </div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>  <span class="comment">// 工作线程</span></div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>  std::thread <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#a6e69f887e30260be91952135192de722">worker_thread_</a>;</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>  std::atomic&lt;bool&gt; <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#aaebb6669659e2f8f20203562d45c6c9b">running_</a>;</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>  std::atomic&lt;bool&gt; <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#ad396ca09cfed00accdbbe0c27b55552e">enabled_</a>;</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>  <span class="comment">// 统计信息</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>  <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#a4e43236ae774d8e32ba2664226af8d89">stats_mutex_</a>;</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>  <a class="code hl_struct" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a> <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#a9359d31f246f8bec345e2b0329e9cb50">stats_</a>;</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span> </div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>  <span class="comment">// 配置参数</span></div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>  <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#aa46bf09639370fd7b2e3c9cf48b40528">max_cache_size_</a>;</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>  std::chrono::milliseconds <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#a4e525ddd0104f2da18e00094130f3786">prefetch_timeout_</a>;</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>  std::chrono::milliseconds <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#ac2ebcae4632d8561e502b4abb76f1925">cache_expire_time_</a>;</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>  <span class="keywordtype">int</span> <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#ae6654cdb04539e116beec0d73caf1c17">max_prefetch_distance_</a>;</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>  <span class="keywordtype">double</span> <a class="code hl_variable" href="classsqlcc_1_1Prefetcher.html#a854c409b2569474d8fed033c2c205385">prefetch_threshold_</a>;</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>};</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span> </div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigManager_html"><div class="ttname"><a href="classsqlcc_1_1ConfigManager.html">sqlcc::ConfigManager</a></div><div class="ttdef"><b>Definition</b> config_manager.h:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html">sqlcc::DiskManager</a></div><div class="ttdoc">磁盘管理器类</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:41</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Page_html"><div class="ttname"><a href="classsqlcc_1_1Page.html">sqlcc::Page</a></div><div class="ttdoc">数据库页面类，表示一个8KB的定长页面</div><div class="ttdef"><b>Definition</b> page.h:22</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a097e9e8bf9c4c55c33f94e4119918de5"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a097e9e8bf9c4c55c33f94e4119918de5">sqlcc::Prefetcher::prefetch_queue_</a></div><div class="ttdeci">std::priority_queue&lt; PrefetchRequest &gt; prefetch_queue_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:237</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a0fdc0a72a2207f5eb097fa38e43eed7d"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a0fdc0a72a2207f5eb097fa38e43eed7d">sqlcc::Prefetcher::SetEnabled</a></div><div class="ttdeci">void SetEnabled(bool enabled)</div><div class="ttdoc">设置是否启用</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a1280f4de6b3eab30fb796b34f55d33d5"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a1280f4de6b3eab30fb796b34f55d33d5">sqlcc::Prefetcher::RequestPrefetch</a></div><div class="ttdeci">void RequestPrefetch(int32_t page_id, int32_t transaction_id=-1, int priority=0)</div><div class="ttdoc">请求预取页面</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a1601c2c111dbca7ebb6103abc8bc23b0"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a1601c2c111dbca7ebb6103abc8bc23b0">sqlcc::Prefetcher::queue_mutex_</a></div><div class="ttdeci">std::mutex queue_mutex_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:238</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a2cb9ee6848f70d8eb80e6db9e0591b8d"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a2cb9ee6848f70d8eb80e6db9e0591b8d">sqlcc::Prefetcher::config_manager_</a></div><div class="ttdeci">ConfigManager &amp; config_manager_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:229</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a2ef089536c3e6c34b8edbd546bc6879c"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a2ef089536c3e6c34b8edbd546bc6879c">sqlcc::Prefetcher::access_history_</a></div><div class="ttdeci">std::unordered_map&lt; int32_t, std::vector&lt; int32_t &gt; &gt; access_history_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:242</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a330181598914e196570bbb8845cbd47d"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a330181598914e196570bbb8845cbd47d">sqlcc::Prefetcher::prefetch_cache_</a></div><div class="ttdeci">std::unordered_map&lt; int32_t, Page &gt; prefetch_cache_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:233</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a39f0e38455bdd465d9df2ac144e5963f"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a39f0e38455bdd465d9df2ac144e5963f">sqlcc::Prefetcher::~Prefetcher</a></div><div class="ttdeci">~Prefetcher()</div><div class="ttdoc">析构函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a4b523876ed0415d2c8fbcdd8a7acac26"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a4b523876ed0415d2c8fbcdd8a7acac26">sqlcc::Prefetcher::DoPrefetch</a></div><div class="ttdeci">bool DoPrefetch(int32_t page_id)</div><div class="ttdoc">执行预取</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a4e43236ae774d8e32ba2664226af8d89"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a4e43236ae774d8e32ba2664226af8d89">sqlcc::Prefetcher::stats_mutex_</a></div><div class="ttdeci">std::mutex stats_mutex_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:251</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a4e525ddd0104f2da18e00094130f3786"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a4e525ddd0104f2da18e00094130f3786">sqlcc::Prefetcher::prefetch_timeout_</a></div><div class="ttdeci">std::chrono::milliseconds prefetch_timeout_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:256</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a52ed94f6080dfe6321cd0c94b4501ef1"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a52ed94f6080dfe6321cd0c94b4501ef1">sqlcc::Prefetcher::cache_mutex_</a></div><div class="ttdeci">std::mutex cache_mutex_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:234</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a60cedd6cd7ff2ffce8060c9aedca7da2"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a60cedd6cd7ff2ffce8060c9aedca7da2">sqlcc::Prefetcher::UpdateConfig</a></div><div class="ttdeci">void UpdateConfig()</div><div class="ttdoc">更新配置参数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a6e69f887e30260be91952135192de722"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a6e69f887e30260be91952135192de722">sqlcc::Prefetcher::worker_thread_</a></div><div class="ttdeci">std::thread worker_thread_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:246</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a76608c2f72eb9ff58b287129ef644a37"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a76608c2f72eb9ff58b287129ef644a37">sqlcc::Prefetcher::queue_cv_</a></div><div class="ttdeci">std::condition_variable queue_cv_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:239</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a79fd1d607634c65ad461893f614ae5ae"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a79fd1d607634c65ad461893f614ae5ae">sqlcc::Prefetcher::Prefetcher</a></div><div class="ttdeci">Prefetcher(ConfigManager &amp;config_manager, DiskManager &amp;disk_manager)</div><div class="ttdoc">构造函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a826a0e5059ad7eb7e303cbd95a362ea7"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a826a0e5059ad7eb7e303cbd95a362ea7">sqlcc::Prefetcher::GetPrefetchedPage</a></div><div class="ttdeci">bool GetPrefetchedPage(int32_t page_id, Page &amp;page)</div><div class="ttdoc">获取预取的页面</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a84caab77e5d76ea1abd85894a540eb57"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a84caab77e5d76ea1abd85894a540eb57">sqlcc::Prefetcher::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdoc">启动预取器</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a854c409b2569474d8fed033c2c205385"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a854c409b2569474d8fed033c2c205385">sqlcc::Prefetcher::prefetch_threshold_</a></div><div class="ttdeci">double prefetch_threshold_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:259</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a87af8f9acfb33439f937334ef36247cd"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a87af8f9acfb33439f937334ef36247cd">sqlcc::Prefetcher::UpdateAccessHistory</a></div><div class="ttdeci">void UpdateAccessHistory(int32_t transaction_id, int32_t page_id)</div><div class="ttdoc">更新访问历史</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a8e58737f4c7e7487cf83832a2cf29fd2"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a8e58737f4c7e7487cf83832a2cf29fd2">sqlcc::Prefetcher::CleanupExpiredPages</a></div><div class="ttdeci">void CleanupExpiredPages()</div><div class="ttdoc">清理过期的预取页面</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a931416d26a85a6db3708764138287021"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a931416d26a85a6db3708764138287021">sqlcc::Prefetcher::PredictNextPages</a></div><div class="ttdeci">std::vector&lt; int32_t &gt; PredictNextPages(int32_t transaction_id, int32_t current_page_id)</div><div class="ttdoc">分析访问模式并预测下一页面</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_a9359d31f246f8bec345e2b0329e9cb50"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#a9359d31f246f8bec345e2b0329e9cb50">sqlcc::Prefetcher::stats_</a></div><div class="ttdeci">PrefetcherStats stats_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:252</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_aa46bf09639370fd7b2e3c9cf48b40528"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#aa46bf09639370fd7b2e3c9cf48b40528">sqlcc::Prefetcher::max_cache_size_</a></div><div class="ttdeci">size_t max_cache_size_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:255</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_aaa865535a9d022da72c77145ce9f9ed8"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#aaa865535a9d022da72c77145ce9f9ed8">sqlcc::Prefetcher::GetStats</a></div><div class="ttdeci">PrefetcherStats GetStats() const</div><div class="ttdoc">获取预取器统计信息</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_aae47958f2e2ebdac7c0d077c4af82eae"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#aae47958f2e2ebdac7c0d077c4af82eae">sqlcc::Prefetcher::Stop</a></div><div class="ttdeci">void Stop()</div><div class="ttdoc">停止预取器</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_aaebb6669659e2f8f20203562d45c6c9b"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#aaebb6669659e2f8f20203562d45c6c9b">sqlcc::Prefetcher::running_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; running_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:247</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_ab818252ecdc8659a96f360cc9ae79316"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#ab818252ecdc8659a96f360cc9ae79316">sqlcc::Prefetcher::history_mutex_</a></div><div class="ttdeci">std::mutex history_mutex_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:243</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_aba4deb3eb77db69650ab874e32a194bf"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#aba4deb3eb77db69650ab874e32a194bf">sqlcc::Prefetcher::NotifyPageAccess</a></div><div class="ttdeci">void NotifyPageAccess(int32_t transaction_id, int32_t page_id)</div><div class="ttdoc">通知页面访问</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_ac2ebcae4632d8561e502b4abb76f1925"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#ac2ebcae4632d8561e502b4abb76f1925">sqlcc::Prefetcher::cache_expire_time_</a></div><div class="ttdeci">std::chrono::milliseconds cache_expire_time_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:257</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_ad01dd71b88e8f5b17c95bb5af3bd497d"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#ad01dd71b88e8f5b17c95bb5af3bd497d">sqlcc::Prefetcher::PrefetchWorker</a></div><div class="ttdeci">void PrefetchWorker()</div><div class="ttdoc">预取工作线程函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_ad396ca09cfed00accdbbe0c27b55552e"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#ad396ca09cfed00accdbbe0c27b55552e">sqlcc::Prefetcher::enabled_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; enabled_</div><div class="ttdoc">预取启用标志 - 控制预取功能的开关</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:248</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_ad7de5392c64f3b4063e9f17a82695c48"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#ad7de5392c64f3b4063e9f17a82695c48">sqlcc::Prefetcher::IsEnabled</a></div><div class="ttdeci">bool IsEnabled() const</div><div class="ttdoc">检查是否启用</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_ae6654cdb04539e116beec0d73caf1c17"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#ae6654cdb04539e116beec0d73caf1c17">sqlcc::Prefetcher::max_prefetch_distance_</a></div><div class="ttdeci">int max_prefetch_distance_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:258</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_af9e898175f5cebc2638bc76611ef14e2"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#af9e898175f5cebc2638bc76611ef14e2">sqlcc::Prefetcher::ResetStats</a></div><div class="ttdeci">void ResetStats()</div><div class="ttdoc">重置统计信息</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Prefetcher_html_afcde6ef4a06803763b5be899fe96693b"><div class="ttname"><a href="classsqlcc_1_1Prefetcher.html#afcde6ef4a06803763b5be899fe96693b">sqlcc::Prefetcher::disk_manager_</a></div><div class="ttdeci">DiskManager &amp; disk_manager_</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:230</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1PrefetchRequest_html"><div class="ttname"><a href="structsqlcc_1_1PrefetchRequest.html">sqlcc::PrefetchRequest</a></div><div class="ttdoc">预取请求结构</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:21</div></div>
+<div class="ttc" id="astructsqlcc_1_1PrefetchRequest_html_a0829bc4332f2bed974db491a8e4e8f44"><div class="ttname"><a href="structsqlcc_1_1PrefetchRequest.html#a0829bc4332f2bed974db491a8e4e8f44">sqlcc::PrefetchRequest::PrefetchRequest</a></div><div class="ttdeci">PrefetchRequest(int32_t pid, int32_t tid, int p=0)</div><div class="ttdef"><b>Definition</b> storage_engine/buffer_pool/prefetcher.h:27</div></div>
+<div class="ttc" id="astructsqlcc_1_1PrefetchRequest_html_a1816dd8bad3cf6e382e72d6ccdcbf1a0"><div class="ttname"><a href="structsqlcc_1_1PrefetchRequest.html#a1816dd8bad3cf6e382e72d6ccdcbf1a0">sqlcc::PrefetchRequest::operator&lt;</a></div><div class="ttdeci">bool operator&lt;(const PrefetchRequest &amp;other) const</div><div class="ttdef"><b>Definition</b> storage_engine/buffer_pool/prefetcher.h:32</div></div>
+<div class="ttc" id="astructsqlcc_1_1PrefetchRequest_html_a27a53e7f9d6a254824a1c456a6860a11"><div class="ttname"><a href="structsqlcc_1_1PrefetchRequest.html#a27a53e7f9d6a254824a1c456a6860a11">sqlcc::PrefetchRequest::transaction_id</a></div><div class="ttdeci">int32_t transaction_id</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:23</div></div>
+<div class="ttc" id="astructsqlcc_1_1PrefetchRequest_html_a2f152d26aeb486f76d5f604f662fc07c"><div class="ttname"><a href="structsqlcc_1_1PrefetchRequest.html#a2f152d26aeb486f76d5f604f662fc07c">sqlcc::PrefetchRequest::page_id</a></div><div class="ttdeci">int32_t page_id</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:22</div></div>
+<div class="ttc" id="astructsqlcc_1_1PrefetchRequest_html_a62f3ebe1b4835346f6ecba7e03871a49"><div class="ttname"><a href="structsqlcc_1_1PrefetchRequest.html#a62f3ebe1b4835346f6ecba7e03871a49">sqlcc::PrefetchRequest::request_time</a></div><div class="ttdeci">std::chrono::steady_clock::time_point request_time</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:24</div></div>
+<div class="ttc" id="astructsqlcc_1_1PrefetchRequest_html_a8dcd992f4b29a5e43966742242ad4aa2"><div class="ttname"><a href="structsqlcc_1_1PrefetchRequest.html#a8dcd992f4b29a5e43966742242ad4aa2">sqlcc::PrefetchRequest::priority</a></div><div class="ttdeci">int priority</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:25</div></div>
+<div class="ttc" id="astructsqlcc_1_1Prefetcher_1_1PrefetcherStats_html"><div class="ttname"><a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">sqlcc::Prefetcher::PrefetcherStats</a></div><div class="ttdoc">预取器统计信息</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:52</div></div>
+<div class="ttc" id="astructsqlcc_1_1Prefetcher_1_1PrefetcherStats_html_a07541b7a12f4fef25158fdb108bf3e9d"><div class="ttname"><a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a07541b7a12f4fef25158fdb108bf3e9d">sqlcc::Prefetcher::PrefetcherStats::PrefetcherStats</a></div><div class="ttdeci">PrefetcherStats(const PrefetcherStats &amp;other)</div><div class="ttdef"><b>Definition</b> storage_engine/buffer_pool/prefetcher.h:63</div></div>
+<div class="ttc" id="astructsqlcc_1_1Prefetcher_1_1PrefetcherStats_html_a0ad287beafc70cad74e38a35e3d98b1c"><div class="ttname"><a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a0ad287beafc70cad74e38a35e3d98b1c">sqlcc::Prefetcher::PrefetcherStats::successful_prefetches</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; successful_prefetches</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:54</div></div>
+<div class="ttc" id="astructsqlcc_1_1Prefetcher_1_1PrefetcherStats_html_a21f717706a483358db46130c1b2538c5"><div class="ttname"><a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a21f717706a483358db46130c1b2538c5">sqlcc::Prefetcher::PrefetcherStats::wasted_prefetches</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; wasted_prefetches</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:56</div></div>
+<div class="ttc" id="astructsqlcc_1_1Prefetcher_1_1PrefetcherStats_html_a2c6c3e9c33e1dd67272608464a47bec6"><div class="ttname"><a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a2c6c3e9c33e1dd67272608464a47bec6">sqlcc::Prefetcher::PrefetcherStats::total_prefetches</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; total_prefetches</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:53</div></div>
+<div class="ttc" id="astructsqlcc_1_1Prefetcher_1_1PrefetcherStats_html_a503e779a26bbe5e4c55119e75d7a2a35"><div class="ttname"><a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a503e779a26bbe5e4c55119e75d7a2a35">sqlcc::Prefetcher::PrefetcherStats::waste_rate</a></div><div class="ttdeci">double waste_rate() const</div><div class="ttdef"><b>Definition</b> storage_engine/buffer_pool/prefetcher.h:111</div></div>
+<div class="ttc" id="astructsqlcc_1_1Prefetcher_1_1PrefetcherStats_html_a8208ac83f192dd1308dc91834d2ad85a"><div class="ttname"><a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#a8208ac83f192dd1308dc91834d2ad85a">sqlcc::Prefetcher::PrefetcherStats::operator=</a></div><div class="ttdeci">PrefetcherStats &amp; operator=(const PrefetcherStats &amp;other)</div><div class="ttdef"><b>Definition</b> storage_engine/buffer_pool/prefetcher.h:81</div></div>
+<div class="ttc" id="astructsqlcc_1_1Prefetcher_1_1PrefetcherStats_html_aa101cf196f6678c2348577e50dcd4be9"><div class="ttname"><a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#aa101cf196f6678c2348577e50dcd4be9">sqlcc::Prefetcher::PrefetcherStats::hit_rate</a></div><div class="ttdeci">double hit_rate() const</div><div class="ttdef"><b>Definition</b> storage_engine/buffer_pool/prefetcher.h:104</div></div>
+<div class="ttc" id="astructsqlcc_1_1Prefetcher_1_1PrefetcherStats_html_ab9906565d1b2b643eb647f6f31037999"><div class="ttname"><a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#ab9906565d1b2b643eb647f6f31037999">sqlcc::Prefetcher::PrefetcherStats::operator=</a></div><div class="ttdeci">PrefetcherStats &amp; operator=(PrefetcherStats &amp;&amp;other) noexcept</div><div class="ttdef"><b>Definition</b> storage_engine/buffer_pool/prefetcher.h:93</div></div>
+<div class="ttc" id="astructsqlcc_1_1Prefetcher_1_1PrefetcherStats_html_abffdcf0c75e0b6c044ce8e5bf6f5b8ab"><div class="ttname"><a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#abffdcf0c75e0b6c044ce8e5bf6f5b8ab">sqlcc::Prefetcher::PrefetcherStats::hit_prefetches</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; hit_prefetches</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:55</div></div>
+<div class="ttc" id="astructsqlcc_1_1Prefetcher_1_1PrefetcherStats_html_ae2c9f27691027f9b1e232caa78bbcff4"><div class="ttname"><a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#ae2c9f27691027f9b1e232caa78bbcff4">sqlcc::Prefetcher::PrefetcherStats::PrefetcherStats</a></div><div class="ttdeci">PrefetcherStats(PrefetcherStats &amp;&amp;other) noexcept</div><div class="ttdef"><b>Definition</b> storage_engine/buffer_pool/prefetcher.h:72</div></div>
+<div class="ttc" id="astructsqlcc_1_1Prefetcher_1_1PrefetcherStats_html_ae8a7e9a03df68574a60845e8cea752b7"><div class="ttname"><a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#ae8a7e9a03df68574a60845e8cea752b7">sqlcc::Prefetcher::PrefetcherStats::avg_prefetch_time</a></div><div class="ttdeci">std::chrono::microseconds avg_prefetch_time</div><div class="ttdef"><b>Definition</b> storage/prefetcher.h:57</div></div>
+<div class="ttc" id="astructsqlcc_1_1Prefetcher_1_1PrefetcherStats_html_afe290042efcf13c579faaf0667b22775"><div class="ttname"><a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#afe290042efcf13c579faaf0667b22775">sqlcc::Prefetcher::PrefetcherStats::PrefetcherStats</a></div><div class="ttdeci">PrefetcherStats()=default</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

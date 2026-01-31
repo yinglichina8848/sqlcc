@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: record_validator.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li><li class="navelem"><a class="el" href="dir_df293a48f8915dae2bf68a254a1b961b.html">table_storage</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">record_validator.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="record__validator_8h_source.html">record_validator.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="logger_2logger_8h_source.html">../../logger/logger.h</a>&quot;</code><br />
+<code>#include &lt;limits&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+record_validator.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="record__validator_8cpp__incl.png" border="0" usemap="#arecord__validator_8cpp" alt=""/></div>
+<map name="arecord__validator_8cpp" id="arecord__validator_8cpp">
+<area shape="rect" title=" " alt="" coords="286,5,441,31"/>
+<area shape="rect" href="record__validator_8h.html" title=" " alt="" coords="53,79,191,104"/>
+<area shape="poly" title=" " alt="" coords="325,33,175,77,174,72,324,28"/>
+<area shape="rect" href="logger_2logger_8h.html" title="SQLCC分层日志系统 &#45; 异步写入与智能轮转架构" alt="" coords="229,79,372,104"/>
+<area shape="poly" title=" " alt="" coords="355,33,322,70,318,66,351,29"/>
+<area shape="rect" title=" " alt="" coords="397,79,455,104"/>
+<area shape="poly" title=" " alt="" coords="376,29,409,66,405,70,372,33"/>
+<area shape="rect" title=" " alt="" coords="480,79,543,104"/>
+<area shape="poly" title=" " alt="" coords="388,28,476,70,474,75,386,33"/>
+<area shape="rect" title=" " alt="" coords="5,152,68,177"/>
+<area shape="poly" title=" " alt="" coords="110,106,63,145,59,141,107,102"/>
+<area shape="rect" title=" " alt="" coords="93,152,151,177"/>
+<area shape="poly" title=" " alt="" coords="125,104,125,138,119,138,119,104"/>
+<area shape="poly" title=" " alt="" coords="273,107,165,149,163,144,271,102"/>
+<area shape="rect" title=" " alt="" coords="175,152,253,177"/>
+<area shape="poly" title=" " alt="" coords="288,106,240,145,237,141,285,102"/>
+<area shape="rect" title=" " alt="" coords="277,152,351,177"/>
+<area shape="poly" title=" " alt="" coords="305,104,312,138,307,139,300,105"/>
+<area shape="rect" title=" " alt="" coords="375,152,439,177"/>
+<area shape="poly" title=" " alt="" coords="319,102,380,142,377,147,316,106"/>
+<area shape="rect" title=" " alt="" coords="463,152,527,177"/>
+<area shape="poly" title=" " alt="" coords="333,102,452,145,450,150,331,107"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1storage__engine" id="r_namespacesqlcc_1_1storage__engine"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1storage__engine.html">sqlcc::storage_engine</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1storage__engine_1_1table__storage" id="r_namespacesqlcc_1_1storage__engine_1_1table__storage"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1storage__engine_1_1table__storage.html">sqlcc::storage_engine::table_storage</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

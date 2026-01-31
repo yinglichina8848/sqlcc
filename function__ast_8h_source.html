@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: function_ast.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">function_ast.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="function__ast_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#ifndef SQLCC_FUNCTION_AST_H_H</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="preprocessor">#define SQLCC_FUNCTION_AST_H_H</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="foldopen" id="foldopen00168" data-start="{" data-end="};">
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html">  168</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1FunctionAst.html">FunctionAst</a> {</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <span class="comment">// 函数类型枚举</span></div>
+<div class="foldopen" id="foldopen00171" data-start="{" data-end="};">
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2f">  171</a></span>    <span class="keyword">enum</span> <a class="code hl_enumeration" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2f">FunctionType</a> {</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fade8cb0dbc9ab5b698c1ffa90a24166dc">  172</a></span>        <a class="code hl_enumvalue" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fade8cb0dbc9ab5b698c1ffa90a24166dc">SCALAR_FUNCTION</a>,      <span class="comment">// 标量函数</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fa57ea46dd9babd1002faa5d99359579ac">  173</a></span>        <a class="code hl_enumvalue" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fa57ea46dd9babd1002faa5d99359579ac">AGGREGATE_FUNCTION</a>,   <span class="comment">// 聚合函数</span></div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fac7faef0ab8045e4dcdacbcd8aa451728">  174</a></span>        <a class="code hl_enumvalue" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fac7faef0ab8045e4dcdacbcd8aa451728">WINDOW_FUNCTION</a>,      <span class="comment">// 窗口函数</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fa1885bd1d91b53c17a980de90922197f9">  175</a></span>        <a class="code hl_enumvalue" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fa1885bd1d91b53c17a980de90922197f9">TABLE_FUNCTION</a>,       <span class="comment">// 表值函数</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fa691a765a6cb773e2ef8fbc5c84811cc1">  176</a></span>        <a class="code hl_enumvalue" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fa691a765a6cb773e2ef8fbc5c84811cc1">SYSTEM_FUNCTION</a>,      <span class="comment">// 系统函数</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2faef62fe23ba61db5fe52cc9ff747c0e07">USER_DEFINED_FUNCTION</a> <span class="comment">// 用户自定义函数</span></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2faef62fe23ba61db5fe52cc9ff747c0e07">  178</a></span>    };</div>
+</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    <span class="comment">// 参数传递模式</span></div>
+<div class="foldopen" id="foldopen00181" data-start="{" data-end="};">
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1">  181</a></span>    <span class="keyword">enum</span> <a class="code hl_enumeration" href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1">ParameterMode</a> {</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1afff803e5852fa86a8ed7490d32b02596">  182</a></span>        <a class="code hl_enumvalue" href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1afff803e5852fa86a8ed7490d32b02596">IN_PARAMETER</a>,         <span class="comment">// 输入参数</span></div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1a1c2a75188de35e453374ce1886b70edd">  183</a></span>        <a class="code hl_enumvalue" href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1a1c2a75188de35e453374ce1886b70edd">OUT_PARAMETER</a>,        <span class="comment">// 输出参数</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1a38aa1ccbfd028a8b4f470b73ef434604">INOUT_PARAMETER</a>      <span class="comment">// 输入输出参数</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1a38aa1ccbfd028a8b4f470b73ef434604">  185</a></span>    };</div>
+</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
+<div class="foldopen" id="foldopen00190" data-start="{" data-end="};">
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno"><a class="line" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html">  190</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html">FunctionParameter</a> {</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno"><a class="line" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#abdcd16ae40639203b866893fbdec5be1">  191</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#abdcd16ae40639203b866893fbdec5be1">name</a>;           </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#a73ca98b8021d211f8ff3adafdec0fca1">  192</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#a73ca98b8021d211f8ff3adafdec0fca1">type</a>;           </div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno"><a class="line" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#a69353185c03c53680ba0b4eb73ba6c51">  193</a></span>        <a class="code hl_enumeration" href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1">ParameterMode</a> <a class="code hl_variable" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#a69353185c03c53680ba0b4eb73ba6c51">mode</a>;         </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno"><a class="line" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#aa7346808e216d7e212b90b741b592b6d">  194</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#aa7346808e216d7e212b90b741b592b6d">has_default</a>;           </div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno"><a class="line" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#afa1e71291b24229ef3d32a6336a4eb30">  195</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#afa1e71291b24229ef3d32a6336a4eb30">default_value</a>;  </div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
+<div class="foldopen" id="foldopen00197" data-start="{" data-end="}">
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno"><a class="line" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#a9107d5d16e4d5851e9067ab060b36aad">  197</a></span>        <a class="code hl_function" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#a9107d5d16e4d5851e9067ab060b36aad">FunctionParameter</a>(<span class="keyword">const</span> std::string&amp; n, <span class="keyword">const</span> std::string&amp; t,</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>                         <a class="code hl_enumeration" href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1">ParameterMode</a> m = <a class="code hl_enumvalue" href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1afff803e5852fa86a8ed7490d32b02596">IN_PARAMETER</a>,</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>                         <span class="keywordtype">bool</span> has_def = <span class="keyword">false</span>, <span class="keyword">const</span> std::string&amp; def = <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>            : <a class="code hl_variable" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#abdcd16ae40639203b866893fbdec5be1">name</a>(n), <a class="code hl_variable" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#a73ca98b8021d211f8ff3adafdec0fca1">type</a>(t), <a class="code hl_variable" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#a69353185c03c53680ba0b4eb73ba6c51">mode</a>(m), <a class="code hl_variable" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#aa7346808e216d7e212b90b741b592b6d">has_default</a>(has_def), <a class="code hl_variable" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#afa1e71291b24229ef3d32a6336a4eb30">default_value</a>(def) {}</div>
+</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    };</div>
+</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <span class="comment">// 构造函数</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a1d1639899a5204f0c91aafe950bc94ac">  204</a></span>    <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a1d1639899a5204f0c91aafe950bc94ac">FunctionAst</a>();</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a9c22503d3a69ada2835d07ef19f4d848">  205</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a9c22503d3a69ada2835d07ef19f4d848">FunctionAst</a>(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="comment">// 析构函数</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a04ae744704daeddc123c28566d1ee2ea">  208</a></span>    <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a04ae744704daeddc123c28566d1ee2ea">~FunctionAst</a>();</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    <span class="comment">// 禁用拷贝</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#aa7cb0dcaf1c5a82df4f86a3d19c95109">  211</a></span>    <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#aa7cb0dcaf1c5a82df4f86a3d19c95109">FunctionAst</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1FunctionAst.html">FunctionAst</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a4701a3c95f9b26e9da2c64986250e979">  212</a></span>    <a class="code hl_class" href="classsqlcc_1_1FunctionAst.html">FunctionAst</a>&amp; <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a4701a3c95f9b26e9da2c64986250e979">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1FunctionAst.html">FunctionAst</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span> </div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    <span class="comment">// 允许移动</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#aee80ecacf9aabf4ffe2dc9c4ff1fffb6">  215</a></span>    <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#aee80ecacf9aabf4ffe2dc9c4ff1fffb6">FunctionAst</a>(<a class="code hl_class" href="classsqlcc_1_1FunctionAst.html">FunctionAst</a>&amp;&amp;) noexcept = default;</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a265123bd1677292c45437d23b2cd80e1">  216</a></span>    <a class="code hl_class" href="classsqlcc_1_1FunctionAst.html">FunctionAst</a>&amp; operator=(<a class="code hl_class" href="classsqlcc_1_1FunctionAst.html">FunctionAst</a>&amp;&amp;) noexcept = default;</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="comment">// 公共方法</span></div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a9067542c60ad025f91ac2fac1d137812">  219</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a9067542c60ad025f91ac2fac1d137812">initialize</a>();</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a4f37e02620e53bed4ff882d7426aae33">  220</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a4f37e02620e53bed4ff882d7426aae33">shutdown</a>();</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span> </div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <span class="comment">// 函数基本信息</span></div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a8575d583b6473dde449cc918c2c9a427">  223</a></span>    const std::<span class="keywordtype">string</span>&amp; <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a8575d583b6473dde449cc918c2c9a427">get_name</a>() const;</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a975bc1e9b6b5296d6aa0c135401d009a">  224</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a975bc1e9b6b5296d6aa0c135401d009a">set_name</a>(const std::<span class="keywordtype">string</span>&amp; name);</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span> </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a4166668b77e2d387ce223630b411cd17">  226</a></span>    <a class="code hl_enumeration" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2f">FunctionType</a> <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a4166668b77e2d387ce223630b411cd17">get_type</a>() const;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a7e82a30ab57d8cdae88a109c8de31fde">  227</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a7e82a30ab57d8cdae88a109c8de31fde">set_type</a>(<a class="code hl_enumeration" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2f">FunctionType</a> type);</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span> </div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    <span class="comment">// 参数管理</span></div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#ab64e499a75e80b373b3cea30991d2fff">  230</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#ab64e499a75e80b373b3cea30991d2fff">add_parameter</a>(const <a class="code hl_struct" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html">FunctionParameter</a>&amp; param);</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a176c9aec2c38ef531d1b5bf5295d864b">  231</a></span>    const std::vector&lt;<a class="code hl_struct" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html">FunctionParameter</a>&gt;&amp; <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a176c9aec2c38ef531d1b5bf5295d864b">get_parameters</a>() const;</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a01ff486e93d67ef6550c982ad16ee55f">  232</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a01ff486e93d67ef6550c982ad16ee55f">get_parameter_count</a>() const;</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    <span class="comment">// 返回类型</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a2362f8e5f2849ca416aeae9c9284bf38">  235</a></span>    const std::<span class="keywordtype">string</span>&amp; <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a2362f8e5f2849ca416aeae9c9284bf38">get_return_type</a>() const;</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a1a13784b1704571e8adb73699882c836">  236</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a1a13784b1704571e8adb73699882c836">set_return_type</a>(const std::<span class="keywordtype">string</span>&amp; return_type);</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    <span class="comment">// 函数体（对于用户定义函数）</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a75e621938f6d1231410b62d8e3b0fab8">  239</a></span>    const std::<span class="keywordtype">string</span>&amp; <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a75e621938f6d1231410b62d8e3b0fab8">get_function_body</a>() const;</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#ae6a7997f8b7c5d487b3c100ce0c81aa8">  240</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#ae6a7997f8b7c5d487b3c100ce0c81aa8">set_function_body</a>(const std::<span class="keywordtype">string</span>&amp; body);</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>    <span class="comment">// 函数调用构建</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a346d87c89f690beea7ccc4338555b760">  243</a></span>    static std::unique_ptr&lt;<a class="code hl_class" href="classsqlcc_1_1FunctionAst.html">FunctionAst</a>&gt; <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a346d87c89f690beea7ccc4338555b760">create_function_call</a>(</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>        const std::<span class="keywordtype">string</span>&amp; name,</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>        const std::vector&lt;std::<span class="keywordtype">string</span>&gt;&amp; arguments);</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span> </div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    <span class="comment">// 类型检查</span></div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#af20b228868ea8494b8b22d10003b2b6b">  248</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#af20b228868ea8494b8b22d10003b2b6b">validate_parameters</a>(const std::vector&lt;std::<span class="keywordtype">string</span>&gt;&amp; call_args) const;</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a248e8afa55bc7284d969bd2d88fe4aa7">  249</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a248e8afa55bc7284d969bd2d88fe4aa7">is_compatible_return_type</a>(const std::<span class="keywordtype">string</span>&amp; expected_type) const;</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <span class="comment">// 函数注册和查找</span></div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a666f1baac81a7f6926c5fe1285a5f19a">  252</a></span>    static <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a666f1baac81a7f6926c5fe1285a5f19a">register_function</a>(std::unique_ptr&lt;<a class="code hl_class" href="classsqlcc_1_1FunctionAst.html">FunctionAst</a>&gt; function);</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a63272cfd58c634571337edaa3d38935b">  253</a></span>    static const <a class="code hl_class" href="classsqlcc_1_1FunctionAst.html">FunctionAst</a>* <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a63272cfd58c634571337edaa3d38935b">find_function</a>(const std::<span class="keywordtype">string</span>&amp; name);</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a8c30f1c025b98bca65df5d5a169b3d31">  254</a></span>    static std::vector&lt;const <a class="code hl_class" href="classsqlcc_1_1FunctionAst.html">FunctionAst</a>*&gt; <a class="code hl_function" href="classsqlcc_1_1FunctionAst.html#a8c30f1c025b98bca65df5d5a169b3d31">find_functions_by_type</a>(<a class="code hl_enumeration" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2f">FunctionType</a> type);</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span> </div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>private:</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#addc963771ed7ff9796a0e7d102f8704f">  257</a></span>    std::<span class="keywordtype">string</span> <a class="code hl_variable" href="classsqlcc_1_1FunctionAst.html#addc963771ed7ff9796a0e7d102f8704f">name_</a>;                          </div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#af25098460d0c4f06cbad9b492ff711e2">  258</a></span>    <a class="code hl_enumeration" href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2f">FunctionType</a> <a class="code hl_variable" href="classsqlcc_1_1FunctionAst.html#af25098460d0c4f06cbad9b492ff711e2">type_</a>;                         </div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#aff9b3d0f3948343b1755cf0cbc2375c5">  259</a></span>    std::vector&lt;<a class="code hl_struct" href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html">FunctionParameter</a>&gt; <a class="code hl_variable" href="classsqlcc_1_1FunctionAst.html#aff9b3d0f3948343b1755cf0cbc2375c5">parameters_</a>; </div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a079cc7a43af27d5bb0adf913feb3629c">  260</a></span>    std::<span class="keywordtype">string</span> <a class="code hl_variable" href="classsqlcc_1_1FunctionAst.html#a079cc7a43af27d5bb0adf913feb3629c">return_type_</a>;                   </div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#aee9d0ced0e881bcb0912742f97c22303">  261</a></span>    std::<span class="keywordtype">string</span> <a class="code hl_variable" href="classsqlcc_1_1FunctionAst.html#aee9d0ced0e881bcb0912742f97c22303">function_body_</a>;                 </div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a37f627b9d3163d78aea8b6e1b0c52a58">  262</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1FunctionAst.html#a37f627b9d3163d78aea8b6e1b0c52a58">initialized_</a>;                          </div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span> </div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    <span class="comment">// 静态函数注册表</span></div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno"><a class="line" href="classsqlcc_1_1FunctionAst.html#a027ccce00e0994f44f42478d9b57ca16">  265</a></span>    static std::unordered_map&lt;std::<span class="keywordtype">string</span>, std::unique_ptr&lt;<a class="code hl_class" href="classsqlcc_1_1FunctionAst.html">FunctionAst</a>&gt;&gt; <a class="code hl_variable" href="classsqlcc_1_1FunctionAst.html#a027ccce00e0994f44f42478d9b57ca16">function_registry_</a>;</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>};</div>
+</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span> </div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span> </div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_FUNCTION_AST_H_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html">sqlcc::FunctionAst</a></div><div class="ttdoc">函数AST节点</div><div class="ttdef"><b>Definition</b> function_ast.h:168</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a01ff486e93d67ef6550c982ad16ee55f"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a01ff486e93d67ef6550c982ad16ee55f">sqlcc::FunctionAst::get_parameter_count</a></div><div class="ttdeci">size_t get_parameter_count() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a027ccce00e0994f44f42478d9b57ca16"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a027ccce00e0994f44f42478d9b57ca16">sqlcc::FunctionAst::function_registry_</a></div><div class="ttdeci">static std::unordered_map&lt; std::string, std::unique_ptr&lt; FunctionAst &gt; &gt; function_registry_</div><div class="ttdef"><b>Definition</b> function_ast.h:265</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a04ae744704daeddc123c28566d1ee2ea"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a04ae744704daeddc123c28566d1ee2ea">sqlcc::FunctionAst::~FunctionAst</a></div><div class="ttdeci">~FunctionAst()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a079cc7a43af27d5bb0adf913feb3629c"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a079cc7a43af27d5bb0adf913feb3629c">sqlcc::FunctionAst::return_type_</a></div><div class="ttdeci">std::string return_type_</div><div class="ttdoc">返回类型</div><div class="ttdef"><b>Definition</b> function_ast.h:260</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a176c9aec2c38ef531d1b5bf5295d864b"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a176c9aec2c38ef531d1b5bf5295d864b">sqlcc::FunctionAst::get_parameters</a></div><div class="ttdeci">const std::vector&lt; FunctionParameter &gt; &amp; get_parameters() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a1a13784b1704571e8adb73699882c836"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a1a13784b1704571e8adb73699882c836">sqlcc::FunctionAst::set_return_type</a></div><div class="ttdeci">void set_return_type(const std::string &amp;return_type)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a1d1639899a5204f0c91aafe950bc94ac"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a1d1639899a5204f0c91aafe950bc94ac">sqlcc::FunctionAst::FunctionAst</a></div><div class="ttdeci">FunctionAst()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a2362f8e5f2849ca416aeae9c9284bf38"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a2362f8e5f2849ca416aeae9c9284bf38">sqlcc::FunctionAst::get_return_type</a></div><div class="ttdeci">const std::string &amp; get_return_type() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a248e8afa55bc7284d969bd2d88fe4aa7"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a248e8afa55bc7284d969bd2d88fe4aa7">sqlcc::FunctionAst::is_compatible_return_type</a></div><div class="ttdeci">bool is_compatible_return_type(const std::string &amp;expected_type) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a346d87c89f690beea7ccc4338555b760"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a346d87c89f690beea7ccc4338555b760">sqlcc::FunctionAst::create_function_call</a></div><div class="ttdeci">static std::unique_ptr&lt; FunctionAst &gt; create_function_call(const std::string &amp;name, const std::vector&lt; std::string &gt; &amp;arguments)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a37f627b9d3163d78aea8b6e1b0c52a58"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a37f627b9d3163d78aea8b6e1b0c52a58">sqlcc::FunctionAst::initialized_</a></div><div class="ttdeci">bool initialized_</div><div class="ttdoc">初始化状态</div><div class="ttdef"><b>Definition</b> function_ast.h:262</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a4166668b77e2d387ce223630b411cd17"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a4166668b77e2d387ce223630b411cd17">sqlcc::FunctionAst::get_type</a></div><div class="ttdeci">FunctionType get_type() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a4701a3c95f9b26e9da2c64986250e979"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a4701a3c95f9b26e9da2c64986250e979">sqlcc::FunctionAst::operator=</a></div><div class="ttdeci">FunctionAst &amp; operator=(const FunctionAst &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a4f37e02620e53bed4ff882d7426aae33"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a4f37e02620e53bed4ff882d7426aae33">sqlcc::FunctionAst::shutdown</a></div><div class="ttdeci">void shutdown()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a63272cfd58c634571337edaa3d38935b"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a63272cfd58c634571337edaa3d38935b">sqlcc::FunctionAst::find_function</a></div><div class="ttdeci">static const FunctionAst * find_function(const std::string &amp;name)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a666f1baac81a7f6926c5fe1285a5f19a"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a666f1baac81a7f6926c5fe1285a5f19a">sqlcc::FunctionAst::register_function</a></div><div class="ttdeci">static bool register_function(std::unique_ptr&lt; FunctionAst &gt; function)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a75e621938f6d1231410b62d8e3b0fab8"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a75e621938f6d1231410b62d8e3b0fab8">sqlcc::FunctionAst::get_function_body</a></div><div class="ttdeci">const std::string &amp; get_function_body() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a7e82a30ab57d8cdae88a109c8de31fde"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a7e82a30ab57d8cdae88a109c8de31fde">sqlcc::FunctionAst::set_type</a></div><div class="ttdeci">void set_type(FunctionType type)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a8575d583b6473dde449cc918c2c9a427"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a8575d583b6473dde449cc918c2c9a427">sqlcc::FunctionAst::get_name</a></div><div class="ttdeci">const std::string &amp; get_name() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a8c30f1c025b98bca65df5d5a169b3d31"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a8c30f1c025b98bca65df5d5a169b3d31">sqlcc::FunctionAst::find_functions_by_type</a></div><div class="ttdeci">static std::vector&lt; const FunctionAst * &gt; find_functions_by_type(FunctionType type)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a9067542c60ad025f91ac2fac1d137812"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a9067542c60ad025f91ac2fac1d137812">sqlcc::FunctionAst::initialize</a></div><div class="ttdeci">void initialize()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a975bc1e9b6b5296d6aa0c135401d009a"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a975bc1e9b6b5296d6aa0c135401d009a">sqlcc::FunctionAst::set_name</a></div><div class="ttdeci">void set_name(const std::string &amp;name)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a9c22503d3a69ada2835d07ef19f4d848"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a9c22503d3a69ada2835d07ef19f4d848">sqlcc::FunctionAst::FunctionAst</a></div><div class="ttdeci">FunctionAst(const std::string &amp;name)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a9eff2c91afdf0974a2df68b38e6c1d2f"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2f">sqlcc::FunctionAst::FunctionType</a></div><div class="ttdeci">FunctionType</div><div class="ttdef"><b>Definition</b> function_ast.h:171</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a9eff2c91afdf0974a2df68b38e6c1d2fa1885bd1d91b53c17a980de90922197f9"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fa1885bd1d91b53c17a980de90922197f9">sqlcc::FunctionAst::TABLE_FUNCTION</a></div><div class="ttdeci">@ TABLE_FUNCTION</div><div class="ttdef"><b>Definition</b> function_ast.h:175</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a9eff2c91afdf0974a2df68b38e6c1d2fa57ea46dd9babd1002faa5d99359579ac"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fa57ea46dd9babd1002faa5d99359579ac">sqlcc::FunctionAst::AGGREGATE_FUNCTION</a></div><div class="ttdeci">@ AGGREGATE_FUNCTION</div><div class="ttdef"><b>Definition</b> function_ast.h:173</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a9eff2c91afdf0974a2df68b38e6c1d2fa691a765a6cb773e2ef8fbc5c84811cc1"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fa691a765a6cb773e2ef8fbc5c84811cc1">sqlcc::FunctionAst::SYSTEM_FUNCTION</a></div><div class="ttdeci">@ SYSTEM_FUNCTION</div><div class="ttdef"><b>Definition</b> function_ast.h:176</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a9eff2c91afdf0974a2df68b38e6c1d2fac7faef0ab8045e4dcdacbcd8aa451728"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fac7faef0ab8045e4dcdacbcd8aa451728">sqlcc::FunctionAst::WINDOW_FUNCTION</a></div><div class="ttdeci">@ WINDOW_FUNCTION</div><div class="ttdef"><b>Definition</b> function_ast.h:174</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a9eff2c91afdf0974a2df68b38e6c1d2fade8cb0dbc9ab5b698c1ffa90a24166dc"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2fade8cb0dbc9ab5b698c1ffa90a24166dc">sqlcc::FunctionAst::SCALAR_FUNCTION</a></div><div class="ttdeci">@ SCALAR_FUNCTION</div><div class="ttdef"><b>Definition</b> function_ast.h:172</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_a9eff2c91afdf0974a2df68b38e6c1d2faef62fe23ba61db5fe52cc9ff747c0e07"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#a9eff2c91afdf0974a2df68b38e6c1d2faef62fe23ba61db5fe52cc9ff747c0e07">sqlcc::FunctionAst::USER_DEFINED_FUNCTION</a></div><div class="ttdeci">@ USER_DEFINED_FUNCTION</div><div class="ttdef"><b>Definition</b> function_ast.h:177</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_aa67f4f3b9d7b8516fc15a44e61d18cf1"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1">sqlcc::FunctionAst::ParameterMode</a></div><div class="ttdeci">ParameterMode</div><div class="ttdef"><b>Definition</b> function_ast.h:181</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_aa67f4f3b9d7b8516fc15a44e61d18cf1a1c2a75188de35e453374ce1886b70edd"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1a1c2a75188de35e453374ce1886b70edd">sqlcc::FunctionAst::OUT_PARAMETER</a></div><div class="ttdeci">@ OUT_PARAMETER</div><div class="ttdef"><b>Definition</b> function_ast.h:183</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_aa67f4f3b9d7b8516fc15a44e61d18cf1a38aa1ccbfd028a8b4f470b73ef434604"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1a38aa1ccbfd028a8b4f470b73ef434604">sqlcc::FunctionAst::INOUT_PARAMETER</a></div><div class="ttdeci">@ INOUT_PARAMETER</div><div class="ttdef"><b>Definition</b> function_ast.h:184</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_aa67f4f3b9d7b8516fc15a44e61d18cf1afff803e5852fa86a8ed7490d32b02596"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#aa67f4f3b9d7b8516fc15a44e61d18cf1afff803e5852fa86a8ed7490d32b02596">sqlcc::FunctionAst::IN_PARAMETER</a></div><div class="ttdeci">@ IN_PARAMETER</div><div class="ttdef"><b>Definition</b> function_ast.h:182</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_aa7cb0dcaf1c5a82df4f86a3d19c95109"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#aa7cb0dcaf1c5a82df4f86a3d19c95109">sqlcc::FunctionAst::FunctionAst</a></div><div class="ttdeci">FunctionAst(const FunctionAst &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_ab64e499a75e80b373b3cea30991d2fff"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#ab64e499a75e80b373b3cea30991d2fff">sqlcc::FunctionAst::add_parameter</a></div><div class="ttdeci">void add_parameter(const FunctionParameter &amp;param)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_addc963771ed7ff9796a0e7d102f8704f"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#addc963771ed7ff9796a0e7d102f8704f">sqlcc::FunctionAst::name_</a></div><div class="ttdeci">std::string name_</div><div class="ttdoc">函数名称</div><div class="ttdef"><b>Definition</b> function_ast.h:257</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_ae6a7997f8b7c5d487b3c100ce0c81aa8"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#ae6a7997f8b7c5d487b3c100ce0c81aa8">sqlcc::FunctionAst::set_function_body</a></div><div class="ttdeci">void set_function_body(const std::string &amp;body)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_aee80ecacf9aabf4ffe2dc9c4ff1fffb6"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#aee80ecacf9aabf4ffe2dc9c4ff1fffb6">sqlcc::FunctionAst::FunctionAst</a></div><div class="ttdeci">FunctionAst(FunctionAst &amp;&amp;) noexcept=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_aee9d0ced0e881bcb0912742f97c22303"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#aee9d0ced0e881bcb0912742f97c22303">sqlcc::FunctionAst::function_body_</a></div><div class="ttdeci">std::string function_body_</div><div class="ttdoc">函数体（用户定义函数）</div><div class="ttdef"><b>Definition</b> function_ast.h:261</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_af20b228868ea8494b8b22d10003b2b6b"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#af20b228868ea8494b8b22d10003b2b6b">sqlcc::FunctionAst::validate_parameters</a></div><div class="ttdeci">bool validate_parameters(const std::vector&lt; std::string &gt; &amp;call_args) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_af25098460d0c4f06cbad9b492ff711e2"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#af25098460d0c4f06cbad9b492ff711e2">sqlcc::FunctionAst::type_</a></div><div class="ttdeci">FunctionType type_</div><div class="ttdoc">函数类型</div><div class="ttdef"><b>Definition</b> function_ast.h:258</div></div>
+<div class="ttc" id="aclasssqlcc_1_1FunctionAst_html_aff9b3d0f3948343b1755cf0cbc2375c5"><div class="ttname"><a href="classsqlcc_1_1FunctionAst.html#aff9b3d0f3948343b1755cf0cbc2375c5">sqlcc::FunctionAst::parameters_</a></div><div class="ttdeci">std::vector&lt; FunctionParameter &gt; parameters_</div><div class="ttdoc">参数列表</div><div class="ttdef"><b>Definition</b> function_ast.h:259</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1FunctionAst_1_1FunctionParameter_html"><div class="ttname"><a href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html">sqlcc::FunctionAst::FunctionParameter</a></div><div class="ttdoc">函数参数定义</div><div class="ttdef"><b>Definition</b> function_ast.h:190</div></div>
+<div class="ttc" id="astructsqlcc_1_1FunctionAst_1_1FunctionParameter_html_a69353185c03c53680ba0b4eb73ba6c51"><div class="ttname"><a href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#a69353185c03c53680ba0b4eb73ba6c51">sqlcc::FunctionAst::FunctionParameter::mode</a></div><div class="ttdeci">ParameterMode mode</div><div class="ttdoc">参数传递模式</div><div class="ttdef"><b>Definition</b> function_ast.h:193</div></div>
+<div class="ttc" id="astructsqlcc_1_1FunctionAst_1_1FunctionParameter_html_a73ca98b8021d211f8ff3adafdec0fca1"><div class="ttname"><a href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#a73ca98b8021d211f8ff3adafdec0fca1">sqlcc::FunctionAst::FunctionParameter::type</a></div><div class="ttdeci">std::string type</div><div class="ttdoc">参数类型</div><div class="ttdef"><b>Definition</b> function_ast.h:192</div></div>
+<div class="ttc" id="astructsqlcc_1_1FunctionAst_1_1FunctionParameter_html_a9107d5d16e4d5851e9067ab060b36aad"><div class="ttname"><a href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#a9107d5d16e4d5851e9067ab060b36aad">sqlcc::FunctionAst::FunctionParameter::FunctionParameter</a></div><div class="ttdeci">FunctionParameter(const std::string &amp;n, const std::string &amp;t, ParameterMode m=IN_PARAMETER, bool has_def=false, const std::string &amp;def=&quot;&quot;)</div><div class="ttdef"><b>Definition</b> function_ast.h:197</div></div>
+<div class="ttc" id="astructsqlcc_1_1FunctionAst_1_1FunctionParameter_html_aa7346808e216d7e212b90b741b592b6d"><div class="ttname"><a href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#aa7346808e216d7e212b90b741b592b6d">sqlcc::FunctionAst::FunctionParameter::has_default</a></div><div class="ttdeci">bool has_default</div><div class="ttdoc">是否有默认值</div><div class="ttdef"><b>Definition</b> function_ast.h:194</div></div>
+<div class="ttc" id="astructsqlcc_1_1FunctionAst_1_1FunctionParameter_html_abdcd16ae40639203b866893fbdec5be1"><div class="ttname"><a href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#abdcd16ae40639203b866893fbdec5be1">sqlcc::FunctionAst::FunctionParameter::name</a></div><div class="ttdeci">std::string name</div><div class="ttdoc">参数名称</div><div class="ttdef"><b>Definition</b> function_ast.h:191</div></div>
+<div class="ttc" id="astructsqlcc_1_1FunctionAst_1_1FunctionParameter_html_afa1e71291b24229ef3d32a6336a4eb30"><div class="ttname"><a href="structsqlcc_1_1FunctionAst_1_1FunctionParameter.html#afa1e71291b24229ef3d32a6336a4eb30">sqlcc::FunctionAst::FunctionParameter::default_value</a></div><div class="ttdeci">std::string default_value</div><div class="ttdoc">默认值</div><div class="ttdef"><b>Definition</b> function_ast.h:195</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

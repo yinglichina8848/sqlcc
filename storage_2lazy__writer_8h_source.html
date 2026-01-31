@@ -1,0 +1,342 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: lazy_writer.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_452baf35e1d7639c9f2a5ece4ec85855.html">storage</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">storage/lazy_writer.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="storage_2lazy__writer_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;condition_variable&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;queue&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;../utils/config_manager.h&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;<a class="code" href="storage_2disk__manager_8h.html">disk_manager.h</a>&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">// 定义页面数据类型</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="storage_2lazy__writer_8h.html#a42c06721f4d401a1122a7bbff208c4fe">   17</a></span><span class="keyword">using </span><a class="code hl_typedef" href="storage_2lazy__writer_8h.html#a42c06721f4d401a1122a7bbff208c4fe">PageData</a> = std::vector&lt;char&gt;;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="};">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="structsqlcc_1_1DirtyPageInfo.html">   24</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1DirtyPageInfo.html">DirtyPageInfo</a> {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="structsqlcc_1_1DirtyPageInfo.html#a0258489121c5c2ad43f378c45f7c5a69">   25</a></span>  int32_t <a class="code hl_variable" href="structsqlcc_1_1DirtyPageInfo.html#a0258489121c5c2ad43f378c45f7c5a69">page_id</a>;                                    <span class="comment">// 页面ID</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="structsqlcc_1_1DirtyPageInfo.html#a4a9d97716df2625b8e73228e96079cdf">   26</a></span>  std::chrono::steady_clock::time_point <a class="code hl_variable" href="structsqlcc_1_1DirtyPageInfo.html#a4a9d97716df2625b8e73228e96079cdf">last_modified</a>; <span class="comment">// 最后修改时间</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="structsqlcc_1_1DirtyPageInfo.html#a5a33119e38c8954fe0698a50b7f8d2c7">   27</a></span>  <span class="keywordtype">int</span> <a class="code hl_variable" href="structsqlcc_1_1DirtyPageInfo.html#a5a33119e38c8954fe0698a50b7f8d2c7">modification_count</a>;                             <span class="comment">// 修改次数</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="structsqlcc_1_1DirtyPageInfo.html#a86af57371e744f058c5b47875bf02c28">   28</a></span>  <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1DirtyPageInfo.html#a86af57371e744f058c5b47875bf02c28">is_pinned</a>;                                     <span class="comment">// 是否被固定</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="foldopen" id="foldopen00030" data-start="{" data-end="}">
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="structsqlcc_1_1DirtyPageInfo.html#ad64e3045e2784ac11cb0191e90e977d1">   30</a></span>  <a class="code hl_function" href="structsqlcc_1_1DirtyPageInfo.html#ad64e3045e2784ac11cb0191e90e977d1">DirtyPageInfo</a>(int32_t pid)</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>      : <a class="code hl_variable" href="structsqlcc_1_1DirtyPageInfo.html#a0258489121c5c2ad43f378c45f7c5a69">page_id</a>(pid), <a class="code hl_variable" href="structsqlcc_1_1DirtyPageInfo.html#a5a33119e38c8954fe0698a50b7f8d2c7">modification_count</a>(1), <a class="code hl_variable" href="structsqlcc_1_1DirtyPageInfo.html#a86af57371e744f058c5b47875bf02c28">is_pinned</a>(false),</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <a class="code hl_variable" href="structsqlcc_1_1DirtyPageInfo.html#a4a9d97716df2625b8e73228e96079cdf">last_modified</a>(std::chrono::steady_clock::now()) {}</div>
+</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <span class="comment">// 更新修改时间和计数</span></div>
+<div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="structsqlcc_1_1DirtyPageInfo.html#ac80f39b5149d20d8a29ab467b82e331f">   35</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="structsqlcc_1_1DirtyPageInfo.html#ac80f39b5149d20d8a29ab467b82e331f">update</a>() {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <a class="code hl_variable" href="structsqlcc_1_1DirtyPageInfo.html#a4a9d97716df2625b8e73228e96079cdf">last_modified</a> = std::chrono::steady_clock::now();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <a class="code hl_variable" href="structsqlcc_1_1DirtyPageInfo.html#a5a33119e38c8954fe0698a50b7f8d2c7">modification_count</a>++;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  }</div>
+</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>};</div>
+</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="foldopen" id="foldopen00046" data-start="{" data-end="};">
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html">   46</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1LazyWriter.html">LazyWriter</a> {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00051" data-start="{" data-end="};">
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">   51</a></span>  <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriterStats</a> {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a52d393419916e18aec477d3f12259b8c">   52</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a52d393419916e18aec477d3f12259b8c">total_writes</a>{0};          <span class="comment">// 总写入次数</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a9b47ef0753abc5f99c857330b99821c4">   53</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a9b47ef0753abc5f99c857330b99821c4">total_pages_written</a>{0};   <span class="comment">// 总写入页面数</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#ae9ce649add1b9ba693962059b4422975">   54</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#ae9ce649add1b9ba693962059b4422975">total_bytes_written</a>{0};   <span class="comment">// 总写入字节数</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a94f7edce39df0eaecc79b1506464e9bc">   55</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a94f7edce39df0eaecc79b1506464e9bc">forced_writes</a>{0};         <span class="comment">// 强制写入次数</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a951724ea29363633a3caa6efd4e14a38">   56</a></span>    std::chrono::microseconds <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a951724ea29363633a3caa6efd4e14a38">avg_write_time</a>{0};  <span class="comment">// 平均写入时间</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#af280a741f12b5ab13e46d7e00bfa09ec">   57</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#af280a741f12b5ab13e46d7e00bfa09ec">current_dirty_pages</a>{0};   <span class="comment">// 当前脏页数</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="comment">// 默认构造函数</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a14a8522c1c4f7e5ef99a3d0cf4cf3bb5">   60</a></span>    <a class="code hl_function" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a14a8522c1c4f7e5ef99a3d0cf4cf3bb5">LazyWriterStats</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="comment">// 拷贝构造函数</span></div>
+<div class="foldopen" id="foldopen00063" data-start="{" data-end="}">
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a3fabdf24bbde9220e03da5e69b9af4ed">   63</a></span>    <a class="code hl_function" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a3fabdf24bbde9220e03da5e69b9af4ed">LazyWriterStats</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriterStats</a> &amp;other) {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>      <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a52d393419916e18aec477d3f12259b8c">total_writes</a>.store(other.<a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a52d393419916e18aec477d3f12259b8c">total_writes</a>.load());</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>      <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a9b47ef0753abc5f99c857330b99821c4">total_pages_written</a>.store(other.<a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a9b47ef0753abc5f99c857330b99821c4">total_pages_written</a>.load());</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>      <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#ae9ce649add1b9ba693962059b4422975">total_bytes_written</a>.store(other.<a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#ae9ce649add1b9ba693962059b4422975">total_bytes_written</a>.load());</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>      <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a94f7edce39df0eaecc79b1506464e9bc">forced_writes</a>.store(other.<a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a94f7edce39df0eaecc79b1506464e9bc">forced_writes</a>.load());</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>      <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a951724ea29363633a3caa6efd4e14a38">avg_write_time</a> = other.<a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a951724ea29363633a3caa6efd4e14a38">avg_write_time</a>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>      <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#af280a741f12b5ab13e46d7e00bfa09ec">current_dirty_pages</a>.store(other.<a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#af280a741f12b5ab13e46d7e00bfa09ec">current_dirty_pages</a>.load());</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    }</div>
+</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="comment">// 移动构造函数</span></div>
+<div class="foldopen" id="foldopen00073" data-start="{" data-end="}">
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a17a2705d16c998f35e3f2539b1c47779">   73</a></span>    <a class="code hl_function" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a17a2705d16c998f35e3f2539b1c47779">LazyWriterStats</a>(<a class="code hl_struct" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriterStats</a> &amp;&amp;other) <span class="keyword">noexcept</span> {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>      <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a52d393419916e18aec477d3f12259b8c">total_writes</a>.store(other.total_writes.load());</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>      <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a9b47ef0753abc5f99c857330b99821c4">total_pages_written</a>.store(other.total_pages_written.load());</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>      <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#ae9ce649add1b9ba693962059b4422975">total_bytes_written</a>.store(other.total_bytes_written.load());</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>      <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a94f7edce39df0eaecc79b1506464e9bc">forced_writes</a>.store(other.forced_writes.load());</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>      <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a951724ea29363633a3caa6efd4e14a38">avg_write_time</a> = std::move(other.avg_write_time);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>      <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#af280a741f12b5ab13e46d7e00bfa09ec">current_dirty_pages</a>.store(other.current_dirty_pages.load());</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    }</div>
+</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="comment">// 拷贝赋值操作符</span></div>
+<div class="foldopen" id="foldopen00083" data-start="{" data-end="}">
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a72d987cb0e4063f174c4829c2eab9436">   83</a></span>    <a class="code hl_struct" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriterStats</a> &amp;<a class="code hl_function" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a72d987cb0e4063f174c4829c2eab9436">operator=</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriterStats</a> &amp;other) {</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>      <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;other) {</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a52d393419916e18aec477d3f12259b8c">total_writes</a>.store(other.<a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a52d393419916e18aec477d3f12259b8c">total_writes</a>.load());</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a9b47ef0753abc5f99c857330b99821c4">total_pages_written</a>.store(other.<a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a9b47ef0753abc5f99c857330b99821c4">total_pages_written</a>.load());</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#ae9ce649add1b9ba693962059b4422975">total_bytes_written</a>.store(other.<a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#ae9ce649add1b9ba693962059b4422975">total_bytes_written</a>.load());</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a94f7edce39df0eaecc79b1506464e9bc">forced_writes</a>.store(other.<a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a94f7edce39df0eaecc79b1506464e9bc">forced_writes</a>.load());</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a951724ea29363633a3caa6efd4e14a38">avg_write_time</a> = other.<a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a951724ea29363633a3caa6efd4e14a38">avg_write_time</a>;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#af280a741f12b5ab13e46d7e00bfa09ec">current_dirty_pages</a>.store(other.<a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#af280a741f12b5ab13e46d7e00bfa09ec">current_dirty_pages</a>.load());</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>      }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>      <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    }</div>
+</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="comment">// 移动赋值操作符</span></div>
+<div class="foldopen" id="foldopen00096" data-start="{" data-end="}">
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a0306a245766051ed34c19fd467cb842c">   96</a></span>    <a class="code hl_struct" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriterStats</a> &amp;<a class="code hl_function" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a0306a245766051ed34c19fd467cb842c">operator=</a>(<a class="code hl_struct" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriterStats</a> &amp;&amp;other) <span class="keyword">noexcept</span> {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>      <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;other) {</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a52d393419916e18aec477d3f12259b8c">total_writes</a>.store(other.total_writes.load());</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a9b47ef0753abc5f99c857330b99821c4">total_pages_written</a>.store(other.total_pages_written.load());</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#ae9ce649add1b9ba693962059b4422975">total_bytes_written</a>.store(other.total_bytes_written.load());</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a94f7edce39df0eaecc79b1506464e9bc">forced_writes</a>.store(other.forced_writes.load());</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a951724ea29363633a3caa6efd4e14a38">avg_write_time</a> = std::move(other.avg_write_time);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#af280a741f12b5ab13e46d7e00bfa09ec">current_dirty_pages</a>.store(other.current_dirty_pages.load());</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>      }</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>      <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    }</div>
+</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="foldopen" id="foldopen00108" data-start="{" data-end="}">
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a8dd151b9cb49dc2af99228c0d7e50119">  108</a></span>    <span class="keywordtype">double</span> <a class="code hl_function" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a8dd151b9cb49dc2af99228c0d7e50119">avg_pages_per_write</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>      <span class="keywordtype">size_t</span> writes = <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a52d393419916e18aec477d3f12259b8c">total_writes</a>.load();</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>      <span class="keywordflow">return</span> writes &gt; 0</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>                 ? <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a9b47ef0753abc5f99c857330b99821c4">total_pages_written</a>.load()) / writes</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                 : 0.0;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    }</div>
+</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="foldopen" id="foldopen00115" data-start="{" data-end="}">
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a35d091fda913e736f11493a9a61a0732">  115</a></span>    <span class="keywordtype">double</span> <a class="code hl_function" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a35d091fda913e736f11493a9a61a0732">avg_bytes_per_write</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>      <span class="keywordtype">size_t</span> writes = <a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a52d393419916e18aec477d3f12259b8c">total_writes</a>.load();</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>      <span class="keywordflow">return</span> writes &gt; 0</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>                 ? <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#ae9ce649add1b9ba693962059b4422975">total_bytes_written</a>.load()) / writes</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>                 : 0.0;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    }</div>
+</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>  };</div>
+</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  <span class="keyword">explicit</span> <a class="code hl_class" href="classsqlcc_1_1LazyWriter.html">LazyWriter</a>(<a class="code hl_class" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager, <a class="code hl_class" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;disk_manager);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>  <a class="code hl_function" href="classsqlcc_1_1LazyWriter.html#acbd1ba97cde551581ff9bc3e56f76d40">~LazyWriter</a>();</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1LazyWriter.html#a0a336b451c2aa254e2fcb02e23d4a03f">Start</a>();</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1LazyWriter.html#a112b8696ce3335aa7102904c2f796db3">Stop</a>();</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1LazyWriter.html#aed079417747123955d99a8f379860302">MarkDirty</a>(int32_t page_id, <span class="keyword">const</span> <a class="code hl_typedef" href="storage_2lazy__writer_8h.html#a42c06721f4d401a1122a7bbff208c4fe">PageData</a> &amp;page_data);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1LazyWriter.html#ac54f416eecf41eb1616ce50376350e7f">ForceFlush</a>();</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>  LazyWriterStats <a class="code hl_function" href="classsqlcc_1_1LazyWriter.html#af8f0b91fc4c0d1e5eb3acbcab5dd9519">GetStats</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1LazyWriter.html#ac08e54e2a9ff87b50c63bf4122552113">ResetStats</a>();</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1LazyWriter.html#a08daa80d5d96bd28b4ac4476f862c15a">SetEnabled</a>(<span class="keywordtype">bool</span> enabled);</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1LazyWriter.html#adc658661d9d8ca08cebdc44e0fa726e0">IsEnabled</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1LazyWriter.html#ae564e469578afbfb497551762f59a8b0">LazyWriteWorker</a>();</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1LazyWriter.html#ad53f50fd5e7ca3c04ed20482fe5f1614">FlushBatch</a>(<span class="keyword">const</span> std::vector&lt;DirtyPageInfo&gt; &amp;dirty_pages);</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1LazyWriter.html#a6453ea60d3a44167803a0d5aca3e4d58">ShouldFlush</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1LazyWriter.html#a81fccf235e57457c5cffb4c0db6062d4">UpdateConfig</a>();</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>  std::vector&lt;DirtyPageInfo&gt; <a class="code hl_function" href="classsqlcc_1_1LazyWriter.html#afc3bf0a547426dca206c067ecbbff885">GetPagesToFlush</a>();</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span> </div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>  <span class="comment">// 配置和依赖</span></div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#a760c5676d96b8c5f50f8bd840c24706c">  210</a></span>  <a class="code hl_class" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;<a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#a760c5676d96b8c5f50f8bd840c24706c">config_manager_</a>;</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#aded682ed3d5ff3b5304711f522f4a0d0">  211</a></span>  <a class="code hl_class" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;<a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#aded682ed3d5ff3b5304711f522f4a0d0">disk_manager_</a>;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>  <span class="comment">// 脏页管理</span></div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#a5363bf2dd898294788e5f519413afe25">  214</a></span>  std::unordered_map&lt;int32_t, DirtyPageInfo&gt; <a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#a5363bf2dd898294788e5f519413afe25">dirty_pages_</a>;</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#a733e12767e5a274bf9ba03a1eeb5e32f">  215</a></span>  std::unordered_map&lt;int32_t, PageData&gt; <a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#a733e12767e5a274bf9ba03a1eeb5e32f">dirty_page_data_</a>;</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#ab183a95ac0496302f9dced3f77a99439">  216</a></span>  <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#ab183a95ac0496302f9dced3f77a99439">dirty_mutex_</a>;</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>  <span class="comment">// 工作线程</span></div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#a1ad33190fcb44ea69357216891b321f5">  219</a></span>  std::thread <a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#a1ad33190fcb44ea69357216891b321f5">worker_thread_</a>;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#af74b850a988bccf62b30d118240e35e4">  220</a></span>  std::atomic&lt;bool&gt; <a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#af74b850a988bccf62b30d118240e35e4">running_</a>;</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#aaeb749dff1688f95689474031f15739e">  221</a></span>  std::atomic&lt;bool&gt; <a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#aaeb749dff1688f95689474031f15739e">enabled_</a>;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>  <span class="comment">// 条件变量用于唤醒工作线程</span></div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#ac5746c6a850860fc8568cf8f90b26dab">  224</a></span>  std::condition_variable <a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#ac5746c6a850860fc8568cf8f90b26dab">flush_cv_</a>;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#a989d2f6e506631f1096f9d7d86c49970">  225</a></span>  <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#a989d2f6e506631f1096f9d7d86c49970">flush_mutex_</a>;</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>  <span class="comment">// 统计信息</span></div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#a4e3a2b8921e6c714ebb9b0712006e211">  228</a></span>  <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#a4e3a2b8921e6c714ebb9b0712006e211">stats_mutex_</a>;</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#a81691d6c171dcc00b4acee4c6c81512f">  229</a></span>  <a class="code hl_struct" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriterStats</a> <a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#a81691d6c171dcc00b4acee4c6c81512f">stats_</a>;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span> </div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>  <span class="comment">// 配置参数</span></div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#ac94049eb78173715ecf4578d302c852c">  232</a></span>  std::chrono::milliseconds <a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#ac94049eb78173715ecf4578d302c852c">flush_interval_</a>;</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#a775f4243f6f539ab2941f739ee42ff57">  233</a></span>  <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#a775f4243f6f539ab2941f739ee42ff57">max_dirty_pages_</a>;</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#a445b7eb9d94b6651bcc0e61cb59571d7">  234</a></span>  <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#a445b7eb9d94b6651bcc0e61cb59571d7">batch_size_</a>;</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno"><a class="line" href="classsqlcc_1_1LazyWriter.html#a9c5064e44be0d7ad5a80002d90817158">  235</a></span>  std::chrono::milliseconds <a class="code hl_variable" href="classsqlcc_1_1LazyWriter.html#a9c5064e44be0d7ad5a80002d90817158">max_dirty_age_</a>;</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>};</div>
+</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigManager_html"><div class="ttname"><a href="classsqlcc_1_1ConfigManager.html">sqlcc::ConfigManager</a></div><div class="ttdef"><b>Definition</b> config_manager.h:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html">sqlcc::DiskManager</a></div><div class="ttdoc">磁盘管理器类</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:41</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html">sqlcc::LazyWriter</a></div><div class="ttdoc">延迟写入器类</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:46</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a08daa80d5d96bd28b4ac4476f862c15a"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a08daa80d5d96bd28b4ac4476f862c15a">sqlcc::LazyWriter::SetEnabled</a></div><div class="ttdeci">void SetEnabled(bool enabled)</div><div class="ttdoc">设置是否启用</div><div class="ttdef"><b>Definition</b> lazy_writer.cpp:102</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a0a336b451c2aa254e2fcb02e23d4a03f"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a0a336b451c2aa254e2fcb02e23d4a03f">sqlcc::LazyWriter::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdoc">启动延迟写入器</div><div class="ttdef"><b>Definition</b> lazy_writer.cpp:17</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a112b8696ce3335aa7102904c2f796db3"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a112b8696ce3335aa7102904c2f796db3">sqlcc::LazyWriter::Stop</a></div><div class="ttdeci">void Stop()</div><div class="ttdoc">停止延迟写入器</div><div class="ttdef"><b>Definition</b> lazy_writer.cpp:29</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a1ad33190fcb44ea69357216891b321f5"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a1ad33190fcb44ea69357216891b321f5">sqlcc::LazyWriter::worker_thread_</a></div><div class="ttdeci">std::thread worker_thread_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:219</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a445b7eb9d94b6651bcc0e61cb59571d7"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a445b7eb9d94b6651bcc0e61cb59571d7">sqlcc::LazyWriter::batch_size_</a></div><div class="ttdeci">size_t batch_size_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:234</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a4e3a2b8921e6c714ebb9b0712006e211"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a4e3a2b8921e6c714ebb9b0712006e211">sqlcc::LazyWriter::stats_mutex_</a></div><div class="ttdeci">std::mutex stats_mutex_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:228</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a5363bf2dd898294788e5f519413afe25"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a5363bf2dd898294788e5f519413afe25">sqlcc::LazyWriter::dirty_pages_</a></div><div class="ttdeci">std::unordered_map&lt; int32_t, DirtyPageInfo &gt; dirty_pages_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:214</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a6453ea60d3a44167803a0d5aca3e4d58"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a6453ea60d3a44167803a0d5aca3e4d58">sqlcc::LazyWriter::ShouldFlush</a></div><div class="ttdeci">bool ShouldFlush() const</div><div class="ttdoc">检查是否应该触发写入</div><div class="ttdef"><b>Definition</b> lazy_writer.cpp:177</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a733e12767e5a274bf9ba03a1eeb5e32f"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a733e12767e5a274bf9ba03a1eeb5e32f">sqlcc::LazyWriter::dirty_page_data_</a></div><div class="ttdeci">std::unordered_map&lt; int32_t, PageData &gt; dirty_page_data_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:215</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a760c5676d96b8c5f50f8bd840c24706c"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a760c5676d96b8c5f50f8bd840c24706c">sqlcc::LazyWriter::config_manager_</a></div><div class="ttdeci">ConfigManager &amp; config_manager_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:210</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a775f4243f6f539ab2941f739ee42ff57"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a775f4243f6f539ab2941f739ee42ff57">sqlcc::LazyWriter::max_dirty_pages_</a></div><div class="ttdeci">size_t max_dirty_pages_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:233</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a81691d6c171dcc00b4acee4c6c81512f"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a81691d6c171dcc00b4acee4c6c81512f">sqlcc::LazyWriter::stats_</a></div><div class="ttdeci">LazyWriterStats stats_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:229</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a81fccf235e57457c5cffb4c0db6062d4"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a81fccf235e57457c5cffb4c0db6062d4">sqlcc::LazyWriter::UpdateConfig</a></div><div class="ttdeci">void UpdateConfig()</div><div class="ttdoc">更新配置参数</div><div class="ttdef"><b>Definition</b> lazy_writer.cpp:197</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a989d2f6e506631f1096f9d7d86c49970"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a989d2f6e506631f1096f9d7d86c49970">sqlcc::LazyWriter::flush_mutex_</a></div><div class="ttdeci">std::mutex flush_mutex_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:225</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_a9c5064e44be0d7ad5a80002d90817158"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#a9c5064e44be0d7ad5a80002d90817158">sqlcc::LazyWriter::max_dirty_age_</a></div><div class="ttdeci">std::chrono::milliseconds max_dirty_age_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:235</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_aaeb749dff1688f95689474031f15739e"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#aaeb749dff1688f95689474031f15739e">sqlcc::LazyWriter::enabled_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; enabled_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:221</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_ab183a95ac0496302f9dced3f77a99439"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#ab183a95ac0496302f9dced3f77a99439">sqlcc::LazyWriter::dirty_mutex_</a></div><div class="ttdeci">std::mutex dirty_mutex_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:216</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_ac08e54e2a9ff87b50c63bf4122552113"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#ac08e54e2a9ff87b50c63bf4122552113">sqlcc::LazyWriter::ResetStats</a></div><div class="ttdeci">void ResetStats()</div><div class="ttdoc">重置统计信息</div><div class="ttdef"><b>Definition</b> lazy_writer.cpp:97</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_ac54f416eecf41eb1616ce50376350e7f"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#ac54f416eecf41eb1616ce50376350e7f">sqlcc::LazyWriter::ForceFlush</a></div><div class="ttdeci">void ForceFlush()</div><div class="ttdoc">强制刷新所有脏页</div><div class="ttdef"><b>Definition</b> lazy_writer.cpp:71</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_ac5746c6a850860fc8568cf8f90b26dab"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#ac5746c6a850860fc8568cf8f90b26dab">sqlcc::LazyWriter::flush_cv_</a></div><div class="ttdeci">std::condition_variable flush_cv_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:224</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_ac94049eb78173715ecf4578d302c852c"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#ac94049eb78173715ecf4578d302c852c">sqlcc::LazyWriter::flush_interval_</a></div><div class="ttdeci">std::chrono::milliseconds flush_interval_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:232</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_acbd1ba97cde551581ff9bc3e56f76d40"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#acbd1ba97cde551581ff9bc3e56f76d40">sqlcc::LazyWriter::~LazyWriter</a></div><div class="ttdeci">~LazyWriter()</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> lazy_writer.cpp:15</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_ad53f50fd5e7ca3c04ed20482fe5f1614"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#ad53f50fd5e7ca3c04ed20482fe5f1614">sqlcc::LazyWriter::FlushBatch</a></div><div class="ttdeci">void FlushBatch(const std::vector&lt; DirtyPageInfo &gt; &amp;dirty_pages)</div><div class="ttdoc">执行批量写入</div><div class="ttdef"><b>Definition</b> lazy_writer.cpp:133</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_adc658661d9d8ca08cebdc44e0fa726e0"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#adc658661d9d8ca08cebdc44e0fa726e0">sqlcc::LazyWriter::IsEnabled</a></div><div class="ttdeci">bool IsEnabled() const</div><div class="ttdoc">检查是否启用</div><div class="ttdef"><b>Definition</b> lazy_writer.cpp:104</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_aded682ed3d5ff3b5304711f522f4a0d0"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#aded682ed3d5ff3b5304711f522f4a0d0">sqlcc::LazyWriter::disk_manager_</a></div><div class="ttdeci">DiskManager &amp; disk_manager_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:211</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_ae564e469578afbfb497551762f59a8b0"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#ae564e469578afbfb497551762f59a8b0">sqlcc::LazyWriter::LazyWriteWorker</a></div><div class="ttdeci">void LazyWriteWorker()</div><div class="ttdoc">延迟写入工作线程函数</div><div class="ttdef"><b>Definition</b> lazy_writer.cpp:106</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_aed079417747123955d99a8f379860302"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#aed079417747123955d99a8f379860302">sqlcc::LazyWriter::MarkDirty</a></div><div class="ttdeci">void MarkDirty(int32_t page_id, const PageData &amp;page_data)</div><div class="ttdoc">标记页面为脏页</div><div class="ttdef"><b>Definition</b> lazy_writer.cpp:44</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_af74b850a988bccf62b30d118240e35e4"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#af74b850a988bccf62b30d118240e35e4">sqlcc::LazyWriter::running_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; running_</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:220</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_af8f0b91fc4c0d1e5eb3acbcab5dd9519"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#af8f0b91fc4c0d1e5eb3acbcab5dd9519">sqlcc::LazyWriter::GetStats</a></div><div class="ttdeci">LazyWriterStats GetStats() const</div><div class="ttdoc">获取延迟写入器统计信息</div><div class="ttdef"><b>Definition</b> lazy_writer.cpp:92</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LazyWriter_html_afc3bf0a547426dca206c067ecbbff885"><div class="ttname"><a href="classsqlcc_1_1LazyWriter.html#afc3bf0a547426dca206c067ecbbff885">sqlcc::LazyWriter::GetPagesToFlush</a></div><div class="ttdeci">std::vector&lt; DirtyPageInfo &gt; GetPagesToFlush()</div><div class="ttdoc">获取需要刷新的脏页</div><div class="ttdef"><b>Definition</b> lazy_writer.cpp:206</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astorage_2disk__manager_8h_html"><div class="ttname"><a href="storage_2disk__manager_8h.html">disk_manager.h</a></div></div>
+<div class="ttc" id="astorage_2lazy__writer_8h_html_a42c06721f4d401a1122a7bbff208c4fe"><div class="ttname"><a href="storage_2lazy__writer_8h.html#a42c06721f4d401a1122a7bbff208c4fe">PageData</a></div><div class="ttdeci">std::vector&lt; char &gt; PageData</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:17</div></div>
+<div class="ttc" id="astructsqlcc_1_1DirtyPageInfo_html"><div class="ttname"><a href="structsqlcc_1_1DirtyPageInfo.html">sqlcc::DirtyPageInfo</a></div><div class="ttdoc">脏页信息结构</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:24</div></div>
+<div class="ttc" id="astructsqlcc_1_1DirtyPageInfo_html_a0258489121c5c2ad43f378c45f7c5a69"><div class="ttname"><a href="structsqlcc_1_1DirtyPageInfo.html#a0258489121c5c2ad43f378c45f7c5a69">sqlcc::DirtyPageInfo::page_id</a></div><div class="ttdeci">int32_t page_id</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:25</div></div>
+<div class="ttc" id="astructsqlcc_1_1DirtyPageInfo_html_a4a9d97716df2625b8e73228e96079cdf"><div class="ttname"><a href="structsqlcc_1_1DirtyPageInfo.html#a4a9d97716df2625b8e73228e96079cdf">sqlcc::DirtyPageInfo::last_modified</a></div><div class="ttdeci">std::chrono::steady_clock::time_point last_modified</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:26</div></div>
+<div class="ttc" id="astructsqlcc_1_1DirtyPageInfo_html_a5a33119e38c8954fe0698a50b7f8d2c7"><div class="ttname"><a href="structsqlcc_1_1DirtyPageInfo.html#a5a33119e38c8954fe0698a50b7f8d2c7">sqlcc::DirtyPageInfo::modification_count</a></div><div class="ttdeci">int modification_count</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:27</div></div>
+<div class="ttc" id="astructsqlcc_1_1DirtyPageInfo_html_a86af57371e744f058c5b47875bf02c28"><div class="ttname"><a href="structsqlcc_1_1DirtyPageInfo.html#a86af57371e744f058c5b47875bf02c28">sqlcc::DirtyPageInfo::is_pinned</a></div><div class="ttdeci">bool is_pinned</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:28</div></div>
+<div class="ttc" id="astructsqlcc_1_1DirtyPageInfo_html_ac80f39b5149d20d8a29ab467b82e331f"><div class="ttname"><a href="structsqlcc_1_1DirtyPageInfo.html#ac80f39b5149d20d8a29ab467b82e331f">sqlcc::DirtyPageInfo::update</a></div><div class="ttdeci">void update()</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:35</div></div>
+<div class="ttc" id="astructsqlcc_1_1DirtyPageInfo_html_ad64e3045e2784ac11cb0191e90e977d1"><div class="ttname"><a href="structsqlcc_1_1DirtyPageInfo.html#ad64e3045e2784ac11cb0191e90e977d1">sqlcc::DirtyPageInfo::DirtyPageInfo</a></div><div class="ttdeci">DirtyPageInfo(int32_t pid)</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:30</div></div>
+<div class="ttc" id="astructsqlcc_1_1LazyWriter_1_1LazyWriterStats_html"><div class="ttname"><a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">sqlcc::LazyWriter::LazyWriterStats</a></div><div class="ttdoc">延迟写入器统计信息</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:51</div></div>
+<div class="ttc" id="astructsqlcc_1_1LazyWriter_1_1LazyWriterStats_html_a0306a245766051ed34c19fd467cb842c"><div class="ttname"><a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a0306a245766051ed34c19fd467cb842c">sqlcc::LazyWriter::LazyWriterStats::operator=</a></div><div class="ttdeci">LazyWriterStats &amp; operator=(LazyWriterStats &amp;&amp;other) noexcept</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:96</div></div>
+<div class="ttc" id="astructsqlcc_1_1LazyWriter_1_1LazyWriterStats_html_a14a8522c1c4f7e5ef99a3d0cf4cf3bb5"><div class="ttname"><a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a14a8522c1c4f7e5ef99a3d0cf4cf3bb5">sqlcc::LazyWriter::LazyWriterStats::LazyWriterStats</a></div><div class="ttdeci">LazyWriterStats()=default</div></div>
+<div class="ttc" id="astructsqlcc_1_1LazyWriter_1_1LazyWriterStats_html_a17a2705d16c998f35e3f2539b1c47779"><div class="ttname"><a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a17a2705d16c998f35e3f2539b1c47779">sqlcc::LazyWriter::LazyWriterStats::LazyWriterStats</a></div><div class="ttdeci">LazyWriterStats(LazyWriterStats &amp;&amp;other) noexcept</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:73</div></div>
+<div class="ttc" id="astructsqlcc_1_1LazyWriter_1_1LazyWriterStats_html_a35d091fda913e736f11493a9a61a0732"><div class="ttname"><a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a35d091fda913e736f11493a9a61a0732">sqlcc::LazyWriter::LazyWriterStats::avg_bytes_per_write</a></div><div class="ttdeci">double avg_bytes_per_write() const</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:115</div></div>
+<div class="ttc" id="astructsqlcc_1_1LazyWriter_1_1LazyWriterStats_html_a3fabdf24bbde9220e03da5e69b9af4ed"><div class="ttname"><a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a3fabdf24bbde9220e03da5e69b9af4ed">sqlcc::LazyWriter::LazyWriterStats::LazyWriterStats</a></div><div class="ttdeci">LazyWriterStats(const LazyWriterStats &amp;other)</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:63</div></div>
+<div class="ttc" id="astructsqlcc_1_1LazyWriter_1_1LazyWriterStats_html_a52d393419916e18aec477d3f12259b8c"><div class="ttname"><a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a52d393419916e18aec477d3f12259b8c">sqlcc::LazyWriter::LazyWriterStats::total_writes</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; total_writes</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:52</div></div>
+<div class="ttc" id="astructsqlcc_1_1LazyWriter_1_1LazyWriterStats_html_a72d987cb0e4063f174c4829c2eab9436"><div class="ttname"><a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a72d987cb0e4063f174c4829c2eab9436">sqlcc::LazyWriter::LazyWriterStats::operator=</a></div><div class="ttdeci">LazyWriterStats &amp; operator=(const LazyWriterStats &amp;other)</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:83</div></div>
+<div class="ttc" id="astructsqlcc_1_1LazyWriter_1_1LazyWriterStats_html_a8dd151b9cb49dc2af99228c0d7e50119"><div class="ttname"><a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a8dd151b9cb49dc2af99228c0d7e50119">sqlcc::LazyWriter::LazyWriterStats::avg_pages_per_write</a></div><div class="ttdeci">double avg_pages_per_write() const</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:108</div></div>
+<div class="ttc" id="astructsqlcc_1_1LazyWriter_1_1LazyWriterStats_html_a94f7edce39df0eaecc79b1506464e9bc"><div class="ttname"><a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a94f7edce39df0eaecc79b1506464e9bc">sqlcc::LazyWriter::LazyWriterStats::forced_writes</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; forced_writes</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:55</div></div>
+<div class="ttc" id="astructsqlcc_1_1LazyWriter_1_1LazyWriterStats_html_a951724ea29363633a3caa6efd4e14a38"><div class="ttname"><a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a951724ea29363633a3caa6efd4e14a38">sqlcc::LazyWriter::LazyWriterStats::avg_write_time</a></div><div class="ttdeci">std::chrono::microseconds avg_write_time</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:56</div></div>
+<div class="ttc" id="astructsqlcc_1_1LazyWriter_1_1LazyWriterStats_html_a9b47ef0753abc5f99c857330b99821c4"><div class="ttname"><a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#a9b47ef0753abc5f99c857330b99821c4">sqlcc::LazyWriter::LazyWriterStats::total_pages_written</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; total_pages_written</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:53</div></div>
+<div class="ttc" id="astructsqlcc_1_1LazyWriter_1_1LazyWriterStats_html_ae9ce649add1b9ba693962059b4422975"><div class="ttname"><a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#ae9ce649add1b9ba693962059b4422975">sqlcc::LazyWriter::LazyWriterStats::total_bytes_written</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; total_bytes_written</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:54</div></div>
+<div class="ttc" id="astructsqlcc_1_1LazyWriter_1_1LazyWriterStats_html_af280a741f12b5ab13e46d7e00bfa09ec"><div class="ttname"><a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#af280a741f12b5ab13e46d7e00bfa09ec">sqlcc::LazyWriter::LazyWriterStats::current_dirty_pages</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; current_dirty_pages</div><div class="ttdef"><b>Definition</b> storage/lazy_writer.h:57</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

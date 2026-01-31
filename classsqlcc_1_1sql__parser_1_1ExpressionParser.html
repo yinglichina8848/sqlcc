@@ -1,0 +1,537 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::ExpressionParser类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html">ExpressionParser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1ExpressionParser-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::ExpressionParser类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="expression__parser_8h_source.html">expression_parser.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::sql_parser::ExpressionParser 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__parser_1_1ExpressionParser__coll__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1ExpressionParser_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1sql__parser_1_1ExpressionParser_coll__map" id="asqlcc_1_1sql__parser_1_1ExpressionParser_coll__map">
+<area shape="rect" title=" " alt="" coords="87,240,225,280"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1TokenStream.html" title="Token流管理类 &#45; 负责词法分析器的token流管理" alt="" coords="87,137,225,177"/>
+<area shape="poly" title=" " alt="" coords="159,191,159,240,153,240,153,191"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1Lexer.html" title="SQL词法分析器类" alt="" coords="5,5,144,45"/>
+<area shape="poly" title=" " alt="" coords="96,56,146,136,142,139,92,59"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1Token.html" title="Token类" alt="" coords="168,5,307,45"/>
+<area shape="poly" title=" " alt="" coords="220,59,170,139,166,136,216,56"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:aab40e71ab9a2535754fcc07a7b55c2ee" id="r_aab40e71ab9a2535754fcc07a7b55c2ee"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#aab40e71ab9a2535754fcc07a7b55c2ee">ExpressionParser</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a> &amp;tokens)</td></tr>
+<tr class="separator:aab40e71ab9a2535754fcc07a7b55c2ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f89457998fe0884c23a0fa631729296" id="r_a9f89457998fe0884c23a0fa631729296"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#a9f89457998fe0884c23a0fa631729296">parseExpression</a> ()</td></tr>
+<tr class="separator:a9f89457998fe0884c23a0fa631729296"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bc52c96a24822513e74b04dd494071f" id="r_a5bc52c96a24822513e74b04dd494071f"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#a5bc52c96a24822513e74b04dd494071f">parseLogicalOr</a> ()</td></tr>
+<tr class="separator:a5bc52c96a24822513e74b04dd494071f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29bf6bed8ba3eba16bab23fa0e11fb45" id="r_a29bf6bed8ba3eba16bab23fa0e11fb45"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#a29bf6bed8ba3eba16bab23fa0e11fb45">parseLogicalAnd</a> ()</td></tr>
+<tr class="separator:a29bf6bed8ba3eba16bab23fa0e11fb45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2909ca60c8f812f2ca7ada3bae47d0e7" id="r_a2909ca60c8f812f2ca7ada3bae47d0e7"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#a2909ca60c8f812f2ca7ada3bae47d0e7">parseEquality</a> ()</td></tr>
+<tr class="separator:a2909ca60c8f812f2ca7ada3bae47d0e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fce963cb31231b343168d9e4a131ed2" id="r_a9fce963cb31231b343168d9e4a131ed2"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#a9fce963cb31231b343168d9e4a131ed2">parseComparison</a> ()</td></tr>
+<tr class="separator:a9fce963cb31231b343168d9e4a131ed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67e07f0aeb32e8b456ddcc01bda82c7d" id="r_a67e07f0aeb32e8b456ddcc01bda82c7d"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#a67e07f0aeb32e8b456ddcc01bda82c7d">parseTerm</a> ()</td></tr>
+<tr class="separator:a67e07f0aeb32e8b456ddcc01bda82c7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83886525d1f26da12d836b65b07753de" id="r_a83886525d1f26da12d836b65b07753de"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#a83886525d1f26da12d836b65b07753de">parseFactor</a> ()</td></tr>
+<tr class="separator:a83886525d1f26da12d836b65b07753de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae01866d117b9e1903067691b492424bb" id="r_ae01866d117b9e1903067691b492424bb"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#ae01866d117b9e1903067691b492424bb">parseUnary</a> ()</td></tr>
+<tr class="separator:ae01866d117b9e1903067691b492424bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d7df53cbc3c0da506456184c1d79bf3" id="r_a6d7df53cbc3c0da506456184c1d79bf3"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#a6d7df53cbc3c0da506456184c1d79bf3">parsePrimary</a> ()</td></tr>
+<tr class="separator:a6d7df53cbc3c0da506456184c1d79bf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a886b9ed28d41c7f40bdd51d1439b6711" id="r_a886b9ed28d41c7f40bdd51d1439b6711"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#a886b9ed28d41c7f40bdd51d1439b6711">parseIdentifierExpression</a> ()</td></tr>
+<tr class="separator:a886b9ed28d41c7f40bdd51d1439b6711"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a4cce776b1be7b1192cdcee8326bdcbab" id="r_a4cce776b1be7b1192cdcee8326bdcbab"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#a4cce776b1be7b1192cdcee8326bdcbab">parseBinaryExpression</a> (int minPrecedence)</td></tr>
+<tr class="separator:a4cce776b1be7b1192cdcee8326bdcbab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56f5efea8a49be6eab984bb29005d542" id="r_a56f5efea8a49be6eab984bb29005d542"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#a56f5efea8a49be6eab984bb29005d542">getPrecedence</a> (<a class="el" href="namespacesqlcc_1_1sql__parser.html#a6e5a6843e2ed5163f574ce97b65e929f">OperatorKind</a> op) const</td></tr>
+<tr class="separator:a56f5efea8a49be6eab984bb29005d542"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60467c45e204b6b0bbafc51a00e1767f" id="r_a60467c45e204b6b0bbafc51a00e1767f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc_1_1sql__parser.html#a6e5a6843e2ed5163f574ce97b65e929f">OperatorKind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#a60467c45e204b6b0bbafc51a00e1767f">tokenToOperatorKind</a> (<a class="el" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a> tokenType) const</td></tr>
+<tr class="separator:a60467c45e204b6b0bbafc51a00e1767f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65019aa5c28f2061972aafba325882e1" id="r_a65019aa5c28f2061972aafba325882e1"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#a65019aa5c28f2061972aafba325882e1">parseBinaryOp</a> (std::function&lt; std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;()&gt; parseNextLevel, const std::vector&lt; <a class="el" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a> &gt; &amp;operators)</td></tr>
+<tr class="separator:a65019aa5c28f2061972aafba325882e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a452441910e21b1065bc52e387ee4971e" id="r_a452441910e21b1065bc52e387ee4971e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#a452441910e21b1065bc52e387ee4971e">tokens_</a></td></tr>
+<tr class="separator:a452441910e21b1065bc52e387ee4971e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html">ExpressionParser</a> - SQL表达式解析器</p>
+<p>专门负责解析SQL中的各种表达式类型，实现单一职责原则。 通过依赖注入接收TokenStream，确保松耦合和高可测试性。 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="aab40e71ab9a2535754fcc07a7b55c2ee" name="aab40e71ab9a2535754fcc07a7b55c2ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab40e71ab9a2535754fcc07a7b55c2ee">&#9670;&#160;</a></span>ExpressionParser()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::ExpressionParser::ExpressionParser </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a> &amp;&#160;</td>
+          <td class="paramname"><em>tokens</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>构造函数 - 依赖注入TokenStream </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tokens</td><td>Token流，提供token访问接口 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a56f5efea8a49be6eab984bb29005d542" name="a56f5efea8a49be6eab984bb29005d542"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56f5efea8a49be6eab984bb29005d542">&#9670;&#160;</a></span>getPrecedence()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::sql_parser::ExpressionParser::getPrecedence </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1sql__parser.html#a6e5a6843e2ed5163f574ce97b65e929f">OperatorKind</a>&#160;</td>
+          <td class="paramname"><em>op</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4cce776b1be7b1192cdcee8326bdcbab" name="a4cce776b1be7b1192cdcee8326bdcbab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cce776b1be7b1192cdcee8326bdcbab">&#9670;&#160;</a></span>parseBinaryExpression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="expression_8h.html#a16b0937ad0c3040f3ff7286f9ab45f0d">ExprPtr</a> sqlcc::sql_parser::ExpressionParser::parseBinaryExpression </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>minPrecedence</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a65019aa5c28f2061972aafba325882e1" name="a65019aa5c28f2061972aafba325882e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65019aa5c28f2061972aafba325882e1">&#9670;&#160;</a></span>parseBinaryOp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="expression_8h.html#a16b0937ad0c3040f3ff7286f9ab45f0d">ExprPtr</a> sqlcc::sql_parser::ExpressionParser::parseBinaryOp </td>
+          <td>(</td>
+          <td class="paramtype">std::function&lt; std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;()&gt;&#160;</td>
+          <td class="paramname"><em>parseNextLevel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>operators</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9fce963cb31231b343168d9e4a131ed2" name="a9fce963cb31231b343168d9e4a131ed2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fce963cb31231b343168d9e4a131ed2">&#9670;&#160;</a></span>parseComparison()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="expression_8h.html#a16b0937ad0c3040f3ff7286f9ab45f0d">ExprPtr</a> sqlcc::sql_parser::ExpressionParser::parseComparison </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>parseComparison - 解析比较表达式</p>
+<p>处理&lt;, &gt;, &lt;=, &gt;=等比较运算符。 表达式形式：expr1 &lt; expr2, expr1 &gt;= expr2</p>
+<dl class="section return"><dt>返回</dt><dd>比较表达式AST节点 </dd></dl>
+
+</div>
+</div>
+<a id="a2909ca60c8f812f2ca7ada3bae47d0e7" name="a2909ca60c8f812f2ca7ada3bae47d0e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2909ca60c8f812f2ca7ada3bae47d0e7">&#9670;&#160;</a></span>parseEquality()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="expression_8h.html#a16b0937ad0c3040f3ff7286f9ab45f0d">ExprPtr</a> sqlcc::sql_parser::ExpressionParser::parseEquality </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>parseEquality - 解析等式表达式</p>
+<p>处理=, !=等比较运算符。 表达式形式：expr1 = expr2, expr1 != expr2</p>
+<dl class="section return"><dt>返回</dt><dd>等式表达式AST节点 </dd></dl>
+
+</div>
+</div>
+<a id="a9f89457998fe0884c23a0fa631729296" name="a9f89457998fe0884c23a0fa631729296"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f89457998fe0884c23a0fa631729296">&#9670;&#160;</a></span>parseExpression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="expression_8h.html#a16b0937ad0c3040f3ff7286f9ab45f0d">ExprPtr</a> sqlcc::sql_parser::ExpressionParser::parseExpression </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>parseExpression - 表达式解析主入口</p>
+<p>解析完整的SQL表达式，从最低优先级的OR运算符开始。 这是一个递归下降解析器的入口点。</p>
+<dl class="section return"><dt>返回</dt><dd>解析后的表达式AST节点 </dd></dl>
+
+</div>
+</div>
+<a id="a83886525d1f26da12d836b65b07753de" name="a83886525d1f26da12d836b65b07753de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83886525d1f26da12d836b65b07753de">&#9670;&#160;</a></span>parseFactor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="expression_8h.html#a16b0937ad0c3040f3ff7286f9ab45f0d">ExprPtr</a> sqlcc::sql_parser::ExpressionParser::parseFactor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>parseFactor - 解析因子表达式（乘除法）</p>
+<p>处理*, /和运算符。 表达式形式：expr1 * expr2, expr1 / expr2, expr1 % expr2</p>
+<dl class="section return"><dt>返回</dt><dd>因子表达式AST节点 </dd></dl>
+
+</div>
+</div>
+<a id="a886b9ed28d41c7f40bdd51d1439b6711" name="a886b9ed28d41c7f40bdd51d1439b6711"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a886b9ed28d41c7f40bdd51d1439b6711">&#9670;&#160;</a></span>parseIdentifierExpression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="expression_8h.html#a16b0937ad0c3040f3ff7286f9ab45f0d">ExprPtr</a> sqlcc::sql_parser::ExpressionParser::parseIdentifierExpression </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>parseIdentifierExpression - 解析标识符表达式</p>
+<p>处理列引用和函数调用：</p><ul>
+<li>简单列：column</li>
+<li>限定列：table.column, alias.column</li>
+<li>函数调用：func(expr1, expr2, ...)</li>
+</ul>
+<dl class="section return"><dt>返回</dt><dd>标识符表达式AST节点 </dd></dl>
+
+</div>
+</div>
+<a id="a29bf6bed8ba3eba16bab23fa0e11fb45" name="a29bf6bed8ba3eba16bab23fa0e11fb45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29bf6bed8ba3eba16bab23fa0e11fb45">&#9670;&#160;</a></span>parseLogicalAnd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="expression_8h.html#a16b0937ad0c3040f3ff7286f9ab45f0d">ExprPtr</a> sqlcc::sql_parser::ExpressionParser::parseLogicalAnd </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>parseLogicalAnd - 解析逻辑与表达式</p>
+<p>处理AND运算符，优先级高于OR。 表达式形式：expr1 AND expr2 AND expr3</p>
+<dl class="section return"><dt>返回</dt><dd>逻辑与表达式AST节点 </dd></dl>
+
+</div>
+</div>
+<a id="a5bc52c96a24822513e74b04dd494071f" name="a5bc52c96a24822513e74b04dd494071f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bc52c96a24822513e74b04dd494071f">&#9670;&#160;</a></span>parseLogicalOr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="expression_8h.html#a16b0937ad0c3040f3ff7286f9ab45f0d">ExprPtr</a> sqlcc::sql_parser::ExpressionParser::parseLogicalOr </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>parseLogicalOr - 解析逻辑或表达式 (最低优先级)</p>
+<p>处理OR运算符，具有最低的优先级。 表达式形式：expr1 OR expr2 OR expr3</p>
+<dl class="section return"><dt>返回</dt><dd>逻辑或表达式AST节点 </dd></dl>
+
+</div>
+</div>
+<a id="a6d7df53cbc3c0da506456184c1d79bf3" name="a6d7df53cbc3c0da506456184c1d79bf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d7df53cbc3c0da506456184c1d79bf3">&#9670;&#160;</a></span>parsePrimary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="expression_8h.html#a16b0937ad0c3040f3ff7286f9ab45f0d">ExprPtr</a> sqlcc::sql_parser::ExpressionParser::parsePrimary </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>parsePrimary - 解析基本表达式（原子表达式）</p>
+<p>处理最基本的表达式单元：</p><ul>
+<li>字面量：数字、字符串、NULL、TRUE/FALSE</li>
+<li>列引用：table.column, column</li>
+<li>函数调用：func(args)</li>
+<li>括号表达式：(expr)</li>
+<li>子查询：(SELECT ...)</li>
+</ul>
+<dl class="section return"><dt>返回</dt><dd>基本表达式AST节点 </dd></dl>
+
+</div>
+</div>
+<a id="a67e07f0aeb32e8b456ddcc01bda82c7d" name="a67e07f0aeb32e8b456ddcc01bda82c7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67e07f0aeb32e8b456ddcc01bda82c7d">&#9670;&#160;</a></span>parseTerm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="expression_8h.html#a16b0937ad0c3040f3ff7286f9ab45f0d">ExprPtr</a> sqlcc::sql_parser::ExpressionParser::parseTerm </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>parseTerm - 解析项表达式（加减法）</p>
+<p>处理+和-运算符。 表达式形式：expr1 + expr2, expr1 - expr2</p>
+<dl class="section return"><dt>返回</dt><dd>项表达式AST节点 </dd></dl>
+
+</div>
+</div>
+<a id="ae01866d117b9e1903067691b492424bb" name="ae01866d117b9e1903067691b492424bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae01866d117b9e1903067691b492424bb">&#9670;&#160;</a></span>parseUnary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="expression_8h.html#a16b0937ad0c3040f3ff7286f9ab45f0d">ExprPtr</a> sqlcc::sql_parser::ExpressionParser::parseUnary </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>parseUnary - 解析一元表达式</p>
+<p>处理NOT, unary +/-/~等一元运算符。 表达式形式：NOT expr, -expr, +expr</p>
+<dl class="section return"><dt>返回</dt><dd>一元表达式AST节点 </dd></dl>
+
+</div>
+</div>
+<a id="a60467c45e204b6b0bbafc51a00e1767f" name="a60467c45e204b6b0bbafc51a00e1767f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60467c45e204b6b0bbafc51a00e1767f">&#9670;&#160;</a></span>tokenToOperatorKind()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc_1_1sql__parser.html#a6e5a6843e2ed5163f574ce97b65e929f">OperatorKind</a> sqlcc::sql_parser::ExpressionParser::tokenToOperatorKind </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a>&#160;</td>
+          <td class="paramname"><em>tokenType</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a452441910e21b1065bc52e387ee4971e" name="a452441910e21b1065bc52e387ee4971e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a452441910e21b1065bc52e387ee4971e">&#9670;&#160;</a></span>tokens_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a>&amp; sqlcc::sql_parser::ExpressionParser::tokens_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="expression__parser_8h_source.html">expression_parser.h</a></li>
+<li><a class="el" href="expression__parser_8cpp.html">expression_parser.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

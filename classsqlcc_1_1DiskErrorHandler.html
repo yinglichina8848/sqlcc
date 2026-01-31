@@ -1,0 +1,2190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::DiskErrorHandler类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html">DiskErrorHandler</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1DiskErrorHandler-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::DiskErrorHandler类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="storage_2disk__error__handler_8h_source.html">disk_error_handler.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::DiskErrorHandler 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1DiskErrorHandler__coll__graph.png" border="0" usemap="#asqlcc_1_1DiskErrorHandler_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1DiskErrorHandler_coll__map" id="asqlcc_1_1DiskErrorHandler_coll__map">
+<area shape="rect" title=" " alt="" coords="5,93,180,119"/>
+<area shape="rect" href="structsqlcc_1_1DiskHealthStats.html" title=" " alt="" coords="9,5,177,31"/>
+<area shape="poly" title=" " alt="" coords="95,45,95,93,90,93,90,45"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a9f47ce887565f2e05dd115a4497d2b7e" id="r_a9f47ce887565f2e05dd115a4497d2b7e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a9f47ce887565f2e05dd115a4497d2b7e">ErrorCallback</a> = std::function&lt; void(const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;)&gt;</td></tr>
+<tr class="separator:a9f47ce887565f2e05dd115a4497d2b7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a324e864549eaffe1997f89b0132eedef" id="r_a324e864549eaffe1997f89b0132eedef"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a324e864549eaffe1997f89b0132eedef">RecoveryCallback</a> = std::function&lt; void(int32_t page_id, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a>, bool success)&gt;</td></tr>
+<tr class="separator:a324e864549eaffe1997f89b0132eedef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ce68dd76e00c6bca7df8064533a7c95" id="r_a2ce68dd76e00c6bca7df8064533a7c95"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a2ce68dd76e00c6bca7df8064533a7c95">HealthChangeCallback</a> = std::function&lt; void(<a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4">DiskHealthStatus</a> old_status, <a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4">DiskHealthStatus</a> new_status)&gt;</td></tr>
+<tr class="separator:a2ce68dd76e00c6bca7df8064533a7c95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f47ce887565f2e05dd115a4497d2b7e" id="r_a9f47ce887565f2e05dd115a4497d2b7e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a9f47ce887565f2e05dd115a4497d2b7e">ErrorCallback</a> = std::function&lt; void(const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;)&gt;</td></tr>
+<tr class="separator:a9f47ce887565f2e05dd115a4497d2b7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a324e864549eaffe1997f89b0132eedef" id="r_a324e864549eaffe1997f89b0132eedef"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a324e864549eaffe1997f89b0132eedef">RecoveryCallback</a> = std::function&lt; void(int32_t page_id, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a>, bool success)&gt;</td></tr>
+<tr class="separator:a324e864549eaffe1997f89b0132eedef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ce68dd76e00c6bca7df8064533a7c95" id="r_a2ce68dd76e00c6bca7df8064533a7c95"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a2ce68dd76e00c6bca7df8064533a7c95">HealthChangeCallback</a> = std::function&lt; void(<a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4">DiskHealthStatus</a> old_status, <a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4">DiskHealthStatus</a> new_status)&gt;</td></tr>
+<tr class="separator:a2ce68dd76e00c6bca7df8064533a7c95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a2d36ce9bac1ee058eb2910ba96ed51cd" id="r_a2d36ce9bac1ee058eb2910ba96ed51cd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a2d36ce9bac1ee058eb2910ba96ed51cd">DiskErrorHandler</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &gt; disk_manager)</td></tr>
+<tr class="separator:a2d36ce9bac1ee058eb2910ba96ed51cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58d7e84db7776c6fd82d6d400cac0979" id="r_a58d7e84db7776c6fd82d6d400cac0979"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a58d7e84db7776c6fd82d6d400cac0979">~DiskErrorHandler</a> ()=default</td></tr>
+<tr class="separator:a58d7e84db7776c6fd82d6d400cac0979"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06ad4e266729f1db3f948c2aaf45d85f" id="r_a06ad4e266729f1db3f948c2aaf45d85f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a06ad4e266729f1db3f948c2aaf45d85f">HandleDiskError</a> (const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;error_info)</td></tr>
+<tr class="separator:a06ad4e266729f1db3f948c2aaf45d85f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32b4de385b4053d789b8ce77d5c47fc7" id="r_a32b4de385b4053d789b8ce77d5c47fc7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a32b4de385b4053d789b8ce77d5c47fc7">AttemptRecovery</a> (int32_t page_id, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a> strategy)</td></tr>
+<tr class="separator:a32b4de385b4053d789b8ce77d5c47fc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae55a280b1b9c6168d17be7fac73b36c8" id="r_ae55a280b1b9c6168d17be7fac73b36c8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#ae55a280b1b9c6168d17be7fac73b36c8">ValidateDataIntegrity</a> (int32_t page_id, const char *data, size_t size)</td></tr>
+<tr class="separator:ae55a280b1b9c6168d17be7fac73b36c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38c03dae08bd0fdf42237bbadf2e6000" id="r_a38c03dae08bd0fdf42237bbadf2e6000"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a38c03dae08bd0fdf42237bbadf2e6000">ComputeAndStoreChecksum</a> (int32_t page_id, const char *data, size_t size)</td></tr>
+<tr class="separator:a38c03dae08bd0fdf42237bbadf2e6000"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a160a101d88c5c2689f9d1a070024732b" id="r_a160a101d88c5c2689f9d1a070024732b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a160a101d88c5c2689f9d1a070024732b">VerifyChecksum</a> (int32_t page_id, const char *data, size_t size)</td></tr>
+<tr class="separator:a160a101d88c5c2689f9d1a070024732b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b94c6c55faa3a88c990e70900ca98e3" id="r_a6b94c6c55faa3a88c990e70900ca98e3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a6b94c6c55faa3a88c990e70900ca98e3">UpdateChecksum</a> (int32_t page_id, const char *data, size_t size)</td></tr>
+<tr class="separator:a6b94c6c55faa3a88c990e70900ca98e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d3dfc188e8fdb43d56b0580e6505289" id="r_a7d3dfc188e8fdb43d56b0580e6505289"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4">DiskHealthStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a7d3dfc188e8fdb43d56b0580e6505289">AssessDiskHealth</a> ()</td></tr>
+<tr class="separator:a7d3dfc188e8fdb43d56b0580e6505289"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae94e707969e01f8500fbee440c90557c" id="r_ae94e707969e01f8500fbee440c90557c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1DiskHealthStats.html">DiskHealthStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#ae94e707969e01f8500fbee440c90557c">GetHealthStats</a> () const</td></tr>
+<tr class="separator:ae94e707969e01f8500fbee440c90557c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f176ba174bb34aaf9ac6dba05f234b4" id="r_a7f176ba174bb34aaf9ac6dba05f234b4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a7f176ba174bb34aaf9ac6dba05f234b4">IsDiskHealthy</a> () const</td></tr>
+<tr class="separator:a7f176ba174bb34aaf9ac6dba05f234b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b095260dbbf78e3281a696564912b34" id="r_a0b095260dbbf78e3281a696564912b34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a0b095260dbbf78e3281a696564912b34">RecordError</a> (const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;error_info)</td></tr>
+<tr class="separator:a0b095260dbbf78e3281a696564912b34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1382aeb26c572fca13c3d33e6090eb59" id="r_a1382aeb26c572fca13c3d33e6090eb59"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a1382aeb26c572fca13c3d33e6090eb59">GetRecentErrors</a> (std::chrono::milliseconds time_window) const</td></tr>
+<tr class="separator:a1382aeb26c572fca13c3d33e6090eb59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99ebb1b89e25b9b9a0e342d0c063efae" id="r_a99ebb1b89e25b9b9a0e342d0c063efae"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbc">DiskErrorType</a>, size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a99ebb1b89e25b9b9a0e342d0c063efae">GetErrorCounts</a> () const</td></tr>
+<tr class="separator:a99ebb1b89e25b9b9a0e342d0c063efae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b1e72cc3ba596f1c0fe88a244c19237" id="r_a8b1e72cc3ba596f1c0fe88a244c19237"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a8b1e72cc3ba596f1c0fe88a244c19237">SetMaxRetries</a> (size_t max_retries)</td></tr>
+<tr class="separator:a8b1e72cc3ba596f1c0fe88a244c19237"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1791a5e5fd94e58f95fa3663b4c157d0" id="r_a1791a5e5fd94e58f95fa3663b4c157d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a1791a5e5fd94e58f95fa3663b4c157d0">SetRetryDelay</a> (std::chrono::milliseconds delay)</td></tr>
+<tr class="separator:a1791a5e5fd94e58f95fa3663b4c157d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff4e3ca30f0bc2d59841ea4e261ef7bb" id="r_aff4e3ca30f0bc2d59841ea4e261ef7bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#aff4e3ca30f0bc2d59841ea4e261ef7bb">SetHealthCheckInterval</a> (std::chrono::milliseconds interval)</td></tr>
+<tr class="separator:aff4e3ca30f0bc2d59841ea4e261ef7bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a266b541cbc176e1f5dc9f449118c6795" id="r_a266b541cbc176e1f5dc9f449118c6795"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a266b541cbc176e1f5dc9f449118c6795">EnableChecksumValidation</a> (bool enable)</td></tr>
+<tr class="separator:a266b541cbc176e1f5dc9f449118c6795"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7ec4e97d99cff9504b09b051c5f33cb" id="r_af7ec4e97d99cff9504b09b051c5f33cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#af7ec4e97d99cff9504b09b051c5f33cb">EnableAutoRecovery</a> (bool enable)</td></tr>
+<tr class="separator:af7ec4e97d99cff9504b09b051c5f33cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe98ded5f7985760dbe30d73ebf2cd5c" id="r_afe98ded5f7985760dbe30d73ebf2cd5c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#afe98ded5f7985760dbe30d73ebf2cd5c">SetErrorCallback</a> (<a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a9f47ce887565f2e05dd115a4497d2b7e">ErrorCallback</a> callback)</td></tr>
+<tr class="separator:afe98ded5f7985760dbe30d73ebf2cd5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04a15eb0c071030eb857978ff9e7b092" id="r_a04a15eb0c071030eb857978ff9e7b092"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a04a15eb0c071030eb857978ff9e7b092">SetRecoveryCallback</a> (<a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a324e864549eaffe1997f89b0132eedef">RecoveryCallback</a> callback)</td></tr>
+<tr class="separator:a04a15eb0c071030eb857978ff9e7b092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0cb5a9fdbc626530ae693d245793093" id="r_af0cb5a9fdbc626530ae693d245793093"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#af0cb5a9fdbc626530ae693d245793093">SetHealthChangeCallback</a> (<a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a2ce68dd76e00c6bca7df8064533a7c95">HealthChangeCallback</a> callback)</td></tr>
+<tr class="separator:af0cb5a9fdbc626530ae693d245793093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d36ce9bac1ee058eb2910ba96ed51cd" id="r_a2d36ce9bac1ee058eb2910ba96ed51cd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a2d36ce9bac1ee058eb2910ba96ed51cd">DiskErrorHandler</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &gt; disk_manager)</td></tr>
+<tr class="separator:a2d36ce9bac1ee058eb2910ba96ed51cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58d7e84db7776c6fd82d6d400cac0979" id="r_a58d7e84db7776c6fd82d6d400cac0979"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a58d7e84db7776c6fd82d6d400cac0979">~DiskErrorHandler</a> ()=default</td></tr>
+<tr class="separator:a58d7e84db7776c6fd82d6d400cac0979"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06ad4e266729f1db3f948c2aaf45d85f" id="r_a06ad4e266729f1db3f948c2aaf45d85f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a06ad4e266729f1db3f948c2aaf45d85f">HandleDiskError</a> (const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;error_info)</td></tr>
+<tr class="separator:a06ad4e266729f1db3f948c2aaf45d85f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32b4de385b4053d789b8ce77d5c47fc7" id="r_a32b4de385b4053d789b8ce77d5c47fc7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a32b4de385b4053d789b8ce77d5c47fc7">AttemptRecovery</a> (int32_t page_id, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a> strategy)</td></tr>
+<tr class="separator:a32b4de385b4053d789b8ce77d5c47fc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae55a280b1b9c6168d17be7fac73b36c8" id="r_ae55a280b1b9c6168d17be7fac73b36c8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#ae55a280b1b9c6168d17be7fac73b36c8">ValidateDataIntegrity</a> (int32_t page_id, const char *data, size_t size)</td></tr>
+<tr class="separator:ae55a280b1b9c6168d17be7fac73b36c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38c03dae08bd0fdf42237bbadf2e6000" id="r_a38c03dae08bd0fdf42237bbadf2e6000"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a38c03dae08bd0fdf42237bbadf2e6000">ComputeAndStoreChecksum</a> (int32_t page_id, const char *data, size_t size)</td></tr>
+<tr class="separator:a38c03dae08bd0fdf42237bbadf2e6000"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a160a101d88c5c2689f9d1a070024732b" id="r_a160a101d88c5c2689f9d1a070024732b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a160a101d88c5c2689f9d1a070024732b">VerifyChecksum</a> (int32_t page_id, const char *data, size_t size)</td></tr>
+<tr class="separator:a160a101d88c5c2689f9d1a070024732b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b94c6c55faa3a88c990e70900ca98e3" id="r_a6b94c6c55faa3a88c990e70900ca98e3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a6b94c6c55faa3a88c990e70900ca98e3">UpdateChecksum</a> (int32_t page_id, const char *data, size_t size)</td></tr>
+<tr class="separator:a6b94c6c55faa3a88c990e70900ca98e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d3dfc188e8fdb43d56b0580e6505289" id="r_a7d3dfc188e8fdb43d56b0580e6505289"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4">DiskHealthStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a7d3dfc188e8fdb43d56b0580e6505289">AssessDiskHealth</a> ()</td></tr>
+<tr class="separator:a7d3dfc188e8fdb43d56b0580e6505289"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae94e707969e01f8500fbee440c90557c" id="r_ae94e707969e01f8500fbee440c90557c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1DiskHealthStats.html">DiskHealthStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#ae94e707969e01f8500fbee440c90557c">GetHealthStats</a> () const</td></tr>
+<tr class="separator:ae94e707969e01f8500fbee440c90557c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f176ba174bb34aaf9ac6dba05f234b4" id="r_a7f176ba174bb34aaf9ac6dba05f234b4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a7f176ba174bb34aaf9ac6dba05f234b4">IsDiskHealthy</a> () const</td></tr>
+<tr class="separator:a7f176ba174bb34aaf9ac6dba05f234b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b095260dbbf78e3281a696564912b34" id="r_a0b095260dbbf78e3281a696564912b34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a0b095260dbbf78e3281a696564912b34">RecordError</a> (const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;error_info)</td></tr>
+<tr class="separator:a0b095260dbbf78e3281a696564912b34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1382aeb26c572fca13c3d33e6090eb59" id="r_a1382aeb26c572fca13c3d33e6090eb59"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a1382aeb26c572fca13c3d33e6090eb59">GetRecentErrors</a> (std::chrono::milliseconds time_window) const</td></tr>
+<tr class="separator:a1382aeb26c572fca13c3d33e6090eb59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99ebb1b89e25b9b9a0e342d0c063efae" id="r_a99ebb1b89e25b9b9a0e342d0c063efae"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbc">DiskErrorType</a>, size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a99ebb1b89e25b9b9a0e342d0c063efae">GetErrorCounts</a> () const</td></tr>
+<tr class="separator:a99ebb1b89e25b9b9a0e342d0c063efae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b1e72cc3ba596f1c0fe88a244c19237" id="r_a8b1e72cc3ba596f1c0fe88a244c19237"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a8b1e72cc3ba596f1c0fe88a244c19237">SetMaxRetries</a> (size_t max_retries)</td></tr>
+<tr class="separator:a8b1e72cc3ba596f1c0fe88a244c19237"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1791a5e5fd94e58f95fa3663b4c157d0" id="r_a1791a5e5fd94e58f95fa3663b4c157d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a1791a5e5fd94e58f95fa3663b4c157d0">SetRetryDelay</a> (std::chrono::milliseconds delay)</td></tr>
+<tr class="separator:a1791a5e5fd94e58f95fa3663b4c157d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff4e3ca30f0bc2d59841ea4e261ef7bb" id="r_aff4e3ca30f0bc2d59841ea4e261ef7bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#aff4e3ca30f0bc2d59841ea4e261ef7bb">SetHealthCheckInterval</a> (std::chrono::milliseconds interval)</td></tr>
+<tr class="separator:aff4e3ca30f0bc2d59841ea4e261ef7bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a266b541cbc176e1f5dc9f449118c6795" id="r_a266b541cbc176e1f5dc9f449118c6795"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a266b541cbc176e1f5dc9f449118c6795">EnableChecksumValidation</a> (bool enable)</td></tr>
+<tr class="separator:a266b541cbc176e1f5dc9f449118c6795"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7ec4e97d99cff9504b09b051c5f33cb" id="r_af7ec4e97d99cff9504b09b051c5f33cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#af7ec4e97d99cff9504b09b051c5f33cb">EnableAutoRecovery</a> (bool enable)</td></tr>
+<tr class="separator:af7ec4e97d99cff9504b09b051c5f33cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe98ded5f7985760dbe30d73ebf2cd5c" id="r_afe98ded5f7985760dbe30d73ebf2cd5c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#afe98ded5f7985760dbe30d73ebf2cd5c">SetErrorCallback</a> (<a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a9f47ce887565f2e05dd115a4497d2b7e">ErrorCallback</a> callback)</td></tr>
+<tr class="separator:afe98ded5f7985760dbe30d73ebf2cd5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04a15eb0c071030eb857978ff9e7b092" id="r_a04a15eb0c071030eb857978ff9e7b092"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a04a15eb0c071030eb857978ff9e7b092">SetRecoveryCallback</a> (<a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a324e864549eaffe1997f89b0132eedef">RecoveryCallback</a> callback)</td></tr>
+<tr class="separator:a04a15eb0c071030eb857978ff9e7b092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0cb5a9fdbc626530ae693d245793093" id="r_af0cb5a9fdbc626530ae693d245793093"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#af0cb5a9fdbc626530ae693d245793093">SetHealthChangeCallback</a> (<a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a2ce68dd76e00c6bca7df8064533a7c95">HealthChangeCallback</a> callback)</td></tr>
+<tr class="separator:af0cb5a9fdbc626530ae693d245793093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a090a32a5af1d96c31e2c1e154e04504d" id="r_a090a32a5af1d96c31e2c1e154e04504d"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a090a32a5af1d96c31e2c1e154e04504d">ComputeChecksum</a> (const char *data, size_t size) const</td></tr>
+<tr class="separator:a090a32a5af1d96c31e2c1e154e04504d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9557b82b2c4bcf3744590f5bca85d97" id="r_aa9557b82b2c4bcf3744590f5bca85d97"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#aa9557b82b2c4bcf3744590f5bca85d97">DetermineRecoveryStrategy</a> (const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;error_info) const</td></tr>
+<tr class="separator:aa9557b82b2c4bcf3744590f5bca85d97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a282e7bce71ac9dde5855bc245d06a5" id="r_a0a282e7bce71ac9dde5855bc245d06a5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a0a282e7bce71ac9dde5855bc245d06a5">ExecuteRecoveryAction</a> (int32_t page_id, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a> strategy)</td></tr>
+<tr class="separator:a0a282e7bce71ac9dde5855bc245d06a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab972408f0994bbef73f2a1821640cb20" id="r_ab972408f0994bbef73f2a1821640cb20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#ab972408f0994bbef73f2a1821640cb20">UpdateHealthStatus</a> ()</td></tr>
+<tr class="separator:ab972408f0994bbef73f2a1821640cb20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5303f45994a5773a3cfad68b214a1bd" id="r_ac5303f45994a5773a3cfad68b214a1bd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#ac5303f45994a5773a3cfad68b214a1bd">IsRecoverableError</a> (<a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbc">DiskErrorType</a> error_type) const</td></tr>
+<tr class="separator:ac5303f45994a5773a3cfad68b214a1bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52f4091efbde5383f61504144a2cd5ee" id="r_a52f4091efbde5383f61504144a2cd5ee"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a52f4091efbde5383f61504144a2cd5ee">CalculateRetryDelay</a> (size_t attempt_count) const</td></tr>
+<tr class="separator:a52f4091efbde5383f61504144a2cd5ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a469ca3a61bee2ff1ae9f4b2123a869b8" id="r_a469ca3a61bee2ff1ae9f4b2123a869b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbc">DiskErrorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a469ca3a61bee2ff1ae9f4b2123a869b8">ClassifySystemError</a> (const std::error_code &amp;ec) const</td></tr>
+<tr class="separator:a469ca3a61bee2ff1ae9f4b2123a869b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71ecb4bd450c0f0c4a4c226a02e37d57" id="r_a71ecb4bd450c0f0c4a4c226a02e37d57"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a71ecb4bd450c0f0c4a4c226a02e37d57">FormatErrorMessage</a> (const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;error_info) const</td></tr>
+<tr class="separator:a71ecb4bd450c0f0c4a4c226a02e37d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a317a9caa05ce3a6a9636ead804f8a8a4" id="r_a317a9caa05ce3a6a9636ead804f8a8a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a317a9caa05ce3a6a9636ead804f8a8a4">LogError</a> (const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;error_info)</td></tr>
+<tr class="separator:a317a9caa05ce3a6a9636ead804f8a8a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a641b512e90665388754a383bdbeb972d" id="r_a641b512e90665388754a383bdbeb972d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a641b512e90665388754a383bdbeb972d">AlertOnCriticalError</a> (const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;error_info)</td></tr>
+<tr class="separator:a641b512e90665388754a383bdbeb972d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a090a32a5af1d96c31e2c1e154e04504d" id="r_a090a32a5af1d96c31e2c1e154e04504d"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a090a32a5af1d96c31e2c1e154e04504d">ComputeChecksum</a> (const char *data, size_t size) const</td></tr>
+<tr class="separator:a090a32a5af1d96c31e2c1e154e04504d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9557b82b2c4bcf3744590f5bca85d97" id="r_aa9557b82b2c4bcf3744590f5bca85d97"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#aa9557b82b2c4bcf3744590f5bca85d97">DetermineRecoveryStrategy</a> (const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;error_info) const</td></tr>
+<tr class="separator:aa9557b82b2c4bcf3744590f5bca85d97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a282e7bce71ac9dde5855bc245d06a5" id="r_a0a282e7bce71ac9dde5855bc245d06a5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a0a282e7bce71ac9dde5855bc245d06a5">ExecuteRecoveryAction</a> (int32_t page_id, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a> strategy)</td></tr>
+<tr class="separator:a0a282e7bce71ac9dde5855bc245d06a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab972408f0994bbef73f2a1821640cb20" id="r_ab972408f0994bbef73f2a1821640cb20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#ab972408f0994bbef73f2a1821640cb20">UpdateHealthStatus</a> ()</td></tr>
+<tr class="separator:ab972408f0994bbef73f2a1821640cb20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5303f45994a5773a3cfad68b214a1bd" id="r_ac5303f45994a5773a3cfad68b214a1bd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#ac5303f45994a5773a3cfad68b214a1bd">IsRecoverableError</a> (<a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbc">DiskErrorType</a> error_type) const</td></tr>
+<tr class="separator:ac5303f45994a5773a3cfad68b214a1bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52f4091efbde5383f61504144a2cd5ee" id="r_a52f4091efbde5383f61504144a2cd5ee"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a52f4091efbde5383f61504144a2cd5ee">CalculateRetryDelay</a> (size_t attempt_count) const</td></tr>
+<tr class="separator:a52f4091efbde5383f61504144a2cd5ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a469ca3a61bee2ff1ae9f4b2123a869b8" id="r_a469ca3a61bee2ff1ae9f4b2123a869b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbc">DiskErrorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a469ca3a61bee2ff1ae9f4b2123a869b8">ClassifySystemError</a> (const std::error_code &amp;ec) const</td></tr>
+<tr class="separator:a469ca3a61bee2ff1ae9f4b2123a869b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71ecb4bd450c0f0c4a4c226a02e37d57" id="r_a71ecb4bd450c0f0c4a4c226a02e37d57"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a71ecb4bd450c0f0c4a4c226a02e37d57">FormatErrorMessage</a> (const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;error_info) const</td></tr>
+<tr class="separator:a71ecb4bd450c0f0c4a4c226a02e37d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a317a9caa05ce3a6a9636ead804f8a8a4" id="r_a317a9caa05ce3a6a9636ead804f8a8a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a317a9caa05ce3a6a9636ead804f8a8a4">LogError</a> (const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;error_info)</td></tr>
+<tr class="separator:a317a9caa05ce3a6a9636ead804f8a8a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a641b512e90665388754a383bdbeb972d" id="r_a641b512e90665388754a383bdbeb972d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a641b512e90665388754a383bdbeb972d">AlertOnCriticalError</a> (const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;error_info)</td></tr>
+<tr class="separator:a641b512e90665388754a383bdbeb972d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a81d564f163639f327b00e475e07eb294" id="r_a81d564f163639f327b00e475e07eb294"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a81d564f163639f327b00e475e07eb294">disk_manager_</a></td></tr>
+<tr class="separator:a81d564f163639f327b00e475e07eb294"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a397eb1b5be442ac6028b113da090c2d3" id="r_a397eb1b5be442ac6028b113da090c2d3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a397eb1b5be442ac6028b113da090c2d3">max_retries_</a> = 3</td></tr>
+<tr class="separator:a397eb1b5be442ac6028b113da090c2d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ac3d9883e05a6bfb702b2b438aa41e0" id="r_a2ac3d9883e05a6bfb702b2b438aa41e0"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a2ac3d9883e05a6bfb702b2b438aa41e0">retry_delay_</a> = std::chrono::milliseconds(100)</td></tr>
+<tr class="separator:a2ac3d9883e05a6bfb702b2b438aa41e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5037caf64c01d9475948c0e5323660b0" id="r_a5037caf64c01d9475948c0e5323660b0"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a5037caf64c01d9475948c0e5323660b0">health_check_interval_</a> = std::chrono::minutes(5)</td></tr>
+<tr class="separator:a5037caf64c01d9475948c0e5323660b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f9a39434786c04142f98df8b3fb52f5" id="r_a0f9a39434786c04142f98df8b3fb52f5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a0f9a39434786c04142f98df8b3fb52f5">checksum_validation_enabled_</a> = true</td></tr>
+<tr class="separator:a0f9a39434786c04142f98df8b3fb52f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a791ac83e463aeadf30ea3931c555c6ed" id="r_a791ac83e463aeadf30ea3931c555c6ed"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a791ac83e463aeadf30ea3931c555c6ed">auto_recovery_enabled_</a> = true</td></tr>
+<tr class="separator:a791ac83e463aeadf30ea3931c555c6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38493d8c3ec940d20462e4d0c02ddf29" id="r_a38493d8c3ec940d20462e4d0c02ddf29"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, <a class="el" href="structsqlcc_1_1PageChecksum.html">PageChecksum</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a38493d8c3ec940d20462e4d0c02ddf29">page_checksums_</a></td></tr>
+<tr class="separator:a38493d8c3ec940d20462e4d0c02ddf29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a453c291f55f9f439b6f7479f3a845cb1" id="r_a453c291f55f9f439b6f7479f3a845cb1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a453c291f55f9f439b6f7479f3a845cb1">error_history_</a></td></tr>
+<tr class="separator:a453c291f55f9f439b6f7479f3a845cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1257a8c0fffb6ee72cc014b1d377250" id="r_af1257a8c0fffb6ee72cc014b1d377250"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1DiskHealthStats.html">DiskHealthStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#af1257a8c0fffb6ee72cc014b1d377250">health_stats_</a></td></tr>
+<tr class="separator:af1257a8c0fffb6ee72cc014b1d377250"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe058d0d7df895f3de105c793b0a67fb" id="r_abe058d0d7df895f3de105c793b0a67fb"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#abe058d0d7df895f3de105c793b0a67fb">handler_mutex_</a></td></tr>
+<tr class="separator:abe058d0d7df895f3de105c793b0a67fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36c6a7ad7e09a8bc9da0006cd29c2200" id="r_a36c6a7ad7e09a8bc9da0006cd29c2200"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a36c6a7ad7e09a8bc9da0006cd29c2200">checksum_mutex_</a></td></tr>
+<tr class="separator:a36c6a7ad7e09a8bc9da0006cd29c2200"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e99a3b5e0749b68491c783f9203b73c" id="r_a8e99a3b5e0749b68491c783f9203b73c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a9f47ce887565f2e05dd115a4497d2b7e">ErrorCallback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a8e99a3b5e0749b68491c783f9203b73c">error_callback_</a></td></tr>
+<tr class="separator:a8e99a3b5e0749b68491c783f9203b73c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a911da265ffa123d793d3bfb4ff64ff6e" id="r_a911da265ffa123d793d3bfb4ff64ff6e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a324e864549eaffe1997f89b0132eedef">RecoveryCallback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a911da265ffa123d793d3bfb4ff64ff6e">recovery_callback_</a></td></tr>
+<tr class="separator:a911da265ffa123d793d3bfb4ff64ff6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c19bc0353afa88ab8c033208e7da302" id="r_a7c19bc0353afa88ab8c033208e7da302"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a2ce68dd76e00c6bca7df8064533a7c95">HealthChangeCallback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a7c19bc0353afa88ab8c033208e7da302">health_callback_</a></td></tr>
+<tr class="separator:a7c19bc0353afa88ab8c033208e7da302"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">成员类型定义说明</h2>
+<a id="a9f47ce887565f2e05dd115a4497d2b7e" name="a9f47ce887565f2e05dd115a4497d2b7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f47ce887565f2e05dd115a4497d2b7e">&#9670;&#160;</a></span>ErrorCallback <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a9f47ce887565f2e05dd115a4497d2b7e">sqlcc::DiskErrorHandler::ErrorCallback</a> =  std::function&lt;void(const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a>&amp;)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9f47ce887565f2e05dd115a4497d2b7e" name="a9f47ce887565f2e05dd115a4497d2b7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f47ce887565f2e05dd115a4497d2b7e">&#9670;&#160;</a></span>ErrorCallback <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a9f47ce887565f2e05dd115a4497d2b7e">sqlcc::DiskErrorHandler::ErrorCallback</a> =  std::function&lt;void(const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a>&amp;)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ce68dd76e00c6bca7df8064533a7c95" name="a2ce68dd76e00c6bca7df8064533a7c95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ce68dd76e00c6bca7df8064533a7c95">&#9670;&#160;</a></span>HealthChangeCallback <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a2ce68dd76e00c6bca7df8064533a7c95">sqlcc::DiskErrorHandler::HealthChangeCallback</a> =  std::function&lt;void(<a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4">DiskHealthStatus</a> old_status, <a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4">DiskHealthStatus</a> new_status)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ce68dd76e00c6bca7df8064533a7c95" name="a2ce68dd76e00c6bca7df8064533a7c95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ce68dd76e00c6bca7df8064533a7c95">&#9670;&#160;</a></span>HealthChangeCallback <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a2ce68dd76e00c6bca7df8064533a7c95">sqlcc::DiskErrorHandler::HealthChangeCallback</a> =  std::function&lt;void(<a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4">DiskHealthStatus</a> old_status, <a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4">DiskHealthStatus</a> new_status)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a324e864549eaffe1997f89b0132eedef" name="a324e864549eaffe1997f89b0132eedef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a324e864549eaffe1997f89b0132eedef">&#9670;&#160;</a></span>RecoveryCallback <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a324e864549eaffe1997f89b0132eedef">sqlcc::DiskErrorHandler::RecoveryCallback</a> =  std::function&lt;void(int32_t page_id, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a>, bool success)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a324e864549eaffe1997f89b0132eedef" name="a324e864549eaffe1997f89b0132eedef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a324e864549eaffe1997f89b0132eedef">&#9670;&#160;</a></span>RecoveryCallback <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a324e864549eaffe1997f89b0132eedef">sqlcc::DiskErrorHandler::RecoveryCallback</a> =  std::function&lt;void(int32_t page_id, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a>, bool success)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a2d36ce9bac1ee058eb2910ba96ed51cd" name="a2d36ce9bac1ee058eb2910ba96ed51cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d36ce9bac1ee058eb2910ba96ed51cd">&#9670;&#160;</a></span>DiskErrorHandler() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::DiskErrorHandler::DiskErrorHandler </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>disk_manager</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a58d7e84db7776c6fd82d6d400cac0979" name="a58d7e84db7776c6fd82d6d400cac0979"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58d7e84db7776c6fd82d6d400cac0979">&#9670;&#160;</a></span>~DiskErrorHandler() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::DiskErrorHandler::~DiskErrorHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2d36ce9bac1ee058eb2910ba96ed51cd" name="a2d36ce9bac1ee058eb2910ba96ed51cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d36ce9bac1ee058eb2910ba96ed51cd">&#9670;&#160;</a></span>DiskErrorHandler() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::DiskErrorHandler::DiskErrorHandler </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>disk_manager</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a58d7e84db7776c6fd82d6d400cac0979" name="a58d7e84db7776c6fd82d6d400cac0979"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58d7e84db7776c6fd82d6d400cac0979">&#9670;&#160;</a></span>~DiskErrorHandler() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::DiskErrorHandler::~DiskErrorHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a641b512e90665388754a383bdbeb972d" name="a641b512e90665388754a383bdbeb972d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a641b512e90665388754a383bdbeb972d">&#9670;&#160;</a></span>AlertOnCriticalError() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::AlertOnCriticalError </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>error_info</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a641b512e90665388754a383bdbeb972d" name="a641b512e90665388754a383bdbeb972d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a641b512e90665388754a383bdbeb972d">&#9670;&#160;</a></span>AlertOnCriticalError() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::AlertOnCriticalError </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>error_info</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7d3dfc188e8fdb43d56b0580e6505289" name="a7d3dfc188e8fdb43d56b0580e6505289"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d3dfc188e8fdb43d56b0580e6505289">&#9670;&#160;</a></span>AssessDiskHealth() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4">DiskHealthStatus</a> sqlcc::DiskErrorHandler::AssessDiskHealth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7d3dfc188e8fdb43d56b0580e6505289" name="a7d3dfc188e8fdb43d56b0580e6505289"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d3dfc188e8fdb43d56b0580e6505289">&#9670;&#160;</a></span>AssessDiskHealth() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4">DiskHealthStatus</a> sqlcc::DiskErrorHandler::AssessDiskHealth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a32b4de385b4053d789b8ce77d5c47fc7" name="a32b4de385b4053d789b8ce77d5c47fc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32b4de385b4053d789b8ce77d5c47fc7">&#9670;&#160;</a></span>AttemptRecovery() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::AttemptRecovery </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a>&#160;</td>
+          <td class="paramname"><em>strategy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a32b4de385b4053d789b8ce77d5c47fc7" name="a32b4de385b4053d789b8ce77d5c47fc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32b4de385b4053d789b8ce77d5c47fc7">&#9670;&#160;</a></span>AttemptRecovery() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::AttemptRecovery </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a>&#160;</td>
+          <td class="paramname"><em>strategy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a52f4091efbde5383f61504144a2cd5ee" name="a52f4091efbde5383f61504144a2cd5ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52f4091efbde5383f61504144a2cd5ee">&#9670;&#160;</a></span>CalculateRetryDelay() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::DiskErrorHandler::CalculateRetryDelay </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>attempt_count</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a52f4091efbde5383f61504144a2cd5ee" name="a52f4091efbde5383f61504144a2cd5ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52f4091efbde5383f61504144a2cd5ee">&#9670;&#160;</a></span>CalculateRetryDelay() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::DiskErrorHandler::CalculateRetryDelay </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>attempt_count</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a469ca3a61bee2ff1ae9f4b2123a869b8" name="a469ca3a61bee2ff1ae9f4b2123a869b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a469ca3a61bee2ff1ae9f4b2123a869b8">&#9670;&#160;</a></span>ClassifySystemError() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbc">DiskErrorType</a> sqlcc::DiskErrorHandler::ClassifySystemError </td>
+          <td>(</td>
+          <td class="paramtype">const std::error_code &amp;&#160;</td>
+          <td class="paramname"><em>ec</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a469ca3a61bee2ff1ae9f4b2123a869b8" name="a469ca3a61bee2ff1ae9f4b2123a869b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a469ca3a61bee2ff1ae9f4b2123a869b8">&#9670;&#160;</a></span>ClassifySystemError() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbc">DiskErrorType</a> sqlcc::DiskErrorHandler::ClassifySystemError </td>
+          <td>(</td>
+          <td class="paramtype">const std::error_code &amp;&#160;</td>
+          <td class="paramname"><em>ec</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a38c03dae08bd0fdf42237bbadf2e6000" name="a38c03dae08bd0fdf42237bbadf2e6000"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38c03dae08bd0fdf42237bbadf2e6000">&#9670;&#160;</a></span>ComputeAndStoreChecksum() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::ComputeAndStoreChecksum </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a38c03dae08bd0fdf42237bbadf2e6000" name="a38c03dae08bd0fdf42237bbadf2e6000"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38c03dae08bd0fdf42237bbadf2e6000">&#9670;&#160;</a></span>ComputeAndStoreChecksum() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::ComputeAndStoreChecksum </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a090a32a5af1d96c31e2c1e154e04504d" name="a090a32a5af1d96c31e2c1e154e04504d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a090a32a5af1d96c31e2c1e154e04504d">&#9670;&#160;</a></span>ComputeChecksum() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t sqlcc::DiskErrorHandler::ComputeChecksum </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a090a32a5af1d96c31e2c1e154e04504d" name="a090a32a5af1d96c31e2c1e154e04504d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a090a32a5af1d96c31e2c1e154e04504d">&#9670;&#160;</a></span>ComputeChecksum() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t sqlcc::DiskErrorHandler::ComputeChecksum </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa9557b82b2c4bcf3744590f5bca85d97" name="aa9557b82b2c4bcf3744590f5bca85d97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9557b82b2c4bcf3744590f5bca85d97">&#9670;&#160;</a></span>DetermineRecoveryStrategy() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a> sqlcc::DiskErrorHandler::DetermineRecoveryStrategy </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>error_info</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa9557b82b2c4bcf3744590f5bca85d97" name="aa9557b82b2c4bcf3744590f5bca85d97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9557b82b2c4bcf3744590f5bca85d97">&#9670;&#160;</a></span>DetermineRecoveryStrategy() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a> sqlcc::DiskErrorHandler::DetermineRecoveryStrategy </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>error_info</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af7ec4e97d99cff9504b09b051c5f33cb" name="af7ec4e97d99cff9504b09b051c5f33cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7ec4e97d99cff9504b09b051c5f33cb">&#9670;&#160;</a></span>EnableAutoRecovery() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::EnableAutoRecovery </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af7ec4e97d99cff9504b09b051c5f33cb" name="af7ec4e97d99cff9504b09b051c5f33cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7ec4e97d99cff9504b09b051c5f33cb">&#9670;&#160;</a></span>EnableAutoRecovery() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::EnableAutoRecovery </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a266b541cbc176e1f5dc9f449118c6795" name="a266b541cbc176e1f5dc9f449118c6795"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a266b541cbc176e1f5dc9f449118c6795">&#9670;&#160;</a></span>EnableChecksumValidation() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::EnableChecksumValidation </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a266b541cbc176e1f5dc9f449118c6795" name="a266b541cbc176e1f5dc9f449118c6795"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a266b541cbc176e1f5dc9f449118c6795">&#9670;&#160;</a></span>EnableChecksumValidation() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::EnableChecksumValidation </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0a282e7bce71ac9dde5855bc245d06a5" name="a0a282e7bce71ac9dde5855bc245d06a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a282e7bce71ac9dde5855bc245d06a5">&#9670;&#160;</a></span>ExecuteRecoveryAction() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::ExecuteRecoveryAction </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a>&#160;</td>
+          <td class="paramname"><em>strategy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0a282e7bce71ac9dde5855bc245d06a5" name="a0a282e7bce71ac9dde5855bc245d06a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a282e7bce71ac9dde5855bc245d06a5">&#9670;&#160;</a></span>ExecuteRecoveryAction() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::ExecuteRecoveryAction </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a>&#160;</td>
+          <td class="paramname"><em>strategy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a71ecb4bd450c0f0c4a4c226a02e37d57" name="a71ecb4bd450c0f0c4a4c226a02e37d57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71ecb4bd450c0f0c4a4c226a02e37d57">&#9670;&#160;</a></span>FormatErrorMessage() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::DiskErrorHandler::FormatErrorMessage </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>error_info</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a71ecb4bd450c0f0c4a4c226a02e37d57" name="a71ecb4bd450c0f0c4a4c226a02e37d57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71ecb4bd450c0f0c4a4c226a02e37d57">&#9670;&#160;</a></span>FormatErrorMessage() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::DiskErrorHandler::FormatErrorMessage </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>error_info</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a99ebb1b89e25b9b9a0e342d0c063efae" name="a99ebb1b89e25b9b9a0e342d0c063efae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99ebb1b89e25b9b9a0e342d0c063efae">&#9670;&#160;</a></span>GetErrorCounts() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbc">DiskErrorType</a>, size_t &gt; sqlcc::DiskErrorHandler::GetErrorCounts </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a99ebb1b89e25b9b9a0e342d0c063efae" name="a99ebb1b89e25b9b9a0e342d0c063efae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99ebb1b89e25b9b9a0e342d0c063efae">&#9670;&#160;</a></span>GetErrorCounts() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbc">DiskErrorType</a>, size_t &gt; sqlcc::DiskErrorHandler::GetErrorCounts </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae94e707969e01f8500fbee440c90557c" name="ae94e707969e01f8500fbee440c90557c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae94e707969e01f8500fbee440c90557c">&#9670;&#160;</a></span>GetHealthStats() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1DiskHealthStats.html">DiskHealthStats</a> sqlcc::DiskErrorHandler::GetHealthStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae94e707969e01f8500fbee440c90557c" name="ae94e707969e01f8500fbee440c90557c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae94e707969e01f8500fbee440c90557c">&#9670;&#160;</a></span>GetHealthStats() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1DiskHealthStats.html">DiskHealthStats</a> sqlcc::DiskErrorHandler::GetHealthStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1382aeb26c572fca13c3d33e6090eb59" name="a1382aeb26c572fca13c3d33e6090eb59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1382aeb26c572fca13c3d33e6090eb59">&#9670;&#160;</a></span>GetRecentErrors() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &gt; sqlcc::DiskErrorHandler::GetRecentErrors </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>time_window</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1382aeb26c572fca13c3d33e6090eb59" name="a1382aeb26c572fca13c3d33e6090eb59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1382aeb26c572fca13c3d33e6090eb59">&#9670;&#160;</a></span>GetRecentErrors() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &gt; sqlcc::DiskErrorHandler::GetRecentErrors </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>time_window</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a06ad4e266729f1db3f948c2aaf45d85f" name="a06ad4e266729f1db3f948c2aaf45d85f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06ad4e266729f1db3f948c2aaf45d85f">&#9670;&#160;</a></span>HandleDiskError() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a> sqlcc::DiskErrorHandler::HandleDiskError </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>error_info</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a06ad4e266729f1db3f948c2aaf45d85f" name="a06ad4e266729f1db3f948c2aaf45d85f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06ad4e266729f1db3f948c2aaf45d85f">&#9670;&#160;</a></span>HandleDiskError() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">RecoveryStrategy</a> sqlcc::DiskErrorHandler::HandleDiskError </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>error_info</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7f176ba174bb34aaf9ac6dba05f234b4" name="a7f176ba174bb34aaf9ac6dba05f234b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f176ba174bb34aaf9ac6dba05f234b4">&#9670;&#160;</a></span>IsDiskHealthy() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::IsDiskHealthy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7f176ba174bb34aaf9ac6dba05f234b4" name="a7f176ba174bb34aaf9ac6dba05f234b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f176ba174bb34aaf9ac6dba05f234b4">&#9670;&#160;</a></span>IsDiskHealthy() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::IsDiskHealthy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac5303f45994a5773a3cfad68b214a1bd" name="ac5303f45994a5773a3cfad68b214a1bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5303f45994a5773a3cfad68b214a1bd">&#9670;&#160;</a></span>IsRecoverableError() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::IsRecoverableError </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbc">DiskErrorType</a>&#160;</td>
+          <td class="paramname"><em>error_type</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac5303f45994a5773a3cfad68b214a1bd" name="ac5303f45994a5773a3cfad68b214a1bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5303f45994a5773a3cfad68b214a1bd">&#9670;&#160;</a></span>IsRecoverableError() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::IsRecoverableError </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbc">DiskErrorType</a>&#160;</td>
+          <td class="paramname"><em>error_type</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a317a9caa05ce3a6a9636ead804f8a8a4" name="a317a9caa05ce3a6a9636ead804f8a8a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a317a9caa05ce3a6a9636ead804f8a8a4">&#9670;&#160;</a></span>LogError() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::LogError </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>error_info</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a317a9caa05ce3a6a9636ead804f8a8a4" name="a317a9caa05ce3a6a9636ead804f8a8a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a317a9caa05ce3a6a9636ead804f8a8a4">&#9670;&#160;</a></span>LogError() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::LogError </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>error_info</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0b095260dbbf78e3281a696564912b34" name="a0b095260dbbf78e3281a696564912b34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b095260dbbf78e3281a696564912b34">&#9670;&#160;</a></span>RecordError() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::RecordError </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>error_info</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0b095260dbbf78e3281a696564912b34" name="a0b095260dbbf78e3281a696564912b34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b095260dbbf78e3281a696564912b34">&#9670;&#160;</a></span>RecordError() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::RecordError </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>error_info</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe98ded5f7985760dbe30d73ebf2cd5c" name="afe98ded5f7985760dbe30d73ebf2cd5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe98ded5f7985760dbe30d73ebf2cd5c">&#9670;&#160;</a></span>SetErrorCallback() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::SetErrorCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a9f47ce887565f2e05dd115a4497d2b7e">ErrorCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe98ded5f7985760dbe30d73ebf2cd5c" name="afe98ded5f7985760dbe30d73ebf2cd5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe98ded5f7985760dbe30d73ebf2cd5c">&#9670;&#160;</a></span>SetErrorCallback() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::SetErrorCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a9f47ce887565f2e05dd115a4497d2b7e">ErrorCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af0cb5a9fdbc626530ae693d245793093" name="af0cb5a9fdbc626530ae693d245793093"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0cb5a9fdbc626530ae693d245793093">&#9670;&#160;</a></span>SetHealthChangeCallback() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::SetHealthChangeCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a2ce68dd76e00c6bca7df8064533a7c95">HealthChangeCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af0cb5a9fdbc626530ae693d245793093" name="af0cb5a9fdbc626530ae693d245793093"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0cb5a9fdbc626530ae693d245793093">&#9670;&#160;</a></span>SetHealthChangeCallback() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::SetHealthChangeCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a2ce68dd76e00c6bca7df8064533a7c95">HealthChangeCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aff4e3ca30f0bc2d59841ea4e261ef7bb" name="aff4e3ca30f0bc2d59841ea4e261ef7bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff4e3ca30f0bc2d59841ea4e261ef7bb">&#9670;&#160;</a></span>SetHealthCheckInterval() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::SetHealthCheckInterval </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>interval</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aff4e3ca30f0bc2d59841ea4e261ef7bb" name="aff4e3ca30f0bc2d59841ea4e261ef7bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff4e3ca30f0bc2d59841ea4e261ef7bb">&#9670;&#160;</a></span>SetHealthCheckInterval() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::SetHealthCheckInterval </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>interval</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8b1e72cc3ba596f1c0fe88a244c19237" name="a8b1e72cc3ba596f1c0fe88a244c19237"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b1e72cc3ba596f1c0fe88a244c19237">&#9670;&#160;</a></span>SetMaxRetries() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::SetMaxRetries </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>max_retries</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8b1e72cc3ba596f1c0fe88a244c19237" name="a8b1e72cc3ba596f1c0fe88a244c19237"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b1e72cc3ba596f1c0fe88a244c19237">&#9670;&#160;</a></span>SetMaxRetries() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::SetMaxRetries </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>max_retries</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a04a15eb0c071030eb857978ff9e7b092" name="a04a15eb0c071030eb857978ff9e7b092"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04a15eb0c071030eb857978ff9e7b092">&#9670;&#160;</a></span>SetRecoveryCallback() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::SetRecoveryCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a324e864549eaffe1997f89b0132eedef">RecoveryCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a04a15eb0c071030eb857978ff9e7b092" name="a04a15eb0c071030eb857978ff9e7b092"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04a15eb0c071030eb857978ff9e7b092">&#9670;&#160;</a></span>SetRecoveryCallback() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::SetRecoveryCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a324e864549eaffe1997f89b0132eedef">RecoveryCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1791a5e5fd94e58f95fa3663b4c157d0" name="a1791a5e5fd94e58f95fa3663b4c157d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1791a5e5fd94e58f95fa3663b4c157d0">&#9670;&#160;</a></span>SetRetryDelay() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::SetRetryDelay </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>delay</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1791a5e5fd94e58f95fa3663b4c157d0" name="a1791a5e5fd94e58f95fa3663b4c157d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1791a5e5fd94e58f95fa3663b4c157d0">&#9670;&#160;</a></span>SetRetryDelay() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::SetRetryDelay </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>delay</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6b94c6c55faa3a88c990e70900ca98e3" name="a6b94c6c55faa3a88c990e70900ca98e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b94c6c55faa3a88c990e70900ca98e3">&#9670;&#160;</a></span>UpdateChecksum() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::UpdateChecksum </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6b94c6c55faa3a88c990e70900ca98e3" name="a6b94c6c55faa3a88c990e70900ca98e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b94c6c55faa3a88c990e70900ca98e3">&#9670;&#160;</a></span>UpdateChecksum() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::UpdateChecksum </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab972408f0994bbef73f2a1821640cb20" name="ab972408f0994bbef73f2a1821640cb20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab972408f0994bbef73f2a1821640cb20">&#9670;&#160;</a></span>UpdateHealthStatus() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::UpdateHealthStatus </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab972408f0994bbef73f2a1821640cb20" name="ab972408f0994bbef73f2a1821640cb20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab972408f0994bbef73f2a1821640cb20">&#9670;&#160;</a></span>UpdateHealthStatus() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::DiskErrorHandler::UpdateHealthStatus </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae55a280b1b9c6168d17be7fac73b36c8" name="ae55a280b1b9c6168d17be7fac73b36c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae55a280b1b9c6168d17be7fac73b36c8">&#9670;&#160;</a></span>ValidateDataIntegrity() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::ValidateDataIntegrity </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae55a280b1b9c6168d17be7fac73b36c8" name="ae55a280b1b9c6168d17be7fac73b36c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae55a280b1b9c6168d17be7fac73b36c8">&#9670;&#160;</a></span>ValidateDataIntegrity() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::ValidateDataIntegrity </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a160a101d88c5c2689f9d1a070024732b" name="a160a101d88c5c2689f9d1a070024732b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a160a101d88c5c2689f9d1a070024732b">&#9670;&#160;</a></span>VerifyChecksum() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::VerifyChecksum </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a160a101d88c5c2689f9d1a070024732b" name="a160a101d88c5c2689f9d1a070024732b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a160a101d88c5c2689f9d1a070024732b">&#9670;&#160;</a></span>VerifyChecksum() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::VerifyChecksum </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a791ac83e463aeadf30ea3931c555c6ed" name="a791ac83e463aeadf30ea3931c555c6ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a791ac83e463aeadf30ea3931c555c6ed">&#9670;&#160;</a></span>auto_recovery_enabled_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::auto_recovery_enabled_ = true</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a36c6a7ad7e09a8bc9da0006cd29c2200" name="a36c6a7ad7e09a8bc9da0006cd29c2200"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36c6a7ad7e09a8bc9da0006cd29c2200">&#9670;&#160;</a></span>checksum_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::DiskErrorHandler::checksum_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0f9a39434786c04142f98df8b3fb52f5" name="a0f9a39434786c04142f98df8b3fb52f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f9a39434786c04142f98df8b3fb52f5">&#9670;&#160;</a></span>checksum_validation_enabled_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DiskErrorHandler::checksum_validation_enabled_ = true</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a81d564f163639f327b00e475e07eb294" name="a81d564f163639f327b00e475e07eb294"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81d564f163639f327b00e475e07eb294">&#9670;&#160;</a></span>disk_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &gt; sqlcc::DiskErrorHandler::disk_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8e99a3b5e0749b68491c783f9203b73c" name="a8e99a3b5e0749b68491c783f9203b73c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e99a3b5e0749b68491c783f9203b73c">&#9670;&#160;</a></span>error_callback_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a9f47ce887565f2e05dd115a4497d2b7e">ErrorCallback</a> sqlcc::DiskErrorHandler::error_callback_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a453c291f55f9f439b6f7479f3a845cb1" name="a453c291f55f9f439b6f7479f3a845cb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a453c291f55f9f439b6f7479f3a845cb1">&#9670;&#160;</a></span>error_history_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1DiskErrorInfo.html">DiskErrorInfo</a> &gt; sqlcc::DiskErrorHandler::error_history_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abe058d0d7df895f3de105c793b0a67fb" name="abe058d0d7df895f3de105c793b0a67fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe058d0d7df895f3de105c793b0a67fb">&#9670;&#160;</a></span>handler_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::DiskErrorHandler::handler_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7c19bc0353afa88ab8c033208e7da302" name="a7c19bc0353afa88ab8c033208e7da302"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c19bc0353afa88ab8c033208e7da302">&#9670;&#160;</a></span>health_callback_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a2ce68dd76e00c6bca7df8064533a7c95">HealthChangeCallback</a> sqlcc::DiskErrorHandler::health_callback_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5037caf64c01d9475948c0e5323660b0" name="a5037caf64c01d9475948c0e5323660b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5037caf64c01d9475948c0e5323660b0">&#9670;&#160;</a></span>health_check_interval_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::DiskErrorHandler::health_check_interval_ = std::chrono::minutes(5)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af1257a8c0fffb6ee72cc014b1d377250" name="af1257a8c0fffb6ee72cc014b1d377250"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1257a8c0fffb6ee72cc014b1d377250">&#9670;&#160;</a></span>health_stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1DiskHealthStats.html">DiskHealthStats</a> sqlcc::DiskErrorHandler::health_stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a397eb1b5be442ac6028b113da090c2d3" name="a397eb1b5be442ac6028b113da090c2d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a397eb1b5be442ac6028b113da090c2d3">&#9670;&#160;</a></span>max_retries_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::DiskErrorHandler::max_retries_ = 3</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a38493d8c3ec940d20462e4d0c02ddf29" name="a38493d8c3ec940d20462e4d0c02ddf29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38493d8c3ec940d20462e4d0c02ddf29">&#9670;&#160;</a></span>page_checksums_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; int32_t, <a class="el" href="structsqlcc_1_1PageChecksum.html">PageChecksum</a> &gt; sqlcc::DiskErrorHandler::page_checksums_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a911da265ffa123d793d3bfb4ff64ff6e" name="a911da265ffa123d793d3bfb4ff64ff6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a911da265ffa123d793d3bfb4ff64ff6e">&#9670;&#160;</a></span>recovery_callback_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html#a324e864549eaffe1997f89b0132eedef">RecoveryCallback</a> sqlcc::DiskErrorHandler::recovery_callback_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ac3d9883e05a6bfb702b2b438aa41e0" name="a2ac3d9883e05a6bfb702b2b438aa41e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ac3d9883e05a6bfb702b2b438aa41e0">&#9670;&#160;</a></span>retry_delay_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::DiskErrorHandler::retry_delay_ = std::chrono::milliseconds(100)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage_2disk__error__handler_8h_source.html">storage/disk_error_handler.h</a></li>
+<li><a class="el" href="storage__engine_2disk__error__handler_8h_source.html">storage_engine/disk_error_handler.h</a></li>
+<li><a class="el" href="disk__error__handler_8cpp.html">disk_error_handler.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,1177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::PageAllocator类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1PageAllocator.html">PageAllocator</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1PageAllocator-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::PageAllocator类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="storage_2page__allocator_8h_source.html">page_allocator.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::PageAllocator 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1PageAllocator__coll__graph.png" border="0" usemap="#asqlcc_1_1PageAllocator_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1PageAllocator_coll__map" id="asqlcc_1_1PageAllocator_coll__map">
+<area shape="rect" title=" " alt="" coords="25,93,177,119"/>
+<area shape="rect" href="structsqlcc_1_1PageAllocationStats.html" title=" " alt="" coords="5,5,197,31"/>
+<area shape="poly" title=" " alt="" coords="104,45,104,93,99,93,99,45"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator_1_1AccessPatternAnalyzer.html">AccessPatternAnalyzer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator_1_1MemoryMonitor.html">MemoryMonitor</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a306ab8c56751b9b70dc0afb6e72b99fc" id="r_a306ab8c56751b9b70dc0afb6e72b99fc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a306ab8c56751b9b70dc0afb6e72b99fc">PageAllocator</a> (size_t max_pages, <a class="el" href="namespacesqlcc.html#a2d8ff64757e43edaef07f746002d73d8">PageAllocationStrategy</a> strategy=<a class="el" href="namespacesqlcc.html#a2d8ff64757e43edaef07f746002d73d8a39403cd282d944abcd4f14996cb71bcb">PageAllocationStrategy::SEQUENTIAL</a>)</td></tr>
+<tr class="separator:a306ab8c56751b9b70dc0afb6e72b99fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32feebe69eaa56a40a76fa6b4b05d237" id="r_a32feebe69eaa56a40a76fa6b4b05d237"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a32feebe69eaa56a40a76fa6b4b05d237">~PageAllocator</a> ()</td></tr>
+<tr class="separator:a32feebe69eaa56a40a76fa6b4b05d237"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9aec435e429c168941e6a05b88875f23" id="r_a9aec435e429c168941e6a05b88875f23"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a9aec435e429c168941e6a05b88875f23">AllocatePage</a> (<a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a> type=<a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5ae44f9e348e41cb272efa87387728571b">PageType::DATA</a>, int32_t hint_page_id=-1)</td></tr>
+<tr class="separator:a9aec435e429c168941e6a05b88875f23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae3ce6b067eb903c6b245a1f72c4c0c2" id="r_aae3ce6b067eb903c6b245a1f72c4c0c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#aae3ce6b067eb903c6b245a1f72c4c0c2">DeallocatePage</a> (int32_t page_id)</td></tr>
+<tr class="separator:aae3ce6b067eb903c6b245a1f72c4c0c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afaa0ac86ff9a032c78b4dc8ec0db2f6e" id="r_afaa0ac86ff9a032c78b4dc8ec0db2f6e"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#afaa0ac86ff9a032c78b4dc8ec0db2f6e">GetPage</a> (int32_t page_id)</td></tr>
+<tr class="separator:afaa0ac86ff9a032c78b4dc8ec0db2f6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afad696e0fa57ad1d5c0b966100e2e001" id="r_afad696e0fa57ad1d5c0b966100e2e001"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#afad696e0fa57ad1d5c0b966100e2e001">MarkPageDirty</a> (int32_t page_id)</td></tr>
+<tr class="separator:afad696e0fa57ad1d5c0b966100e2e001"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3be541d2ea1e58b06e350e64dfa31178" id="r_a3be541d2ea1e58b06e350e64dfa31178"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a3be541d2ea1e58b06e350e64dfa31178">IsPageDirty</a> (int32_t page_id) const</td></tr>
+<tr class="separator:a3be541d2ea1e58b06e350e64dfa31178"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15e9a919448b96e93db6933fb374ff66" id="r_a15e9a919448b96e93db6933fb374ff66"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1PageAllocationStats.html">PageAllocationStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a15e9a919448b96e93db6933fb374ff66">GetAllocationStats</a> () const</td></tr>
+<tr class="separator:a15e9a919448b96e93db6933fb374ff66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8ee84bcdcba04cbab8d9b4ee42176d6" id="r_ac8ee84bcdcba04cbab8d9b4ee42176d6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1PageUsageStats.html">PageUsageStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#ac8ee84bcdcba04cbab8d9b4ee42176d6">GetPageUsageStats</a> () const</td></tr>
+<tr class="separator:ac8ee84bcdcba04cbab8d9b4ee42176d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97a075f61f490b0226e68707e20efc9d" id="r_a97a075f61f490b0226e68707e20efc9d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1AccessPatternAnalysis.html">AccessPatternAnalysis</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a97a075f61f490b0226e68707e20efc9d">GetAccessPatternAnalysis</a> () const</td></tr>
+<tr class="separator:a97a075f61f490b0226e68707e20efc9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26f30e844b77fd40635cbee2c2f07a49" id="r_a26f30e844b77fd40635cbee2c2f07a49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a26f30e844b77fd40635cbee2c2f07a49">SetAllocationStrategy</a> (<a class="el" href="namespacesqlcc.html#a2d8ff64757e43edaef07f746002d73d8">PageAllocationStrategy</a> strategy)</td></tr>
+<tr class="separator:a26f30e844b77fd40635cbee2c2f07a49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2f5679d85e37028fafad3696302fa95" id="r_af2f5679d85e37028fafad3696302fa95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#af2f5679d85e37028fafad3696302fa95">OptimizeMemoryUsage</a> ()</td></tr>
+<tr class="separator:af2f5679d85e37028fafad3696302fa95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a306ab8c56751b9b70dc0afb6e72b99fc" id="r_a306ab8c56751b9b70dc0afb6e72b99fc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a306ab8c56751b9b70dc0afb6e72b99fc">PageAllocator</a> (size_t max_pages, <a class="el" href="namespacesqlcc.html#a2d8ff64757e43edaef07f746002d73d8">PageAllocationStrategy</a> strategy=<a class="el" href="namespacesqlcc.html#a2d8ff64757e43edaef07f746002d73d8a39403cd282d944abcd4f14996cb71bcb">PageAllocationStrategy::SEQUENTIAL</a>)</td></tr>
+<tr class="separator:a306ab8c56751b9b70dc0afb6e72b99fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32feebe69eaa56a40a76fa6b4b05d237" id="r_a32feebe69eaa56a40a76fa6b4b05d237"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a32feebe69eaa56a40a76fa6b4b05d237">~PageAllocator</a> ()</td></tr>
+<tr class="separator:a32feebe69eaa56a40a76fa6b4b05d237"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9aec435e429c168941e6a05b88875f23" id="r_a9aec435e429c168941e6a05b88875f23"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a9aec435e429c168941e6a05b88875f23">AllocatePage</a> (<a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a> type=<a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5ae44f9e348e41cb272efa87387728571b">PageType::DATA</a>, int32_t hint_page_id=-1)</td></tr>
+<tr class="separator:a9aec435e429c168941e6a05b88875f23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae3ce6b067eb903c6b245a1f72c4c0c2" id="r_aae3ce6b067eb903c6b245a1f72c4c0c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#aae3ce6b067eb903c6b245a1f72c4c0c2">DeallocatePage</a> (int32_t page_id)</td></tr>
+<tr class="separator:aae3ce6b067eb903c6b245a1f72c4c0c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afaa0ac86ff9a032c78b4dc8ec0db2f6e" id="r_afaa0ac86ff9a032c78b4dc8ec0db2f6e"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#afaa0ac86ff9a032c78b4dc8ec0db2f6e">GetPage</a> (int32_t page_id)</td></tr>
+<tr class="separator:afaa0ac86ff9a032c78b4dc8ec0db2f6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afad696e0fa57ad1d5c0b966100e2e001" id="r_afad696e0fa57ad1d5c0b966100e2e001"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#afad696e0fa57ad1d5c0b966100e2e001">MarkPageDirty</a> (int32_t page_id)</td></tr>
+<tr class="separator:afad696e0fa57ad1d5c0b966100e2e001"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3be541d2ea1e58b06e350e64dfa31178" id="r_a3be541d2ea1e58b06e350e64dfa31178"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a3be541d2ea1e58b06e350e64dfa31178">IsPageDirty</a> (int32_t page_id) const</td></tr>
+<tr class="separator:a3be541d2ea1e58b06e350e64dfa31178"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15e9a919448b96e93db6933fb374ff66" id="r_a15e9a919448b96e93db6933fb374ff66"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1PageAllocationStats.html">PageAllocationStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a15e9a919448b96e93db6933fb374ff66">GetAllocationStats</a> () const</td></tr>
+<tr class="separator:a15e9a919448b96e93db6933fb374ff66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8ee84bcdcba04cbab8d9b4ee42176d6" id="r_ac8ee84bcdcba04cbab8d9b4ee42176d6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1PageUsageStats.html">PageUsageStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#ac8ee84bcdcba04cbab8d9b4ee42176d6">GetPageUsageStats</a> () const</td></tr>
+<tr class="separator:ac8ee84bcdcba04cbab8d9b4ee42176d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97a075f61f490b0226e68707e20efc9d" id="r_a97a075f61f490b0226e68707e20efc9d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1AccessPatternAnalysis.html">AccessPatternAnalysis</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a97a075f61f490b0226e68707e20efc9d">GetAccessPatternAnalysis</a> () const</td></tr>
+<tr class="separator:a97a075f61f490b0226e68707e20efc9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26f30e844b77fd40635cbee2c2f07a49" id="r_a26f30e844b77fd40635cbee2c2f07a49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a26f30e844b77fd40635cbee2c2f07a49">SetAllocationStrategy</a> (<a class="el" href="namespacesqlcc.html#a2d8ff64757e43edaef07f746002d73d8">PageAllocationStrategy</a> strategy)</td></tr>
+<tr class="separator:a26f30e844b77fd40635cbee2c2f07a49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2f5679d85e37028fafad3696302fa95" id="r_af2f5679d85e37028fafad3696302fa95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#af2f5679d85e37028fafad3696302fa95">OptimizeMemoryUsage</a> ()</td></tr>
+<tr class="separator:af2f5679d85e37028fafad3696302fa95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:aee82bfcf58dfba4880e2d1d04f409313" id="r_aee82bfcf58dfba4880e2d1d04f409313"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#aee82bfcf58dfba4880e2d1d04f409313">AllocateSequential</a> (<a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a> type)</td></tr>
+<tr class="separator:aee82bfcf58dfba4880e2d1d04f409313"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37b138aa7a62618fe43a75680fdc234d" id="r_a37b138aa7a62618fe43a75680fdc234d"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a37b138aa7a62618fe43a75680fdc234d">AllocateRandom</a> (<a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a> type)</td></tr>
+<tr class="separator:a37b138aa7a62618fe43a75680fdc234d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bc6dbe46f51375bf4025edc1b25018d" id="r_a0bc6dbe46f51375bf4025edc1b25018d"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a0bc6dbe46f51375bf4025edc1b25018d">AllocatePredictive</a> (<a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a> type, int32_t hint_page_id)</td></tr>
+<tr class="separator:a0bc6dbe46f51375bf4025edc1b25018d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83a97b608dbd2d46166c03582069feff" id="r_a83a97b608dbd2d46166c03582069feff"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a83a97b608dbd2d46166c03582069feff">AllocateMemoryAware</a> (<a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a> type)</td></tr>
+<tr class="separator:a83a97b608dbd2d46166c03582069feff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af41381207ef0cda811c7b6c5317b0ec8" id="r_af41381207ef0cda811c7b6c5317b0ec8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#af41381207ef0cda811c7b6c5317b0ec8">TryEvictPages</a> ()</td></tr>
+<tr class="separator:af41381207ef0cda811c7b6c5317b0ec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee82bfcf58dfba4880e2d1d04f409313" id="r_aee82bfcf58dfba4880e2d1d04f409313"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#aee82bfcf58dfba4880e2d1d04f409313">AllocateSequential</a> (<a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a> type)</td></tr>
+<tr class="separator:aee82bfcf58dfba4880e2d1d04f409313"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37b138aa7a62618fe43a75680fdc234d" id="r_a37b138aa7a62618fe43a75680fdc234d"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a37b138aa7a62618fe43a75680fdc234d">AllocateRandom</a> (<a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a> type)</td></tr>
+<tr class="separator:a37b138aa7a62618fe43a75680fdc234d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bc6dbe46f51375bf4025edc1b25018d" id="r_a0bc6dbe46f51375bf4025edc1b25018d"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a0bc6dbe46f51375bf4025edc1b25018d">AllocatePredictive</a> (<a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a> type, int32_t hint_page_id)</td></tr>
+<tr class="separator:a0bc6dbe46f51375bf4025edc1b25018d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83a97b608dbd2d46166c03582069feff" id="r_a83a97b608dbd2d46166c03582069feff"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a83a97b608dbd2d46166c03582069feff">AllocateMemoryAware</a> (<a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a> type)</td></tr>
+<tr class="separator:a83a97b608dbd2d46166c03582069feff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af41381207ef0cda811c7b6c5317b0ec8" id="r_af41381207ef0cda811c7b6c5317b0ec8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#af41381207ef0cda811c7b6c5317b0ec8">TryEvictPages</a> ()</td></tr>
+<tr class="separator:af41381207ef0cda811c7b6c5317b0ec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a9136d21ea235a780a4c7116ebe33c443" id="r_a9136d21ea235a780a4c7116ebe33c443"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a9136d21ea235a780a4c7116ebe33c443">max_pages_</a></td></tr>
+<tr class="separator:a9136d21ea235a780a4c7116ebe33c443"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefacc90ddafebdfb69325d0d1393a688" id="r_aefacc90ddafebdfb69325d0d1393a688"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#aefacc90ddafebdfb69325d0d1393a688">current_pages_</a></td></tr>
+<tr class="separator:aefacc90ddafebdfb69325d0d1393a688"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4866aafd15cb8da5ae3c2e05a86cfcc3" id="r_a4866aafd15cb8da5ae3c2e05a86cfcc3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a2d8ff64757e43edaef07f746002d73d8">PageAllocationStrategy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a4866aafd15cb8da5ae3c2e05a86cfcc3">allocation_strategy_</a></td></tr>
+<tr class="separator:a4866aafd15cb8da5ae3c2e05a86cfcc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af163631c14b2168a9fa0370cc88dbd82" id="r_af163631c14b2168a9fa0370cc88dbd82"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1PageAllocationStats.html">PageAllocationStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#af163631c14b2168a9fa0370cc88dbd82">allocation_stats_</a></td></tr>
+<tr class="separator:af163631c14b2168a9fa0370cc88dbd82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeba81eb983883f69ce00b5d036fb3336" id="r_aeba81eb983883f69ce00b5d036fb3336"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#aeba81eb983883f69ce00b5d036fb3336">page_pool_</a></td></tr>
+<tr class="separator:aeba81eb983883f69ce00b5d036fb3336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b70c44abf754497bcaa24900804ae14" id="r_a2b70c44abf754497bcaa24900804ae14"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, <a class="el" href="structsqlcc_1_1PageAllocationInfo.html">PageAllocationInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a2b70c44abf754497bcaa24900804ae14">page_info_</a></td></tr>
+<tr class="separator:a2b70c44abf754497bcaa24900804ae14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc35b2e506936e97d34d3c001f1fffc5" id="r_acc35b2e506936e97d34d3c001f1fffc5"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::chrono::milliseconds &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#acc35b2e506936e97d34d3c001f1fffc5">lifetime_stats_</a></td></tr>
+<tr class="separator:acc35b2e506936e97d34d3c001f1fffc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a369e4dfae4128addc368da792fea2e4c" id="r_a369e4dfae4128addc368da792fea2e4c"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a369e4dfae4128addc368da792fea2e4c">allocator_mutex_</a></td></tr>
+<tr class="separator:a369e4dfae4128addc368da792fea2e4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42e210b0888ae7acec9973beb57d0ca4" id="r_a42e210b0888ae7acec9973beb57d0ca4"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1PageAllocator_1_1AccessPatternAnalyzer.html">AccessPatternAnalyzer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a42e210b0888ae7acec9973beb57d0ca4">access_pattern_analyzer_</a></td></tr>
+<tr class="separator:a42e210b0888ae7acec9973beb57d0ca4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38e03f0baa079a032bec0a529e4ba971" id="r_a38e03f0baa079a032bec0a529e4ba971"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1PageAllocator_1_1MemoryMonitor.html">MemoryMonitor</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PageAllocator.html#a38e03f0baa079a032bec0a529e4ba971">memory_monitor_</a></td></tr>
+<tr class="separator:a38e03f0baa079a032bec0a529e4ba971"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a306ab8c56751b9b70dc0afb6e72b99fc" name="a306ab8c56751b9b70dc0afb6e72b99fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a306ab8c56751b9b70dc0afb6e72b99fc">&#9670;&#160;</a></span>PageAllocator() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::PageAllocator::PageAllocator </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>max_pages</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a2d8ff64757e43edaef07f746002d73d8">PageAllocationStrategy</a>&#160;</td>
+          <td class="paramname"><em>strategy</em> = <code><a class="el" href="namespacesqlcc.html#a2d8ff64757e43edaef07f746002d73d8a39403cd282d944abcd4f14996cb71bcb">PageAllocationStrategy::SEQUENTIAL</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a32feebe69eaa56a40a76fa6b4b05d237" name="a32feebe69eaa56a40a76fa6b4b05d237"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32feebe69eaa56a40a76fa6b4b05d237">&#9670;&#160;</a></span>~PageAllocator() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::PageAllocator::~PageAllocator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a306ab8c56751b9b70dc0afb6e72b99fc" name="a306ab8c56751b9b70dc0afb6e72b99fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a306ab8c56751b9b70dc0afb6e72b99fc">&#9670;&#160;</a></span>PageAllocator() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::PageAllocator::PageAllocator </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>max_pages</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a2d8ff64757e43edaef07f746002d73d8">PageAllocationStrategy</a>&#160;</td>
+          <td class="paramname"><em>strategy</em> = <code><a class="el" href="namespacesqlcc.html#a2d8ff64757e43edaef07f746002d73d8a39403cd282d944abcd4f14996cb71bcb">PageAllocationStrategy::SEQUENTIAL</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a32feebe69eaa56a40a76fa6b4b05d237" name="a32feebe69eaa56a40a76fa6b4b05d237"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32feebe69eaa56a40a76fa6b4b05d237">&#9670;&#160;</a></span>~PageAllocator() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::PageAllocator::~PageAllocator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a83a97b608dbd2d46166c03582069feff" name="a83a97b608dbd2d46166c03582069feff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83a97b608dbd2d46166c03582069feff">&#9670;&#160;</a></span>AllocateMemoryAware() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::PageAllocator::AllocateMemoryAware </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a83a97b608dbd2d46166c03582069feff" name="a83a97b608dbd2d46166c03582069feff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83a97b608dbd2d46166c03582069feff">&#9670;&#160;</a></span>AllocateMemoryAware() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::PageAllocator::AllocateMemoryAware </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9aec435e429c168941e6a05b88875f23" name="a9aec435e429c168941e6a05b88875f23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9aec435e429c168941e6a05b88875f23">&#9670;&#160;</a></span>AllocatePage() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::PageAllocator::AllocatePage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a>&#160;</td>
+          <td class="paramname"><em>type</em> = <code><a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5ae44f9e348e41cb272efa87387728571b">PageType::DATA</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>hint_page_id</em> = <code>-1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9aec435e429c168941e6a05b88875f23" name="a9aec435e429c168941e6a05b88875f23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9aec435e429c168941e6a05b88875f23">&#9670;&#160;</a></span>AllocatePage() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::PageAllocator::AllocatePage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a>&#160;</td>
+          <td class="paramname"><em>type</em> = <code><a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5ae44f9e348e41cb272efa87387728571b">PageType::DATA</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>hint_page_id</em> = <code>-1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0bc6dbe46f51375bf4025edc1b25018d" name="a0bc6dbe46f51375bf4025edc1b25018d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bc6dbe46f51375bf4025edc1b25018d">&#9670;&#160;</a></span>AllocatePredictive() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::PageAllocator::AllocatePredictive </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>hint_page_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0bc6dbe46f51375bf4025edc1b25018d" name="a0bc6dbe46f51375bf4025edc1b25018d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bc6dbe46f51375bf4025edc1b25018d">&#9670;&#160;</a></span>AllocatePredictive() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::PageAllocator::AllocatePredictive </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>hint_page_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a37b138aa7a62618fe43a75680fdc234d" name="a37b138aa7a62618fe43a75680fdc234d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37b138aa7a62618fe43a75680fdc234d">&#9670;&#160;</a></span>AllocateRandom() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::PageAllocator::AllocateRandom </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a37b138aa7a62618fe43a75680fdc234d" name="a37b138aa7a62618fe43a75680fdc234d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37b138aa7a62618fe43a75680fdc234d">&#9670;&#160;</a></span>AllocateRandom() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::PageAllocator::AllocateRandom </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aee82bfcf58dfba4880e2d1d04f409313" name="aee82bfcf58dfba4880e2d1d04f409313"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee82bfcf58dfba4880e2d1d04f409313">&#9670;&#160;</a></span>AllocateSequential() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::PageAllocator::AllocateSequential </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aee82bfcf58dfba4880e2d1d04f409313" name="aee82bfcf58dfba4880e2d1d04f409313"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee82bfcf58dfba4880e2d1d04f409313">&#9670;&#160;</a></span>AllocateSequential() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::PageAllocator::AllocateSequential </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#af31553aa60b598517ed741b4c12a2ad5">PageType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aae3ce6b067eb903c6b245a1f72c4c0c2" name="aae3ce6b067eb903c6b245a1f72c4c0c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae3ce6b067eb903c6b245a1f72c4c0c2">&#9670;&#160;</a></span>DeallocatePage() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::PageAllocator::DeallocatePage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aae3ce6b067eb903c6b245a1f72c4c0c2" name="aae3ce6b067eb903c6b245a1f72c4c0c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae3ce6b067eb903c6b245a1f72c4c0c2">&#9670;&#160;</a></span>DeallocatePage() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::PageAllocator::DeallocatePage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a97a075f61f490b0226e68707e20efc9d" name="a97a075f61f490b0226e68707e20efc9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97a075f61f490b0226e68707e20efc9d">&#9670;&#160;</a></span>GetAccessPatternAnalysis() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1AccessPatternAnalysis.html">AccessPatternAnalysis</a> sqlcc::PageAllocator::GetAccessPatternAnalysis </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a97a075f61f490b0226e68707e20efc9d" name="a97a075f61f490b0226e68707e20efc9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97a075f61f490b0226e68707e20efc9d">&#9670;&#160;</a></span>GetAccessPatternAnalysis() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1AccessPatternAnalysis.html">AccessPatternAnalysis</a> sqlcc::PageAllocator::GetAccessPatternAnalysis </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a15e9a919448b96e93db6933fb374ff66" name="a15e9a919448b96e93db6933fb374ff66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15e9a919448b96e93db6933fb374ff66">&#9670;&#160;</a></span>GetAllocationStats() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1PageAllocationStats.html">PageAllocationStats</a> sqlcc::PageAllocator::GetAllocationStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a15e9a919448b96e93db6933fb374ff66" name="a15e9a919448b96e93db6933fb374ff66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15e9a919448b96e93db6933fb374ff66">&#9670;&#160;</a></span>GetAllocationStats() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1PageAllocationStats.html">PageAllocationStats</a> sqlcc::PageAllocator::GetAllocationStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afaa0ac86ff9a032c78b4dc8ec0db2f6e" name="afaa0ac86ff9a032c78b4dc8ec0db2f6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afaa0ac86ff9a032c78b4dc8ec0db2f6e">&#9670;&#160;</a></span>GetPage() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::PageAllocator::GetPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afaa0ac86ff9a032c78b4dc8ec0db2f6e" name="afaa0ac86ff9a032c78b4dc8ec0db2f6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afaa0ac86ff9a032c78b4dc8ec0db2f6e">&#9670;&#160;</a></span>GetPage() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::PageAllocator::GetPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac8ee84bcdcba04cbab8d9b4ee42176d6" name="ac8ee84bcdcba04cbab8d9b4ee42176d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8ee84bcdcba04cbab8d9b4ee42176d6">&#9670;&#160;</a></span>GetPageUsageStats() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1PageUsageStats.html">PageUsageStats</a> sqlcc::PageAllocator::GetPageUsageStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac8ee84bcdcba04cbab8d9b4ee42176d6" name="ac8ee84bcdcba04cbab8d9b4ee42176d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8ee84bcdcba04cbab8d9b4ee42176d6">&#9670;&#160;</a></span>GetPageUsageStats() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1PageUsageStats.html">PageUsageStats</a> sqlcc::PageAllocator::GetPageUsageStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3be541d2ea1e58b06e350e64dfa31178" name="a3be541d2ea1e58b06e350e64dfa31178"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3be541d2ea1e58b06e350e64dfa31178">&#9670;&#160;</a></span>IsPageDirty() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::PageAllocator::IsPageDirty </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3be541d2ea1e58b06e350e64dfa31178" name="a3be541d2ea1e58b06e350e64dfa31178"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3be541d2ea1e58b06e350e64dfa31178">&#9670;&#160;</a></span>IsPageDirty() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::PageAllocator::IsPageDirty </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afad696e0fa57ad1d5c0b966100e2e001" name="afad696e0fa57ad1d5c0b966100e2e001"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afad696e0fa57ad1d5c0b966100e2e001">&#9670;&#160;</a></span>MarkPageDirty() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::PageAllocator::MarkPageDirty </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afad696e0fa57ad1d5c0b966100e2e001" name="afad696e0fa57ad1d5c0b966100e2e001"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afad696e0fa57ad1d5c0b966100e2e001">&#9670;&#160;</a></span>MarkPageDirty() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::PageAllocator::MarkPageDirty </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af2f5679d85e37028fafad3696302fa95" name="af2f5679d85e37028fafad3696302fa95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2f5679d85e37028fafad3696302fa95">&#9670;&#160;</a></span>OptimizeMemoryUsage() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::PageAllocator::OptimizeMemoryUsage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af2f5679d85e37028fafad3696302fa95" name="af2f5679d85e37028fafad3696302fa95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2f5679d85e37028fafad3696302fa95">&#9670;&#160;</a></span>OptimizeMemoryUsage() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::PageAllocator::OptimizeMemoryUsage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a26f30e844b77fd40635cbee2c2f07a49" name="a26f30e844b77fd40635cbee2c2f07a49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26f30e844b77fd40635cbee2c2f07a49">&#9670;&#160;</a></span>SetAllocationStrategy() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::PageAllocator::SetAllocationStrategy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a2d8ff64757e43edaef07f746002d73d8">PageAllocationStrategy</a>&#160;</td>
+          <td class="paramname"><em>strategy</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a26f30e844b77fd40635cbee2c2f07a49" name="a26f30e844b77fd40635cbee2c2f07a49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26f30e844b77fd40635cbee2c2f07a49">&#9670;&#160;</a></span>SetAllocationStrategy() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::PageAllocator::SetAllocationStrategy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a2d8ff64757e43edaef07f746002d73d8">PageAllocationStrategy</a>&#160;</td>
+          <td class="paramname"><em>strategy</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af41381207ef0cda811c7b6c5317b0ec8" name="af41381207ef0cda811c7b6c5317b0ec8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af41381207ef0cda811c7b6c5317b0ec8">&#9670;&#160;</a></span>TryEvictPages() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::PageAllocator::TryEvictPages </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af41381207ef0cda811c7b6c5317b0ec8" name="af41381207ef0cda811c7b6c5317b0ec8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af41381207ef0cda811c7b6c5317b0ec8">&#9670;&#160;</a></span>TryEvictPages() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::PageAllocator::TryEvictPages </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a42e210b0888ae7acec9973beb57d0ca4" name="a42e210b0888ae7acec9973beb57d0ca4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42e210b0888ae7acec9973beb57d0ca4">&#9670;&#160;</a></span>access_pattern_analyzer_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1PageAllocator_1_1AccessPatternAnalyzer.html">AccessPatternAnalyzer</a> &gt; sqlcc::PageAllocator::access_pattern_analyzer_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af163631c14b2168a9fa0370cc88dbd82" name="af163631c14b2168a9fa0370cc88dbd82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af163631c14b2168a9fa0370cc88dbd82">&#9670;&#160;</a></span>allocation_stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1PageAllocationStats.html">PageAllocationStats</a> sqlcc::PageAllocator::allocation_stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4866aafd15cb8da5ae3c2e05a86cfcc3" name="a4866aafd15cb8da5ae3c2e05a86cfcc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4866aafd15cb8da5ae3c2e05a86cfcc3">&#9670;&#160;</a></span>allocation_strategy_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a2d8ff64757e43edaef07f746002d73d8">PageAllocationStrategy</a> sqlcc::PageAllocator::allocation_strategy_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a369e4dfae4128addc368da792fea2e4c" name="a369e4dfae4128addc368da792fea2e4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a369e4dfae4128addc368da792fea2e4c">&#9670;&#160;</a></span>allocator_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::PageAllocator::allocator_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aefacc90ddafebdfb69325d0d1393a688" name="aefacc90ddafebdfb69325d0d1393a688"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefacc90ddafebdfb69325d0d1393a688">&#9670;&#160;</a></span>current_pages_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::PageAllocator::current_pages_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acc35b2e506936e97d34d3c001f1fffc5" name="acc35b2e506936e97d34d3c001f1fffc5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc35b2e506936e97d34d3c001f1fffc5">&#9670;&#160;</a></span>lifetime_stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::chrono::milliseconds &gt; sqlcc::PageAllocator::lifetime_stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9136d21ea235a780a4c7116ebe33c443" name="a9136d21ea235a780a4c7116ebe33c443"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9136d21ea235a780a4c7116ebe33c443">&#9670;&#160;</a></span>max_pages_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::PageAllocator::max_pages_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a38e03f0baa079a032bec0a529e4ba971" name="a38e03f0baa079a032bec0a529e4ba971"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38e03f0baa079a032bec0a529e4ba971">&#9670;&#160;</a></span>memory_monitor_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1PageAllocator_1_1MemoryMonitor.html">MemoryMonitor</a> &gt; sqlcc::PageAllocator::memory_monitor_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2b70c44abf754497bcaa24900804ae14" name="a2b70c44abf754497bcaa24900804ae14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b70c44abf754497bcaa24900804ae14">&#9670;&#160;</a></span>page_info_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; int32_t, <a class="el" href="structsqlcc_1_1PageAllocationInfo.html">PageAllocationInfo</a> &gt; sqlcc::PageAllocator::page_info_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeba81eb983883f69ce00b5d036fb3336" name="aeba81eb983883f69ce00b5d036fb3336"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeba81eb983883f69ce00b5d036fb3336">&#9670;&#160;</a></span>page_pool_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; &gt; sqlcc::PageAllocator::page_pool_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage_2page__allocator_8h_source.html">storage/page_allocator.h</a></li>
+<li><a class="el" href="storage__engine_2page__allocator_8h_source.html">storage_engine/page_allocator.h</a></li>
+<li><a class="el" href="page__allocator_8cpp.html">page_allocator.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

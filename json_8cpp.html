@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: json.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle"><div class="title">json.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="json_8h_source.html">json.h</a>&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;cctype&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;stack&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+json.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="json_8cpp__incl.png" border="0" usemap="#ajson_8cpp" alt=""/></div>
+<map name="ajson_8cpp" id="ajson_8cpp">
+<area shape="rect" title=" " alt="" coords="793,5,869,31"/>
+<area shape="rect" href="json_8h.html" title=" " alt="" coords="455,79,516,104"/>
+<area shape="poly" title=" " alt="" coords="793,30,530,84,529,78,792,25"/>
+<area shape="rect" title=" " alt="" coords="703,152,777,177"/>
+<area shape="poly" title=" " alt="" coords="826,33,757,142,752,139,821,30"/>
+<area shape="rect" title=" " alt="" coords="802,152,889,177"/>
+<area shape="poly" title=" " alt="" coords="828,32,819,64,817,84,819,103,833,139,828,141,813,105,811,84,814,63,823,30"/>
+<area shape="rect" title=" " alt="" coords="828,79,913,104"/>
+<area shape="poly" title=" " alt="" coords="840,30,860,65,855,68,835,32"/>
+<area shape="rect" title=" " alt="" coords="938,79,1003,104"/>
+<area shape="poly" title=" " alt="" coords="854,28,937,70,935,75,852,33"/>
+<area shape="rect" title=" " alt="" coords="1027,79,1085,104"/>
+<area shape="poly" title=" " alt="" coords="868,28,1015,74,1013,79,866,33"/>
+<area shape="rect" title=" " alt="" coords="88,152,147,177"/>
+<area shape="poly" title=" " alt="" coords="455,100,330,121,161,154,160,149,329,115,454,95"/>
+<area shape="rect" title=" " alt="" coords="171,152,248,177"/>
+<area shape="poly" title=" " alt="" coords="455,103,262,153,261,147,454,98"/>
+<area shape="rect" title=" " alt="" coords="273,152,335,177"/>
+<area shape="poly" title=" " alt="" coords="457,107,347,149,345,144,455,102"/>
+<area shape="rect" title=" " alt="" coords="359,152,483,177"/>
+<area shape="poly" title=" " alt="" coords="477,106,443,144,439,140,473,103"/>
+<area shape="rect" title=" " alt="" coords="508,152,588,177"/>
+<area shape="poly" title=" " alt="" coords="498,103,531,140,527,143,494,106"/>
+<area shape="poly" title=" " alt="" coords="517,99,690,147,689,152,515,104"/>
+<area shape="poly" title=" " alt="" coords="517,96,789,149,788,155,516,101"/>
+<area shape="rect" title=" " alt="" coords="612,152,679,177"/>
+<area shape="poly" title=" " alt="" coords="512,102,608,144,606,149,510,106"/>
+<area shape="rect" title=" " alt="" coords="5,152,64,177"/>
+<area shape="poly" title=" " alt="" coords="455,98,297,118,190,134,78,155,77,149,189,129,296,113,454,93"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1JsonValue.html">sqlcc::JsonValue</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1JsonNull.html">sqlcc::JsonNull</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1JsonBoolean.html">sqlcc::JsonBoolean</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1JsonNumber.html">sqlcc::JsonNumber</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1JsonString.html">sqlcc::JsonString</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1JsonArray.html">sqlcc::JsonArray</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1JsonObject.html">sqlcc::JsonObject</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:a956b6ab5682f80113889b0b4ea9c8359" id="r_a956b6ab5682f80113889b0b4ea9c8359"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a956b6ab5682f80113889b0b4ea9c8359">sqlcc::json_null</a> ()</td></tr>
+<tr class="separator:a956b6ab5682f80113889b0b4ea9c8359"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8280cdaede00aa79e9e9836f355f0238" id="r_a8280cdaede00aa79e9e9836f355f0238"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a8280cdaede00aa79e9e9836f355f0238">sqlcc::json_bool</a> (bool value)</td></tr>
+<tr class="separator:a8280cdaede00aa79e9e9836f355f0238"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a550fe8eabc9324b9fe019ebc5a7a13a7" id="r_a550fe8eabc9324b9fe019ebc5a7a13a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a550fe8eabc9324b9fe019ebc5a7a13a7">sqlcc::json_int</a> (int value)</td></tr>
+<tr class="separator:a550fe8eabc9324b9fe019ebc5a7a13a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab1c7d69c962fd309b80b5d39957e435" id="r_aab1c7d69c962fd309b80b5d39957e435"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#aab1c7d69c962fd309b80b5d39957e435">sqlcc::json_int64</a> (int64_t value)</td></tr>
+<tr class="separator:aab1c7d69c962fd309b80b5d39957e435"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9950c1721d66a8b9079d96d0cf8b87db" id="r_a9950c1721d66a8b9079d96d0cf8b87db"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a9950c1721d66a8b9079d96d0cf8b87db">sqlcc::json_double</a> (double value)</td></tr>
+<tr class="separator:a9950c1721d66a8b9079d96d0cf8b87db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d5cf429b4e81d3b69914aa96abcf802" id="r_a8d5cf429b4e81d3b69914aa96abcf802"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a8d5cf429b4e81d3b69914aa96abcf802">sqlcc::json_string</a> (const std::string &amp;value)</td></tr>
+<tr class="separator:a8d5cf429b4e81d3b69914aa96abcf802"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99459382c96f2ea76741cb0ec18a9de1" id="r_a99459382c96f2ea76741cb0ec18a9de1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a99459382c96f2ea76741cb0ec18a9de1">sqlcc::json_array</a> ()</td></tr>
+<tr class="separator:a99459382c96f2ea76741cb0ec18a9de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeee5e7fed2d9c026c3b34493dc152aec" id="r_aeee5e7fed2d9c026c3b34493dc152aec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#aeee5e7fed2d9c026c3b34493dc152aec">sqlcc::json_object</a> ()</td></tr>
+<tr class="separator:aeee5e7fed2d9c026c3b34493dc152aec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38aa029ce84bcacfbc2069e1b481d8b5" id="r_a38aa029ce84bcacfbc2069e1b481d8b5"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a38aa029ce84bcacfbc2069e1b481d8b5">sqlcc::json_to_string</a> (const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;json)</td></tr>
+<tr class="separator:a38aa029ce84bcacfbc2069e1b481d8b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31279e53249f422a7d3ee0e26e846e28" id="r_a31279e53249f422a7d3ee0e26e846e28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a31279e53249f422a7d3ee0e26e846e28">sqlcc::json_from_string</a> (const std::string &amp;str)</td></tr>
+<tr class="separator:a31279e53249f422a7d3ee0e26e846e28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3093d104fe3a1c996c6c932871eb0076" id="r_a3093d104fe3a1c996c6c932871eb0076"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a3093d104fe3a1c996c6c932871eb0076">sqlcc::json_escape_string</a> (const std::string &amp;str)</td></tr>
+<tr class="separator:a3093d104fe3a1c996c6c932871eb0076"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac240f20c60a1e7ecacc52b1cdfa6f8b" id="r_aac240f20c60a1e7ecacc52b1cdfa6f8b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#aac240f20c60a1e7ecacc52b1cdfa6f8b">sqlcc::json_unescape_string</a> (const std::string &amp;str)</td></tr>
+<tr class="separator:aac240f20c60a1e7ecacc52b1cdfa6f8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f22b04196159dde57e4451068f4d10e" id="r_a7f22b04196159dde57e4451068f4d10e"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a7f22b04196159dde57e4451068f4d10e">sqlcc::operator&lt;&lt;</a> (std::ostream &amp;os, const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;json)</td></tr>
+<tr class="separator:a7f22b04196159dde57e4451068f4d10e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c36c24a363858142ac46c91c7d57120" id="r_a4c36c24a363858142ac46c91c7d57120"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a4c36c24a363858142ac46c91c7d57120">sqlcc::operator&gt;&gt;</a> (std::istream &amp;is, <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;json)</td></tr>
+<tr class="separator:a4c36c24a363858142ac46c91c7d57120"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

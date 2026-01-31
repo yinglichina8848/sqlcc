@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: network_stability_guard.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fc4c7f03e1a69a98c370fae55a743828.html">network</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">network_stability_guard.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="network__stability__guard_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SQLCC_NETWORK_STABILITY_GUARD_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SQLCC_NETWORK_STABILITY_GUARD_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="network__monitor_8h.html">network_monitor.h</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="network__exception__handler_8h.html">network_exception_handler.h</a>&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc_1_1network.html">network</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="foldopen" id="foldopen00016" data-start="{" data-end="};">
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338">   16</a></span><span class="keyword">enum</span> <a class="code hl_enumeration" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338">StabilityAction</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a72f6316c3bec8518bae284de0c390b7b">   17</a></span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a72f6316c3bec8518bae284de0c390b7b">NO_ACTION</a> = 0,              <span class="comment">// 无需行动</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a7eafcb9fe2cfa360fde8b5d005631b59">   18</a></span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a7eafcb9fe2cfa360fde8b5d005631b59">REDUCE_LOAD</a> = 1,            <span class="comment">// 减少负载</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a108c02ed9ca1ba61f95160bf19e4f41e">   19</a></span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a108c02ed9ca1ba61f95160bf19e4f41e">THROTTLE_CONNECTIONS</a> = 2,   <span class="comment">// 限制连接</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a4840fb9fff37e96033fdce5f8712f494">   20</a></span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a4840fb9fff37e96033fdce5f8712f494">ENABLE_CIRCUIT_BREAKER</a> = 3, <span class="comment">// 启用断路器</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a8add3634473fa5dedc1312e71e4b01af">GRACEFUL_SHUTDOWN</a> = 4       <span class="comment">// 优雅关闭</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a8add3634473fa5dedc1312e71e4b01af">   22</a></span>};</div>
+</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="foldopen" id="foldopen00029" data-start="{" data-end="};">
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html">   29</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html">NetworkStabilityGuard</a> {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a48d53f86a135ad1027281136dabf78d8">NetworkStabilityGuard</a>();</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a06ddcc44e2378639e52762aff32c2dde">   32</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a06ddcc44e2378639e52762aff32c2dde">~NetworkStabilityGuard</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="comment">// 稳定性评估</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338">StabilityAction</a> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#ab7db13d026a708066238f4b5858b9c87">AssessStability</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1network_1_1NetworkMonitor.html">NetworkMonitor</a>&amp; monitor,</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                                   <span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html">NetworkExceptionHandler</a>&amp; exception_handler);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="comment">// 参数配置</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a305de331c71ec0b9c34702034e5f9d67">SetMaxConnections</a>(<span class="keywordtype">int</span> max_connections);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a1662fc68abfb66781ea31b62db999cda">SetMaxThroughput</a>(<span class="keywordtype">size_t</span> bytes_per_second);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#ad61bf228888150a6dffdc7f401ac63fc">SetMaxExceptionRate</a>(<span class="keywordtype">double</span> exceptions_per_minute);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="comment">// 决策查询</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a85aa434d8e911254b20853b761af391b">ShouldAcceptNewConnection</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a2861f49a06db29e5200813a890a0f2d1">ShouldThrottleRequests</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    std::chrono::milliseconds <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a1d4d29a335b5912c3b5ee4f8b5189ca9">GetRecommendedDelay</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="comment">// 参数调整</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#aa772b8347504905f44bc50c535a6212f">AdjustParameters</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1network_1_1NetworkMonitor.html">NetworkMonitor</a>&amp; monitor);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#aea6dce61761296547314610f9d535c6f">ResetToDefaults</a>();</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="comment">// 状态查询</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a7b905e2238d4c4e625c56f1285aafde0">GetCurrentLoadLevel</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    std::string <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a54c9db423d4ea41de0048fc3be5d28ea">GetStabilityReport</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// 内部方法</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#ab64b059f94c178fa4e2133d55bc931aa">CalculateLoadLevel</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1network_1_1NetworkMonitor.html">NetworkMonitor</a>&amp; monitor) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordtype">double</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a07c0125508689d5989b017a4d1fc48a9">CalculateExceptionRate</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html">NetworkExceptionHandler</a>&amp; exception_handler) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338">StabilityAction</a> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a283246dca4473d746d90835033530189">DetermineAction</a>(<span class="keywordtype">int</span> load_level, <span class="keywordtype">double</span> exception_rate, <span class="keywordtype">size_t</span> throughput) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="comment">// 成员变量</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a67fb49e13c43f6064fc06d5a46c9b766">   63</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a67fb49e13c43f6064fc06d5a46c9b766">max_connections_</a>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a6fce7289b4acbe6ac0fabfa74f99f422">   64</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a6fce7289b4acbe6ac0fabfa74f99f422">max_throughput_</a>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a7fa0e36ff05285fe3a52746f58688b88">   65</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a7fa0e36ff05285fe3a52746f58688b88">max_exception_rate_</a>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a64a5ad2bb75fdd79d9e6ff2cacae0866">   66</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a64a5ad2bb75fdd79d9e6ff2cacae0866">current_connections_</a>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#adef39befa1b81e84ff0b2fa139c7ae9b">   67</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#adef39befa1b81e84ff0b2fa139c7ae9b">current_throughput_</a>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a0baefdfdc45c37eb69c1a03ed957c423">   68</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a0baefdfdc45c37eb69c1a03ed957c423">current_exception_rate_</a>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#abb500506d85c235bdf43167fb38b981e">   69</a></span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338">StabilityAction</a> <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#abb500506d85c235bdf43167fb38b981e">last_action_</a>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a405417f3d27d820d6177f9c84032d026">   70</a></span>    std::chrono::steady_clock::time_point <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a405417f3d27d820d6177f9c84032d026">last_assessment_time_</a>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="comment">// 自适应参数</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#ae49ae4ec21325e316df552640412b7a3">   73</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#ae49ae4ec21325e316df552640412b7a3">connection_throttle_threshold_</a>;  <span class="comment">// 连接限制阈值 (百分比)</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#ad69515b8403463531a38a94a7f7c60df">   74</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#ad69515b8403463531a38a94a7f7c60df">load_reduction_factor_</a>;          <span class="comment">// 负载减少因子</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="comment">// 互斥锁保护状态</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#af0c72289b54bca10f37b168b4be135e1">   77</a></span>    <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#af0c72289b54bca10f37b168b4be135e1">stability_mutex_</a>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>};</div>
+</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>} <span class="comment">// namespace network</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_NETWORK_STABILITY_GUARD_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkExceptionHandler_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html">sqlcc::network::NetworkExceptionHandler</a></div><div class="ttdef"><b>Definition</b> network_exception_handler.h:20</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkMonitor_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkMonitor.html">sqlcc::network::NetworkMonitor</a></div><div class="ttdoc">网络监控和日志系统</div><div class="ttdef"><b>Definition</b> network_monitor.h:41</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html">sqlcc::network::NetworkStabilityGuard</a></div><div class="ttdoc">网络稳定性守护器</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:29</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a06ddcc44e2378639e52762aff32c2dde"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a06ddcc44e2378639e52762aff32c2dde">sqlcc::network::NetworkStabilityGuard::~NetworkStabilityGuard</a></div><div class="ttdeci">virtual ~NetworkStabilityGuard()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a07c0125508689d5989b017a4d1fc48a9"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a07c0125508689d5989b017a4d1fc48a9">sqlcc::network::NetworkStabilityGuard::CalculateExceptionRate</a></div><div class="ttdeci">double CalculateExceptionRate(const NetworkExceptionHandler &amp;exception_handler) const</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:745</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a0baefdfdc45c37eb69c1a03ed957c423"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a0baefdfdc45c37eb69c1a03ed957c423">sqlcc::network::NetworkStabilityGuard::current_exception_rate_</a></div><div class="ttdeci">double current_exception_rate_</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:68</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a1662fc68abfb66781ea31b62db999cda"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a1662fc68abfb66781ea31b62db999cda">sqlcc::network::NetworkStabilityGuard::SetMaxThroughput</a></div><div class="ttdeci">void SetMaxThroughput(size_t bytes_per_second)</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:639</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a1d4d29a335b5912c3b5ee4f8b5189ca9"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a1d4d29a335b5912c3b5ee4f8b5189ca9">sqlcc::network::NetworkStabilityGuard::GetRecommendedDelay</a></div><div class="ttdeci">std::chrono::milliseconds GetRecommendedDelay() const</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:659</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a283246dca4473d746d90835033530189"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a283246dca4473d746d90835033530189">sqlcc::network::NetworkStabilityGuard::DetermineAction</a></div><div class="ttdeci">StabilityAction DetermineAction(int load_level, double exception_rate, size_t throughput) const</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:763</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a2861f49a06db29e5200813a890a0f2d1"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a2861f49a06db29e5200813a890a0f2d1">sqlcc::network::NetworkStabilityGuard::ShouldThrottleRequests</a></div><div class="ttdeci">bool ShouldThrottleRequests() const</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:654</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a305de331c71ec0b9c34702034e5f9d67"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a305de331c71ec0b9c34702034e5f9d67">sqlcc::network::NetworkStabilityGuard::SetMaxConnections</a></div><div class="ttdeci">void SetMaxConnections(int max_connections)</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:634</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a405417f3d27d820d6177f9c84032d026"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a405417f3d27d820d6177f9c84032d026">sqlcc::network::NetworkStabilityGuard::last_assessment_time_</a></div><div class="ttdeci">std::chrono::steady_clock::time_point last_assessment_time_</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:70</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a48d53f86a135ad1027281136dabf78d8"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a48d53f86a135ad1027281136dabf78d8">sqlcc::network::NetworkStabilityGuard::NetworkStabilityGuard</a></div><div class="ttdeci">NetworkStabilityGuard()</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:591</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a54c9db423d4ea41de0048fc3be5d28ea"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a54c9db423d4ea41de0048fc3be5d28ea">sqlcc::network::NetworkStabilityGuard::GetStabilityReport</a></div><div class="ttdeci">std::string GetStabilityReport() const</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:706</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a64a5ad2bb75fdd79d9e6ff2cacae0866"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a64a5ad2bb75fdd79d9e6ff2cacae0866">sqlcc::network::NetworkStabilityGuard::current_connections_</a></div><div class="ttdeci">int current_connections_</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:66</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a67fb49e13c43f6064fc06d5a46c9b766"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a67fb49e13c43f6064fc06d5a46c9b766">sqlcc::network::NetworkStabilityGuard::max_connections_</a></div><div class="ttdeci">int max_connections_</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:63</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a6fce7289b4acbe6ac0fabfa74f99f422"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a6fce7289b4acbe6ac0fabfa74f99f422">sqlcc::network::NetworkStabilityGuard::max_throughput_</a></div><div class="ttdeci">size_t max_throughput_</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:64</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a7b905e2238d4c4e625c56f1285aafde0"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a7b905e2238d4c4e625c56f1285aafde0">sqlcc::network::NetworkStabilityGuard::GetCurrentLoadLevel</a></div><div class="ttdeci">int GetCurrentLoadLevel() const</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:697</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a7fa0e36ff05285fe3a52746f58688b88"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a7fa0e36ff05285fe3a52746f58688b88">sqlcc::network::NetworkStabilityGuard::max_exception_rate_</a></div><div class="ttdeci">double max_exception_rate_</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:65</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_a85aa434d8e911254b20853b761af391b"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#a85aa434d8e911254b20853b761af391b">sqlcc::network::NetworkStabilityGuard::ShouldAcceptNewConnection</a></div><div class="ttdeci">bool ShouldAcceptNewConnection() const</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:649</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_aa772b8347504905f44bc50c535a6212f"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#aa772b8347504905f44bc50c535a6212f">sqlcc::network::NetworkStabilityGuard::AdjustParameters</a></div><div class="ttdeci">void AdjustParameters(const NetworkMonitor &amp;monitor)</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:673</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_ab64b059f94c178fa4e2133d55bc931aa"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#ab64b059f94c178fa4e2133d55bc931aa">sqlcc::network::NetworkStabilityGuard::CalculateLoadLevel</a></div><div class="ttdeci">int CalculateLoadLevel(const NetworkMonitor &amp;monitor) const</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:733</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_ab7db13d026a708066238f4b5858b9c87"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#ab7db13d026a708066238f4b5858b9c87">sqlcc::network::NetworkStabilityGuard::AssessStability</a></div><div class="ttdeci">StabilityAction AssessStability(const NetworkMonitor &amp;monitor, const NetworkExceptionHandler &amp;exception_handler)</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:602</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_abb500506d85c235bdf43167fb38b981e"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#abb500506d85c235bdf43167fb38b981e">sqlcc::network::NetworkStabilityGuard::last_action_</a></div><div class="ttdeci">StabilityAction last_action_</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:69</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_ad61bf228888150a6dffdc7f401ac63fc"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#ad61bf228888150a6dffdc7f401ac63fc">sqlcc::network::NetworkStabilityGuard::SetMaxExceptionRate</a></div><div class="ttdeci">void SetMaxExceptionRate(double exceptions_per_minute)</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:644</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_ad69515b8403463531a38a94a7f7c60df"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#ad69515b8403463531a38a94a7f7c60df">sqlcc::network::NetworkStabilityGuard::load_reduction_factor_</a></div><div class="ttdeci">double load_reduction_factor_</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:74</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_adef39befa1b81e84ff0b2fa139c7ae9b"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#adef39befa1b81e84ff0b2fa139c7ae9b">sqlcc::network::NetworkStabilityGuard::current_throughput_</a></div><div class="ttdeci">size_t current_throughput_</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:67</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_ae49ae4ec21325e316df552640412b7a3"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#ae49ae4ec21325e316df552640412b7a3">sqlcc::network::NetworkStabilityGuard::connection_throttle_threshold_</a></div><div class="ttdeci">double connection_throttle_threshold_</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:73</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_aea6dce61761296547314610f9d535c6f"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#aea6dce61761296547314610f9d535c6f">sqlcc::network::NetworkStabilityGuard::ResetToDefaults</a></div><div class="ttdeci">void ResetToDefaults()</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:689</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkStabilityGuard_html_af0c72289b54bca10f37b168b4be135e1"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkStabilityGuard.html#af0c72289b54bca10f37b168b4be135e1">sqlcc::network::NetworkStabilityGuard::stability_mutex_</a></div><div class="ttdeci">std::mutex stability_mutex_</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:77</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html"><div class="ttname"><a href="namespacesqlcc_1_1network.html">sqlcc::network</a></div><div class="ttdef"><b>Definition</b> client_main.cpp:286</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a052914990e26769ffea02bca0fe0b338"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338">sqlcc::network::StabilityAction</a></div><div class="ttdeci">StabilityAction</div><div class="ttdoc">网络稳定性行动枚举</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:16</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a052914990e26769ffea02bca0fe0b338a108c02ed9ca1ba61f95160bf19e4f41e"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a108c02ed9ca1ba61f95160bf19e4f41e">sqlcc::network::THROTTLE_CONNECTIONS</a></div><div class="ttdeci">@ THROTTLE_CONNECTIONS</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:19</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a052914990e26769ffea02bca0fe0b338a4840fb9fff37e96033fdce5f8712f494"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a4840fb9fff37e96033fdce5f8712f494">sqlcc::network::ENABLE_CIRCUIT_BREAKER</a></div><div class="ttdeci">@ ENABLE_CIRCUIT_BREAKER</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:20</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a052914990e26769ffea02bca0fe0b338a72f6316c3bec8518bae284de0c390b7b"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a72f6316c3bec8518bae284de0c390b7b">sqlcc::network::NO_ACTION</a></div><div class="ttdeci">@ NO_ACTION</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:17</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a052914990e26769ffea02bca0fe0b338a7eafcb9fe2cfa360fde8b5d005631b59"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a7eafcb9fe2cfa360fde8b5d005631b59">sqlcc::network::REDUCE_LOAD</a></div><div class="ttdeci">@ REDUCE_LOAD</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:18</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a052914990e26769ffea02bca0fe0b338a8add3634473fa5dedc1312e71e4b01af"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a052914990e26769ffea02bca0fe0b338a8add3634473fa5dedc1312e71e4b01af">sqlcc::network::GRACEFUL_SHUTDOWN</a></div><div class="ttdeci">@ GRACEFUL_SHUTDOWN</div><div class="ttdef"><b>Definition</b> network_stability_guard.h:21</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="anetwork__exception__handler_8h_html"><div class="ttname"><a href="network__exception__handler_8h.html">network_exception_handler.h</a></div><div class="ttdoc">网络异常处理器头文件</div></div>
+<div class="ttc" id="anetwork__monitor_8h_html"><div class="ttname"><a href="network__monitor_8h.html">network_monitor.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

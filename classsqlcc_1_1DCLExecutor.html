@@ -1,0 +1,553 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::DCLExecutor类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1DCLExecutor.html">DCLExecutor</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1DCLExecutor-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::DCLExecutor类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>DCL执行器 - 处理数据控制语言  
+ <a href="classsqlcc_1_1DCLExecutor.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="execution_2execution__engine_8h_source.html">execution_engine.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::DCLExecutor 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1DCLExecutor__inherit__graph.png" border="0" usemap="#asqlcc_1_1DCLExecutor_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1DCLExecutor_inherit__map" id="asqlcc_1_1DCLExecutor_inherit__map">
+<area shape="rect" title="DCL执行器 &#45; 处理数据控制语言" alt="" coords="18,79,163,104"/>
+<area shape="rect" href="classsqlcc_1_1ExecutionEngine.html" title="执行引擎接口 &#45; SQL语句执行的核心抽象" alt="" coords="5,5,176,31"/>
+<area shape="poly" title=" " alt="" coords="85,44,86,78,81,79,79,45"/>
+<area shape="poly" title=" " alt="" coords="102,45,100,79,95,78,97,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<div class="dynheader">
+sqlcc::DCLExecutor 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1DCLExecutor__coll__graph.png" border="0" usemap="#asqlcc_1_1DCLExecutor_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1DCLExecutor_coll__map" id="asqlcc_1_1DCLExecutor_coll__map">
+<area shape="rect" title="DCL执行器 &#45; 处理数据控制语言" alt="" coords="18,79,163,104"/>
+<area shape="rect" href="classsqlcc_1_1ExecutionEngine.html" title="执行引擎接口 &#45; SQL语句执行的核心抽象" alt="" coords="5,5,176,31"/>
+<area shape="poly" title=" " alt="" coords="85,44,86,78,81,79,79,45"/>
+<area shape="poly" title=" " alt="" coords="102,45,100,79,95,78,97,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a9adcf3f4d6ca9aad7296896ea7c7f4c4" id="r_a9adcf3f4d6ca9aad7296896ea7c7f4c4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLExecutor.html#a9adcf3f4d6ca9aad7296896ea7c7f4c4">DCLExecutor</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt; db_manager, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt; user_manager)</td></tr>
+<tr class="separator:a9adcf3f4d6ca9aad7296896ea7c7f4c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc8a379266f47c719f283b77d809f796" id="r_abc8a379266f47c719f283b77d809f796"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLExecutor.html#abc8a379266f47c719f283b77d809f796">execute</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt; stmt) override</td></tr>
+<tr class="separator:abc8a379266f47c719f283b77d809f796"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9adcf3f4d6ca9aad7296896ea7c7f4c4" id="r_a9adcf3f4d6ca9aad7296896ea7c7f4c4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLExecutor.html#a9adcf3f4d6ca9aad7296896ea7c7f4c4">DCLExecutor</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt; db_manager, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt; user_manager)</td></tr>
+<tr class="separator:a9adcf3f4d6ca9aad7296896ea7c7f4c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc8a379266f47c719f283b77d809f796" id="r_abc8a379266f47c719f283b77d809f796"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLExecutor.html#abc8a379266f47c719f283b77d809f796">execute</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt; stmt) override</td></tr>
+<tr class="separator:abc8a379266f47c719f283b77d809f796"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsqlcc_1_1ExecutionEngine"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsqlcc_1_1ExecutionEngine')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsqlcc_1_1ExecutionEngine.html">sqlcc::ExecutionEngine</a></td></tr>
+<tr class="memitem:acc11ada08fa74ed18b0060d86d3e4182 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_acc11ada08fa74ed18b0060d86d3e4182"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#acc11ada08fa74ed18b0060d86d3e4182">ExecutionEngine</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt; db_manager)</td></tr>
+<tr class="separator:acc11ada08fa74ed18b0060d86d3e4182 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01683fb8e25df800586def59591b2e50 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_a01683fb8e25df800586def59591b2e50"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a01683fb8e25df800586def59591b2e50">~ExecutionEngine</a> ()=default</td></tr>
+<tr class="separator:a01683fb8e25df800586def59591b2e50 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9088211882d20acd3a4077571dd14e7f inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_a9088211882d20acd3a4077571dd14e7f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a9088211882d20acd3a4077571dd14e7f">execute</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt; stmt, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &gt; context)</td></tr>
+<tr class="separator:a9088211882d20acd3a4077571dd14e7f inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a878a172f5e693a94b2080b91f171b200 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_a878a172f5e693a94b2080b91f171b200"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a878a172f5e693a94b2080b91f171b200">set_execution_context</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &gt; context)</td></tr>
+<tr class="separator:a878a172f5e693a94b2080b91f171b200 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a488ee2146e8a705537bf934bcd73ad44 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_a488ee2146e8a705537bf934bcd73ad44"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a488ee2146e8a705537bf934bcd73ad44">get_execution_context</a> () const</td></tr>
+<tr class="separator:a488ee2146e8a705537bf934bcd73ad44 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc11ada08fa74ed18b0060d86d3e4182 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_acc11ada08fa74ed18b0060d86d3e4182"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#acc11ada08fa74ed18b0060d86d3e4182">ExecutionEngine</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt; db_manager)</td></tr>
+<tr class="separator:acc11ada08fa74ed18b0060d86d3e4182 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01683fb8e25df800586def59591b2e50 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_a01683fb8e25df800586def59591b2e50"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a01683fb8e25df800586def59591b2e50">~ExecutionEngine</a> ()=default</td></tr>
+<tr class="separator:a01683fb8e25df800586def59591b2e50 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9088211882d20acd3a4077571dd14e7f inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_a9088211882d20acd3a4077571dd14e7f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a9088211882d20acd3a4077571dd14e7f">execute</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt; stmt, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &gt; context)</td></tr>
+<tr class="separator:a9088211882d20acd3a4077571dd14e7f inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c3637c090538868442c6955d97177d2 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_a1c3637c090538868442c6955d97177d2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a1c3637c090538868442c6955d97177d2">set_execution_context</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &gt; context)</td></tr>
+<tr class="separator:a1c3637c090538868442c6955d97177d2 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b10670925bfd95147d1a72d4d8ad7d0 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_a9b10670925bfd95147d1a72d4d8ad7d0"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a9b10670925bfd95147d1a72d4d8ad7d0">get_execution_context</a> () const</td></tr>
+<tr class="separator:a9b10670925bfd95147d1a72d4d8ad7d0 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:ae6df86d1af2cf42708aa17c578a0514f" id="r_ae6df86d1af2cf42708aa17c578a0514f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLExecutor.html#ae6df86d1af2cf42708aa17c578a0514f">executeCreateUser</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateUserStatement.html">sql_parser::CreateUserStatement</a> &gt; stmt)</td></tr>
+<tr class="separator:ae6df86d1af2cf42708aa17c578a0514f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bce7308faca4d56e9444de0b3357a47" id="r_a2bce7308faca4d56e9444de0b3357a47"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLExecutor.html#a2bce7308faca4d56e9444de0b3357a47">executeDropUser</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1DropUserStatement.html">sql_parser::DropUserStatement</a> &gt; stmt)</td></tr>
+<tr class="separator:a2bce7308faca4d56e9444de0b3357a47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a68fe7c5c9bf6c244cb71b5d21cf794" id="r_a4a68fe7c5c9bf6c244cb71b5d21cf794"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLExecutor.html#a4a68fe7c5c9bf6c244cb71b5d21cf794">executeGrant</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1GrantStatement.html">sql_parser::GrantStatement</a> &gt; stmt)</td></tr>
+<tr class="separator:a4a68fe7c5c9bf6c244cb71b5d21cf794"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcdc1e04503f117a521b798bec4e80af" id="r_abcdc1e04503f117a521b798bec4e80af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLExecutor.html#abcdc1e04503f117a521b798bec4e80af">executeRevoke</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1RevokeStatement.html">sql_parser::RevokeStatement</a> &gt; stmt)</td></tr>
+<tr class="separator:abcdc1e04503f117a521b798bec4e80af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6df86d1af2cf42708aa17c578a0514f" id="r_ae6df86d1af2cf42708aa17c578a0514f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLExecutor.html#ae6df86d1af2cf42708aa17c578a0514f">executeCreateUser</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateUserStatement.html">sql_parser::CreateUserStatement</a> &gt; stmt)</td></tr>
+<tr class="separator:ae6df86d1af2cf42708aa17c578a0514f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bce7308faca4d56e9444de0b3357a47" id="r_a2bce7308faca4d56e9444de0b3357a47"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLExecutor.html#a2bce7308faca4d56e9444de0b3357a47">executeDropUser</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1DropUserStatement.html">sql_parser::DropUserStatement</a> &gt; stmt)</td></tr>
+<tr class="separator:a2bce7308faca4d56e9444de0b3357a47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a68fe7c5c9bf6c244cb71b5d21cf794" id="r_a4a68fe7c5c9bf6c244cb71b5d21cf794"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLExecutor.html#a4a68fe7c5c9bf6c244cb71b5d21cf794">executeGrant</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1GrantStatement.html">sql_parser::GrantStatement</a> &gt; stmt)</td></tr>
+<tr class="separator:a4a68fe7c5c9bf6c244cb71b5d21cf794"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcdc1e04503f117a521b798bec4e80af" id="r_abcdc1e04503f117a521b798bec4e80af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLExecutor.html#abcdc1e04503f117a521b798bec4e80af">executeRevoke</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1RevokeStatement.html">sql_parser::RevokeStatement</a> &gt; stmt)</td></tr>
+<tr class="separator:abcdc1e04503f117a521b798bec4e80af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a72141cae337259f02ed117d322c8822f" id="r_a72141cae337259f02ed117d322c8822f"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLExecutor.html#a72141cae337259f02ed117d322c8822f">user_manager_</a></td></tr>
+<tr class="separator:a72141cae337259f02ed117d322c8822f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+额外继承的成员函数</h2></td></tr>
+<tr class="inherit_header pro_attribs_classsqlcc_1_1ExecutionEngine"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classsqlcc_1_1ExecutionEngine')"><img src="closed.png" alt="-"/>&#160;Protected 属性 继承自 <a class="el" href="classsqlcc_1_1ExecutionEngine.html">sqlcc::ExecutionEngine</a></td></tr>
+<tr class="memitem:a4c013aa5664443682d29fad270d6c8fb inherit pro_attribs_classsqlcc_1_1ExecutionEngine" id="r_a4c013aa5664443682d29fad270d6c8fb"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a4c013aa5664443682d29fad270d6c8fb">db_manager_</a></td></tr>
+<tr class="separator:a4c013aa5664443682d29fad270d6c8fb inherit pro_attribs_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a520c0f8b86644d7e0b13567ddae5f7bd inherit pro_attribs_classsqlcc_1_1ExecutionEngine" id="r_a520c0f8b86644d7e0b13567ddae5f7bd"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a520c0f8b86644d7e0b13567ddae5f7bd">execution_context_</a></td></tr>
+<tr class="separator:a520c0f8b86644d7e0b13567ddae5f7bd inherit pro_attribs_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>DCL执行器 - 处理数据控制语言 </p>
+<p>WHY层 - 设计意图： DCLExecutor处理数据控制语言（GRANT、REVOKE、CREATE USER、DROP USER等）， 负责数据库系统的安全和访问控制。通过精细的权限管理机制，确保用户只能 访问被授权的数据库对象和执行被允许的操作。</p>
+<p>WHAT层 - DCL操作支持：</p><ul>
+<li>CREATE USER：创建新的数据库用户账户</li>
+<li>DROP USER：删除数据库用户账户</li>
+<li>GRANT：为用户或角色授予权限</li>
+<li>REVOKE：撤销用户或角色的权限</li>
+<li>角色管理：数据库角色的创建和管理</li>
+</ul>
+<p>HOW层 - 权限管理机制：</p><ul>
+<li>访问控制列表：基于用户的权限检查</li>
+<li>角色层次结构：支持角色继承和权限聚合</li>
+<li>权限粒度：对象级、操作级、列级的权限控制</li>
+<li>审计日志：权限变更的完整审计记录</li>
+<li>权限缓存：权限检查结果的高效缓存 </li>
+</ul>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a9adcf3f4d6ca9aad7296896ea7c7f4c4" name="a9adcf3f4d6ca9aad7296896ea7c7f4c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9adcf3f4d6ca9aad7296896ea7c7f4c4">&#9670;&#160;</a></span>DCLExecutor() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::DCLExecutor::DCLExecutor </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>db_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>user_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9adcf3f4d6ca9aad7296896ea7c7f4c4" name="a9adcf3f4d6ca9aad7296896ea7c7f4c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9adcf3f4d6ca9aad7296896ea7c7f4c4">&#9670;&#160;</a></span>DCLExecutor() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::DCLExecutor::DCLExecutor </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>db_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>user_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="abc8a379266f47c719f283b77d809f796" name="abc8a379266f47c719f283b77d809f796"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc8a379266f47c719f283b77d809f796">&#9670;&#160;</a></span>execute() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLExecutor::execute </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>执行SQL语句 </p>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1ExecutionEngine.html#a5bf35da705d0e854519680021322ac3e">sqlcc::ExecutionEngine</a>.</p>
+
+</div>
+</div>
+<a id="abc8a379266f47c719f283b77d809f796" name="abc8a379266f47c719f283b77d809f796"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc8a379266f47c719f283b77d809f796">&#9670;&#160;</a></span>execute() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLExecutor::execute </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>执行SQL语句 </p>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1ExecutionEngine.html#a5bf35da705d0e854519680021322ac3e">sqlcc::ExecutionEngine</a>.</p>
+
+</div>
+</div>
+<a id="ae6df86d1af2cf42708aa17c578a0514f" name="ae6df86d1af2cf42708aa17c578a0514f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6df86d1af2cf42708aa17c578a0514f">&#9670;&#160;</a></span>executeCreateUser() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLExecutor::executeCreateUser </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateUserStatement.html">sql_parser::CreateUserStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae6df86d1af2cf42708aa17c578a0514f" name="ae6df86d1af2cf42708aa17c578a0514f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6df86d1af2cf42708aa17c578a0514f">&#9670;&#160;</a></span>executeCreateUser() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLExecutor::executeCreateUser </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateUserStatement.html">sql_parser::CreateUserStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2bce7308faca4d56e9444de0b3357a47" name="a2bce7308faca4d56e9444de0b3357a47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bce7308faca4d56e9444de0b3357a47">&#9670;&#160;</a></span>executeDropUser() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLExecutor::executeDropUser </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1DropUserStatement.html">sql_parser::DropUserStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2bce7308faca4d56e9444de0b3357a47" name="a2bce7308faca4d56e9444de0b3357a47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bce7308faca4d56e9444de0b3357a47">&#9670;&#160;</a></span>executeDropUser() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLExecutor::executeDropUser </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1DropUserStatement.html">sql_parser::DropUserStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4a68fe7c5c9bf6c244cb71b5d21cf794" name="a4a68fe7c5c9bf6c244cb71b5d21cf794"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a68fe7c5c9bf6c244cb71b5d21cf794">&#9670;&#160;</a></span>executeGrant() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLExecutor::executeGrant </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1GrantStatement.html">sql_parser::GrantStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4a68fe7c5c9bf6c244cb71b5d21cf794" name="a4a68fe7c5c9bf6c244cb71b5d21cf794"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a68fe7c5c9bf6c244cb71b5d21cf794">&#9670;&#160;</a></span>executeGrant() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLExecutor::executeGrant </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1GrantStatement.html">sql_parser::GrantStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abcdc1e04503f117a521b798bec4e80af" name="abcdc1e04503f117a521b798bec4e80af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abcdc1e04503f117a521b798bec4e80af">&#9670;&#160;</a></span>executeRevoke() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLExecutor::executeRevoke </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1RevokeStatement.html">sql_parser::RevokeStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abcdc1e04503f117a521b798bec4e80af" name="abcdc1e04503f117a521b798bec4e80af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abcdc1e04503f117a521b798bec4e80af">&#9670;&#160;</a></span>executeRevoke() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLExecutor::executeRevoke </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1RevokeStatement.html">sql_parser::RevokeStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a72141cae337259f02ed117d322c8822f" name="a72141cae337259f02ed117d322c8822f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72141cae337259f02ed117d322c8822f">&#9670;&#160;</a></span>user_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt; sqlcc::DCLExecutor::user_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="execution_2execution__engine_8h_source.html">execution/execution_engine.h</a></li>
+<li><a class="el" href="execution__engine_8h_source.html">execution_engine.h</a></li>
+<li><a class="el" href="dcl__executor_8cpp.html">dcl_executor.cpp</a></li>
+<li><a class="el" href="execution__engine_8cpp.html">execution_engine.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

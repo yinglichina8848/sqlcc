@@ -1,0 +1,972 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::Value结构体 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1Value.html">Value</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-attribs">Public 属性</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1Value-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::Value结构体 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>变量值类型  
+ <a href="classsqlcc_1_1Value.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="types_2domain__manager_8h_source.html">domain_manager.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a1e2f076c8997899787a12a26f4f87da9" id="r_a1e2f076c8997899787a12a26f4f87da9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9">Type</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9ab2cfa8499c0c2bb9bedd5a238fbec4ac">INTEGER</a>
+, <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9a600a13ee40b82ab9826a39153921c853">DOUBLE</a>
+, <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9ac1367dbc430b0871a2b2a0fbe49f01e3">STRING</a>
+, <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9aee15d3f03a3c84893b927c8fe5a43d74">BOOLEAN</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9a8cc532eb250b0a20615bed37e83d47ef">NULL_VALUE</a>
+, <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9a53f93baa3057821107c750323892fa92">INT</a>
+, <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9afd3e4ece78a7d422280d5ed379482229">DOUBLE</a>
+, <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9a63b588d5559f64f89a416e656880b949">STRING</a>
+<br />
+ }</td></tr>
+<tr class="separator:a1e2f076c8997899787a12a26f4f87da9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e2f076c8997899787a12a26f4f87da9" id="r_a1e2f076c8997899787a12a26f4f87da9"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9">Type</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9ab2cfa8499c0c2bb9bedd5a238fbec4ac">INTEGER</a>
+, <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9a600a13ee40b82ab9826a39153921c853">DOUBLE</a>
+, <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9ac1367dbc430b0871a2b2a0fbe49f01e3">STRING</a>
+, <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9aee15d3f03a3c84893b927c8fe5a43d74">BOOLEAN</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9a8cc532eb250b0a20615bed37e83d47ef">NULL_VALUE</a>
+, <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9a53f93baa3057821107c750323892fa92">INT</a>
+, <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9afd3e4ece78a7d422280d5ed379482229">DOUBLE</a>
+, <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9a63b588d5559f64f89a416e656880b949">STRING</a>
+<br />
+ }</td></tr>
+<tr class="separator:a1e2f076c8997899787a12a26f4f87da9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a48592cd2c0b1e0c38c947a3d79306402" id="r_a48592cd2c0b1e0c38c947a3d79306402"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a48592cd2c0b1e0c38c947a3d79306402">Value</a> ()</td></tr>
+<tr class="separator:a48592cd2c0b1e0c38c947a3d79306402"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b946c8096dddc6c7d769a6ec0bcd3ed" id="r_a5b946c8096dddc6c7d769a6ec0bcd3ed"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a5b946c8096dddc6c7d769a6ec0bcd3ed">Value</a> (int <a class="el" href="classsqlcc_1_1Value.html#a5de6f72fa302a03a5dd06046516831f6">int_val</a>)</td></tr>
+<tr class="separator:a5b946c8096dddc6c7d769a6ec0bcd3ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f209db3489f471271a515e2613869c8" id="r_a0f209db3489f471271a515e2613869c8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a0f209db3489f471271a515e2613869c8">Value</a> (double <a class="el" href="classsqlcc_1_1Value.html#aebf9c7cf4722543cea84258e7e546098">double_val</a>)</td></tr>
+<tr class="separator:a0f209db3489f471271a515e2613869c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fbb388ee367682019b6f9f7d8d228d4" id="r_a4fbb388ee367682019b6f9f7d8d228d4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a4fbb388ee367682019b6f9f7d8d228d4">Value</a> (bool bool_val)</td></tr>
+<tr class="separator:a4fbb388ee367682019b6f9f7d8d228d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2eb4999ffcb62333bfe3d72b505a9184" id="r_a2eb4999ffcb62333bfe3d72b505a9184"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a2eb4999ffcb62333bfe3d72b505a9184">Value</a> (const std::string &amp;<a class="el" href="classsqlcc_1_1Value.html#a30c8e0d9109a4d93d7ab971647d82f69">str_val</a>)</td></tr>
+<tr class="separator:a2eb4999ffcb62333bfe3d72b505a9184"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaf54c0f0ed4d964730cacd7788bc713" id="r_adaf54c0f0ed4d964730cacd7788bc713"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#adaf54c0f0ed4d964730cacd7788bc713">Value</a> (const char *<a class="el" href="classsqlcc_1_1Value.html#a30c8e0d9109a4d93d7ab971647d82f69">str_val</a>)</td></tr>
+<tr class="separator:adaf54c0f0ed4d964730cacd7788bc713"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63e3f41023a5c279d2e32cdb7b3777f4" id="r_a63e3f41023a5c279d2e32cdb7b3777f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a63e3f41023a5c279d2e32cdb7b3777f4">getType</a> () const</td></tr>
+<tr class="separator:a63e3f41023a5c279d2e32cdb7b3777f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af467e05044d136bfe3d0187c2dfececd" id="r_af467e05044d136bfe3d0187c2dfececd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#af467e05044d136bfe3d0187c2dfececd">asInteger</a> () const</td></tr>
+<tr class="separator:af467e05044d136bfe3d0187c2dfececd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbc397c5aee8df7e683cb885aa6df75b" id="r_abbc397c5aee8df7e683cb885aa6df75b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#abbc397c5aee8df7e683cb885aa6df75b">asDouble</a> () const</td></tr>
+<tr class="separator:abbc397c5aee8df7e683cb885aa6df75b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a39cd74032c1e19e1b7f2961a5c21f9" id="r_a4a39cd74032c1e19e1b7f2961a5c21f9"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a4a39cd74032c1e19e1b7f2961a5c21f9">asString</a> () const</td></tr>
+<tr class="separator:a4a39cd74032c1e19e1b7f2961a5c21f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4316a8d430d21e6ddd9f8602fb13114" id="r_af4316a8d430d21e6ddd9f8602fb13114"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#af4316a8d430d21e6ddd9f8602fb13114">asBoolean</a> () const</td></tr>
+<tr class="separator:af4316a8d430d21e6ddd9f8602fb13114"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affb90066db6bb3b16fc309f5dec085e7" id="r_affb90066db6bb3b16fc309f5dec085e7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#affb90066db6bb3b16fc309f5dec085e7">toString</a> () const</td></tr>
+<tr class="separator:affb90066db6bb3b16fc309f5dec085e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48592cd2c0b1e0c38c947a3d79306402" id="r_a48592cd2c0b1e0c38c947a3d79306402"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a48592cd2c0b1e0c38c947a3d79306402">Value</a> ()</td></tr>
+<tr class="separator:a48592cd2c0b1e0c38c947a3d79306402"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a61aca91d263c9ea4fa0fae63d9d1c6" id="r_a0a61aca91d263c9ea4fa0fae63d9d1c6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a0a61aca91d263c9ea4fa0fae63d9d1c6">Value</a> (int64_t v)</td></tr>
+<tr class="separator:a0a61aca91d263c9ea4fa0fae63d9d1c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1008044dba7f9665e7275931a319a37c" id="r_a1008044dba7f9665e7275931a319a37c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a1008044dba7f9665e7275931a319a37c">Value</a> (double v)</td></tr>
+<tr class="separator:a1008044dba7f9665e7275931a319a37c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afaaf283571a40f90551557f137bab1ec" id="r_afaaf283571a40f90551557f137bab1ec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#afaaf283571a40f90551557f137bab1ec">Value</a> (const std::string &amp;s)</td></tr>
+<tr class="separator:afaaf283571a40f90551557f137bab1ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a260b1ac2564b65c34756cad52bce3d0a" id="r_a260b1ac2564b65c34756cad52bce3d0a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a260b1ac2564b65c34756cad52bce3d0a">operator==</a> (const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;other) const</td></tr>
+<tr class="separator:a260b1ac2564b65c34756cad52bce3d0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bc8f14e2c7e357ceff03496b95ec2f8" id="r_a6bc8f14e2c7e357ceff03496b95ec2f8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a6bc8f14e2c7e357ceff03496b95ec2f8">operator!=</a> (const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;other) const</td></tr>
+<tr class="separator:a6bc8f14e2c7e357ceff03496b95ec2f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a46cabb3e8eb8d9c9ab9dbe6fd9cb71" id="r_a7a46cabb3e8eb8d9c9ab9dbe6fd9cb71"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a7a46cabb3e8eb8d9c9ab9dbe6fd9cb71">operator&lt;</a> (const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;other) const</td></tr>
+<tr class="separator:a7a46cabb3e8eb8d9c9ab9dbe6fd9cb71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e19b651c84e42602ac646f84ce69a2a" id="r_a8e19b651c84e42602ac646f84ce69a2a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a8e19b651c84e42602ac646f84ce69a2a">operator&gt;</a> (const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;other) const</td></tr>
+<tr class="separator:a8e19b651c84e42602ac646f84ce69a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affb90066db6bb3b16fc309f5dec085e7" id="r_affb90066db6bb3b16fc309f5dec085e7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#affb90066db6bb3b16fc309f5dec085e7">toString</a> () const</td></tr>
+<tr class="separator:affb90066db6bb3b16fc309f5dec085e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40b21b5180b9ef8cd18d0c8c18a4d11d" id="r_a40b21b5180b9ef8cd18d0c8c18a4d11d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a40b21b5180b9ef8cd18d0c8c18a4d11d">compare</a> (const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;other) const</td></tr>
+<tr class="separator:a40b21b5180b9ef8cd18d0c8c18a4d11d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public 属性</h2></td></tr>
+<tr class="memitem:a6c335255f554c3a71034c1ef8aa4dbe1" id="r_a6c335255f554c3a71034c1ef8aa4dbe1"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9">sqlcc::Value::Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a6c335255f554c3a71034c1ef8aa4dbe1">type</a></td></tr>
+<tr class="separator:a6c335255f554c3a71034c1ef8aa4dbe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d87179abef8b18b8730f64f3477378a" id="r_a4d87179abef8b18b8730f64f3477378a"><td class="memItemLeft" >union {&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0151ecba18c7cd848be7a5a44f5701eb" id="r_a0151ecba18c7cd848be7a5a44f5701eb"><td class="memItemLeft" >&#160;&#160;&#160;int64_t&#160;&#160;&#160;<a class="el" href="classsqlcc_1_1Value.html#a5de6f72fa302a03a5dd06046516831f6">int_val</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a0151ecba18c7cd848be7a5a44f5701eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b3956c2c31334342ca5738fbe84210e" id="r_a8b3956c2c31334342ca5738fbe84210e"><td class="memItemLeft" >&#160;&#160;&#160;double&#160;&#160;&#160;<a class="el" href="classsqlcc_1_1Value.html#aebf9c7cf4722543cea84258e7e546098">double_val</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a8b3956c2c31334342ca5738fbe84210e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d87179abef8b18b8730f64f3477378a" id="r_a4d87179abef8b18b8730f64f3477378a"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom">&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a4d87179abef8b18b8730f64f3477378a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30c8e0d9109a4d93d7ab971647d82f69" id="r_a30c8e0d9109a4d93d7ab971647d82f69"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a30c8e0d9109a4d93d7ab971647d82f69">str_val</a></td></tr>
+<tr class="separator:a30c8e0d9109a4d93d7ab971647d82f69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a770e8ca97a064a77ea53fb3e79f778b3" id="r_a770e8ca97a064a77ea53fb3e79f778b3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a770e8ca97a064a77ea53fb3e79f778b3">type_</a></td></tr>
+<tr class="separator:a770e8ca97a064a77ea53fb3e79f778b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac742e47f5c48193727290fa0ac4bb8b1" id="r_ac742e47f5c48193727290fa0ac4bb8b1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#ac742e47f5c48193727290fa0ac4bb8b1">int_value_</a></td></tr>
+<tr class="separator:ac742e47f5c48193727290fa0ac4bb8b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc5b008ccc470487db262b3ba9a96cbb" id="r_acc5b008ccc470487db262b3ba9a96cbb"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#acc5b008ccc470487db262b3ba9a96cbb">double_value_</a></td></tr>
+<tr class="separator:acc5b008ccc470487db262b3ba9a96cbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a085783f1a41d4c5c166fddb632f3b943" id="r_a085783f1a41d4c5c166fddb632f3b943"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#a085783f1a41d4c5c166fddb632f3b943">string_value_</a></td></tr>
+<tr class="separator:a085783f1a41d4c5c166fddb632f3b943"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae92df9be640536b6caaa77180a1f71da" id="r_ae92df9be640536b6caaa77180a1f71da"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Value.html#ae92df9be640536b6caaa77180a1f71da">bool_value_</a></td></tr>
+<tr class="separator:ae92df9be640536b6caaa77180a1f71da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>变量值类型 </p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a1e2f076c8997899787a12a26f4f87da9" name="a1e2f076c8997899787a12a26f4f87da9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e2f076c8997899787a12a26f4f87da9">&#9670;&#160;</a></span>Type <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9">sqlcc::Value::Type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9ab2cfa8499c0c2bb9bedd5a238fbec4ac" name="a1e2f076c8997899787a12a26f4f87da9ab2cfa8499c0c2bb9bedd5a238fbec4ac"></a>INTEGER&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9a600a13ee40b82ab9826a39153921c853" name="a1e2f076c8997899787a12a26f4f87da9a600a13ee40b82ab9826a39153921c853"></a>DOUBLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9ac1367dbc430b0871a2b2a0fbe49f01e3" name="a1e2f076c8997899787a12a26f4f87da9ac1367dbc430b0871a2b2a0fbe49f01e3"></a>STRING&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9aee15d3f03a3c84893b927c8fe5a43d74" name="a1e2f076c8997899787a12a26f4f87da9aee15d3f03a3c84893b927c8fe5a43d74"></a>BOOLEAN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9a8cc532eb250b0a20615bed37e83d47ef" name="a1e2f076c8997899787a12a26f4f87da9a8cc532eb250b0a20615bed37e83d47ef"></a>NULL_VALUE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9a53f93baa3057821107c750323892fa92" name="a1e2f076c8997899787a12a26f4f87da9a53f93baa3057821107c750323892fa92"></a>INT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9afd3e4ece78a7d422280d5ed379482229" name="a1e2f076c8997899787a12a26f4f87da9afd3e4ece78a7d422280d5ed379482229"></a>DOUBLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9a63b588d5559f64f89a416e656880b949" name="a1e2f076c8997899787a12a26f4f87da9a63b588d5559f64f89a416e656880b949"></a>STRING&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a1e2f076c8997899787a12a26f4f87da9" name="a1e2f076c8997899787a12a26f4f87da9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e2f076c8997899787a12a26f4f87da9">&#9670;&#160;</a></span>Type <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9">sqlcc::Value::Type</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9ab2cfa8499c0c2bb9bedd5a238fbec4ac" name="a1e2f076c8997899787a12a26f4f87da9ab2cfa8499c0c2bb9bedd5a238fbec4ac"></a>INTEGER&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9a600a13ee40b82ab9826a39153921c853" name="a1e2f076c8997899787a12a26f4f87da9a600a13ee40b82ab9826a39153921c853"></a>DOUBLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9ac1367dbc430b0871a2b2a0fbe49f01e3" name="a1e2f076c8997899787a12a26f4f87da9ac1367dbc430b0871a2b2a0fbe49f01e3"></a>STRING&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9aee15d3f03a3c84893b927c8fe5a43d74" name="a1e2f076c8997899787a12a26f4f87da9aee15d3f03a3c84893b927c8fe5a43d74"></a>BOOLEAN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9a8cc532eb250b0a20615bed37e83d47ef" name="a1e2f076c8997899787a12a26f4f87da9a8cc532eb250b0a20615bed37e83d47ef"></a>NULL_VALUE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9a53f93baa3057821107c750323892fa92" name="a1e2f076c8997899787a12a26f4f87da9a53f93baa3057821107c750323892fa92"></a>INT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9afd3e4ece78a7d422280d5ed379482229" name="a1e2f076c8997899787a12a26f4f87da9afd3e4ece78a7d422280d5ed379482229"></a>DOUBLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a1e2f076c8997899787a12a26f4f87da9a63b588d5559f64f89a416e656880b949" name="a1e2f076c8997899787a12a26f4f87da9a63b588d5559f64f89a416e656880b949"></a>STRING&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a48592cd2c0b1e0c38c947a3d79306402" name="a48592cd2c0b1e0c38c947a3d79306402"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48592cd2c0b1e0c38c947a3d79306402">&#9670;&#160;</a></span>Value() <span class="overload">[1/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Value::Value </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5b946c8096dddc6c7d769a6ec0bcd3ed" name="a5b946c8096dddc6c7d769a6ec0bcd3ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b946c8096dddc6c7d769a6ec0bcd3ed">&#9670;&#160;</a></span>Value() <span class="overload">[2/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Value::Value </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>int_val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0f209db3489f471271a515e2613869c8" name="a0f209db3489f471271a515e2613869c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f209db3489f471271a515e2613869c8">&#9670;&#160;</a></span>Value() <span class="overload">[3/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Value::Value </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>double_val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4fbb388ee367682019b6f9f7d8d228d4" name="a4fbb388ee367682019b6f9f7d8d228d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fbb388ee367682019b6f9f7d8d228d4">&#9670;&#160;</a></span>Value() <span class="overload">[4/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Value::Value </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bool_val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2eb4999ffcb62333bfe3d72b505a9184" name="a2eb4999ffcb62333bfe3d72b505a9184"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2eb4999ffcb62333bfe3d72b505a9184">&#9670;&#160;</a></span>Value() <span class="overload">[5/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Value::Value </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>str_val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adaf54c0f0ed4d964730cacd7788bc713" name="adaf54c0f0ed4d964730cacd7788bc713"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adaf54c0f0ed4d964730cacd7788bc713">&#9670;&#160;</a></span>Value() <span class="overload">[6/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Value::Value </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str_val</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a48592cd2c0b1e0c38c947a3d79306402" name="a48592cd2c0b1e0c38c947a3d79306402"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48592cd2c0b1e0c38c947a3d79306402">&#9670;&#160;</a></span>Value() <span class="overload">[7/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Value::Value </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0a61aca91d263c9ea4fa0fae63d9d1c6" name="a0a61aca91d263c9ea4fa0fae63d9d1c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a61aca91d263c9ea4fa0fae63d9d1c6">&#9670;&#160;</a></span>Value() <span class="overload">[8/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Value::Value </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1008044dba7f9665e7275931a319a37c" name="a1008044dba7f9665e7275931a319a37c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1008044dba7f9665e7275931a319a37c">&#9670;&#160;</a></span>Value() <span class="overload">[9/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Value::Value </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afaaf283571a40f90551557f137bab1ec" name="afaaf283571a40f90551557f137bab1ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afaaf283571a40f90551557f137bab1ec">&#9670;&#160;</a></span>Value() <span class="overload">[10/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Value::Value </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="af4316a8d430d21e6ddd9f8602fb13114" name="af4316a8d430d21e6ddd9f8602fb13114"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4316a8d430d21e6ddd9f8602fb13114">&#9670;&#160;</a></span>asBoolean()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Value::asBoolean </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abbc397c5aee8df7e683cb885aa6df75b" name="abbc397c5aee8df7e683cb885aa6df75b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbc397c5aee8df7e683cb885aa6df75b">&#9670;&#160;</a></span>asDouble()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double sqlcc::Value::asDouble </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af467e05044d136bfe3d0187c2dfececd" name="af467e05044d136bfe3d0187c2dfececd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af467e05044d136bfe3d0187c2dfececd">&#9670;&#160;</a></span>asInteger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::Value::asInteger </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4a39cd74032c1e19e1b7f2961a5c21f9" name="a4a39cd74032c1e19e1b7f2961a5c21f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a39cd74032c1e19e1b7f2961a5c21f9">&#9670;&#160;</a></span>asString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::Value::asString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a40b21b5180b9ef8cd18d0c8c18a4d11d" name="a40b21b5180b9ef8cd18d0c8c18a4d11d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40b21b5180b9ef8cd18d0c8c18a4d11d">&#9670;&#160;</a></span>compare()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::Value::compare </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a63e3f41023a5c279d2e32cdb7b3777f4" name="a63e3f41023a5c279d2e32cdb7b3777f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63e3f41023a5c279d2e32cdb7b3777f4">&#9670;&#160;</a></span>getType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9">Type</a> sqlcc::Value::getType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6bc8f14e2c7e357ceff03496b95ec2f8" name="a6bc8f14e2c7e357ceff03496b95ec2f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bc8f14e2c7e357ceff03496b95ec2f8">&#9670;&#160;</a></span>operator!=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Value::operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a46cabb3e8eb8d9c9ab9dbe6fd9cb71" name="a7a46cabb3e8eb8d9c9ab9dbe6fd9cb71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a46cabb3e8eb8d9c9ab9dbe6fd9cb71">&#9670;&#160;</a></span>operator&lt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Value::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a260b1ac2564b65c34756cad52bce3d0a" name="a260b1ac2564b65c34756cad52bce3d0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a260b1ac2564b65c34756cad52bce3d0a">&#9670;&#160;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Value::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8e19b651c84e42602ac646f84ce69a2a" name="a8e19b651c84e42602ac646f84ce69a2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e19b651c84e42602ac646f84ce69a2a">&#9670;&#160;</a></span>operator&gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Value::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="affb90066db6bb3b16fc309f5dec085e7" name="affb90066db6bb3b16fc309f5dec085e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affb90066db6bb3b16fc309f5dec085e7">&#9670;&#160;</a></span>toString() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::Value::toString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="affb90066db6bb3b16fc309f5dec085e7" name="affb90066db6bb3b16fc309f5dec085e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affb90066db6bb3b16fc309f5dec085e7">&#9670;&#160;</a></span>toString() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::Value::toString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a4d87179abef8b18b8730f64f3477378a" name="a4d87179abef8b18b8730f64f3477378a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d87179abef8b18b8730f64f3477378a">&#9670;&#160;</a></span>[union]</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">union  { ... }  <a class="el" href="classsqlcc_1_1Value.html">sqlcc::Value</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae92df9be640536b6caaa77180a1f71da" name="ae92df9be640536b6caaa77180a1f71da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae92df9be640536b6caaa77180a1f71da">&#9670;&#160;</a></span>bool_value_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Value::bool_value_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aebf9c7cf4722543cea84258e7e546098" name="aebf9c7cf4722543cea84258e7e546098"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebf9c7cf4722543cea84258e7e546098">&#9670;&#160;</a></span>double_val</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double sqlcc::Value::double_val</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acc5b008ccc470487db262b3ba9a96cbb" name="acc5b008ccc470487db262b3ba9a96cbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc5b008ccc470487db262b3ba9a96cbb">&#9670;&#160;</a></span>double_value_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double sqlcc::Value::double_value_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5de6f72fa302a03a5dd06046516831f6" name="a5de6f72fa302a03a5dd06046516831f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5de6f72fa302a03a5dd06046516831f6">&#9670;&#160;</a></span>int_val</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Value::int_val</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac742e47f5c48193727290fa0ac4bb8b1" name="ac742e47f5c48193727290fa0ac4bb8b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac742e47f5c48193727290fa0ac4bb8b1">&#9670;&#160;</a></span>int_value_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::Value::int_value_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a30c8e0d9109a4d93d7ab971647d82f69" name="a30c8e0d9109a4d93d7ab971647d82f69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30c8e0d9109a4d93d7ab971647d82f69">&#9670;&#160;</a></span>str_val</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::Value::str_val</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a085783f1a41d4c5c166fddb632f3b943" name="a085783f1a41d4c5c166fddb632f3b943"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a085783f1a41d4c5c166fddb632f3b943">&#9670;&#160;</a></span>string_value_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::Value::string_value_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6c335255f554c3a71034c1ef8aa4dbe1" name="a6c335255f554c3a71034c1ef8aa4dbe1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c335255f554c3a71034c1ef8aa4dbe1">&#9670;&#160;</a></span>type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9">sqlcc::Value::Type</a> sqlcc::Value::type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a770e8ca97a064a77ea53fb3e79f778b3" name="a770e8ca97a064a77ea53fb3e79f778b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a770e8ca97a064a77ea53fb3e79f778b3">&#9670;&#160;</a></span>type_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Value.html#a1e2f076c8997899787a12a26f4f87da9">Type</a> sqlcc::Value::type_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该结构体的文档由以下文件生成:<ul>
+<li><a class="el" href="types_2domain__manager_8h_source.html">types/domain_manager.h</a></li>
+<li><a class="el" href="wal__manager_8h_source.html">wal_manager.h</a></li>
+<li><a class="el" href="types_2domain__manager_8cpp.html">types/domain_manager.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

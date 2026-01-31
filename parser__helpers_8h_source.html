@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: parser_helpers.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li><li class="navelem"><a class="el" href="dir_95f799c71ff54bf2c8d383fe4040a134.html">parsers</a></li><li class="navelem"><a class="el" href="dir_484ba57b7256dfa198fd01d4d42b9103.html">helpers</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">parser_helpers.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="parser__helpers_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#ifndef SQLCC_SQL_PARSER_PARSERS_HELPERS_PARSER_HELPERS_H</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#define SQLCC_SQL_PARSER_PARSERS_HELPERS_PARSER_HELPERS_H</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;../parser_core.h&quot;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;../../ast/ast_node.h&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;../../expression_parser.h&quot;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &quot;../../set_operation.h&quot;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &quot;../../ast/utilities/ast_utility_nodes.h&quot;</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="};">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html">   27</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html">ParserHelpers</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ParserCore.html">ParserCore</a> {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a55d76a3eb50bae0f0d66d15c118fbd4a">   29</a></span>    std::unique_ptr&lt;ExpressionParser&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a55d76a3eb50bae0f0d66d15c118fbd4a">expression_parser_</a>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html">ParserHelpers</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a>&amp; tokens);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="comment">// 辅助解析方法</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a650f5aa48a68d11800373454b998d788">parseColumnNames</a>();</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    std::vector&lt;std::unique_ptr&lt;Expression&gt;&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a8407eb2504935f94eb40eaf8e3edd84b">parseExpressions</a>();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a5ac447a14b86b27e9e90f69e1c55c0b1">parseQualifiedName</a>();</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a23339f719db4aa4f9b60a92f60e91f41">parseIdentifier</a>();</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#af5765545544e047c6aa4241e1282c824">parseStringLiteral</a>();</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    int64_t <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#ab87ec01b098066d5d02e4b9f852a66b1">parseIntLiteral</a>();</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">double</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a1408e4d11eef9aa2b00a7736cd57923a">parseFloatLiteral</a>();</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="comment">// 集合操作解析方法</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#aefb09d9c5b5f285d2d34a289aab760f4">   44</a></span>    std::unique_ptr&lt;ASTNode&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#aefb09d9c5b5f285d2d34a289aab760f4">parseCompositeSelectStatement</a>();</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    std::unique_ptr&lt;SetOperation&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a68bf63ac4ddda2fd510599637176c680">parseSetOperation</a>();</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    std::unique_ptr&lt;SetOperation&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a770c16645beb84795c4784216a193895">parseUnion</a>();</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    std::unique_ptr&lt;SetOperation&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#aa04332f9ae67843e75cdb35971dc06c1">parseIntersect</a>();</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    std::unique_ptr&lt;SetOperation&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#ae1a7f4857726ef6d054f84981645585e">parseExcept</a>();</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361">SetOperationType</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a89d91309d540b380de43bc1bf3dcf36a">parseSetOperationType</a>();</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#adc85a452cb984ab607c96795dac39f24">isSetOperation</a>();</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="comment">// 其他辅助语句解析方法</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    std::unique_ptr&lt;ASTNode&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a3ae84debdaf39387cf7e346c29d4f956">parseUseStatement</a>();</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    std::unique_ptr&lt;ASTNode&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a092afb3c5d0f18a2f159ad5e2ed96f2b">parseShowStatement</a>();</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    std::unique_ptr&lt;ASTNode&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a858c39246610e00920b03d4ff0044180">parseLoadDataStatement</a>();</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// 表达式解析委托给ExpressionParser</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    std::unique_ptr&lt;Expression&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#adf8a189ed15b52d4ae7d9b53f074e23f">parseExpression</a>();</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>};</div>
+</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SQL_PARSER_PARSERS_HELPERS_PARSER_HELPERS_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html">sqlcc::sql_parser::ParserCore</a></div><div class="ttdef"><b>Definition</b> parser_core.h:31</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html">sqlcc::sql_parser::ParserHelpers</a></div><div class="ttdef"><b>Definition</b> parser_helpers.h:27</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_a092afb3c5d0f18a2f159ad5e2ed96f2b"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a092afb3c5d0f18a2f159ad5e2ed96f2b">sqlcc::sql_parser::ParserHelpers::parseShowStatement</a></div><div class="ttdeci">std::unique_ptr&lt; ASTNode &gt; parseShowStatement()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:182</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_a1408e4d11eef9aa2b00a7736cd57923a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a1408e4d11eef9aa2b00a7736cd57923a">sqlcc::sql_parser::ParserHelpers::parseFloatLiteral</a></div><div class="ttdeci">double parseFloatLiteral()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:96</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_a23339f719db4aa4f9b60a92f60e91f41"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a23339f719db4aa4f9b60a92f60e91f41">sqlcc::sql_parser::ParserHelpers::parseIdentifier</a></div><div class="ttdeci">std::string parseIdentifier()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:109</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_a3ae84debdaf39387cf7e346c29d4f956"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a3ae84debdaf39387cf7e346c29d4f956">sqlcc::sql_parser::ParserHelpers::parseUseStatement</a></div><div class="ttdeci">std::unique_ptr&lt; ASTNode &gt; parseUseStatement()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:171</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_a55d76a3eb50bae0f0d66d15c118fbd4a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a55d76a3eb50bae0f0d66d15c118fbd4a">sqlcc::sql_parser::ParserHelpers::expression_parser_</a></div><div class="ttdeci">std::unique_ptr&lt; ExpressionParser &gt; expression_parser_</div><div class="ttdef"><b>Definition</b> parser_helpers.h:29</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_a5ac447a14b86b27e9e90f69e1c55c0b1"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a5ac447a14b86b27e9e90f69e1c55c0b1">sqlcc::sql_parser::ParserHelpers::parseQualifiedName</a></div><div class="ttdeci">std::string parseQualifiedName()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:66</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_a650f5aa48a68d11800373454b998d788"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a650f5aa48a68d11800373454b998d788">sqlcc::sql_parser::ParserHelpers::parseColumnNames</a></div><div class="ttdeci">std::vector&lt; std::string &gt; parseColumnNames()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:25</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_a68bf63ac4ddda2fd510599637176c680"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a68bf63ac4ddda2fd510599637176c680">sqlcc::sql_parser::ParserHelpers::parseSetOperation</a></div><div class="ttdeci">std::unique_ptr&lt; SetOperation &gt; parseSetOperation()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:120</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_a770c16645beb84795c4784216a193895"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a770c16645beb84795c4784216a193895">sqlcc::sql_parser::ParserHelpers::parseUnion</a></div><div class="ttdeci">std::unique_ptr&lt; SetOperation &gt; parseUnion()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:130</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_a8407eb2504935f94eb40eaf8e3edd84b"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a8407eb2504935f94eb40eaf8e3edd84b">sqlcc::sql_parser::ParserHelpers::parseExpressions</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; Expression &gt; &gt; parseExpressions()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:46</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_a858c39246610e00920b03d4ff0044180"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a858c39246610e00920b03d4ff0044180">sqlcc::sql_parser::ParserHelpers::parseLoadDataStatement</a></div><div class="ttdeci">std::unique_ptr&lt; ASTNode &gt; parseLoadDataStatement()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:186</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_a89d91309d540b380de43bc1bf3dcf36a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#a89d91309d540b380de43bc1bf3dcf36a">sqlcc::sql_parser::ParserHelpers::parseSetOperationType</a></div><div class="ttdeci">SetOperationType parseSetOperationType()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:158</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_aa04332f9ae67843e75cdb35971dc06c1"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#aa04332f9ae67843e75cdb35971dc06c1">sqlcc::sql_parser::ParserHelpers::parseIntersect</a></div><div class="ttdeci">std::unique_ptr&lt; SetOperation &gt; parseIntersect()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:140</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_ab87ec01b098066d5d02e4b9f852a66b1"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#ab87ec01b098066d5d02e4b9f852a66b1">sqlcc::sql_parser::ParserHelpers::parseIntLiteral</a></div><div class="ttdeci">int64_t parseIntLiteral()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:83</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_adc85a452cb984ab607c96795dac39f24"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#adc85a452cb984ab607c96795dac39f24">sqlcc::sql_parser::ParserHelpers::isSetOperation</a></div><div class="ttdeci">bool isSetOperation()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:165</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_adf8a189ed15b52d4ae7d9b53f074e23f"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#adf8a189ed15b52d4ae7d9b53f074e23f">sqlcc::sql_parser::ParserHelpers::parseExpression</a></div><div class="ttdeci">std::unique_ptr&lt; Expression &gt; parseExpression()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:192</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_ae1a7f4857726ef6d054f84981645585e"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#ae1a7f4857726ef6d054f84981645585e">sqlcc::sql_parser::ParserHelpers::parseExcept</a></div><div class="ttdeci">std::unique_ptr&lt; SetOperation &gt; parseExcept()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:149</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_aefb09d9c5b5f285d2d34a289aab760f4"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#aefb09d9c5b5f285d2d34a289aab760f4">sqlcc::sql_parser::ParserHelpers::parseCompositeSelectStatement</a></div><div class="ttdeci">std::unique_ptr&lt; ASTNode &gt; parseCompositeSelectStatement()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserHelpers_html_af5765545544e047c6aa4241e1282c824"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserHelpers.html#af5765545544e047c6aa4241e1282c824">sqlcc::sql_parser::ParserHelpers::parseStringLiteral</a></div><div class="ttdeci">std::string parseStringLiteral()</div><div class="ttdef"><b>Definition</b> parser_helpers.cpp:74</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html">sqlcc::sql_parser::TokenStream</a></div><div class="ttdoc">Token流管理类 - 负责词法分析器的token流管理</div><div class="ttdef"><b>Definition</b> token_stream.h:59</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_acc63cbdc68efc7a71135a19a9d63e361"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#acc63cbdc68efc7a71135a19a9d63e361">sqlcc::sql_parser::SetOperationType</a></div><div class="ttdeci">SetOperationType</div><div class="ttdef"><b>Definition</b> ast/set_operation.h:169</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

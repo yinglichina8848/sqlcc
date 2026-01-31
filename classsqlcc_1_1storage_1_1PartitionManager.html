@@ -1,0 +1,1476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::storage::PartitionManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1storage.html">storage</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html">PartitionManager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1storage_1_1PartitionManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::storage::PartitionManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>分区表管理器  
+ <a href="classsqlcc_1_1storage_1_1PartitionManager.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="storage_2partition__manager_8h_source.html">partition_manager.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a2f38d2310464a624aaea399d2dba50e3" id="r_a2f38d2310464a624aaea399d2dba50e3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a2f38d2310464a624aaea399d2dba50e3">PartitionChangeListener</a> = std::function&lt; void(const std::string &amp;table_name, int32_t partition_id, const std::string &amp;operation)&gt;</td></tr>
+<tr class="separator:a2f38d2310464a624aaea399d2dba50e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f38d2310464a624aaea399d2dba50e3" id="r_a2f38d2310464a624aaea399d2dba50e3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a2f38d2310464a624aaea399d2dba50e3">PartitionChangeListener</a> = std::function&lt; void(const std::string &amp;table_name, int32_t partition_id, const std::string &amp;operation)&gt;</td></tr>
+<tr class="separator:a2f38d2310464a624aaea399d2dba50e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a65daeca99611568985efbe56d45c47cb" id="r_a65daeca99611568985efbe56d45c47cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a65daeca99611568985efbe56d45c47cb">PartitionManager</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; storage_engine, std::shared_ptr&lt; TableStorage &gt; table_storage, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a> &gt; index_manager)</td></tr>
+<tr class="separator:a65daeca99611568985efbe56d45c47cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8595c51d334a39c2f5a640c6c07e11ad" id="r_a8595c51d334a39c2f5a640c6c07e11ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a8595c51d334a39c2f5a640c6c07e11ad">~PartitionManager</a> ()=default</td></tr>
+<tr class="separator:a8595c51d334a39c2f5a640c6c07e11ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8b7afd633ba49ef32c07d7de3f30113" id="r_aa8b7afd633ba49ef32c07d7de3f30113"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#aa8b7afd633ba49ef32c07d7de3f30113">createPartitionedTable</a> (const <a class="el" href="structsqlcc_1_1storage_1_1PartitionedTableDef.html">PartitionedTableDef</a> &amp;definition)</td></tr>
+<tr class="separator:aa8b7afd633ba49ef32c07d7de3f30113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac60f06d50aaea63188882bcb0ec62ba0" id="r_ac60f06d50aaea63188882bcb0ec62ba0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#ac60f06d50aaea63188882bcb0ec62ba0">dropPartitionedTable</a> (const std::string &amp;table_name)</td></tr>
+<tr class="separator:ac60f06d50aaea63188882bcb0ec62ba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8d844408ec0dd757ccc9bbcc298c865" id="r_af8d844408ec0dd757ccc9bbcc298c865"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#af8d844408ec0dd757ccc9bbcc298c865">isPartitionedTable</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="separator:af8d844408ec0dd757ccc9bbcc298c865"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a69e99611e80f84371b2b652ca2a82b" id="r_a3a69e99611e80f84371b2b652ca2a82b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a3a69e99611e80f84371b2b652ca2a82b">addPartition</a> (const std::string &amp;table_name, std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">Partition</a> &gt; partition)</td></tr>
+<tr class="separator:a3a69e99611e80f84371b2b652ca2a82b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f1d1c3774e0621403b860e41387000a" id="r_a6f1d1c3774e0621403b860e41387000a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a6f1d1c3774e0621403b860e41387000a">dropPartition</a> (const std::string &amp;table_name, int32_t partition_id)</td></tr>
+<tr class="separator:a6f1d1c3774e0621403b860e41387000a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6675e266d1dd1dca8e0403140460f4a8" id="r_a6675e266d1dd1dca8e0403140460f4a8"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a6675e266d1dd1dca8e0403140460f4a8">getEligiblePartitions</a> (const std::string &amp;table_name, const void *condition) const</td></tr>
+<tr class="separator:a6675e266d1dd1dca8e0403140460f4a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d6b47ed9a513fc04021d4b20ad922ae" id="r_a4d6b47ed9a513fc04021d4b20ad922ae"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">Partition</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a4d6b47ed9a513fc04021d4b20ad922ae">getPartition</a> (const std::string &amp;table_name, int32_t partition_id) const</td></tr>
+<tr class="separator:a4d6b47ed9a513fc04021d4b20ad922ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed55e3257215034bd5062d5bfaa6bfc2" id="r_aed55e3257215034bd5062d5bfaa6bfc2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">Partition</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#aed55e3257215034bd5062d5bfaa6bfc2">getAllPartitions</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="separator:aed55e3257215034bd5062d5bfaa6bfc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86c6dca185b058fc4133fcd80aa80201" id="r_a86c6dca185b058fc4133fcd80aa80201"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1storage_1_1PartitionMetadata.html">PartitionMetadata</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a86c6dca185b058fc4133fcd80aa80201">getPartitionMetadata</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="separator:a86c6dca185b058fc4133fcd80aa80201"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22da0180725d5b7f2e5d62e54c71ed45" id="r_a22da0180725d5b7f2e5d62e54c71ed45"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a22da0180725d5b7f2e5d62e54c71ed45">updatePartitionStatistics</a> (const std::string &amp;table_name, int32_t partition_id)</td></tr>
+<tr class="separator:a22da0180725d5b7f2e5d62e54c71ed45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0582239d2bd654962a97da5a507081d4" id="r_a0582239d2bd654962a97da5a507081d4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a0582239d2bd654962a97da5a507081d4">truncatePartition</a> (const std::string &amp;table_name, int32_t partition_id)</td></tr>
+<tr class="separator:a0582239d2bd654962a97da5a507081d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac62836b6940b7a103fe330ccfb000502" id="r_ac62836b6940b7a103fe330ccfb000502"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#ac62836b6940b7a103fe330ccfb000502">addPartitionChangeListener</a> (const std::string &amp;table_name, <a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a2f38d2310464a624aaea399d2dba50e3">PartitionChangeListener</a> listener)</td></tr>
+<tr class="separator:ac62836b6940b7a103fe330ccfb000502"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65daeca99611568985efbe56d45c47cb" id="r_a65daeca99611568985efbe56d45c47cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a65daeca99611568985efbe56d45c47cb">PartitionManager</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; storage_engine, std::shared_ptr&lt; TableStorage &gt; table_storage, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a> &gt; index_manager)</td></tr>
+<tr class="separator:a65daeca99611568985efbe56d45c47cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8595c51d334a39c2f5a640c6c07e11ad" id="r_a8595c51d334a39c2f5a640c6c07e11ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a8595c51d334a39c2f5a640c6c07e11ad">~PartitionManager</a> ()=default</td></tr>
+<tr class="separator:a8595c51d334a39c2f5a640c6c07e11ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8b7afd633ba49ef32c07d7de3f30113" id="r_aa8b7afd633ba49ef32c07d7de3f30113"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#aa8b7afd633ba49ef32c07d7de3f30113">createPartitionedTable</a> (const <a class="el" href="structsqlcc_1_1storage_1_1PartitionedTableDef.html">PartitionedTableDef</a> &amp;definition)</td></tr>
+<tr class="separator:aa8b7afd633ba49ef32c07d7de3f30113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac60f06d50aaea63188882bcb0ec62ba0" id="r_ac60f06d50aaea63188882bcb0ec62ba0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#ac60f06d50aaea63188882bcb0ec62ba0">dropPartitionedTable</a> (const std::string &amp;table_name)</td></tr>
+<tr class="separator:ac60f06d50aaea63188882bcb0ec62ba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8d844408ec0dd757ccc9bbcc298c865" id="r_af8d844408ec0dd757ccc9bbcc298c865"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#af8d844408ec0dd757ccc9bbcc298c865">isPartitionedTable</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="separator:af8d844408ec0dd757ccc9bbcc298c865"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a69e99611e80f84371b2b652ca2a82b" id="r_a3a69e99611e80f84371b2b652ca2a82b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a3a69e99611e80f84371b2b652ca2a82b">addPartition</a> (const std::string &amp;table_name, std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">Partition</a> &gt; partition)</td></tr>
+<tr class="separator:a3a69e99611e80f84371b2b652ca2a82b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f1d1c3774e0621403b860e41387000a" id="r_a6f1d1c3774e0621403b860e41387000a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a6f1d1c3774e0621403b860e41387000a">dropPartition</a> (const std::string &amp;table_name, int32_t partition_id)</td></tr>
+<tr class="separator:a6f1d1c3774e0621403b860e41387000a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6675e266d1dd1dca8e0403140460f4a8" id="r_a6675e266d1dd1dca8e0403140460f4a8"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a6675e266d1dd1dca8e0403140460f4a8">getEligiblePartitions</a> (const std::string &amp;table_name, const void *condition) const</td></tr>
+<tr class="separator:a6675e266d1dd1dca8e0403140460f4a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d6b47ed9a513fc04021d4b20ad922ae" id="r_a4d6b47ed9a513fc04021d4b20ad922ae"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">Partition</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a4d6b47ed9a513fc04021d4b20ad922ae">getPartition</a> (const std::string &amp;table_name, int32_t partition_id) const</td></tr>
+<tr class="separator:a4d6b47ed9a513fc04021d4b20ad922ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed55e3257215034bd5062d5bfaa6bfc2" id="r_aed55e3257215034bd5062d5bfaa6bfc2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">Partition</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#aed55e3257215034bd5062d5bfaa6bfc2">getAllPartitions</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="separator:aed55e3257215034bd5062d5bfaa6bfc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86c6dca185b058fc4133fcd80aa80201" id="r_a86c6dca185b058fc4133fcd80aa80201"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1storage_1_1PartitionMetadata.html">PartitionMetadata</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a86c6dca185b058fc4133fcd80aa80201">getPartitionMetadata</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="separator:a86c6dca185b058fc4133fcd80aa80201"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22da0180725d5b7f2e5d62e54c71ed45" id="r_a22da0180725d5b7f2e5d62e54c71ed45"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a22da0180725d5b7f2e5d62e54c71ed45">updatePartitionStatistics</a> (const std::string &amp;table_name, int32_t partition_id)</td></tr>
+<tr class="separator:a22da0180725d5b7f2e5d62e54c71ed45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0582239d2bd654962a97da5a507081d4" id="r_a0582239d2bd654962a97da5a507081d4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a0582239d2bd654962a97da5a507081d4">truncatePartition</a> (const std::string &amp;table_name, int32_t partition_id)</td></tr>
+<tr class="separator:a0582239d2bd654962a97da5a507081d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac62836b6940b7a103fe330ccfb000502" id="r_ac62836b6940b7a103fe330ccfb000502"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#ac62836b6940b7a103fe330ccfb000502">addPartitionChangeListener</a> (const std::string &amp;table_name, <a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a2f38d2310464a624aaea399d2dba50e3">PartitionChangeListener</a> listener)</td></tr>
+<tr class="separator:ac62836b6940b7a103fe330ccfb000502"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a4dee807fa6259dc996de710beee8bfe3" id="r_a4dee807fa6259dc996de710beee8bfe3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a4dee807fa6259dc996de710beee8bfe3">getPartitionStoragePath</a> (const std::string &amp;table_name, int32_t partition_id) const</td></tr>
+<tr class="separator:a4dee807fa6259dc996de710beee8bfe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77df22e471854c2c390c48c90e3f08fc" id="r_a77df22e471854c2c390c48c90e3f08fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a77df22e471854c2c390c48c90e3f08fc">notifyPartitionChange</a> (const std::string &amp;table_name, int32_t partition_id, const std::string &amp;operation)</td></tr>
+<tr class="separator:a77df22e471854c2c390c48c90e3f08fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abea438e43d2ef80cabdf0bfa19b904dd" id="r_abea438e43d2ef80cabdf0bfa19b904dd"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#abea438e43d2ef80cabdf0bfa19b904dd">selectPartitionsByCondition</a> (const std::string &amp;table_name, const void *condition) const</td></tr>
+<tr class="separator:abea438e43d2ef80cabdf0bfa19b904dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5378f767aefa679746d011152a246ad1" id="r_a5378f767aefa679746d011152a246ad1"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a5378f767aefa679746d011152a246ad1">calculatePartitionHash</a> (const void *value) const</td></tr>
+<tr class="separator:a5378f767aefa679746d011152a246ad1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a3fc8c883dfd89ef826ca1831cd99a6" id="r_a2a3fc8c883dfd89ef826ca1831cd99a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a2a3fc8c883dfd89ef826ca1831cd99a6">collectPartitionStatistics</a> (const std::string &amp;table_name, int32_t partition_id, <a class="el" href="structsqlcc_1_1storage_1_1Partition_1_1PartitionStatistics.html">Partition::PartitionStatistics</a> &amp;stats) const</td></tr>
+<tr class="separator:a2a3fc8c883dfd89ef826ca1831cd99a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dee807fa6259dc996de710beee8bfe3" id="r_a4dee807fa6259dc996de710beee8bfe3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a4dee807fa6259dc996de710beee8bfe3">getPartitionStoragePath</a> (const std::string &amp;table_name, int32_t partition_id) const</td></tr>
+<tr class="separator:a4dee807fa6259dc996de710beee8bfe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77df22e471854c2c390c48c90e3f08fc" id="r_a77df22e471854c2c390c48c90e3f08fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a77df22e471854c2c390c48c90e3f08fc">notifyPartitionChange</a> (const std::string &amp;table_name, int32_t partition_id, const std::string &amp;operation)</td></tr>
+<tr class="separator:a77df22e471854c2c390c48c90e3f08fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abea438e43d2ef80cabdf0bfa19b904dd" id="r_abea438e43d2ef80cabdf0bfa19b904dd"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#abea438e43d2ef80cabdf0bfa19b904dd">selectPartitionsByCondition</a> (const std::string &amp;table_name, const void *condition) const</td></tr>
+<tr class="separator:abea438e43d2ef80cabdf0bfa19b904dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5378f767aefa679746d011152a246ad1" id="r_a5378f767aefa679746d011152a246ad1"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a5378f767aefa679746d011152a246ad1">calculatePartitionHash</a> (const void *value) const</td></tr>
+<tr class="separator:a5378f767aefa679746d011152a246ad1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a3fc8c883dfd89ef826ca1831cd99a6" id="r_a2a3fc8c883dfd89ef826ca1831cd99a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a2a3fc8c883dfd89ef826ca1831cd99a6">collectPartitionStatistics</a> (const std::string &amp;table_name, int32_t partition_id, <a class="el" href="structsqlcc_1_1storage_1_1Partition_1_1PartitionStatistics.html">Partition::PartitionStatistics</a> &amp;stats) const</td></tr>
+<tr class="separator:a2a3fc8c883dfd89ef826ca1831cd99a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aa90bd5a449d439a368cc62160aeb277d" id="r_aa90bd5a449d439a368cc62160aeb277d"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#aa90bd5a449d439a368cc62160aeb277d">storage_engine_</a></td></tr>
+<tr class="separator:aa90bd5a449d439a368cc62160aeb277d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad88ff2e5c23ee691eaac49e7e05d4278" id="r_ad88ff2e5c23ee691eaac49e7e05d4278"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; TableStorage &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#ad88ff2e5c23ee691eaac49e7e05d4278">table_storage_</a></td></tr>
+<tr class="separator:ad88ff2e5c23ee691eaac49e7e05d4278"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4be72d0bd1d6ce458e8cc54217c3b0ac" id="r_a4be72d0bd1d6ce458e8cc54217c3b0ac"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a4be72d0bd1d6ce458e8cc54217c3b0ac">index_manager_</a></td></tr>
+<tr class="separator:a4be72d0bd1d6ce458e8cc54217c3b0ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cc616feb8d93b7d63116ba0cb7f81df" id="r_a5cc616feb8d93b7d63116ba0cb7f81df"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="structsqlcc_1_1storage_1_1PartitionedTableDef.html">PartitionedTableDef</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a5cc616feb8d93b7d63116ba0cb7f81df">partitioned_tables_</a></td></tr>
+<tr class="separator:a5cc616feb8d93b7d63116ba0cb7f81df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a945427169cfaac3cc3699ce896d46598" id="r_a945427169cfaac3cc3699ce896d46598"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::unordered_map&lt; int32_t, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">Partition</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a945427169cfaac3cc3699ce896d46598">partitions_</a></td></tr>
+<tr class="separator:a945427169cfaac3cc3699ce896d46598"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89f518a82b4139b28ce48fa6161c2b0a" id="r_a89f518a82b4139b28ce48fa6161c2b0a"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::unordered_map&lt; int32_t, std::unique_ptr&lt; <a class="el" href="structsqlcc_1_1storage_1_1PartitionMetadata.html">PartitionMetadata</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a89f518a82b4139b28ce48fa6161c2b0a">partition_metadata_</a></td></tr>
+<tr class="separator:a89f518a82b4139b28ce48fa6161c2b0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0d05bbca74d4b699366c0adaa77fb52" id="r_ae0d05bbca74d4b699366c0adaa77fb52"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::vector&lt; <a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a2f38d2310464a624aaea399d2dba50e3">PartitionChangeListener</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#ae0d05bbca74d4b699366c0adaa77fb52">change_listeners_</a></td></tr>
+<tr class="separator:ae0d05bbca74d4b699366c0adaa77fb52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e177e27363b00cdc7808509de84a49e" id="r_a7e177e27363b00cdc7808509de84a49e"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a7e177e27363b00cdc7808509de84a49e">mutex_</a></td></tr>
+<tr class="separator:a7e177e27363b00cdc7808509de84a49e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>分区表管理器 </p>
+<p>负责分区表的创建、管理和维护 </p>
+</div><h2 class="groupheader">成员类型定义说明</h2>
+<a id="a2f38d2310464a624aaea399d2dba50e3" name="a2f38d2310464a624aaea399d2dba50e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f38d2310464a624aaea399d2dba50e3">&#9670;&#160;</a></span>PartitionChangeListener <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a2f38d2310464a624aaea399d2dba50e3">sqlcc::storage::PartitionManager::PartitionChangeListener</a> =  std::function&lt;void(const std::string&amp; table_name, int32_t partition_id, const std::string&amp; operation)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2f38d2310464a624aaea399d2dba50e3" name="a2f38d2310464a624aaea399d2dba50e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f38d2310464a624aaea399d2dba50e3">&#9670;&#160;</a></span>PartitionChangeListener <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a2f38d2310464a624aaea399d2dba50e3">sqlcc::storage::PartitionManager::PartitionChangeListener</a> =  std::function&lt;void(const std::string&amp; table_name, int32_t partition_id, const std::string&amp; operation)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a65daeca99611568985efbe56d45c47cb" name="a65daeca99611568985efbe56d45c47cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65daeca99611568985efbe56d45c47cb">&#9670;&#160;</a></span>PartitionManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::storage::PartitionManager::PartitionManager </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td>
+          <td class="paramname"><em>storage_engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; TableStorage &gt;&#160;</td>
+          <td class="paramname"><em>table_storage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>index_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8595c51d334a39c2f5a640c6c07e11ad" name="a8595c51d334a39c2f5a640c6c07e11ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8595c51d334a39c2f5a640c6c07e11ad">&#9670;&#160;</a></span>~PartitionManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::storage::PartitionManager::~PartitionManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a65daeca99611568985efbe56d45c47cb" name="a65daeca99611568985efbe56d45c47cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65daeca99611568985efbe56d45c47cb">&#9670;&#160;</a></span>PartitionManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::storage::PartitionManager::PartitionManager </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td>
+          <td class="paramname"><em>storage_engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; TableStorage &gt;&#160;</td>
+          <td class="paramname"><em>table_storage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>index_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8595c51d334a39c2f5a640c6c07e11ad" name="a8595c51d334a39c2f5a640c6c07e11ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8595c51d334a39c2f5a640c6c07e11ad">&#9670;&#160;</a></span>~PartitionManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::storage::PartitionManager::~PartitionManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a3a69e99611e80f84371b2b652ca2a82b" name="a3a69e99611e80f84371b2b652ca2a82b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a69e99611e80f84371b2b652ca2a82b">&#9670;&#160;</a></span>addPartition() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::addPartition </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">Partition</a> &gt;&#160;</td>
+          <td class="paramname"><em>partition</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3a69e99611e80f84371b2b652ca2a82b" name="a3a69e99611e80f84371b2b652ca2a82b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a69e99611e80f84371b2b652ca2a82b">&#9670;&#160;</a></span>addPartition() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::addPartition </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">Partition</a> &gt;&#160;</td>
+          <td class="paramname"><em>partition</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac62836b6940b7a103fe330ccfb000502" name="ac62836b6940b7a103fe330ccfb000502"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac62836b6940b7a103fe330ccfb000502">&#9670;&#160;</a></span>addPartitionChangeListener() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::storage::PartitionManager::addPartitionChangeListener </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a2f38d2310464a624aaea399d2dba50e3">PartitionChangeListener</a>&#160;</td>
+          <td class="paramname"><em>listener</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac62836b6940b7a103fe330ccfb000502" name="ac62836b6940b7a103fe330ccfb000502"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac62836b6940b7a103fe330ccfb000502">&#9670;&#160;</a></span>addPartitionChangeListener() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::storage::PartitionManager::addPartitionChangeListener </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a2f38d2310464a624aaea399d2dba50e3">PartitionChangeListener</a>&#160;</td>
+          <td class="paramname"><em>listener</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5378f767aefa679746d011152a246ad1" name="a5378f767aefa679746d011152a246ad1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5378f767aefa679746d011152a246ad1">&#9670;&#160;</a></span>calculatePartitionHash() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t sqlcc::storage::PartitionManager::calculatePartitionHash </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5378f767aefa679746d011152a246ad1" name="a5378f767aefa679746d011152a246ad1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5378f767aefa679746d011152a246ad1">&#9670;&#160;</a></span>calculatePartitionHash() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t sqlcc::storage::PartitionManager::calculatePartitionHash </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2a3fc8c883dfd89ef826ca1831cd99a6" name="a2a3fc8c883dfd89ef826ca1831cd99a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a3fc8c883dfd89ef826ca1831cd99a6">&#9670;&#160;</a></span>collectPartitionStatistics() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::collectPartitionStatistics </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsqlcc_1_1storage_1_1Partition_1_1PartitionStatistics.html">Partition::PartitionStatistics</a> &amp;&#160;</td>
+          <td class="paramname"><em>stats</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2a3fc8c883dfd89ef826ca1831cd99a6" name="a2a3fc8c883dfd89ef826ca1831cd99a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a3fc8c883dfd89ef826ca1831cd99a6">&#9670;&#160;</a></span>collectPartitionStatistics() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::collectPartitionStatistics </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsqlcc_1_1storage_1_1Partition_1_1PartitionStatistics.html">Partition::PartitionStatistics</a> &amp;&#160;</td>
+          <td class="paramname"><em>stats</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa8b7afd633ba49ef32c07d7de3f30113" name="aa8b7afd633ba49ef32c07d7de3f30113"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8b7afd633ba49ef32c07d7de3f30113">&#9670;&#160;</a></span>createPartitionedTable() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::createPartitionedTable </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1storage_1_1PartitionedTableDef.html">PartitionedTableDef</a> &amp;&#160;</td>
+          <td class="paramname"><em>definition</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa8b7afd633ba49ef32c07d7de3f30113" name="aa8b7afd633ba49ef32c07d7de3f30113"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8b7afd633ba49ef32c07d7de3f30113">&#9670;&#160;</a></span>createPartitionedTable() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::createPartitionedTable </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1storage_1_1PartitionedTableDef.html">PartitionedTableDef</a> &amp;&#160;</td>
+          <td class="paramname"><em>definition</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6f1d1c3774e0621403b860e41387000a" name="a6f1d1c3774e0621403b860e41387000a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f1d1c3774e0621403b860e41387000a">&#9670;&#160;</a></span>dropPartition() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::dropPartition </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6f1d1c3774e0621403b860e41387000a" name="a6f1d1c3774e0621403b860e41387000a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f1d1c3774e0621403b860e41387000a">&#9670;&#160;</a></span>dropPartition() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::dropPartition </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac60f06d50aaea63188882bcb0ec62ba0" name="ac60f06d50aaea63188882bcb0ec62ba0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac60f06d50aaea63188882bcb0ec62ba0">&#9670;&#160;</a></span>dropPartitionedTable() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::dropPartitionedTable </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac60f06d50aaea63188882bcb0ec62ba0" name="ac60f06d50aaea63188882bcb0ec62ba0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac60f06d50aaea63188882bcb0ec62ba0">&#9670;&#160;</a></span>dropPartitionedTable() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::dropPartitionedTable </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed55e3257215034bd5062d5bfaa6bfc2" name="aed55e3257215034bd5062d5bfaa6bfc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed55e3257215034bd5062d5bfaa6bfc2">&#9670;&#160;</a></span>getAllPartitions() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">Partition</a> &gt; &gt; sqlcc::storage::PartitionManager::getAllPartitions </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed55e3257215034bd5062d5bfaa6bfc2" name="aed55e3257215034bd5062d5bfaa6bfc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed55e3257215034bd5062d5bfaa6bfc2">&#9670;&#160;</a></span>getAllPartitions() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">Partition</a> &gt; &gt; sqlcc::storage::PartitionManager::getAllPartitions </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6675e266d1dd1dca8e0403140460f4a8" name="a6675e266d1dd1dca8e0403140460f4a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6675e266d1dd1dca8e0403140460f4a8">&#9670;&#160;</a></span>getEligiblePartitions() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; int32_t &gt; sqlcc::storage::PartitionManager::getEligiblePartitions </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>condition</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6675e266d1dd1dca8e0403140460f4a8" name="a6675e266d1dd1dca8e0403140460f4a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6675e266d1dd1dca8e0403140460f4a8">&#9670;&#160;</a></span>getEligiblePartitions() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; int32_t &gt; sqlcc::storage::PartitionManager::getEligiblePartitions </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>condition</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4d6b47ed9a513fc04021d4b20ad922ae" name="a4d6b47ed9a513fc04021d4b20ad922ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d6b47ed9a513fc04021d4b20ad922ae">&#9670;&#160;</a></span>getPartition() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">Partition</a> &gt; sqlcc::storage::PartitionManager::getPartition </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4d6b47ed9a513fc04021d4b20ad922ae" name="a4d6b47ed9a513fc04021d4b20ad922ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d6b47ed9a513fc04021d4b20ad922ae">&#9670;&#160;</a></span>getPartition() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">Partition</a> &gt; sqlcc::storage::PartitionManager::getPartition </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a86c6dca185b058fc4133fcd80aa80201" name="a86c6dca185b058fc4133fcd80aa80201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86c6dca185b058fc4133fcd80aa80201">&#9670;&#160;</a></span>getPartitionMetadata() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1storage_1_1PartitionMetadata.html">PartitionMetadata</a> &gt; &gt; sqlcc::storage::PartitionManager::getPartitionMetadata </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a86c6dca185b058fc4133fcd80aa80201" name="a86c6dca185b058fc4133fcd80aa80201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86c6dca185b058fc4133fcd80aa80201">&#9670;&#160;</a></span>getPartitionMetadata() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1storage_1_1PartitionMetadata.html">PartitionMetadata</a> &gt; &gt; sqlcc::storage::PartitionManager::getPartitionMetadata </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4dee807fa6259dc996de710beee8bfe3" name="a4dee807fa6259dc996de710beee8bfe3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dee807fa6259dc996de710beee8bfe3">&#9670;&#160;</a></span>getPartitionStoragePath() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::storage::PartitionManager::getPartitionStoragePath </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4dee807fa6259dc996de710beee8bfe3" name="a4dee807fa6259dc996de710beee8bfe3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dee807fa6259dc996de710beee8bfe3">&#9670;&#160;</a></span>getPartitionStoragePath() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::storage::PartitionManager::getPartitionStoragePath </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af8d844408ec0dd757ccc9bbcc298c865" name="af8d844408ec0dd757ccc9bbcc298c865"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8d844408ec0dd757ccc9bbcc298c865">&#9670;&#160;</a></span>isPartitionedTable() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::isPartitionedTable </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af8d844408ec0dd757ccc9bbcc298c865" name="af8d844408ec0dd757ccc9bbcc298c865"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8d844408ec0dd757ccc9bbcc298c865">&#9670;&#160;</a></span>isPartitionedTable() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::isPartitionedTable </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a77df22e471854c2c390c48c90e3f08fc" name="a77df22e471854c2c390c48c90e3f08fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77df22e471854c2c390c48c90e3f08fc">&#9670;&#160;</a></span>notifyPartitionChange() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::storage::PartitionManager::notifyPartitionChange </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>operation</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a77df22e471854c2c390c48c90e3f08fc" name="a77df22e471854c2c390c48c90e3f08fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77df22e471854c2c390c48c90e3f08fc">&#9670;&#160;</a></span>notifyPartitionChange() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::storage::PartitionManager::notifyPartitionChange </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>operation</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abea438e43d2ef80cabdf0bfa19b904dd" name="abea438e43d2ef80cabdf0bfa19b904dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abea438e43d2ef80cabdf0bfa19b904dd">&#9670;&#160;</a></span>selectPartitionsByCondition() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; int32_t &gt; sqlcc::storage::PartitionManager::selectPartitionsByCondition </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>condition</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abea438e43d2ef80cabdf0bfa19b904dd" name="abea438e43d2ef80cabdf0bfa19b904dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abea438e43d2ef80cabdf0bfa19b904dd">&#9670;&#160;</a></span>selectPartitionsByCondition() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; int32_t &gt; sqlcc::storage::PartitionManager::selectPartitionsByCondition </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>condition</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0582239d2bd654962a97da5a507081d4" name="a0582239d2bd654962a97da5a507081d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0582239d2bd654962a97da5a507081d4">&#9670;&#160;</a></span>truncatePartition() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::truncatePartition </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0582239d2bd654962a97da5a507081d4" name="a0582239d2bd654962a97da5a507081d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0582239d2bd654962a97da5a507081d4">&#9670;&#160;</a></span>truncatePartition() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::truncatePartition </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a22da0180725d5b7f2e5d62e54c71ed45" name="a22da0180725d5b7f2e5d62e54c71ed45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22da0180725d5b7f2e5d62e54c71ed45">&#9670;&#160;</a></span>updatePartitionStatistics() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::updatePartitionStatistics </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a22da0180725d5b7f2e5d62e54c71ed45" name="a22da0180725d5b7f2e5d62e54c71ed45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22da0180725d5b7f2e5d62e54c71ed45">&#9670;&#160;</a></span>updatePartitionStatistics() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::PartitionManager::updatePartitionStatistics </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ae0d05bbca74d4b699366c0adaa77fb52" name="ae0d05bbca74d4b699366c0adaa77fb52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0d05bbca74d4b699366c0adaa77fb52">&#9670;&#160;</a></span>change_listeners_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; std::string, std::vector&lt; <a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a2f38d2310464a624aaea399d2dba50e3">PartitionChangeListener</a> &gt; &gt; sqlcc::storage::PartitionManager::change_listeners_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4be72d0bd1d6ce458e8cc54217c3b0ac" name="a4be72d0bd1d6ce458e8cc54217c3b0ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4be72d0bd1d6ce458e8cc54217c3b0ac">&#9670;&#160;</a></span>index_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a> &gt; sqlcc::storage::PartitionManager::index_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7e177e27363b00cdc7808509de84a49e" name="a7e177e27363b00cdc7808509de84a49e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e177e27363b00cdc7808509de84a49e">&#9670;&#160;</a></span>mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::storage::PartitionManager::mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a89f518a82b4139b28ce48fa6161c2b0a" name="a89f518a82b4139b28ce48fa6161c2b0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89f518a82b4139b28ce48fa6161c2b0a">&#9670;&#160;</a></span>partition_metadata_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; std::string, std::unordered_map&lt; int32_t, std::unique_ptr&lt; <a class="el" href="structsqlcc_1_1storage_1_1PartitionMetadata.html">PartitionMetadata</a> &gt; &gt; &gt; sqlcc::storage::PartitionManager::partition_metadata_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5cc616feb8d93b7d63116ba0cb7f81df" name="a5cc616feb8d93b7d63116ba0cb7f81df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cc616feb8d93b7d63116ba0cb7f81df">&#9670;&#160;</a></span>partitioned_tables_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="structsqlcc_1_1storage_1_1PartitionedTableDef.html">PartitionedTableDef</a> &gt; &gt; sqlcc::storage::PartitionManager::partitioned_tables_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a945427169cfaac3cc3699ce896d46598" name="a945427169cfaac3cc3699ce896d46598"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a945427169cfaac3cc3699ce896d46598">&#9670;&#160;</a></span>partitions_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; std::string, std::unordered_map&lt; int32_t, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">Partition</a> &gt; &gt; &gt; sqlcc::storage::PartitionManager::partitions_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa90bd5a449d439a368cc62160aeb277d" name="aa90bd5a449d439a368cc62160aeb277d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa90bd5a449d439a368cc62160aeb277d">&#9670;&#160;</a></span>storage_engine_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; sqlcc::storage::PartitionManager::storage_engine_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad88ff2e5c23ee691eaac49e7e05d4278" name="ad88ff2e5c23ee691eaac49e7e05d4278"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad88ff2e5c23ee691eaac49e7e05d4278">&#9670;&#160;</a></span>table_storage_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; TableStorage &gt; sqlcc::storage::PartitionManager::table_storage_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage_2partition__manager_8h_source.html">storage/partition_manager.h</a></li>
+<li><a class="el" href="storage__engine_2partition__manager_8h_source.html">storage_engine/partition_manager.h</a></li>
+<li><a class="el" href="partition__manager_8cpp.html">partition_manager.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

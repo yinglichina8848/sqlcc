@@ -1,0 +1,616 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::UnifiedExecutor类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html">UnifiedExecutor</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1UnifiedExecutor-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::UnifiedExecutor类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>The primary execution engine, acting as the "Context" in the Strategy pattern.  
+ <a href="classsqlcc_1_1UnifiedExecutor.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="unified__executor_8h_source.html">unified_executor.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::UnifiedExecutor 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1UnifiedExecutor__inherit__graph.png" border="0" usemap="#asqlcc_1_1UnifiedExecutor_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1UnifiedExecutor_inherit__map" id="asqlcc_1_1UnifiedExecutor_inherit__map">
+<area shape="rect" title="The primary execution engine, acting as the &quot;Context&quot; in the Strategy pattern." alt="" coords="8,79,173,104"/>
+<area shape="rect" href="classsqlcc_1_1ExecutionEngine.html" title="执行引擎接口 &#45; SQL语句执行的核心抽象" alt="" coords="5,5,176,31"/>
+<area shape="poly" title=" " alt="" coords="93,44,93,79,88,79,88,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<div class="dynheader">
+sqlcc::UnifiedExecutor 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1UnifiedExecutor__coll__graph.png" border="0" usemap="#asqlcc_1_1UnifiedExecutor_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1UnifiedExecutor_coll__map" id="asqlcc_1_1UnifiedExecutor_coll__map">
+<area shape="rect" title="The primary execution engine, acting as the &quot;Context&quot; in the Strategy pattern." alt="" coords="107,93,272,119"/>
+<area shape="rect" href="classsqlcc_1_1ExecutionEngine.html" title="执行引擎接口 &#45; SQL语句执行的核心抽象" alt="" coords="5,5,176,31"/>
+<area shape="poly" title=" " alt="" coords="116,38,177,91,174,95,113,42"/>
+<area shape="rect" href="classsqlcc_1_1ExecutionContext.html" title=" " alt="" coords="201,5,378,31"/>
+<area shape="poly" title=" " alt="" coords="267,42,205,95,202,91,264,38"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a293428af51fbd7855e3e35a2a84aa00e" id="r_a293428af51fbd7855e3e35a2a84aa00e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#a293428af51fbd7855e3e35a2a84aa00e">UnifiedExecutor</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt; db_manager, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt; user_manager, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1SystemDatabase.html">SystemDatabase</a> &gt; system_db)</td></tr>
+<tr class="separator:a293428af51fbd7855e3e35a2a84aa00e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3de93bb4f6d947d1181fe1b56590a11" id="r_ac3de93bb4f6d947d1181fe1b56590a11"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#ac3de93bb4f6d947d1181fe1b56590a11">~UnifiedExecutor</a> () override</td></tr>
+<tr class="separator:ac3de93bb4f6d947d1181fe1b56590a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a840998dcfae480bdbdda64fc5a4ffc" id="r_a9a840998dcfae480bdbdda64fc5a4ffc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#a9a840998dcfae480bdbdda64fc5a4ffc">execute</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt; stmt) override</td></tr>
+<tr class="memdesc:a9a840998dcfae480bdbdda64fc5a4ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main entry point for executing any SQL statement.  <br /></td></tr>
+<tr class="separator:a9a840998dcfae480bdbdda64fc5a4ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca758f79787cea01369a52206795dfcd" id="r_aca758f79787cea01369a52206795dfcd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#aca758f79787cea01369a52206795dfcd">execute</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt; stmt, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &gt; context)</td></tr>
+<tr class="memdesc:aca758f79787cea01369a52206795dfcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded execute method that takes an explicit execution context.  <br /></td></tr>
+<tr class="separator:aca758f79787cea01369a52206795dfcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsqlcc_1_1ExecutionEngine"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsqlcc_1_1ExecutionEngine')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsqlcc_1_1ExecutionEngine.html">sqlcc::ExecutionEngine</a></td></tr>
+<tr class="memitem:acc11ada08fa74ed18b0060d86d3e4182 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_acc11ada08fa74ed18b0060d86d3e4182"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#acc11ada08fa74ed18b0060d86d3e4182">ExecutionEngine</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt; db_manager)</td></tr>
+<tr class="separator:acc11ada08fa74ed18b0060d86d3e4182 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01683fb8e25df800586def59591b2e50 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_a01683fb8e25df800586def59591b2e50"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a01683fb8e25df800586def59591b2e50">~ExecutionEngine</a> ()=default</td></tr>
+<tr class="separator:a01683fb8e25df800586def59591b2e50 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a878a172f5e693a94b2080b91f171b200 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_a878a172f5e693a94b2080b91f171b200"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a878a172f5e693a94b2080b91f171b200">set_execution_context</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &gt; context)</td></tr>
+<tr class="separator:a878a172f5e693a94b2080b91f171b200 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a488ee2146e8a705537bf934bcd73ad44 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_a488ee2146e8a705537bf934bcd73ad44"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a488ee2146e8a705537bf934bcd73ad44">get_execution_context</a> () const</td></tr>
+<tr class="separator:a488ee2146e8a705537bf934bcd73ad44 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc11ada08fa74ed18b0060d86d3e4182 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_acc11ada08fa74ed18b0060d86d3e4182"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#acc11ada08fa74ed18b0060d86d3e4182">ExecutionEngine</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt; db_manager)</td></tr>
+<tr class="separator:acc11ada08fa74ed18b0060d86d3e4182 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01683fb8e25df800586def59591b2e50 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_a01683fb8e25df800586def59591b2e50"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a01683fb8e25df800586def59591b2e50">~ExecutionEngine</a> ()=default</td></tr>
+<tr class="separator:a01683fb8e25df800586def59591b2e50 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c3637c090538868442c6955d97177d2 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_a1c3637c090538868442c6955d97177d2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a1c3637c090538868442c6955d97177d2">set_execution_context</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &gt; context)</td></tr>
+<tr class="separator:a1c3637c090538868442c6955d97177d2 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b10670925bfd95147d1a72d4d8ad7d0 inherit pub_methods_classsqlcc_1_1ExecutionEngine" id="r_a9b10670925bfd95147d1a72d4d8ad7d0"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a9b10670925bfd95147d1a72d4d8ad7d0">get_execution_context</a> () const</td></tr>
+<tr class="separator:a9b10670925bfd95147d1a72d4d8ad7d0 inherit pub_methods_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a594f70ac6696620755cf5aa2926d718b" id="r_a594f70ac6696620755cf5aa2926d718b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#a594f70ac6696620755cf5aa2926d718b">initializeStrategies</a> ()</td></tr>
+<tr class="separator:a594f70ac6696620755cf5aa2926d718b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d063f402e8b2123903216267c1af15d" id="r_a7d063f402e8b2123903216267c1af15d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ExecutionStrategy.html">ExecutionStrategy</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#a7d063f402e8b2123903216267c1af15d">getStrategy</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">sql_parser::Statement::Type</a> type)</td></tr>
+<tr class="separator:a7d063f402e8b2123903216267c1af15d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a735fa3e98b06045a5b73f172f39100ff" id="r_a735fa3e98b06045a5b73f172f39100ff"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#a735fa3e98b06045a5b73f172f39100ff">checkGlobalPermission</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &amp;stmt, <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context)</td></tr>
+<tr class="separator:a735fa3e98b06045a5b73f172f39100ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2838d533d764c43ddab87be15619b508" id="r_a2838d533d764c43ddab87be15619b508"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#a2838d533d764c43ddab87be15619b508">validateGlobalContext</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &amp;stmt, <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context)</td></tr>
+<tr class="separator:a2838d533d764c43ddab87be15619b508"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a540273c4c02af64938fe7822b24ba8af" id="r_a540273c4c02af64938fe7822b24ba8af"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#a540273c4c02af64938fe7822b24ba8af">db_manager_</a></td></tr>
+<tr class="separator:a540273c4c02af64938fe7822b24ba8af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a8aadf7d20194a12f4fb81f0831938a" id="r_a6a8aadf7d20194a12f4fb81f0831938a"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#a6a8aadf7d20194a12f4fb81f0831938a">user_manager_</a></td></tr>
+<tr class="separator:a6a8aadf7d20194a12f4fb81f0831938a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58f64ceb42ce80df9f907edd8def2686" id="r_a58f64ceb42ce80df9f907edd8def2686"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1SystemDatabase.html">SystemDatabase</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#a58f64ceb42ce80df9f907edd8def2686">system_db_</a></td></tr>
+<tr class="separator:a58f64ceb42ce80df9f907edd8def2686"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c4c3b404ffc17ed6cc24b79d9c21a64" id="r_a6c4c3b404ffc17ed6cc24b79d9c21a64"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">sql_parser::Statement::Type</a>, std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionStrategy.html">ExecutionStrategy</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#a6c4c3b404ffc17ed6cc24b79d9c21a64">strategies_</a></td></tr>
+<tr class="separator:a6c4c3b404ffc17ed6cc24b79d9c21a64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4ffb479d2ae6d0addb242117f8a2b2b" id="r_aa4ffb479d2ae6d0addb242117f8a2b2b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#aa4ffb479d2ae6d0addb242117f8a2b2b">last_context_</a></td></tr>
+<tr class="separator:aa4ffb479d2ae6d0addb242117f8a2b2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82ebcce757b864b7f4b9029ca39de322" id="r_a82ebcce757b864b7f4b9029ca39de322"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionPlanGenerator.html">ExecutionPlanGenerator</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#a82ebcce757b864b7f4b9029ca39de322">plan_generator_</a></td></tr>
+<tr class="separator:a82ebcce757b864b7f4b9029ca39de322"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6860afa36a71ab553674b52f124855d3" id="r_a6860afa36a71ab553674b52f124855d3"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1QueryOptimizer.html">QueryOptimizer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedExecutor.html#a6860afa36a71ab553674b52f124855d3">query_optimizer_</a></td></tr>
+<tr class="separator:a6860afa36a71ab553674b52f124855d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+额外继承的成员函数</h2></td></tr>
+<tr class="inherit_header pro_attribs_classsqlcc_1_1ExecutionEngine"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classsqlcc_1_1ExecutionEngine')"><img src="closed.png" alt="-"/>&#160;Protected 属性 继承自 <a class="el" href="classsqlcc_1_1ExecutionEngine.html">sqlcc::ExecutionEngine</a></td></tr>
+<tr class="memitem:a4c013aa5664443682d29fad270d6c8fb inherit pro_attribs_classsqlcc_1_1ExecutionEngine" id="r_a4c013aa5664443682d29fad270d6c8fb"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a4c013aa5664443682d29fad270d6c8fb">db_manager_</a></td></tr>
+<tr class="separator:a4c013aa5664443682d29fad270d6c8fb inherit pro_attribs_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a520c0f8b86644d7e0b13567ddae5f7bd inherit pro_attribs_classsqlcc_1_1ExecutionEngine" id="r_a520c0f8b86644d7e0b13567ddae5f7bd"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ExecutionEngine.html#a520c0f8b86644d7e0b13567ddae5f7bd">execution_context_</a></td></tr>
+<tr class="separator:a520c0f8b86644d7e0b13567ddae5f7bd inherit pro_attribs_classsqlcc_1_1ExecutionEngine"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>The primary execution engine, acting as the "Context" in the Strategy pattern. </p>
+<p>This class orchestrates the entire execution process. It does not know how to execute any specific statement; instead, it holds a collection of <code><a class="el" href="classsqlcc_1_1ExecutionStrategy.html" title="The abstract &quot;Strategy&quot; interface for executing different categories of SQL statements.">ExecutionStrategy</a></code> objects and delegates the work to the correct one based on the parsed statement's type. </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a293428af51fbd7855e3e35a2a84aa00e" name="a293428af51fbd7855e3e35a2a84aa00e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a293428af51fbd7855e3e35a2a84aa00e">&#9670;&#160;</a></span>UnifiedExecutor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::UnifiedExecutor::UnifiedExecutor </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>db_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>user_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1SystemDatabase.html">SystemDatabase</a> &gt;&#160;</td>
+          <td class="paramname"><em>system_db</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac3de93bb4f6d947d1181fe1b56590a11" name="ac3de93bb4f6d947d1181fe1b56590a11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3de93bb4f6d947d1181fe1b56590a11">&#9670;&#160;</a></span>~UnifiedExecutor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::UnifiedExecutor::~UnifiedExecutor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a735fa3e98b06045a5b73f172f39100ff" name="a735fa3e98b06045a5b73f172f39100ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a735fa3e98b06045a5b73f172f39100ff">&#9670;&#160;</a></span>checkGlobalPermission()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::UnifiedExecutor::checkGlobalPermission </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9a840998dcfae480bdbdda64fc5a4ffc" name="a9a840998dcfae480bdbdda64fc5a4ffc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a840998dcfae480bdbdda64fc5a4ffc">&#9670;&#160;</a></span>execute() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::UnifiedExecutor::execute </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Main entry point for executing any SQL statement. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stmt</td><td>The parsed AST of the SQL statement. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The result of the execution. </dd></dl>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1ExecutionEngine.html#a5bf35da705d0e854519680021322ac3e">sqlcc::ExecutionEngine</a>.</p>
+
+</div>
+</div>
+<a id="aca758f79787cea01369a52206795dfcd" name="aca758f79787cea01369a52206795dfcd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca758f79787cea01369a52206795dfcd">&#9670;&#160;</a></span>execute() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::UnifiedExecutor::execute </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt;&#160;</td>
+          <td class="paramname"><em>stmt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &gt;&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Overloaded execute method that takes an explicit execution context. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stmt</td><td>The parsed AST of the SQL statement. </td></tr>
+    <tr><td class="paramname">context</td><td>A shared pointer to the execution context for this query. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The result of the execution. </dd></dl>
+
+<p>重载 <a class="el" href="classsqlcc_1_1ExecutionEngine.html#a9088211882d20acd3a4077571dd14e7f">sqlcc::ExecutionEngine</a> .</p>
+
+</div>
+</div>
+<a id="a7d063f402e8b2123903216267c1af15d" name="a7d063f402e8b2123903216267c1af15d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d063f402e8b2123903216267c1af15d">&#9670;&#160;</a></span>getStrategy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ExecutionStrategy.html">ExecutionStrategy</a> * sqlcc::UnifiedExecutor::getStrategy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">sql_parser::Statement::Type</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a594f70ac6696620755cf5aa2926d718b" name="a594f70ac6696620755cf5aa2926d718b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a594f70ac6696620755cf5aa2926d718b">&#9670;&#160;</a></span>initializeStrategies()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::UnifiedExecutor::initializeStrategies </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2838d533d764c43ddab87be15619b508" name="a2838d533d764c43ddab87be15619b508"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2838d533d764c43ddab87be15619b508">&#9670;&#160;</a></span>validateGlobalContext()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::UnifiedExecutor::validateGlobalContext </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a540273c4c02af64938fe7822b24ba8af" name="a540273c4c02af64938fe7822b24ba8af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a540273c4c02af64938fe7822b24ba8af">&#9670;&#160;</a></span>db_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a>&gt; sqlcc::UnifiedExecutor::db_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa4ffb479d2ae6d0addb242117f8a2b2b" name="aa4ffb479d2ae6d0addb242117f8a2b2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4ffb479d2ae6d0addb242117f8a2b2b">&#9670;&#160;</a></span>last_context_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> sqlcc::UnifiedExecutor::last_context_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a82ebcce757b864b7f4b9029ca39de322" name="a82ebcce757b864b7f4b9029ca39de322"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82ebcce757b864b7f4b9029ca39de322">&#9670;&#160;</a></span>plan_generator_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1ExecutionPlanGenerator.html">ExecutionPlanGenerator</a>&gt; sqlcc::UnifiedExecutor::plan_generator_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6860afa36a71ab553674b52f124855d3" name="a6860afa36a71ab553674b52f124855d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6860afa36a71ab553674b52f124855d3">&#9670;&#160;</a></span>query_optimizer_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1QueryOptimizer.html">QueryOptimizer</a>&gt; sqlcc::UnifiedExecutor::query_optimizer_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6c4c3b404ffc17ed6cc24b79d9c21a64" name="a6c4c3b404ffc17ed6cc24b79d9c21a64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c4c3b404ffc17ed6cc24b79d9c21a64">&#9670;&#160;</a></span>strategies_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">sql_parser::Statement::Type</a>, std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1ExecutionStrategy.html">ExecutionStrategy</a>&gt; &gt; sqlcc::UnifiedExecutor::strategies_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a58f64ceb42ce80df9f907edd8def2686" name="a58f64ceb42ce80df9f907edd8def2686"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58f64ceb42ce80df9f907edd8def2686">&#9670;&#160;</a></span>system_db_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1SystemDatabase.html">SystemDatabase</a>&gt; sqlcc::UnifiedExecutor::system_db_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6a8aadf7d20194a12f4fb81f0831938a" name="a6a8aadf7d20194a12f4fb81f0831938a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a8aadf7d20194a12f4fb81f0831938a">&#9670;&#160;</a></span>user_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a>&gt; sqlcc::UnifiedExecutor::user_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="unified__executor_8h_source.html">unified_executor.h</a></li>
+<li><a class="el" href="execution_2unified__executor_8cpp.html">execution/unified_executor.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: lexer.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#typedef-members">类型定义</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle"><div class="title">lexer.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="token_8h_source.html">token.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="lexer_8h_source.html">lexer.h</a>&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;cctype&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;unordered_set&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+lexer.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="lexer_8cpp__incl.png" border="0" usemap="#alexer_8cpp" alt=""/></div>
+<map name="alexer_8cpp" id="alexer_8cpp">
+<area shape="rect" title=" " alt="" coords="265,5,345,31"/>
+<area shape="rect" href="token_8h.html" title=" " alt="" coords="11,79,82,104"/>
+<area shape="poly" title=" " alt="" coords="266,33,96,79,95,74,264,28"/>
+<area shape="rect" href="lexer_8h.html" title=" " alt="" coords="111,79,177,104"/>
+<area shape="poly" title=" " alt="" coords="280,33,184,75,182,71,278,28"/>
+<area shape="rect" title=" " alt="" coords="89,152,213,177"/>
+<area shape="poly" title=" " alt="" coords="294,33,175,144,171,140,291,29"/>
+<area shape="rect" title=" " alt="" coords="237,152,352,177"/>
+<area shape="poly" title=" " alt="" coords="304,32,293,79,294,138,289,138,288,78,299,30"/>
+<area shape="rect" title=" " alt="" coords="303,79,388,104"/>
+<area shape="poly" title=" " alt="" coords="314,30,334,65,330,68,310,32"/>
+<area shape="rect" title=" " alt="" coords="413,79,478,104"/>
+<area shape="poly" title=" " alt="" coords="329,28,412,70,409,75,327,33"/>
+<area shape="rect" title=" " alt="" coords="503,79,583,104"/>
+<area shape="poly" title=" " alt="" coords="344,28,492,72,490,77,343,33"/>
+<area shape="rect" title=" " alt="" coords="607,79,694,104"/>
+<area shape="poly" title=" " alt="" coords="346,25,594,76,593,81,345,30"/>
+<area shape="rect" title=" " alt="" coords="5,152,64,177"/>
+<area shape="poly" title=" " alt="" coords="47,105,42,139,36,138,42,104"/>
+<area shape="poly" title=" " alt="" coords="128,106,66,147,63,142,125,102"/>
+<area shape="poly" title=" " alt="" coords="148,104,151,138,146,139,142,105"/>
+<area shape="poly" title=" " alt="" coords="169,102,259,144,256,148,167,106"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1sql__parser" id="r_namespacesqlcc_1_1sql__parser"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sqlcc::sql_parser</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+类型定义</h2></td></tr>
+<tr class="memitem:a37fffad97ab13ef48a7c71ab11010039" id="r_a37fffad97ab13ef48a7c71ab11010039"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser.html#a37fffad97ab13ef48a7c71ab11010039">sqlcc::sql_parser::TransitionMap</a> = std::unordered_map&lt; <a class="el" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698">LexerState</a>, std::unordered_map&lt; char, <a class="el" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698">LexerState</a> &gt; &gt;</td></tr>
+<tr class="separator:a37fffad97ab13ef48a7c71ab11010039"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:aaa43cf87d0e6db36f8c072784a0b42ca" id="r_aaa43cf87d0e6db36f8c072784a0b42ca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser.html#aaa43cf87d0e6db36f8c072784a0b42ca">sqlcc::sql_parser::isIdentifierStart</a> (char c)</td></tr>
+<tr class="separator:aaa43cf87d0e6db36f8c072784a0b42ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa92e1882bc6545474ee5d29bcaeb88d5" id="r_aa92e1882bc6545474ee5d29bcaeb88d5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser.html#aa92e1882bc6545474ee5d29bcaeb88d5">sqlcc::sql_parser::isIdentifierPart</a> (char c)</td></tr>
+<tr class="separator:aa92e1882bc6545474ee5d29bcaeb88d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71e9218220a733ba09804e48d266071a" id="r_a71e9218220a733ba09804e48d266071a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser.html#a71e9218220a733ba09804e48d266071a">sqlcc::sql_parser::isDigit</a> (char c)</td></tr>
+<tr class="separator:a71e9218220a733ba09804e48d266071a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafae761122e9782cc80ce5a04b63f5cd" id="r_aafae761122e9782cc80ce5a04b63f5cd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser.html#aafae761122e9782cc80ce5a04b63f5cd">sqlcc::sql_parser::isWhitespace</a> (char c)</td></tr>
+<tr class="separator:aafae761122e9782cc80ce5a04b63f5cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa936fb7477364cdad5ce2609bf7dcb9d" id="r_aa936fb7477364cdad5ce2609bf7dcb9d"><td class="memItemLeft" align="right" valign="top">const std::unordered_set&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser.html#aa936fb7477364cdad5ce2609bf7dcb9d">sqlcc::sql_parser::getSQLKeywords</a> ()</td></tr>
+<tr class="separator:aa936fb7477364cdad5ce2609bf7dcb9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么需要词法分析器？</p>
+<p>数据库系统需要将SQL文本转换为可处理的token序列，才能进行语法分析。没有词法分析器，系统就无法识别SQL语句中的关键字、标识符、操作符、字面量等基本元素，导致无法解析任何SQL语句。</p>
+<p>主要问题解决：</p><ol type="1">
+<li>词法识别：将SQL文本分解为有意义的词法单元</li>
+<li>关键字识别：区分SQL关键字和普通标识符</li>
+<li>字面量处理：正确解析字符串、数字等字面量</li>
+<li>错误检测：检测词法错误并提供准确位置信息</li>
+<li>Unicode支持：支持多字节字符编码的标识符</li>
+</ol>
+<p>词法分析器失败的影响：</p><ul>
+<li>无法解析任何SQL语句</li>
+<li>语法分析器无法获得有效的输入</li>
+<li>用户输入的SQL语句无法被识别</li>
+<li>数据库系统失去与用户的交互能力</li>
+</ul>
+<p>WHAT: 这实现了什么功能？</p>
+<p>词法分析器提供完整的SQL词法分析功能：</p><ul>
+<li>关键字识别：识别所有SQL-92标准关键字</li>
+<li>标识符解析：支持字母、数字、下划线和Unicode字符</li>
+<li>字面量处理：处理字符串、整数、浮点数字面量</li>
+<li>操作符识别：支持算术、比较、逻辑等操作符</li>
+<li>注释处理：跳过行注释和块注释</li>
+<li>位置跟踪：精确记录token在源代码中的位置</li>
+<li>错误报告：提供详细的词法错误信息</li>
+</ul>
+<p>核心组件：</p><ul>
+<li>Lexer：词法分析器主类，管理词法分析过程</li>
+<li>TransitionMap：有限自动机状态转换表</li>
+<li>Token：词法单元封装类，包含类型和位置信息</li>
+<li>LexerState：词法分析状态枚举</li>
+<li>ErrorHandler：词法错误处理机制</li>
+</ul>
+<p>HOW: 如何实现的？</p>
+<p>技术实现要点：</p><ol type="1">
+<li>有限自动机：使用DFA实现词法识别算法</li>
+<li>状态转换表：预定义的状态转换规则</li>
+<li>前瞻机制：支持多字符token的识别</li>
+<li>缓冲区管理：高效的输入流处理</li>
+<li>内存优化：最小化对象创建和内存分配</li>
+<li>错误恢复：提供基本的错误恢复机制</li>
+</ol>
+<p>架构设计：</p><ul>
+<li>状态机模式：使用状态机管理词法分析流程</li>
+<li>工厂模式：根据token类型创建相应的token对象</li>
+<li>策略模式：可插拔的字符分类和处理策略</li>
+<li>迭代器模式：提供token流的顺序访问接口</li>
+<li>单例模式：共享SQL关键字集合</li>
+</ul>
+<p>性能优化：</p><ul>
+<li>预编译状态表：避免运行时状态表构造</li>
+<li>缓存机制：缓存常用token和关键字映射</li>
+<li>批量处理：减少函数调用开销</li>
+<li>内存池：复用token对象的内存分配</li>
+<li>延迟初始化：按需初始化状态转换表</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>该实现专为SQLCC数据库系统优化，支持SQL-92标准语法 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>include/sql_parser/lexer.h </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

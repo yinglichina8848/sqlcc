@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: aes_encryptor.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fc4c7f03e1a69a98c370fae55a743828.html">network</a></li><li class="navelem"><a class="el" href="dir_a5e15d83a14797787c109a73c4538a7d.html">encryption</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">aes_encryptor.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="aes__encryptor_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="encryption__key_8h.html">encryption_key.h</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc_1_1network.html">network</a> {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="foldopen" id="foldopen00026" data-start="{" data-end="};">
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1AESEncryptor.html">   26</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1network_1_1AESEncryptor.html">AESEncryptor</a> {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classsqlcc_1_1network_1_1AESEncryptor.html">AESEncryptor</a>(std::shared_ptr&lt;EncryptionKey&gt; encryption_key);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1AESEncryptor.html#a713547532fef157434065fad0749e48d">   37</a></span>    <a class="code hl_function" href="classsqlcc_1_1network_1_1AESEncryptor.html#a713547532fef157434065fad0749e48d">~AESEncryptor</a>();</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    std::vector&lt;uint8_t&gt; <a class="code hl_function" href="classsqlcc_1_1network_1_1AESEncryptor.html#a8bc36469f3cf235a87105c7c75990a83">Encrypt</a>(<span class="keyword">const</span> std::vector&lt;uint8_t&gt;&amp; data) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    std::vector&lt;uint8_t&gt; <a class="code hl_function" href="classsqlcc_1_1network_1_1AESEncryptor.html#add77c0e9ffe971d464be8936323f1345">Decrypt</a>(<span class="keyword">const</span> std::vector&lt;uint8_t&gt;&amp; data) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1AESEncryptor.html#ad348531461c4d85b550f0f0b27daff8c">UpdateKey</a>(std::shared_ptr&lt;EncryptionKey&gt; encryption_key);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1AESEncryptor.html#aa3f7ac613e5261db0a86c3435668f1c1">IsAvailable</a>();</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1AESEncryptor.html#ae9bf4a6f84640a7bf3b82950d6ca8481">   69</a></span>    <span class="keyword">const</span> std::vector&lt;uint8_t&gt;&amp; <a class="code hl_function" href="classsqlcc_1_1network_1_1AESEncryptor.html#ae9bf4a6f84640a7bf3b82950d6ca8481">GetKeyBytes</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1AESEncryptor.html#aea06b0e2cb3dbeceedf44d45873b7c9d">encryption_key_</a>-&gt;GetKey(); }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1AESEncryptor.html#aea06b0e2cb3dbeceedf44d45873b7c9d">   72</a></span>    std::shared_ptr&lt;EncryptionKey&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1AESEncryptor.html#aea06b0e2cb3dbeceedf44d45873b7c9d">encryption_key_</a>;  </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1AESEncryptor.html#aa6981478125ab09740a0fd4193572e29">InitializeContext</a>();</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>};</div>
+</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>} <span class="comment">// namespace network</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1AESEncryptor_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1AESEncryptor.html">sqlcc::network::AESEncryptor</a></div><div class="ttdoc">AES-256-CBC加密器类</div><div class="ttdef"><b>Definition</b> aes_encryptor.h:26</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1AESEncryptor_html_a713547532fef157434065fad0749e48d"><div class="ttname"><a href="classsqlcc_1_1network_1_1AESEncryptor.html#a713547532fef157434065fad0749e48d">sqlcc::network::AESEncryptor::~AESEncryptor</a></div><div class="ttdeci">~AESEncryptor()</div><div class="ttdoc">析构函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1AESEncryptor_html_a8bc36469f3cf235a87105c7c75990a83"><div class="ttname"><a href="classsqlcc_1_1network_1_1AESEncryptor.html#a8bc36469f3cf235a87105c7c75990a83">sqlcc::network::AESEncryptor::Encrypt</a></div><div class="ttdeci">std::vector&lt; uint8_t &gt; Encrypt(const std::vector&lt; uint8_t &gt; &amp;data) const</div><div class="ttdoc">加密数据</div><div class="ttdef"><b>Definition</b> encryption.cpp:100</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1AESEncryptor_html_aa3f7ac613e5261db0a86c3435668f1c1"><div class="ttname"><a href="classsqlcc_1_1network_1_1AESEncryptor.html#aa3f7ac613e5261db0a86c3435668f1c1">sqlcc::network::AESEncryptor::IsAvailable</a></div><div class="ttdeci">static bool IsAvailable()</div><div class="ttdoc">检查AES库是否可用</div><div class="ttdef"><b>Definition</b> encryption.cpp:92</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1AESEncryptor_html_aa6981478125ab09740a0fd4193572e29"><div class="ttname"><a href="classsqlcc_1_1network_1_1AESEncryptor.html#aa6981478125ab09740a0fd4193572e29">sqlcc::network::AESEncryptor::InitializeContext</a></div><div class="ttdeci">bool InitializeContext()</div><div class="ttdoc">初始化加密上下文</div><div class="ttdef"><b>Definition</b> encryption.cpp:201</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1AESEncryptor_html_ad348531461c4d85b550f0f0b27daff8c"><div class="ttname"><a href="classsqlcc_1_1network_1_1AESEncryptor.html#ad348531461c4d85b550f0f0b27daff8c">sqlcc::network::AESEncryptor::UpdateKey</a></div><div class="ttdeci">void UpdateKey(std::shared_ptr&lt; EncryptionKey &gt; encryption_key)</div><div class="ttdoc">更新加密密钥</div><div class="ttdef"><b>Definition</b> encryption.cpp:194</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1AESEncryptor_html_add77c0e9ffe971d464be8936323f1345"><div class="ttname"><a href="classsqlcc_1_1network_1_1AESEncryptor.html#add77c0e9ffe971d464be8936323f1345">sqlcc::network::AESEncryptor::Decrypt</a></div><div class="ttdeci">std::vector&lt; uint8_t &gt; Decrypt(const std::vector&lt; uint8_t &gt; &amp;data) const</div><div class="ttdoc">解密数据</div><div class="ttdef"><b>Definition</b> encryption.cpp:147</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1AESEncryptor_html_ae9bf4a6f84640a7bf3b82950d6ca8481"><div class="ttname"><a href="classsqlcc_1_1network_1_1AESEncryptor.html#ae9bf4a6f84640a7bf3b82950d6ca8481">sqlcc::network::AESEncryptor::GetKeyBytes</a></div><div class="ttdeci">const std::vector&lt; uint8_t &gt; &amp; GetKeyBytes() const</div><div class="ttdoc">获取密钥字节（用于HMAC等用途）</div><div class="ttdef"><b>Definition</b> aes_encryptor.h:69</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1AESEncryptor_html_aea06b0e2cb3dbeceedf44d45873b7c9d"><div class="ttname"><a href="classsqlcc_1_1network_1_1AESEncryptor.html#aea06b0e2cb3dbeceedf44d45873b7c9d">sqlcc::network::AESEncryptor::encryption_key_</a></div><div class="ttdeci">std::shared_ptr&lt; EncryptionKey &gt; encryption_key_</div><div class="ttdoc">加密密钥和IV</div><div class="ttdef"><b>Definition</b> aes_encryptor.h:72</div></div>
+<div class="ttc" id="aencryption__key_8h_html"><div class="ttname"><a href="encryption__key_8h.html">encryption_key.h</a></div><div class="ttdoc">加密密钥容器类定义</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html"><div class="ttname"><a href="namespacesqlcc_1_1network.html">sqlcc::network</a></div><div class="ttdef"><b>Definition</b> client_main.cpp:286</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

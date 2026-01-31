@@ -1,0 +1,683 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::network::NetworkExceptionHandler类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1network.html">network</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html">NetworkExceptionHandler</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1network_1_1NetworkExceptionHandler-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::network::NetworkExceptionHandler类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="network__exception__handler_8h_source.html">network_exception_handler.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1network_1_1NetworkExceptionHandler_1_1ExceptionStats.html">ExceptionStats</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a6c166bbf1102a0076ace7538a3df4dcd" id="r_a6c166bbf1102a0076ace7538a3df4dcd"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a6c166bbf1102a0076ace7538a3df4dcd">RecoveryStrategy</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a6c166bbf1102a0076ace7538a3df4dcda2b5865e9b2daeb35451ea5af6f9ea23f">IMMEDIATE_RETRY</a> = 0
+, <a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a6c166bbf1102a0076ace7538a3df4dcda85421371c0c88aa354f58a85106739e8">DELAYED_RETRY</a> = 1
+, <a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a6c166bbf1102a0076ace7538a3df4dcdaff0c3b55d60fbb81f810438ea33e14e3">GRACEFUL_DEGRADATION</a> = 2
+, <a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a6c166bbf1102a0076ace7538a3df4dcda39541358533fa643bbf200abeaa86d87">CIRCUIT_BREAKER</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a6c166bbf1102a0076ace7538a3df4dcda658ac8c2a65b9ed539d2f38651c43076">SYSTEM_SHUTDOWN</a> = 4
+<br />
+ }</td></tr>
+<tr class="separator:a6c166bbf1102a0076ace7538a3df4dcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a17736905ed062575560eeb8ff77baa78" id="r_a17736905ed062575560eeb8ff77baa78"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a17736905ed062575560eeb8ff77baa78">NetworkExceptionHandler</a> ()</td></tr>
+<tr class="separator:a17736905ed062575560eeb8ff77baa78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3e35492e40eddd783c19701ebc85ba1" id="r_ae3e35492e40eddd783c19701ebc85ba1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#ae3e35492e40eddd783c19701ebc85ba1">~NetworkExceptionHandler</a> ()=default</td></tr>
+<tr class="separator:ae3e35492e40eddd783c19701ebc85ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab16c8fc055d816ab31a9dd1c75c9bde" id="r_aab16c8fc055d816ab31a9dd1c75c9bde"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a6c166bbf1102a0076ace7538a3df4dcd">RecoveryStrategy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#aab16c8fc055d816ab31a9dd1c75c9bde">HandleException</a> (const <a class="el" href="classsqlcc_1_1network_1_1NetworkException.html">NetworkException</a> &amp;exception, std::chrono::milliseconds time_since_last_failure)</td></tr>
+<tr class="separator:aab16c8fc055d816ab31a9dd1c75c9bde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af03e383e00bf2c6d6da6e805980b5ec4" id="r_af03e383e00bf2c6d6da6e805980b5ec4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#af03e383e00bf2c6d6da6e805980b5ec4">SetMaxRetries</a> (<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type, int max_retries)</td></tr>
+<tr class="separator:af03e383e00bf2c6d6da6e805980b5ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a5af65a3fd1c0298af815d8de6b3f5f" id="r_a9a5af65a3fd1c0298af815d8de6b3f5f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a9a5af65a3fd1c0298af815d8de6b3f5f">SetRetryDelay</a> (<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type, std::chrono::milliseconds delay)</td></tr>
+<tr class="separator:a9a5af65a3fd1c0298af815d8de6b3f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ccc1c2ef9606bab54d2fd197b60c165" id="r_a8ccc1c2ef9606bab54d2fd197b60c165"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a8ccc1c2ef9606bab54d2fd197b60c165">SetCircuitBreakerThreshold</a> (<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type, int threshold)</td></tr>
+<tr class="separator:a8ccc1c2ef9606bab54d2fd197b60c165"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e47909f65cdc617757d81986f5b30f6" id="r_a0e47909f65cdc617757d81986f5b30f6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a0e47909f65cdc617757d81986f5b30f6">SetCircuitBreakerTimeout</a> (<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type, std::chrono::milliseconds timeout)</td></tr>
+<tr class="separator:a0e47909f65cdc617757d81986f5b30f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b7523f9a4f37c77c8ab100a6850f42f" id="r_a6b7523f9a4f37c77c8ab100a6850f42f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a6b7523f9a4f37c77c8ab100a6850f42f">IsCircuitBreakerOpen</a> (<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type) const</td></tr>
+<tr class="separator:a6b7523f9a4f37c77c8ab100a6850f42f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed6cb9d71b4dccc4a1774f730e5a1c03" id="r_aed6cb9d71b4dccc4a1774f730e5a1c03"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#aed6cb9d71b4dccc4a1774f730e5a1c03">GetRemainingCircuitBreakerTimeout</a> (<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type) const</td></tr>
+<tr class="separator:aed6cb9d71b4dccc4a1774f730e5a1c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4da30e50624bbb1d9e9fd9fdc4769d8d" id="r_a4da30e50624bbb1d9e9fd9fdc4769d8d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a4da30e50624bbb1d9e9fd9fdc4769d8d">GetExceptionCount</a> (<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type) const</td></tr>
+<tr class="separator:a4da30e50624bbb1d9e9fd9fdc4769d8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b2dd96b0844eb655fe8bef62ebe421c" id="r_a6b2dd96b0844eb655fe8bef62ebe421c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a6b2dd96b0844eb655fe8bef62ebe421c">GetRecoveryCount</a> (<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type) const</td></tr>
+<tr class="separator:a6b2dd96b0844eb655fe8bef62ebe421c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43407831e31b0b66ab73ca63fc89c49f" id="r_a43407831e31b0b66ab73ca63fc89c49f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a43407831e31b0b66ab73ca63fc89c49f">GetExceptionRate</a> (<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type, std::chrono::milliseconds window) const</td></tr>
+<tr class="separator:a43407831e31b0b66ab73ca63fc89c49f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad83b2ac9aa3fe5c7b92412a62eeaea72" id="r_ad83b2ac9aa3fe5c7b92412a62eeaea72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#ad83b2ac9aa3fe5c7b92412a62eeaea72">ResetStatistics</a> (<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type)</td></tr>
+<tr class="separator:ad83b2ac9aa3fe5c7b92412a62eeaea72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d143cfb9ee4aff68d0017a8a24bb273" id="r_a9d143cfb9ee4aff68d0017a8a24bb273"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a9d143cfb9ee4aff68d0017a8a24bb273">ResetAllStatistics</a> ()</td></tr>
+<tr class="separator:a9d143cfb9ee4aff68d0017a8a24bb273"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:af88def3ea6cd61f7f263e1ffd05e89f0" id="r_af88def3ea6cd61f7f263e1ffd05e89f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a6c166bbf1102a0076ace7538a3df4dcd">RecoveryStrategy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#af88def3ea6cd61f7f263e1ffd05e89f0">DetermineStrategy</a> (<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type, const <a class="el" href="structsqlcc_1_1network_1_1NetworkExceptionHandler_1_1ExceptionStats.html">ExceptionStats</a> &amp;stats, std::chrono::milliseconds time_since_last_failure)</td></tr>
+<tr class="separator:af88def3ea6cd61f7f263e1ffd05e89f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae680ea2e0a42b8304be2e02e997ba0e6" id="r_ae680ea2e0a42b8304be2e02e997ba0e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#ae680ea2e0a42b8304be2e02e997ba0e6">UpdateExceptionStats</a> (<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type, bool recovery_success)</td></tr>
+<tr class="separator:ae680ea2e0a42b8304be2e02e997ba0e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bcfbaccb045a7ace7a484b89a3bd432" id="r_a8bcfbaccb045a7ace7a484b89a3bd432"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a8bcfbaccb045a7ace7a484b89a3bd432">OpenCircuitBreaker</a> (<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type)</td></tr>
+<tr class="separator:a8bcfbaccb045a7ace7a484b89a3bd432"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add72da68c23b747fe6c26b6666147723" id="r_add72da68c23b747fe6c26b6666147723"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#add72da68c23b747fe6c26b6666147723">CloseCircuitBreaker</a> (<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type)</td></tr>
+<tr class="separator:add72da68c23b747fe6c26b6666147723"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aa86775d2d811f3042b77ec0755e607b5" id="r_aa86775d2d811f3042b77ec0755e607b5"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>, <a class="el" href="structsqlcc_1_1network_1_1NetworkExceptionHandler_1_1ExceptionStats.html">ExceptionStats</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#aa86775d2d811f3042b77ec0755e607b5">exception_stats_</a></td></tr>
+<tr class="separator:aa86775d2d811f3042b77ec0755e607b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa67f06c8fd6914eeb2df1991bfa30624" id="r_aa67f06c8fd6914eeb2df1991bfa30624"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#aa67f06c8fd6914eeb2df1991bfa30624">stats_mutex_</a></td></tr>
+<tr class="separator:aa67f06c8fd6914eeb2df1991bfa30624"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a6c166bbf1102a0076ace7538a3df4dcd" name="a6c166bbf1102a0076ace7538a3df4dcd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c166bbf1102a0076ace7538a3df4dcd">&#9670;&#160;</a></span>RecoveryStrategy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a6c166bbf1102a0076ace7538a3df4dcd">sqlcc::network::NetworkExceptionHandler::RecoveryStrategy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a6c166bbf1102a0076ace7538a3df4dcda2b5865e9b2daeb35451ea5af6f9ea23f" name="a6c166bbf1102a0076ace7538a3df4dcda2b5865e9b2daeb35451ea5af6f9ea23f"></a>IMMEDIATE_RETRY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6c166bbf1102a0076ace7538a3df4dcda85421371c0c88aa354f58a85106739e8" name="a6c166bbf1102a0076ace7538a3df4dcda85421371c0c88aa354f58a85106739e8"></a>DELAYED_RETRY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6c166bbf1102a0076ace7538a3df4dcdaff0c3b55d60fbb81f810438ea33e14e3" name="a6c166bbf1102a0076ace7538a3df4dcdaff0c3b55d60fbb81f810438ea33e14e3"></a>GRACEFUL_DEGRADATION&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6c166bbf1102a0076ace7538a3df4dcda39541358533fa643bbf200abeaa86d87" name="a6c166bbf1102a0076ace7538a3df4dcda39541358533fa643bbf200abeaa86d87"></a>CIRCUIT_BREAKER&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6c166bbf1102a0076ace7538a3df4dcda658ac8c2a65b9ed539d2f38651c43076" name="a6c166bbf1102a0076ace7538a3df4dcda658ac8c2a65b9ed539d2f38651c43076"></a>SYSTEM_SHUTDOWN&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a17736905ed062575560eeb8ff77baa78" name="a17736905ed062575560eeb8ff77baa78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17736905ed062575560eeb8ff77baa78">&#9670;&#160;</a></span>NetworkExceptionHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::network::NetworkExceptionHandler::NetworkExceptionHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae3e35492e40eddd783c19701ebc85ba1" name="ae3e35492e40eddd783c19701ebc85ba1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3e35492e40eddd783c19701ebc85ba1">&#9670;&#160;</a></span>~NetworkExceptionHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::network::NetworkExceptionHandler::~NetworkExceptionHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="add72da68c23b747fe6c26b6666147723" name="add72da68c23b747fe6c26b6666147723"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add72da68c23b747fe6c26b6666147723">&#9670;&#160;</a></span>CloseCircuitBreaker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::NetworkExceptionHandler::CloseCircuitBreaker </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af88def3ea6cd61f7f263e1ffd05e89f0" name="af88def3ea6cd61f7f263e1ffd05e89f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af88def3ea6cd61f7f263e1ffd05e89f0">&#9670;&#160;</a></span>DetermineStrategy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a6c166bbf1102a0076ace7538a3df4dcd">NetworkExceptionHandler::RecoveryStrategy</a> sqlcc::network::NetworkExceptionHandler::DetermineStrategy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1network_1_1NetworkExceptionHandler_1_1ExceptionStats.html">ExceptionStats</a> &amp;&#160;</td>
+          <td class="paramname"><em>stats</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>time_since_last_failure</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4da30e50624bbb1d9e9fd9fdc4769d8d" name="a4da30e50624bbb1d9e9fd9fdc4769d8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4da30e50624bbb1d9e9fd9fdc4769d8d">&#9670;&#160;</a></span>GetExceptionCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::network::NetworkExceptionHandler::GetExceptionCount </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a43407831e31b0b66ab73ca63fc89c49f" name="a43407831e31b0b66ab73ca63fc89c49f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43407831e31b0b66ab73ca63fc89c49f">&#9670;&#160;</a></span>GetExceptionRate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double sqlcc::network::NetworkExceptionHandler::GetExceptionRate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>window</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6b2dd96b0844eb655fe8bef62ebe421c" name="a6b2dd96b0844eb655fe8bef62ebe421c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b2dd96b0844eb655fe8bef62ebe421c">&#9670;&#160;</a></span>GetRecoveryCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::network::NetworkExceptionHandler::GetRecoveryCount </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed6cb9d71b4dccc4a1774f730e5a1c03" name="aed6cb9d71b4dccc4a1774f730e5a1c03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed6cb9d71b4dccc4a1774f730e5a1c03">&#9670;&#160;</a></span>GetRemainingCircuitBreakerTimeout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::network::NetworkExceptionHandler::GetRemainingCircuitBreakerTimeout </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aab16c8fc055d816ab31a9dd1c75c9bde" name="aab16c8fc055d816ab31a9dd1c75c9bde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab16c8fc055d816ab31a9dd1c75c9bde">&#9670;&#160;</a></span>HandleException()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a6c166bbf1102a0076ace7538a3df4dcd">NetworkExceptionHandler::RecoveryStrategy</a> sqlcc::network::NetworkExceptionHandler::HandleException </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1network_1_1NetworkException.html">NetworkException</a> &amp;&#160;</td>
+          <td class="paramname"><em>exception</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>time_since_last_failure</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6b7523f9a4f37c77c8ab100a6850f42f" name="a6b7523f9a4f37c77c8ab100a6850f42f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b7523f9a4f37c77c8ab100a6850f42f">&#9670;&#160;</a></span>IsCircuitBreakerOpen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::NetworkExceptionHandler::IsCircuitBreakerOpen </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8bcfbaccb045a7ace7a484b89a3bd432" name="a8bcfbaccb045a7ace7a484b89a3bd432"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bcfbaccb045a7ace7a484b89a3bd432">&#9670;&#160;</a></span>OpenCircuitBreaker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::NetworkExceptionHandler::OpenCircuitBreaker </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9d143cfb9ee4aff68d0017a8a24bb273" name="a9d143cfb9ee4aff68d0017a8a24bb273"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d143cfb9ee4aff68d0017a8a24bb273">&#9670;&#160;</a></span>ResetAllStatistics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::NetworkExceptionHandler::ResetAllStatistics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad83b2ac9aa3fe5c7b92412a62eeaea72" name="ad83b2ac9aa3fe5c7b92412a62eeaea72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad83b2ac9aa3fe5c7b92412a62eeaea72">&#9670;&#160;</a></span>ResetStatistics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::NetworkExceptionHandler::ResetStatistics </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8ccc1c2ef9606bab54d2fd197b60c165" name="a8ccc1c2ef9606bab54d2fd197b60c165"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ccc1c2ef9606bab54d2fd197b60c165">&#9670;&#160;</a></span>SetCircuitBreakerThreshold()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::NetworkExceptionHandler::SetCircuitBreakerThreshold </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>threshold</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0e47909f65cdc617757d81986f5b30f6" name="a0e47909f65cdc617757d81986f5b30f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e47909f65cdc617757d81986f5b30f6">&#9670;&#160;</a></span>SetCircuitBreakerTimeout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::NetworkExceptionHandler::SetCircuitBreakerTimeout </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af03e383e00bf2c6d6da6e805980b5ec4" name="af03e383e00bf2c6d6da6e805980b5ec4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af03e383e00bf2c6d6da6e805980b5ec4">&#9670;&#160;</a></span>SetMaxRetries()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::NetworkExceptionHandler::SetMaxRetries </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>max_retries</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9a5af65a3fd1c0298af815d8de6b3f5f" name="a9a5af65a3fd1c0298af815d8de6b3f5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a5af65a3fd1c0298af815d8de6b3f5f">&#9670;&#160;</a></span>SetRetryDelay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::NetworkExceptionHandler::SetRetryDelay </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>delay</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae680ea2e0a42b8304be2e02e997ba0e6" name="ae680ea2e0a42b8304be2e02e997ba0e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae680ea2e0a42b8304be2e02e997ba0e6">&#9670;&#160;</a></span>UpdateExceptionStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::NetworkExceptionHandler::UpdateExceptionStats </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>recovery_success</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="aa86775d2d811f3042b77ec0755e607b5" name="aa86775d2d811f3042b77ec0755e607b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa86775d2d811f3042b77ec0755e607b5">&#9670;&#160;</a></span>exception_stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a>, <a class="el" href="structsqlcc_1_1network_1_1NetworkExceptionHandler_1_1ExceptionStats.html">ExceptionStats</a>&gt; sqlcc::network::NetworkExceptionHandler::exception_stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa67f06c8fd6914eeb2df1991bfa30624" name="aa67f06c8fd6914eeb2df1991bfa30624"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa67f06c8fd6914eeb2df1991bfa30624">&#9670;&#160;</a></span>stats_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::network::NetworkExceptionHandler::stats_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="network__exception__handler_8h_source.html">network_exception_handler.h</a></li>
+<li><a class="el" href="network__exception__handler_8cpp.html">network_exception_handler.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

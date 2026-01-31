@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: data_transmission_validator.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fc4c7f03e1a69a98c370fae55a743828.html">network</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">data_transmission_validator.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="data__transmission__validator_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SQLCC_DATA_TRANSMISSION_VALIDATOR_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SQLCC_DATA_TRANSMISSION_VALIDATOR_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc_1_1network.html">network</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="foldopen" id="foldopen00016" data-start="{" data-end="};">
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="structsqlcc_1_1network_1_1MessageHeader.html">   16</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1network_1_1MessageHeader.html">MessageHeader</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="structsqlcc_1_1network_1_1MessageHeader.html#a39f04125bd16ceced2b3500ba413526a">   17</a></span>    uint32_t <a class="code hl_variable" href="structsqlcc_1_1network_1_1MessageHeader.html#a39f04125bd16ceced2b3500ba413526a">magic</a>;       <span class="comment">// 魔数，用于消息识别</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="structsqlcc_1_1network_1_1MessageHeader.html#ab058f5605cb307375b1b820b687e0bd5">   18</a></span>    uint16_t <a class="code hl_variable" href="structsqlcc_1_1network_1_1MessageHeader.html#ab058f5605cb307375b1b820b687e0bd5">version</a>;     <span class="comment">// 协议版本</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="structsqlcc_1_1network_1_1MessageHeader.html#aad83bc8548045c09403b25faefb6d8dd">   19</a></span>    uint16_t <a class="code hl_variable" href="structsqlcc_1_1network_1_1MessageHeader.html#aad83bc8548045c09403b25faefb6d8dd">type</a>;        <span class="comment">// 消息类型</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="structsqlcc_1_1network_1_1MessageHeader.html#a954c1ca32c6127b6b70dc25b4a86629d">   20</a></span>    uint32_t <a class="code hl_variable" href="structsqlcc_1_1network_1_1MessageHeader.html#a954c1ca32c6127b6b70dc25b4a86629d">length</a>;      <span class="comment">// 消息长度</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="structsqlcc_1_1network_1_1MessageHeader.html#ae9c633397438c3622b1283a7bbff1a10">   21</a></span>    uint32_t <a class="code hl_variable" href="structsqlcc_1_1network_1_1MessageHeader.html#ae9c633397438c3622b1283a7bbff1a10">sequence</a>;    <span class="comment">// 序列号</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="structsqlcc_1_1network_1_1MessageHeader.html#ae40c5cb8fff1c4866b54d4d0fa2915a5">   22</a></span>    uint32_t <a class="code hl_variable" href="structsqlcc_1_1network_1_1MessageHeader.html#ae40c5cb8fff1c4866b54d4d0fa2915a5">checksum</a>;    <span class="comment">// 校验和</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="structsqlcc_1_1network_1_1MessageHeader.html#a677aaafe9c5761ccbedc65d88ff374dc">   24</a></span>    <a class="code hl_function" href="structsqlcc_1_1network_1_1MessageHeader.html#a677aaafe9c5761ccbedc65d88ff374dc">MessageHeader</a>() : <a class="code hl_variable" href="structsqlcc_1_1network_1_1MessageHeader.html#a39f04125bd16ceced2b3500ba413526a">magic</a>(0), <a class="code hl_variable" href="structsqlcc_1_1network_1_1MessageHeader.html#ab058f5605cb307375b1b820b687e0bd5">version</a>(0), <a class="code hl_variable" href="structsqlcc_1_1network_1_1MessageHeader.html#aad83bc8548045c09403b25faefb6d8dd">type</a>(0), <a class="code hl_variable" href="structsqlcc_1_1network_1_1MessageHeader.html#a954c1ca32c6127b6b70dc25b4a86629d">length</a>(0), <a class="code hl_variable" href="structsqlcc_1_1network_1_1MessageHeader.html#ae9c633397438c3622b1283a7bbff1a10">sequence</a>(0), <a class="code hl_variable" href="structsqlcc_1_1network_1_1MessageHeader.html#ae40c5cb8fff1c4866b54d4d0fa2915a5">checksum</a>(0) {}</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>};</div>
+</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="};">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html">   32</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html">DataTransmissionValidator</a> {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a4099683749e6549397280abc8fdd524e">DataTransmissionValidator</a>();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#af1d644fe33930a1243ff1c7180d44db3">   35</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#af1d644fe33930a1243ff1c7180d44db3">~DataTransmissionValidator</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="comment">// 消息头验证</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ab55adb0ce4bca19232cab3fa6354fbaa">ValidateMessageHeader</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1network_1_1MessageHeader.html">MessageHeader</a>&amp; header) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="comment">// 消息长度验证</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#aa92c416ab8759c949763bbf785c94384">ValidateMessageLength</a>(<span class="keywordtype">size_t</span> declared_length, <span class="keywordtype">size_t</span> actual_length) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="comment">// 魔数验证</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a9c686c16536aff3718e5f34f9974123b">ValidateMessageMagic</a>(uint32_t magic) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="comment">// 消息类型验证</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#aaa1c9c82e1aedbb1e369e65aeee4084f">ValidateMessageType</a>(uint16_t type) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="comment">// 缓冲区大小验证</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a5fcc61190909c6cf0e9b4666a53b85a2">IsBufferSizeValid</a>(<span class="keywordtype">size_t</span> buffer_size) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="comment">// 消息大小限制检查</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ae6c74da61944ea426073f199514d2a90">IsMessageSizeWithinLimits</a>(<span class="keywordtype">size_t</span> message_size) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="comment">// 获取最大消息大小</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#abf7e66cc406564bd087c24c67e6dc473">GetMaxMessageSize</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="comment">// 获取最大缓冲区大小</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#aab287dea63e8ea1a391ab2a1d8c48dae">GetMaxBufferSize</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="comment">// 消息分片决策</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#afb822f84830f5c9780bbb6fffdbcca65">ShouldFragmentMessage</a>(<span class="keywordtype">size_t</span> message_size) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="comment">// 消息分片</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    std::vector&lt;std::vector&lt;char&gt;&gt; <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a34e64596caff7d7fd419772903f4ecb0">FragmentMessage</a>(<span class="keyword">const</span> std::vector&lt;char&gt;&amp; message);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="comment">// 分片验证</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ab06e964bf3fa109678385d738e0d10b6">ValidateFragment</a>(<span class="keyword">const</span> std::vector&lt;char&gt;&amp; fragment) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="comment">// 分片重组</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    std::vector&lt;char&gt; <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ad6589982700e8249840aadccae7b4235">ReassembleFragments</a>(<span class="keyword">const</span> std::vector&lt;std::vector&lt;char&gt;&gt;&amp; fragments);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="comment">// 流量控制</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ae624b53d686c4463ee777cd13f67276b">CanAcceptMessage</a>(<span class="keywordtype">size_t</span> message_size, std::chrono::milliseconds time_window);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="comment">// 统计记录</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a4d2dfb142eea812e453755beb21a6e79">RecordMessageSent</a>(<span class="keywordtype">size_t</span> message_size);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#aa4c77ed5678f6d7334115923800cfd66">RecordMessageReceived</a>(<span class="keywordtype">size_t</span> message_size);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="comment">// 性能监控</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordtype">double</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#aaa408476a58d71544176811b6c338416">GetCurrentThroughput</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="comment">// 速率限制检查</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a7ab4d5cdf34a20f4bc1544a5663b4cfd">IsRateLimited</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="comment">// 内部方法</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#af4e4c950508606dded400f14c3519705">   88</a></span>    uint32_t <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#af4e4c950508606dded400f14c3519705">CalculateChecksum</a>(<span class="keyword">const</span> std::vector&lt;char&gt;&amp; data) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a9b5a851e9449b867fcfc79a15230b685">   89</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a9b5a851e9449b867fcfc79a15230b685">IsValidMagicNumber</a>(uint32_t magic) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a6c4c2a409c5780a5452875511c492d9d">   90</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a6c4c2a409c5780a5452875511c492d9d">IsValidMessageType</a>(uint16_t type) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="comment">// 成员变量</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a71fb9fc06a6e3c77f468c87b183a9342">   93</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a71fb9fc06a6e3c77f468c87b183a9342">max_message_size_</a>;           <span class="comment">// 最大消息大小</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a7bb6d807bea533354fd7e4338aee3fdd">   94</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a7bb6d807bea533354fd7e4338aee3fdd">max_buffer_size_</a>;            <span class="comment">// 最大缓冲区大小</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#af207e760eb63c1e1672e30569df27264">   95</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#af207e760eb63c1e1672e30569df27264">fragment_size_</a>;              <span class="comment">// 分片大小</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a0f0513accbf4517d1e18f06216d2f749">   96</a></span>    uint32_t <a class="code hl_variable" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a0f0513accbf4517d1e18f06216d2f749">expected_magic_</a>;           <span class="comment">// 期望的魔数</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="comment">// 速率限制参数</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a37a933375e1bfa95ce90bae4a995bea7">   99</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a37a933375e1bfa95ce90bae4a995bea7">max_messages_per_second_</a>;    <span class="comment">// 每秒最大消息数</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#acc757b8651bc65c89d44c1c0b0c8b8ad">  100</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#acc757b8651bc65c89d44c1c0b0c8b8ad">max_bytes_per_second_</a>;       <span class="comment">// 每秒最大字节数</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="comment">// 统计数据（原子操作保证线程安全）</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a6bc054fb074eb4f7f44de077053cf997">  103</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a6bc054fb074eb4f7f44de077053cf997">messages_sent_</a>;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#abf956255394d750a09ce8727ee149603">  104</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#abf956255394d750a09ce8727ee149603">messages_received_</a>;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ad93c7064f73ff081e3c36b7c6cdbdc8e">  105</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ad93c7064f73ff081e3c36b7c6cdbdc8e">bytes_sent_</a>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a96cc955e5d115d97ba34cf7807876af3">  106</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a96cc955e5d115d97ba34cf7807876af3">bytes_received_</a>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="comment">// 时间跟踪</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#afe96ca83a75178fc20fce77d8049f784">  109</a></span>    std::chrono::steady_clock::time_point <a class="code hl_variable" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#afe96ca83a75178fc20fce77d8049f784">last_check_time_</a>;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ae9decb662b7f17b04a3be3ffc7883cae">  110</a></span>    std::chrono::steady_clock::time_point <a class="code hl_variable" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ae9decb662b7f17b04a3be3ffc7883cae">start_time_</a>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="comment">// 互斥锁保护非原子数据</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a34ccf39948fb43f6b7893bed4b8eb639">  113</a></span>    <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a34ccf39948fb43f6b7893bed4b8eb639">stats_mutex_</a>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>};</div>
+</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>} <span class="comment">// namespace network</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_DATA_TRANSMISSION_VALIDATOR_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html">sqlcc::network::DataTransmissionValidator</a></div><div class="ttdoc">数据传输验证器</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:32</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a0f0513accbf4517d1e18f06216d2f749"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a0f0513accbf4517d1e18f06216d2f749">sqlcc::network::DataTransmissionValidator::expected_magic_</a></div><div class="ttdeci">uint32_t expected_magic_</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:96</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a34ccf39948fb43f6b7893bed4b8eb639"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a34ccf39948fb43f6b7893bed4b8eb639">sqlcc::network::DataTransmissionValidator::stats_mutex_</a></div><div class="ttdeci">std::mutex stats_mutex_</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:113</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a34e64596caff7d7fd419772903f4ecb0"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a34e64596caff7d7fd419772903f4ecb0">sqlcc::network::DataTransmissionValidator::FragmentMessage</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; char &gt; &gt; FragmentMessage(const std::vector&lt; char &gt; &amp;message)</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:138</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a37a933375e1bfa95ce90bae4a995bea7"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a37a933375e1bfa95ce90bae4a995bea7">sqlcc::network::DataTransmissionValidator::max_messages_per_second_</a></div><div class="ttdeci">size_t max_messages_per_second_</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:99</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a4099683749e6549397280abc8fdd524e"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a4099683749e6549397280abc8fdd524e">sqlcc::network::DataTransmissionValidator::DataTransmissionValidator</a></div><div class="ttdeci">DataTransmissionValidator()</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:71</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a4d2dfb142eea812e453755beb21a6e79"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a4d2dfb142eea812e453755beb21a6e79">sqlcc::network::DataTransmissionValidator::RecordMessageSent</a></div><div class="ttdeci">void RecordMessageSent(size_t message_size)</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:261</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a5fcc61190909c6cf0e9b4666a53b85a2"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a5fcc61190909c6cf0e9b4666a53b85a2">sqlcc::network::DataTransmissionValidator::IsBufferSizeValid</a></div><div class="ttdeci">bool IsBufferSizeValid(size_t buffer_size) const</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:118</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a6bc054fb074eb4f7f44de077053cf997"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a6bc054fb074eb4f7f44de077053cf997">sqlcc::network::DataTransmissionValidator::messages_sent_</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; messages_sent_</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:103</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a6c4c2a409c5780a5452875511c492d9d"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a6c4c2a409c5780a5452875511c492d9d">sqlcc::network::DataTransmissionValidator::IsValidMessageType</a></div><div class="ttdeci">bool IsValidMessageType(uint16_t type) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a71fb9fc06a6e3c77f468c87b183a9342"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a71fb9fc06a6e3c77f468c87b183a9342">sqlcc::network::DataTransmissionValidator::max_message_size_</a></div><div class="ttdeci">size_t max_message_size_</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:93</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a7ab4d5cdf34a20f4bc1544a5663b4cfd"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a7ab4d5cdf34a20f4bc1544a5663b4cfd">sqlcc::network::DataTransmissionValidator::IsRateLimited</a></div><div class="ttdeci">bool IsRateLimited() const</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:300</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a7bb6d807bea533354fd7e4338aee3fdd"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a7bb6d807bea533354fd7e4338aee3fdd">sqlcc::network::DataTransmissionValidator::max_buffer_size_</a></div><div class="ttdeci">size_t max_buffer_size_</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:94</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a96cc955e5d115d97ba34cf7807876af3"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a96cc955e5d115d97ba34cf7807876af3">sqlcc::network::DataTransmissionValidator::bytes_received_</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; bytes_received_</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:106</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a9b5a851e9449b867fcfc79a15230b685"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a9b5a851e9449b867fcfc79a15230b685">sqlcc::network::DataTransmissionValidator::IsValidMagicNumber</a></div><div class="ttdeci">bool IsValidMagicNumber(uint32_t magic) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_a9c686c16536aff3718e5f34f9974123b"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#a9c686c16536aff3718e5f34f9974123b">sqlcc::network::DataTransmissionValidator::ValidateMessageMagic</a></div><div class="ttdeci">bool ValidateMessageMagic(uint32_t magic) const</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:109</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_aa4c77ed5678f6d7334115923800cfd66"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#aa4c77ed5678f6d7334115923800cfd66">sqlcc::network::DataTransmissionValidator::RecordMessageReceived</a></div><div class="ttdeci">void RecordMessageReceived(size_t message_size)</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:271</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_aa92c416ab8759c949763bbf785c94384"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#aa92c416ab8759c949763bbf785c94384">sqlcc::network::DataTransmissionValidator::ValidateMessageLength</a></div><div class="ttdeci">bool ValidateMessageLength(size_t declared_length, size_t actual_length) const</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:104</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_aaa1c9c82e1aedbb1e369e65aeee4084f"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#aaa1c9c82e1aedbb1e369e65aeee4084f">sqlcc::network::DataTransmissionValidator::ValidateMessageType</a></div><div class="ttdeci">bool ValidateMessageType(uint16_t type) const</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:113</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_aaa408476a58d71544176811b6c338416"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#aaa408476a58d71544176811b6c338416">sqlcc::network::DataTransmissionValidator::GetCurrentThroughput</a></div><div class="ttdeci">double GetCurrentThroughput() const</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:281</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_aab287dea63e8ea1a391ab2a1d8c48dae"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#aab287dea63e8ea1a391ab2a1d8c48dae">sqlcc::network::DataTransmissionValidator::GetMaxBufferSize</a></div><div class="ttdeci">size_t GetMaxBufferSize() const</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:130</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_ab06e964bf3fa109678385d738e0d10b6"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ab06e964bf3fa109678385d738e0d10b6">sqlcc::network::DataTransmissionValidator::ValidateFragment</a></div><div class="ttdeci">bool ValidateFragment(const std::vector&lt; char &gt; &amp;fragment) const</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:181</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_ab55adb0ce4bca19232cab3fa6354fbaa"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ab55adb0ce4bca19232cab3fa6354fbaa">sqlcc::network::DataTransmissionValidator::ValidateMessageHeader</a></div><div class="ttdeci">bool ValidateMessageHeader(const MessageHeader &amp;header) const</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:80</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_abf7e66cc406564bd087c24c67e6dc473"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#abf7e66cc406564bd087c24c67e6dc473">sqlcc::network::DataTransmissionValidator::GetMaxMessageSize</a></div><div class="ttdeci">size_t GetMaxMessageSize() const</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:126</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_abf956255394d750a09ce8727ee149603"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#abf956255394d750a09ce8727ee149603">sqlcc::network::DataTransmissionValidator::messages_received_</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; messages_received_</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:104</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_acc757b8651bc65c89d44c1c0b0c8b8ad"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#acc757b8651bc65c89d44c1c0b0c8b8ad">sqlcc::network::DataTransmissionValidator::max_bytes_per_second_</a></div><div class="ttdeci">size_t max_bytes_per_second_</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:100</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_ad6589982700e8249840aadccae7b4235"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ad6589982700e8249840aadccae7b4235">sqlcc::network::DataTransmissionValidator::ReassembleFragments</a></div><div class="ttdeci">std::vector&lt; char &gt; ReassembleFragments(const std::vector&lt; std::vector&lt; char &gt; &gt; &amp;fragments)</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:203</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_ad93c7064f73ff081e3c36b7c6cdbdc8e"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ad93c7064f73ff081e3c36b7c6cdbdc8e">sqlcc::network::DataTransmissionValidator::bytes_sent_</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; bytes_sent_</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:105</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_ae624b53d686c4463ee777cd13f67276b"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ae624b53d686c4463ee777cd13f67276b">sqlcc::network::DataTransmissionValidator::CanAcceptMessage</a></div><div class="ttdeci">bool CanAcceptMessage(size_t message_size, std::chrono::milliseconds time_window)</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:239</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_ae6c74da61944ea426073f199514d2a90"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ae6c74da61944ea426073f199514d2a90">sqlcc::network::DataTransmissionValidator::IsMessageSizeWithinLimits</a></div><div class="ttdeci">bool IsMessageSizeWithinLimits(size_t message_size) const</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:122</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_ae9decb662b7f17b04a3be3ffc7883cae"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#ae9decb662b7f17b04a3be3ffc7883cae">sqlcc::network::DataTransmissionValidator::start_time_</a></div><div class="ttdeci">std::chrono::steady_clock::time_point start_time_</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:110</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_af1d644fe33930a1243ff1c7180d44db3"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#af1d644fe33930a1243ff1c7180d44db3">sqlcc::network::DataTransmissionValidator::~DataTransmissionValidator</a></div><div class="ttdeci">virtual ~DataTransmissionValidator()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_af207e760eb63c1e1672e30569df27264"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#af207e760eb63c1e1672e30569df27264">sqlcc::network::DataTransmissionValidator::fragment_size_</a></div><div class="ttdeci">size_t fragment_size_</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:95</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_af4e4c950508606dded400f14c3519705"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#af4e4c950508606dded400f14c3519705">sqlcc::network::DataTransmissionValidator::CalculateChecksum</a></div><div class="ttdeci">uint32_t CalculateChecksum(const std::vector&lt; char &gt; &amp;data) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_afb822f84830f5c9780bbb6fffdbcca65"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#afb822f84830f5c9780bbb6fffdbcca65">sqlcc::network::DataTransmissionValidator::ShouldFragmentMessage</a></div><div class="ttdeci">bool ShouldFragmentMessage(size_t message_size) const</div><div class="ttdef"><b>Definition</b> data_transmission_validator.cpp:134</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1DataTransmissionValidator_html_afe96ca83a75178fc20fce77d8049f784"><div class="ttname"><a href="classsqlcc_1_1network_1_1DataTransmissionValidator.html#afe96ca83a75178fc20fce77d8049f784">sqlcc::network::DataTransmissionValidator::last_check_time_</a></div><div class="ttdeci">std::chrono::steady_clock::time_point last_check_time_</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:109</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html"><div class="ttname"><a href="namespacesqlcc_1_1network.html">sqlcc::network</a></div><div class="ttdef"><b>Definition</b> client_main.cpp:286</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1network_1_1MessageHeader_html"><div class="ttname"><a href="structsqlcc_1_1network_1_1MessageHeader.html">sqlcc::network::MessageHeader</a></div><div class="ttdoc">消息头结构</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:16</div></div>
+<div class="ttc" id="astructsqlcc_1_1network_1_1MessageHeader_html_a39f04125bd16ceced2b3500ba413526a"><div class="ttname"><a href="structsqlcc_1_1network_1_1MessageHeader.html#a39f04125bd16ceced2b3500ba413526a">sqlcc::network::MessageHeader::magic</a></div><div class="ttdeci">uint32_t magic</div><div class="ttdoc">魔数 (0x53514C43 = 'SQLC')</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:17</div></div>
+<div class="ttc" id="astructsqlcc_1_1network_1_1MessageHeader_html_a677aaafe9c5761ccbedc65d88ff374dc"><div class="ttname"><a href="structsqlcc_1_1network_1_1MessageHeader.html#a677aaafe9c5761ccbedc65d88ff374dc">sqlcc::network::MessageHeader::MessageHeader</a></div><div class="ttdeci">MessageHeader()</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:24</div></div>
+<div class="ttc" id="astructsqlcc_1_1network_1_1MessageHeader_html_a954c1ca32c6127b6b70dc25b4a86629d"><div class="ttname"><a href="structsqlcc_1_1network_1_1MessageHeader.html#a954c1ca32c6127b6b70dc25b4a86629d">sqlcc::network::MessageHeader::length</a></div><div class="ttdeci">uint32_t length</div><div class="ttdoc">消息体长度</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:20</div></div>
+<div class="ttc" id="astructsqlcc_1_1network_1_1MessageHeader_html_aad83bc8548045c09403b25faefb6d8dd"><div class="ttname"><a href="structsqlcc_1_1network_1_1MessageHeader.html#aad83bc8548045c09403b25faefb6d8dd">sqlcc::network::MessageHeader::type</a></div><div class="ttdeci">uint16_t type</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:19</div></div>
+<div class="ttc" id="astructsqlcc_1_1network_1_1MessageHeader_html_ab058f5605cb307375b1b820b687e0bd5"><div class="ttname"><a href="structsqlcc_1_1network_1_1MessageHeader.html#ab058f5605cb307375b1b820b687e0bd5">sqlcc::network::MessageHeader::version</a></div><div class="ttdeci">uint16_t version</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1network_1_1MessageHeader_html_ae40c5cb8fff1c4866b54d4d0fa2915a5"><div class="ttname"><a href="structsqlcc_1_1network_1_1MessageHeader.html#ae40c5cb8fff1c4866b54d4d0fa2915a5">sqlcc::network::MessageHeader::checksum</a></div><div class="ttdeci">uint32_t checksum</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:22</div></div>
+<div class="ttc" id="astructsqlcc_1_1network_1_1MessageHeader_html_ae9c633397438c3622b1283a7bbff1a10"><div class="ttname"><a href="structsqlcc_1_1network_1_1MessageHeader.html#ae9c633397438c3622b1283a7bbff1a10">sqlcc::network::MessageHeader::sequence</a></div><div class="ttdeci">uint32_t sequence</div><div class="ttdef"><b>Definition</b> data_transmission_validator.h:21</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

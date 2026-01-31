@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: stored_procedure_manager.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html">core</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">stored_procedure_manager.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;atomic&gt;</code><br />
+<code>#include &quot;<a class="el" href="config__manager_8h_source.html">../utils/config_manager.h</a>&quot;</code><br />
+<code>#include &quot;sql_parser/ast_nodes.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+stored_procedure_manager.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="stored__procedure__manager_8h__incl.png" border="0" usemap="#astored__procedure__manager_8h" alt=""/></div>
+<map name="astored__procedure__manager_8h" id="astored__procedure__manager_8h">
+<area shape="rect" title=" " alt="" coords="292,5,503,31"/>
+<area shape="rect" title=" " alt="" coords="5,152,83,177"/>
+<area shape="poly" title=" " alt="" coords="341,33,266,53,185,81,123,113,72,146,69,142,121,109,183,76,264,48,340,28"/>
+<area shape="rect" title=" " alt="" coords="107,152,165,177"/>
+<area shape="poly" title=" " alt="" coords="343,33,282,52,221,81,184,111,155,143,151,139,180,107,219,76,280,47,341,28"/>
+<area shape="rect" title=" " alt="" coords="190,152,314,177"/>
+<area shape="poly" title=" " alt="" coords="307,33,266,51,248,64,233,80,227,94,228,109,239,139,234,141,223,110,222,93,228,77,244,60,263,46,305,28"/>
+<area shape="rect" title=" " alt="" coords="430,152,493,177"/>
+<area shape="poly" title=" " alt="" coords="409,30,438,78,458,137,453,139,434,80,404,32"/>
+<area shape="rect" title=" " alt="" coords="517,152,581,177"/>
+<area shape="poly" title=" " alt="" coords="412,29,529,141,525,144,408,33"/>
+<area shape="rect" title=" " alt="" coords="549,79,616,104"/>
+<area shape="poly" title=" " alt="" coords="428,28,541,71,539,76,426,33"/>
+<area shape="rect" href="config__manager_8h.html" title=" " alt="" coords="243,79,424,104"/>
+<area shape="poly" title=" " alt="" coords="389,33,355,70,351,67,385,29"/>
+<area shape="rect" title=" " alt="" coords="640,79,811,104"/>
+<area shape="poly" title=" " alt="" coords="451,28,660,73,659,78,449,33"/>
+<area shape="poly" title=" " alt="" coords="287,107,97,153,95,148,286,101"/>
+<area shape="poly" title=" " alt="" coords="303,107,179,151,178,146,301,102"/>
+<area shape="poly" title=" " alt="" coords="322,106,277,145,274,141,319,102"/>
+<area shape="poly" title=" " alt="" coords="355,102,429,143,427,147,353,106"/>
+<area shape="poly" title=" " alt="" coords="369,101,505,146,503,151,367,107"/>
+<area shape="rect" title=" " alt="" coords="338,152,406,177"/>
+<area shape="poly" title=" " alt="" coords="342,103,362,139,357,141,337,106"/>
+</map>
+</div>
+</div>
+<p><a href="stored__procedure__manager_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1ProcedureParameter.html">sqlcc::ProcedureParameter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">存储过程参数信息  <a href="structsqlcc_1_1ProcedureParameter.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1StoredProcedure.html">sqlcc::StoredProcedure</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">存储过程定义  <a href="structsqlcc_1_1StoredProcedure.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1Trigger.html">sqlcc::Trigger</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发器定义  <a href="structsqlcc_1_1Trigger.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html">sqlcc::StoredProcedureManager</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">存储过程和触发器管理器  <a href="classsqlcc_1_1StoredProcedureManager.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1StoredProcedureManager_1_1SPMStats.html">sqlcc::StoredProcedureManager::SPMStats</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">统计信息  <a href="structsqlcc_1_1StoredProcedureManager_1_1SPMStats.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

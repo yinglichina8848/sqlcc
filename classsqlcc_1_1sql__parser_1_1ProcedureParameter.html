@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::ProcedureParameter类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html">ProcedureParameter</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1ProcedureParameter-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::ProcedureParameter类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="ast__nodes_8h_source.html">ast_nodes.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a4227051bea24cc4cdd67d86fdcd7abb8" id="r_a4227051bea24cc4cdd67d86fdcd7abb8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a4227051bea24cc4cdd67d86fdcd7abb8">Mode</a> { <a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a4227051bea24cc4cdd67d86fdcd7abb8a61bff70cc06db38c95e0bac6fd330168">IN</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a4227051bea24cc4cdd67d86fdcd7abb8a8468ce49e489bfb68f0000c6431a75bb">OUT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a4227051bea24cc4cdd67d86fdcd7abb8a7b1fc4eb69ed08d01831713018f353e6">INOUT</a>
+ }</td></tr>
+<tr class="separator:a4227051bea24cc4cdd67d86fdcd7abb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a8617b89797e54a04e5ad2df4bd7beea4" id="r_a8617b89797e54a04e5ad2df4bd7beea4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a8617b89797e54a04e5ad2df4bd7beea4">ProcedureParameter</a> (const std::string &amp;name, const std::string &amp;type, <a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a4227051bea24cc4cdd67d86fdcd7abb8">Mode</a> mode)</td></tr>
+<tr class="separator:a8617b89797e54a04e5ad2df4bd7beea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29ab566fb60ef6b14d41f723b41e8afc" id="r_a29ab566fb60ef6b14d41f723b41e8afc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a29ab566fb60ef6b14d41f723b41e8afc">~ProcedureParameter</a> ()</td></tr>
+<tr class="separator:a29ab566fb60ef6b14d41f723b41e8afc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a222632e0259c20146d27b67966c43fa6" id="r_a222632e0259c20146d27b67966c43fa6"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a222632e0259c20146d27b67966c43fa6">getName</a> () const</td></tr>
+<tr class="separator:a222632e0259c20146d27b67966c43fa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a094249ec446f2584b16deb3c56c02002" id="r_a094249ec446f2584b16deb3c56c02002"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a094249ec446f2584b16deb3c56c02002">getType</a> () const</td></tr>
+<tr class="separator:a094249ec446f2584b16deb3c56c02002"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a254e54bda18a8fe80514a8cf6c43d436" id="r_a254e54bda18a8fe80514a8cf6c43d436"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a4227051bea24cc4cdd67d86fdcd7abb8">Mode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a254e54bda18a8fe80514a8cf6c43d436">getMode</a> () const</td></tr>
+<tr class="separator:a254e54bda18a8fe80514a8cf6c43d436"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e862c5d4e3d485d271fbad7495f5e3f" id="r_a8e862c5d4e3d485d271fbad7495f5e3f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a8e862c5d4e3d485d271fbad7495f5e3f">getModeString</a> () const</td></tr>
+<tr class="separator:a8e862c5d4e3d485d271fbad7495f5e3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a2546938bbe888f671656190e437e4a9b" id="r_a2546938bbe888f671656190e437e4a9b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a2546938bbe888f671656190e437e4a9b">name_</a></td></tr>
+<tr class="separator:a2546938bbe888f671656190e437e4a9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14304bdce0af7504ed6eaaea5ac3caf3" id="r_a14304bdce0af7504ed6eaaea5ac3caf3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a14304bdce0af7504ed6eaaea5ac3caf3">type_</a></td></tr>
+<tr class="separator:a14304bdce0af7504ed6eaaea5ac3caf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a071fa075e89511a4ff1a3d24a66a4759" id="r_a071fa075e89511a4ff1a3d24a66a4759"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a4227051bea24cc4cdd67d86fdcd7abb8">Mode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a071fa075e89511a4ff1a3d24a66a4759">mode_</a></td></tr>
+<tr class="separator:a071fa075e89511a4ff1a3d24a66a4759"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a4227051bea24cc4cdd67d86fdcd7abb8" name="a4227051bea24cc4cdd67d86fdcd7abb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4227051bea24cc4cdd67d86fdcd7abb8">&#9670;&#160;</a></span>Mode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a4227051bea24cc4cdd67d86fdcd7abb8">sqlcc::sql_parser::ProcedureParameter::Mode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a4227051bea24cc4cdd67d86fdcd7abb8a61bff70cc06db38c95e0bac6fd330168" name="a4227051bea24cc4cdd67d86fdcd7abb8a61bff70cc06db38c95e0bac6fd330168"></a>IN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a4227051bea24cc4cdd67d86fdcd7abb8a8468ce49e489bfb68f0000c6431a75bb" name="a4227051bea24cc4cdd67d86fdcd7abb8a8468ce49e489bfb68f0000c6431a75bb"></a>OUT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a4227051bea24cc4cdd67d86fdcd7abb8a7b1fc4eb69ed08d01831713018f353e6" name="a4227051bea24cc4cdd67d86fdcd7abb8a7b1fc4eb69ed08d01831713018f353e6"></a>INOUT&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a8617b89797e54a04e5ad2df4bd7beea4" name="a8617b89797e54a04e5ad2df4bd7beea4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8617b89797e54a04e5ad2df4bd7beea4">&#9670;&#160;</a></span>ProcedureParameter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::ProcedureParameter::ProcedureParameter </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a4227051bea24cc4cdd67d86fdcd7abb8">Mode</a>&#160;</td>
+          <td class="paramname"><em>mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a29ab566fb60ef6b14d41f723b41e8afc" name="a29ab566fb60ef6b14d41f723b41e8afc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29ab566fb60ef6b14d41f723b41e8afc">&#9670;&#160;</a></span>~ProcedureParameter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::ProcedureParameter::~ProcedureParameter </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a254e54bda18a8fe80514a8cf6c43d436" name="a254e54bda18a8fe80514a8cf6c43d436"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a254e54bda18a8fe80514a8cf6c43d436">&#9670;&#160;</a></span>getMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a4227051bea24cc4cdd67d86fdcd7abb8">ProcedureParameter::Mode</a> sqlcc::sql_parser::ProcedureParameter::getMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8e862c5d4e3d485d271fbad7495f5e3f" name="a8e862c5d4e3d485d271fbad7495f5e3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e862c5d4e3d485d271fbad7495f5e3f">&#9670;&#160;</a></span>getModeString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::ProcedureParameter::getModeString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a222632e0259c20146d27b67966c43fa6" name="a222632e0259c20146d27b67966c43fa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a222632e0259c20146d27b67966c43fa6">&#9670;&#160;</a></span>getName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::ProcedureParameter::getName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a094249ec446f2584b16deb3c56c02002" name="a094249ec446f2584b16deb3c56c02002"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a094249ec446f2584b16deb3c56c02002">&#9670;&#160;</a></span>getType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::ProcedureParameter::getType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a071fa075e89511a4ff1a3d24a66a4759" name="a071fa075e89511a4ff1a3d24a66a4759"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a071fa075e89511a4ff1a3d24a66a4759">&#9670;&#160;</a></span>mode_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ProcedureParameter.html#a4227051bea24cc4cdd67d86fdcd7abb8">Mode</a> sqlcc::sql_parser::ProcedureParameter::mode_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2546938bbe888f671656190e437e4a9b" name="a2546938bbe888f671656190e437e4a9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2546938bbe888f671656190e437e4a9b">&#9670;&#160;</a></span>name_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::ProcedureParameter::name_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a14304bdce0af7504ed6eaaea5ac3caf3" name="a14304bdce0af7504ed6eaaea5ac3caf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14304bdce0af7504ed6eaaea5ac3caf3">&#9670;&#160;</a></span>type_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::ProcedureParameter::type_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="ast__nodes_8h_source.html">ast_nodes.h</a></li>
+<li><a class="el" href="ast__nodes_8cpp.html">ast_nodes.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

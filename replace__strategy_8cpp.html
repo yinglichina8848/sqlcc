@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: replace_strategy.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li><li class="navelem"><a class="el" href="dir_7f0a8dd1fe8e7e8a706b487bbe8b773b.html">buffer_pool</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">replace_strategy.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Implements various page replacement algorithms for the buffer pool.  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="storage__engine_2replace__strategy_8h_source.html">../replace_strategy.h</a>&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+replace_strategy.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="replace__strategy_8cpp__incl.png" border="0" usemap="#areplace__strategy_8cpp" alt=""/></div>
+<map name="areplace__strategy_8cpp" id="areplace__strategy_8cpp">
+<area shape="rect" title="Implements various page replacement algorithms for the buffer pool." alt="" coords="605,5,761,31"/>
+<area shape="rect" href="storage__engine_2replace__strategy_8h.html" title="页面替换策略头文件" alt="" coords="463,79,616,104"/>
+<area shape="poly" title=" " alt="" coords="661,33,576,75,574,70,659,28"/>
+<area shape="rect" title=" " alt="" coords="641,79,726,104"/>
+<area shape="poly" title=" " alt="" coords="686,31,686,65,681,65,681,31"/>
+<area shape="rect" title=" " alt="" coords="750,79,830,104"/>
+<area shape="poly" title=" " alt="" coords="702,28,763,69,760,73,699,33"/>
+<area shape="rect" href="abstract__strategy_8h.html" title="抽象替换策略基类定义" alt="" coords="535,240,723,280"/>
+<area shape="poly" title=" " alt="" coords="597,101,670,122,701,135,720,150,726,162,727,174,718,196,700,217,677,234,674,230,696,213,714,194,722,173,721,164,716,154,698,140,668,127,595,107"/>
+<area shape="rect" href="lru__strategy_8h.html" title="LRU（最近最少使用）替换策略类定义" alt="" coords="199,152,351,192"/>
+<area shape="poly" title=" " alt="" coords="502,107,352,151,351,146,500,101"/>
+<area shape="rect" href="lfu__strategy_8h.html" title="LFU（最不经常使用）替换策略类定义" alt="" coords="375,152,527,192"/>
+<area shape="poly" title=" " alt="" coords="528,106,484,145,481,141,525,102"/>
+<area shape="rect" href="clock__strategy_8h.html" title="CLOCK（时钟）替换策略类定义" alt="" coords="5,152,175,192"/>
+<area shape="poly" title=" " alt="" coords="470,107,189,154,188,149,469,101"/>
+<area shape="rect" href="arc__strategy_8h.html" title="ARC（自适应替换缓存）替换策略类定义" alt="" coords="551,152,706,192"/>
+<area shape="poly" title=" " alt="" coords="554,102,599,141,595,145,551,106"/>
+<area shape="rect" href="strategy__factory_8h.html" title="替换策略工厂类定义" alt="" coords="781,152,970,192"/>
+<area shape="poly" title=" " alt="" coords="589,101,782,146,781,151,588,107"/>
+<area shape="rect" title=" " alt="" coords="293,328,417,353"/>
+<area shape="poly" title=" " alt="" coords="564,283,409,327,408,322,562,277"/>
+<area shape="rect" title=" " alt="" coords="602,328,669,353"/>
+<area shape="poly" title=" " alt="" coords="633,280,636,314,631,314,628,280"/>
+<area shape="rect" title=" " alt="" coords="814,328,891,353"/>
+<area shape="poly" title=" " alt="" coords="683,277,808,321,806,326,681,283"/>
+<area shape="rect" title=" " alt="" coords="514,328,578,353"/>
+<area shape="poly" title=" " alt="" coords="610,282,570,320,566,317,607,278"/>
+<area shape="rect" title=" " alt="" coords="718,328,777,353"/>
+<area shape="poly" title=" " alt="" coords="659,278,720,318,717,323,656,282"/>
+<area shape="poly" title=" " alt="" coords="352,189,539,234,538,239,351,194"/>
+<area shape="poly" title=" " alt="" coords="286,191,326,279,344,315,340,317,321,281,281,193"/>
+<area shape="rect" title=" " alt="" coords="335,247,378,273"/>
+<area shape="poly" title=" " alt="" coords="295,190,338,235,334,239,291,194"/>
+<area shape="poly" title=" " alt="" coords="491,190,579,232,576,236,489,194"/>
+<area shape="poly" title=" " alt="" coords="443,194,392,281,371,318,366,315,388,279,438,191"/>
+<area shape="poly" title=" " alt="" coords="432,194,382,240,378,236,429,190"/>
+<area shape="poly" title=" " alt="" coords="175,187,188,189,522,241,521,246,187,195,174,192"/>
+<area shape="poly" title=" " alt="" coords="121,190,327,318,324,323,119,194"/>
+<area shape="poly" title=" " alt="" coords="149,190,323,245,321,250,148,195"/>
+<area shape="poly" title=" " alt="" coords="631,192,631,226,626,226,626,192"/>
+<area shape="poly" title=" " alt="" coords="570,195,392,250,391,245,568,190"/>
+<area shape="poly" title=" " alt="" coords="822,195,697,238,695,233,820,190"/>
+<area shape="poly" title=" " alt="" coords="875,193,859,315,853,314,870,192"/>
+<area shape="poly" title=" " alt="" coords="863,194,767,319,762,316,859,191"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>Implements various page replacement algorithms for the buffer pool. </p>
+<p>@WHY A buffer pool has finite memory. When a new page needs to be brought in and the pool is full, one of the existing pages must be "evicted". A page replacement algorithm is the policy used to select this "victim" page. The choice of algorithm is a classic computer science problem involving trade-offs between performance, complexity, and overhead, directly impacting the database's cache hit rate and overall speed.</p>
+<p>@WHAT This file provides concrete implementations for several well-known page replacement algorithms, all derived from the <code>AbstractReplaceStrategy</code> interface. This includes:</p><ol type="1">
+<li><b>LRU (Least Recently Used)</b>: A popular, balanced algorithm.</li>
+<li><b>LFU (Least Frequently Used)</b>: Prioritizes pages based on access frequency.</li>
+<li><b>CLOCK</b>: A more efficient approximation of LRU.</li>
+<li><b>ARC (Adaptive Replacement Cache)</b>: A sophisticated algorithm that dynamically balances between LRU and LFU properties.</li>
+</ol>
+<p>It also includes a <code>ReplaceStrategyFactory</code> to create instances of these strategies based on configuration.</p>
+<p>@HOW The implementation follows the <b>Strategy Design Pattern</b>:</p><ul>
+<li><code>AbstractReplaceStrategy</code> defines the common interface (<code>RecordAccess</code>, <code>SelectVictim</code>, <code>PinPage</code>, etc.).</li>
+<li>Each concrete class (<code>LRUReplaceStrategy</code>, etc.) implements this interface with its own unique logic and data structures.</li>
+<li>The <code>BufferPoolManager</code> holds a pointer to an <code>AbstractReplaceStrategy</code> and interacts with it through the common interface, remaining completely unaware of the specific algorithm being used. This allows the replacement policy to be changed dynamically or at startup without affecting the buffer pool manager's code. </li>
+</ul>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

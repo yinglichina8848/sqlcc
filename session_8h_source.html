@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: session.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fc4c7f03e1a69a98c370fae55a743828.html">network</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">session.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="session_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc_1_1network.html">network</a> {</div>
+<div class="foldopen" id="foldopen00194" data-start="{" data-end="}">
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network_1_1encryption.html">  194</a></span><span class="keyword">namespace </span>encryption {</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1network_1_1AESEncryptor.html">AESEncryptor</a>;</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>} <span class="comment">// namespace encryption</span></div>
+</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span> </div>
+<div class="foldopen" id="foldopen00207" data-start="{" data-end="};">
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1Session.html">  207</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1network_1_1Session.html">Session</a> {</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classsqlcc_1_1network_1_1Session.html">Session</a>(<span class="keywordtype">int</span> session_id);</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1Session.html#a3610ebfc65ebbd1c5dc0b428ffe6d89d">SetEncryptionDisabled</a>(<span class="keywordtype">bool</span> disabled);</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1Session.html#a6694518574ade9514c2a6735320f4ae4">IsEncryptionDisabled</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1Session.html#ae9d904cfc98712e451c074ea92389a26">SetAuthenticationDisabled</a>(<span class="keywordtype">bool</span> disabled);</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1Session.html#a3b42309ddd5fdfb738af95a734b9c553">IsAuthenticationDisabled</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1Session.html#a21b9d412d8034810dd170b3b0a0cfa2d">SetAESEncryptor</a>(std::shared_ptr&lt;class AESEncryptor&gt; encryptor);</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span> </div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    std::shared_ptr&lt;class AESEncryptor&gt; <a class="code hl_function" href="classsqlcc_1_1network_1_1Session.html#a9cd6dc3260cd4931d998f8e2d5525115">GetAESEncryptor</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1Session.html#a5f79d76a08798adaa4a471e7f357d4f0">IsAESEncryptionEnabled</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1Session.html#a42ad51593d7a9a80602e9c6c3339680b">  261</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1Session.html#a42ad51593d7a9a80602e9c6c3339680b">GetSessionId</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1Session.html#a76f1afaf6ff014af32665e96d503a881">session_id_</a>; }</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1Session.html#a00ef289296e563171a963678248613f7">SetAuthenticated</a>(<span class="keyword">const</span> std::string&amp; username);</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span> </div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1Session.html#a8e57b4ad9f1630d3e0591a4f128641a7">  273</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1Session.html#a8e57b4ad9f1630d3e0591a4f128641a7">IsAuthenticated</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1Session.html#ab9aec7fba179cec607ebc08be4884537">authenticated_</a>; }</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span> </div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1Session.html#a7490e35df0f3642b5860219120f9b9dd">  279</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1network_1_1Session.html#a7490e35df0f3642b5860219120f9b9dd">GetUsername</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1Session.html#ad4f163b33e95679541469ca6ee707542">username_</a>; }</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1Session.html#a76f1afaf6ff014af32665e96d503a881">  282</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1Session.html#a76f1afaf6ff014af32665e96d503a881">session_id_</a>;                                    </div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1Session.html#ab9aec7fba179cec607ebc08be4884537">  283</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1Session.html#ab9aec7fba179cec607ebc08be4884537">authenticated_</a>;                               </div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1Session.html#a99ac2d13bbcbb5570c78005b226ded4e">  284</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1Session.html#a99ac2d13bbcbb5570c78005b226ded4e">encryption_disabled_</a>;                         </div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1Session.html#af0c406b55b49b3d13ca362c0cd1a36b9">  285</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1Session.html#af0c406b55b49b3d13ca362c0cd1a36b9">authentication_disabled_</a>;                     </div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1Session.html#ad4f163b33e95679541469ca6ee707542">  286</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1network_1_1Session.html#ad4f163b33e95679541469ca6ee707542">username_</a>;                             </div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1Session.html#afc6f1ead68055ccbab68dbf43a47f3fb">  287</a></span>    std::shared_ptr&lt;class AESEncryptor&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1Session.html#afc6f1ead68055ccbab68dbf43a47f3fb">aes_encryptor_</a>; </div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>};</div>
+</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span> </div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>} <span class="comment">// namespace network</span></div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1AESEncryptor_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1AESEncryptor.html">sqlcc::network::AESEncryptor</a></div><div class="ttdoc">AES-256-CBC加密器类</div><div class="ttdef"><b>Definition</b> aes_encryptor.h:26</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html">sqlcc::network::Session</a></div><div class="ttdoc">会话类，管理客户端连接的会话状态</div><div class="ttdef"><b>Definition</b> session.h:207</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_a00ef289296e563171a963678248613f7"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#a00ef289296e563171a963678248613f7">sqlcc::network::Session::SetAuthenticated</a></div><div class="ttdeci">void SetAuthenticated(const std::string &amp;username)</div><div class="ttdoc">设置认证状态</div><div class="ttdef"><b>Definition</b> session.cpp:42</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_a21b9d412d8034810dd170b3b0a0cfa2d"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#a21b9d412d8034810dd170b3b0a0cfa2d">sqlcc::network::Session::SetAESEncryptor</a></div><div class="ttdeci">void SetAESEncryptor(std::shared_ptr&lt; class AESEncryptor &gt; encryptor)</div><div class="ttdoc">设置AES加密器</div><div class="ttdef"><b>Definition</b> network.cpp:119</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_a3610ebfc65ebbd1c5dc0b428ffe6d89d"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#a3610ebfc65ebbd1c5dc0b428ffe6d89d">sqlcc::network::Session::SetEncryptionDisabled</a></div><div class="ttdeci">void SetEncryptionDisabled(bool disabled)</div><div class="ttdoc">设置加密禁用状态</div><div class="ttdef"><b>Definition</b> network.cpp:103</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_a3b42309ddd5fdfb738af95a734b9c553"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#a3b42309ddd5fdfb738af95a734b9c553">sqlcc::network::Session::IsAuthenticationDisabled</a></div><div class="ttdeci">bool IsAuthenticationDisabled() const</div><div class="ttdoc">获取认证禁用状态</div><div class="ttdef"><b>Definition</b> network.cpp:115</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_a42ad51593d7a9a80602e9c6c3339680b"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#a42ad51593d7a9a80602e9c6c3339680b">sqlcc::network::Session::GetSessionId</a></div><div class="ttdeci">int GetSessionId() const</div><div class="ttdoc">获取会话ID</div><div class="ttdef"><b>Definition</b> session.h:261</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_a5f79d76a08798adaa4a471e7f357d4f0"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#a5f79d76a08798adaa4a471e7f357d4f0">sqlcc::network::Session::IsAESEncryptionEnabled</a></div><div class="ttdeci">bool IsAESEncryptionEnabled() const</div><div class="ttdoc">检查AES加密是否启用</div><div class="ttdef"><b>Definition</b> network.cpp:127</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_a6694518574ade9514c2a6735320f4ae4"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#a6694518574ade9514c2a6735320f4ae4">sqlcc::network::Session::IsEncryptionDisabled</a></div><div class="ttdeci">bool IsEncryptionDisabled() const</div><div class="ttdoc">获取加密禁用状态</div><div class="ttdef"><b>Definition</b> network.cpp:107</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_a7490e35df0f3642b5860219120f9b9dd"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#a7490e35df0f3642b5860219120f9b9dd">sqlcc::network::Session::GetUsername</a></div><div class="ttdeci">const std::string &amp; GetUsername() const</div><div class="ttdoc">获取已认证的用户名</div><div class="ttdef"><b>Definition</b> session.h:279</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_a76f1afaf6ff014af32665e96d503a881"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#a76f1afaf6ff014af32665e96d503a881">sqlcc::network::Session::session_id_</a></div><div class="ttdeci">int session_id_</div><div class="ttdoc">会话ID</div><div class="ttdef"><b>Definition</b> session.h:282</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_a8e57b4ad9f1630d3e0591a4f128641a7"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#a8e57b4ad9f1630d3e0591a4f128641a7">sqlcc::network::Session::IsAuthenticated</a></div><div class="ttdeci">bool IsAuthenticated() const</div><div class="ttdoc">检查是否已认证</div><div class="ttdef"><b>Definition</b> session.h:273</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_a99ac2d13bbcbb5570c78005b226ded4e"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#a99ac2d13bbcbb5570c78005b226ded4e">sqlcc::network::Session::encryption_disabled_</a></div><div class="ttdeci">bool encryption_disabled_</div><div class="ttdoc">加密禁用标志</div><div class="ttdef"><b>Definition</b> session.h:284</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_a9cd6dc3260cd4931d998f8e2d5525115"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#a9cd6dc3260cd4931d998f8e2d5525115">sqlcc::network::Session::GetAESEncryptor</a></div><div class="ttdeci">std::shared_ptr&lt; class AESEncryptor &gt; GetAESEncryptor() const</div><div class="ttdoc">获取AES加密器</div><div class="ttdef"><b>Definition</b> network.cpp:123</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_ab9aec7fba179cec607ebc08be4884537"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#ab9aec7fba179cec607ebc08be4884537">sqlcc::network::Session::authenticated_</a></div><div class="ttdeci">bool authenticated_</div><div class="ttdoc">认证状态</div><div class="ttdef"><b>Definition</b> session.h:283</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_ad4f163b33e95679541469ca6ee707542"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#ad4f163b33e95679541469ca6ee707542">sqlcc::network::Session::username_</a></div><div class="ttdeci">std::string username_</div><div class="ttdoc">已认证的用户名</div><div class="ttdef"><b>Definition</b> session.h:286</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_ae9d904cfc98712e451c074ea92389a26"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#ae9d904cfc98712e451c074ea92389a26">sqlcc::network::Session::SetAuthenticationDisabled</a></div><div class="ttdeci">void SetAuthenticationDisabled(bool disabled)</div><div class="ttdoc">设置认证禁用状态</div><div class="ttdef"><b>Definition</b> network.cpp:111</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_af0c406b55b49b3d13ca362c0cd1a36b9"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#af0c406b55b49b3d13ca362c0cd1a36b9">sqlcc::network::Session::authentication_disabled_</a></div><div class="ttdeci">bool authentication_disabled_</div><div class="ttdoc">认证禁用标志</div><div class="ttdef"><b>Definition</b> session.h:285</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1Session_html_afc6f1ead68055ccbab68dbf43a47f3fb"><div class="ttname"><a href="classsqlcc_1_1network_1_1Session.html#afc6f1ead68055ccbab68dbf43a47f3fb">sqlcc::network::Session::aes_encryptor_</a></div><div class="ttdeci">std::shared_ptr&lt; class AESEncryptor &gt; aes_encryptor_</div><div class="ttdoc">AES加密器</div><div class="ttdef"><b>Definition</b> session.h:287</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html"><div class="ttname"><a href="namespacesqlcc_1_1network.html">sqlcc::network</a></div><div class="ttdef"><b>Definition</b> client_main.cpp:286</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

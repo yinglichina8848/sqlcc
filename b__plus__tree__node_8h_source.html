@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: b_plus_tree_node.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li><li class="navelem"><a class="el" href="dir_1beebb655226e3b3a0da039efb09b088.html">b_plus_tree</a></li><li class="navelem"><a class="el" href="dir_7d85c6dc530f4ea2792ec064f3edcfca.html">node</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">b_plus_tree_node.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="b__plus__tree__node_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">class </span>StorageEngine;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">class </span>Page;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="keyword">struct </span>IndexEntry {</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    std::string <a class="code hl_variable" href="structsqlcc_1_1IndexEntry.html#af1f0a2ee0cafd807b8d601a12655b5c5">key</a>;       </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    int32_t <a class="code hl_variable" href="structsqlcc_1_1IndexEntry.html#a416aeba088fd697266db21064e4a90c4">page_id</a>;       </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1IndexEntry.html#ac2c5dc473deb050a6a0d3d6c5b5bde97">offset</a>;         </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="structsqlcc_1_1IndexEntry.html#a36f56380da43e763b3ae7dac660edab3">  120</a></span>    <a class="code hl_function" href="structsqlcc_1_1IndexEntry.html#a36f56380da43e763b3ae7dac660edab3">IndexEntry</a>() : <a class="code hl_variable" href="structsqlcc_1_1IndexEntry.html#a416aeba088fd697266db21064e4a90c4">page_id</a>(-1), <a class="code hl_variable" href="structsqlcc_1_1IndexEntry.html#ac2c5dc473deb050a6a0d3d6c5b5bde97">offset</a>(0) {}</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="structsqlcc_1_1IndexEntry.html#a49a0921fd0b784ce2ab62a0a2659cae2">  121</a></span>    <a class="code hl_function" href="structsqlcc_1_1IndexEntry.html#a49a0921fd0b784ce2ab62a0a2659cae2">IndexEntry</a>(<span class="keyword">const</span> std::string&amp; k, int32_t p, <span class="keywordtype">size_t</span> o) : <a class="code hl_variable" href="structsqlcc_1_1IndexEntry.html#af1f0a2ee0cafd807b8d601a12655b5c5">key</a>(k), <a class="code hl_variable" href="structsqlcc_1_1IndexEntry.html#a416aeba088fd697266db21064e4a90c4">page_id</a>(p), <a class="code hl_variable" href="structsqlcc_1_1IndexEntry.html#ac2c5dc473deb050a6a0d3d6c5b5bde97">offset</a>(o) {}</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="foldopen" id="foldopen00127" data-start="{" data-end="}">
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="structsqlcc_1_1IndexEntry.html#a64a1eb8f01ffce746a7f7e54746e4d8c">  127</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="structsqlcc_1_1IndexEntry.html#a64a1eb8f01ffce746a7f7e54746e4d8c">operator&lt;</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1IndexEntry.html">IndexEntry</a>&amp; other)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="structsqlcc_1_1IndexEntry.html#af1f0a2ee0cafd807b8d601a12655b5c5">key</a> &lt; other.key;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    }</div>
+</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>};</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="keyword">class </span>BPlusTreeNode {</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#a67516d0cf8dc19601feb983e0647f05e">  150</a></span>    <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#a67516d0cf8dc19601feb983e0647f05e">BPlusTreeNode</a>(std::shared_ptr&lt;StorageEngine&gt; storage_engine, int32_t page_id, <span class="keywordtype">bool</span> is_leaf);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#a2515bb9fd662be04f2e28eeb73d88c43">  156</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#a2515bb9fd662be04f2e28eeb73d88c43">~BPlusTreeNode</a>();</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <span class="comment">// 禁止拷贝和赋值，确保节点对象的唯一性</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#ab38b26201495bbe4eca13078cee27cd6">  159</a></span>    <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#ab38b26201495bbe4eca13078cee27cd6">BPlusTreeNode</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#ae031e1502c1aaa1ab41d901e95a97e28">  160</a></span>    <a class="code hl_class" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a>&amp; <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#ae031e1502c1aaa1ab41d901e95a97e28">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="comment">// 允许移动操作，提高性能</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#a141b069539ba265db0b5788fb0d94c53">  163</a></span>    <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#a141b069539ba265db0b5788fb0d94c53">BPlusTreeNode</a>(<a class="code hl_class" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a>&amp;&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#acd4ccfc17ef468d9d1ce184fb3527be9">  164</a></span>    <a class="code hl_class" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a>&amp; <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#acd4ccfc17ef468d9d1ce184fb3527be9">operator=</a>(<a class="code hl_class" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a>&amp;&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <span class="comment">// 基本属性访问方法</span></div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#aaa44f3ca16537f5020eb984ae65366a1">  167</a></span>    int32_t <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#aaa44f3ca16537f5020eb984ae65366a1">GetPageId</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1BPlusTreeNode.html#a61582dad9fbd1e9f9a759194018e4474">page_id_</a>; }</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#ad33ec178ffc658ab038cee5970886934">  168</a></span>    int32_t <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#ad33ec178ffc658ab038cee5970886934">GetParentPageId</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1BPlusTreeNode.html#ab06d125f27cde3d830afae0ef6ea7516">parent_page_id_</a>; }</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#a3795eb719e93fb122d2a3a800e886642">  169</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#a3795eb719e93fb122d2a3a800e886642">SetParentPageId</a>(int32_t parent_id) { <a class="code hl_variable" href="classsqlcc_1_1BPlusTreeNode.html#ab06d125f27cde3d830afae0ef6ea7516">parent_page_id_</a> = parent_id; }</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#ad634d3857a8fe9e686de1c1cc574e376">  170</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#ad634d3857a8fe9e686de1c1cc574e376">IsLeaf</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1BPlusTreeNode.html#a06ca1e92e104c377925d55d71139ed02">is_leaf_</a>; }</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <span class="comment">// 纯虚函数，由子类实现具体的序列化和状态管理</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#ac11ea157cfc9536542481c3291df65cf">  173</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#ac11ea157cfc9536542481c3291df65cf">SerializeToPage</a>() = 0;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#ae18702dcf83ab5e027b49f56d8dd8a7d">  174</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#ae18702dcf83ab5e027b49f56d8dd8a7d">DeserializeFromPage</a>() = 0;</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#aabda77a13112928826767686413dbe8f">  175</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#aabda77a13112928826767686413dbe8f">Clear</a>() = 0;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#abc3e2f17362329779387831b30fc5e6e">  176</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#abc3e2f17362329779387831b30fc5e6e">IsFull</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="comment">// 页面数据访问接口</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#a3c24727ff6094473ad4086f41c9f38d4">  179</a></span>    <span class="keywordtype">char</span>* <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#a3c24727ff6094473ad4086f41c9f38d4">GetData</a>();</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeNode.html#ac17152c3bd1e53ef5e72625749a4da21">  180</a></span>    <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_function" href="classsqlcc_1_1BPlusTreeNode.html#ac17152c3bd1e53ef5e72625749a4da21">GetData</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    std::shared_ptr&lt;StorageEngine&gt; <a class="code hl_variable" href="classsqlcc_1_1BPlusTreeNode.html#ae7c7ec99e5e56e05a2e8b3108d465ddf">storage_engine_</a>;  </div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    int32_t <a class="code hl_variable" href="classsqlcc_1_1BPlusTreeNode.html#a61582dad9fbd1e9f9a759194018e4474">page_id_</a>;                                </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    int32_t <a class="code hl_variable" href="classsqlcc_1_1BPlusTreeNode.html#ab06d125f27cde3d830afae0ef6ea7516">parent_page_id_</a>;                         </div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1BPlusTreeNode.html#a06ca1e92e104c377925d55d71139ed02">is_leaf_</a>;                                   </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    std::shared_ptr&lt;Page&gt; <a class="code hl_variable" href="classsqlcc_1_1BPlusTreeNode.html#acaf89d254b159660e57e2e6c19f73b05">page_</a>;                     </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>};</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html">sqlcc::BPlusTreeNode</a></div><div class="ttdoc">B+树节点基类</div><div class="ttdef"><b>Definition</b> storage/b_plus_tree_nodes.h:144</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_a06ca1e92e104c377925d55d71139ed02"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#a06ca1e92e104c377925d55d71139ed02">sqlcc::BPlusTreeNode::is_leaf_</a></div><div class="ttdeci">bool is_leaf_</div><div class="ttdef"><b>Definition</b> storage/b_plus_tree_nodes.h:170</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_a141b069539ba265db0b5788fb0d94c53"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#a141b069539ba265db0b5788fb0d94c53">sqlcc::BPlusTreeNode::BPlusTreeNode</a></div><div class="ttdeci">BPlusTreeNode(BPlusTreeNode &amp;&amp;)=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_a2515bb9fd662be04f2e28eeb73d88c43"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#a2515bb9fd662be04f2e28eeb73d88c43">sqlcc::BPlusTreeNode::~BPlusTreeNode</a></div><div class="ttdeci">virtual ~BPlusTreeNode()</div><div class="ttdoc">析构函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_a3795eb719e93fb122d2a3a800e886642"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#a3795eb719e93fb122d2a3a800e886642">sqlcc::BPlusTreeNode::SetParentPageId</a></div><div class="ttdeci">void SetParentPageId(int32_t parent_id)</div><div class="ttdef"><b>Definition</b> b_plus_tree_node.h:169</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_a3c24727ff6094473ad4086f41c9f38d4"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#a3c24727ff6094473ad4086f41c9f38d4">sqlcc::BPlusTreeNode::GetData</a></div><div class="ttdeci">char * GetData()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_a61582dad9fbd1e9f9a759194018e4474"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#a61582dad9fbd1e9f9a759194018e4474">sqlcc::BPlusTreeNode::page_id_</a></div><div class="ttdeci">int32_t page_id_</div><div class="ttdef"><b>Definition</b> storage/b_plus_tree_nodes.h:168</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_a67516d0cf8dc19601feb983e0647f05e"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#a67516d0cf8dc19601feb983e0647f05e">sqlcc::BPlusTreeNode::BPlusTreeNode</a></div><div class="ttdeci">BPlusTreeNode(std::shared_ptr&lt; StorageEngine &gt; storage_engine, int32_t page_id, bool is_leaf)</div><div class="ttdoc">构造函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_aaa44f3ca16537f5020eb984ae65366a1"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#aaa44f3ca16537f5020eb984ae65366a1">sqlcc::BPlusTreeNode::GetPageId</a></div><div class="ttdeci">int32_t GetPageId() const</div><div class="ttdef"><b>Definition</b> b_plus_tree_node.h:167</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_aabda77a13112928826767686413dbe8f"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#aabda77a13112928826767686413dbe8f">sqlcc::BPlusTreeNode::Clear</a></div><div class="ttdeci">virtual void Clear()=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_ab06d125f27cde3d830afae0ef6ea7516"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#ab06d125f27cde3d830afae0ef6ea7516">sqlcc::BPlusTreeNode::parent_page_id_</a></div><div class="ttdeci">int32_t parent_page_id_</div><div class="ttdef"><b>Definition</b> storage/b_plus_tree_nodes.h:169</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_ab38b26201495bbe4eca13078cee27cd6"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#ab38b26201495bbe4eca13078cee27cd6">sqlcc::BPlusTreeNode::BPlusTreeNode</a></div><div class="ttdeci">BPlusTreeNode(const BPlusTreeNode &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_abc3e2f17362329779387831b30fc5e6e"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#abc3e2f17362329779387831b30fc5e6e">sqlcc::BPlusTreeNode::IsFull</a></div><div class="ttdeci">virtual bool IsFull() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_ac11ea157cfc9536542481c3291df65cf"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#ac11ea157cfc9536542481c3291df65cf">sqlcc::BPlusTreeNode::SerializeToPage</a></div><div class="ttdeci">virtual void SerializeToPage()=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_ac17152c3bd1e53ef5e72625749a4da21"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#ac17152c3bd1e53ef5e72625749a4da21">sqlcc::BPlusTreeNode::GetData</a></div><div class="ttdeci">const char * GetData() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_acaf89d254b159660e57e2e6c19f73b05"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#acaf89d254b159660e57e2e6c19f73b05">sqlcc::BPlusTreeNode::page_</a></div><div class="ttdeci">std::shared_ptr&lt; Page &gt; page_</div><div class="ttdef"><b>Definition</b> storage/b_plus_tree_nodes.h:171</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_acd4ccfc17ef468d9d1ce184fb3527be9"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#acd4ccfc17ef468d9d1ce184fb3527be9">sqlcc::BPlusTreeNode::operator=</a></div><div class="ttdeci">BPlusTreeNode &amp; operator=(BPlusTreeNode &amp;&amp;)=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_ad33ec178ffc658ab038cee5970886934"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#ad33ec178ffc658ab038cee5970886934">sqlcc::BPlusTreeNode::GetParentPageId</a></div><div class="ttdeci">int32_t GetParentPageId() const</div><div class="ttdef"><b>Definition</b> b_plus_tree_node.h:168</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_ad634d3857a8fe9e686de1c1cc574e376"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#ad634d3857a8fe9e686de1c1cc574e376">sqlcc::BPlusTreeNode::IsLeaf</a></div><div class="ttdeci">bool IsLeaf() const</div><div class="ttdef"><b>Definition</b> b_plus_tree_node.h:170</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_ae031e1502c1aaa1ab41d901e95a97e28"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#ae031e1502c1aaa1ab41d901e95a97e28">sqlcc::BPlusTreeNode::operator=</a></div><div class="ttdeci">BPlusTreeNode &amp; operator=(const BPlusTreeNode &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_ae18702dcf83ab5e027b49f56d8dd8a7d"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#ae18702dcf83ab5e027b49f56d8dd8a7d">sqlcc::BPlusTreeNode::DeserializeFromPage</a></div><div class="ttdeci">virtual void DeserializeFromPage()=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeNode_html_ae7c7ec99e5e56e05a2e8b3108d465ddf"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeNode.html#ae7c7ec99e5e56e05a2e8b3108d465ddf">sqlcc::BPlusTreeNode::storage_engine_</a></div><div class="ttdeci">std::shared_ptr&lt; StorageEngine &gt; storage_engine_</div><div class="ttdef"><b>Definition</b> storage/b_plus_tree_nodes.h:167</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1IndexEntry_html"><div class="ttname"><a href="structsqlcc_1_1IndexEntry.html">sqlcc::IndexEntry</a></div><div class="ttdoc">索引条目结构体</div><div class="ttdef"><b>Definition</b> storage/b_plus_tree_nodes.h:211</div></div>
+<div class="ttc" id="astructsqlcc_1_1IndexEntry_html_a36f56380da43e763b3ae7dac660edab3"><div class="ttname"><a href="structsqlcc_1_1IndexEntry.html#a36f56380da43e763b3ae7dac660edab3">sqlcc::IndexEntry::IndexEntry</a></div><div class="ttdeci">IndexEntry()</div><div class="ttdef"><b>Definition</b> b_plus_tree_node.h:120</div></div>
+<div class="ttc" id="astructsqlcc_1_1IndexEntry_html_a416aeba088fd697266db21064e4a90c4"><div class="ttname"><a href="structsqlcc_1_1IndexEntry.html#a416aeba088fd697266db21064e4a90c4">sqlcc::IndexEntry::page_id</a></div><div class="ttdeci">int32_t page_id</div><div class="ttdef"><b>Definition</b> storage/b_plus_tree_nodes.h:213</div></div>
+<div class="ttc" id="astructsqlcc_1_1IndexEntry_html_a49a0921fd0b784ce2ab62a0a2659cae2"><div class="ttname"><a href="structsqlcc_1_1IndexEntry.html#a49a0921fd0b784ce2ab62a0a2659cae2">sqlcc::IndexEntry::IndexEntry</a></div><div class="ttdeci">IndexEntry(const std::string &amp;k, int32_t p, size_t o)</div><div class="ttdef"><b>Definition</b> b_plus_tree_node.h:121</div></div>
+<div class="ttc" id="astructsqlcc_1_1IndexEntry_html_a64a1eb8f01ffce746a7f7e54746e4d8c"><div class="ttname"><a href="structsqlcc_1_1IndexEntry.html#a64a1eb8f01ffce746a7f7e54746e4d8c">sqlcc::IndexEntry::operator&lt;</a></div><div class="ttdeci">bool operator&lt;(const IndexEntry &amp;other) const</div><div class="ttdoc">键值比较运算符</div><div class="ttdef"><b>Definition</b> b_plus_tree_node.h:127</div></div>
+<div class="ttc" id="astructsqlcc_1_1IndexEntry_html_ac2c5dc473deb050a6a0d3d6c5b5bde97"><div class="ttname"><a href="structsqlcc_1_1IndexEntry.html#ac2c5dc473deb050a6a0d3d6c5b5bde97">sqlcc::IndexEntry::offset</a></div><div class="ttdeci">size_t offset</div><div class="ttdef"><b>Definition</b> storage/b_plus_tree_nodes.h:214</div></div>
+<div class="ttc" id="astructsqlcc_1_1IndexEntry_html_af1f0a2ee0cafd807b8d601a12655b5c5"><div class="ttname"><a href="structsqlcc_1_1IndexEntry.html#af1f0a2ee0cafd807b8d601a12655b5c5">sqlcc::IndexEntry::key</a></div><div class="ttdeci">std::string key</div><div class="ttdef"><b>Definition</b> storage/b_plus_tree_nodes.h:212</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

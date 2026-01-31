@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: disk_error_handler.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_452baf35e1d7639c9f2a5ece4ec85855.html">storage</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#enum-members">枚举</a>  </div>
+  <div class="headertitle"><div class="title">disk_error_handler.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;unordered_set&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;queue&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;system_error&gt;</code><br />
+<code>#include &quot;<a class="el" href="storage_2disk__manager_8h_source.html">disk_manager.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+storage/disk_error_handler.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="storage_2disk__error__handler_8h__incl.png" border="0" usemap="#adisk__error__handler_8h" alt=""/></div>
+<map name="adisk__error__handler_8h" id="adisk__error__handler_8h">
+<area shape="rect" title=" " alt="" coords="1480,5,1635,31"/>
+<area shape="rect" title=" " alt="" coords="280,225,357,251"/>
+<area shape="poly" title=" " alt="" coords="1480,24,1198,36,825,59,644,77,488,98,371,124,332,138,310,154,303,167,302,181,309,212,304,214,297,182,298,165,306,150,330,134,369,119,487,93,644,71,825,54,1197,30,1480,19"/>
+<area shape="rect" title=" " alt="" coords="882,225,1006,251"/>
+<area shape="poly" title=" " alt="" coords="1562,31,1566,61,1566,101,1557,143,1548,162,1534,179,1507,192,1458,203,1319,219,1159,230,1020,237,1020,231,1158,225,1319,214,1457,197,1505,187,1530,175,1543,160,1552,141,1561,100,1561,61,1557,31"/>
+<area shape="rect" title=" " alt="" coords="1696,79,1811,104"/>
+<area shape="poly" title=" " alt="" coords="1590,28,1709,71,1708,76,1588,33"/>
+<area shape="rect" title=" " alt="" coords="1227,225,1291,251"/>
+<area shape="poly" title=" " alt="" coords="1566,30,1580,59,1592,98,1594,141,1589,161,1578,179,1557,195,1526,205,1448,217,1366,222,1304,228,1304,228,1303,223,1304,223,1366,216,1447,212,1525,200,1554,190,1574,176,1584,159,1589,140,1587,99,1575,61,1561,32"/>
+<area shape="rect" title=" " alt="" coords="5,152,72,177"/>
+<area shape="poly" title=" " alt="" coords="1480,22,1214,23,852,30,666,38,492,48,342,63,230,81,185,95,142,112,71,148,68,143,140,107,184,90,229,76,342,57,491,43,665,32,852,25,1214,18,1480,16"/>
+<area shape="rect" title=" " alt="" coords="1365,152,1432,177"/>
+<area shape="poly" title=" " alt="" coords="1546,33,1423,144,1420,140,1543,29"/>
+<area shape="rect" title=" " alt="" coords="1315,225,1378,251"/>
+<area shape="poly" title=" " alt="" coords="1580,29,1607,49,1629,77,1641,105,1647,130,1643,154,1629,179,1613,192,1589,203,1526,220,1455,230,1392,236,1392,231,1454,225,1525,214,1587,198,1610,188,1625,176,1638,152,1641,130,1636,107,1624,80,1603,52,1577,33"/>
+<area shape="rect" title=" " alt="" coords="1457,152,1519,177"/>
+<area shape="poly" title=" " alt="" coords="1554,32,1502,141,1497,138,1549,30"/>
+<area shape="rect" title=" " alt="" coords="1835,79,1922,104"/>
+<area shape="poly" title=" " alt="" coords="1610,28,1822,75,1821,80,1608,33"/>
+<area shape="rect" title=" " alt="" coords="1946,79,2054,104"/>
+<area shape="poly" title=" " alt="" coords="1632,28,1933,76,1932,81,1631,33"/>
+<area shape="rect" href="storage_2disk__manager_8h.html" title=" " alt="" coords="881,79,1007,104"/>
+<area shape="poly" title=" " alt="" coords="1480,31,1020,84,1020,79,1479,26"/>
+<area shape="poly" title=" " alt="" coords="881,97,736,102,562,113,408,130,355,141,327,154,319,166,315,181,316,211,310,211,310,180,314,164,324,150,353,136,407,124,561,107,736,97,881,92"/>
+<area shape="poly" title=" " alt="" coords="947,104,947,212,941,212,941,104"/>
+<area shape="poly" title=" " alt="" coords="1007,93,1075,100,1148,110,1212,127,1237,137,1254,150,1263,164,1267,181,1267,212,1261,212,1262,181,1258,166,1250,154,1234,142,1211,132,1147,115,1074,105,1007,99"/>
+<area shape="poly" title=" " alt="" coords="881,96,740,99,545,108,319,126,86,155,85,149,318,121,545,103,740,94,881,91"/>
+<area shape="poly" title=" " alt="" coords="1007,98,1162,119,1347,149,1352,150,1351,156,1346,155,1161,125,1007,103"/>
+<area shape="poly" title=" " alt="" coords="1007,96,1156,116,1228,131,1277,150,1312,179,1336,212,1332,215,1308,183,1275,154,1226,137,1155,122,1007,101"/>
+<area shape="poly" title=" " alt="" coords="1007,95,1198,114,1319,129,1443,150,1443,155,1318,135,1198,119,1007,100"/>
+<area shape="rect" title=" " alt="" coords="982,152,1125,177"/>
+<area shape="poly" title=" " alt="" coords="963,102,1025,142,1022,147,960,106"/>
+<area shape="rect" title=" " alt="" coords="1149,152,1240,177"/>
+<area shape="poly" title=" " alt="" coords="985,101,1142,146,1140,151,984,107"/>
+<area shape="rect" title=" " alt="" coords="337,152,410,177"/>
+<area shape="poly" title=" " alt="" coords="881,100,682,119,555,135,424,155,424,149,554,130,681,114,881,95"/>
+<area shape="rect" title=" " alt="" coords="435,152,499,177"/>
+<area shape="poly" title=" " alt="" coords="882,102,718,121,513,155,512,149,718,116,881,96"/>
+<area shape="rect" href="page_8h.html" title=" " alt="" coords="96,152,211,177"/>
+<area shape="poly" title=" " alt="" coords="882,101,280,155,225,160,224,154,280,149,881,96"/>
+<area shape="rect" href="config__manager_8h.html" title=" " alt="" coords="725,152,907,177"/>
+<area shape="poly" title=" " alt="" coords="925,106,850,147,848,143,922,102"/>
+<area shape="rect" href="exception_8h.html" title=" " alt="" coords="523,152,701,177"/>
+<area shape="poly" title=" " alt="" coords="891,107,680,152,678,146,890,101"/>
+<area shape="rect" title=" " alt="" coords="99,225,165,251"/>
+<area shape="poly" title=" " alt="" coords="152,178,142,213,137,211,147,177"/>
+<area shape="rect" title=" " alt="" coords="189,225,256,251"/>
+<area shape="poly" title=" " alt="" coords="167,176,204,214,200,217,163,180"/>
+<area shape="rect" title=" " alt="" coords="21,225,75,251"/>
+<area shape="poly" title=" " alt="" coords="138,180,78,220,75,215,135,175"/>
+<area shape="poly" title=" " alt="" coords="736,180,372,232,371,227,736,175"/>
+<area shape="poly" title=" " alt="" coords="838,175,912,216,910,221,835,180"/>
+<area shape="poly" title=" " alt="" coords="888,175,1214,227,1213,232,887,180"/>
+<area shape="poly" title=" " alt="" coords="907,171,1086,190,1302,223,1301,228,1085,195,906,176"/>
+<area shape="rect" title=" " alt="" coords="689,225,748,251"/>
+<area shape="poly" title=" " alt="" coords="802,180,747,219,744,215,799,175"/>
+<area shape="rect" title=" " alt="" coords="782,225,850,251"/>
+<area shape="poly" title=" " alt="" coords="819,178,819,212,813,212,813,178"/>
+<area shape="poly" title=" " alt="" coords="631,175,691,215,688,220,628,180"/>
+<area shape="rect" title=" " alt="" coords="569,225,655,251"/>
+<area shape="poly" title=" " alt="" coords="615,178,615,212,609,212,609,178"/>
+</map>
+</div>
+</div>
+<p><a href="storage_2disk__error__handler_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1DiskErrorInfo.html">sqlcc::DiskErrorInfo</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1DiskHealthStats.html">sqlcc::DiskHealthStats</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1PageChecksum.html">sqlcc::PageChecksum</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandler.html">sqlcc::DiskErrorHandler</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskRedundancyManager.html">sqlcc::DiskRedundancyManager</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1DiskRedundancyManager_1_1RedundancyStats.html">sqlcc::DiskRedundancyManager::RedundancyStats</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskSpaceManager.html">sqlcc::DiskSpaceManager</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1DiskSpaceManager_1_1SpaceStats.html">sqlcc::DiskSpaceManager::SpaceStats</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskIOMonitor.html">sqlcc::DiskIOMonitor</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1DiskIOMonitor_1_1PerformanceStats.html">sqlcc::DiskIOMonitor::PerformanceStats</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskErrorHandlerFactory.html">sqlcc::DiskErrorHandlerFactory</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:a5e4cf7fb1a092b629bd019c2b482abbc" id="r_a5e4cf7fb1a092b629bd019c2b482abbc"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbc">sqlcc::DiskErrorType</a> { <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbca071ff8bb4c06191ad45d8f3bfe25bfd3">sqlcc::NO_ERROR</a> = 0
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbca23817b7d91f5746a760a45694581174d">sqlcc::READ_ERROR</a> = 1
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbcaa2a2942461731662c967e4cd6a909a04">sqlcc::WRITE_ERROR</a> = 2
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbcabc4d014686fd3265fb9aa26bb66a20c4">sqlcc::SEEK_ERROR</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbca88545f18a4c2fbe71e737d596a4ca2b3">sqlcc::FILE_CORRUPTION</a> = 4
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbcac8f0e6642f0452e4dd9029ed5945d888">sqlcc::DISK_FULL</a> = 5
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbca32daeb7f92f5320ea6d5e7bc8fd0ec09">sqlcc::PERMISSION_DENIED</a> = 6
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbcaee8ff354e9120fc2549ce812bb7065ea">sqlcc::DEVICE_UNAVAILABLE</a> = 7
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbcac2f20f1495505c0de200b01c05de85a9">sqlcc::TIMEOUT_ERROR</a> = 8
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbcadc57987d14d56b8128eb6490f9c1c423">sqlcc::CHECKSUM_MISMATCH</a> = 9
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbca331b51124faa8e8c397ed190390f66d5">sqlcc::UNKNOWN_ERROR</a> = 10
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbca071ff8bb4c06191ad45d8f3bfe25bfd3">sqlcc::NO_ERROR</a> = 0
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbca23817b7d91f5746a760a45694581174d">sqlcc::READ_ERROR</a> = 1
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbcaa2a2942461731662c967e4cd6a909a04">sqlcc::WRITE_ERROR</a> = 2
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbcabc4d014686fd3265fb9aa26bb66a20c4">sqlcc::SEEK_ERROR</a> = 3
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbca88545f18a4c2fbe71e737d596a4ca2b3">sqlcc::FILE_CORRUPTION</a> = 4
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbcac8f0e6642f0452e4dd9029ed5945d888">sqlcc::DISK_FULL</a> = 5
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbca32daeb7f92f5320ea6d5e7bc8fd0ec09">sqlcc::PERMISSION_DENIED</a> = 6
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbcaee8ff354e9120fc2549ce812bb7065ea">sqlcc::DEVICE_UNAVAILABLE</a> = 7
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbcac2f20f1495505c0de200b01c05de85a9">sqlcc::TIMEOUT_ERROR</a> = 8
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbcadc57987d14d56b8128eb6490f9c1c423">sqlcc::CHECKSUM_MISMATCH</a> = 9
+, <a class="el" href="namespacesqlcc.html#a5e4cf7fb1a092b629bd019c2b482abbca331b51124faa8e8c397ed190390f66d5">sqlcc::UNKNOWN_ERROR</a> = 10
+<br />
+ }</td></tr>
+<tr class="separator:a5e4cf7fb1a092b629bd019c2b482abbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33f9159a0e453410cf6a3800dbfd1496" id="r_a33f9159a0e453410cf6a3800dbfd1496"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496">sqlcc::RecoveryStrategy</a> { <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496a98ead1d079caba6b1e8b20ec337c335d">sqlcc::RETRY_IMMEDIATE</a> = 0
+, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496a450f9a58004f9b9010dc72dec1a98751">sqlcc::RETRY_DELAYED</a> = 1
+, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496ad77701d232522cf8c2bd607e42537b1d">sqlcc::USE_BACKUP</a> = 2
+, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496af491deec9170a1045494f30834ea7f01">sqlcc::MARK_CORRUPTED</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496a1b4ff06d75eec6bcd5cfd17ae621bc37">sqlcc::FAILOVER</a> = 4
+, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496a28092cb884253d57897fa64d1a021dd2">sqlcc::ABORT_OPERATION</a> = 5
+, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496a98ead1d079caba6b1e8b20ec337c335d">sqlcc::RETRY_IMMEDIATE</a> = 0
+, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496a450f9a58004f9b9010dc72dec1a98751">sqlcc::RETRY_DELAYED</a> = 1
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496ad77701d232522cf8c2bd607e42537b1d">sqlcc::USE_BACKUP</a> = 2
+, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496af491deec9170a1045494f30834ea7f01">sqlcc::MARK_CORRUPTED</a> = 3
+, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496a1b4ff06d75eec6bcd5cfd17ae621bc37">sqlcc::FAILOVER</a> = 4
+, <a class="el" href="namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496a28092cb884253d57897fa64d1a021dd2">sqlcc::ABORT_OPERATION</a> = 5
+<br />
+ }</td></tr>
+<tr class="separator:a33f9159a0e453410cf6a3800dbfd1496"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add5125e3a79677024fcad929c00f8db4" id="r_add5125e3a79677024fcad929c00f8db4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4">sqlcc::DiskHealthStatus</a> { <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4a774ca82247a5679acbaacf0f258152a1">sqlcc::HEALTHY</a> = 0
+, <a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4a4a466fe7ec7f74640ee4ed0828df6bc3">sqlcc::DEGRADED</a> = 1
+, <a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4a3c11ffcd0f9b73faaaf96fa848005d4c">sqlcc::CRITICAL</a> = 2
+, <a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4a0b93acc7df52be5b35317a0f07513908">sqlcc::FAILED</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4a774ca82247a5679acbaacf0f258152a1">sqlcc::HEALTHY</a> = 0
+, <a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4a4a466fe7ec7f74640ee4ed0828df6bc3">sqlcc::DEGRADED</a> = 1
+, <a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4a3c11ffcd0f9b73faaaf96fa848005d4c">sqlcc::CRITICAL</a> = 2
+, <a class="el" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4a0b93acc7df52be5b35317a0f07513908">sqlcc::FAILED</a> = 3
+<br />
+ }</td></tr>
+<tr class="separator:add5125e3a79677024fcad929c00f8db4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

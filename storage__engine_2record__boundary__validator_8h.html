@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: record_boundary_validator.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#enum-members">枚举</a>  </div>
+  <div class="headertitle"><div class="title">record_boundary_validator.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;unordered_set&gt;</code><br />
+<code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;limits&gt;</code><br />
+<code>#include &lt;regex&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+storage_engine/record_boundary_validator.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="storage__engine_2record__boundary__validator_8h__incl.png" border="0" usemap="#arecord__boundary__validator_8h" alt=""/></div>
+<map name="arecord__boundary__validator_8h" id="arecord__boundary__validator_8h">
+<area shape="rect" title=" " alt="" coords="505,5,711,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,83,104"/>
+<area shape="poly" title=" " alt="" coords="505,31,319,50,97,81,96,76,318,45,504,25"/>
+<area shape="rect" title=" " alt="" coords="107,79,231,104"/>
+<area shape="poly" title=" " alt="" coords="538,33,245,80,244,75,537,28"/>
+<area shape="rect" title=" " alt="" coords="256,79,371,104"/>
+<area shape="poly" title=" " alt="" coords="561,33,375,78,374,73,560,28"/>
+<area shape="rect" title=" " alt="" coords="395,79,461,104"/>
+<area shape="poly" title=" " alt="" coords="580,33,471,76,469,71,578,28"/>
+<area shape="rect" title=" " alt="" coords="485,79,552,104"/>
+<area shape="poly" title=" " alt="" coords="595,33,546,72,542,68,592,29"/>
+<area shape="rect" title=" " alt="" coords="577,79,639,104"/>
+<area shape="poly" title=" " alt="" coords="611,31,611,65,605,65,605,31"/>
+<area shape="rect" title=" " alt="" coords="664,79,723,104"/>
+<area shape="poly" title=" " alt="" coords="623,29,671,68,667,72,620,33"/>
+<area shape="rect" title=" " alt="" coords="747,79,805,104"/>
+<area shape="poly" title=" " alt="" coords="636,28,737,71,735,76,634,33"/>
+<area shape="rect" title=" " alt="" coords="829,79,888,104"/>
+<area shape="poly" title=" " alt="" coords="649,28,817,75,815,81,648,33"/>
+<area shape="rect" title=" " alt="" coords="912,79,976,104"/>
+<area shape="poly" title=" " alt="" coords="669,28,899,76,898,81,668,33"/>
+<area shape="rect" title=" " alt="" coords="1001,79,1087,104"/>
+<area shape="poly" title=" " alt="" coords="688,28,988,76,987,81,687,33"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="storage__engine_2record__boundary__validator_8h__dep__incl.png" border="0" usemap="#arecord__boundary__validator_8hdep" alt=""/></div>
+<map name="arecord__boundary__validator_8hdep" id="arecord__boundary__validator_8hdep">
+<area shape="rect" title=" " alt="" coords="13,5,220,31"/>
+<area shape="rect" href="record__boundary__validator_8cpp.html" title="记录操作边界验证器实现 &#45; 实现严格的记录大小、类型和完整性验证" alt="" coords="5,79,228,104"/>
+<area shape="poly" title=" " alt="" coords="119,44,119,79,114,79,114,44"/>
+</map>
+</div>
+</div>
+<p><a href="storage__engine_2record__boundary__validator_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1RecordSizeLimits.html">sqlcc::RecordSizeLimits</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1FieldTypeValidation.html">sqlcc::FieldTypeValidation</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1FieldValidationRule.html">sqlcc::FieldValidationRule</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1RecordValidationConfig.html">sqlcc::RecordValidationConfig</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1RecordSizeValidator.html">sqlcc::RecordSizeValidator</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1FieldTypeBoundaryValidator.html">sqlcc::FieldTypeBoundaryValidator</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityConstraintValidator.html">sqlcc::DataIntegrityConstraintValidator</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessControlValidator.html">sqlcc::ConcurrentAccessControlValidator</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1RecordBoundaryValidator.html">sqlcc::RecordBoundaryValidator</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1RecordBoundaryValidator_1_1ValidationStats.html">sqlcc::RecordBoundaryValidator::ValidationStats</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1RecordBoundaryValidatorFactory.html">sqlcc::RecordBoundaryValidatorFactory</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ValidationResultFormatter.html">sqlcc::ValidationResultFormatter</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:a317d9329fd7efb93ef6891cf966756c7" id="r_a317d9329fd7efb93ef6891cf966756c7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7">sqlcc::ValidationResult</a> { <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a252ffff54b0ae8c998c8bef6d2ccb2c0">sqlcc::VALID</a> = 0
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a95169d5d616b9f2057744a19cf5e6410">sqlcc::INVALID_SIZE</a> = 1
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a09848bd00e4ca79bc9e3b2e348b8dc4b">sqlcc::INVALID_TYPE</a> = 2
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a1c4536863c620d9878daf8fb6e51abb2">sqlcc::INVALID_VALUE</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a8a982efb31c6618d2e8004adaa78e158">sqlcc::NULL_VIOLATION</a> = 4
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a707528342f9b1913b949fc28e08f5004">sqlcc::UNIQUE_VIOLATION</a> = 5
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a6e3f2c38faa868d45e68c03025b780cd">sqlcc::FOREIGN_KEY_VIOLATION</a> = 6
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a5f9499a94107fc39fc91507077846c39">sqlcc::CHECK_CONSTRAINT_VIOLATION</a> = 7
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7aaa7397d8cc9b66d5c7780f74ac38c962">sqlcc::INVALID_FORMAT</a> = 8
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a4f47f7c4f56f2ed474d8ab37ceee5c99">sqlcc::ENCODING_ERROR</a> = 9
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a10380950ad52ac4074b41f2b3aa132dc">sqlcc::BOUNDARY_VIOLATION</a> = 10
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a252ffff54b0ae8c998c8bef6d2ccb2c0">sqlcc::VALID</a> = 0
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a95169d5d616b9f2057744a19cf5e6410">sqlcc::INVALID_SIZE</a> = 1
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a09848bd00e4ca79bc9e3b2e348b8dc4b">sqlcc::INVALID_TYPE</a> = 2
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a1c4536863c620d9878daf8fb6e51abb2">sqlcc::INVALID_VALUE</a> = 3
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a8a982efb31c6618d2e8004adaa78e158">sqlcc::NULL_VIOLATION</a> = 4
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a707528342f9b1913b949fc28e08f5004">sqlcc::UNIQUE_VIOLATION</a> = 5
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a6e3f2c38faa868d45e68c03025b780cd">sqlcc::FOREIGN_KEY_VIOLATION</a> = 6
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a5f9499a94107fc39fc91507077846c39">sqlcc::CHECK_CONSTRAINT_VIOLATION</a> = 7
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7aaa7397d8cc9b66d5c7780f74ac38c962">sqlcc::INVALID_FORMAT</a> = 8
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a4f47f7c4f56f2ed474d8ab37ceee5c99">sqlcc::ENCODING_ERROR</a> = 9
+, <a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7a10380950ad52ac4074b41f2b3aa132dc">sqlcc::BOUNDARY_VIOLATION</a> = 10
+<br />
+ }</td></tr>
+<tr class="separator:a317d9329fd7efb93ef6891cf966756c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

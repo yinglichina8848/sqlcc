@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: abstract_strategy.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li><li class="navelem"><a class="el" href="dir_d6478fa4babe184ca510b5101aee411e.html">replace_strategy</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">abstract_strategy.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="abstract__strategy_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="foldopen" id="foldopen00026" data-start="{" data-end="};">
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html">   26</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1AbstractReplaceStrategy.html">AbstractReplaceStrategy</a> {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00031" data-start="{" data-end="};">
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html">   31</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html">PageAccessInfo</a> {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#ae11c920677e68681acc1be943da3a4ae">   32</a></span>        int32_t <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#ae11c920677e68681acc1be943da3a4ae">page_id</a>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#ad14366889f22514e3b5e99d9bd9106e7">   33</a></span>        int32_t <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#ad14366889f22514e3b5e99d9bd9106e7">access_count</a>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#a8ba7f9ae7b1d99144e8d1a0eb7809d35">   34</a></span>        std::chrono::steady_clock::time_point <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#a8ba7f9ae7b1d99144e8d1a0eb7809d35">last_access_time</a>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#aa574d2bfd933145eb27b16b8c5d70369">   35</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#aa574d2bfd933145eb27b16b8c5d70369">is_dirty</a>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#a475c9988ba1e41f2fec7dc41f9fb7581">   36</a></span>        int32_t <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#a475c9988ba1e41f2fec7dc41f9fb7581">pin_count</a>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="foldopen" id="foldopen00038" data-start="{" data-end="}">
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#abfd6bb9a9f4e6205a3e2c3cf2b2424da">   38</a></span>        <a class="code hl_function" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#abfd6bb9a9f4e6205a3e2c3cf2b2424da">PageAccessInfo</a>(int32_t <span class="keywordtype">id</span>)</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            : <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#ae11c920677e68681acc1be943da3a4ae">page_id</a>(id), <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#ad14366889f22514e3b5e99d9bd9106e7">access_count</a>(0), <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#aa574d2bfd933145eb27b16b8c5d70369">is_dirty</a>(false), <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#a475c9988ba1e41f2fec7dc41f9fb7581">pin_count</a>(0) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#a8ba7f9ae7b1d99144e8d1a0eb7809d35">last_access_time</a> = std::chrono::steady_clock::now();</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        }</div>
+</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    };</div>
+</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="foldopen" id="foldopen00047" data-start="{" data-end="};">
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html">   47</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html">StrategyStats</a> {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#aaed22c05020349ad386940869b05c470">   48</a></span>        <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#aaed22c05020349ad386940869b05c470">total_evictions</a> = 0;      <span class="comment">// 总替换次数</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a8a59dededf9b44feee9adeaf6e685f39">   49</a></span>        <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a8a59dededf9b44feee9adeaf6e685f39">cache_hits</a> = 0;           <span class="comment">// 缓存命中次数</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a5356a291adade9f54713144ad06aec1d">   50</a></span>        <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a5356a291adade9f54713144ad06aec1d">cache_misses</a> = 0;         <span class="comment">// 缓存未命中次数</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a574f3f5a516b57ef3e4adb9e5287ee59">   51</a></span>        <span class="keywordtype">double</span> <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a574f3f5a516b57ef3e4adb9e5287ee59">hit_rate</a> = 0.0;           <span class="comment">// 命中率</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#ad2e2100978e61660f0d589e31abc4b80">   52</a></span>        <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#ad2e2100978e61660f0d589e31abc4b80">dirty_evictions</a> = 0;      <span class="comment">// 脏页替换次数</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a0fde0807a237cf1bc6310afb1f7fb9bc">   53</a></span>        std::chrono::microseconds <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a0fde0807a237cf1bc6310afb1f7fb9bc">avg_eviction_time</a>{0}; <span class="comment">// 平均替换时间</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="foldopen" id="foldopen00055" data-start="{" data-end="}">
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a724b634f70c4096e5e076497a61b649f">   55</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a724b634f70c4096e5e076497a61b649f">UpdateHitRate</a>() {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            <span class="keywordtype">size_t</span> total = <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a8a59dededf9b44feee9adeaf6e685f39">cache_hits</a> + <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a5356a291adade9f54713144ad06aec1d">cache_misses</a>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a574f3f5a516b57ef3e4adb9e5287ee59">hit_rate</a> = total &gt; 0 ? <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a8a59dededf9b44feee9adeaf6e685f39">cache_hits</a>) * 100.0 / total : 0.0;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        }</div>
+</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    };</div>
+</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classsqlcc_1_1AbstractReplaceStrategy.html">AbstractReplaceStrategy</a>(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#a3c1b559a9c0c9da9835b1f14a1071d68">   69</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1AbstractReplaceStrategy.html#a3c1b559a9c0c9da9835b1f14a1071d68">~AbstractReplaceStrategy</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#a04bd3331abec9fe621cb41f122d98da5">   77</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1AbstractReplaceStrategy.html#a04bd3331abec9fe621cb41f122d98da5">RecordAccess</a>(int32_t page_id, <span class="keywordtype">bool</span> is_hit, <span class="keywordtype">bool</span> is_write) = 0;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1AbstractReplaceStrategy.html#ade2aaf2f2c24370fdf4485355cee1db0">PinPage</a>(int32_t page_id);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1AbstractReplaceStrategy.html#aad21bcab5491eab63cfd71caf95a3f54">UnpinPage</a>(int32_t page_id);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1AbstractReplaceStrategy.html#a1fedcae1e1df17b977aa7113d609985e">MarkDirty</a>(int32_t page_id);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#a17fdffe93cef2f9bf68c5f71f07d5d7c">  101</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1AbstractReplaceStrategy.html#a17fdffe93cef2f9bf68c5f71f07d5d7c">CleanPage</a>(int32_t page_id);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#a9de0f42f66b1253bab726c3098f26b7c">  107</a></span>    <span class="keyword">virtual</span> int32_t <a class="code hl_function" href="classsqlcc_1_1AbstractReplaceStrategy.html#a9de0f42f66b1253bab726c3098f26b7c">SelectVictim</a>() = 0;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#a2ae7f7c21652ad5bbf4916b786ec2fbc">  113</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1AbstractReplaceStrategy.html#a2ae7f7c21652ad5bbf4916b786ec2fbc">GetName</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1AbstractReplaceStrategy.html#a4d81cca9efc27073b9cd86c2fcb581cd">name_</a>; }</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#a319a13a97c41251e87529711e2120082">  119</a></span>    <a class="code hl_struct" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html">StrategyStats</a> <a class="code hl_function" href="classsqlcc_1_1AbstractReplaceStrategy.html#a319a13a97c41251e87529711e2120082">GetStats</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#a734664488758608d99583bcbb722dfcc">  124</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1AbstractReplaceStrategy.html#a734664488758608d99583bcbb722dfcc">ResetStats</a>();</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#aecf0a91f6344e12c477f80d87117afd8">  131</a></span>    <a class="code hl_struct" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html">PageAccessInfo</a>* <a class="code hl_function" href="classsqlcc_1_1AbstractReplaceStrategy.html#aecf0a91f6344e12c477f80d87117afd8">GetPageInfo</a>(int32_t page_id);</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#a7c7715391d8f9d38ad2953c5ebce99d7">  137</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1AbstractReplaceStrategy.html#a7c7715391d8f9d38ad2953c5ebce99d7">RemovePage</a>(int32_t page_id);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#a7257c0368760db0aed16a1aac6b572e7">  144</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1AbstractReplaceStrategy.html#a7257c0368760db0aed16a1aac6b572e7">AddPage</a>(int32_t page_id);</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#aba01c4426e2257468c90dad677e7f008">  149</a></span>    std::unordered_map&lt;int32_t, PageAccessInfo&gt; <a class="code hl_variable" href="classsqlcc_1_1AbstractReplaceStrategy.html#aba01c4426e2257468c90dad677e7f008">page_info_</a>;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#a8ad7e8acf65c41237831f9fc4174f554">  154</a></span>    <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1AbstractReplaceStrategy.html#a8ad7e8acf65c41237831f9fc4174f554">page_info_mutex_</a>;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#a4d81cca9efc27073b9cd86c2fcb581cd">  159</a></span>    <span class="keyword">const</span> std::string <a class="code hl_variable" href="classsqlcc_1_1AbstractReplaceStrategy.html#a4d81cca9efc27073b9cd86c2fcb581cd">name_</a>;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#a687f5099d373693b5c5bb6f3bc87925d">  164</a></span>    <span class="keyword">mutable</span> <a class="code hl_struct" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html">StrategyStats</a> <a class="code hl_variable" href="classsqlcc_1_1AbstractReplaceStrategy.html#a687f5099d373693b5c5bb6f3bc87925d">stats_</a>;</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AbstractReplaceStrategy.html#ac955ffd7d213ead11ea8d7beae2efcb6">  169</a></span>    <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1AbstractReplaceStrategy.html#ac955ffd7d213ead11ea8d7beae2efcb6">stats_mutex_</a>;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>};</div>
+</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html">sqlcc::AbstractReplaceStrategy</a></div><div class="ttdoc">抽象替换策略基类</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:26</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_a04bd3331abec9fe621cb41f122d98da5"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#a04bd3331abec9fe621cb41f122d98da5">sqlcc::AbstractReplaceStrategy::RecordAccess</a></div><div class="ttdeci">virtual void RecordAccess(int32_t page_id, bool is_hit, bool is_write)=0</div><div class="ttdoc">记录页面访问</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_a17fdffe93cef2f9bf68c5f71f07d5d7c"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#a17fdffe93cef2f9bf68c5f71f07d5d7c">sqlcc::AbstractReplaceStrategy::CleanPage</a></div><div class="ttdeci">virtual void CleanPage(int32_t page_id)</div><div class="ttdoc">页面被清理（脏页状态清除）</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_a1fedcae1e1df17b977aa7113d609985e"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#a1fedcae1e1df17b977aa7113d609985e">sqlcc::AbstractReplaceStrategy::MarkDirty</a></div><div class="ttdeci">virtual void MarkDirty(int32_t page_id)</div><div class="ttdoc">页面被修改（标记为脏页）</div><div class="ttdef"><b>Definition</b> replace_strategy.cpp:59</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_a2ae7f7c21652ad5bbf4916b786ec2fbc"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#a2ae7f7c21652ad5bbf4916b786ec2fbc">sqlcc::AbstractReplaceStrategy::GetName</a></div><div class="ttdeci">const std::string &amp; GetName() const</div><div class="ttdoc">获取策略名称</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:113</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_a319a13a97c41251e87529711e2120082"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#a319a13a97c41251e87529711e2120082">sqlcc::AbstractReplaceStrategy::GetStats</a></div><div class="ttdeci">StrategyStats GetStats() const</div><div class="ttdoc">获取统计信息</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_a3c1b559a9c0c9da9835b1f14a1071d68"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#a3c1b559a9c0c9da9835b1f14a1071d68">sqlcc::AbstractReplaceStrategy::~AbstractReplaceStrategy</a></div><div class="ttdeci">virtual ~AbstractReplaceStrategy()=default</div><div class="ttdoc">析构函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_a4d81cca9efc27073b9cd86c2fcb581cd"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#a4d81cca9efc27073b9cd86c2fcb581cd">sqlcc::AbstractReplaceStrategy::name_</a></div><div class="ttdeci">const std::string name_</div><div class="ttdoc">策略名称</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:159</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_a687f5099d373693b5c5bb6f3bc87925d"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#a687f5099d373693b5c5bb6f3bc87925d">sqlcc::AbstractReplaceStrategy::stats_</a></div><div class="ttdeci">StrategyStats stats_</div><div class="ttdoc">统计信息</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:164</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_a7257c0368760db0aed16a1aac6b572e7"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#a7257c0368760db0aed16a1aac6b572e7">sqlcc::AbstractReplaceStrategy::AddPage</a></div><div class="ttdeci">virtual void AddPage(int32_t page_id)</div><div class="ttdoc">添加新页面</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_a734664488758608d99583bcbb722dfcc"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#a734664488758608d99583bcbb722dfcc">sqlcc::AbstractReplaceStrategy::ResetStats</a></div><div class="ttdeci">void ResetStats()</div><div class="ttdoc">重置统计信息</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_a7c7715391d8f9d38ad2953c5ebce99d7"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#a7c7715391d8f9d38ad2953c5ebce99d7">sqlcc::AbstractReplaceStrategy::RemovePage</a></div><div class="ttdeci">virtual void RemovePage(int32_t page_id)</div><div class="ttdoc">移除页面信息</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_a8ad7e8acf65c41237831f9fc4174f554"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#a8ad7e8acf65c41237831f9fc4174f554">sqlcc::AbstractReplaceStrategy::page_info_mutex_</a></div><div class="ttdeci">std::mutex page_info_mutex_</div><div class="ttdoc">页面访问信息互斥锁</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:154</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_a9de0f42f66b1253bab726c3098f26b7c"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#a9de0f42f66b1253bab726c3098f26b7c">sqlcc::AbstractReplaceStrategy::SelectVictim</a></div><div class="ttdeci">virtual int32_t SelectVictim()=0</div><div class="ttdoc">选择要替换的页面</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_aad21bcab5491eab63cfd71caf95a3f54"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#aad21bcab5491eab63cfd71caf95a3f54">sqlcc::AbstractReplaceStrategy::UnpinPage</a></div><div class="ttdeci">virtual void UnpinPage(int32_t page_id)</div><div class="ttdoc">页面被释放（引用计数减少）</div><div class="ttdef"><b>Definition</b> replace_strategy.cpp:49</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_aba01c4426e2257468c90dad677e7f008"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#aba01c4426e2257468c90dad677e7f008">sqlcc::AbstractReplaceStrategy::page_info_</a></div><div class="ttdeci">std::unordered_map&lt; int32_t, PageAccessInfo &gt; page_info_</div><div class="ttdoc">页面访问信息映射</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:149</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_ac955ffd7d213ead11ea8d7beae2efcb6"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#ac955ffd7d213ead11ea8d7beae2efcb6">sqlcc::AbstractReplaceStrategy::stats_mutex_</a></div><div class="ttdeci">std::mutex stats_mutex_</div><div class="ttdoc">统计信息互斥锁</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:169</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_ade2aaf2f2c24370fdf4485355cee1db0"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#ade2aaf2f2c24370fdf4485355cee1db0">sqlcc::AbstractReplaceStrategy::PinPage</a></div><div class="ttdeci">virtual void PinPage(int32_t page_id)</div><div class="ttdoc">页面被钉住（引用计数增加）</div><div class="ttdef"><b>Definition</b> replace_strategy.cpp:41</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html_aecf0a91f6344e12c477f80d87117afd8"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html#aecf0a91f6344e12c477f80d87117afd8">sqlcc::AbstractReplaceStrategy::GetPageInfo</a></div><div class="ttdeci">PageAccessInfo * GetPageInfo(int32_t page_id)</div><div class="ttdoc">获取页面访问信息</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo_html"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html">sqlcc::AbstractReplaceStrategy::PageAccessInfo</a></div><div class="ttdoc">页面访问信息</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:31</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo_html_a475c9988ba1e41f2fec7dc41f9fb7581"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#a475c9988ba1e41f2fec7dc41f9fb7581">sqlcc::AbstractReplaceStrategy::PageAccessInfo::pin_count</a></div><div class="ttdeci">int32_t pin_count</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:36</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo_html_a8ba7f9ae7b1d99144e8d1a0eb7809d35"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#a8ba7f9ae7b1d99144e8d1a0eb7809d35">sqlcc::AbstractReplaceStrategy::PageAccessInfo::last_access_time</a></div><div class="ttdeci">std::chrono::steady_clock::time_point last_access_time</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:34</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo_html_aa574d2bfd933145eb27b16b8c5d70369"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#aa574d2bfd933145eb27b16b8c5d70369">sqlcc::AbstractReplaceStrategy::PageAccessInfo::is_dirty</a></div><div class="ttdeci">bool is_dirty</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:35</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo_html_abfd6bb9a9f4e6205a3e2c3cf2b2424da"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#abfd6bb9a9f4e6205a3e2c3cf2b2424da">sqlcc::AbstractReplaceStrategy::PageAccessInfo::PageAccessInfo</a></div><div class="ttdeci">PageAccessInfo(int32_t id)</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:38</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo_html_ad14366889f22514e3b5e99d9bd9106e7"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#ad14366889f22514e3b5e99d9bd9106e7">sqlcc::AbstractReplaceStrategy::PageAccessInfo::access_count</a></div><div class="ttdeci">int32_t access_count</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:33</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo_html_ae11c920677e68681acc1be943da3a4ae"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#ae11c920677e68681acc1be943da3a4ae">sqlcc::AbstractReplaceStrategy::PageAccessInfo::page_id</a></div><div class="ttdeci">int32_t page_id</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:32</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats_html"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html">sqlcc::AbstractReplaceStrategy::StrategyStats</a></div><div class="ttdoc">策略统计信息</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:47</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats_html_a0fde0807a237cf1bc6310afb1f7fb9bc"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a0fde0807a237cf1bc6310afb1f7fb9bc">sqlcc::AbstractReplaceStrategy::StrategyStats::avg_eviction_time</a></div><div class="ttdeci">std::chrono::microseconds avg_eviction_time</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:53</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats_html_a5356a291adade9f54713144ad06aec1d"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a5356a291adade9f54713144ad06aec1d">sqlcc::AbstractReplaceStrategy::StrategyStats::cache_misses</a></div><div class="ttdeci">size_t cache_misses</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:50</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats_html_a574f3f5a516b57ef3e4adb9e5287ee59"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a574f3f5a516b57ef3e4adb9e5287ee59">sqlcc::AbstractReplaceStrategy::StrategyStats::hit_rate</a></div><div class="ttdeci">double hit_rate</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:51</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats_html_a724b634f70c4096e5e076497a61b649f"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a724b634f70c4096e5e076497a61b649f">sqlcc::AbstractReplaceStrategy::StrategyStats::UpdateHitRate</a></div><div class="ttdeci">void UpdateHitRate()</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:55</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats_html_a8a59dededf9b44feee9adeaf6e685f39"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#a8a59dededf9b44feee9adeaf6e685f39">sqlcc::AbstractReplaceStrategy::StrategyStats::cache_hits</a></div><div class="ttdeci">size_t cache_hits</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:49</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats_html_aaed22c05020349ad386940869b05c470"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#aaed22c05020349ad386940869b05c470">sqlcc::AbstractReplaceStrategy::StrategyStats::total_evictions</a></div><div class="ttdeci">size_t total_evictions</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:48</div></div>
+<div class="ttc" id="astructsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats_html_ad2e2100978e61660f0d589e31abc4b80"><div class="ttname"><a href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#ad2e2100978e61660f0d589e31abc4b80">sqlcc::AbstractReplaceStrategy::StrategyStats::dirty_evictions</a></div><div class="ttdeci">size_t dirty_evictions</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:52</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

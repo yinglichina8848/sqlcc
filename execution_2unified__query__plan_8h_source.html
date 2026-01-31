@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: unified_query_plan.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bd0755c95a42e835fb06f38bbeb1d6ed.html">execution</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">execution/unified_query_plan.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="execution_2unified__query__plan_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="preprocessor">#ifndef SQLCC_EXECUTION_UNIFIED_QUERY_PLAN_H</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="preprocessor">#define SQLCC_EXECUTION_UNIFIED_QUERY_PLAN_H</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="comment">// 使用正确的头文件路径</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="preprocessor">#include &quot;../sql_parser/ast/ast_node.h&quot;</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="preprocessor">#include &quot;../sql_parser/ast/statement.h&quot;</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="keyword">class </span>DatabaseManager;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span><span class="keyword">class </span>UserManager;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="keyword">class </span>SystemDatabase;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
+<div class="foldopen" id="foldopen00170" data-start="{" data-end="};">
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="classsqlcc_1_1UnifiedQueryPlan.html">  170</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1UnifiedQueryPlan.html">UnifiedQueryPlan</a> {</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <a class="code hl_class" href="classsqlcc_1_1UnifiedQueryPlan.html">UnifiedQueryPlan</a>(std::shared_ptr&lt;DatabaseManager&gt; db_manager,</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>                    std::shared_ptr&lt;UserManager&gt; user_manager,</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>                    std::shared_ptr&lt;SystemDatabase&gt; system_db);</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1UnifiedQueryPlan.html#a4eea0f0954e5af01710f5a6390e2b0f6">~UnifiedQueryPlan</a>();</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1UnifiedQueryPlan.html#a3a39f9300647ccdaa9ad9b33d77a44bd">buildPlan</a>(std::unique_ptr&lt;sql_parser::Statement&gt; stmt);</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    <span class="keyword">virtual</span> std::string <a class="code hl_function" href="classsqlcc_1_1UnifiedQueryPlan.html#ae324a82df5ae73ee88328e238d4cd454">executePlan</a>();</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    <span class="keyword">virtual</span> std::string <a class="code hl_function" href="classsqlcc_1_1UnifiedQueryPlan.html#a648f364e5f458de8c952ba5704302db6">getPlanType</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno"><a class="line" href="classsqlcc_1_1UnifiedQueryPlan.html#a039b43a2f2b02845c623870f3b4545e7">  204</a></span>    std::shared_ptr&lt;DatabaseManager&gt; <a class="code hl_variable" href="classsqlcc_1_1UnifiedQueryPlan.html#a039b43a2f2b02845c623870f3b4545e7">db_manager_</a>;</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="classsqlcc_1_1UnifiedQueryPlan.html#a4bc5acc78401f8a7f52ad8c35233e8e9">  205</a></span>    std::shared_ptr&lt;UserManager&gt; <a class="code hl_variable" href="classsqlcc_1_1UnifiedQueryPlan.html#a4bc5acc78401f8a7f52ad8c35233e8e9">user_manager_</a>;</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno"><a class="line" href="classsqlcc_1_1UnifiedQueryPlan.html#a258e9b0d4ad6e0261bdc908bc3c4af0f">  206</a></span>    std::shared_ptr&lt;SystemDatabase&gt; <a class="code hl_variable" href="classsqlcc_1_1UnifiedQueryPlan.html#a258e9b0d4ad6e0261bdc908bc3c4af0f">system_db_</a>;</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno"><a class="line" href="classsqlcc_1_1UnifiedQueryPlan.html#a242cb506955a6fd0da814cb134c63df3">  207</a></span>    std::unique_ptr&lt;sql_parser::Statement&gt; <a class="code hl_variable" href="classsqlcc_1_1UnifiedQueryPlan.html#a242cb506955a6fd0da814cb134c63df3">stmt_</a>;</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>};</div>
+</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_EXECUTION_UNIFIED_QUERY_PLAN_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1UnifiedQueryPlan_html"><div class="ttname"><a href="classsqlcc_1_1UnifiedQueryPlan.html">sqlcc::UnifiedQueryPlan</a></div><div class="ttdoc">统一查询计划 - 执行SQL语句的抽象接口</div><div class="ttdef"><b>Definition</b> execution/unified_query_plan.h:170</div></div>
+<div class="ttc" id="aclasssqlcc_1_1UnifiedQueryPlan_html_a039b43a2f2b02845c623870f3b4545e7"><div class="ttname"><a href="classsqlcc_1_1UnifiedQueryPlan.html#a039b43a2f2b02845c623870f3b4545e7">sqlcc::UnifiedQueryPlan::db_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; DatabaseManager &gt; db_manager_</div><div class="ttdef"><b>Definition</b> execution/unified_query_plan.h:204</div></div>
+<div class="ttc" id="aclasssqlcc_1_1UnifiedQueryPlan_html_a242cb506955a6fd0da814cb134c63df3"><div class="ttname"><a href="classsqlcc_1_1UnifiedQueryPlan.html#a242cb506955a6fd0da814cb134c63df3">sqlcc::UnifiedQueryPlan::stmt_</a></div><div class="ttdeci">std::unique_ptr&lt; sql_parser::Statement &gt; stmt_</div><div class="ttdef"><b>Definition</b> execution/unified_query_plan.h:207</div></div>
+<div class="ttc" id="aclasssqlcc_1_1UnifiedQueryPlan_html_a258e9b0d4ad6e0261bdc908bc3c4af0f"><div class="ttname"><a href="classsqlcc_1_1UnifiedQueryPlan.html#a258e9b0d4ad6e0261bdc908bc3c4af0f">sqlcc::UnifiedQueryPlan::system_db_</a></div><div class="ttdeci">std::shared_ptr&lt; SystemDatabase &gt; system_db_</div><div class="ttdef"><b>Definition</b> execution/unified_query_plan.h:206</div></div>
+<div class="ttc" id="aclasssqlcc_1_1UnifiedQueryPlan_html_a3a39f9300647ccdaa9ad9b33d77a44bd"><div class="ttname"><a href="classsqlcc_1_1UnifiedQueryPlan.html#a3a39f9300647ccdaa9ad9b33d77a44bd">sqlcc::UnifiedQueryPlan::buildPlan</a></div><div class="ttdeci">virtual bool buildPlan(std::unique_ptr&lt; sql_parser::Statement &gt; stmt)</div><div class="ttdoc">构建查询计划</div><div class="ttdef"><b>Definition</b> execution/unified_query_plan.cpp:77</div></div>
+<div class="ttc" id="aclasssqlcc_1_1UnifiedQueryPlan_html_a4bc5acc78401f8a7f52ad8c35233e8e9"><div class="ttname"><a href="classsqlcc_1_1UnifiedQueryPlan.html#a4bc5acc78401f8a7f52ad8c35233e8e9">sqlcc::UnifiedQueryPlan::user_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; UserManager &gt; user_manager_</div><div class="ttdef"><b>Definition</b> execution/unified_query_plan.h:205</div></div>
+<div class="ttc" id="aclasssqlcc_1_1UnifiedQueryPlan_html_a4eea0f0954e5af01710f5a6390e2b0f6"><div class="ttname"><a href="classsqlcc_1_1UnifiedQueryPlan.html#a4eea0f0954e5af01710f5a6390e2b0f6">sqlcc::UnifiedQueryPlan::~UnifiedQueryPlan</a></div><div class="ttdeci">virtual ~UnifiedQueryPlan()</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> execution/unified_query_plan.cpp:75</div></div>
+<div class="ttc" id="aclasssqlcc_1_1UnifiedQueryPlan_html_a648f364e5f458de8c952ba5704302db6"><div class="ttname"><a href="classsqlcc_1_1UnifiedQueryPlan.html#a648f364e5f458de8c952ba5704302db6">sqlcc::UnifiedQueryPlan::getPlanType</a></div><div class="ttdeci">virtual std::string getPlanType() const</div><div class="ttdoc">获取计划类型</div><div class="ttdef"><b>Definition</b> execution/unified_query_plan.cpp:87</div></div>
+<div class="ttc" id="aclasssqlcc_1_1UnifiedQueryPlan_html_ae324a82df5ae73ee88328e238d4cd454"><div class="ttname"><a href="classsqlcc_1_1UnifiedQueryPlan.html#ae324a82df5ae73ee88328e238d4cd454">sqlcc::UnifiedQueryPlan::executePlan</a></div><div class="ttdeci">virtual std::string executePlan()</div><div class="ttdoc">执行查询计划</div><div class="ttdef"><b>Definition</b> execution/unified_query_plan.cpp:82</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

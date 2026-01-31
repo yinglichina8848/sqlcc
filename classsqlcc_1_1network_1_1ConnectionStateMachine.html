@@ -1,0 +1,2132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::network::ConnectionStateMachine类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1network.html">network</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html">ConnectionStateMachine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1network_1_1ConnectionStateMachine-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::network::ConnectionStateMachine类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>连接状态机类  
+ <a href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="connection__state_8h_source.html">connection_state.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a8df8b354350f9e7077a54abfefa212ab" id="r_a8df8b354350f9e7077a54abfefa212ab"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a8df8b354350f9e7077a54abfefa212ab">StateChangeCallback</a> = std::function&lt; void(<a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> old_state, <a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> new_state)&gt;</td></tr>
+<tr class="memdesc:a8df8b354350f9e7077a54abfefa212ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置状态变更回调  <br /></td></tr>
+<tr class="separator:a8df8b354350f9e7077a54abfefa212ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a2cc5a22c3a96ed4c2cde656d558ec370" id="r_a2cc5a22c3a96ed4c2cde656d558ec370"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a2cc5a22c3a96ed4c2cde656d558ec370">ConnectionStateMachine</a> ()</td></tr>
+<tr class="separator:a2cc5a22c3a96ed4c2cde656d558ec370"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6501dc22515e67026d6ce581ce61d5bb" id="r_a6501dc22515e67026d6ce581ce61d5bb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a6501dc22515e67026d6ce581ce61d5bb">~ConnectionStateMachine</a> ()=default</td></tr>
+<tr class="separator:a6501dc22515e67026d6ce581ce61d5bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a795a1e30bc707afa2ae042258b45aca7" id="r_a795a1e30bc707afa2ae042258b45aca7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a795a1e30bc707afa2ae042258b45aca7">get_current_state</a> () const</td></tr>
+<tr class="separator:a795a1e30bc707afa2ae042258b45aca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9177718be46e2326908271681e829d2" id="r_ab9177718be46e2326908271681e829d2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ab9177718be46e2326908271681e829d2">can_transition</a> (<a class="el" href="namespacesqlcc_1_1network.html#af0445aaf9a198995afa3592fb5fcecaf">ConnectionEvent</a> event) const</td></tr>
+<tr class="separator:ab9177718be46e2326908271681e829d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef6be0675a76aac923635b858274768a" id="r_aef6be0675a76aac923635b858274768a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#aef6be0675a76aac923635b858274768a">transition</a> (<a class="el" href="namespacesqlcc_1_1network.html#af0445aaf9a198995afa3592fb5fcecaf">ConnectionEvent</a> event)</td></tr>
+<tr class="separator:aef6be0675a76aac923635b858274768a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace3614b164b78e6133534984ddc525a8" id="r_ace3614b164b78e6133534984ddc525a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ace3614b164b78e6133534984ddc525a8">set_target_state</a> (<a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> target_state)</td></tr>
+<tr class="separator:ace3614b164b78e6133534984ddc525a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bcf2eeee2aa14a1b9e1a313f6256f22" id="r_a8bcf2eeee2aa14a1b9e1a313f6256f22"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a8bcf2eeee2aa14a1b9e1a313f6256f22">get_target_state</a> () const</td></tr>
+<tr class="separator:a8bcf2eeee2aa14a1b9e1a313f6256f22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6421858091e2a1c1c64ea8b6674669ba" id="r_a6421858091e2a1c1c64ea8b6674669ba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a6421858091e2a1c1c64ea8b6674669ba">wait_for_state_change</a> (<a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> expected_state, std::chrono::milliseconds timeout)</td></tr>
+<tr class="separator:a6421858091e2a1c1c64ea8b6674669ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb20a84797d1d59387081a34dc8dc156" id="r_acb20a84797d1d59387081a34dc8dc156"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#acb20a84797d1d59387081a34dc8dc156">set_error</a> (const std::string &amp;error_message)</td></tr>
+<tr class="separator:acb20a84797d1d59387081a34dc8dc156"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd70db463bcf0d5f226ae2b0a2aa924b" id="r_acd70db463bcf0d5f226ae2b0a2aa924b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#acd70db463bcf0d5f226ae2b0a2aa924b">get_last_error</a> () const</td></tr>
+<tr class="separator:acd70db463bcf0d5f226ae2b0a2aa924b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d7f7b30cb544e7406e49a3524776840" id="r_a8d7f7b30cb544e7406e49a3524776840"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a8d7f7b30cb544e7406e49a3524776840">is_transitioning</a> () const</td></tr>
+<tr class="separator:a8d7f7b30cb544e7406e49a3524776840"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64ab92eb031f4b03b36bb085935b064d" id="r_a64ab92eb031f4b03b36bb085935b064d"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a64ab92eb031f4b03b36bb085935b064d">get_state_duration</a> () const</td></tr>
+<tr class="separator:a64ab92eb031f4b03b36bb085935b064d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f55c4d93b35f545d62979b1eea1b8c2" id="r_a8f55c4d93b35f545d62979b1eea1b8c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a8f55c4d93b35f545d62979b1eea1b8c2">reset</a> ()</td></tr>
+<tr class="separator:a8f55c4d93b35f545d62979b1eea1b8c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cc5a22c3a96ed4c2cde656d558ec370" id="r_a2cc5a22c3a96ed4c2cde656d558ec370"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a2cc5a22c3a96ed4c2cde656d558ec370">ConnectionStateMachine</a> ()</td></tr>
+<tr class="memdesc:a2cc5a22c3a96ed4c2cde656d558ec370"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a2cc5a22c3a96ed4c2cde656d558ec370"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6501dc22515e67026d6ce581ce61d5bb" id="r_a6501dc22515e67026d6ce581ce61d5bb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a6501dc22515e67026d6ce581ce61d5bb">~ConnectionStateMachine</a> ()=default</td></tr>
+<tr class="memdesc:a6501dc22515e67026d6ce581ce61d5bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a6501dc22515e67026d6ce581ce61d5bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a237efb8845c9efc66a6766078ae38174" id="r_a237efb8845c9efc66a6766078ae38174"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a237efb8845c9efc66a6766078ae38174">GetCurrentState</a> () const</td></tr>
+<tr class="memdesc:a237efb8845c9efc66a6766078ae38174"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前状态  <br /></td></tr>
+<tr class="separator:a237efb8845c9efc66a6766078ae38174"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab92824e57698fab1b6b95d169755ae16" id="r_ab92824e57698fab1b6b95d169755ae16"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ab92824e57698fab1b6b95d169755ae16">IsInState</a> (<a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> state) const</td></tr>
+<tr class="memdesc:ab92824e57698fab1b6b95d169755ae16"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否处于指定状态  <br /></td></tr>
+<tr class="separator:ab92824e57698fab1b6b95d169755ae16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5e803ff077e550c720d87c3b675e3a8" id="r_aa5e803ff077e550c720d87c3b675e3a8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#aa5e803ff077e550c720d87c3b675e3a8">GetStateName</a> (<a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> state) const</td></tr>
+<tr class="memdesc:aa5e803ff077e550c720d87c3b675e3a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取状态名称  <br /></td></tr>
+<tr class="separator:aa5e803ff077e550c720d87c3b675e3a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45edc5e391960598c6b49ea467fe6723" id="r_a45edc5e391960598c6b49ea467fe6723"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a45edc5e391960598c6b49ea467fe6723">TransitionTo</a> (<a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> new_state)</td></tr>
+<tr class="memdesc:a45edc5e391960598c6b49ea467fe6723"><td class="mdescLeft">&#160;</td><td class="mdescRight">转换到新状态  <br /></td></tr>
+<tr class="separator:a45edc5e391960598c6b49ea467fe6723"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8123e270c8e5d0d467886d3381dbfdd2" id="r_a8123e270c8e5d0d467886d3381dbfdd2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a8123e270c8e5d0d467886d3381dbfdd2">CanTransitionTo</a> (<a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> new_state) const</td></tr>
+<tr class="memdesc:a8123e270c8e5d0d467886d3381dbfdd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否可以转换到指定状态  <br /></td></tr>
+<tr class="separator:a8123e270c8e5d0d467886d3381dbfdd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5d2237b6cd84d18cac017fdf5627a4d" id="r_ac5d2237b6cd84d18cac017fdf5627a4d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ac5d2237b6cd84d18cac017fdf5627a4d">IsDisconnected</a> () const</td></tr>
+<tr class="separator:ac5d2237b6cd84d18cac017fdf5627a4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bb872b4aba436ee872ce14ad6c8c7dd" id="r_a2bb872b4aba436ee872ce14ad6c8c7dd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a2bb872b4aba436ee872ce14ad6c8c7dd">IsConnecting</a> () const</td></tr>
+<tr class="separator:a2bb872b4aba436ee872ce14ad6c8c7dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9fd371b8bc533526ebaa12d3a0bae76" id="r_ae9fd371b8bc533526ebaa12d3a0bae76"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ae9fd371b8bc533526ebaa12d3a0bae76">IsConnected</a> () const</td></tr>
+<tr class="separator:ae9fd371b8bc533526ebaa12d3a0bae76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31b8bef2957082975bfe8710fe853558" id="r_a31b8bef2957082975bfe8710fe853558"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a31b8bef2957082975bfe8710fe853558">IsAuthenticated</a> () const</td></tr>
+<tr class="separator:a31b8bef2957082975bfe8710fe853558"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84c1d018f74d5ce56cc8d4d371b5f9a6" id="r_a84c1d018f74d5ce56cc8d4d371b5f9a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a84c1d018f74d5ce56cc8d4d371b5f9a6">IsEncrypted</a> () const</td></tr>
+<tr class="separator:a84c1d018f74d5ce56cc8d4d371b5f9a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a805cdbe2ed4686e706cb538e54ef5a59" id="r_a805cdbe2ed4686e706cb538e54ef5a59"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a805cdbe2ed4686e706cb538e54ef5a59">IsClosed</a> () const</td></tr>
+<tr class="separator:a805cdbe2ed4686e706cb538e54ef5a59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c5b8cb46755ac298962e6c07337e760" id="r_a2c5b8cb46755ac298962e6c07337e760"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a2c5b8cb46755ac298962e6c07337e760">IsError</a> () const</td></tr>
+<tr class="separator:a2c5b8cb46755ac298962e6c07337e760"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99ff3164e0d5cd856ba1e44327fbfe68" id="r_a99ff3164e0d5cd856ba1e44327fbfe68"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a99ff3164e0d5cd856ba1e44327fbfe68">CanConnect</a> () const</td></tr>
+<tr class="separator:a99ff3164e0d5cd856ba1e44327fbfe68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e00747f694ae747a3e33f82e564f583" id="r_a0e00747f694ae747a3e33f82e564f583"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a0e00747f694ae747a3e33f82e564f583">CanAuthenticate</a> () const</td></tr>
+<tr class="separator:a0e00747f694ae747a3e33f82e564f583"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0909ba70883bc1fa2b2f87032ccebb54" id="r_a0909ba70883bc1fa2b2f87032ccebb54"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a0909ba70883bc1fa2b2f87032ccebb54">CanSendQuery</a> () const</td></tr>
+<tr class="separator:a0909ba70883bc1fa2b2f87032ccebb54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a368834833e847e37c4b53f893494e318" id="r_a368834833e847e37c4b53f893494e318"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a368834833e847e37c4b53f893494e318">CanEncrypt</a> () const</td></tr>
+<tr class="separator:a368834833e847e37c4b53f893494e318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51d1cf449a4a3616257bb6af56f22b61" id="r_a51d1cf449a4a3616257bb6af56f22b61"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a51d1cf449a4a3616257bb6af56f22b61">CanClose</a> () const</td></tr>
+<tr class="separator:a51d1cf449a4a3616257bb6af56f22b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a428b334b1c7fde39c89c1b418a66e5b7" id="r_a428b334b1c7fde39c89c1b418a66e5b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a428b334b1c7fde39c89c1b418a66e5b7">Reset</a> ()</td></tr>
+<tr class="memdesc:a428b334b1c7fde39c89c1b418a66e5b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">重置状态机  <br /></td></tr>
+<tr class="separator:a428b334b1c7fde39c89c1b418a66e5b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ed2f42885c01627c30c0eb4880324a3" id="r_a9ed2f42885c01627c30c0eb4880324a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a9ed2f42885c01627c30c0eb4880324a3">ForceError</a> ()</td></tr>
+<tr class="memdesc:a9ed2f42885c01627c30c0eb4880324a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">强制设置为错误状态  <br /></td></tr>
+<tr class="separator:a9ed2f42885c01627c30c0eb4880324a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a153326859d94f88c2e52c3381136eb28" id="r_a153326859d94f88c2e52c3381136eb28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a153326859d94f88c2e52c3381136eb28">SetStateChangeCallback</a> (<a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a8df8b354350f9e7077a54abfefa212ab">StateChangeCallback</a> callback)</td></tr>
+<tr class="separator:a153326859d94f88c2e52c3381136eb28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6233dbb94d80716f545d28e773086e6" id="r_ab6233dbb94d80716f545d28e773086e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ab6233dbb94d80716f545d28e773086e6">SetTimeouts</a> (std::chrono::milliseconds connect_timeout=std::chrono::seconds(30), std::chrono::milliseconds reconnect_delay=std::chrono::seconds(5), std::chrono::milliseconds keep_alive_interval=std::chrono::seconds(60))</td></tr>
+<tr class="memdesc:ab6233dbb94d80716f545d28e773086e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置超时和重连参数  <br /></td></tr>
+<tr class="separator:ab6233dbb94d80716f545d28e773086e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80258ae0800166a55541b4740249ee6a" id="r_a80258ae0800166a55541b4740249ee6a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a80258ae0800166a55541b4740249ee6a">StartConnectionTimer</a> ()</td></tr>
+<tr class="memdesc:a80258ae0800166a55541b4740249ee6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">启动连接计时器  <br /></td></tr>
+<tr class="separator:a80258ae0800166a55541b4740249ee6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48eb1d4b28e6b49cddc1193e526fc2bd" id="r_a48eb1d4b28e6b49cddc1193e526fc2bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a48eb1d4b28e6b49cddc1193e526fc2bd">StopConnectionTimer</a> ()</td></tr>
+<tr class="memdesc:a48eb1d4b28e6b49cddc1193e526fc2bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止连接计时器  <br /></td></tr>
+<tr class="separator:a48eb1d4b28e6b49cddc1193e526fc2bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6f3ab6c6b19a98903f97e312802aafc" id="r_ac6f3ab6c6b19a98903f97e312802aafc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ac6f3ab6c6b19a98903f97e312802aafc">IsConnectionTimedOut</a> () const</td></tr>
+<tr class="memdesc:ac6f3ab6c6b19a98903f97e312802aafc"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查连接是否超时  <br /></td></tr>
+<tr class="separator:ac6f3ab6c6b19a98903f97e312802aafc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0616b5c35a50eb43ef33df99cc81b7d6" id="r_a0616b5c35a50eb43ef33df99cc81b7d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a0616b5c35a50eb43ef33df99cc81b7d6">ResetConnectionTimer</a> ()</td></tr>
+<tr class="memdesc:a0616b5c35a50eb43ef33df99cc81b7d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">重置连接计时器  <br /></td></tr>
+<tr class="separator:a0616b5c35a50eb43ef33df99cc81b7d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3db330e45f040fbfc5f28625c169a5ea" id="r_a3db330e45f040fbfc5f28625c169a5ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a3db330e45f040fbfc5f28625c169a5ea">EnableAutoReconnect</a> (bool enabled, int max_retry_attempts=3)</td></tr>
+<tr class="memdesc:a3db330e45f040fbfc5f28625c169a5ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">启用自动重连  <br /></td></tr>
+<tr class="separator:a3db330e45f040fbfc5f28625c169a5ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1aa9b05a16000502e678a5169e8ed7cf" id="r_a1aa9b05a16000502e678a5169e8ed7cf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a1aa9b05a16000502e678a5169e8ed7cf">IsAutoReconnectEnabled</a> () const</td></tr>
+<tr class="memdesc:a1aa9b05a16000502e678a5169e8ed7cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否启用自动重连  <br /></td></tr>
+<tr class="separator:a1aa9b05a16000502e678a5169e8ed7cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2173bd74084d04ddade6b21f7655bef8" id="r_a2173bd74084d04ddade6b21f7655bef8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a2173bd74084d04ddade6b21f7655bef8">GetMaxRetryAttempts</a> () const</td></tr>
+<tr class="memdesc:a2173bd74084d04ddade6b21f7655bef8"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取最大重试次数  <br /></td></tr>
+<tr class="separator:a2173bd74084d04ddade6b21f7655bef8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ff8096ff3fb0ae621074da1ddb79c9b" id="r_a1ff8096ff3fb0ae621074da1ddb79c9b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a1ff8096ff3fb0ae621074da1ddb79c9b">GetCurrentRetryCount</a> () const</td></tr>
+<tr class="memdesc:a1ff8096ff3fb0ae621074da1ddb79c9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前重试次数  <br /></td></tr>
+<tr class="separator:a1ff8096ff3fb0ae621074da1ddb79c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fc00fe1dfc0d7d5af4781410b69ae27" id="r_a2fc00fe1dfc0d7d5af4781410b69ae27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a2fc00fe1dfc0d7d5af4781410b69ae27">IncrementRetryCount</a> ()</td></tr>
+<tr class="memdesc:a2fc00fe1dfc0d7d5af4781410b69ae27"><td class="mdescLeft">&#160;</td><td class="mdescRight">增加重试次数  <br /></td></tr>
+<tr class="separator:a2fc00fe1dfc0d7d5af4781410b69ae27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83b26a5c028a542fc8914aa24c9e9280" id="r_a83b26a5c028a542fc8914aa24c9e9280"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a83b26a5c028a542fc8914aa24c9e9280">ResetRetryCount</a> ()</td></tr>
+<tr class="memdesc:a83b26a5c028a542fc8914aa24c9e9280"><td class="mdescLeft">&#160;</td><td class="mdescRight">重置重试次数  <br /></td></tr>
+<tr class="separator:a83b26a5c028a542fc8914aa24c9e9280"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fbfeff9b7af81ad5a76be77581d1399" id="r_a1fbfeff9b7af81ad5a76be77581d1399"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a1fbfeff9b7af81ad5a76be77581d1399">ShouldAttemptReconnect</a> () const</td></tr>
+<tr class="memdesc:a1fbfeff9b7af81ad5a76be77581d1399"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否应该尝试重连  <br /></td></tr>
+<tr class="separator:a1fbfeff9b7af81ad5a76be77581d1399"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0de6fe5ccafc2200399c1aa68c3bd1d7" id="r_a0de6fe5ccafc2200399c1aa68c3bd1d7"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a0de6fe5ccafc2200399c1aa68c3bd1d7">GetReconnectDelay</a> () const</td></tr>
+<tr class="memdesc:a0de6fe5ccafc2200399c1aa68c3bd1d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取重连延迟时间  <br /></td></tr>
+<tr class="separator:a0de6fe5ccafc2200399c1aa68c3bd1d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad82b6730c17158b9548568e5612389f" id="r_aad82b6730c17158b9548568e5612389f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#aad82b6730c17158b9548568e5612389f">EnableKeepAlive</a> (bool enabled)</td></tr>
+<tr class="memdesc:aad82b6730c17158b9548568e5612389f"><td class="mdescLeft">&#160;</td><td class="mdescRight">启用保活机制  <br /></td></tr>
+<tr class="separator:aad82b6730c17158b9548568e5612389f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9b6dc377f1b75905a59845c24eebf26" id="r_ad9b6dc377f1b75905a59845c24eebf26"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ad9b6dc377f1b75905a59845c24eebf26">IsKeepAliveEnabled</a> () const</td></tr>
+<tr class="memdesc:ad9b6dc377f1b75905a59845c24eebf26"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否启用保活机制  <br /></td></tr>
+<tr class="separator:ad9b6dc377f1b75905a59845c24eebf26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad08cb37be2c99638eed60f67d134df2b" id="r_ad08cb37be2c99638eed60f67d134df2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ad08cb37be2c99638eed60f67d134df2b">UpdateLastActivity</a> ()</td></tr>
+<tr class="memdesc:ad08cb37be2c99638eed60f67d134df2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新最后活动时间  <br /></td></tr>
+<tr class="separator:ad08cb37be2c99638eed60f67d134df2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af275ce4d780215285d63f22cbdb5d5ab" id="r_af275ce4d780215285d63f22cbdb5d5ab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#af275ce4d780215285d63f22cbdb5d5ab">IsKeepAliveTimeout</a> () const</td></tr>
+<tr class="memdesc:af275ce4d780215285d63f22cbdb5d5ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查保活是否超时  <br /></td></tr>
+<tr class="separator:af275ce4d780215285d63f22cbdb5d5ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a278fccafccd8ea5a674331d6f9e9606a" id="r_a278fccafccd8ea5a674331d6f9e9606a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a278fccafccd8ea5a674331d6f9e9606a">is_valid_transition</a> (<a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> current, <a class="el" href="namespacesqlcc_1_1network.html#af0445aaf9a198995afa3592fb5fcecaf">ConnectionEvent</a> event) const</td></tr>
+<tr class="separator:a278fccafccd8ea5a674331d6f9e9606a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa632f410e170aba7ec5f1d9addab491a" id="r_aa632f410e170aba7ec5f1d9addab491a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#aa632f410e170aba7ec5f1d9addab491a">get_next_state</a> (<a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> current, <a class="el" href="namespacesqlcc_1_1network.html#af0445aaf9a198995afa3592fb5fcecaf">ConnectionEvent</a> event) const</td></tr>
+<tr class="separator:aa632f410e170aba7ec5f1d9addab491a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5c445c6322ffa34f7379216005f2b58" id="r_ac5c445c6322ffa34f7379216005f2b58"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ac5c445c6322ffa34f7379216005f2b58">IsValidTransition</a> (<a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> from, <a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> to) const</td></tr>
+<tr class="memdesc:ac5c445c6322ffa34f7379216005f2b58"><td class="mdescLeft">&#160;</td><td class="mdescRight">验证状态转换是否有效  <br /></td></tr>
+<tr class="separator:ac5c445c6322ffa34f7379216005f2b58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a5c7f6019dee2ae6dd9acb10cb820b0c8" id="r_a5c7f6019dee2ae6dd9acb10cb820b0c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a5c7f6019dee2ae6dd9acb10cb820b0c8">current_state_</a></td></tr>
+<tr class="separator:a5c7f6019dee2ae6dd9acb10cb820b0c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad601bb987f89f0664567c1dbebba7719" id="r_ad601bb987f89f0664567c1dbebba7719"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ad601bb987f89f0664567c1dbebba7719">target_state_</a></td></tr>
+<tr class="separator:ad601bb987f89f0664567c1dbebba7719"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab022d0c9361a85bb0214fda2017eb5e" id="r_aab022d0c9361a85bb0214fda2017eb5e"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#aab022d0c9361a85bb0214fda2017eb5e">state_mutex_</a></td></tr>
+<tr class="separator:aab022d0c9361a85bb0214fda2017eb5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ffcb3dd8645e0d0fc7fa483d8f546c7" id="r_a7ffcb3dd8645e0d0fc7fa483d8f546c7"><td class="memItemLeft" align="right" valign="top">std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a7ffcb3dd8645e0d0fc7fa483d8f546c7">state_changed_cv_</a></td></tr>
+<tr class="separator:a7ffcb3dd8645e0d0fc7fa483d8f546c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed08909fbbcdecc5ab9aab967b55b6bb" id="r_aed08909fbbcdecc5ab9aab967b55b6bb"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#aed08909fbbcdecc5ab9aab967b55b6bb">is_transitioning_</a></td></tr>
+<tr class="separator:aed08909fbbcdecc5ab9aab967b55b6bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac251bccc1478a602a3d6a1ae57b2ba27" id="r_ac251bccc1478a602a3d6a1ae57b2ba27"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ac251bccc1478a602a3d6a1ae57b2ba27">last_error_</a></td></tr>
+<tr class="separator:ac251bccc1478a602a3d6a1ae57b2ba27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a208cecb5ee95634d496c77aa8456a89e" id="r_a208cecb5ee95634d496c77aa8456a89e"><td class="memItemLeft" align="right" valign="top">std::chrono::steady_clock::time_point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a208cecb5ee95634d496c77aa8456a89e">last_state_change_time_</a></td></tr>
+<tr class="separator:a208cecb5ee95634d496c77aa8456a89e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd9b1638ae47350daa86cdf48b82d5ff" id="r_abd9b1638ae47350daa86cdf48b82d5ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#abd9b1638ae47350daa86cdf48b82d5ff">state_</a></td></tr>
+<tr class="memdesc:abd9b1638ae47350daa86cdf48b82d5ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前状态  <br /></td></tr>
+<tr class="separator:abd9b1638ae47350daa86cdf48b82d5ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1e026e3a7692ad410d457d864880dd6" id="r_ae1e026e3a7692ad410d457d864880dd6"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ae1e026e3a7692ad410d457d864880dd6">mutex_</a></td></tr>
+<tr class="memdesc:ae1e026e3a7692ad410d457d864880dd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">线程安全锁  <br /></td></tr>
+<tr class="separator:ae1e026e3a7692ad410d457d864880dd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a191b82ade868f98e78c0699e7bc0f563" id="r_a191b82ade868f98e78c0699e7bc0f563"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a8df8b354350f9e7077a54abfefa212ab">StateChangeCallback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a191b82ade868f98e78c0699e7bc0f563">state_change_callback_</a></td></tr>
+<tr class="memdesc:a191b82ade868f98e78c0699e7bc0f563"><td class="mdescLeft">&#160;</td><td class="mdescRight">状态变更回调  <br /></td></tr>
+<tr class="separator:a191b82ade868f98e78c0699e7bc0f563"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae10dce0bd1393460990940051c9d54ce" id="r_ae10dce0bd1393460990940051c9d54ce"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ae10dce0bd1393460990940051c9d54ce">connect_timeout_</a></td></tr>
+<tr class="memdesc:ae10dce0bd1393460990940051c9d54ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">连接超时时间  <br /></td></tr>
+<tr class="separator:ae10dce0bd1393460990940051c9d54ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af03d0e8d80025322f4e113a0931092eb" id="r_af03d0e8d80025322f4e113a0931092eb"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#af03d0e8d80025322f4e113a0931092eb">reconnect_delay_</a></td></tr>
+<tr class="memdesc:af03d0e8d80025322f4e113a0931092eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">重连延迟时间  <br /></td></tr>
+<tr class="separator:af03d0e8d80025322f4e113a0931092eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e4972059490ba3158bf6c1aa52eebf0" id="r_a7e4972059490ba3158bf6c1aa52eebf0"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a7e4972059490ba3158bf6c1aa52eebf0">keep_alive_interval_</a></td></tr>
+<tr class="memdesc:a7e4972059490ba3158bf6c1aa52eebf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">保活间隔时间  <br /></td></tr>
+<tr class="separator:a7e4972059490ba3158bf6c1aa52eebf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac888f4922b0bc54868c7f124e6f70184" id="r_ac888f4922b0bc54868c7f124e6f70184"><td class="memItemLeft" align="right" valign="top">std::chrono::steady_clock::time_point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ac888f4922b0bc54868c7f124e6f70184">connection_start_time_</a></td></tr>
+<tr class="memdesc:ac888f4922b0bc54868c7f124e6f70184"><td class="mdescLeft">&#160;</td><td class="mdescRight">连接开始时间  <br /></td></tr>
+<tr class="separator:ac888f4922b0bc54868c7f124e6f70184"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0be59466c9b0f67d216a0116e9ac603a" id="r_a0be59466c9b0f67d216a0116e9ac603a"><td class="memItemLeft" align="right" valign="top">std::chrono::steady_clock::time_point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a0be59466c9b0f67d216a0116e9ac603a">last_activity_time_</a></td></tr>
+<tr class="memdesc:a0be59466c9b0f67d216a0116e9ac603a"><td class="mdescLeft">&#160;</td><td class="mdescRight">最后活动时间  <br /></td></tr>
+<tr class="separator:a0be59466c9b0f67d216a0116e9ac603a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cbecdf2c8272aef160dee177e276916" id="r_a1cbecdf2c8272aef160dee177e276916"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a1cbecdf2c8272aef160dee177e276916">connection_timer_active_</a></td></tr>
+<tr class="memdesc:a1cbecdf2c8272aef160dee177e276916"><td class="mdescLeft">&#160;</td><td class="mdescRight">连接计时器是否激活  <br /></td></tr>
+<tr class="separator:a1cbecdf2c8272aef160dee177e276916"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abac8eb25f79d027891b289aba27d5cc5" id="r_abac8eb25f79d027891b289aba27d5cc5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#abac8eb25f79d027891b289aba27d5cc5">auto_reconnect_enabled_</a></td></tr>
+<tr class="memdesc:abac8eb25f79d027891b289aba27d5cc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否启用自动重连  <br /></td></tr>
+<tr class="separator:abac8eb25f79d027891b289aba27d5cc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae39613c5f2c3f6144d645d48b844aae9" id="r_ae39613c5f2c3f6144d645d48b844aae9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ae39613c5f2c3f6144d645d48b844aae9">keep_alive_enabled_</a></td></tr>
+<tr class="memdesc:ae39613c5f2c3f6144d645d48b844aae9"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否启用保活  <br /></td></tr>
+<tr class="separator:ae39613c5f2c3f6144d645d48b844aae9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae997da8cf2d0b98ea96eb2bf38d48b8e" id="r_ae997da8cf2d0b98ea96eb2bf38d48b8e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#ae997da8cf2d0b98ea96eb2bf38d48b8e">max_retry_attempts_</a></td></tr>
+<tr class="memdesc:ae997da8cf2d0b98ea96eb2bf38d48b8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">最大重试次数  <br /></td></tr>
+<tr class="separator:ae997da8cf2d0b98ea96eb2bf38d48b8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60dce454fa810816bde238840b59b2f1" id="r_a60dce454fa810816bde238840b59b2f1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a60dce454fa810816bde238840b59b2f1">current_retry_count_</a></td></tr>
+<tr class="memdesc:a60dce454fa810816bde238840b59b2f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前重试次数  <br /></td></tr>
+<tr class="separator:a60dce454fa810816bde238840b59b2f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>连接状态机类 </p>
+<p>严格验证连接状态转换安全性，提供重连、超时和保活机制 </p>
+</div><h2 class="groupheader">成员类型定义说明</h2>
+<a id="a8df8b354350f9e7077a54abfefa212ab" name="a8df8b354350f9e7077a54abfefa212ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8df8b354350f9e7077a54abfefa212ab">&#9670;&#160;</a></span>StateChangeCallback</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a8df8b354350f9e7077a54abfefa212ab">sqlcc::network::ConnectionStateMachine::StateChangeCallback</a> =  std::function&lt;void(<a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> old_state, <a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> new_state)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置状态变更回调 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callback</td><td>状态变更回调函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a2cc5a22c3a96ed4c2cde656d558ec370" name="a2cc5a22c3a96ed4c2cde656d558ec370"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cc5a22c3a96ed4c2cde656d558ec370">&#9670;&#160;</a></span>ConnectionStateMachine() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::network::ConnectionStateMachine::ConnectionStateMachine </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6501dc22515e67026d6ce581ce61d5bb" name="a6501dc22515e67026d6ce581ce61d5bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6501dc22515e67026d6ce581ce61d5bb">&#9670;&#160;</a></span>~ConnectionStateMachine() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::network::ConnectionStateMachine::~ConnectionStateMachine </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2cc5a22c3a96ed4c2cde656d558ec370" name="a2cc5a22c3a96ed4c2cde656d558ec370"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cc5a22c3a96ed4c2cde656d558ec370">&#9670;&#160;</a></span>ConnectionStateMachine() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::network::ConnectionStateMachine::ConnectionStateMachine </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+
+</div>
+</div>
+<a id="a6501dc22515e67026d6ce581ce61d5bb" name="a6501dc22515e67026d6ce581ce61d5bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6501dc22515e67026d6ce581ce61d5bb">&#9670;&#160;</a></span>~ConnectionStateMachine() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::network::ConnectionStateMachine::~ConnectionStateMachine </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="ab9177718be46e2326908271681e829d2" name="ab9177718be46e2326908271681e829d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9177718be46e2326908271681e829d2">&#9670;&#160;</a></span>can_transition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::can_transition </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#af0445aaf9a198995afa3592fb5fcecaf">ConnectionEvent</a>&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0e00747f694ae747a3e33f82e564f583" name="a0e00747f694ae747a3e33f82e564f583"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e00747f694ae747a3e33f82e564f583">&#9670;&#160;</a></span>CanAuthenticate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::CanAuthenticate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a51d1cf449a4a3616257bb6af56f22b61" name="a51d1cf449a4a3616257bb6af56f22b61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51d1cf449a4a3616257bb6af56f22b61">&#9670;&#160;</a></span>CanClose()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::CanClose </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a99ff3164e0d5cd856ba1e44327fbfe68" name="a99ff3164e0d5cd856ba1e44327fbfe68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99ff3164e0d5cd856ba1e44327fbfe68">&#9670;&#160;</a></span>CanConnect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::CanConnect </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a368834833e847e37c4b53f893494e318" name="a368834833e847e37c4b53f893494e318"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a368834833e847e37c4b53f893494e318">&#9670;&#160;</a></span>CanEncrypt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::CanEncrypt </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0909ba70883bc1fa2b2f87032ccebb54" name="a0909ba70883bc1fa2b2f87032ccebb54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0909ba70883bc1fa2b2f87032ccebb54">&#9670;&#160;</a></span>CanSendQuery()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::CanSendQuery </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8123e270c8e5d0d467886d3381dbfdd2" name="a8123e270c8e5d0d467886d3381dbfdd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8123e270c8e5d0d467886d3381dbfdd2">&#9670;&#160;</a></span>CanTransitionTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::CanTransitionTo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td>
+          <td class="paramname"><em>new_state</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查是否可以转换到指定状态 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">new_state</td><td>目标状态 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否可以转换 </dd></dl>
+
+</div>
+</div>
+<a id="a3db330e45f040fbfc5f28625c169a5ea" name="a3db330e45f040fbfc5f28625c169a5ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3db330e45f040fbfc5f28625c169a5ea">&#9670;&#160;</a></span>EnableAutoReconnect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::EnableAutoReconnect </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>max_retry_attempts</em> = <code>3</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>启用自动重连 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enabled</td><td>是否启用 </td></tr>
+    <tr><td class="paramname">max_retry_attempts</td><td>最大重试次数 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aad82b6730c17158b9548568e5612389f" name="aad82b6730c17158b9548568e5612389f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad82b6730c17158b9548568e5612389f">&#9670;&#160;</a></span>EnableKeepAlive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::EnableKeepAlive </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>启用保活机制 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enabled</td><td>是否启用 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9ed2f42885c01627c30c0eb4880324a3" name="a9ed2f42885c01627c30c0eb4880324a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ed2f42885c01627c30c0eb4880324a3">&#9670;&#160;</a></span>ForceError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::ForceError </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>强制设置为错误状态 </p>
+
+</div>
+</div>
+<a id="a795a1e30bc707afa2ae042258b45aca7" name="a795a1e30bc707afa2ae042258b45aca7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a795a1e30bc707afa2ae042258b45aca7">&#9670;&#160;</a></span>get_current_state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> sqlcc::network::ConnectionStateMachine::get_current_state </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acd70db463bcf0d5f226ae2b0a2aa924b" name="acd70db463bcf0d5f226ae2b0a2aa924b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd70db463bcf0d5f226ae2b0a2aa924b">&#9670;&#160;</a></span>get_last_error()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::network::ConnectionStateMachine::get_last_error </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa632f410e170aba7ec5f1d9addab491a" name="aa632f410e170aba7ec5f1d9addab491a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa632f410e170aba7ec5f1d9addab491a">&#9670;&#160;</a></span>get_next_state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> sqlcc::network::ConnectionStateMachine::get_next_state </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td>
+          <td class="paramname"><em>current</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#af0445aaf9a198995afa3592fb5fcecaf">ConnectionEvent</a>&#160;</td>
+          <td class="paramname"><em>event</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a64ab92eb031f4b03b36bb085935b064d" name="a64ab92eb031f4b03b36bb085935b064d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64ab92eb031f4b03b36bb085935b064d">&#9670;&#160;</a></span>get_state_duration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::network::ConnectionStateMachine::get_state_duration </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8bcf2eeee2aa14a1b9e1a313f6256f22" name="a8bcf2eeee2aa14a1b9e1a313f6256f22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bcf2eeee2aa14a1b9e1a313f6256f22">&#9670;&#160;</a></span>get_target_state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> sqlcc::network::ConnectionStateMachine::get_target_state </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1ff8096ff3fb0ae621074da1ddb79c9b" name="a1ff8096ff3fb0ae621074da1ddb79c9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ff8096ff3fb0ae621074da1ddb79c9b">&#9670;&#160;</a></span>GetCurrentRetryCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::network::ConnectionStateMachine::GetCurrentRetryCount </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取当前重试次数 </p>
+<dl class="section return"><dt>返回</dt><dd>当前重试次数 </dd></dl>
+
+</div>
+</div>
+<a id="a237efb8845c9efc66a6766078ae38174" name="a237efb8845c9efc66a6766078ae38174"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a237efb8845c9efc66a6766078ae38174">&#9670;&#160;</a></span>GetCurrentState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> sqlcc::network::ConnectionStateMachine::GetCurrentState </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取当前状态 </p>
+<dl class="section return"><dt>返回</dt><dd>当前连接状态 </dd></dl>
+
+</div>
+</div>
+<a id="a2173bd74084d04ddade6b21f7655bef8" name="a2173bd74084d04ddade6b21f7655bef8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2173bd74084d04ddade6b21f7655bef8">&#9670;&#160;</a></span>GetMaxRetryAttempts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::network::ConnectionStateMachine::GetMaxRetryAttempts </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取最大重试次数 </p>
+<dl class="section return"><dt>返回</dt><dd>最大重试次数 </dd></dl>
+
+</div>
+</div>
+<a id="a0de6fe5ccafc2200399c1aa68c3bd1d7" name="a0de6fe5ccafc2200399c1aa68c3bd1d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0de6fe5ccafc2200399c1aa68c3bd1d7">&#9670;&#160;</a></span>GetReconnectDelay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::network::ConnectionStateMachine::GetReconnectDelay </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取重连延迟时间 </p>
+<dl class="section return"><dt>返回</dt><dd>重连延迟时间 </dd></dl>
+
+</div>
+</div>
+<a id="aa5e803ff077e550c720d87c3b675e3a8" name="aa5e803ff077e550c720d87c3b675e3a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5e803ff077e550c720d87c3b675e3a8">&#9670;&#160;</a></span>GetStateName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::network::ConnectionStateMachine::GetStateName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td>
+          <td class="paramname"><em>state</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取状态名称 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">state</td><td>状态枚举值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>状态的字符串名称 </dd></dl>
+
+</div>
+</div>
+<a id="a2fc00fe1dfc0d7d5af4781410b69ae27" name="a2fc00fe1dfc0d7d5af4781410b69ae27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fc00fe1dfc0d7d5af4781410b69ae27">&#9670;&#160;</a></span>IncrementRetryCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::IncrementRetryCount </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>增加重试次数 </p>
+
+</div>
+</div>
+<a id="a8d7f7b30cb544e7406e49a3524776840" name="a8d7f7b30cb544e7406e49a3524776840"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d7f7b30cb544e7406e49a3524776840">&#9670;&#160;</a></span>is_transitioning()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::is_transitioning </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a278fccafccd8ea5a674331d6f9e9606a" name="a278fccafccd8ea5a674331d6f9e9606a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a278fccafccd8ea5a674331d6f9e9606a">&#9670;&#160;</a></span>is_valid_transition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::is_valid_transition </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td>
+          <td class="paramname"><em>current</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#af0445aaf9a198995afa3592fb5fcecaf">ConnectionEvent</a>&#160;</td>
+          <td class="paramname"><em>event</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a31b8bef2957082975bfe8710fe853558" name="a31b8bef2957082975bfe8710fe853558"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31b8bef2957082975bfe8710fe853558">&#9670;&#160;</a></span>IsAuthenticated()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::IsAuthenticated </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1aa9b05a16000502e678a5169e8ed7cf" name="a1aa9b05a16000502e678a5169e8ed7cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1aa9b05a16000502e678a5169e8ed7cf">&#9670;&#160;</a></span>IsAutoReconnectEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::IsAutoReconnectEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查是否启用自动重连 </p>
+<dl class="section return"><dt>返回</dt><dd>是否启用 </dd></dl>
+
+</div>
+</div>
+<a id="a805cdbe2ed4686e706cb538e54ef5a59" name="a805cdbe2ed4686e706cb538e54ef5a59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a805cdbe2ed4686e706cb538e54ef5a59">&#9670;&#160;</a></span>IsClosed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::IsClosed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae9fd371b8bc533526ebaa12d3a0bae76" name="ae9fd371b8bc533526ebaa12d3a0bae76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9fd371b8bc533526ebaa12d3a0bae76">&#9670;&#160;</a></span>IsConnected()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::IsConnected </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2bb872b4aba436ee872ce14ad6c8c7dd" name="a2bb872b4aba436ee872ce14ad6c8c7dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bb872b4aba436ee872ce14ad6c8c7dd">&#9670;&#160;</a></span>IsConnecting()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::IsConnecting </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac6f3ab6c6b19a98903f97e312802aafc" name="ac6f3ab6c6b19a98903f97e312802aafc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6f3ab6c6b19a98903f97e312802aafc">&#9670;&#160;</a></span>IsConnectionTimedOut()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::IsConnectionTimedOut </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查连接是否超时 </p>
+<dl class="section return"><dt>返回</dt><dd>是否超时 </dd></dl>
+
+</div>
+</div>
+<a id="ac5d2237b6cd84d18cac017fdf5627a4d" name="ac5d2237b6cd84d18cac017fdf5627a4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5d2237b6cd84d18cac017fdf5627a4d">&#9670;&#160;</a></span>IsDisconnected()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::IsDisconnected </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a84c1d018f74d5ce56cc8d4d371b5f9a6" name="a84c1d018f74d5ce56cc8d4d371b5f9a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84c1d018f74d5ce56cc8d4d371b5f9a6">&#9670;&#160;</a></span>IsEncrypted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::IsEncrypted </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2c5b8cb46755ac298962e6c07337e760" name="a2c5b8cb46755ac298962e6c07337e760"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c5b8cb46755ac298962e6c07337e760">&#9670;&#160;</a></span>IsError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::IsError </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab92824e57698fab1b6b95d169755ae16" name="ab92824e57698fab1b6b95d169755ae16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab92824e57698fab1b6b95d169755ae16">&#9670;&#160;</a></span>IsInState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::IsInState </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td>
+          <td class="paramname"><em>state</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查是否处于指定状态 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">state</td><td>要检查的状态 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否处于该状态 </dd></dl>
+
+</div>
+</div>
+<a id="ad9b6dc377f1b75905a59845c24eebf26" name="ad9b6dc377f1b75905a59845c24eebf26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9b6dc377f1b75905a59845c24eebf26">&#9670;&#160;</a></span>IsKeepAliveEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::IsKeepAliveEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查是否启用保活机制 </p>
+<dl class="section return"><dt>返回</dt><dd>是否启用 </dd></dl>
+
+</div>
+</div>
+<a id="af275ce4d780215285d63f22cbdb5d5ab" name="af275ce4d780215285d63f22cbdb5d5ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af275ce4d780215285d63f22cbdb5d5ab">&#9670;&#160;</a></span>IsKeepAliveTimeout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::IsKeepAliveTimeout </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查保活是否超时 </p>
+<dl class="section return"><dt>返回</dt><dd>是否超时 </dd></dl>
+
+</div>
+</div>
+<a id="ac5c445c6322ffa34f7379216005f2b58" name="ac5c445c6322ffa34f7379216005f2b58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5c445c6322ffa34f7379216005f2b58">&#9670;&#160;</a></span>IsValidTransition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::IsValidTransition </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td>
+          <td class="paramname"><em>from</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td>
+          <td class="paramname"><em>to</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>验证状态转换是否有效 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">from</td><td>起始状态 </td></tr>
+    <tr><td class="paramname">to</td><td>目标状态 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否有效 </dd></dl>
+
+</div>
+</div>
+<a id="a8f55c4d93b35f545d62979b1eea1b8c2" name="a8f55c4d93b35f545d62979b1eea1b8c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f55c4d93b35f545d62979b1eea1b8c2">&#9670;&#160;</a></span>reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a428b334b1c7fde39c89c1b418a66e5b7" name="a428b334b1c7fde39c89c1b418a66e5b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a428b334b1c7fde39c89c1b418a66e5b7">&#9670;&#160;</a></span>Reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::Reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>重置状态机 </p>
+
+</div>
+</div>
+<a id="a0616b5c35a50eb43ef33df99cc81b7d6" name="a0616b5c35a50eb43ef33df99cc81b7d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0616b5c35a50eb43ef33df99cc81b7d6">&#9670;&#160;</a></span>ResetConnectionTimer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::ResetConnectionTimer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>重置连接计时器 </p>
+
+</div>
+</div>
+<a id="a83b26a5c028a542fc8914aa24c9e9280" name="a83b26a5c028a542fc8914aa24c9e9280"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83b26a5c028a542fc8914aa24c9e9280">&#9670;&#160;</a></span>ResetRetryCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::ResetRetryCount </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>重置重试次数 </p>
+
+</div>
+</div>
+<a id="acb20a84797d1d59387081a34dc8dc156" name="acb20a84797d1d59387081a34dc8dc156"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb20a84797d1d59387081a34dc8dc156">&#9670;&#160;</a></span>set_error()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::set_error </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>error_message</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ace3614b164b78e6133534984ddc525a8" name="ace3614b164b78e6133534984ddc525a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace3614b164b78e6133534984ddc525a8">&#9670;&#160;</a></span>set_target_state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::set_target_state </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td>
+          <td class="paramname"><em>target_state</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a153326859d94f88c2e52c3381136eb28" name="a153326859d94f88c2e52c3381136eb28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a153326859d94f88c2e52c3381136eb28">&#9670;&#160;</a></span>SetStateChangeCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::SetStateChangeCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a8df8b354350f9e7077a54abfefa212ab">StateChangeCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab6233dbb94d80716f545d28e773086e6" name="ab6233dbb94d80716f545d28e773086e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6233dbb94d80716f545d28e773086e6">&#9670;&#160;</a></span>SetTimeouts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::SetTimeouts </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>connect_timeout</em> = <code>std::chrono::seconds(30)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>reconnect_delay</em> = <code>std::chrono::seconds(5)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>keep_alive_interval</em> = <code>std::chrono::seconds(60)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置超时和重连参数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">connect_timeout</td><td>连接超时时间 </td></tr>
+    <tr><td class="paramname">reconnect_delay</td><td>重连延迟时间 </td></tr>
+    <tr><td class="paramname">keep_alive_interval</td><td>保活间隔时间 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1fbfeff9b7af81ad5a76be77581d1399" name="a1fbfeff9b7af81ad5a76be77581d1399"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fbfeff9b7af81ad5a76be77581d1399">&#9670;&#160;</a></span>ShouldAttemptReconnect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::ShouldAttemptReconnect </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查是否应该尝试重连 </p>
+<dl class="section return"><dt>返回</dt><dd>是否应该重连 </dd></dl>
+
+</div>
+</div>
+<a id="a80258ae0800166a55541b4740249ee6a" name="a80258ae0800166a55541b4740249ee6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80258ae0800166a55541b4740249ee6a">&#9670;&#160;</a></span>StartConnectionTimer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::StartConnectionTimer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>启动连接计时器 </p>
+
+</div>
+</div>
+<a id="a48eb1d4b28e6b49cddc1193e526fc2bd" name="a48eb1d4b28e6b49cddc1193e526fc2bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48eb1d4b28e6b49cddc1193e526fc2bd">&#9670;&#160;</a></span>StopConnectionTimer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::StopConnectionTimer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>停止连接计时器 </p>
+
+</div>
+</div>
+<a id="aef6be0675a76aac923635b858274768a" name="aef6be0675a76aac923635b858274768a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef6be0675a76aac923635b858274768a">&#9670;&#160;</a></span>transition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::transition </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#af0445aaf9a198995afa3592fb5fcecaf">ConnectionEvent</a>&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a45edc5e391960598c6b49ea467fe6723" name="a45edc5e391960598c6b49ea467fe6723"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45edc5e391960598c6b49ea467fe6723">&#9670;&#160;</a></span>TransitionTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::TransitionTo </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td>
+          <td class="paramname"><em>new_state</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>转换到新状态 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">new_state</td><td>目标状态 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否转换成功 </dd></dl>
+
+</div>
+</div>
+<a id="ad08cb37be2c99638eed60f67d134df2b" name="ad08cb37be2c99638eed60f67d134df2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad08cb37be2c99638eed60f67d134df2b">&#9670;&#160;</a></span>UpdateLastActivity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::network::ConnectionStateMachine::UpdateLastActivity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>更新最后活动时间 </p>
+
+</div>
+</div>
+<a id="a6421858091e2a1c1c64ea8b6674669ba" name="a6421858091e2a1c1c64ea8b6674669ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6421858091e2a1c1c64ea8b6674669ba">&#9670;&#160;</a></span>wait_for_state_change()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::wait_for_state_change </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a>&#160;</td>
+          <td class="paramname"><em>expected_state</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="abac8eb25f79d027891b289aba27d5cc5" name="abac8eb25f79d027891b289aba27d5cc5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abac8eb25f79d027891b289aba27d5cc5">&#9670;&#160;</a></span>auto_reconnect_enabled_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::auto_reconnect_enabled_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否启用自动重连 </p>
+
+</div>
+</div>
+<a id="ae10dce0bd1393460990940051c9d54ce" name="ae10dce0bd1393460990940051c9d54ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae10dce0bd1393460990940051c9d54ce">&#9670;&#160;</a></span>connect_timeout_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::network::ConnectionStateMachine::connect_timeout_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>连接超时时间 </p>
+
+</div>
+</div>
+<a id="ac888f4922b0bc54868c7f124e6f70184" name="ac888f4922b0bc54868c7f124e6f70184"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac888f4922b0bc54868c7f124e6f70184">&#9670;&#160;</a></span>connection_start_time_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::steady_clock::time_point sqlcc::network::ConnectionStateMachine::connection_start_time_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>连接开始时间 </p>
+
+</div>
+</div>
+<a id="a1cbecdf2c8272aef160dee177e276916" name="a1cbecdf2c8272aef160dee177e276916"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cbecdf2c8272aef160dee177e276916">&#9670;&#160;</a></span>connection_timer_active_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::connection_timer_active_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>连接计时器是否激活 </p>
+
+</div>
+</div>
+<a id="a60dce454fa810816bde238840b59b2f1" name="a60dce454fa810816bde238840b59b2f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60dce454fa810816bde238840b59b2f1">&#9670;&#160;</a></span>current_retry_count_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::network::ConnectionStateMachine::current_retry_count_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前重试次数 </p>
+
+</div>
+</div>
+<a id="a5c7f6019dee2ae6dd9acb10cb820b0c8" name="a5c7f6019dee2ae6dd9acb10cb820b0c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c7f6019dee2ae6dd9acb10cb820b0c8">&#9670;&#160;</a></span>current_state_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> sqlcc::network::ConnectionStateMachine::current_state_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed08909fbbcdecc5ab9aab967b55b6bb" name="aed08909fbbcdecc5ab9aab967b55b6bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed08909fbbcdecc5ab9aab967b55b6bb">&#9670;&#160;</a></span>is_transitioning_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;bool&gt; sqlcc::network::ConnectionStateMachine::is_transitioning_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae39613c5f2c3f6144d645d48b844aae9" name="ae39613c5f2c3f6144d645d48b844aae9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae39613c5f2c3f6144d645d48b844aae9">&#9670;&#160;</a></span>keep_alive_enabled_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::network::ConnectionStateMachine::keep_alive_enabled_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否启用保活 </p>
+
+</div>
+</div>
+<a id="a7e4972059490ba3158bf6c1aa52eebf0" name="a7e4972059490ba3158bf6c1aa52eebf0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e4972059490ba3158bf6c1aa52eebf0">&#9670;&#160;</a></span>keep_alive_interval_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::network::ConnectionStateMachine::keep_alive_interval_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保活间隔时间 </p>
+
+</div>
+</div>
+<a id="a0be59466c9b0f67d216a0116e9ac603a" name="a0be59466c9b0f67d216a0116e9ac603a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0be59466c9b0f67d216a0116e9ac603a">&#9670;&#160;</a></span>last_activity_time_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::steady_clock::time_point sqlcc::network::ConnectionStateMachine::last_activity_time_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最后活动时间 </p>
+
+</div>
+</div>
+<a id="ac251bccc1478a602a3d6a1ae57b2ba27" name="ac251bccc1478a602a3d6a1ae57b2ba27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac251bccc1478a602a3d6a1ae57b2ba27">&#9670;&#160;</a></span>last_error_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::network::ConnectionStateMachine::last_error_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a208cecb5ee95634d496c77aa8456a89e" name="a208cecb5ee95634d496c77aa8456a89e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a208cecb5ee95634d496c77aa8456a89e">&#9670;&#160;</a></span>last_state_change_time_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::steady_clock::time_point sqlcc::network::ConnectionStateMachine::last_state_change_time_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae997da8cf2d0b98ea96eb2bf38d48b8e" name="ae997da8cf2d0b98ea96eb2bf38d48b8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae997da8cf2d0b98ea96eb2bf38d48b8e">&#9670;&#160;</a></span>max_retry_attempts_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::network::ConnectionStateMachine::max_retry_attempts_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最大重试次数 </p>
+
+</div>
+</div>
+<a id="ae1e026e3a7692ad410d457d864880dd6" name="ae1e026e3a7692ad410d457d864880dd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1e026e3a7692ad410d457d864880dd6">&#9670;&#160;</a></span>mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::network::ConnectionStateMachine::mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>线程安全锁 </p>
+
+</div>
+</div>
+<a id="af03d0e8d80025322f4e113a0931092eb" name="af03d0e8d80025322f4e113a0931092eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af03d0e8d80025322f4e113a0931092eb">&#9670;&#160;</a></span>reconnect_delay_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::network::ConnectionStateMachine::reconnect_delay_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>重连延迟时间 </p>
+
+</div>
+</div>
+<a id="abd9b1638ae47350daa86cdf48b82d5ff" name="abd9b1638ae47350daa86cdf48b82d5ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd9b1638ae47350daa86cdf48b82d5ff">&#9670;&#160;</a></span>state_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> sqlcc::network::ConnectionStateMachine::state_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前状态 </p>
+
+</div>
+</div>
+<a id="a191b82ade868f98e78c0699e7bc0f563" name="a191b82ade868f98e78c0699e7bc0f563"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a191b82ade868f98e78c0699e7bc0f563">&#9670;&#160;</a></span>state_change_callback_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1network_1_1ConnectionStateMachine.html#a8df8b354350f9e7077a54abfefa212ab">StateChangeCallback</a> sqlcc::network::ConnectionStateMachine::state_change_callback_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>状态变更回调 </p>
+
+</div>
+</div>
+<a id="a7ffcb3dd8645e0d0fc7fa483d8f546c7" name="a7ffcb3dd8645e0d0fc7fa483d8f546c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ffcb3dd8645e0d0fc7fa483d8f546c7">&#9670;&#160;</a></span>state_changed_cv_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::condition_variable sqlcc::network::ConnectionStateMachine::state_changed_cv_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aab022d0c9361a85bb0214fda2017eb5e" name="aab022d0c9361a85bb0214fda2017eb5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab022d0c9361a85bb0214fda2017eb5e">&#9670;&#160;</a></span>state_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::network::ConnectionStateMachine::state_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad601bb987f89f0664567c1dbebba7719" name="ad601bb987f89f0664567c1dbebba7719"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad601bb987f89f0664567c1dbebba7719">&#9670;&#160;</a></span>target_state_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc_1_1network.html#a978fd8ac993ab181f3c00a47c528db21">ConnectionState</a> sqlcc::network::ConnectionStateMachine::target_state_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="connection__state_8h_source.html">connection_state.h</a></li>
+<li><a class="el" href="connection__state__machine_8h_source.html">connection_state_machine.h</a></li>
+<li><a class="el" href="connection__state__machine_8cpp.html">connection_state_machine.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

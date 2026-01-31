@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: function_call.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li><li class="navelem"><a class="el" href="dir_039cc34cb916358c9476a0577894d2ad.html">function</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">function_call.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>函数调用相关类定义  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="ast__node_8h_source.html">../ast/ast_node.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="statement_8h_source.html">../ast/statement.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="expression_8h_source.html">../ast/expression.h</a>&quot;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+function_call.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="function__call_8h__incl.png" border="0" usemap="#afunction__call_8h" alt=""/></div>
+<map name="afunction__call_8h" id="afunction__call_8h">
+<area shape="rect" title="函数调用相关类定义" alt="" coords="190,5,307,31"/>
+<area shape="rect" href="ast__node_8h.html" title=" " alt="" coords="21,152,151,177"/>
+<area shape="poly" title=" " alt="" coords="191,27,163,33,134,44,109,59,88,80,82,94,79,108,82,138,76,139,74,108,77,92,84,77,105,55,132,39,161,28,190,22"/>
+<area shape="rect" title=" " alt="" coords="47,225,125,251"/>
+<area shape="poly" title=" " alt="" coords="191,32,140,47,88,71,64,87,42,106,24,128,11,153,8,165,11,176,29,199,51,216,48,221,25,203,6,179,3,165,6,151,20,125,38,102,60,83,85,67,138,42,189,27"/>
+<area shape="rect" title=" " alt="" coords="370,225,429,251"/>
+<area shape="poly" title=" " alt="" coords="308,24,365,38,425,61,453,78,479,98,500,122,515,151,518,165,516,178,499,199,472,216,443,228,441,223,470,211,495,195,511,176,513,165,510,153,495,125,475,102,450,82,422,66,363,43,307,29"/>
+<area shape="rect" href="statement_8h.html" title=" " alt="" coords="99,79,236,104"/>
+<area shape="poly" title=" " alt="" coords="237,33,193,72,189,68,234,29"/>
+<area shape="rect" href="expression_8h.html" title=" " alt="" coords="261,79,402,104"/>
+<area shape="poly" title=" " alt="" coords="264,29,309,67,306,72,260,33"/>
+<area shape="rect" title=" " alt="" coords="437,152,500,177"/>
+<area shape="poly" title=" " alt="" coords="309,28,363,46,391,60,416,77,443,106,461,138,456,141,438,110,412,81,388,64,361,51,307,33"/>
+<area shape="poly" title=" " alt="" coords="89,178,89,212,83,212,83,178"/>
+<area shape="poly" title=" " alt="" coords="137,175,357,224,356,230,136,180"/>
+<area shape="poly" title=" " alt="" coords="156,106,111,145,108,141,153,102"/>
+<area shape="poly" title=" " alt="" coords="293,107,140,151,138,146,291,101"/>
+<area shape="poly" title=" " alt="" coords="308,106,215,154,115,220,112,215,213,150,306,102"/>
+<area shape="poly" title=" " alt="" coords="344,103,360,124,377,151,389,182,397,211,392,213,384,183,372,153,356,127,339,106"/>
+<area shape="rect" href="operator__kind_8h.html" title=" " alt="" coords="226,152,362,177"/>
+<area shape="poly" title=" " alt="" coords="328,106,309,141,304,139,323,103"/>
+<area shape="poly" title=" " alt="" coords="355,102,436,143,433,148,352,106"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="function__call_8h__dep__incl.png" border="0" usemap="#afunction__call_8hdep" alt=""/></div>
+<map name="afunction__call_8hdep" id="afunction__call_8hdep">
+<area shape="rect" title="函数调用相关类定义" alt="" coords="11,5,129,31"/>
+<area shape="rect" href="function__ast_8cpp.html" title=" " alt="" coords="5,79,135,104"/>
+<area shape="poly" title=" " alt="" coords="73,44,73,79,67,79,67,44"/>
+</map>
+</div>
+</div>
+<p><a href="function__call_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionCallExpression.html">sqlcc::sql_parser::FunctionCallExpression</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">函数调用表达式  <a href="classsqlcc_1_1sql__parser_1_1FunctionCallExpression.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionCallStatement.html">sqlcc::sql_parser::FunctionCallStatement</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">函数调用语句  <a href="classsqlcc_1_1sql__parser_1_1FunctionCallStatement.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1sql__parser" id="r_namespacesqlcc_1_1sql__parser"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sqlcc::sql_parser</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>函数调用相关类定义 </p>
+<p>Why: 需要专门的类来处理函数调用的表达式和语句形式 What: FunctionCallExpression和FunctionCallStatement类封装函数调用逻辑 How: 提供函数调用的参数传递和执行控制 </p>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

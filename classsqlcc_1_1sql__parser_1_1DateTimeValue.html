@@ -1,0 +1,772 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::DateTimeValue类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-static-methods">静态 Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1DateTimeValue-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::DateTimeValue类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>日期时间数据类型实现  
+ <a href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="data__types_8h_source.html">data_types.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:af76db934df7d51cc0aedf431c5918427" id="r_af76db934df7d51cc0aedf431c5918427"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427">Format</a> { <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427a633a6c7a6b9958f8174250094daf1e6a">DATE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427a346ff32eaa3c09983fb2ec057816d352">TIME</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427a87fb568bfdc633ffd5dee0f22cb4606c">TIMESTAMP</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427aa3eb957bd02f4780a599d5ec4464ca46">DATETIME</a>
+ }</td></tr>
+<tr class="separator:af76db934df7d51cc0aedf431c5918427"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a1a55a55375f180e73b3282dbe01ffdde" id="r_a1a55a55375f180e73b3282dbe01ffdde"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a1a55a55375f180e73b3282dbe01ffdde">DateTimeValue</a> ()</td></tr>
+<tr class="separator:a1a55a55375f180e73b3282dbe01ffdde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03a9056d55b09dc2c748f197dc2e6699" id="r_a03a9056d55b09dc2c748f197dc2e6699"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a03a9056d55b09dc2c748f197dc2e6699">DateTimeValue</a> (const std::string &amp;str, <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427">Format</a> format=<a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427a87fb568bfdc633ffd5dee0f22cb4606c">Format::TIMESTAMP</a>)</td></tr>
+<tr class="separator:a03a9056d55b09dc2c748f197dc2e6699"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d7f5a58c2a7354ba2be082f8caeada2" id="r_a6d7f5a58c2a7354ba2be082f8caeada2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a6d7f5a58c2a7354ba2be082f8caeada2">DateTimeValue</a> (std::chrono::system_clock::time_point tp)</td></tr>
+<tr class="separator:a6d7f5a58c2a7354ba2be082f8caeada2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa152c7571360aba4c5ae8040a5767fd" id="r_afa152c7571360aba4c5ae8040a5767fd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#afa152c7571360aba4c5ae8040a5767fd">operator+</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;other) const</td></tr>
+<tr class="separator:afa152c7571360aba4c5ae8040a5767fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c5fbb388e2bfef8d0aaca8a109c5d70" id="r_a4c5fbb388e2bfef8d0aaca8a109c5d70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a4c5fbb388e2bfef8d0aaca8a109c5d70">operator-</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;other) const</td></tr>
+<tr class="separator:a4c5fbb388e2bfef8d0aaca8a109c5d70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fc9184d8b0390e8a1c929e160c7870e" id="r_a1fc9184d8b0390e8a1c929e160c7870e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a1fc9184d8b0390e8a1c929e160c7870e">operator==</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;other) const</td></tr>
+<tr class="separator:a1fc9184d8b0390e8a1c929e160c7870e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e17fd303dbde2b7f3f649acc9ab9306" id="r_a1e17fd303dbde2b7f3f649acc9ab9306"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a1e17fd303dbde2b7f3f649acc9ab9306">operator!=</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;other) const</td></tr>
+<tr class="separator:a1e17fd303dbde2b7f3f649acc9ab9306"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dbee1886d5144c1a7e86ced87bd79cd" id="r_a7dbee1886d5144c1a7e86ced87bd79cd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a7dbee1886d5144c1a7e86ced87bd79cd">operator&lt;</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;other) const</td></tr>
+<tr class="separator:a7dbee1886d5144c1a7e86ced87bd79cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6ee931a02b91b74a173289e6965ed13" id="r_ad6ee931a02b91b74a173289e6965ed13"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#ad6ee931a02b91b74a173289e6965ed13">operator&lt;=</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;other) const</td></tr>
+<tr class="separator:ad6ee931a02b91b74a173289e6965ed13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab94e16cdd532d8ddcb93a85e32bb96da" id="r_ab94e16cdd532d8ddcb93a85e32bb96da"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#ab94e16cdd532d8ddcb93a85e32bb96da">operator&gt;</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;other) const</td></tr>
+<tr class="separator:ab94e16cdd532d8ddcb93a85e32bb96da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8fb7fde6b0d5a0ae262c1adf6ae340f" id="r_aa8fb7fde6b0d5a0ae262c1adf6ae340f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#aa8fb7fde6b0d5a0ae262c1adf6ae340f">operator&gt;=</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;other) const</td></tr>
+<tr class="separator:aa8fb7fde6b0d5a0ae262c1adf6ae340f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96145adae0606b497b2b484cba9e76c7" id="r_a96145adae0606b497b2b484cba9e76c7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a96145adae0606b497b2b484cba9e76c7">toString</a> () const</td></tr>
+<tr class="separator:a96145adae0606b497b2b484cba9e76c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f047c6524a39de209a256f27d7befde" id="r_a2f047c6524a39de209a256f27d7befde"><td class="memItemLeft" align="right" valign="top">std::chrono::system_clock::time_point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a2f047c6524a39de209a256f27d7befde">toTimePoint</a> () const</td></tr>
+<tr class="separator:a2f047c6524a39de209a256f27d7befde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ac9f71d60a620d3504239fc2281c8e8" id="r_a1ac9f71d60a620d3504239fc2281c8e8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a1ac9f71d60a620d3504239fc2281c8e8">getYear</a> () const</td></tr>
+<tr class="separator:a1ac9f71d60a620d3504239fc2281c8e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d2a0be9e50af825963b2b8c8f55ee69" id="r_a8d2a0be9e50af825963b2b8c8f55ee69"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a8d2a0be9e50af825963b2b8c8f55ee69">getMonth</a> () const</td></tr>
+<tr class="separator:a8d2a0be9e50af825963b2b8c8f55ee69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a573bf19f14cb4bed6158bc8e62eb9db0" id="r_a573bf19f14cb4bed6158bc8e62eb9db0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a573bf19f14cb4bed6158bc8e62eb9db0">getDay</a> () const</td></tr>
+<tr class="separator:a573bf19f14cb4bed6158bc8e62eb9db0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a120f75f0545b96453fca6aca8ea2eb3c" id="r_a120f75f0545b96453fca6aca8ea2eb3c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a120f75f0545b96453fca6aca8ea2eb3c">getHour</a> () const</td></tr>
+<tr class="separator:a120f75f0545b96453fca6aca8ea2eb3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3cac487cc653b687b997bc33f61f905" id="r_af3cac487cc653b687b997bc33f61f905"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af3cac487cc653b687b997bc33f61f905">getMinute</a> () const</td></tr>
+<tr class="separator:af3cac487cc653b687b997bc33f61f905"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a628cc437c6f124e9d7464e08b1e80ebf" id="r_a628cc437c6f124e9d7464e08b1e80ebf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a628cc437c6f124e9d7464e08b1e80ebf">getSecond</a> () const</td></tr>
+<tr class="separator:a628cc437c6f124e9d7464e08b1e80ebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2be80616398cd2689fad4611b048e6ed" id="r_a2be80616398cd2689fad4611b048e6ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427">Format</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a2be80616398cd2689fad4611b048e6ed">getFormat</a> () const</td></tr>
+<tr class="separator:a2be80616398cd2689fad4611b048e6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36b974290e46d47cbf2ef14f48f9a875" id="r_a36b974290e46d47cbf2ef14f48f9a875"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a36b974290e46d47cbf2ef14f48f9a875">setFormat</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427">Format</a> format)</td></tr>
+<tr class="separator:a36b974290e46d47cbf2ef14f48f9a875"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a8fee4bcbfe0e71e8e1a1bbcf3abeed20" id="r_a8fee4bcbfe0e71e8e1a1bbcf3abeed20"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a8fee4bcbfe0e71e8e1a1bbcf3abeed20">now</a> ()</td></tr>
+<tr class="separator:a8fee4bcbfe0e71e8e1a1bbcf3abeed20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6ccd5a15a18b8e218cf5b51d21f5544" id="r_ad6ccd5a15a18b8e218cf5b51d21f5544"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#ad6ccd5a15a18b8e218cf5b51d21f5544">today</a> ()</td></tr>
+<tr class="separator:ad6ccd5a15a18b8e218cf5b51d21f5544"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+静态 Private 成员函数</h2></td></tr>
+<tr class="memitem:a2e4cbe085d96f8bf0a6bc796d605ae2f" id="r_a2e4cbe085d96f8bf0a6bc796d605ae2f"><td class="memItemLeft" align="right" valign="top">static std::chrono::system_clock::time_point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a2e4cbe085d96f8bf0a6bc796d605ae2f">parseString</a> (const std::string &amp;str, <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427">Format</a> format)</td></tr>
+<tr class="separator:a2e4cbe085d96f8bf0a6bc796d605ae2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9db340ce3ce2dcb44e9785d75e8dffeb" id="r_a9db340ce3ce2dcb44e9785d75e8dffeb"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a9db340ce3ce2dcb44e9785d75e8dffeb">formatTimePoint</a> (const std::chrono::system_clock::time_point &amp;tp, <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427">Format</a> format)</td></tr>
+<tr class="separator:a9db340ce3ce2dcb44e9785d75e8dffeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a92b5ecfb7c93f6f555756daee6f30833" id="r_a92b5ecfb7c93f6f555756daee6f30833"><td class="memItemLeft" align="right" valign="top">std::chrono::system_clock::time_point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a92b5ecfb7c93f6f555756daee6f30833">time_point_</a></td></tr>
+<tr class="separator:a92b5ecfb7c93f6f555756daee6f30833"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a744a9df5f6193e2d3ceecfb1479ca06e" id="r_a744a9df5f6193e2d3ceecfb1479ca06e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427">Format</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#a744a9df5f6193e2d3ceecfb1479ca06e">format_</a></td></tr>
+<tr class="separator:a744a9df5f6193e2d3ceecfb1479ca06e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>日期时间数据类型实现 </p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="af76db934df7d51cc0aedf431c5918427" name="af76db934df7d51cc0aedf431c5918427"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af76db934df7d51cc0aedf431c5918427">&#9670;&#160;</a></span>Format</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427">sqlcc::sql_parser::DateTimeValue::Format</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="af76db934df7d51cc0aedf431c5918427a633a6c7a6b9958f8174250094daf1e6a" name="af76db934df7d51cc0aedf431c5918427a633a6c7a6b9958f8174250094daf1e6a"></a>DATE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af76db934df7d51cc0aedf431c5918427a346ff32eaa3c09983fb2ec057816d352" name="af76db934df7d51cc0aedf431c5918427a346ff32eaa3c09983fb2ec057816d352"></a>TIME&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af76db934df7d51cc0aedf431c5918427a87fb568bfdc633ffd5dee0f22cb4606c" name="af76db934df7d51cc0aedf431c5918427a87fb568bfdc633ffd5dee0f22cb4606c"></a>TIMESTAMP&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af76db934df7d51cc0aedf431c5918427aa3eb957bd02f4780a599d5ec4464ca46" name="af76db934df7d51cc0aedf431c5918427aa3eb957bd02f4780a599d5ec4464ca46"></a>DATETIME&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a1a55a55375f180e73b3282dbe01ffdde" name="a1a55a55375f180e73b3282dbe01ffdde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a55a55375f180e73b3282dbe01ffdde">&#9670;&#160;</a></span>DateTimeValue() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::DateTimeValue::DateTimeValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a03a9056d55b09dc2c748f197dc2e6699" name="a03a9056d55b09dc2c748f197dc2e6699"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03a9056d55b09dc2c748f197dc2e6699">&#9670;&#160;</a></span>DateTimeValue() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::DateTimeValue::DateTimeValue </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427">Format</a>&#160;</td>
+          <td class="paramname"><em>format</em> = <code><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427a87fb568bfdc633ffd5dee0f22cb4606c">Format::TIMESTAMP</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6d7f5a58c2a7354ba2be082f8caeada2" name="a6d7f5a58c2a7354ba2be082f8caeada2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d7f5a58c2a7354ba2be082f8caeada2">&#9670;&#160;</a></span>DateTimeValue() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::DateTimeValue::DateTimeValue </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::system_clock::time_point&#160;</td>
+          <td class="paramname"><em>tp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a9db340ce3ce2dcb44e9785d75e8dffeb" name="a9db340ce3ce2dcb44e9785d75e8dffeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9db340ce3ce2dcb44e9785d75e8dffeb">&#9670;&#160;</a></span>formatTimePoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::DateTimeValue::formatTimePoint </td>
+          <td>(</td>
+          <td class="paramtype">const std::chrono::system_clock::time_point &amp;&#160;</td>
+          <td class="paramname"><em>tp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427">Format</a>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a573bf19f14cb4bed6158bc8e62eb9db0" name="a573bf19f14cb4bed6158bc8e62eb9db0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a573bf19f14cb4bed6158bc8e62eb9db0">&#9670;&#160;</a></span>getDay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::sql_parser::DateTimeValue::getDay </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2be80616398cd2689fad4611b048e6ed" name="a2be80616398cd2689fad4611b048e6ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2be80616398cd2689fad4611b048e6ed">&#9670;&#160;</a></span>getFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427">Format</a> sqlcc::sql_parser::DateTimeValue::getFormat </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a120f75f0545b96453fca6aca8ea2eb3c" name="a120f75f0545b96453fca6aca8ea2eb3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a120f75f0545b96453fca6aca8ea2eb3c">&#9670;&#160;</a></span>getHour()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::sql_parser::DateTimeValue::getHour </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af3cac487cc653b687b997bc33f61f905" name="af3cac487cc653b687b997bc33f61f905"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3cac487cc653b687b997bc33f61f905">&#9670;&#160;</a></span>getMinute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::sql_parser::DateTimeValue::getMinute </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8d2a0be9e50af825963b2b8c8f55ee69" name="a8d2a0be9e50af825963b2b8c8f55ee69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d2a0be9e50af825963b2b8c8f55ee69">&#9670;&#160;</a></span>getMonth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::sql_parser::DateTimeValue::getMonth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a628cc437c6f124e9d7464e08b1e80ebf" name="a628cc437c6f124e9d7464e08b1e80ebf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a628cc437c6f124e9d7464e08b1e80ebf">&#9670;&#160;</a></span>getSecond()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::sql_parser::DateTimeValue::getSecond </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1ac9f71d60a620d3504239fc2281c8e8" name="a1ac9f71d60a620d3504239fc2281c8e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ac9f71d60a620d3504239fc2281c8e8">&#9670;&#160;</a></span>getYear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::sql_parser::DateTimeValue::getYear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8fee4bcbfe0e71e8e1a1bbcf3abeed20" name="a8fee4bcbfe0e71e8e1a1bbcf3abeed20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fee4bcbfe0e71e8e1a1bbcf3abeed20">&#9670;&#160;</a></span>now()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> sqlcc::sql_parser::DateTimeValue::now </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1e17fd303dbde2b7f3f649acc9ab9306" name="a1e17fd303dbde2b7f3f649acc9ab9306"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e17fd303dbde2b7f3f649acc9ab9306">&#9670;&#160;</a></span>operator!=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DateTimeValue::operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afa152c7571360aba4c5ae8040a5767fd" name="afa152c7571360aba4c5ae8040a5767fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa152c7571360aba4c5ae8040a5767fd">&#9670;&#160;</a></span>operator+()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> sqlcc::sql_parser::DateTimeValue::operator+ </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4c5fbb388e2bfef8d0aaca8a109c5d70" name="a4c5fbb388e2bfef8d0aaca8a109c5d70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c5fbb388e2bfef8d0aaca8a109c5d70">&#9670;&#160;</a></span>operator-()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> sqlcc::sql_parser::DateTimeValue::operator- </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7dbee1886d5144c1a7e86ced87bd79cd" name="a7dbee1886d5144c1a7e86ced87bd79cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dbee1886d5144c1a7e86ced87bd79cd">&#9670;&#160;</a></span>operator&lt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DateTimeValue::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad6ee931a02b91b74a173289e6965ed13" name="ad6ee931a02b91b74a173289e6965ed13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6ee931a02b91b74a173289e6965ed13">&#9670;&#160;</a></span>operator&lt;=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DateTimeValue::operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1fc9184d8b0390e8a1c929e160c7870e" name="a1fc9184d8b0390e8a1c929e160c7870e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fc9184d8b0390e8a1c929e160c7870e">&#9670;&#160;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DateTimeValue::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab94e16cdd532d8ddcb93a85e32bb96da" name="ab94e16cdd532d8ddcb93a85e32bb96da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab94e16cdd532d8ddcb93a85e32bb96da">&#9670;&#160;</a></span>operator&gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DateTimeValue::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa8fb7fde6b0d5a0ae262c1adf6ae340f" name="aa8fb7fde6b0d5a0ae262c1adf6ae340f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8fb7fde6b0d5a0ae262c1adf6ae340f">&#9670;&#160;</a></span>operator&gt;=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DateTimeValue::operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2e4cbe085d96f8bf0a6bc796d605ae2f" name="a2e4cbe085d96f8bf0a6bc796d605ae2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e4cbe085d96f8bf0a6bc796d605ae2f">&#9670;&#160;</a></span>parseString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::system_clock::time_point sqlcc::sql_parser::DateTimeValue::parseString </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427">Format</a>&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a36b974290e46d47cbf2ef14f48f9a875" name="a36b974290e46d47cbf2ef14f48f9a875"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36b974290e46d47cbf2ef14f48f9a875">&#9670;&#160;</a></span>setFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::DateTimeValue::setFormat </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427">Format</a>&#160;</td>
+          <td class="paramname"><em>format</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad6ccd5a15a18b8e218cf5b51d21f5544" name="ad6ccd5a15a18b8e218cf5b51d21f5544"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6ccd5a15a18b8e218cf5b51d21f5544">&#9670;&#160;</a></span>today()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html">DateTimeValue</a> sqlcc::sql_parser::DateTimeValue::today </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a96145adae0606b497b2b484cba9e76c7" name="a96145adae0606b497b2b484cba9e76c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96145adae0606b497b2b484cba9e76c7">&#9670;&#160;</a></span>toString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::DateTimeValue::toString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2f047c6524a39de209a256f27d7befde" name="a2f047c6524a39de209a256f27d7befde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f047c6524a39de209a256f27d7befde">&#9670;&#160;</a></span>toTimePoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::system_clock::time_point sqlcc::sql_parser::DateTimeValue::toTimePoint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a744a9df5f6193e2d3ceecfb1479ca06e" name="a744a9df5f6193e2d3ceecfb1479ca06e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a744a9df5f6193e2d3ceecfb1479ca06e">&#9670;&#160;</a></span>format_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1DateTimeValue.html#af76db934df7d51cc0aedf431c5918427">Format</a> sqlcc::sql_parser::DateTimeValue::format_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a92b5ecfb7c93f6f555756daee6f30833" name="a92b5ecfb7c93f6f555756daee6f30833"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92b5ecfb7c93f6f555756daee6f30833">&#9670;&#160;</a></span>time_point_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::system_clock::time_point sqlcc::sql_parser::DateTimeValue::time_point_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="data__types_8h_source.html">data_types.h</a></li>
+<li><a class="el" href="data__types_8cpp.html">data_types.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

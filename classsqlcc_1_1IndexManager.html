@@ -1,0 +1,909 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::IndexManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1IndexManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::IndexManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="storage_2index__manager_8h_source.html">index_manager.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::IndexManager 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1IndexManager__inherit__graph.png" border="0" usemap="#asqlcc_1_1IndexManager_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1IndexManager_inherit__map" id="asqlcc_1_1IndexManager_inherit__map">
+<area shape="rect" title=" " alt="" coords="49,5,205,31"/>
+<area shape="rect" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html" title="IndexManager Mock类，用于单元测试" alt="" coords="5,79,248,104"/>
+<area shape="poly" title=" " alt="" coords="129,44,129,79,124,79,124,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a10f37e708bf35da6077b5ed3e6418611" id="r_a10f37e708bf35da6077b5ed3e6418611"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a10f37e708bf35da6077b5ed3e6418611">IndexManager</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; storage_engine, <a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager)</td></tr>
+<tr class="separator:a10f37e708bf35da6077b5ed3e6418611"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ad19d36bb2b213785c57b9411e4674f" id="r_a7ad19d36bb2b213785c57b9411e4674f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a7ad19d36bb2b213785c57b9411e4674f">~IndexManager</a> ()</td></tr>
+<tr class="separator:a7ad19d36bb2b213785c57b9411e4674f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71d651add7ca68c6681e33b88018d777" id="r_a71d651add7ca68c6681e33b88018d777"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a71d651add7ca68c6681e33b88018d777">CreateIndex</a> (const std::string &amp;index_name, const std::string &amp;table_name, const std::string &amp;column_name, bool unique=false)</td></tr>
+<tr class="separator:a71d651add7ca68c6681e33b88018d777"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae247fceb3827183d5862f367c8e4f13" id="r_aae247fceb3827183d5862f367c8e4f13"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#aae247fceb3827183d5862f367c8e4f13">CreateCompositeIndex</a> (const std::string &amp;index_name, const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;columns, bool unique=false)</td></tr>
+<tr class="separator:aae247fceb3827183d5862f367c8e4f13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a938e87d1dcfd68cd30e0aaf1654d6cd9" id="r_a938e87d1dcfd68cd30e0aaf1654d6cd9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a938e87d1dcfd68cd30e0aaf1654d6cd9">DropIndex</a> (const std::string &amp;index_name, const std::string &amp;table_name)</td></tr>
+<tr class="separator:a938e87d1dcfd68cd30e0aaf1654d6cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a617f94d0c461c4775a71e0a1fdc46206" id="r_a617f94d0c461c4775a71e0a1fdc46206"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a617f94d0c461c4775a71e0a1fdc46206">IndexExists</a> (const std::string &amp;index_name, const std::string &amp;table_name) const</td></tr>
+<tr class="separator:a617f94d0c461c4775a71e0a1fdc46206"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad962d364627f99d8b7c7e24d78173992" id="r_ad962d364627f99d8b7c7e24d78173992"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#ad962d364627f99d8b7c7e24d78173992">GetIndex</a> (const std::string &amp;index_name, const std::string &amp;table_name)</td></tr>
+<tr class="separator:ad962d364627f99d8b7c7e24d78173992"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60c5c6fbc272423593b876f63d7f5232" id="r_a60c5c6fbc272423593b876f63d7f5232"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a60c5c6fbc272423593b876f63d7f5232">GetTableIndexes</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="separator:a60c5c6fbc272423593b876f63d7f5232"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98279f77f994f9ac7381174b711fd77f" id="r_a98279f77f994f9ac7381174b711fd77f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a98279f77f994f9ac7381174b711fd77f">GetIndexedColumns</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="separator:a98279f77f994f9ac7381174b711fd77f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac17d6f40f7d3e7dc3a2040773a83ca52" id="r_ac17d6f40f7d3e7dc3a2040773a83ca52"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#ac17d6f40f7d3e7dc3a2040773a83ca52">GetCompositeIndexedColumns</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="separator:ac17d6f40f7d3e7dc3a2040773a83ca52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07ce1b50f60aa09b80083f87b893796f" id="r_a07ce1b50f60aa09b80083f87b893796f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a07ce1b50f60aa09b80083f87b893796f">GetIndexName</a> (const std::string &amp;table_name, const std::string &amp;column_name) const</td></tr>
+<tr class="separator:a07ce1b50f60aa09b80083f87b893796f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c4c48dd5d14f106df1e875907efe7b0" id="r_a0c4c48dd5d14f106df1e875907efe7b0"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a0c4c48dd5d14f106df1e875907efe7b0">GetCompositeIndexName</a> (const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;columns) const</td></tr>
+<tr class="separator:a0c4c48dd5d14f106df1e875907efe7b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10f37e708bf35da6077b5ed3e6418611" id="r_a10f37e708bf35da6077b5ed3e6418611"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a10f37e708bf35da6077b5ed3e6418611">IndexManager</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; storage_engine, <a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager)</td></tr>
+<tr class="separator:a10f37e708bf35da6077b5ed3e6418611"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ad19d36bb2b213785c57b9411e4674f" id="r_a7ad19d36bb2b213785c57b9411e4674f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a7ad19d36bb2b213785c57b9411e4674f">~IndexManager</a> ()</td></tr>
+<tr class="separator:a7ad19d36bb2b213785c57b9411e4674f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71d651add7ca68c6681e33b88018d777" id="r_a71d651add7ca68c6681e33b88018d777"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a71d651add7ca68c6681e33b88018d777">CreateIndex</a> (const std::string &amp;index_name, const std::string &amp;table_name, const std::string &amp;column_name, bool unique=false)</td></tr>
+<tr class="separator:a71d651add7ca68c6681e33b88018d777"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae247fceb3827183d5862f367c8e4f13" id="r_aae247fceb3827183d5862f367c8e4f13"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#aae247fceb3827183d5862f367c8e4f13">CreateCompositeIndex</a> (const std::string &amp;index_name, const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;columns, bool unique=false)</td></tr>
+<tr class="separator:aae247fceb3827183d5862f367c8e4f13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a938e87d1dcfd68cd30e0aaf1654d6cd9" id="r_a938e87d1dcfd68cd30e0aaf1654d6cd9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a938e87d1dcfd68cd30e0aaf1654d6cd9">DropIndex</a> (const std::string &amp;index_name, const std::string &amp;table_name)</td></tr>
+<tr class="separator:a938e87d1dcfd68cd30e0aaf1654d6cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a617f94d0c461c4775a71e0a1fdc46206" id="r_a617f94d0c461c4775a71e0a1fdc46206"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a617f94d0c461c4775a71e0a1fdc46206">IndexExists</a> (const std::string &amp;index_name, const std::string &amp;table_name) const</td></tr>
+<tr class="separator:a617f94d0c461c4775a71e0a1fdc46206"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad962d364627f99d8b7c7e24d78173992" id="r_ad962d364627f99d8b7c7e24d78173992"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#ad962d364627f99d8b7c7e24d78173992">GetIndex</a> (const std::string &amp;index_name, const std::string &amp;table_name)</td></tr>
+<tr class="separator:ad962d364627f99d8b7c7e24d78173992"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60c5c6fbc272423593b876f63d7f5232" id="r_a60c5c6fbc272423593b876f63d7f5232"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a60c5c6fbc272423593b876f63d7f5232">GetTableIndexes</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="separator:a60c5c6fbc272423593b876f63d7f5232"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98279f77f994f9ac7381174b711fd77f" id="r_a98279f77f994f9ac7381174b711fd77f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a98279f77f994f9ac7381174b711fd77f">GetIndexedColumns</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="separator:a98279f77f994f9ac7381174b711fd77f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac17d6f40f7d3e7dc3a2040773a83ca52" id="r_ac17d6f40f7d3e7dc3a2040773a83ca52"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#ac17d6f40f7d3e7dc3a2040773a83ca52">GetCompositeIndexedColumns</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="separator:ac17d6f40f7d3e7dc3a2040773a83ca52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07ce1b50f60aa09b80083f87b893796f" id="r_a07ce1b50f60aa09b80083f87b893796f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a07ce1b50f60aa09b80083f87b893796f">GetIndexName</a> (const std::string &amp;table_name, const std::string &amp;column_name) const</td></tr>
+<tr class="separator:a07ce1b50f60aa09b80083f87b893796f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c4c48dd5d14f106df1e875907efe7b0" id="r_a0c4c48dd5d14f106df1e875907efe7b0"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a0c4c48dd5d14f106df1e875907efe7b0">GetCompositeIndexName</a> (const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;columns) const</td></tr>
+<tr class="separator:a0c4c48dd5d14f106df1e875907efe7b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a3cfaa23b994f58e8b048ba5f1bff67a4" id="r_a3cfaa23b994f58e8b048ba5f1bff67a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a3cfaa23b994f58e8b048ba5f1bff67a4">LoadAllIndexes</a> ()</td></tr>
+<tr class="separator:a3cfaa23b994f58e8b048ba5f1bff67a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cfaa23b994f58e8b048ba5f1bff67a4" id="r_a3cfaa23b994f58e8b048ba5f1bff67a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a3cfaa23b994f58e8b048ba5f1bff67a4">LoadAllIndexes</a> ()</td></tr>
+<tr class="separator:a3cfaa23b994f58e8b048ba5f1bff67a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a385b8373bd72031bc518a46baf93e50b" id="r_a385b8373bd72031bc518a46baf93e50b"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a385b8373bd72031bc518a46baf93e50b">storage_engine_</a></td></tr>
+<tr class="separator:a385b8373bd72031bc518a46baf93e50b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9af22ae5b6f40806563f4b8be274917a" id="r_a9af22ae5b6f40806563f4b8be274917a"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a9af22ae5b6f40806563f4b8be274917a">indexes_</a></td></tr>
+<tr class="separator:a9af22ae5b6f40806563f4b8be274917a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a10f37e708bf35da6077b5ed3e6418611" name="a10f37e708bf35da6077b5ed3e6418611"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10f37e708bf35da6077b5ed3e6418611">&#9670;&#160;</a></span>IndexManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::IndexManager::IndexManager </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td>
+          <td class="paramname"><em>storage_engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>config_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7ad19d36bb2b213785c57b9411e4674f" name="a7ad19d36bb2b213785c57b9411e4674f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ad19d36bb2b213785c57b9411e4674f">&#9670;&#160;</a></span>~IndexManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::IndexManager::~IndexManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a10f37e708bf35da6077b5ed3e6418611" name="a10f37e708bf35da6077b5ed3e6418611"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10f37e708bf35da6077b5ed3e6418611">&#9670;&#160;</a></span>IndexManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::IndexManager::IndexManager </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td>
+          <td class="paramname"><em>storage_engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>config_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7ad19d36bb2b213785c57b9411e4674f" name="a7ad19d36bb2b213785c57b9411e4674f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ad19d36bb2b213785c57b9411e4674f">&#9670;&#160;</a></span>~IndexManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::IndexManager::~IndexManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="aae247fceb3827183d5862f367c8e4f13" name="aae247fceb3827183d5862f367c8e4f13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae247fceb3827183d5862f367c8e4f13">&#9670;&#160;</a></span>CreateCompositeIndex() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::IndexManager::CreateCompositeIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>columns</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>unique</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aae247fceb3827183d5862f367c8e4f13" name="aae247fceb3827183d5862f367c8e4f13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae247fceb3827183d5862f367c8e4f13">&#9670;&#160;</a></span>CreateCompositeIndex() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::IndexManager::CreateCompositeIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>columns</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>unique</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a71d651add7ca68c6681e33b88018d777" name="a71d651add7ca68c6681e33b88018d777"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71d651add7ca68c6681e33b88018d777">&#9670;&#160;</a></span>CreateIndex() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::IndexManager::CreateIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>column_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>unique</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a71d651add7ca68c6681e33b88018d777" name="a71d651add7ca68c6681e33b88018d777"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71d651add7ca68c6681e33b88018d777">&#9670;&#160;</a></span>CreateIndex() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::IndexManager::CreateIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>column_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>unique</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a938e87d1dcfd68cd30e0aaf1654d6cd9" name="a938e87d1dcfd68cd30e0aaf1654d6cd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a938e87d1dcfd68cd30e0aaf1654d6cd9">&#9670;&#160;</a></span>DropIndex() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::IndexManager::DropIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a938e87d1dcfd68cd30e0aaf1654d6cd9" name="a938e87d1dcfd68cd30e0aaf1654d6cd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a938e87d1dcfd68cd30e0aaf1654d6cd9">&#9670;&#160;</a></span>DropIndex() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::IndexManager::DropIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac17d6f40f7d3e7dc3a2040773a83ca52" name="ac17d6f40f7d3e7dc3a2040773a83ca52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac17d6f40f7d3e7dc3a2040773a83ca52">&#9670;&#160;</a></span>GetCompositeIndexedColumns() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::vector&lt; std::string &gt; &gt; sqlcc::IndexManager::GetCompositeIndexedColumns </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac17d6f40f7d3e7dc3a2040773a83ca52" name="ac17d6f40f7d3e7dc3a2040773a83ca52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac17d6f40f7d3e7dc3a2040773a83ca52">&#9670;&#160;</a></span>GetCompositeIndexedColumns() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::vector&lt; std::string &gt; &gt; sqlcc::IndexManager::GetCompositeIndexedColumns </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0c4c48dd5d14f106df1e875907efe7b0" name="a0c4c48dd5d14f106df1e875907efe7b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c4c48dd5d14f106df1e875907efe7b0">&#9670;&#160;</a></span>GetCompositeIndexName() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::IndexManager::GetCompositeIndexName </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>columns</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0c4c48dd5d14f106df1e875907efe7b0" name="a0c4c48dd5d14f106df1e875907efe7b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c4c48dd5d14f106df1e875907efe7b0">&#9670;&#160;</a></span>GetCompositeIndexName() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::IndexManager::GetCompositeIndexName </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>columns</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad962d364627f99d8b7c7e24d78173992" name="ad962d364627f99d8b7c7e24d78173992"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad962d364627f99d8b7c7e24d78173992">&#9670;&#160;</a></span>GetIndex() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> * sqlcc::IndexManager::GetIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad962d364627f99d8b7c7e24d78173992" name="ad962d364627f99d8b7c7e24d78173992"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad962d364627f99d8b7c7e24d78173992">&#9670;&#160;</a></span>GetIndex() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> * sqlcc::IndexManager::GetIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a98279f77f994f9ac7381174b711fd77f" name="a98279f77f994f9ac7381174b711fd77f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98279f77f994f9ac7381174b711fd77f">&#9670;&#160;</a></span>GetIndexedColumns() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; sqlcc::IndexManager::GetIndexedColumns </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a98279f77f994f9ac7381174b711fd77f" name="a98279f77f994f9ac7381174b711fd77f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98279f77f994f9ac7381174b711fd77f">&#9670;&#160;</a></span>GetIndexedColumns() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; sqlcc::IndexManager::GetIndexedColumns </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a07ce1b50f60aa09b80083f87b893796f" name="a07ce1b50f60aa09b80083f87b893796f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07ce1b50f60aa09b80083f87b893796f">&#9670;&#160;</a></span>GetIndexName() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::IndexManager::GetIndexName </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>column_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a07ce1b50f60aa09b80083f87b893796f" name="a07ce1b50f60aa09b80083f87b893796f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07ce1b50f60aa09b80083f87b893796f">&#9670;&#160;</a></span>GetIndexName() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::IndexManager::GetIndexName </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>column_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a60c5c6fbc272423593b876f63d7f5232" name="a60c5c6fbc272423593b876f63d7f5232"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60c5c6fbc272423593b876f63d7f5232">&#9670;&#160;</a></span>GetTableIndexes() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> * &gt; sqlcc::IndexManager::GetTableIndexes </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a60c5c6fbc272423593b876f63d7f5232" name="a60c5c6fbc272423593b876f63d7f5232"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60c5c6fbc272423593b876f63d7f5232">&#9670;&#160;</a></span>GetTableIndexes() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> * &gt; sqlcc::IndexManager::GetTableIndexes </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a617f94d0c461c4775a71e0a1fdc46206" name="a617f94d0c461c4775a71e0a1fdc46206"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a617f94d0c461c4775a71e0a1fdc46206">&#9670;&#160;</a></span>IndexExists() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::IndexManager::IndexExists </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a617f94d0c461c4775a71e0a1fdc46206" name="a617f94d0c461c4775a71e0a1fdc46206"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a617f94d0c461c4775a71e0a1fdc46206">&#9670;&#160;</a></span>IndexExists() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::IndexManager::IndexExists </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3cfaa23b994f58e8b048ba5f1bff67a4" name="a3cfaa23b994f58e8b048ba5f1bff67a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cfaa23b994f58e8b048ba5f1bff67a4">&#9670;&#160;</a></span>LoadAllIndexes() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::IndexManager::LoadAllIndexes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3cfaa23b994f58e8b048ba5f1bff67a4" name="a3cfaa23b994f58e8b048ba5f1bff67a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cfaa23b994f58e8b048ba5f1bff67a4">&#9670;&#160;</a></span>LoadAllIndexes() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::IndexManager::LoadAllIndexes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a9af22ae5b6f40806563f4b8be274917a" name="a9af22ae5b6f40806563f4b8be274917a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9af22ae5b6f40806563f4b8be274917a">&#9670;&#160;</a></span>indexes_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> &gt; &gt; sqlcc::IndexManager::indexes_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a385b8373bd72031bc518a46baf93e50b" name="a385b8373bd72031bc518a46baf93e50b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a385b8373bd72031bc518a46baf93e50b">&#9670;&#160;</a></span>storage_engine_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; sqlcc::IndexManager::storage_engine_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage_2index__manager_8h_source.html">storage/index_manager.h</a></li>
+<li><a class="el" href="storage__engine_2index__manager_8h_source.html">storage_engine/index_manager.h</a></li>
+<li><a class="el" href="index__manager_8cpp.html">index_manager.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

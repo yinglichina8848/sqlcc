@@ -1,0 +1,899 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::CheckConstraintParser类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html">CheckConstraintParser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1CheckConstraintParser-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::CheckConstraintParser类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="storage_2data__integrity__validator_8h_source.html">data_integrity_validator.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a46c8f7e43df3859a847e13654b92d0da" id="r_a46c8f7e43df3859a847e13654b92d0da"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a46c8f7e43df3859a847e13654b92d0da">CheckConstraintParser</a> ()</td></tr>
+<tr class="separator:a46c8f7e43df3859a847e13654b92d0da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff1583faa3a54b90d14a9b1f954679be" id="r_aff1583faa3a54b90d14a9b1f954679be"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#aff1583faa3a54b90d14a9b1f954679be">~CheckConstraintParser</a> ()=default</td></tr>
+<tr class="separator:aff1583faa3a54b90d14a9b1f954679be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab518362972b1b984ab1048d49e4e94df" id="r_ab518362972b1b984ab1048d49e4e94df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#ab518362972b1b984ab1048d49e4e94df">ParseExpression</a> (const std::string &amp;expression, std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt; &amp;validator) const</td></tr>
+<tr class="separator:ab518362972b1b984ab1048d49e4e94df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a826b9be13562e919f43823e1857e21ea" id="r_a826b9be13562e919f43823e1857e21ea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a826b9be13562e919f43823e1857e21ea">ValidateExpressionSyntax</a> (const std::string &amp;expression) const</td></tr>
+<tr class="separator:a826b9be13562e919f43823e1857e21ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb4603a8e8bce03a756d9e9a2fa59c1b" id="r_acb4603a8e8bce03a756d9e9a2fa59c1b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#acb4603a8e8bce03a756d9e9a2fa59c1b">EvaluateExpression</a> (const std::string &amp;expression, const std::vector&lt; std::string &gt; &amp;values, const std::vector&lt; std::string &gt; &amp;column_names) const</td></tr>
+<tr class="separator:acb4603a8e8bce03a756d9e9a2fa59c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46c8f7e43df3859a847e13654b92d0da" id="r_a46c8f7e43df3859a847e13654b92d0da"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a46c8f7e43df3859a847e13654b92d0da">CheckConstraintParser</a> ()</td></tr>
+<tr class="separator:a46c8f7e43df3859a847e13654b92d0da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff1583faa3a54b90d14a9b1f954679be" id="r_aff1583faa3a54b90d14a9b1f954679be"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#aff1583faa3a54b90d14a9b1f954679be">~CheckConstraintParser</a> ()=default</td></tr>
+<tr class="separator:aff1583faa3a54b90d14a9b1f954679be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab518362972b1b984ab1048d49e4e94df" id="r_ab518362972b1b984ab1048d49e4e94df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#ab518362972b1b984ab1048d49e4e94df">ParseExpression</a> (const std::string &amp;expression, std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt; &amp;validator) const</td></tr>
+<tr class="separator:ab518362972b1b984ab1048d49e4e94df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a826b9be13562e919f43823e1857e21ea" id="r_a826b9be13562e919f43823e1857e21ea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a826b9be13562e919f43823e1857e21ea">ValidateExpressionSyntax</a> (const std::string &amp;expression) const</td></tr>
+<tr class="separator:a826b9be13562e919f43823e1857e21ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb4603a8e8bce03a756d9e9a2fa59c1b" id="r_acb4603a8e8bce03a756d9e9a2fa59c1b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#acb4603a8e8bce03a756d9e9a2fa59c1b">EvaluateExpression</a> (const std::string &amp;expression, const std::vector&lt; std::string &gt; &amp;values, const std::vector&lt; std::string &gt; &amp;column_names) const</td></tr>
+<tr class="separator:acb4603a8e8bce03a756d9e9a2fa59c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a4b1fc1f115e0294d26aee66f1a15209c" id="r_a4b1fc1f115e0294d26aee66f1a15209c"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a4b1fc1f115e0294d26aee66f1a15209c">ParseComparisonExpression</a> (const std::string &amp;expr, const std::vector&lt; std::string &gt; &amp;column_names) const</td></tr>
+<tr class="separator:a4b1fc1f115e0294d26aee66f1a15209c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a660b2b5c771e5249e2cf030933b25b32" id="r_a660b2b5c771e5249e2cf030933b25b32"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a660b2b5c771e5249e2cf030933b25b32">ParseLogicalExpression</a> (const std::string &amp;expr, const std::vector&lt; std::string &gt; &amp;column_names) const</td></tr>
+<tr class="separator:a660b2b5c771e5249e2cf030933b25b32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a50a5fba9b7688e0a2a7fb2e9f5cc1b" id="r_a7a50a5fba9b7688e0a2a7fb2e9f5cc1b"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a7a50a5fba9b7688e0a2a7fb2e9f5cc1b">ParseFunctionExpression</a> (const std::string &amp;expr, const std::vector&lt; std::string &gt; &amp;column_names) const</td></tr>
+<tr class="separator:a7a50a5fba9b7688e0a2a7fb2e9f5cc1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5808bd0607f0195a73437966be9585a7" id="r_a5808bd0607f0195a73437966be9585a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a5808bd0607f0195a73437966be9585a7">CompareValues</a> (const std::string &amp;left, const std::string &amp;right, const std::string &amp;op) const</td></tr>
+<tr class="separator:a5808bd0607f0195a73437966be9585a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a332e034509afb7dcfff15e700120b54e" id="r_a332e034509afb7dcfff15e700120b54e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a332e034509afb7dcfff15e700120b54e">CompareNumeric</a> (const std::string &amp;left, const std::string &amp;right, const std::string &amp;op) const</td></tr>
+<tr class="separator:a332e034509afb7dcfff15e700120b54e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2e2d80081f54f18479609230168cade" id="r_aa2e2d80081f54f18479609230168cade"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#aa2e2d80081f54f18479609230168cade">CompareString</a> (const std::string &amp;left, const std::string &amp;right, const std::string &amp;op) const</td></tr>
+<tr class="separator:aa2e2d80081f54f18479609230168cade"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b1fc1f115e0294d26aee66f1a15209c" id="r_a4b1fc1f115e0294d26aee66f1a15209c"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a4b1fc1f115e0294d26aee66f1a15209c">ParseComparisonExpression</a> (const std::string &amp;expr, const std::vector&lt; std::string &gt; &amp;column_names) const</td></tr>
+<tr class="separator:a4b1fc1f115e0294d26aee66f1a15209c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a660b2b5c771e5249e2cf030933b25b32" id="r_a660b2b5c771e5249e2cf030933b25b32"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a660b2b5c771e5249e2cf030933b25b32">ParseLogicalExpression</a> (const std::string &amp;expr, const std::vector&lt; std::string &gt; &amp;column_names) const</td></tr>
+<tr class="separator:a660b2b5c771e5249e2cf030933b25b32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a50a5fba9b7688e0a2a7fb2e9f5cc1b" id="r_a7a50a5fba9b7688e0a2a7fb2e9f5cc1b"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a7a50a5fba9b7688e0a2a7fb2e9f5cc1b">ParseFunctionExpression</a> (const std::string &amp;expr, const std::vector&lt; std::string &gt; &amp;column_names) const</td></tr>
+<tr class="separator:a7a50a5fba9b7688e0a2a7fb2e9f5cc1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5808bd0607f0195a73437966be9585a7" id="r_a5808bd0607f0195a73437966be9585a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a5808bd0607f0195a73437966be9585a7">CompareValues</a> (const std::string &amp;left, const std::string &amp;right, const std::string &amp;op) const</td></tr>
+<tr class="separator:a5808bd0607f0195a73437966be9585a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a332e034509afb7dcfff15e700120b54e" id="r_a332e034509afb7dcfff15e700120b54e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a332e034509afb7dcfff15e700120b54e">CompareNumeric</a> (const std::string &amp;left, const std::string &amp;right, const std::string &amp;op) const</td></tr>
+<tr class="separator:a332e034509afb7dcfff15e700120b54e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2e2d80081f54f18479609230168cade" id="r_aa2e2d80081f54f18479609230168cade"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#aa2e2d80081f54f18479609230168cade">CompareString</a> (const std::string &amp;left, const std::string &amp;right, const std::string &amp;op) const</td></tr>
+<tr class="separator:aa2e2d80081f54f18479609230168cade"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a2f4fd3a9557070a1da42461398cfce5f" id="r_a2f4fd3a9557070a1da42461398cfce5f"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a2f4fd3a9557070a1da42461398cfce5f">parser_mutex_</a></td></tr>
+<tr class="separator:a2f4fd3a9557070a1da42461398cfce5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a46c8f7e43df3859a847e13654b92d0da" name="a46c8f7e43df3859a847e13654b92d0da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46c8f7e43df3859a847e13654b92d0da">&#9670;&#160;</a></span>CheckConstraintParser() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::CheckConstraintParser::CheckConstraintParser </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aff1583faa3a54b90d14a9b1f954679be" name="aff1583faa3a54b90d14a9b1f954679be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff1583faa3a54b90d14a9b1f954679be">&#9670;&#160;</a></span>~CheckConstraintParser() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::CheckConstraintParser::~CheckConstraintParser </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a46c8f7e43df3859a847e13654b92d0da" name="a46c8f7e43df3859a847e13654b92d0da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46c8f7e43df3859a847e13654b92d0da">&#9670;&#160;</a></span>CheckConstraintParser() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::CheckConstraintParser::CheckConstraintParser </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aff1583faa3a54b90d14a9b1f954679be" name="aff1583faa3a54b90d14a9b1f954679be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff1583faa3a54b90d14a9b1f954679be">&#9670;&#160;</a></span>~CheckConstraintParser() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::CheckConstraintParser::~CheckConstraintParser </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a332e034509afb7dcfff15e700120b54e" name="a332e034509afb7dcfff15e700120b54e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a332e034509afb7dcfff15e700120b54e">&#9670;&#160;</a></span>CompareNumeric() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CheckConstraintParser::CompareNumeric </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>left</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>right</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>op</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a332e034509afb7dcfff15e700120b54e" name="a332e034509afb7dcfff15e700120b54e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a332e034509afb7dcfff15e700120b54e">&#9670;&#160;</a></span>CompareNumeric() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CheckConstraintParser::CompareNumeric </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>left</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>right</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>op</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa2e2d80081f54f18479609230168cade" name="aa2e2d80081f54f18479609230168cade"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2e2d80081f54f18479609230168cade">&#9670;&#160;</a></span>CompareString() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CheckConstraintParser::CompareString </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>left</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>right</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>op</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa2e2d80081f54f18479609230168cade" name="aa2e2d80081f54f18479609230168cade"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2e2d80081f54f18479609230168cade">&#9670;&#160;</a></span>CompareString() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CheckConstraintParser::CompareString </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>left</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>right</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>op</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5808bd0607f0195a73437966be9585a7" name="a5808bd0607f0195a73437966be9585a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5808bd0607f0195a73437966be9585a7">&#9670;&#160;</a></span>CompareValues() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CheckConstraintParser::CompareValues </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>left</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>right</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>op</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5808bd0607f0195a73437966be9585a7" name="a5808bd0607f0195a73437966be9585a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5808bd0607f0195a73437966be9585a7">&#9670;&#160;</a></span>CompareValues() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CheckConstraintParser::CompareValues </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>left</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>right</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>op</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acb4603a8e8bce03a756d9e9a2fa59c1b" name="acb4603a8e8bce03a756d9e9a2fa59c1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb4603a8e8bce03a756d9e9a2fa59c1b">&#9670;&#160;</a></span>EvaluateExpression() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CheckConstraintParser::EvaluateExpression </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expression</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acb4603a8e8bce03a756d9e9a2fa59c1b" name="acb4603a8e8bce03a756d9e9a2fa59c1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb4603a8e8bce03a756d9e9a2fa59c1b">&#9670;&#160;</a></span>EvaluateExpression() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CheckConstraintParser::EvaluateExpression </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expression</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4b1fc1f115e0294d26aee66f1a15209c" name="a4b1fc1f115e0294d26aee66f1a15209c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b1fc1f115e0294d26aee66f1a15209c">&#9670;&#160;</a></span>ParseComparisonExpression() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt; sqlcc::CheckConstraintParser::ParseComparisonExpression </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4b1fc1f115e0294d26aee66f1a15209c" name="a4b1fc1f115e0294d26aee66f1a15209c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b1fc1f115e0294d26aee66f1a15209c">&#9670;&#160;</a></span>ParseComparisonExpression() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt; sqlcc::CheckConstraintParser::ParseComparisonExpression </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab518362972b1b984ab1048d49e4e94df" name="ab518362972b1b984ab1048d49e4e94df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab518362972b1b984ab1048d49e4e94df">&#9670;&#160;</a></span>ParseExpression() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CheckConstraintParser::ParseExpression </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expression</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>validator</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab518362972b1b984ab1048d49e4e94df" name="ab518362972b1b984ab1048d49e4e94df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab518362972b1b984ab1048d49e4e94df">&#9670;&#160;</a></span>ParseExpression() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CheckConstraintParser::ParseExpression </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expression</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>validator</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a50a5fba9b7688e0a2a7fb2e9f5cc1b" name="a7a50a5fba9b7688e0a2a7fb2e9f5cc1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a50a5fba9b7688e0a2a7fb2e9f5cc1b">&#9670;&#160;</a></span>ParseFunctionExpression() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt; sqlcc::CheckConstraintParser::ParseFunctionExpression </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a50a5fba9b7688e0a2a7fb2e9f5cc1b" name="a7a50a5fba9b7688e0a2a7fb2e9f5cc1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a50a5fba9b7688e0a2a7fb2e9f5cc1b">&#9670;&#160;</a></span>ParseFunctionExpression() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt; sqlcc::CheckConstraintParser::ParseFunctionExpression </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a660b2b5c771e5249e2cf030933b25b32" name="a660b2b5c771e5249e2cf030933b25b32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a660b2b5c771e5249e2cf030933b25b32">&#9670;&#160;</a></span>ParseLogicalExpression() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt; sqlcc::CheckConstraintParser::ParseLogicalExpression </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a660b2b5c771e5249e2cf030933b25b32" name="a660b2b5c771e5249e2cf030933b25b32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a660b2b5c771e5249e2cf030933b25b32">&#9670;&#160;</a></span>ParseLogicalExpression() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt; bool(const std::vector&lt; std::string &gt; &amp;)&gt; sqlcc::CheckConstraintParser::ParseLogicalExpression </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>column_names</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a826b9be13562e919f43823e1857e21ea" name="a826b9be13562e919f43823e1857e21ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a826b9be13562e919f43823e1857e21ea">&#9670;&#160;</a></span>ValidateExpressionSyntax() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CheckConstraintParser::ValidateExpressionSyntax </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expression</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a826b9be13562e919f43823e1857e21ea" name="a826b9be13562e919f43823e1857e21ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a826b9be13562e919f43823e1857e21ea">&#9670;&#160;</a></span>ValidateExpressionSyntax() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CheckConstraintParser::ValidateExpressionSyntax </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expression</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a2f4fd3a9557070a1da42461398cfce5f" name="a2f4fd3a9557070a1da42461398cfce5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f4fd3a9557070a1da42461398cfce5f">&#9670;&#160;</a></span>parser_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::CheckConstraintParser::parser_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage_2data__integrity__validator_8h_source.html">storage/data_integrity_validator.h</a></li>
+<li><a class="el" href="storage__engine_2data__integrity__validator_8h_source.html">storage_engine/data_integrity_validator.h</a></li>
+<li><a class="el" href="data__integrity__validator_8cpp.html">data_integrity_validator.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

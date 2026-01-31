@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: ast_interface.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_ffb1f39e8090077ab00aa38bc00b70a6.html">execution_ast</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">execution_ast/ast_interface.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="execution__ast_2ast__interface_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ast__node_8h.html">sql_parser/ast/ast_node.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;sql_parser/ast_nodes.h&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span>execution_ast {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">// Forward declarations for basic types</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">class </span>Value;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">class </span>Row;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">// Base AST Node Interface</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">class </span>ASTNodeInterface {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTNodeInterface.html#a73422843c40bfa8119d27ea50bc6093f">~ASTNodeInterface</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="comment">// Basic node information</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">virtual</span> std::string <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTNodeInterface.html#a27dc3a39e64f628aec673494f90af390">getNodeType</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">virtual</span> std::string <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTNodeInterface.html#a65f67f4e834f7b02b9e1d1785d99d1fc">toString</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="comment">// Clone operation for node copying</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keyword">virtual</span> std::unique_ptr&lt;ASTNodeInterface&gt; <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTNodeInterface.html#a499741fbbf8b5a52b30e12a1cc80f22d">clone</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>};</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment">// Query Node Interface - represents various query types</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">class </span>QueryNodeInterface : <span class="keyword">public</span> ASTNodeInterface {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1QueryNodeInterface.html#a23d885956301b36ae08609e2cea165e6">~QueryNodeInterface</a>() <span class="keyword">override</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">virtual</span> std::string <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1QueryNodeInterface.html#ace44f2f0537834ea5fe9c35c36e09e5e">getQueryType</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="comment">// Common query operations</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1QueryNodeInterface.html#a167381acd6d53b3658074bc4e62adea1">hasWhereClause</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1QueryNodeInterface.html#afdefe2e21df22f2a422f1054dba03c90">hasGroupBy</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1QueryNodeInterface.html#a220fab20dae38c3528a892fa9d4339c6">hasOrderBy</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1QueryNodeInterface.html#a050bf2d5795e6c6fddb113a119c1a37c">hasLimit</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>};</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">// Select Statement Interface</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keyword">class </span>SelectNodeInterface : <span class="keyword">public</span> QueryNodeInterface {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a41f4a2926cbf31610a79395009b4824c">~SelectNodeInterface</a>() <span class="keyword">override</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    std::string <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a20b0202aa4ec0c265104f266212f4dd3">getNodeType</a>()<span class="keyword"> const override </span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;SELECT&quot;</span>; }</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    std::string <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#aecae148e1e30f4506065ebe7bd66e5a2">getQueryType</a>()<span class="keyword"> const override </span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;SELECT&quot;</span>; }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="comment">// Select-specific operations</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keyword">virtual</span> <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a8317d40ca3d97642bcf7b11c908a8501">getSelectColumns</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keyword">virtual</span> <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a8cfa36651f820edd1817fa241e476536">getFromTable</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keyword">virtual</span> std::string <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a340f6708f2724c323d68885aa8638a2e">getWhereCondition</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a72156460badf4fe9d12acf58fb34e015">hasWhereClause</a>() <span class="keyword">const override</span> = 0;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a0ea039daef57d427d2c72bc3edc703fa">hasGroupBy</a>() <span class="keyword">const override</span> = 0;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a0d2bbd4dcacaaecdb1e825aac602ce73">hasOrderBy</a>() <span class="keyword">const override</span> = 0;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a386a1ae3d6387eecf2a264f0cba13bad">hasLimit</a>() <span class="keyword">const override</span> = 0;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>};</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="comment">// Function Definition Interface</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">class </span>FunctionDefinitionInterface : <span class="keyword">public</span> ASTNodeInterface {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#a184fe964154311eb02c6f72f24ee94c6">~FunctionDefinitionInterface</a>() <span class="keyword">override</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    std::string <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#a54b798c499f8b611bb8cd54793f6fc24">getNodeType</a>()<span class="keyword"> const override </span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;FUNCTION_DEFINITION&quot;</span>; }</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keyword">virtual</span> <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#a92e3199a5c6273a5143859a8dddeedfe">getName</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keyword">virtual</span> <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#aa7c5f27b10d86020c9842b8b22ae7e57">getReturnType</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keyword">virtual</span> <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#ac1619330162bcbf19ed9ffcdef43d385">getBody</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keyword">virtual</span> <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#ae75feb12a0caae69237347cc0a8521a4">getParameters</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#a7653f27fb7025f5613da8b80160071fe">isDeterministic</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#a73e61d732a2611a0211368dd7acdac82">containsSql</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#a8770f9ad234d5ed15b1360fee9cd40f8">readsSqlData</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#a90505c52dc775275c8f5afca4f0d03db">modifiesSqlData</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>};</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="comment">// Factory interface for creating AST nodes from concrete implementations</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="keyword">class </span>ASTFactoryInterface {</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTFactoryInterface.html#a012a43913bd5b80e9e0d1faa457ed28d">~ASTFactoryInterface</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="comment">// Create SelectNode from concrete SelectStatement</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keyword">virtual</span> std::unique_ptr&lt;SelectNodeInterface&gt; <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTFactoryInterface.html#ad40daa2b7c7fbfb6dddd1bf0441b76b6">createSelectNode</a>(</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keyword">const</span> <span class="keywordtype">void</span>* concrete_select_statement) = 0;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="comment">// Create FunctionDefinition from concrete FunctionDefinition</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keyword">virtual</span> std::unique_ptr&lt;FunctionDefinitionInterface&gt; <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTFactoryInterface.html#a76c93ec81d372dd9c3dc25fc29dbabc5">createFunctionDefinition</a>(</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keyword">const</span> <span class="keywordtype">void</span>* concrete_function_definition) = 0;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>};</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="comment">// Registry for AST factories (allows dynamic registration)</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="keyword">class </span>ASTFactoryRegistry {</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keyword">static</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a307cfc87e2ba6f67427bdb51a896272e">ASTFactoryRegistry</a>&amp; <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a7e40c28e9e6906d4168b9cb9302dc7ba">getInstance</a>();</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#ad2911267f526ea2397cfb1f55935808e">registerFactory</a>(<span class="keyword">const</span> std::string&amp; name,</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                        std::unique_ptr&lt;ASTFactoryInterface&gt; factory);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    ASTFactoryInterface* <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a362a51d7386a4ad0c3ed313141ab0fa9">getFactory</a>(<span class="keyword">const</span> std::string&amp; name) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a307cfc87e2ba6f67427bdb51a896272e">ASTFactoryRegistry</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    std::unordered_map&lt;std::string, std::unique_ptr&lt;ASTFactoryInterface&gt;&gt; <a class="code hl_variable" href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a13f0f6b362606c551a284d69804f74ad">factories_</a>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>};</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="comment">// Implementation of the registry singleton</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="keyword">inline</span> ASTFactoryRegistry&amp; <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a7e40c28e9e6906d4168b9cb9302dc7ba">ASTFactoryRegistry::getInstance</a>() {</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keyword">static</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a307cfc87e2ba6f67427bdb51a896272e">ASTFactoryRegistry</a> instance;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">return</span> instance;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>}</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#ad2911267f526ea2397cfb1f55935808e">ASTFactoryRegistry::registerFactory</a>(<span class="keyword">const</span> std::string&amp; name,</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                                               std::unique_ptr&lt;ASTFactoryInterface&gt; factory) {</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <a class="code hl_variable" href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a13f0f6b362606c551a284d69804f74ad">factories_</a>[name] = std::move(factory);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>}</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="keyword">inline</span> ASTFactoryInterface* <a class="code hl_function" href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a362a51d7386a4ad0c3ed313141ab0fa9">ASTFactoryRegistry::getFactory</a>(<span class="keyword">const</span> std::string&amp; name)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a13f0f6b362606c551a284d69804f74ad">factories_</a>.find(name);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordflow">return</span> it != <a class="code hl_variable" href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a13f0f6b362606c551a284d69804f74ad">factories_</a>.end() ? it-&gt;second.get() : <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>}</div>
+<div class="ttc" id="aast__node_8h_html"><div class="ttname"><a href="ast__node_8h.html">ast_node.h</a></div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1ASTFactoryInterface_html_a012a43913bd5b80e9e0d1faa457ed28d"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1ASTFactoryInterface.html#a012a43913bd5b80e9e0d1faa457ed28d">sqlcc::execution_ast::ASTFactoryInterface::~ASTFactoryInterface</a></div><div class="ttdeci">virtual ~ASTFactoryInterface()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1ASTFactoryInterface_html_a76c93ec81d372dd9c3dc25fc29dbabc5"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1ASTFactoryInterface.html#a76c93ec81d372dd9c3dc25fc29dbabc5">sqlcc::execution_ast::ASTFactoryInterface::createFunctionDefinition</a></div><div class="ttdeci">virtual std::unique_ptr&lt; FunctionDefinitionInterface &gt; createFunctionDefinition(const void *concrete_function_definition)=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1ASTFactoryInterface_html_ad40daa2b7c7fbfb6dddd1bf0441b76b6"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1ASTFactoryInterface.html#ad40daa2b7c7fbfb6dddd1bf0441b76b6">sqlcc::execution_ast::ASTFactoryInterface::createSelectNode</a></div><div class="ttdeci">virtual std::unique_ptr&lt; SelectNodeInterface &gt; createSelectNode(const void *concrete_select_statement)=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1ASTFactoryRegistry_html_a13f0f6b362606c551a284d69804f74ad"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a13f0f6b362606c551a284d69804f74ad">sqlcc::execution_ast::ASTFactoryRegistry::factories_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::unique_ptr&lt; ASTFactoryInterface &gt; &gt; factories_</div><div class="ttdef"><b>Definition</b> execution/ast_interface.h:107</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1ASTFactoryRegistry_html_a307cfc87e2ba6f67427bdb51a896272e"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a307cfc87e2ba6f67427bdb51a896272e">sqlcc::execution_ast::ASTFactoryRegistry::ASTFactoryRegistry</a></div><div class="ttdeci">ASTFactoryRegistry()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1ASTFactoryRegistry_html_a362a51d7386a4ad0c3ed313141ab0fa9"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a362a51d7386a4ad0c3ed313141ab0fa9">sqlcc::execution_ast::ASTFactoryRegistry::getFactory</a></div><div class="ttdeci">ASTFactoryInterface * getFactory(const std::string &amp;name) const</div><div class="ttdef"><b>Definition</b> execution/ast_interface.h:121</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1ASTFactoryRegistry_html_a7e40c28e9e6906d4168b9cb9302dc7ba"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#a7e40c28e9e6906d4168b9cb9302dc7ba">sqlcc::execution_ast::ASTFactoryRegistry::getInstance</a></div><div class="ttdeci">static ASTFactoryRegistry &amp; getInstance()</div><div class="ttdef"><b>Definition</b> execution/ast_interface.h:111</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1ASTFactoryRegistry_html_ad2911267f526ea2397cfb1f55935808e"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1ASTFactoryRegistry.html#ad2911267f526ea2397cfb1f55935808e">sqlcc::execution_ast::ASTFactoryRegistry::registerFactory</a></div><div class="ttdeci">void registerFactory(const std::string &amp;name, std::unique_ptr&lt; ASTFactoryInterface &gt; factory)</div><div class="ttdef"><b>Definition</b> execution/ast_interface.h:116</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1ASTNodeInterface_html_a27dc3a39e64f628aec673494f90af390"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1ASTNodeInterface.html#a27dc3a39e64f628aec673494f90af390">sqlcc::execution_ast::ASTNodeInterface::getNodeType</a></div><div class="ttdeci">virtual std::string getNodeType() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1ASTNodeInterface_html_a499741fbbf8b5a52b30e12a1cc80f22d"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1ASTNodeInterface.html#a499741fbbf8b5a52b30e12a1cc80f22d">sqlcc::execution_ast::ASTNodeInterface::clone</a></div><div class="ttdeci">virtual std::unique_ptr&lt; ASTNodeInterface &gt; clone() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1ASTNodeInterface_html_a65f67f4e834f7b02b9e1d1785d99d1fc"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1ASTNodeInterface.html#a65f67f4e834f7b02b9e1d1785d99d1fc">sqlcc::execution_ast::ASTNodeInterface::toString</a></div><div class="ttdeci">virtual std::string toString() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1ASTNodeInterface_html_a73422843c40bfa8119d27ea50bc6093f"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1ASTNodeInterface.html#a73422843c40bfa8119d27ea50bc6093f">sqlcc::execution_ast::ASTNodeInterface::~ASTNodeInterface</a></div><div class="ttdeci">virtual ~ASTNodeInterface()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1FunctionDefinitionInterface_html_a184fe964154311eb02c6f72f24ee94c6"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#a184fe964154311eb02c6f72f24ee94c6">sqlcc::execution_ast::FunctionDefinitionInterface::~FunctionDefinitionInterface</a></div><div class="ttdeci">~FunctionDefinitionInterface() override=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1FunctionDefinitionInterface_html_a54b798c499f8b611bb8cd54793f6fc24"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#a54b798c499f8b611bb8cd54793f6fc24">sqlcc::execution_ast::FunctionDefinitionInterface::getNodeType</a></div><div class="ttdeci">std::string getNodeType() const override</div><div class="ttdef"><b>Definition</b> execution/ast_interface.h:69</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1FunctionDefinitionInterface_html_a73e61d732a2611a0211368dd7acdac82"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#a73e61d732a2611a0211368dd7acdac82">sqlcc::execution_ast::FunctionDefinitionInterface::containsSql</a></div><div class="ttdeci">virtual bool containsSql() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1FunctionDefinitionInterface_html_a7653f27fb7025f5613da8b80160071fe"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#a7653f27fb7025f5613da8b80160071fe">sqlcc::execution_ast::FunctionDefinitionInterface::isDeterministic</a></div><div class="ttdeci">virtual bool isDeterministic() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1FunctionDefinitionInterface_html_a8770f9ad234d5ed15b1360fee9cd40f8"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#a8770f9ad234d5ed15b1360fee9cd40f8">sqlcc::execution_ast::FunctionDefinitionInterface::readsSqlData</a></div><div class="ttdeci">virtual bool readsSqlData() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1FunctionDefinitionInterface_html_a90505c52dc775275c8f5afca4f0d03db"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#a90505c52dc775275c8f5afca4f0d03db">sqlcc::execution_ast::FunctionDefinitionInterface::modifiesSqlData</a></div><div class="ttdeci">virtual bool modifiesSqlData() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1FunctionDefinitionInterface_html_a92e3199a5c6273a5143859a8dddeedfe"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#a92e3199a5c6273a5143859a8dddeedfe">sqlcc::execution_ast::FunctionDefinitionInterface::getName</a></div><div class="ttdeci">virtual const std::string &amp; getName() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1FunctionDefinitionInterface_html_aa7c5f27b10d86020c9842b8b22ae7e57"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#aa7c5f27b10d86020c9842b8b22ae7e57">sqlcc::execution_ast::FunctionDefinitionInterface::getReturnType</a></div><div class="ttdeci">virtual const std::string &amp; getReturnType() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1FunctionDefinitionInterface_html_ac1619330162bcbf19ed9ffcdef43d385"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#ac1619330162bcbf19ed9ffcdef43d385">sqlcc::execution_ast::FunctionDefinitionInterface::getBody</a></div><div class="ttdeci">virtual const std::string &amp; getBody() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1FunctionDefinitionInterface_html_ae75feb12a0caae69237347cc0a8521a4"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1FunctionDefinitionInterface.html#ae75feb12a0caae69237347cc0a8521a4">sqlcc::execution_ast::FunctionDefinitionInterface::getParameters</a></div><div class="ttdeci">virtual const std::vector&lt; std::string &gt; &amp; getParameters() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1QueryNodeInterface_html_a050bf2d5795e6c6fddb113a119c1a37c"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1QueryNodeInterface.html#a050bf2d5795e6c6fddb113a119c1a37c">sqlcc::execution_ast::QueryNodeInterface::hasLimit</a></div><div class="ttdeci">virtual bool hasLimit() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1QueryNodeInterface_html_a167381acd6d53b3658074bc4e62adea1"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1QueryNodeInterface.html#a167381acd6d53b3658074bc4e62adea1">sqlcc::execution_ast::QueryNodeInterface::hasWhereClause</a></div><div class="ttdeci">virtual bool hasWhereClause() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1QueryNodeInterface_html_a220fab20dae38c3528a892fa9d4339c6"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1QueryNodeInterface.html#a220fab20dae38c3528a892fa9d4339c6">sqlcc::execution_ast::QueryNodeInterface::hasOrderBy</a></div><div class="ttdeci">virtual bool hasOrderBy() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1QueryNodeInterface_html_a23d885956301b36ae08609e2cea165e6"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1QueryNodeInterface.html#a23d885956301b36ae08609e2cea165e6">sqlcc::execution_ast::QueryNodeInterface::~QueryNodeInterface</a></div><div class="ttdeci">~QueryNodeInterface() override=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1QueryNodeInterface_html_ace44f2f0537834ea5fe9c35c36e09e5e"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1QueryNodeInterface.html#ace44f2f0537834ea5fe9c35c36e09e5e">sqlcc::execution_ast::QueryNodeInterface::getQueryType</a></div><div class="ttdeci">virtual std::string getQueryType() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1QueryNodeInterface_html_afdefe2e21df22f2a422f1054dba03c90"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1QueryNodeInterface.html#afdefe2e21df22f2a422f1054dba03c90">sqlcc::execution_ast::QueryNodeInterface::hasGroupBy</a></div><div class="ttdeci">virtual bool hasGroupBy() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1SelectNodeInterface_html_a0d2bbd4dcacaaecdb1e825aac602ce73"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a0d2bbd4dcacaaecdb1e825aac602ce73">sqlcc::execution_ast::SelectNodeInterface::hasOrderBy</a></div><div class="ttdeci">virtual bool hasOrderBy() const override=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1SelectNodeInterface_html_a0ea039daef57d427d2c72bc3edc703fa"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a0ea039daef57d427d2c72bc3edc703fa">sqlcc::execution_ast::SelectNodeInterface::hasGroupBy</a></div><div class="ttdeci">virtual bool hasGroupBy() const override=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1SelectNodeInterface_html_a20b0202aa4ec0c265104f266212f4dd3"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a20b0202aa4ec0c265104f266212f4dd3">sqlcc::execution_ast::SelectNodeInterface::getNodeType</a></div><div class="ttdeci">std::string getNodeType() const override</div><div class="ttdef"><b>Definition</b> execution/ast_interface.h:50</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1SelectNodeInterface_html_a340f6708f2724c323d68885aa8638a2e"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a340f6708f2724c323d68885aa8638a2e">sqlcc::execution_ast::SelectNodeInterface::getWhereCondition</a></div><div class="ttdeci">virtual std::string getWhereCondition() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1SelectNodeInterface_html_a386a1ae3d6387eecf2a264f0cba13bad"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a386a1ae3d6387eecf2a264f0cba13bad">sqlcc::execution_ast::SelectNodeInterface::hasLimit</a></div><div class="ttdeci">virtual bool hasLimit() const override=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1SelectNodeInterface_html_a41f4a2926cbf31610a79395009b4824c"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a41f4a2926cbf31610a79395009b4824c">sqlcc::execution_ast::SelectNodeInterface::~SelectNodeInterface</a></div><div class="ttdeci">~SelectNodeInterface() override=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1SelectNodeInterface_html_a72156460badf4fe9d12acf58fb34e015"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a72156460badf4fe9d12acf58fb34e015">sqlcc::execution_ast::SelectNodeInterface::hasWhereClause</a></div><div class="ttdeci">virtual bool hasWhereClause() const override=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1SelectNodeInterface_html_a8317d40ca3d97642bcf7b11c908a8501"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a8317d40ca3d97642bcf7b11c908a8501">sqlcc::execution_ast::SelectNodeInterface::getSelectColumns</a></div><div class="ttdeci">virtual const std::vector&lt; std::string &gt; &amp; getSelectColumns() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1SelectNodeInterface_html_a8cfa36651f820edd1817fa241e476536"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#a8cfa36651f820edd1817fa241e476536">sqlcc::execution_ast::SelectNodeInterface::getFromTable</a></div><div class="ttdeci">virtual const std::string &amp; getFromTable() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution__ast_1_1SelectNodeInterface_html_aecae148e1e30f4506065ebe7bd66e5a2"><div class="ttname"><a href="classsqlcc_1_1execution__ast_1_1SelectNodeInterface.html#aecae148e1e30f4506065ebe7bd66e5a2">sqlcc::execution_ast::SelectNodeInterface::getQueryType</a></div><div class="ttdeci">std::string getQueryType() const override</div><div class="ttdef"><b>Definition</b> execution/ast_interface.h:51</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

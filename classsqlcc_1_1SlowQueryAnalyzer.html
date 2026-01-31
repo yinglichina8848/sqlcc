@@ -1,0 +1,926 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::SlowQueryAnalyzer类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html">SlowQueryAnalyzer</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1SlowQueryAnalyzer-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::SlowQueryAnalyzer类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="slow__query__analyzer_8h_source.html">slow_query_analyzer.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a8952f368ffcf39227a66b657d12aadb7" id="r_a8952f368ffcf39227a66b657d12aadb7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a8952f368ffcf39227a66b657d12aadb7">SlowQueryAnalyzer</a> ()</td></tr>
+<tr class="separator:a8952f368ffcf39227a66b657d12aadb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaf064604aec74a3f6253bbdbbe52d7c" id="r_adaf064604aec74a3f6253bbdbbe52d7c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#adaf064604aec74a3f6253bbdbbe52d7c">~SlowQueryAnalyzer</a> ()=default</td></tr>
+<tr class="separator:adaf064604aec74a3f6253bbdbbe52d7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4524644e97237240eee021c163277acc" id="r_a4524644e97237240eee021c163277acc"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a4524644e97237240eee021c163277acc">analyze_slow_query</a> (const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;query_metrics)</td></tr>
+<tr class="separator:a4524644e97237240eee021c163277acc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af881043bf02af50b34a0fdf4d0c3b1d2" id="r_af881043bf02af50b34a0fdf4d0c3b1d2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#af881043bf02af50b34a0fdf4d0c3b1d2">analyze_slow_queries</a> (const std::vector&lt; <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &gt; &amp;queries)</td></tr>
+<tr class="separator:af881043bf02af50b34a0fdf4d0c3b1d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ec444cb6c23b3c7aa47278c22d54242" id="r_a1ec444cb6c23b3c7aa47278c22d54242"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a1ec444cb6c23b3c7aa47278c22d54242">get_suggestions</a> (size_t limit=100, const std::string &amp;suggestion_type=&quot;&quot;) const</td></tr>
+<tr class="separator:a1ec444cb6c23b3c7aa47278c22d54242"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaedb0defc4086382a3dd08f15a467e5" id="r_acaedb0defc4086382a3dd08f15a467e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#acaedb0defc4086382a3dd08f15a467e5">mark_suggestion_applied</a> (const std::string &amp;suggestion_id, double actual_improvement=0.0)</td></tr>
+<tr class="separator:acaedb0defc4086382a3dd08f15a467e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedb3b7c064e3de61e631b4551a41147c" id="r_aedb3b7c064e3de61e631b4551a41147c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#aedb3b7c064e3de61e631b4551a41147c">verify_suggestion_effectiveness</a> (const std::string &amp;suggestion_id, const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;before_metrics, const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;after_metrics)</td></tr>
+<tr class="separator:aedb3b7c064e3de61e631b4551a41147c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a7f36adbe7f00d1693d2d537a4631ee57" id="r_a7f36adbe7f00d1693d2d537a4631ee57"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a7f36adbe7f00d1693d2d537a4631ee57">identify_performance_patterns</a> (const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;query_metrics)</td></tr>
+<tr class="separator:a7f36adbe7f00d1693d2d537a4631ee57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abaec49a0851c9cb496b0d654ef5ca26a" id="r_abaec49a0851c9cb496b0d654ef5ca26a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#abaec49a0851c9cb496b0d654ef5ca26a">generate_index_suggestion</a> (const <a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> &amp;pattern, const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;query_metrics)</td></tr>
+<tr class="separator:abaec49a0851c9cb496b0d654ef5ca26a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a115be04efbdea7f44f15037d7a2c8599" id="r_a115be04efbdea7f44f15037d7a2c8599"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a115be04efbdea7f44f15037d7a2c8599">generate_query_rewrite_suggestion</a> (const <a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> &amp;pattern, const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;query_metrics)</td></tr>
+<tr class="separator:a115be04efbdea7f44f15037d7a2c8599"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f88ad2b967ef54f73f8cc2a18dc52da" id="r_a0f88ad2b967ef54f73f8cc2a18dc52da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a0f88ad2b967ef54f73f8cc2a18dc52da">generate_schema_change_suggestion</a> (const <a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> &amp;pattern, const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;query_metrics)</td></tr>
+<tr class="separator:a0f88ad2b967ef54f73f8cc2a18dc52da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdc1f9a247d11d2e0f078a10028afa06" id="r_abdc1f9a247d11d2e0f078a10028afa06"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#abdc1f9a247d11d2e0f078a10028afa06">detect_table_scan_pattern</a> (const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;query_metrics)</td></tr>
+<tr class="separator:abdc1f9a247d11d2e0f078a10028afa06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a956cd34711e539eb2f4faeb63e7b88f8" id="r_a956cd34711e539eb2f4faeb63e7b88f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a956cd34711e539eb2f4faeb63e7b88f8">detect_full_join_pattern</a> (const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;query_metrics)</td></tr>
+<tr class="separator:a956cd34711e539eb2f4faeb63e7b88f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76917cf86631a911f9c124462dbccafd" id="r_a76917cf86631a911f9c124462dbccafd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a76917cf86631a911f9c124462dbccafd">detect_complex_subquery_pattern</a> (const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;query_metrics)</td></tr>
+<tr class="separator:a76917cf86631a911f9c124462dbccafd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb91ae6cb9244d74e4dcb1b2c2ea0208" id="r_abb91ae6cb9244d74e4dcb1b2c2ea0208"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#abb91ae6cb9244d74e4dcb1b2c2ea0208">detect_missing_index_pattern</a> (const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;query_metrics)</td></tr>
+<tr class="separator:abb91ae6cb9244d74e4dcb1b2c2ea0208"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ad3cdc21a263de8a0595d8d0640f7b7" id="r_a3ad3cdc21a263de8a0595d8d0640f7b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a3ad3cdc21a263de8a0595d8d0640f7b7">detect_large_sort_pattern</a> (const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;query_metrics)</td></tr>
+<tr class="separator:a3ad3cdc21a263de8a0595d8d0640f7b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d520344f709b067f66ee1f3e027424f" id="r_a8d520344f709b067f66ee1f3e027424f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a8d520344f709b067f66ee1f3e027424f">detect_cartesian_product_pattern</a> (const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;query_metrics)</td></tr>
+<tr class="separator:a8d520344f709b067f66ee1f3e027424f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cec40ac501bc26d020e7cd505958207" id="r_a8cec40ac501bc26d020e7cd505958207"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a8cec40ac501bc26d020e7cd505958207">extract_table_name</a> (const std::string &amp;query_text)</td></tr>
+<tr class="separator:a8cec40ac501bc26d020e7cd505958207"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a196beff849483edde327ef3c4a462313" id="r_a196beff849483edde327ef3c4a462313"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a196beff849483edde327ef3c4a462313">extract_columns</a> (const std::string &amp;query_text)</td></tr>
+<tr class="separator:a196beff849483edde327ef3c4a462313"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c1ac110f07061fe29f458145d27074d" id="r_a6c1ac110f07061fe29f458145d27074d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a6c1ac110f07061fe29f458145d27074d">extract_join_conditions</a> (const std::string &amp;query_text)</td></tr>
+<tr class="separator:a6c1ac110f07061fe29f458145d27074d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb5dbd30e482fdf4f0f1447837ab7f75" id="r_acb5dbd30e482fdf4f0f1447837ab7f75"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#acb5dbd30e482fdf4f0f1447837ab7f75">has_where_clause</a> (const std::string &amp;query_text)</td></tr>
+<tr class="separator:acb5dbd30e482fdf4f0f1447837ab7f75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3c577ac23a608eb741c29a83d2aeb15" id="r_ad3c577ac23a608eb741c29a83d2aeb15"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#ad3c577ac23a608eb741c29a83d2aeb15">has_limit_clause</a> (const std::string &amp;query_text)</td></tr>
+<tr class="separator:ad3c577ac23a608eb741c29a83d2aeb15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a08187107554aade67f97b65de64f1c" id="r_a5a08187107554aade67f97b65de64f1c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a5a08187107554aade67f97b65de64f1c">calculate_impact_score</a> (const <a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> &amp;pattern, const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;query_metrics)</td></tr>
+<tr class="separator:a5a08187107554aade67f97b65de64f1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a763b7ef3a898af78748752217a5b487d" id="r_a763b7ef3a898af78748752217a5b487d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a763b7ef3a898af78748752217a5b487d">generate_suggestion_id</a> ()</td></tr>
+<tr class="separator:a763b7ef3a898af78748752217a5b487d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a1c8f137ae241de90bea556fa969df6f1" id="r_a1c8f137ae241de90bea556fa969df6f1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a1c8f137ae241de90bea556fa969df6f1">suggestions_history_</a></td></tr>
+<tr class="separator:a1c8f137ae241de90bea556fa969df6f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab41fc53e689b5c92cb2c29135b1a18d6" id="r_ab41fc53e689b5c92cb2c29135b1a18d6"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#ab41fc53e689b5c92cb2c29135b1a18d6">suggestions_map_</a></td></tr>
+<tr class="separator:ab41fc53e689b5c92cb2c29135b1a18d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78f157217c7ae5041cf195df300a5411" id="r_a78f157217c7ae5041cf195df300a5411"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a78f157217c7ae5041cf195df300a5411">min_execution_time_threshold_ms_</a> = 1000.0</td></tr>
+<tr class="separator:a78f157217c7ae5041cf195df300a5411"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d90e24a83616856be3d137f0656fbd3" id="r_a0d90e24a83616856be3d137f0656fbd3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#a0d90e24a83616856be3d137f0656fbd3">max_suggestions_per_query_</a> = 3</td></tr>
+<tr class="separator:a0d90e24a83616856be3d137f0656fbd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb103eba0e3d10d5ef8adcd48657f118" id="r_afb103eba0e3d10d5ef8adcd48657f118"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SlowQueryAnalyzer.html#afb103eba0e3d10d5ef8adcd48657f118">max_history_size_</a> = 10000</td></tr>
+<tr class="separator:afb103eba0e3d10d5ef8adcd48657f118"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a8952f368ffcf39227a66b657d12aadb7" name="a8952f368ffcf39227a66b657d12aadb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8952f368ffcf39227a66b657d12aadb7">&#9670;&#160;</a></span>SlowQueryAnalyzer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::SlowQueryAnalyzer::SlowQueryAnalyzer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adaf064604aec74a3f6253bbdbbe52d7c" name="adaf064604aec74a3f6253bbdbbe52d7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adaf064604aec74a3f6253bbdbbe52d7c">&#9670;&#160;</a></span>~SlowQueryAnalyzer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::SlowQueryAnalyzer::~SlowQueryAnalyzer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="af881043bf02af50b34a0fdf4d0c3b1d2" name="af881043bf02af50b34a0fdf4d0c3b1d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af881043bf02af50b34a0fdf4d0c3b1d2">&#9670;&#160;</a></span>analyze_slow_queries()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a> &gt; sqlcc::SlowQueryAnalyzer::analyze_slow_queries </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>queries</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4524644e97237240eee021c163277acc" name="a4524644e97237240eee021c163277acc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4524644e97237240eee021c163277acc">&#9670;&#160;</a></span>analyze_slow_query()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a> &gt; sqlcc::SlowQueryAnalyzer::analyze_slow_query </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;&#160;</td>
+          <td class="paramname"><em>query_metrics</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5a08187107554aade67f97b65de64f1c" name="a5a08187107554aade67f97b65de64f1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a08187107554aade67f97b65de64f1c">&#9670;&#160;</a></span>calculate_impact_score()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double sqlcc::SlowQueryAnalyzer::calculate_impact_score </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> &amp;&#160;</td>
+          <td class="paramname"><em>pattern</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;&#160;</td>
+          <td class="paramname"><em>query_metrics</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8d520344f709b067f66ee1f3e027424f" name="a8d520344f709b067f66ee1f3e027424f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d520344f709b067f66ee1f3e027424f">&#9670;&#160;</a></span>detect_cartesian_product_pattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> sqlcc::SlowQueryAnalyzer::detect_cartesian_product_pattern </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;&#160;</td>
+          <td class="paramname"><em>query_metrics</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76917cf86631a911f9c124462dbccafd" name="a76917cf86631a911f9c124462dbccafd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76917cf86631a911f9c124462dbccafd">&#9670;&#160;</a></span>detect_complex_subquery_pattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> sqlcc::SlowQueryAnalyzer::detect_complex_subquery_pattern </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;&#160;</td>
+          <td class="paramname"><em>query_metrics</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a956cd34711e539eb2f4faeb63e7b88f8" name="a956cd34711e539eb2f4faeb63e7b88f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a956cd34711e539eb2f4faeb63e7b88f8">&#9670;&#160;</a></span>detect_full_join_pattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> sqlcc::SlowQueryAnalyzer::detect_full_join_pattern </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;&#160;</td>
+          <td class="paramname"><em>query_metrics</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3ad3cdc21a263de8a0595d8d0640f7b7" name="a3ad3cdc21a263de8a0595d8d0640f7b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ad3cdc21a263de8a0595d8d0640f7b7">&#9670;&#160;</a></span>detect_large_sort_pattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> sqlcc::SlowQueryAnalyzer::detect_large_sort_pattern </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;&#160;</td>
+          <td class="paramname"><em>query_metrics</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abb91ae6cb9244d74e4dcb1b2c2ea0208" name="abb91ae6cb9244d74e4dcb1b2c2ea0208"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb91ae6cb9244d74e4dcb1b2c2ea0208">&#9670;&#160;</a></span>detect_missing_index_pattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> sqlcc::SlowQueryAnalyzer::detect_missing_index_pattern </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;&#160;</td>
+          <td class="paramname"><em>query_metrics</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abdc1f9a247d11d2e0f078a10028afa06" name="abdc1f9a247d11d2e0f078a10028afa06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdc1f9a247d11d2e0f078a10028afa06">&#9670;&#160;</a></span>detect_table_scan_pattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> sqlcc::SlowQueryAnalyzer::detect_table_scan_pattern </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;&#160;</td>
+          <td class="paramname"><em>query_metrics</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a196beff849483edde327ef3c4a462313" name="a196beff849483edde327ef3c4a462313"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a196beff849483edde327ef3c4a462313">&#9670;&#160;</a></span>extract_columns()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; sqlcc::SlowQueryAnalyzer::extract_columns </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>query_text</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6c1ac110f07061fe29f458145d27074d" name="a6c1ac110f07061fe29f458145d27074d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c1ac110f07061fe29f458145d27074d">&#9670;&#160;</a></span>extract_join_conditions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; sqlcc::SlowQueryAnalyzer::extract_join_conditions </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>query_text</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8cec40ac501bc26d020e7cd505958207" name="a8cec40ac501bc26d020e7cd505958207"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cec40ac501bc26d020e7cd505958207">&#9670;&#160;</a></span>extract_table_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::SlowQueryAnalyzer::extract_table_name </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>query_text</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abaec49a0851c9cb496b0d654ef5ca26a" name="abaec49a0851c9cb496b0d654ef5ca26a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abaec49a0851c9cb496b0d654ef5ca26a">&#9670;&#160;</a></span>generate_index_suggestion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a> sqlcc::SlowQueryAnalyzer::generate_index_suggestion </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> &amp;&#160;</td>
+          <td class="paramname"><em>pattern</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;&#160;</td>
+          <td class="paramname"><em>query_metrics</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a115be04efbdea7f44f15037d7a2c8599" name="a115be04efbdea7f44f15037d7a2c8599"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a115be04efbdea7f44f15037d7a2c8599">&#9670;&#160;</a></span>generate_query_rewrite_suggestion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a> sqlcc::SlowQueryAnalyzer::generate_query_rewrite_suggestion </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> &amp;&#160;</td>
+          <td class="paramname"><em>pattern</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;&#160;</td>
+          <td class="paramname"><em>query_metrics</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0f88ad2b967ef54f73f8cc2a18dc52da" name="a0f88ad2b967ef54f73f8cc2a18dc52da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f88ad2b967ef54f73f8cc2a18dc52da">&#9670;&#160;</a></span>generate_schema_change_suggestion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a> sqlcc::SlowQueryAnalyzer::generate_schema_change_suggestion </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> &amp;&#160;</td>
+          <td class="paramname"><em>pattern</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;&#160;</td>
+          <td class="paramname"><em>query_metrics</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a763b7ef3a898af78748752217a5b487d" name="a763b7ef3a898af78748752217a5b487d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a763b7ef3a898af78748752217a5b487d">&#9670;&#160;</a></span>generate_suggestion_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::SlowQueryAnalyzer::generate_suggestion_id </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1ec444cb6c23b3c7aa47278c22d54242" name="a1ec444cb6c23b3c7aa47278c22d54242"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ec444cb6c23b3c7aa47278c22d54242">&#9670;&#160;</a></span>get_suggestions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a> &gt; sqlcc::SlowQueryAnalyzer::get_suggestions </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>limit</em> = <code>100</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>suggestion_type</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad3c577ac23a608eb741c29a83d2aeb15" name="ad3c577ac23a608eb741c29a83d2aeb15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3c577ac23a608eb741c29a83d2aeb15">&#9670;&#160;</a></span>has_limit_clause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::SlowQueryAnalyzer::has_limit_clause </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>query_text</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acb5dbd30e482fdf4f0f1447837ab7f75" name="acb5dbd30e482fdf4f0f1447837ab7f75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb5dbd30e482fdf4f0f1447837ab7f75">&#9670;&#160;</a></span>has_where_clause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::SlowQueryAnalyzer::has_where_clause </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>query_text</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7f36adbe7f00d1693d2d537a4631ee57" name="a7f36adbe7f00d1693d2d537a4631ee57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f36adbe7f00d1693d2d537a4631ee57">&#9670;&#160;</a></span>identify_performance_patterns()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1QueryPerformancePattern.html">QueryPerformancePattern</a> &gt; sqlcc::SlowQueryAnalyzer::identify_performance_patterns </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;&#160;</td>
+          <td class="paramname"><em>query_metrics</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acaedb0defc4086382a3dd08f15a467e5" name="acaedb0defc4086382a3dd08f15a467e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaedb0defc4086382a3dd08f15a467e5">&#9670;&#160;</a></span>mark_suggestion_applied()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::SlowQueryAnalyzer::mark_suggestion_applied </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>suggestion_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>actual_improvement</em> = <code>0.0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aedb3b7c064e3de61e631b4551a41147c" name="aedb3b7c064e3de61e631b4551a41147c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedb3b7c064e3de61e631b4551a41147c">&#9670;&#160;</a></span>verify_suggestion_effectiveness()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::SlowQueryAnalyzer::verify_suggestion_effectiveness </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>suggestion_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;&#160;</td>
+          <td class="paramname"><em>before_metrics</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1QueryMetrics.html">QueryMetrics</a> &amp;&#160;</td>
+          <td class="paramname"><em>after_metrics</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="afb103eba0e3d10d5ef8adcd48657f118" name="afb103eba0e3d10d5ef8adcd48657f118"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb103eba0e3d10d5ef8adcd48657f118">&#9670;&#160;</a></span>max_history_size_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::SlowQueryAnalyzer::max_history_size_ = 10000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0d90e24a83616856be3d137f0656fbd3" name="a0d90e24a83616856be3d137f0656fbd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d90e24a83616856be3d137f0656fbd3">&#9670;&#160;</a></span>max_suggestions_per_query_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::SlowQueryAnalyzer::max_suggestions_per_query_ = 3</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78f157217c7ae5041cf195df300a5411" name="a78f157217c7ae5041cf195df300a5411"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78f157217c7ae5041cf195df300a5411">&#9670;&#160;</a></span>min_execution_time_threshold_ms_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double sqlcc::SlowQueryAnalyzer::min_execution_time_threshold_ms_ = 1000.0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1c8f137ae241de90bea556fa969df6f1" name="a1c8f137ae241de90bea556fa969df6f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c8f137ae241de90bea556fa969df6f1">&#9670;&#160;</a></span>suggestions_history_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a>&gt; sqlcc::SlowQueryAnalyzer::suggestions_history_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab41fc53e689b5c92cb2c29135b1a18d6" name="ab41fc53e689b5c92cb2c29135b1a18d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab41fc53e689b5c92cb2c29135b1a18d6">&#9670;&#160;</a></span>suggestions_map_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, <a class="el" href="structsqlcc_1_1OptimizationSuggestion.html">OptimizationSuggestion</a>&gt; sqlcc::SlowQueryAnalyzer::suggestions_map_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="slow__query__analyzer_8h_source.html">slow_query_analyzer.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

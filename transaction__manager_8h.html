@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: transaction_manager.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fb9ae7a49cebe7b7fa8032746ce165dc.html">transaction_manager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#enum-members">枚举</a>  </div>
+  <div class="headertitle"><div class="title">transaction_manager.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>SQLCC事务管理器 - ACID属性实现的完整解决方案  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;unordered_set&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;../core_database_manager.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="concurrency__control_8h_source.html">../storage_engine/concurrency_control.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+transaction_manager.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="transaction__manager_8h__incl.png" border="0" usemap="#atransaction__manager_8h" alt=""/></div>
+<map name="atransaction__manager_8h" id="atransaction__manager_8h">
+<area shape="rect" title="SQLCC事务管理器 &#45; ACID属性实现的完整解决方案" alt="" coords="419,5,589,31"/>
+<area shape="rect" title=" " alt="" coords="5,167,72,192"/>
+<area shape="poly" title=" " alt="" coords="419,29,309,47,249,62,192,81,155,99,121,119,64,160,61,156,118,115,153,94,190,76,248,56,307,42,418,24"/>
+<area shape="rect" title=" " alt="" coords="96,167,163,192"/>
+<area shape="poly" title=" " alt="" coords="419,33,337,51,295,64,255,81,225,98,197,119,152,158,148,154,193,114,222,94,252,76,293,59,336,45,418,27"/>
+<area shape="rect" title=" " alt="" coords="187,167,264,192"/>
+<area shape="poly" title=" " alt="" coords="419,33,356,50,325,64,296,81,278,97,262,117,238,155,234,153,257,114,274,94,293,77,322,59,354,45,418,27"/>
+<area shape="rect" title=" " alt="" coords="288,167,352,192"/>
+<area shape="poly" title=" " alt="" coords="419,26,389,32,359,43,333,59,312,80,304,97,303,116,311,153,306,154,297,116,299,96,307,77,330,54,357,38,387,27,418,20"/>
+<area shape="rect" title=" " alt="" coords="665,86,724,111"/>
+<area shape="poly" title=" " alt="" coords="533,28,655,78,653,83,531,33"/>
+<area shape="rect" title=" " alt="" coords="603,167,727,192"/>
+<area shape="poly" title=" " alt="" coords="517,29,646,155,642,159,514,33"/>
+<area shape="rect" title=" " alt="" coords="748,86,863,111"/>
+<area shape="poly" title=" " alt="" coords="550,28,737,76,751,80,750,85,735,81,549,33"/>
+<area shape="rect" title=" " alt="" coords="751,167,814,192"/>
+<area shape="poly" title=" " alt="" coords="526,29,604,76,629,97,655,116,698,140,741,159,739,164,696,145,652,121,626,101,601,81,523,33"/>
+<area shape="rect" title=" " alt="" coords="887,86,1092,111"/>
+<area shape="poly" title=" " alt="" coords="576,28,875,76,907,81,906,86,874,81,575,33"/>
+<area shape="rect" href="concurrency__control_8h.html" title="SQLCC并发控制系统 &#45; MVCC与两阶段锁协议的完整实现" alt="" coords="322,79,539,119"/>
+<area shape="poly" title=" " alt="" coords="495,33,460,70,456,67,491,29"/>
+<area shape="poly" title=" " alt="" coords="326,121,86,169,85,164,325,116"/>
+<area shape="poly" title=" " alt="" coords="359,121,177,169,175,163,358,116"/>
+<area shape="poly" title=" " alt="" coords="382,121,269,164,268,159,381,116"/>
+<area shape="poly" title=" " alt="" coords="405,121,349,161,346,156,402,117"/>
+<area shape="poly" title=" " alt="" coords="488,116,619,160,617,165,486,121"/>
+<area shape="poly" title=" " alt="" coords="524,116,738,164,737,169,522,121"/>
+<area shape="rect" title=" " alt="" coords="376,167,491,192"/>
+<area shape="poly" title=" " alt="" coords="434,119,435,153,430,153,429,119"/>
+<area shape="rect" title=" " alt="" coords="515,167,579,192"/>
+<area shape="poly" title=" " alt="" coords="460,117,520,157,517,161,457,121"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="transaction__manager_8h__dep__incl.png" border="0" usemap="#atransaction__manager_8hdep" alt=""/></div>
+<map name="atransaction__manager_8hdep" id="atransaction__manager_8hdep">
+<area shape="rect" title="SQLCC事务管理器 &#45; ACID属性实现的完整解决方案" alt="" coords="432,5,603,31"/>
+<area shape="rect" href="index__manager__smart__ptr__enhancement_8cpp.html" title="索引管理智能指针化深度改进 &#45; 索引对象生命周期管理优化" alt="" coords="5,79,176,119"/>
+<area shape="poly" title=" " alt="" coords="440,36,188,81,177,84,176,78,188,76,439,30"/>
+<area shape="rect" href="sql__executor_2sql__executor_8cpp.html" title=" " alt="" coords="200,86,331,111"/>
+<area shape="poly" title=" " alt="" coords="468,37,303,89,301,83,467,32"/>
+<area shape="rect" href="transaction_2transaction__context__impl_8h.html" title=" " alt="" coords="355,79,506,119"/>
+<area shape="poly" title=" " alt="" coords="496,42,453,80,450,77,493,38"/>
+<area shape="rect" href="transaction__context__impl_8h.html" title=" " alt="" coords="530,79,681,119"/>
+<area shape="poly" title=" " alt="" coords="542,38,586,77,582,81,539,42"/>
+<area shape="rect" href="transaction__manager_8cpp.html" title=" " alt="" coords="705,86,892,111"/>
+<area shape="poly" title=" " alt="" coords="572,32,758,83,757,89,571,37"/>
+<area shape="rect" href="transaction__manager__mock_8h.html" title=" " alt="" coords="916,79,1076,119"/>
+<area shape="poly" title=" " alt="" coords="613,30,904,76,916,78,915,83,904,81,612,35"/>
+<area shape="rect" href="transaction__context__impl_8cpp.html" title=" " alt="" coords="530,167,681,207"/>
+<area shape="poly" title=" " alt="" coords="608,133,608,166,603,166,603,133"/>
+<area shape="rect" href="transaction__manager__mock_8cpp.html" title=" " alt="" coords="916,167,1076,207"/>
+<area shape="poly" title=" " alt="" coords="999,133,999,166,993,166,993,133"/>
+</map>
+</div>
+</div>
+<p><a href="transaction__manager_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1LogEntry.html">sqlcc::LogEntry</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">操作日志条目 - 多版本并发控制（MVCC）的核心数据结构  <a href="structsqlcc_1_1LogEntry.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1NestedTransaction.html">sqlcc::NestedTransaction</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">嵌套事务信息 - 支持事务嵌套的核心数据结构  <a href="structsqlcc_1_1NestedTransaction.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Transaction.html">sqlcc::Transaction</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">事务信息结构体 - 事务元数据的完整描述  <a href="classsqlcc_1_1Transaction.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1LockEntry.html">sqlcc::LockEntry</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁信息结构体 - 锁表条目的完整描述  <a href="structsqlcc_1_1LockEntry.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html">sqlcc::TransactionManager</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">事务管理器类 - SQLCC数据库系统的ACID属性实现核心  <a href="classsqlcc_1_1TransactionManager.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1TransactionManager_1_1TransactionStats.html">sqlcc::TransactionManager::TransactionStats</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:a0c57d89a2dad7e9c0f7a8a52f9788835" id="r_a0c57d89a2dad7e9c0f7a8a52f9788835"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a0c57d89a2dad7e9c0f7a8a52f9788835">sqlcc::TransactionState</a> { <a class="el" href="namespacesqlcc.html#a0c57d89a2dad7e9c0f7a8a52f9788835a18ff74f43da410c5529f7d6fca84f115">sqlcc::ACTIVE</a>
+, <a class="el" href="namespacesqlcc.html#a0c57d89a2dad7e9c0f7a8a52f9788835a1c372d13f50af5ca9a935ebc78006e82">sqlcc::COMMITTED</a>
+, <a class="el" href="namespacesqlcc.html#a0c57d89a2dad7e9c0f7a8a52f9788835a4e6c860e5da10e31c5fd9cb76ddc2025">sqlcc::ABORTED</a>
+, <a class="el" href="namespacesqlcc.html#a0c57d89a2dad7e9c0f7a8a52f9788835a704940fadc36a1ea05e200e3ccaeb298">sqlcc::ROLLING_BACK</a>
+ }</td></tr>
+<tr class="memdesc:a0c57d89a2dad7e9c0f7a8a52f9788835"><td class="mdescLeft">&#160;</td><td class="mdescRight">事务状态枚举 - 定义事务生命周期的各个阶段  <a href="namespacesqlcc.html#a0c57d89a2dad7e9c0f7a8a52f9788835">更多...</a><br /></td></tr>
+<tr class="separator:a0c57d89a2dad7e9c0f7a8a52f9788835"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>SQLCC事务管理器 - ACID属性实现的完整解决方案 </p>
+<p>事务管理器是数据库系统的核心组件之一，负责实现ACID（原子性、一致性、 隔离性、持久性）四大基本属性。本文件定义了完整的事务管理架构， 包括两阶段锁协议、预写日志、多版本并发控制等关键技术。</p>
+<p>📚 配套教材参考：</p><ul>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#第八章oltp事务处理">第8章：OLTP事务处理</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#81-acid属性深度实现">8.1 ACID属性深度实现</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#82-预写日志wal机制">8.2 预写日志（WAL）机制</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#83-并发控制与mvcc技术">8.3 并发控制与MVCC技术</a></li>
+</ul>
+<p>WHY层 - 设计意图： 事务是数据库系统的核心抽象，提供数据操作的原子性和一致性保证。 TransactionManager作为数据库引擎的核心组件，负责协调多用户并发访问， 确保数据的一致性和完整性。通过精心设计的锁协议和日志机制， 实现高效且可靠的事务处理能力。</p>
+<p>WHAT层 - 功能说明：</p><ul>
+<li>事务生命周期管理：创建、提交、回滚事务</li>
+<li>并发控制：两阶段锁协议 + 死锁检测</li>
+<li>隔离级别：支持多种SQL隔离级别</li>
+<li>持久性保证：通过WAL机制确保事务持久性</li>
+<li>保存点支持：嵌套事务的回滚控制</li>
+</ul>
+<p>HOW层 - 实现机制：</p><ul>
+<li>原子性：通过undo日志实现事务回滚</li>
+<li>一致性：通过锁协议和约束检查保证</li>
+<li>隔离性：通过锁和MVCC实现并发隔离</li>
+<li>持久性：通过预写日志确保故障恢复</li>
+</ul>
+<p>关键设计决策：</p><ol type="1">
+<li>采用两阶段锁协议（2PL）确保串行化调度</li>
+<li>使用等待图进行死锁检测和预防</li>
+<li>支持多种隔离级别以平衡性能和一致性</li>
+<li>通过原子操作生成全局唯一事务ID</li>
+</ol>
+<p>并发控制策略：</p><ul>
+<li>**严格两阶段锁**：事务获取所有锁后才能释放锁</li>
+<li>**死锁检测**：使用等待图算法检测循环依赖</li>
+<li>**锁升级**：从共享锁升级到排他锁的策略</li>
+<li>**超时机制**：防止无限期等待的保护措施</li>
+</ul>
+<p>性能优化考虑：</p><ul>
+<li>**锁粒度**：行级锁vs表级锁的选择</li>
+<li>**锁兼容性**：共享锁和排他锁的兼容矩阵</li>
+<li>**锁管理**：高效的锁表实现和垃圾回收</li>
+<li>**并发度**：最大化并发事务数量</li>
+</ul>
+<p>故障恢复机制：</p><ul>
+<li>**检查点**：定期创建系统一致性快照</li>
+<li>**重做日志**：记录事务提交后的数据修改</li>
+<li>**撤销日志**：记录事务执行中的数据修改</li>
+<li>**ARIES协议**：先进的数据库恢复算法</li>
+</ul>
+<p>扩展性设计：</p><ul>
+<li>**分布式事务**：支持跨节点事务协调</li>
+<li>**长事务处理**：补偿事务和SAGA模式</li>
+<li>**实时事务**：低延迟高可用性保障</li>
+<li>**混合负载**：OLTP+OLAP混合工作负载支持</li>
+</ul>
+<dl class="section author"><dt>作者</dt><dd>SQLCC技术委员会 </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>1.2.6 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2025-12-24 </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

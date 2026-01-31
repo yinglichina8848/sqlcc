@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: permission_validator.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html">core</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#define-members">宏定义</a> &#124;
+<a href="#typedef-members">类型定义</a> &#124;
+<a href="#enum-members">枚举</a>  </div>
+  <div class="headertitle"><div class="title">permission_validator.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Defines the core components for a decoupled and extensible permission validation framework.  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="core_2user__manager_8h_source.html">user_manager.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="error__handler_8h_source.html">../error_handler.h</a>&quot;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+core/permission_validator.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="core_2permission__validator_8h__incl.png" border="0" usemap="#apermission__validator_8h" alt=""/></div>
+<map name="apermission__validator_8h" id="apermission__validator_8h">
+<area shape="rect" title="Defines the core components for a decoupled and extensible permission validation framework." alt="" coords="318,5,489,31"/>
+<area shape="rect" href="core_2user__manager_8h.html" title=" " alt="" coords="209,79,336,104"/>
+<area shape="poly" title=" " alt="" coords="384,33,307,74,305,70,381,28"/>
+<area shape="rect" title=" " alt="" coords="329,152,387,177"/>
+<area shape="poly" title=" " alt="" coords="402,32,368,140,363,138,397,30"/>
+<area shape="rect" title=" " alt="" coords="411,152,489,177"/>
+<area shape="poly" title=" " alt="" coords="410,30,445,138,439,140,405,32"/>
+<area shape="rect" title=" " alt="" coords="5,152,129,177"/>
+<area shape="poly" title=" " alt="" coords="348,33,275,53,198,81,141,113,94,146,91,141,138,108,196,76,273,47,346,28"/>
+<area shape="rect" href="error__handler_8h.html" title=" " alt="" coords="471,79,603,104"/>
+<area shape="poly" title=" " alt="" coords="426,28,504,70,502,74,424,33"/>
+<area shape="rect" title=" " alt="" coords="687,152,773,177"/>
+<area shape="poly" title=" " alt="" coords="467,28,540,47,617,76,668,108,709,141,706,145,665,112,614,81,538,52,466,33"/>
+<area shape="poly" title=" " alt="" coords="288,102,335,141,332,145,285,106"/>
+<area shape="poly" title=" " alt="" coords="302,102,410,144,408,149,300,106"/>
+<area shape="rect" title=" " alt="" coords="153,152,216,177"/>
+<area shape="poly" title=" " alt="" coords="260,106,211,145,208,141,257,102"/>
+<area shape="poly" title=" " alt="" coords="241,107,114,150,113,145,239,101"/>
+<area shape="rect" title=" " alt="" coords="241,152,305,177"/>
+<area shape="poly" title=" " alt="" coords="275,104,275,138,270,138,270,104"/>
+<area shape="poly" title=" " alt="" coords="509,107,401,149,399,144,507,102"/>
+<area shape="poly" title=" " alt="" coords="524,106,476,145,473,141,521,102"/>
+<area shape="rect" title=" " alt="" coords="513,152,563,177"/>
+<area shape="poly" title=" " alt="" coords="540,104,540,138,535,139,534,104"/>
+<area shape="rect" title=" " alt="" coords="587,152,662,177"/>
+<area shape="poly" title=" " alt="" coords="552,102,601,141,598,145,549,106"/>
+<area shape="poly" title=" " alt="" coords="569,102,687,145,685,150,567,107"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="core_2permission__validator_8h__dep__incl.png" border="0" usemap="#apermission__validator_8hdep" alt=""/></div>
+<map name="apermission__validator_8hdep" id="apermission__validator_8hdep">
+<area shape="rect" title="Defines the core components for a decoupled and extensible permission validation framework." alt="" coords="349,5,520,31"/>
+<area shape="rect" href="dcl__execution__strategy_8cpp.html" title=" " alt="" coords="5,79,203,104"/>
+<area shape="poly" title=" " alt="" coords="369,36,158,81,157,76,368,31"/>
+<area shape="rect" href="ddl__execution__strategy_8cpp.html" title=" " alt="" coords="227,79,426,104"/>
+<area shape="poly" title=" " alt="" coords="407,40,346,81,343,76,405,36"/>
+<area shape="rect" href="core_2permission__validator_8cpp.html" title=" " alt="" coords="450,79,635,104"/>
+<area shape="poly" title=" " alt="" coords="465,36,526,76,524,81,462,40"/>
+<area shape="rect" href="utility__execution__strategy_8cpp.html" title=" " alt="" coords="660,79,876,104"/>
+<area shape="poly" title=" " alt="" coords="502,31,715,76,713,81,501,36"/>
+</map>
+</div>
+</div>
+<p><a href="core_2permission__validator_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1PermissionResult.html">sqlcc::PermissionResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encapsulates the result of a permission validation check.  <a href="structsqlcc_1_1PermissionResult.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1PermissionContext.html">sqlcc::PermissionContext</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the context for a permission check. This struct is a data transfer object (DTO) that carries all necessary information from the point of request to the point of validation.  <a href="structsqlcc_1_1PermissionContext.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PermissionValidator.html">sqlcc::PermissionValidator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A centralized, decoupled engine for handling all authorization checks.  <a href="classsqlcc_1_1PermissionValidator.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:a4b1fcfff28d59635f91300a6ebba024e" id="r_a4b1fcfff28d59635f91300a6ebba024e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_2permission__validator_8h.html#a4b1fcfff28d59635f91300a6ebba024e">VALIDATE_PERMISSION</a>(validator,  operation,  resource,  user,  database)&#160;&#160;&#160;    validator.validate(operation, resource, user, database)</td></tr>
+<tr class="memdesc:a4b1fcfff28d59635f91300a6ebba024e"><td class="mdescLeft">&#160;</td><td class="mdescRight">A helper macro for concisely validating permissions.  <br /></td></tr>
+<tr class="separator:a4b1fcfff28d59635f91300a6ebba024e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13554492d7f93db5669515f528cea0cc" id="r_a13554492d7f93db5669515f528cea0cc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_2permission__validator_8h.html#a13554492d7f93db5669515f528cea0cc">VALIDATE_STATEMENT</a>(validator,  stmt,  user,  database)&#160;&#160;&#160;    validator.validateStatement(std::move(stmt), user, database)</td></tr>
+<tr class="memdesc:a13554492d7f93db5669515f528cea0cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">A helper macro for validating an entire statement (intended for future use).  <br /></td></tr>
+<tr class="separator:a13554492d7f93db5669515f528cea0cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+类型定义</h2></td></tr>
+<tr class="memitem:a8104609f6f1163b902d892efcaed3cbd" id="r_a8104609f6f1163b902d892efcaed3cbd"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a8104609f6f1163b902d892efcaed3cbd">sqlcc::PermissionCheckCallback</a> = std::function&lt; <a class="el" href="structsqlcc_1_1PermissionResult.html">PermissionResult</a>(const <a class="el" href="structsqlcc_1_1PermissionContext.html">PermissionContext</a> &amp;)&gt;</td></tr>
+<tr class="memdesc:a8104609f6f1163b902d892efcaed3cbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function signature for a callback that performs detailed permission checks. This allows higher-level modules to inject domain-specific validation logic.  <br /></td></tr>
+<tr class="separator:a8104609f6f1163b902d892efcaed3cbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:a2d6bc7f42bad18a32025b20afeb44552" id="r_a2d6bc7f42bad18a32025b20afeb44552"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">sqlcc::PermissionOperation</a> { <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a91835d2e664d4a4285a438e298451592">sqlcc::CREATE_DATABASE</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552aafad96c969acbafa8327d9f11f376b5f">sqlcc::DROP_DATABASE</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552aa262b4a928241dd92c1757d259f4a15d">sqlcc::CREATE_TABLE</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a9be122a94f599cc4262ad4a613abbb74">sqlcc::DROP_TABLE</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552adbb8fe69ef4e064475d836f5ceaf23ba">sqlcc::ALTER_TABLE</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a63225f19fccb18e7c709f1fa11bc738e">sqlcc::SELECT</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a61ee777e7f71dc466c3b2c685d8d313b">sqlcc::INSERT</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a15a8022d0ed9cd9c2a2e756822703eb4">sqlcc::UPDATE</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a32f68a60cef40faedbc6af20298c1a1e">sqlcc::DELETE</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a47c7b79e9b4df36fea9784364ad60699">sqlcc::CREATE_USER</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a23188406d630f92528afe71607bd5d90">sqlcc::DROP_USER</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552ad9fdc8f875b86df6d7a2f5b2aece1ef2">sqlcc::GRANT</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552ac0542d70ebd1332044f84ea36e1ef24e">sqlcc::REVOKE</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552abc152ccc041e70158a9b33e1469ba2f5">sqlcc::USE_DATABASE</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a949b815ca225cd1cb4d9669da6b71878">sqlcc::SHOW_DATABASES</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a4ca18b488ed082faa85acfe5c8a13d78">sqlcc::SHOW_TABLES</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a91835d2e664d4a4285a438e298451592">sqlcc::CREATE_DATABASE</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552aafad96c969acbafa8327d9f11f376b5f">sqlcc::DROP_DATABASE</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552aa262b4a928241dd92c1757d259f4a15d">sqlcc::CREATE_TABLE</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a9be122a94f599cc4262ad4a613abbb74">sqlcc::DROP_TABLE</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552adbb8fe69ef4e064475d836f5ceaf23ba">sqlcc::ALTER_TABLE</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a63225f19fccb18e7c709f1fa11bc738e">sqlcc::SELECT</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a61ee777e7f71dc466c3b2c685d8d313b">sqlcc::INSERT</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a15a8022d0ed9cd9c2a2e756822703eb4">sqlcc::UPDATE</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a32f68a60cef40faedbc6af20298c1a1e">sqlcc::DELETE</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a47c7b79e9b4df36fea9784364ad60699">sqlcc::CREATE_USER</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a23188406d630f92528afe71607bd5d90">sqlcc::DROP_USER</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552ad9fdc8f875b86df6d7a2f5b2aece1ef2">sqlcc::GRANT</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552ac0542d70ebd1332044f84ea36e1ef24e">sqlcc::REVOKE</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552abc152ccc041e70158a9b33e1469ba2f5">sqlcc::USE_DATABASE</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a949b815ca225cd1cb4d9669da6b71878">sqlcc::SHOW_DATABASES</a>
+, <a class="el" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a4ca18b488ed082faa85acfe5c8a13d78">sqlcc::SHOW_TABLES</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a2d6bc7f42bad18a32025b20afeb44552"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a generic, abstract operation that requires a permission check. These operations are decoupled from specific SQL statements.  <a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">更多...</a><br /></td></tr>
+<tr class="separator:a2d6bc7f42bad18a32025b20afeb44552"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>Defines the core components for a decoupled and extensible permission validation framework. </p>
+<p>@WHY In a database, authorization is a critical cross-cutting concern. A monolithic permission system, tightly coupled with business logic (e.g., checking 'SELECT' permission inside the 'SELECT' execution code), is hard to maintain, test, and extend. This leads to scattered permission checks and inconsistent rules.</p>
+<p>This framework was designed to solve these problems by:</p><ol type="1">
+<li><b>Decoupling</b>: Separating the "what" (the permission check request) from the "how" (the implementation of the check). The core validator doesn't know the specifics of every resource, making it universally applicable.</li>
+<li><b>Centralization</b>: Providing a single point (<code>PermissionValidator::validate</code>) for all permission checks, ensuring consistency.</li>
+<li><b>Extensibility</b>: Using a callback mechanism (<code>PermissionCheckCallback</code>) that allows higher-level modules (like the <code>SQLExecutor</code>) to inject business-specific validation logic without modifying the core validator.</li>
+</ol>
+<p>@WHAT This file defines:</p><ol type="1">
+<li>**<code>PermissionOperation</code>**: An enum representing the abstract actions a user can perform (e.g., <code>SELECT</code>, <code>CREATE_TABLE</code>).</li>
+<li>**<code>PermissionContext</code>**: A struct that carries all necessary information for a permission check (who, what, where).</li>
+<li>**<code>PermissionResult</code>**: A struct to return a clear "allow/deny" result with an explanatory message.</li>
+<li>**<code>PermissionValidator</code>**: The central class. It performs basic, universal checks (e.g., is the user an admin?) and then delegates to a registered callback for more complex, context-specific validation. It holds a reference to the <code>UserManager</code> to get information about users and roles.</li>
+</ol>
+<p>@HOW</p><ol type="1">
+<li>A central <code>PermissionValidator</code> instance is created and initialized with a <code>UserManager</code>.</li>
+<li>A higher-level component (e.g., the main server) registers a callback function using <code>setPermissionCheckCallback</code>. This callback contains the detailed business logic for checking permissions against metadata tables.</li>
+<li>When any part of the system needs to check a permission, it calls <code>validator.validate(...)</code>, passing an operation and context.</li>
+<li>The <code>validate</code> method first performs basic checks. If those pass, it invokes the registered callback with the <code>PermissionContext</code>.</li>
+<li>The callback executes the detailed check and returns a <code>PermissionResult</code>.</li>
+<li>The <code>validator</code> returns this result to the caller, which then enforces the decision.</li>
+</ol>
+<p>This design cleanly separates the generic validation framework from the domain-specific rules. </p>
+</div><h2 class="groupheader">宏定义说明</h2>
+<a id="a4b1fcfff28d59635f91300a6ebba024e" name="a4b1fcfff28d59635f91300a6ebba024e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b1fcfff28d59635f91300a6ebba024e">&#9670;&#160;</a></span>VALIDATE_PERMISSION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VALIDATE_PERMISSION</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">validator, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">operation, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">resource, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">user, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">database&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;    validator.validate(operation, resource, user, database)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A helper macro for concisely validating permissions. </p>
+
+</div>
+</div>
+<a id="a13554492d7f93db5669515f528cea0cc" name="a13554492d7f93db5669515f528cea0cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13554492d7f93db5669515f528cea0cc">&#9670;&#160;</a></span>VALIDATE_STATEMENT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VALIDATE_STATEMENT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">validator, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">stmt, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">user, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">database&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;    validator.validateStatement(std::move(stmt), user, database)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A helper macro for validating an entire statement (intended for future use). </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

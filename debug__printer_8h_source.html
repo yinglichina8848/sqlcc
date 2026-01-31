@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: debug_printer.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li><li class="navelem"><a class="el" href="dir_3f40bfae0b1f6b03444daffc78cbbe28.html">ast</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">debug_printer.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="debug__printer_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="ast__nodes_8h.html">ast_nodes.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="foldopen" id="foldopen00009" data-start="{" data-end="};">
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html">    9</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html">DebugPrintVisitor</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">NodeVisitor</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00011" data-start="{" data-end="}">
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a8fa7bf5f14e9c9472f3901e98a9411a0">   11</a></span>  <span class="keyword">explicit</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a8fa7bf5f14e9c9472f3901e98a9411a0">DebugPrintVisitor</a>(std::ostream&amp; os = std::cout)</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>      : <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a>(os) {}</div>
+</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="}">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a08869aa36a3e485506972416ddaf2c24">   14</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a08869aa36a3e485506972416ddaf2c24">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1NumericLiteralExpression.html">NumericLiteralExpression</a>&amp; expr)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a156743affbf70fca69e62cbd3c0c209d">indent</a>();</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;NumericLiteral(&quot;</span> &lt;&lt; expr.value() &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span>;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>  }</div>
+</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="foldopen" id="foldopen00019" data-start="{" data-end="}">
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a96613f988d094717430a3e8866159289">   19</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a96613f988d094717430a3e8866159289">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1StringLiteralExpression.html">StringLiteralExpression</a>&amp; expr)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a156743affbf70fca69e62cbd3c0c209d">indent</a>();</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;StringLiteral(\&quot;&quot;</span> &lt;&lt; expr.value() &lt;&lt; <span class="stringliteral">&quot;\&quot;)\n&quot;</span>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  }</div>
+</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="}">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a8f871c63ff4d17265689b34b34d2bb45">   24</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a8f871c63ff4d17265689b34b34d2bb45">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1BooleanLiteralExpression.html">BooleanLiteralExpression</a>&amp; expr)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a156743affbf70fca69e62cbd3c0c209d">indent</a>();</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;BooleanLiteral(&quot;</span> &lt;&lt; (expr.value() ? <span class="stringliteral">&quot;true&quot;</span> : <span class="stringliteral">&quot;false&quot;</span>) &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>  }</div>
+</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="foldopen" id="foldopen00029" data-start="{" data-end="}">
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a1d8250f85dcfebd35fd02d2dacab2459">   29</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a1d8250f85dcfebd35fd02d2dacab2459">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1NullLiteralExpression.html">NullLiteralExpression</a>&amp;)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a156743affbf70fca69e62cbd3c0c209d">indent</a>();</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;NullLiteral\n&quot;</span>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  }</div>
+</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="foldopen" id="foldopen00034" data-start="{" data-end="}">
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a719ac068ddfa8a1e7bed16d15ad4b7eb">   34</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a719ac068ddfa8a1e7bed16d15ad4b7eb">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1IdentifierExpression.html">IdentifierExpression</a>&amp; expr)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a156743affbf70fca69e62cbd3c0c209d">indent</a>();</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;Identifier(&quot;</span> &lt;&lt; expr.name() &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  }</div>
+</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="foldopen" id="foldopen00039" data-start="{" data-end="}">
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#af4c20fe9349b1f20a9e5dad0e75b6ca8">   39</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#af4c20fe9349b1f20a9e5dad0e75b6ca8">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1FunctionCallExpression.html">FunctionCallExpression</a>&amp; expr)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a156743affbf70fca69e62cbd3c0c209d">indent</a>();</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;FunctionCall(&quot;</span> &lt;&lt; expr.name() &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    ++<a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a60398de695f3f3edbed16c44bdfd96e4">indent_</a>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; arg : expr.arguments()) {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>      arg-&gt;<a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1FunctionCallExpression.html#a0cef36f0b6b2b83c1de4ebb339fd0546">accept</a>(*<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    --<a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a60398de695f3f3edbed16c44bdfd96e4">indent_</a>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  }</div>
+</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="foldopen" id="foldopen00049" data-start="{" data-end="}">
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a21959d0aa5ab39445d1c0d42ae290b14">   49</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a21959d0aa5ab39445d1c0d42ae290b14">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1BinaryExpression.html">BinaryExpression</a>&amp; expr)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a156743affbf70fca69e62cbd3c0c209d">indent</a>();</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;BinaryExpression(&quot;</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordflow">switch</span> (expr.<a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1BinaryExpression.html#a29ac144d7c03b2a2f064cbeadd4b69ca">getOperator</a>()) {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>      <span class="keywordflow">case</span> OperatorKind::Add: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;Add&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>      <span class="keywordflow">case</span> OperatorKind::Subtract: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;Subtract&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>      <span class="keywordflow">case</span> OperatorKind::Multiply: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;Multiply&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>      <span class="keywordflow">case</span> OperatorKind::Divide: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;Divide&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>      <span class="keywordflow">case</span> OperatorKind::Equal: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;Equal&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>      <span class="keywordflow">case</span> OperatorKind::NotEqual: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;NotEqual&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>      <span class="keywordflow">case</span> OperatorKind::Less: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;Less&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>      <span class="keywordflow">case</span> OperatorKind::LessEqual: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;LessEqual&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>      <span class="keywordflow">case</span> OperatorKind::Greater: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;Greater&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>      <span class="keywordflow">case</span> OperatorKind::GreaterEqual: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;GreaterEqual&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>      <span class="keywordflow">case</span> OperatorKind::And: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;And&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>      <span class="keywordflow">case</span> OperatorKind::Or: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;Or&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>      <span class="keywordflow">case</span> OperatorKind::Not: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;Not&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>      <span class="keywordflow">case</span> OperatorKind::Negate: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;Negate&quot;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    }</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    ++<a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a60398de695f3f3edbed16c44bdfd96e4">indent_</a>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    expr.<a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1BinaryExpression.html#a075760bc683bf5bccf97868a70b7cfa1">getLeft</a>().accept(*<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    expr.<a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1BinaryExpression.html#a2664beca573f691e42bbae44d1e0438f">getRight</a>().accept(*<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    --<a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a60398de695f3f3edbed16c44bdfd96e4">indent_</a>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>  }</div>
+</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="keyword">private</span>:</div>
+<div class="foldopen" id="foldopen00076" data-start="{" data-end="}">
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a156743affbf70fca69e62cbd3c0c209d">   76</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a156743affbf70fca69e62cbd3c0c209d">indent</a>() {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a60398de695f3f3edbed16c44bdfd96e4">indent_</a>; ++i) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>      <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a> &lt;&lt; <span class="stringliteral">&quot;  &quot;</span>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  }</div>
+</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a60398de695f3f3edbed16c44bdfd96e4">   82</a></span>  <span class="keywordtype">int</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a60398de695f3f3edbed16c44bdfd96e4">indent_</a> = 0;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">   83</a></span>  std::ostream&amp; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">os_</a>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>};</div>
+</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aast__nodes_8h_html"><div class="ttname"><a href="ast__nodes_8h.html">ast_nodes.h</a></div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1BinaryExpression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1BinaryExpression.html">sqlcc::sql_parser::BinaryExpression</a></div><div class="ttdef"><b>Definition</b> ast_expression_nodes.h:32</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1BinaryExpression_html_a075760bc683bf5bccf97868a70b7cfa1"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1BinaryExpression.html#a075760bc683bf5bccf97868a70b7cfa1">sqlcc::sql_parser::BinaryExpression::getLeft</a></div><div class="ttdeci">const std::unique_ptr&lt; Expression &gt; &amp; getLeft() const</div><div class="ttdef"><b>Definition</b> ast_expression_nodes.h:40</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1BinaryExpression_html_a2664beca573f691e42bbae44d1e0438f"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1BinaryExpression.html#a2664beca573f691e42bbae44d1e0438f">sqlcc::sql_parser::BinaryExpression::getRight</a></div><div class="ttdeci">const std::unique_ptr&lt; Expression &gt; &amp; getRight() const</div><div class="ttdef"><b>Definition</b> ast_expression_nodes.h:42</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1BinaryExpression_html_a29ac144d7c03b2a2f064cbeadd4b69ca"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1BinaryExpression.html#a29ac144d7c03b2a2f064cbeadd4b69ca">sqlcc::sql_parser::BinaryExpression::getOperator</a></div><div class="ttdeci">OperatorKind getOperator() const</div><div class="ttdef"><b>Definition</b> ast_expression_nodes.h:41</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DebugPrintVisitor_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html">sqlcc::sql_parser::DebugPrintVisitor</a></div><div class="ttdef"><b>Definition</b> debug_printer.h:9</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DebugPrintVisitor_html_a08869aa36a3e485506972416ddaf2c24"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a08869aa36a3e485506972416ddaf2c24">sqlcc::sql_parser::DebugPrintVisitor::visit</a></div><div class="ttdeci">void visit(NumericLiteralExpression &amp;expr) override</div><div class="ttdef"><b>Definition</b> debug_printer.h:14</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DebugPrintVisitor_html_a156743affbf70fca69e62cbd3c0c209d"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a156743affbf70fca69e62cbd3c0c209d">sqlcc::sql_parser::DebugPrintVisitor::indent</a></div><div class="ttdeci">void indent()</div><div class="ttdef"><b>Definition</b> debug_printer.h:76</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DebugPrintVisitor_html_a1d8250f85dcfebd35fd02d2dacab2459"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a1d8250f85dcfebd35fd02d2dacab2459">sqlcc::sql_parser::DebugPrintVisitor::visit</a></div><div class="ttdeci">void visit(NullLiteralExpression &amp;) override</div><div class="ttdef"><b>Definition</b> debug_printer.h:29</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DebugPrintVisitor_html_a21959d0aa5ab39445d1c0d42ae290b14"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a21959d0aa5ab39445d1c0d42ae290b14">sqlcc::sql_parser::DebugPrintVisitor::visit</a></div><div class="ttdeci">void visit(BinaryExpression &amp;expr) override</div><div class="ttdef"><b>Definition</b> debug_printer.h:49</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DebugPrintVisitor_html_a60398de695f3f3edbed16c44bdfd96e4"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a60398de695f3f3edbed16c44bdfd96e4">sqlcc::sql_parser::DebugPrintVisitor::indent_</a></div><div class="ttdeci">int indent_</div><div class="ttdef"><b>Definition</b> debug_printer.h:82</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DebugPrintVisitor_html_a719ac068ddfa8a1e7bed16d15ad4b7eb"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a719ac068ddfa8a1e7bed16d15ad4b7eb">sqlcc::sql_parser::DebugPrintVisitor::visit</a></div><div class="ttdeci">void visit(IdentifierExpression &amp;expr) override</div><div class="ttdef"><b>Definition</b> debug_printer.h:34</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DebugPrintVisitor_html_a8f871c63ff4d17265689b34b34d2bb45"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a8f871c63ff4d17265689b34b34d2bb45">sqlcc::sql_parser::DebugPrintVisitor::visit</a></div><div class="ttdeci">void visit(BooleanLiteralExpression &amp;expr) override</div><div class="ttdef"><b>Definition</b> debug_printer.h:24</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DebugPrintVisitor_html_a8fa7bf5f14e9c9472f3901e98a9411a0"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a8fa7bf5f14e9c9472f3901e98a9411a0">sqlcc::sql_parser::DebugPrintVisitor::DebugPrintVisitor</a></div><div class="ttdeci">DebugPrintVisitor(std::ostream &amp;os=std::cout)</div><div class="ttdef"><b>Definition</b> debug_printer.h:11</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DebugPrintVisitor_html_a96613f988d094717430a3e8866159289"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#a96613f988d094717430a3e8866159289">sqlcc::sql_parser::DebugPrintVisitor::visit</a></div><div class="ttdeci">void visit(StringLiteralExpression &amp;expr) override</div><div class="ttdef"><b>Definition</b> debug_printer.h:19</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DebugPrintVisitor_html_adfd36daee7f0af209a356557640970df"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#adfd36daee7f0af209a356557640970df">sqlcc::sql_parser::DebugPrintVisitor::os_</a></div><div class="ttdeci">std::ostream &amp; os_</div><div class="ttdef"><b>Definition</b> debug_printer.h:83</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DebugPrintVisitor_html_af4c20fe9349b1f20a9e5dad0e75b6ca8"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DebugPrintVisitor.html#af4c20fe9349b1f20a9e5dad0e75b6ca8">sqlcc::sql_parser::DebugPrintVisitor::visit</a></div><div class="ttdeci">void visit(FunctionCallExpression &amp;expr) override</div><div class="ttdef"><b>Definition</b> debug_printer.h:39</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1FunctionCallExpression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1FunctionCallExpression.html">sqlcc::sql_parser::FunctionCallExpression</a></div><div class="ttdoc">函数调用表达式</div><div class="ttdef"><b>Definition</b> ast_expression_nodes.h:101</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1FunctionCallExpression_html_a0cef36f0b6b2b83c1de4ebb339fd0546"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1FunctionCallExpression.html#a0cef36f0b6b2b83c1de4ebb339fd0546">sqlcc::sql_parser::FunctionCallExpression::accept</a></div><div class="ttdeci">void accept(NodeVisitor &amp;visitor) override</div><div class="ttdef"><b>Definition</b> ast_expression_nodes.cpp:73</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1IdentifierExpression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1IdentifierExpression.html">sqlcc::sql_parser::IdentifierExpression</a></div><div class="ttdef"><b>Definition</b> ast_expression_nodes.h:123</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1BooleanLiteralExpression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1BooleanLiteralExpression.html">sqlcc::sql_parser::ast::BooleanLiteralExpression</a></div><div class="ttdef"><b>Definition</b> expression.h:56</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">sqlcc::sql_parser::ast::NodeVisitor</a></div><div class="ttdef"><b>Definition</b> node_visitor.h:27</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NullLiteralExpression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NullLiteralExpression.html">sqlcc::sql_parser::ast::NullLiteralExpression</a></div><div class="ttdef"><b>Definition</b> expression.h:67</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NumericLiteralExpression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NumericLiteralExpression.html">sqlcc::sql_parser::ast::NumericLiteralExpression</a></div><div class="ttdef"><b>Definition</b> expression.h:34</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1StringLiteralExpression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1StringLiteralExpression.html">sqlcc::sql_parser::ast::StringLiteralExpression</a></div><div class="ttdef"><b>Definition</b> expression.h:45</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: logger.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_ffde1fbcaa8d6b0d34e29c3bddf7a801.html">logger</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">logger/logger.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="logger_2logger_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="comment">// Conditional compilation for modules vs traditional mode</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="preprocessor">#ifdef SQLCC_LOGGER_MODULES</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="comment">// Modules mode - delegate to the module interface</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="keyword">import</span> <a class="code" href="module_sqlcc_8utils_8logger.html">sqlcc.utils.logger</a>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="comment">// Traditional header mode - full declarations here</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="comment">// Standard library includes - optimized for compilation speed</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="comment">// Only essential headers included to minimize compilation dependencies</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="preprocessor">#include &lt;string&gt;</span>          <span class="comment">// std::string</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="preprocessor">#include &lt;memory&gt;</span>          <span class="comment">// std::unique_ptr</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="preprocessor">#include &lt;fstream&gt;</span>         <span class="comment">// std::ofstream - needed for unique_ptr member</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="preprocessor">#include &lt;iosfwd&gt;</span>          <span class="comment">// std::ostream forward declaration</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="preprocessor">#include &lt;mutex&gt;</span>           <span class="comment">// std::mutex for thread safety</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="foldopen" id="foldopen00130" data-start="{" data-end="};">
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3">  130</a></span>    <span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3">LogLevel</a> {</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <a class="code hl_enumvalue" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3adc30ec20708ef7b0f641ef78b7880a15">DEBUG</a>,  </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        <a class="code hl_enumvalue" href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2a551b723eafd6a31d444fcb2f5920fbd3">INFO</a>,   </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        <a class="code hl_enumvalue" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a32bd8a1db2275458673903bdb84cb277">WARN</a>,   </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <a class="code hl_enumvalue" href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2abb1ca97ec761fc37101737ba0aa2e7c5">ERROR</a>   </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    };</div>
+</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="foldopen" id="foldopen00149" data-start="{" data-end="};">
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Logger.html">  149</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1Logger.html">Logger</a> {</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="comment">// Singleton access - thread-safe in C++11+</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        <span class="keyword">static</span> <a class="code hl_class" href="classsqlcc_1_1Logger.html">Logger</a>&amp; <a class="code hl_function" href="classsqlcc_1_1Logger.html#ae0fd4cc7f4832745bcf21cbf02d48991">GetInstance</a>();</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        <span class="comment">// Configuration methods</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Logger.html#aa8bec8c18c2da2b71cae0af32e7125df">SetLogLevel</a>(<a class="code hl_enumeration" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3">LogLevel</a> level) <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Logger.html#a8d9ba3ce0a27bced756007f1eac9db62">SetLogFile</a>(<span class="keyword">const</span> std::string&amp; filename);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <span class="comment">// Logging methods - optimized for performance</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Logger.html#afb175bef813d69d101c984fae9318a1e">Debug</a>(<span class="keyword">const</span> std::string&amp; message);</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Logger.html#aeb8141287b518132c990427b9fa6cc16">Info</a>(<span class="keyword">const</span> std::string&amp; message);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Logger.html#a62a425f95ed10ab30eb175b0ff34e599">Warn</a>(<span class="keyword">const</span> std::string&amp; message);</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Logger.html#a87a68596ca09688b058905ad2fcdddb5">Error</a>(<span class="keyword">const</span> std::string&amp; message);</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <span class="comment">// Modern C++ overloads for efficiency</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Logger.html#afb175bef813d69d101c984fae9318a1e">Debug</a>(std::string&amp;&amp; message);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Logger.html#aeb8141287b518132c990427b9fa6cc16">Info</a>(std::string&amp;&amp; message);</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Logger.html#a62a425f95ed10ab30eb175b0ff34e599">Warn</a>(std::string&amp;&amp; message);</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Logger.html#a87a68596ca09688b058905ad2fcdddb5">Error</a>(std::string&amp;&amp; message);</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        <span class="comment">// Flush method to ensure all logs are written to file</span></div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Logger.html#a1e97c3090aec5f0222cf77171bea6565">Flush</a>() <span class="keyword">noexcept</span>;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        <span class="comment">// Private constructor for singleton</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        <a class="code hl_function" href="classsqlcc_1_1Logger.html#ab51e9bdef0ed7137e563e6b80a5f9c80">Logger</a>();</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Logger.html#acd00bf7bc04e8019c7dd17307a2ae51d">  176</a></span>        <a class="code hl_function" href="classsqlcc_1_1Logger.html#acd00bf7bc04e8019c7dd17307a2ae51d">Logger</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1Logger.html">Logger</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Logger.html#a508cefb78f3002e8be852857ad2c43cb">  177</a></span>        <a class="code hl_class" href="classsqlcc_1_1Logger.html">Logger</a>&amp; <a class="code hl_function" href="classsqlcc_1_1Logger.html#a508cefb78f3002e8be852857ad2c43cb">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1Logger.html">Logger</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Logger.html#a8b5606ab108b386e4e892f5633242b05">  178</a></span>        <a class="code hl_function" href="classsqlcc_1_1Logger.html#a8b5606ab108b386e4e892f5633242b05">Logger</a>(<a class="code hl_class" href="classsqlcc_1_1Logger.html">Logger</a>&amp;&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Logger.html#a4d9230b6d69a383d3e4981d2deb33bbe">  179</a></span>        <a class="code hl_class" href="classsqlcc_1_1Logger.html">Logger</a>&amp; <a class="code hl_function" href="classsqlcc_1_1Logger.html#a4d9230b6d69a383d3e4981d2deb33bbe">operator=</a>(<a class="code hl_class" href="classsqlcc_1_1Logger.html">Logger</a>&amp;&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        <span class="comment">// Core logging implementation</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Logger.html#a91c0547cd4aa4a807a4503e17fee6ba8">Log</a>(<a class="code hl_enumeration" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3">LogLevel</a> level, <span class="keyword">const</span> std::string&amp; message);</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        <span class="comment">// Member variables - private implementation</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Logger.html#a8564dfc0d7368c1f53e9a65d95958799">  185</a></span>        <a class="code hl_enumeration" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3">LogLevel</a> <a class="code hl_variable" href="classsqlcc_1_1Logger.html#a8564dfc0d7368c1f53e9a65d95958799">log_level_</a>;                    </div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Logger.html#a7c008fb68d61f9aa0b16a5bacfaa4203">  186</a></span>        std::unique_ptr&lt;std::ofstream&gt; <a class="code hl_variable" href="classsqlcc_1_1Logger.html#a7c008fb68d61f9aa0b16a5bacfaa4203">log_file_</a>;  </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Logger.html#a80c4c763c11d43832beb21e76dd751fe">  187</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1Logger.html#a80c4c763c11d43832beb21e76dd751fe">use_file_</a>;                         </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Logger.html#ae7182ee8a0164335157f51838cffd5dc">  188</a></span>        <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1Logger.html#ae7182ee8a0164335157f51838cffd5dc">mutex_</a>;              </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Logger.html#a31d57391fe24684a9d5e34e9269c5737">  189</a></span>        <span class="keyword">mutable</span> std::string <a class="code hl_variable" href="classsqlcc_1_1Logger.html#a31d57391fe24684a9d5e34e9269c5737">last_error_</a>;        </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    };</div>
+</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_LOGGER_MODULES</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="comment">// Convenience macros (keeping for backward compatibility)</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="comment">// These macros are intentionally not part of the module interface</span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="comment">// as they are preprocessor constructs that cannot be exported</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno"><a class="line" href="logger_2logger_8h.html#a5d17d04fdaf11402dfac92b0837228d0">  199</a></span><span class="preprocessor">#define SQLCC_LOGGER ::sqlcc::Logger::GetInstance()</span></div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno"><a class="line" href="logger_2logger_8h.html#a745e4cf15e366f591854e16f189a8ccc">  200</a></span><span class="preprocessor">#define SQLCC_LOG_DEBUG(msg) SQLCC_LOGGER.Debug(msg)</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno"><a class="line" href="logger_2logger_8h.html#a51a9494ff02cefe77ed341798f825fdf">  201</a></span><span class="preprocessor">#define SQLCC_LOG_INFO(msg) SQLCC_LOGGER.Info(msg)</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno"><a class="line" href="logger_2logger_8h.html#a6288fa1e809caec231f7ba41f7f9b6e2">  202</a></span><span class="preprocessor">#define SQLCC_LOG_WARN(msg) SQLCC_LOGGER.Warn(msg)</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno"><a class="line" href="logger_2logger_8h.html#a84e665e7d7b3157724d71a7c46644680">  203</a></span><span class="preprocessor">#define SQLCC_LOG_ERROR(msg) SQLCC_LOGGER.Error(msg)</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="comment">// Future module interface preparation</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="comment">// When modules are enabled, these will become:</span></div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="comment">// export namespace sqlcc {</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="comment">//     export enum class LogLevel { ... };</span></div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="comment">//     export class Logger { ... };</span></div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="comment">// }</span></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html"><div class="ttname"><a href="classsqlcc_1_1Logger.html">sqlcc::Logger</a></div><div class="ttdoc">Thread-safe singleton logger class</div><div class="ttdef"><b>Definition</b> logger/logger.h:149</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_a1e97c3090aec5f0222cf77171bea6565"><div class="ttname"><a href="classsqlcc_1_1Logger.html#a1e97c3090aec5f0222cf77171bea6565">sqlcc::Logger::Flush</a></div><div class="ttdeci">void Flush() noexcept</div><div class="ttdef"><b>Definition</b> logger/logger.cpp:156</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_a31d57391fe24684a9d5e34e9269c5737"><div class="ttname"><a href="classsqlcc_1_1Logger.html#a31d57391fe24684a9d5e34e9269c5737">sqlcc::Logger::last_error_</a></div><div class="ttdeci">std::string last_error_</div><div class="ttdoc">Last error message</div><div class="ttdef"><b>Definition</b> logger/logger.h:189</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_a4d9230b6d69a383d3e4981d2deb33bbe"><div class="ttname"><a href="classsqlcc_1_1Logger.html#a4d9230b6d69a383d3e4981d2deb33bbe">sqlcc::Logger::operator=</a></div><div class="ttdeci">Logger &amp; operator=(Logger &amp;&amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_a508cefb78f3002e8be852857ad2c43cb"><div class="ttname"><a href="classsqlcc_1_1Logger.html#a508cefb78f3002e8be852857ad2c43cb">sqlcc::Logger::operator=</a></div><div class="ttdeci">Logger &amp; operator=(const Logger &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_a62a425f95ed10ab30eb175b0ff34e599"><div class="ttname"><a href="classsqlcc_1_1Logger.html#a62a425f95ed10ab30eb175b0ff34e599">sqlcc::Logger::Warn</a></div><div class="ttdeci">void Warn(const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> logger/logger.cpp:131</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_a7c008fb68d61f9aa0b16a5bacfaa4203"><div class="ttname"><a href="classsqlcc_1_1Logger.html#a7c008fb68d61f9aa0b16a5bacfaa4203">sqlcc::Logger::log_file_</a></div><div class="ttdeci">std::unique_ptr&lt; std::ofstream &gt; log_file_</div><div class="ttdoc">Optional file output stream (RAII)</div><div class="ttdef"><b>Definition</b> logger/logger.h:186</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_a80c4c763c11d43832beb21e76dd751fe"><div class="ttname"><a href="classsqlcc_1_1Logger.html#a80c4c763c11d43832beb21e76dd751fe">sqlcc::Logger::use_file_</a></div><div class="ttdeci">bool use_file_</div><div class="ttdoc">Flag for file logging</div><div class="ttdef"><b>Definition</b> logger/logger.h:187</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_a8564dfc0d7368c1f53e9a65d95958799"><div class="ttname"><a href="classsqlcc_1_1Logger.html#a8564dfc0d7368c1f53e9a65d95958799">sqlcc::Logger::log_level_</a></div><div class="ttdeci">LogLevel log_level_</div><div class="ttdoc">Current logging threshold</div><div class="ttdef"><b>Definition</b> logger/logger.h:185</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_a87a68596ca09688b058905ad2fcdddb5"><div class="ttname"><a href="classsqlcc_1_1Logger.html#a87a68596ca09688b058905ad2fcdddb5">sqlcc::Logger::Error</a></div><div class="ttdeci">void Error(const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> logger/logger.cpp:135</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_a8b5606ab108b386e4e892f5633242b05"><div class="ttname"><a href="classsqlcc_1_1Logger.html#a8b5606ab108b386e4e892f5633242b05">sqlcc::Logger::Logger</a></div><div class="ttdeci">Logger(Logger &amp;&amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_a8d9ba3ce0a27bced756007f1eac9db62"><div class="ttname"><a href="classsqlcc_1_1Logger.html#a8d9ba3ce0a27bced756007f1eac9db62">sqlcc::Logger::SetLogFile</a></div><div class="ttdeci">void SetLogFile(const std::string &amp;filename)</div><div class="ttdef"><b>Definition</b> logger/logger.cpp:106</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_a91c0547cd4aa4a807a4503e17fee6ba8"><div class="ttname"><a href="classsqlcc_1_1Logger.html#a91c0547cd4aa4a807a4503e17fee6ba8">sqlcc::Logger::Log</a></div><div class="ttdeci">void Log(LogLevel level, const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> logger/logger.cpp:178</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_aa8bec8c18c2da2b71cae0af32e7125df"><div class="ttname"><a href="classsqlcc_1_1Logger.html#aa8bec8c18c2da2b71cae0af32e7125df">sqlcc::Logger::SetLogLevel</a></div><div class="ttdeci">void SetLogLevel(LogLevel level) noexcept</div><div class="ttdef"><b>Definition</b> logger/logger.cpp:102</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_ab51e9bdef0ed7137e563e6b80a5f9c80"><div class="ttname"><a href="classsqlcc_1_1Logger.html#ab51e9bdef0ed7137e563e6b80a5f9c80">sqlcc::Logger::Logger</a></div><div class="ttdeci">Logger()</div><div class="ttdef"><b>Definition</b> logger/logger.cpp:168</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_acd00bf7bc04e8019c7dd17307a2ae51d"><div class="ttname"><a href="classsqlcc_1_1Logger.html#acd00bf7bc04e8019c7dd17307a2ae51d">sqlcc::Logger::Logger</a></div><div class="ttdeci">Logger(const Logger &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_ae0fd4cc7f4832745bcf21cbf02d48991"><div class="ttname"><a href="classsqlcc_1_1Logger.html#ae0fd4cc7f4832745bcf21cbf02d48991">sqlcc::Logger::GetInstance</a></div><div class="ttdeci">static Logger &amp; GetInstance()</div><div class="ttdef"><b>Definition</b> logger/logger.cpp:96</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_ae7182ee8a0164335157f51838cffd5dc"><div class="ttname"><a href="classsqlcc_1_1Logger.html#ae7182ee8a0164335157f51838cffd5dc">sqlcc::Logger::mutex_</a></div><div class="ttdeci">std::mutex mutex_</div><div class="ttdoc">Thread safety mutex</div><div class="ttdef"><b>Definition</b> logger/logger.h:188</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_aeb8141287b518132c990427b9fa6cc16"><div class="ttname"><a href="classsqlcc_1_1Logger.html#aeb8141287b518132c990427b9fa6cc16">sqlcc::Logger::Info</a></div><div class="ttdeci">void Info(const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> logger/logger.cpp:127</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Logger_html_afb175bef813d69d101c984fae9318a1e"><div class="ttname"><a href="classsqlcc_1_1Logger.html#afb175bef813d69d101c984fae9318a1e">sqlcc::Logger::Debug</a></div><div class="ttdeci">void Debug(const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> logger/logger.cpp:123</div></div>
+<div class="ttc" id="amodule_sqlcc_8utils_8logger_html"><div class="ttname"><a href="module_sqlcc_8utils_8logger.html">sqlcc.utils.logger</a></div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a0c5dde84a24b6c109800b05b81ad12f3"><div class="ttname"><a href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3">sqlcc::LogLevel</a></div><div class="ttdeci">LogLevel</div><div class="ttdoc">Log level enumeration for message classification Optimized for switch statement performance and futur...</div><div class="ttdef"><b>Definition</b> logger/logger.h:130</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a0c5dde84a24b6c109800b05b81ad12f3a32bd8a1db2275458673903bdb84cb277"><div class="ttname"><a href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a32bd8a1db2275458673903bdb84cb277">sqlcc::LogLevel::WARN</a></div><div class="ttdeci">@ WARN</div><div class="ttdoc">Warning messages indicating potential issues</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a0c5dde84a24b6c109800b05b81ad12f3adc30ec20708ef7b0f641ef78b7880a15"><div class="ttname"><a href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3adc30ec20708ef7b0f641ef78b7880a15">sqlcc::LogLevel::DEBUG</a></div><div class="ttdeci">@ DEBUG</div><div class="ttdoc">Detailed debug information</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a8ecc411d1876eec8559fbcfa78292bd2a551b723eafd6a31d444fcb2f5920fbd3"><div class="ttname"><a href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2a551b723eafd6a31d444fcb2f5920fbd3">sqlcc::ErrorLevel::INFO</a></div><div class="ttdeci">@ INFO</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a8ecc411d1876eec8559fbcfa78292bd2abb1ca97ec761fc37101737ba0aa2e7c5"><div class="ttname"><a href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2abb1ca97ec761fc37101737ba0aa2e7c5">sqlcc::ErrorLevel::ERROR</a></div><div class="ttdeci">@ ERROR</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

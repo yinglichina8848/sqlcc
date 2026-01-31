@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: connection_state_machine.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fc4c7f03e1a69a98c370fae55a743828.html">network</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">connection_state_machine.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>连接状态机实现 - 严格验证连接状态转换安全性  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="connection__state__machine_8h_source.html">network/connection_state_machine.h</a>&quot;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+connection_state_machine.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="connection__state__machine_8cpp__incl.png" border="0" usemap="#aconnection__state__machine_8cpp" alt=""/></div>
+<map name="aconnection__state__machine_8cpp" id="aconnection__state__machine_8cpp">
+<area shape="rect" title="连接状态机实现 &#45; 严格验证连接状态转换安全性" alt="" coords="249,5,471,31"/>
+<area shape="rect" href="connection__state__machine_8h.html" title=" " alt="" coords="171,79,322,119"/>
+<area shape="poly" title=" " alt="" coords="345,33,287,73,284,69,342,29"/>
+<area shape="rect" title=" " alt="" coords="5,167,72,192"/>
+<area shape="poly" title=" " alt="" coords="300,33,232,52,161,81,105,119,61,159,58,155,102,115,159,76,230,47,299,28"/>
+<area shape="rect" title=" " alt="" coords="392,167,456,192"/>
+<area shape="poly" title=" " alt="" coords="365,30,373,70,389,118,410,154,405,156,384,120,368,71,359,31"/>
+<area shape="rect" title=" " alt="" coords="398,86,485,111"/>
+<area shape="poly" title=" " alt="" coords="374,29,421,75,418,78,370,33"/>
+<area shape="rect" title=" " alt="" coords="509,86,633,111"/>
+<area shape="poly" title=" " alt="" coords="392,28,528,79,526,84,390,33"/>
+<area shape="poly" title=" " alt="" coords="198,121,83,164,81,159,196,116"/>
+<area shape="rect" title=" " alt="" coords="97,167,183,192"/>
+<area shape="poly" title=" " alt="" coords="222,121,169,160,166,156,219,117"/>
+<area shape="rect" title=" " alt="" coords="208,167,285,192"/>
+<area shape="poly" title=" " alt="" coords="249,119,249,153,244,153,244,119"/>
+<area shape="poly" title=" " alt="" coords="290,116,387,159,384,164,288,121"/>
+<area shape="rect" title=" " alt="" coords="309,167,368,192"/>
+<area shape="poly" title=" " alt="" coords="271,117,316,155,313,160,267,121"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1network" id="r_namespacesqlcc_1_1network"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1network.html">sqlcc::network</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>连接状态机实现 - 严格验证连接状态转换安全性 </p>
+<p>该文件实现了连接状态机的核心逻辑，确保网络连接状态的严格管理和安全转换。 防止状态机被不当使用导致的安全漏洞。 </p>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

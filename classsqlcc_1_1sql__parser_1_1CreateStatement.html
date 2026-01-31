@@ -1,0 +1,724 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::CreateStatement类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html">CreateStatement</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1CreateStatement-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::CreateStatement类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="ast__ddl__nodes_8h_source.html">ast_ddl_nodes.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::sql_parser::CreateStatement 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__parser_1_1CreateStatement__inherit__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1CreateStatement_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1sql__parser_1_1CreateStatement_inherit__map" id="asqlcc_1_1sql__parser_1_1CreateStatement_inherit__map">
+<area shape="rect" title=" " alt="" coords="5,181,144,221"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1Statement.html" title=" " alt="" coords="5,93,144,133"/>
+<area shape="poly" title=" " alt="" coords="77,147,77,181,72,181,72,147"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ASTNode.html" title=" " alt="" coords="5,5,144,45"/>
+<area shape="poly" title=" " alt="" coords="77,59,77,93,72,93,72,59"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<div class="dynheader">
+sqlcc::sql_parser::CreateStatement 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__parser_1_1CreateStatement__coll__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1CreateStatement_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1sql__parser_1_1CreateStatement_coll__map" id="asqlcc_1_1sql__parser_1_1CreateStatement_coll__map">
+<area shape="rect" title=" " alt="" coords="5,181,144,221"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1Statement.html" title=" " alt="" coords="5,93,144,133"/>
+<area shape="poly" title=" " alt="" coords="77,147,77,181,72,181,72,147"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ASTNode.html" title=" " alt="" coords="5,5,144,45"/>
+<area shape="poly" title=" " alt="" coords="77,59,77,93,72,93,72,59"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:ad7e6f6d3325f9444632b428020605278" id="r_ad7e6f6d3325f9444632b428020605278"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278">ObjectType</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278ab2e03259ad5f638324ef646d4faa3b02">DATABASE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278a494a9478eae5299b735edc183a7aa82d">TABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278ad6490613fb6b570d5216d50ad7028f4b">INDEX</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278a67077eaa5dac961e68be0aed41ea566b">VIEW</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278adcfa01ad70624dc10519bef222f93918">PROCEDURE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278ae12ef5d7304d9f68d779c35e19c3ab3a">TRIGGER</a>
+<br />
+ }</td></tr>
+<tr class="separator:ad7e6f6d3325f9444632b428020605278"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_classsqlcc_1_1sql__parser_1_1Statement"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classsqlcc_1_1sql__parser_1_1Statement')"><img src="closed.png" alt="-"/>&#160;Public 类型 继承自 <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sqlcc::sql_parser::Statement</a></td></tr>
+<tr class="memitem:a5c74f85a376f4509bdba85968ba62ca3 inherit pub_types_classsqlcc_1_1sql__parser_1_1Statement" id="r_a5c74f85a376f4509bdba85968ba62ca3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">Type</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a5312fbeaca8912c906f7796c56052061">SELECT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a89ff132aae533d8e679bfe002d0dceac">INSERT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a93e115d268e0f6e84ab6abeb4e9e9a86">UPDATE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a7bf84e5f78e0d2ffbed115673232d99a">DELETE</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ad9d90a972f604215af7639b39fa5cee5">CREATE_TABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a8f4415036790844cdf4d9f71a1f9f5a9">DROP_TABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a863e22b943cdeda8d77f5d00d1f9444e">ALTER_TABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ad4323b35c28f267fdbf3a6817c83045d">CREATE_INDEX</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3aba850d68df245c9dce229eca932e14e1">DROP_INDEX</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ac4af4ecaf7e6292ab8e7821696837def">COMPOSITE_SELECT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a9121959533cef6b2f8dc7f0f5c22e46f">SAVEPOINT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a4706101cd6e85fcd1494a5ec4092442b">RELEASE_SAVEPOINT</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a85ff8dc7070cab2cc08676ff0d8a7536">SET_TRANSACTION</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a4bb216fafd421407cd35295964f031b3">ALTER</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a41d906d0667a22b4d0b08cf078be2216">CREATE_DOMAIN</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3af6391d50bd57d09466186e3550810694">ALTER_DOMAIN</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a50332df5581c8a93eebcc361dff7867b">DROP_DOMAIN</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3aec079bfc7b342e7a76bffcb3ab04db9d">ALTER_TABLE_ENHANCED</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a63948c662fd4c8ea6d800a4994f582c2">CALL_PROCEDURE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a25ce31dfdbb4a786772580fd8cb3c526">CREATE</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a7c82d60fcb058cc29ef452bb6d538a9a">DROP</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a932fde621481f6cede0d4f3b71e3b7e1">WITH_RECURSIVE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ae3f05fc4482b5f171ad20a253880175c">COMMIT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a15d40a6f4a75d72e4637a8227b1bd731">ROLLBACK</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a9e6f8ea690860c93cf6a1fd21a832dd0">BEGIN</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ab52c6cbc8af46c05ee6f9c15f9448d58">USE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3acc4f038c0e0259e991a95a3c4375ccd6">CREATE_USER</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3aba79d04e1e62ed4a8112bdef764859b7">DROP_USER</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ad3a5abca40eafcdcb0de013ac87c38bb">GRANT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a7508aae212bc947af917ccae1aa77cb1">REVOKE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a3ff67f1f4750e9de8d74755f7fd91dcd">SHOW</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a8704dce7935087495eee654c35ef60be">CREATE_VIEW</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a0dd25401eced73f68ec0081ce4b605b0">CREATE_ROLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a7def74862c5ef5eb70e62b31287d5329">DROP_ROLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ad5dc60a56f7850c407a5e037a8840701">GRANT_ROLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3aaf04dc400e2858a1acad22f53ff6ba58">REVOKE_ROLE</a>
+<br />
+ }</td></tr>
+<tr class="separator:a5c74f85a376f4509bdba85968ba62ca3 inherit pub_types_classsqlcc_1_1sql__parser_1_1Statement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a717ac83573f2f732b18327aa0b72d118" id="r_a717ac83573f2f732b18327aa0b72d118"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#a717ac83573f2f732b18327aa0b72d118">CreateStatement</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278">ObjectType</a> objectType)</td></tr>
+<tr class="separator:a717ac83573f2f732b18327aa0b72d118"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c38acf8d0a29bda257ae5e6e5970262" id="r_a6c38acf8d0a29bda257ae5e6e5970262"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#a6c38acf8d0a29bda257ae5e6e5970262">CreateStatement</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278">ObjectType</a> objectType, const std::string &amp;objectName)</td></tr>
+<tr class="separator:a6c38acf8d0a29bda257ae5e6e5970262"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fda19d31f495c15cf6b96f39c248296" id="r_a7fda19d31f495c15cf6b96f39c248296"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#a7fda19d31f495c15cf6b96f39c248296">~CreateStatement</a> () override</td></tr>
+<tr class="separator:a7fda19d31f495c15cf6b96f39c248296"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a354d3d4b79d3309129a6078d92c65f14" id="r_a354d3d4b79d3309129a6078d92c65f14"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#a354d3d4b79d3309129a6078d92c65f14">accept</a> (<a class="el" href="namespacesqlcc_1_1sql__parser.html#ac801e90c804fdbcdaf8368f3a7ffa51d">NodeVisitor</a> &amp;visitor) override</td></tr>
+<tr class="separator:a354d3d4b79d3309129a6078d92c65f14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f4f7f9e96bdb8bc07e8f0b759ce88fc" id="r_a6f4f7f9e96bdb8bc07e8f0b759ce88fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278">ObjectType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#a6f4f7f9e96bdb8bc07e8f0b759ce88fc">getObjectType</a> () const</td></tr>
+<tr class="separator:a6f4f7f9e96bdb8bc07e8f0b759ce88fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7f1c7bf393a401814018fcc7abe6d18" id="r_ad7f1c7bf393a401814018fcc7abe6d18"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7f1c7bf393a401814018fcc7abe6d18">getObjectName</a> () const</td></tr>
+<tr class="separator:ad7f1c7bf393a401814018fcc7abe6d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acac6383f54bd55f9c807e8b536870402" id="r_acac6383f54bd55f9c807e8b536870402"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1ColumnDefinition.html">ColumnDefinition</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#acac6383f54bd55f9c807e8b536870402">getColumns</a> () const</td></tr>
+<tr class="separator:acac6383f54bd55f9c807e8b536870402"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6698d9102e898292f9ad0ac29de0d7b" id="r_af6698d9102e898292f9ad0ac29de0d7b"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1TableConstraint.html">TableConstraint</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#af6698d9102e898292f9ad0ac29de0d7b">getConstraints</a> () const</td></tr>
+<tr class="separator:af6698d9102e898292f9ad0ac29de0d7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a399b009ba1a2185c7dc4e461aea2bf1e" id="r_a399b009ba1a2185c7dc4e461aea2bf1e"><td class="memItemLeft" align="right" valign="top">const std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#a399b009ba1a2185c7dc4e461aea2bf1e">getSelectStatement</a> () const</td></tr>
+<tr class="separator:a399b009ba1a2185c7dc4e461aea2bf1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f5a66c1bedb7577534819549fc599a4" id="r_a6f5a66c1bedb7577534819549fc599a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#a6f5a66c1bedb7577534819549fc599a4">setObjectType</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278">ObjectType</a> type)</td></tr>
+<tr class="separator:a6f5a66c1bedb7577534819549fc599a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae40c24c6ce9682a4219afdc143b17cf6" id="r_ae40c24c6ce9682a4219afdc143b17cf6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ae40c24c6ce9682a4219afdc143b17cf6">setObjectName</a> (const std::string &amp;name)</td></tr>
+<tr class="separator:ae40c24c6ce9682a4219afdc143b17cf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbf88ef54a6cd522ae2a15b336d79c08" id="r_abbf88ef54a6cd522ae2a15b336d79c08"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#abbf88ef54a6cd522ae2a15b336d79c08">addColumn</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1ColumnDefinition.html">ColumnDefinition</a> &gt; column)</td></tr>
+<tr class="separator:abbf88ef54a6cd522ae2a15b336d79c08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaef60fe82b0961ff37dd985a4893d5c1" id="r_aaef60fe82b0961ff37dd985a4893d5c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#aaef60fe82b0961ff37dd985a4893d5c1">addConstraint</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1TableConstraint.html">TableConstraint</a> &gt; constraint)</td></tr>
+<tr class="separator:aaef60fe82b0961ff37dd985a4893d5c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2287829ba1dcba3df20d5a0f915808e" id="r_ae2287829ba1dcba3df20d5a0f915808e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ae2287829ba1dcba3df20d5a0f915808e">setSelectStatement</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &gt; select)</td></tr>
+<tr class="separator:ae2287829ba1dcba3df20d5a0f915808e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsqlcc_1_1sql__parser_1_1Statement"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsqlcc_1_1sql__parser_1_1Statement')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sqlcc::sql_parser::Statement</a></td></tr>
+<tr class="memitem:a4d849eed81c60d13e4028c57364228f9 inherit pub_methods_classsqlcc_1_1sql__parser_1_1Statement" id="r_a4d849eed81c60d13e4028c57364228f9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a4d849eed81c60d13e4028c57364228f9">Statement</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">Type</a> type)</td></tr>
+<tr class="separator:a4d849eed81c60d13e4028c57364228f9 inherit pub_methods_classsqlcc_1_1sql__parser_1_1Statement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70684f89130d749f5923873076df258e inherit pub_methods_classsqlcc_1_1sql__parser_1_1Statement" id="r_a70684f89130d749f5923873076df258e"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a70684f89130d749f5923873076df258e">~Statement</a> ()=default</td></tr>
+<tr class="separator:a70684f89130d749f5923873076df258e inherit pub_methods_classsqlcc_1_1sql__parser_1_1Statement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe6ee29874bf69d9d80d67f6ee4bb22c inherit pub_methods_classsqlcc_1_1sql__parser_1_1Statement" id="r_abe6ee29874bf69d9d80d67f6ee4bb22c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#abe6ee29874bf69d9d80d67f6ee4bb22c">getType</a> () const</td></tr>
+<tr class="separator:abe6ee29874bf69d9d80d67f6ee4bb22c inherit pub_methods_classsqlcc_1_1sql__parser_1_1Statement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html">sqlcc::sql_parser::ASTNode</a></td></tr>
+<tr class="memitem:a439bd54fa1a01e60aea9e6a985fbea13 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode" id="r_a439bd54fa1a01e60aea9e6a985fbea13"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html#a439bd54fa1a01e60aea9e6a985fbea13">~ASTNode</a> ()=default</td></tr>
+<tr class="separator:a439bd54fa1a01e60aea9e6a985fbea13 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28e63ff3f8094ac752f2575947665d32 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode" id="r_a28e63ff3f8094ac752f2575947665d32"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html#a28e63ff3f8094ac752f2575947665d32">getTypeName</a> () const</td></tr>
+<tr class="separator:a28e63ff3f8094ac752f2575947665d32 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aa0bf115a97b95d5374084830fc7724e2" id="r_aa0bf115a97b95d5374084830fc7724e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278">ObjectType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#aa0bf115a97b95d5374084830fc7724e2">objectType_</a></td></tr>
+<tr class="separator:aa0bf115a97b95d5374084830fc7724e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4558c941540ce2ce156874fd9bfce054" id="r_a4558c941540ce2ce156874fd9bfce054"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#a4558c941540ce2ce156874fd9bfce054">objectName_</a></td></tr>
+<tr class="separator:a4558c941540ce2ce156874fd9bfce054"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2463a6bd7c6dbd4f6ccc9feb04d1ce7" id="r_ae2463a6bd7c6dbd4f6ccc9feb04d1ce7"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1ColumnDefinition.html">ColumnDefinition</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ae2463a6bd7c6dbd4f6ccc9feb04d1ce7">columns_</a></td></tr>
+<tr class="separator:ae2463a6bd7c6dbd4f6ccc9feb04d1ce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c4b8b6293fa20bb938268fd02b17904" id="r_a8c4b8b6293fa20bb938268fd02b17904"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1TableConstraint.html">TableConstraint</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#a8c4b8b6293fa20bb938268fd02b17904">constraints_</a></td></tr>
+<tr class="separator:a8c4b8b6293fa20bb938268fd02b17904"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac91c62cae7b1cf970b46ccbe914d8141" id="r_ac91c62cae7b1cf970b46ccbe914d8141"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ac91c62cae7b1cf970b46ccbe914d8141">selectStatement_</a></td></tr>
+<tr class="separator:ac91c62cae7b1cf970b46ccbe914d8141"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">成员枚举类型说明</h2>
+<a id="ad7e6f6d3325f9444632b428020605278" name="ad7e6f6d3325f9444632b428020605278"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7e6f6d3325f9444632b428020605278">&#9670;&#160;</a></span>ObjectType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278">sqlcc::sql_parser::CreateStatement::ObjectType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="ad7e6f6d3325f9444632b428020605278ab2e03259ad5f638324ef646d4faa3b02" name="ad7e6f6d3325f9444632b428020605278ab2e03259ad5f638324ef646d4faa3b02"></a>DATABASE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad7e6f6d3325f9444632b428020605278a494a9478eae5299b735edc183a7aa82d" name="ad7e6f6d3325f9444632b428020605278a494a9478eae5299b735edc183a7aa82d"></a>TABLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad7e6f6d3325f9444632b428020605278ad6490613fb6b570d5216d50ad7028f4b" name="ad7e6f6d3325f9444632b428020605278ad6490613fb6b570d5216d50ad7028f4b"></a>INDEX&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad7e6f6d3325f9444632b428020605278a67077eaa5dac961e68be0aed41ea566b" name="ad7e6f6d3325f9444632b428020605278a67077eaa5dac961e68be0aed41ea566b"></a>VIEW&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad7e6f6d3325f9444632b428020605278adcfa01ad70624dc10519bef222f93918" name="ad7e6f6d3325f9444632b428020605278adcfa01ad70624dc10519bef222f93918"></a>PROCEDURE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad7e6f6d3325f9444632b428020605278ae12ef5d7304d9f68d779c35e19c3ab3a" name="ad7e6f6d3325f9444632b428020605278ae12ef5d7304d9f68d779c35e19c3ab3a"></a>TRIGGER&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a717ac83573f2f732b18327aa0b72d118" name="a717ac83573f2f732b18327aa0b72d118"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a717ac83573f2f732b18327aa0b72d118">&#9670;&#160;</a></span>CreateStatement() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::CreateStatement::CreateStatement </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278">ObjectType</a>&#160;</td>
+          <td class="paramname"><em>objectType</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6c38acf8d0a29bda257ae5e6e5970262" name="a6c38acf8d0a29bda257ae5e6e5970262"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c38acf8d0a29bda257ae5e6e5970262">&#9670;&#160;</a></span>CreateStatement() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::CreateStatement::CreateStatement </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278">ObjectType</a>&#160;</td>
+          <td class="paramname"><em>objectType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>objectName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7fda19d31f495c15cf6b96f39c248296" name="a7fda19d31f495c15cf6b96f39c248296"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fda19d31f495c15cf6b96f39c248296">&#9670;&#160;</a></span>~CreateStatement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::CreateStatement::~CreateStatement </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a354d3d4b79d3309129a6078d92c65f14" name="a354d3d4b79d3309129a6078d92c65f14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a354d3d4b79d3309129a6078d92c65f14">&#9670;&#160;</a></span>accept()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::CreateStatement::accept </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1sql__parser.html#ac801e90c804fdbcdaf8368f3a7ffa51d">NodeVisitor</a> &amp;&#160;</td>
+          <td class="paramname"><em>visitor</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#ab568c4584645d796127272e799ee8a0c">sqlcc::sql_parser::Statement</a>.</p>
+
+</div>
+</div>
+<a id="abbf88ef54a6cd522ae2a15b336d79c08" name="abbf88ef54a6cd522ae2a15b336d79c08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbf88ef54a6cd522ae2a15b336d79c08">&#9670;&#160;</a></span>addColumn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::CreateStatement::addColumn </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1ColumnDefinition.html">ColumnDefinition</a> &gt;&#160;</td>
+          <td class="paramname"><em>column</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaef60fe82b0961ff37dd985a4893d5c1" name="aaef60fe82b0961ff37dd985a4893d5c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaef60fe82b0961ff37dd985a4893d5c1">&#9670;&#160;</a></span>addConstraint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::CreateStatement::addConstraint </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1TableConstraint.html">TableConstraint</a> &gt;&#160;</td>
+          <td class="paramname"><em>constraint</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acac6383f54bd55f9c807e8b536870402" name="acac6383f54bd55f9c807e8b536870402"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acac6383f54bd55f9c807e8b536870402">&#9670;&#160;</a></span>getColumns()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1ColumnDefinition.html">ColumnDefinition</a> &gt; &gt; &amp; sqlcc::sql_parser::CreateStatement::getColumns </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af6698d9102e898292f9ad0ac29de0d7b" name="af6698d9102e898292f9ad0ac29de0d7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6698d9102e898292f9ad0ac29de0d7b">&#9670;&#160;</a></span>getConstraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1TableConstraint.html">TableConstraint</a> &gt; &gt; &amp; sqlcc::sql_parser::CreateStatement::getConstraints </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad7f1c7bf393a401814018fcc7abe6d18" name="ad7f1c7bf393a401814018fcc7abe6d18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7f1c7bf393a401814018fcc7abe6d18">&#9670;&#160;</a></span>getObjectName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::CreateStatement::getObjectName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6f4f7f9e96bdb8bc07e8f0b759ce88fc" name="a6f4f7f9e96bdb8bc07e8f0b759ce88fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f4f7f9e96bdb8bc07e8f0b759ce88fc">&#9670;&#160;</a></span>getObjectType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278">CreateStatement::ObjectType</a> sqlcc::sql_parser::CreateStatement::getObjectType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a399b009ba1a2185c7dc4e461aea2bf1e" name="a399b009ba1a2185c7dc4e461aea2bf1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a399b009ba1a2185c7dc4e461aea2bf1e">&#9670;&#160;</a></span>getSelectStatement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &gt; &amp; sqlcc::sql_parser::CreateStatement::getSelectStatement </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae40c24c6ce9682a4219afdc143b17cf6" name="ae40c24c6ce9682a4219afdc143b17cf6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae40c24c6ce9682a4219afdc143b17cf6">&#9670;&#160;</a></span>setObjectName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::CreateStatement::setObjectName </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6f5a66c1bedb7577534819549fc599a4" name="a6f5a66c1bedb7577534819549fc599a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f5a66c1bedb7577534819549fc599a4">&#9670;&#160;</a></span>setObjectType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::CreateStatement::setObjectType </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278">ObjectType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae2287829ba1dcba3df20d5a0f915808e" name="ae2287829ba1dcba3df20d5a0f915808e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2287829ba1dcba3df20d5a0f915808e">&#9670;&#160;</a></span>setSelectStatement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::CreateStatement::setSelectStatement </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>select</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ae2463a6bd7c6dbd4f6ccc9feb04d1ce7" name="ae2463a6bd7c6dbd4f6ccc9feb04d1ce7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2463a6bd7c6dbd4f6ccc9feb04d1ce7">&#9670;&#160;</a></span>columns_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1sql__parser_1_1ColumnDefinition.html">ColumnDefinition</a>&gt; &gt; sqlcc::sql_parser::CreateStatement::columns_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8c4b8b6293fa20bb938268fd02b17904" name="a8c4b8b6293fa20bb938268fd02b17904"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c4b8b6293fa20bb938268fd02b17904">&#9670;&#160;</a></span>constraints_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1sql__parser_1_1TableConstraint.html">TableConstraint</a>&gt; &gt; sqlcc::sql_parser::CreateStatement::constraints_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4558c941540ce2ce156874fd9bfce054" name="a4558c941540ce2ce156874fd9bfce054"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4558c941540ce2ce156874fd9bfce054">&#9670;&#160;</a></span>objectName_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::CreateStatement::objectName_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa0bf115a97b95d5374084830fc7724e2" name="aa0bf115a97b95d5374084830fc7724e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0bf115a97b95d5374084830fc7724e2">&#9670;&#160;</a></span>objectType_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#ad7e6f6d3325f9444632b428020605278">ObjectType</a> sqlcc::sql_parser::CreateStatement::objectType_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac91c62cae7b1cf970b46ccbe914d8141" name="ac91c62cae7b1cf970b46ccbe914d8141"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac91c62cae7b1cf970b46ccbe914d8141">&#9670;&#160;</a></span>selectStatement_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a>&gt; sqlcc::sql_parser::CreateStatement::selectStatement_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="ast__ddl__nodes_8h_source.html">ast_ddl_nodes.h</a></li>
+<li><a class="el" href="ast__nodes_8cpp.html">ast_nodes.cpp</a></li>
+<li><a class="el" href="ast__ddl__nodes_8cpp.html">ast_ddl_nodes.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

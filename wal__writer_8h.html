@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: wal_writer.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">wal_writer.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;condition_variable&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="config__manager_8h_source.html">../utils/config_manager.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="wal__buffer_8h_source.html">wal_buffer.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+wal_writer.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="wal__writer_8h__incl.png" border="0" usemap="#awal__writer_8h" alt=""/></div>
+<map name="awal__writer_8h" id="awal__writer_8h">
+<area shape="rect" title=" " alt="" coords="508,5,609,31"/>
+<area shape="rect" title=" " alt="" coords="26,152,93,177"/>
+<area shape="poly" title=" " alt="" coords="518,33,347,81,107,152,105,147,346,76,516,28"/>
+<area shape="rect" title=" " alt="" coords="118,152,260,177"/>
+<area shape="poly" title=" " alt="" coords="530,33,232,149,230,145,528,28"/>
+<area shape="rect" title=" " alt="" coords="920,79,994,104"/>
+<area shape="poly" title=" " alt="" coords="610,25,901,76,907,77,906,82,900,81,609,30"/>
+<area shape="rect" title=" " alt="" coords="181,225,258,251"/>
+<area shape="poly" title=" " alt="" coords="508,26,387,40,237,65,164,82,100,102,49,126,30,140,17,153,9,172,13,186,26,199,48,209,107,224,168,231,167,236,106,229,47,214,23,203,8,189,3,171,12,151,26,136,46,122,98,97,163,77,236,60,386,35,507,21"/>
+<area shape="rect" title=" " alt="" coords="696,225,760,251"/>
+<area shape="poly" title=" " alt="" coords="610,22,688,40,730,55,769,76,791,92,807,108,819,126,829,151,832,165,829,179,804,206,774,224,771,219,801,202,824,176,827,165,824,153,814,128,803,111,788,96,766,81,728,60,686,45,609,27"/>
+<area shape="rect" title=" " alt="" coords="730,152,794,177"/>
+<area shape="poly" title=" " alt="" coords="576,29,736,142,733,146,573,33"/>
+<area shape="rect" title=" " alt="" coords="608,225,671,251"/>
+<area shape="poly" title=" " alt="" coords="610,27,660,43,716,67,768,103,790,125,809,151,814,165,808,179,792,189,761,202,685,226,684,221,759,197,790,185,804,176,808,165,804,153,786,128,765,107,713,72,658,48,609,32"/>
+<area shape="rect" href="config__manager_8h.html" title=" " alt="" coords="336,152,517,177"/>
+<area shape="poly" title=" " alt="" coords="547,33,498,80,445,143,441,139,494,77,543,29"/>
+<area shape="rect" href="wal__buffer_8h.html" title=" " alt="" coords="508,79,609,104"/>
+<area shape="poly" title=" " alt="" coords="561,31,561,65,556,65,556,31"/>
+<area shape="poly" title=" " alt="" coords="394,180,267,223,265,218,392,175"/>
+<area shape="poly" title=" " alt="" coords="478,175,683,222,682,228,477,180"/>
+<area shape="poly" title=" " alt="" coords="461,175,596,219,595,225,460,180"/>
+<area shape="rect" title=" " alt="" coords="282,225,341,251"/>
+<area shape="poly" title=" " alt="" coords="409,180,343,220,340,216,406,175"/>
+<area shape="rect" title=" " alt="" coords="366,225,490,251"/>
+<area shape="poly" title=" " alt="" coords="429,178,430,212,424,212,424,178"/>
+<area shape="rect" title=" " alt="" coords="514,225,582,251"/>
+<area shape="poly" title=" " alt="" coords="447,175,518,216,515,221,444,180"/>
+<area shape="poly" title=" " alt="" coords="508,100,334,120,107,155,106,149,333,114,507,95"/>
+<area shape="poly" title=" " alt="" coords="508,105,263,152,262,147,507,100"/>
+<area shape="poly" title=" " alt="" coords="508,102,420,120,371,135,325,154,279,185,242,217,238,213,276,180,322,150,370,130,419,115,507,96"/>
+<area shape="poly" title=" " alt="" coords="577,102,641,150,709,213,705,217,638,154,574,106"/>
+<area shape="poly" title=" " alt="" coords="592,102,718,145,717,150,590,107"/>
+<area shape="poly" title=" " alt="" coords="575,102,598,123,619,151,632,181,639,211,634,212,627,183,615,153,594,127,572,106"/>
+<area shape="poly" title=" " alt="" coords="538,106,461,148,459,143,536,102"/>
+<area shape="rect" title=" " alt="" coords="542,152,604,177"/>
+<area shape="poly" title=" " alt="" coords="563,104,570,138,565,139,558,105"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="wal__writer_8h__dep__incl.png" border="0" usemap="#awal__writer_8hdep" alt=""/></div>
+<map name="awal__writer_8hdep" id="awal__writer_8hdep">
+<area shape="rect" title=" " alt="" coords="221,5,323,31"/>
+<area shape="rect" href="checkpoint_8cpp.html" title=" " alt="" coords="5,152,125,177"/>
+<area shape="poly" title=" " alt="" coords="208,29,105,48,61,63,45,71,34,80,28,97,33,116,44,135,56,150,52,154,39,138,28,118,23,97,30,77,42,67,58,58,103,43,207,24"/>
+<area shape="rect" href="storage_2checkpoint_8h.html" title=" " alt="" coords="174,79,279,104"/>
+<area shape="poly" title=" " alt="" coords="259,44,236,80,232,77,255,41"/>
+<area shape="rect" href="storage__engine__pch_8h.html" title=" " alt="" coords="177,152,341,177"/>
+<area shape="poly" title=" " alt="" coords="286,43,294,72,293,105,283,132,269,153,265,150,278,129,288,103,289,73,281,44"/>
+<area shape="rect" href="storage__engine_2checkpoint_8h.html" title=" " alt="" coords="45,79,150,104"/>
+<area shape="poly" title=" " alt="" coords="232,38,127,81,125,76,230,33"/>
+<area shape="rect" href="wal__buffer_8cpp.html" title=" " alt="" coords="355,79,471,104"/>
+<area shape="poly" title=" " alt="" coords="308,34,391,76,389,81,305,39"/>
+<area shape="rect" href="wal__writer_8cpp.html" title=" " alt="" coords="495,79,611,104"/>
+<area shape="poly" title=" " alt="" coords="331,31,508,76,507,81,330,37"/>
+<area shape="poly" title=" " alt="" coords="240,116,256,151,251,153,235,118"/>
+<area shape="poly" title=" " alt="" coords="89,118,73,153,68,151,84,116"/>
+</map>
+</div>
+</div>
+<p><a href="wal__writer_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html">sqlcc::WALWriter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">SQLCC WAL预写日志写入器 - 数据库ACID持久性保障的核心组件  <a href="classsqlcc_1_1WALWriter.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1WALWriter_1_1WALWriterStats.html">sqlcc::WALWriter::WALWriterStats</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">WAL写入器统计信息  <a href="structsqlcc_1_1WALWriter_1_1WALWriterStats.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

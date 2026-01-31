@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: architecture_safeguards.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#define-members">宏定义</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle"><div class="title">architecture_safeguards.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>架构安全防护措施 - 防止"偷偷加回"parseExpression逻辑  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+architecture_safeguards.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="architecture__safeguards_8h__incl.png" border="0" usemap="#aarchitecture__safeguards_8h" alt=""/></div>
+<map name="aarchitecture__safeguards_8h" id="aarchitecture__safeguards_8h">
+<area shape="rect" title="架构安全防护措施 &#45; 防止&quot;偷偷加回&quot;parseExpression逻辑" alt="" coords="106,5,297,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,85,104"/>
+<area shape="poly" title=" " alt="" coords="177,33,84,75,82,70,175,28"/>
+<area shape="rect" title=" " alt="" coords="110,79,197,104"/>
+<area shape="poly" title=" " alt="" coords="196,33,171,69,166,66,191,30"/>
+<area shape="rect" title=" " alt="" coords="221,79,280,104"/>
+<area shape="poly" title=" " alt="" coords="212,29,237,66,233,69,207,33"/>
+<area shape="rect" title=" " alt="" coords="305,79,397,104"/>
+<area shape="poly" title=" " alt="" coords="226,28,315,70,313,75,224,33"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="architecture__safeguards_8h__dep__incl.png" border="0" usemap="#aarchitecture__safeguards_8hdep" alt=""/></div>
+<map name="aarchitecture__safeguards_8hdep" id="aarchitecture__safeguards_8hdep">
+<area shape="rect" title="架构安全防护措施 &#45; 防止&quot;偷偷加回&quot;parseExpression逻辑" alt="" coords="5,5,196,31"/>
+<area shape="rect" href="parser_8cpp.html" title=" " alt="" coords="56,79,145,104"/>
+<area shape="poly" title=" " alt="" coords="103,44,103,79,98,79,98,44"/>
+</map>
+</div>
+</div>
+<p><a href="architecture__safeguards_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1sql__parser" id="r_namespacesqlcc_1_1sql__parser"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sqlcc::sql_parser</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1sql__parser_1_1architecture__safeguards" id="r_namespacesqlcc_1_1sql__parser_1_1architecture__safeguards"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html">sqlcc::sql_parser::architecture_safeguards</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:a65c19576f947a997a6efe5c376ad1352" id="r_a65c19576f947a997a6efe5c376ad1352"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="architecture__safeguards_8h.html#a65c19576f947a997a6efe5c376ad1352">ARCHITECTURE_VIOLATION_WARNING</a>()</td></tr>
+<tr class="memdesc:a65c19576f947a997a6efe5c376ad1352"><td class="mdescLeft">&#160;</td><td class="mdescRight">架构违规警告宏  <br /></td></tr>
+<tr class="separator:a65c19576f947a997a6efe5c376ad1352"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56152608b105c1803f557ab2f1c2bfbe" id="r_a56152608b105c1803f557ab2f1c2bfbe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="architecture__safeguards_8h.html#a56152608b105c1803f557ab2f1c2bfbe">EXPRESSION_PARSER_CHECK</a>()</td></tr>
+<tr class="memdesc:a56152608b105c1803f557ab2f1c2bfbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">表达式解析器检查宏  <br /></td></tr>
+<tr class="separator:a56152608b105c1803f557ab2f1c2bfbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fac3d379becf1be1ca168a08e4fd0f5" id="r_a7fac3d379becf1be1ca168a08e4fd0f5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="architecture__safeguards_8h.html#a7fac3d379becf1be1ca168a08e4fd0f5">ARCHITECTURE_SAFETY_ASSERT</a>(condition,  message)&#160;&#160;&#160;    static_assert(condition, message)</td></tr>
+<tr class="memdesc:a7fac3d379becf1be1ca168a08e4fd0f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">架构安全断言宏  <br /></td></tr>
+<tr class="separator:a7fac3d379becf1be1ca168a08e4fd0f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66a999659872acd6326247be8cacd113" id="r_a66a999659872acd6326247be8cacd113"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="architecture__safeguards_8h.html#a66a999659872acd6326247be8cacd113">FORBID_DIRECT_AST_CONSTRUCTION</a>()</td></tr>
+<tr class="memdesc:a66a999659872acd6326247be8cacd113"><td class="mdescLeft">&#160;</td><td class="mdescRight">禁止直接AST构造宏  <br /></td></tr>
+<tr class="separator:a66a999659872acd6326247be8cacd113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a6738119c20fdd316478c51588cee33" id="r_a0a6738119c20fdd316478c51588cee33"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="architecture__safeguards_8h.html#a0a6738119c20fdd316478c51588cee33">VALIDATE_EXPRESSION_PARSING_ENTRY_POINT</a>()</td></tr>
+<tr class="memdesc:a0a6738119c20fdd316478c51588cee33"><td class="mdescLeft">&#160;</td><td class="mdescRight">表达式解析入口验证宏  <br /></td></tr>
+<tr class="separator:a0a6738119c20fdd316478c51588cee33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06e692e8735c1bab9edf3635f1b98c5f" id="r_a06e692e8735c1bab9edf3635f1b98c5f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="architecture__safeguards_8h.html#a06e692e8735c1bab9edf3635f1b98c5f">ARCHITECTURE_CONSTRAINT_REMINDER</a>(comment)&#160;&#160;&#160;    /* Architecture Constraint Reminder: comment */</td></tr>
+<tr class="memdesc:a06e692e8735c1bab9edf3635f1b98c5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">架构约束提醒宏  <br /></td></tr>
+<tr class="separator:a06e692e8735c1bab9edf3635f1b98c5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a49ba3fe5b4a3e658360d0061a5d117" id="r_a8a49ba3fe5b4a3e658360d0061a5d117"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="architecture__safeguards_8h.html#a8a49ba3fe5b4a3e658360d0061a5d117">EXPRESSION_PARSING_SAFE_ZONE_BEGIN</a>()</td></tr>
+<tr class="memdesc:a8a49ba3fe5b4a3e658360d0061a5d117"><td class="mdescLeft">&#160;</td><td class="mdescRight">安全区标记宏  <br /></td></tr>
+<tr class="separator:a8a49ba3fe5b4a3e658360d0061a5d117"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c466d8b580eb26f4ffe1d44461299cf" id="r_a3c466d8b580eb26f4ffe1d44461299cf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="architecture__safeguards_8h.html#a3c466d8b580eb26f4ffe1d44461299cf">EXPRESSION_PARSING_SAFE_ZONE_END</a>()&#160;&#160;&#160;    /* END: <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> Parsing Safe Zone */</td></tr>
+<tr class="separator:a3c466d8b580eb26f4ffe1d44461299cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:a016a20fa25207768db7872be3ccd6c73" id="r_a016a20fa25207768db7872be3ccd6c73"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#a016a20fa25207768db7872be3ccd6c73">sqlcc::sql_parser::architecture_safeguards::ARCHITECTURE_SAFETY_ASSERT</a> (std::is_final_v&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Parser.html">Parser</a> &gt;, &quot;Parser class must be final to prevent inheritance-based architecture bypass&quot;)</td></tr>
+<tr class="separator:a016a20fa25207768db7872be3ccd6c73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4adeb207a44dc68eb03a5e630bfc9908" id="r_a4adeb207a44dc68eb03a5e630bfc9908"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#a4adeb207a44dc68eb03a5e630bfc9908">sqlcc::sql_parser::architecture_safeguards::ARCHITECTURE_SAFETY_ASSERT</a> (!std::is_void_v&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;, &quot;Expression type must exist for type safety checks&quot;)</td></tr>
+<tr class="separator:a4adeb207a44dc68eb03a5e630bfc9908"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d54e6ca79a3ae2340390f3e3faab884" id="r_a3d54e6ca79a3ae2340390f3e3faab884"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#a3d54e6ca79a3ae2340390f3e3faab884">sqlcc::sql_parser::architecture_safeguards::ARCHITECTURE_SAFETY_ASSERT</a> (!std::is_void_v&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a> &gt;, &quot;TokenStream must be available for <a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html">ExpressionParser</a> integration&quot;)</td></tr>
+<tr class="separator:a3d54e6ca79a3ae2340390f3e3faab884"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd21e0a5d3b997482b9332d9ef6d6028" id="r_acd21e0a5d3b997482b9332d9ef6d6028"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#acd21e0a5d3b997482b9332d9ef6d6028">sqlcc::sql_parser::architecture_safeguards::ARCHITECTURE_SAFETY_ASSERT</a> (!std::is_void_v&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html">ExpressionParser</a> &gt;, &quot;ExpressionParser must be available for expression parsing&quot;)</td></tr>
+<tr class="separator:acd21e0a5d3b997482b9332d9ef6d6028"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa253775e8f70a3876bfc2b8927288fa" id="r_afa253775e8f70a3876bfc2b8927288fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#afa253775e8f70a3876bfc2b8927288fa">sqlcc::sql_parser::architecture_safeguards::validateArchitectureConstraints</a> ()</td></tr>
+<tr class="memdesc:afa253775e8f70a3876bfc2b8927288fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">架构安全验证函数  <br /></td></tr>
+<tr class="separator:afa253775e8f70a3876bfc2b8927288fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe31b0bffada163b3deee9772771ba97" id="r_abe31b0bffada163b3deee9772771ba97"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#abe31b0bffada163b3deee9772771ba97">sqlcc::sql_parser::architecture_safeguards::reportArchitectureViolation</a> (const std::string &amp;location, const std::string &amp;violation)</td></tr>
+<tr class="memdesc:abe31b0bffada163b3deee9772771ba97"><td class="mdescLeft">&#160;</td><td class="mdescRight">架构违规报告函数  <br /></td></tr>
+<tr class="separator:abe31b0bffada163b3deee9772771ba97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>架构安全防护措施 - 防止"偷偷加回"parseExpression逻辑 </p>
+<p>🛡️ 架构安全措施：四层防护系统</p><ol type="1">
+<li>编译时防护：final关键字、静态断言、删除方法</li>
+<li>运行时防护：强制检查、审计日志、异常抛出</li>
+<li>代码结构防护：宏、警告注释、代码隔离</li>
+<li>构建系统防护：依赖检查、编译验证</li>
+</ol>
+<p>设计目标：</p><ul>
+<li>防止Parser类直接构造AST表达式节点</li>
+<li>强制所有表达式解析通过ExpressionParser统一处理</li>
+<li>在编译时和运行时双重验证架构约束</li>
+<li>为未来开发者提供明确的架构指导</li>
+</ul>
+<p>使用说明：</p><ul>
+<li>在关键位置使用ARCHITECTURE_VIOLATION_WARNING宏</li>
+<li>所有涉及表达式解析的代码必须通过EXPRESSION_PARSER_CHECK验证</li>
+<li>任何绕过ExpressionParser的尝试都会在编译时或运行时失败 </li>
+</ul>
+</div><h2 class="groupheader">宏定义说明</h2>
+<a id="a06e692e8735c1bab9edf3635f1b98c5f" name="a06e692e8735c1bab9edf3635f1b98c5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06e692e8735c1bab9edf3635f1b98c5f">&#9670;&#160;</a></span>ARCHITECTURE_CONSTRAINT_REMINDER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ARCHITECTURE_CONSTRAINT_REMINDER</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">comment</td><td>)</td>
+          <td>&#160;&#160;&#160;    /* Architecture Constraint Reminder: comment */</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>架构约束提醒宏 </p>
+<p>在相关代码位置放置，提醒开发者注意架构约束。 </p>
+
+</div>
+</div>
+<a id="a7fac3d379becf1be1ca168a08e4fd0f5" name="a7fac3d379becf1be1ca168a08e4fd0f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fac3d379becf1be1ca168a08e4fd0f5">&#9670;&#160;</a></span>ARCHITECTURE_SAFETY_ASSERT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ARCHITECTURE_SAFETY_ASSERT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">condition, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">message&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;    static_assert(condition, message)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>架构安全断言宏 </p>
+<p>在编译时验证架构约束，如果违反则编译失败。 </p>
+
+</div>
+</div>
+<a id="a65c19576f947a997a6efe5c376ad1352" name="a65c19576f947a997a6efe5c376ad1352"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65c19576f947a997a6efe5c376ad1352">&#9670;&#160;</a></span>ARCHITECTURE_VIOLATION_WARNING</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ARCHITECTURE_VIOLATION_WARNING</td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <span class="keywordflow">do</span> { \</div>
+<div class="line">        std::cerr &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;🚨 ARCHITECTURE VIOLATION WARNING 🚨\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;=====================================\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;You are attempting to modify code that violates the Parser architecture!\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;CRITICAL RULES:\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;1. Parser class MUST NOT directly construct AST expression nodes\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;2. All expression parsing MUST go through ExpressionParser\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;3. Do NOT attempt to &#39;sneak back&#39; parseExpression logic\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;CONSEQUENCES OF VIOLATION:\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;- Compilation will FAIL with static assertions\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;- Runtime will THROW exceptions\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;- Code review will REJECT your changes\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;SOLUTION:\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;Implement expression parsing in ExpressionParser class instead.\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;Parser::parseExpression() is a SECURITY GUARDRAIL, not functionality.\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; <span class="stringliteral">&quot;=====================================\n&quot;</span> \</div>
+<div class="line">                  &lt;&lt; std::endl; \</div>
+<div class="line">    } <span class="keywordflow">while</span>(0)</div>
+</div><!-- fragment -->
+<p>架构违规警告宏 </p>
+<p>在关键位置放置此宏，警告开发者不要违反架构约束。 任何试图绕过ExpressionParser的代码都会触发此警告。 </p>
+
+</div>
+</div>
+<a id="a56152608b105c1803f557ab2f1c2bfbe" name="a56152608b105c1803f557ab2f1c2bfbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56152608b105c1803f557ab2f1c2bfbe">&#9670;&#160;</a></span>EXPRESSION_PARSER_CHECK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EXPRESSION_PARSER_CHECK</td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <span class="keywordflow">do</span> { \</div>
+<div class="line">        <span class="comment">/* 编译时检查：验证ExpressionParser类型存在 */</span> \</div>
+<div class="line">        static_assert(!std::is_void_v&lt;ExpressionParser&gt;, \</div>
+<div class="line">                      <span class="stringliteral">&quot;ExpressionParser must be implemented for expression parsing&quot;</span>); \</div>
+<div class="line">        \</div>
+<div class="line">        <span class="comment">/* 编译时检查：验证TokenStream类型存在 */</span> \</div>
+<div class="line">        static_assert(!std::is_void_v&lt;TokenStream&gt;, \</div>
+<div class="line">                      <span class="stringliteral">&quot;TokenStream must be available for ExpressionParser&quot;</span>); \</div>
+<div class="line">        \</div>
+<div class="line">        <span class="comment">/* 运行时日志：记录检查通过 */</span> \</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;[ARCHITECTURE CHECK] ExpressionParser integration verified&quot;</span> &lt;&lt; std::endl; \</div>
+<div class="line">    } <span class="keywordflow">while</span>(0)</div>
+</div><!-- fragment -->
+<p>表达式解析器检查宏 </p>
+<p>验证ExpressionParser是否正确实现和集成。 在涉及表达式解析的关键位置使用此宏。 </p>
+
+</div>
+</div>
+<a id="a8a49ba3fe5b4a3e658360d0061a5d117" name="a8a49ba3fe5b4a3e658360d0061a5d117"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a49ba3fe5b4a3e658360d0061a5d117">&#9670;&#160;</a></span>EXPRESSION_PARSING_SAFE_ZONE_BEGIN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EXPRESSION_PARSING_SAFE_ZONE_BEGIN</td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <span class="comment">/* BEGIN: Expression Parsing Safe Zone */</span> \</div>
+<div class="line">    <span class="comment">/* WARNING: This zone is currently EMPTY by design */</span> \</div>
+<div class="line">    <span class="comment">/* All expression parsing must be handled by ExpressionParser */</span></div>
+</div><!-- fragment -->
+<p>安全区标记宏 </p>
+<p>标记Parser类中允许进行表达式解析的"安全区"。 当前安全区：无（所有表达式解析必须通过ExpressionParser） </p>
+
+</div>
+</div>
+<a id="a3c466d8b580eb26f4ffe1d44461299cf" name="a3c466d8b580eb26f4ffe1d44461299cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c466d8b580eb26f4ffe1d44461299cf">&#9670;&#160;</a></span>EXPRESSION_PARSING_SAFE_ZONE_END</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EXPRESSION_PARSING_SAFE_ZONE_END</td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td>&#160;&#160;&#160;    /* END: <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> Parsing Safe Zone */</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a66a999659872acd6326247be8cacd113" name="a66a999659872acd6326247be8cacd113"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66a999659872acd6326247be8cacd113">&#9670;&#160;</a></span>FORBID_DIRECT_AST_CONSTRUCTION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FORBID_DIRECT_AST_CONSTRUCTION</td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="architecture__safeguards_8h.html#a65c19576f947a997a6efe5c376ad1352">ARCHITECTURE_VIOLATION_WARNING</a>(); \</div>
+<div class="line">    static_assert(<span class="keyword">false</span>, <span class="stringliteral">&quot;Direct AST node construction is FORBIDDEN in Parser class. Use ExpressionParser instead.&quot;</span>)</div>
+<div class="ttc" id="aarchitecture__safeguards_8h_html_a65c19576f947a997a6efe5c376ad1352"><div class="ttname"><a href="architecture__safeguards_8h.html#a65c19576f947a997a6efe5c376ad1352">ARCHITECTURE_VIOLATION_WARNING</a></div><div class="ttdeci">#define ARCHITECTURE_VIOLATION_WARNING()</div><div class="ttdoc">架构违规警告宏</div><div class="ttdef"><b>Definition</b> architecture_safeguards.h:51</div></div>
+</div><!-- fragment -->
+<p>禁止直接AST构造宏 </p>
+<p>在任何可能直接构造AST节点的位置使用此宏。 任何AST节点的直接构造都会触发警告和潜在的编译错误。 </p>
+
+</div>
+</div>
+<a id="a0a6738119c20fdd316478c51588cee33" name="a0a6738119c20fdd316478c51588cee33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a6738119c20fdd316478c51588cee33">&#9670;&#160;</a></span>VALIDATE_EXPRESSION_PARSING_ENTRY_POINT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VALIDATE_EXPRESSION_PARSING_ENTRY_POINT</td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    <span class="keywordflow">do</span> { \</div>
+<div class="line">        <span class="comment">/* 检查调用栈中是否包含ExpressionParser */</span> \</div>
+<div class="line">        <span class="comment">/* 这是一个运行时检查，防止Parser直接调用表达式解析 */</span> \</div>
+<div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;[ARCHITECTURE AUDIT] Validating expression parsing entry point...&quot;</span> &lt;&lt; std::endl; \</div>
+<div class="line">        \</div>
+<div class="line">        <span class="comment">/* 未来可以扩展为更严格的调用栈检查 */</span> \</div>
+<div class="line">        <span class="comment">/* 目前通过日志记录提供审计追踪 */</span> \</div>
+<div class="line">    } <span class="keywordflow">while</span>(0)</div>
+</div><!-- fragment -->
+<p>表达式解析入口验证宏 </p>
+<p>验证当前代码位置是否为合法的表达式解析入口点。 只允许ExpressionParser调用表达式解析逻辑。 </p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

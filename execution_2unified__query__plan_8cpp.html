@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: unified_query_plan.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bd0755c95a42e835fb06f38bbeb1d6ed.html">execution</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">unified_query_plan.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="execution_2unified__query__plan_8h_source.html">unified_query_plan.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+execution/unified_query_plan.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="execution_2unified__query__plan_8cpp__incl.png" border="0" usemap="#aunified__query__plan_8cpp" alt=""/></div>
+<map name="aunified__query__plan_8cpp" id="aunified__query__plan_8cpp">
+<area shape="rect" title=" " alt="" coords="5,5,177,31"/>
+<area shape="rect" href="execution_2unified__query__plan_8h.html" title=" " alt="" coords="13,79,170,104"/>
+<area shape="poly" title=" " alt="" coords="94,31,94,65,89,65,89,31"/>
+<area shape="rect" title=" " alt="" coords="57,313,134,339"/>
+<area shape="poly" title=" " alt="" coords="78,106,57,127,40,153,36,173,35,193,44,234,61,271,80,301,76,304,56,273,39,235,30,193,30,172,36,151,53,123,74,102"/>
+<area shape="rect" title=" " alt="" coords="210,313,269,339"/>
+<area shape="poly" title=" " alt="" coords="171,96,229,103,288,114,337,130,356,139,369,150,381,172,381,195,372,217,357,239,316,278,273,308,270,304,312,274,353,236,367,215,375,194,375,174,365,154,353,144,335,134,286,119,228,109,170,101"/>
+<area shape="rect" title=" " alt="" coords="60,152,123,177"/>
+<area shape="poly" title=" " alt="" coords="94,104,94,138,89,138,89,104"/>
+<area shape="rect" href="ast__node_8h.html" title=" " alt="" coords="93,225,242,265"/>
+<area shape="poly" title=" " alt="" coords="79,106,65,121,52,139,46,158,50,176,70,199,96,217,93,221,66,203,45,179,41,157,48,136,61,117,75,103"/>
+<area shape="rect" href="statement_8h.html" title=" " alt="" coords="147,152,355,177"/>
+<area shape="poly" title=" " alt="" coords="118,102,214,144,212,149,116,106"/>
+<area shape="poly" title=" " alt="" coords="152,267,117,305,113,301,148,264"/>
+<area shape="poly" title=" " alt="" coords="187,264,221,301,217,305,183,267"/>
+<area shape="poly" title=" " alt="" coords="241,179,199,218,196,214,237,176"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么需要统一查询计划？</p>
+<p>数据库系统需要将SQL语句转换为优化的执行计划，才能高效地访问数据。没有查询计划，系统就无法确定最优的数据访问路径、连接顺序、索引使用等关键决策，导致查询性能低下。</p>
+<p>主要问题解决：</p><ol type="1">
+<li>查询优化：选择最优的执行策略和访问路径</li>
+<li>计划生成：将解析后的SQL转换为可执行计划</li>
+<li>资源分配：合理分配内存和CPU资源</li>
+<li>并发控制：协调多查询间的资源竞争</li>
+<li>成本估算：预测查询执行成本和时间</li>
+</ol>
+<p>查询计划失败的影响：</p><ul>
+<li>查询性能低下：无法使用索引或选择最优路径</li>
+<li>资源浪费：内存和CPU使用效率低下</li>
+<li>系统响应缓慢：用户体验差</li>
+<li>并发性能下降：查询间相互干扰</li>
+</ul>
+<p>WHAT: 这实现了什么功能？</p>
+<p>统一查询计划提供完整的查询处理和优化能力：</p><ul>
+<li>计划构建：从SQL AST构建查询执行计划</li>
+<li>计划执行：按优化顺序执行查询操作</li>
+<li>结果合并：合并多表查询的结果集</li>
+<li>索引利用：选择和使用合适的索引</li>
+<li>连接优化：确定表连接的顺序和算法</li>
+<li>聚合处理：高效处理GROUP BY和聚合函数</li>
+</ul>
+<p>核心组件：</p><ul>
+<li>UnifiedQueryPlan：统一查询计划管理器</li>
+<li>QueryOptimizer：查询优化器，选择最优执行路径</li>
+<li>PlanBuilder：计划构建器，构造执行计划树</li>
+<li>CostEstimator：成本估算器，预测执行代价</li>
+<li>ExecutionEngine：执行引擎，实际运行查询计划</li>
+</ul>
+<p>HOW: 如何实现的？</p>
+<p>技术实现要点：</p><ol type="1">
+<li>计划树：使用树形结构表示查询执行计划</li>
+<li>迭代优化：多遍优化算法逐步改进计划</li>
+<li>动态规划：基于动态规划的连接顺序选择</li>
+<li>贪心算法：启发式索引和谓词选择</li>
+<li>统计信息：利用数据分布统计进行优化决策</li>
+<li>缓存机制：缓存查询计划避免重复优化</li>
+</ol>
+<p>架构设计：</p><ul>
+<li>建造者模式：分步骤构建复杂的查询计划</li>
+<li>策略模式：可插拔的优化策略和算法</li>
+<li>组合模式：组合多个操作符形成执行计划</li>
+<li>访问者模式：遍历和修改查询计划树</li>
+<li>享元模式：复用常见的查询计划片段</li>
+</ul>
+<p>性能优化：</p><ul>
+<li>计划缓存：避免重复的查询优化开销</li>
+<li>增量优化：只优化计划中的变更部分</li>
+<li>并行执行：支持查询操作的并行化</li>
+<li>内存管理：控制计划构建过程中的内存使用</li>
+<li>编译执行：将计划编译为机器码提高性能</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>该实现专为SQLCC数据库系统优化，支持复杂查询的高效执行 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>include/execution/unified_query_plan.h </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

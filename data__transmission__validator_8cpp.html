@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: data_transmission_validator.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fc4c7f03e1a69a98c370fae55a743828.html">network</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">data_transmission_validator.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
+<code>#include &lt;deque&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &quot;<a class="el" href="data__transmission__validator_8h_source.html">network/data_transmission_validator.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="network_8h_source.html">network/network.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+data_transmission_validator.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="data__transmission__validator_8cpp__incl.png" border="0" usemap="#adata__transmission__validator_8cpp" alt=""/></div>
+<map name="adata__transmission__validator_8cpp" id="adata__transmission__validator_8cpp">
+<area shape="rect" title=" " alt="" coords="233,5,466,31"/>
+<area shape="rect" title=" " alt="" coords="5,86,91,111"/>
+<area shape="poly" title=" " alt="" coords="296,33,206,54,103,81,93,84,92,79,102,76,204,49,295,28"/>
+<area shape="rect" title=" " alt="" coords="115,86,202,111"/>
+<area shape="poly" title=" " alt="" coords="323,33,200,83,198,78,321,28"/>
+<area shape="rect" title=" " alt="" coords="227,86,293,111"/>
+<area shape="poly" title=" " alt="" coords="338,33,285,79,282,75,334,29"/>
+<area shape="rect" title=" " alt="" coords="318,86,381,111"/>
+<area shape="poly" title=" " alt="" coords="352,31,352,72,347,72,347,31"/>
+<area shape="rect" title=" " alt="" coords="360,167,424,192"/>
+<area shape="poly" title=" " alt="" coords="363,29,380,50,395,78,401,117,399,153,394,153,395,117,389,79,376,53,359,32"/>
+<area shape="rect" href="data__transmission__validator_8h.html" title=" " alt="" coords="455,79,654,119"/>
+<area shape="poly" title=" " alt="" coords="380,28,493,71,491,76,378,33"/>
+<area shape="rect" href="network_8h.html" title=" " alt="" coords="679,86,823,111"/>
+<area shape="poly" title=" " alt="" coords="413,28,666,76,687,80,686,86,665,81,412,33"/>
+<area shape="poly" title=" " alt="" coords="517,121,429,163,427,158,515,116"/>
+<area shape="rect" title=" " alt="" coords="449,167,511,192"/>
+<area shape="poly" title=" " alt="" coords="539,121,503,158,499,155,535,117"/>
+<area shape="rect" title=" " alt="" coords="536,167,603,192"/>
+<area shape="poly" title=" " alt="" coords="561,118,567,153,562,154,556,119"/>
+<area shape="rect" title=" " alt="" coords="627,167,693,192"/>
+<area shape="poly" title=" " alt="" coords="582,117,635,156,632,160,579,121"/>
+<area shape="rect" title=" " alt="" coords="717,167,784,192"/>
+<area shape="poly" title=" " alt="" coords="603,116,710,159,708,164,601,121"/>
+<area shape="poly" title=" " alt="" coords="753,112,753,153,748,153,748,112"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1network" id="r_namespacesqlcc_1_1network"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1network.html">sqlcc::network</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么需要数据传输验证器？</p>
+<p>网络通信是数据库系统最脆弱的环节，恶意或错误的网络数据会导致：</p><ol type="1">
+<li>缓冲区溢出攻击：破坏系统内存布局</li>
+<li>数据包伪造：绕过安全检查和业务逻辑</li>
+<li>资源耗尽攻击：通过大量无效数据拖垮系统</li>
+<li>协议混淆：不同版本协议间的兼容性问题</li>
+</ol>
+<p>数据传输验证器通过严格的边界检查和完整性验证，确保：</p><ul>
+<li>数据包结构完整，防止解析错误</li>
+<li>缓冲区大小限制，防止内存溢出</li>
+<li>流量控制机制，防止DDoS攻击</li>
+<li>分片重组逻辑，支持大数据传输</li>
+</ul>
+<p>设计目标：</p><ul>
+<li>安全防护：100拦截恶意数据包</li>
+<li>性能效率：验证开销&lt;5的网络传输时间</li>
+<li>协议兼容：支持多版本协议的平滑升级</li>
+<li>资源控制：防止恶意流量耗尽系统资源</li>
+</ul>
+<p>WHAT: 这实现了什么功能？</p>
+<p>数据传输验证器提供完整的网络数据安全保障：</p><ul>
+<li>消息头验证：检查魔数、类型、长度等关键字段</li>
+<li>边界检查：确保缓冲区不会溢出</li>
+<li>分片处理：大数据包的智能分片和重组</li>
+<li>流量控制：基于时间窗口的速率限制</li>
+<li>统计监控：详细的传输性能指标</li>
+</ul>
+<p>核心组件：</p><ul>
+<li>DataTransmissionValidator: 主验证器类</li>
+<li>消息头结构：标准化的网络消息格式</li>
+<li>分片重组器：大数据包处理逻辑</li>
+<li>流量控制器：基于令牌桶的限速算法</li>
+</ul>
+<p>HOW: 如何实现的？</p>
+<p>技术实现要点：</p><ol type="1">
+<li>消息头验证：魔数+类型+长度三重检查</li>
+<li>边界检查：大小限制+范围验证的双重防护</li>
+<li>分片算法：固定大小分片+序列号重组</li>
+<li>流量控制：滑动时间窗口+速率计算</li>
+<li>内存安全：智能指针+RAII模式管理资源</li>
+<li>并发安全：互斥锁保护共享状态</li>
+</ol>
+<p>性能优化：</p><ul>
+<li>零拷贝验证：直接在缓冲区上验证</li>
+<li>批量处理：多个数据包的连续验证</li>
+<li>缓存友好：连续内存访问模式</li>
+<li>延迟初始化：按需分配验证资源</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>该实现专为SQLCC网络协议优化，支持高并发场景 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>docs/design/network/data_transmission_design.md </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

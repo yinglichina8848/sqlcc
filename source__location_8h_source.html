@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: source_location.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li><li class="navelem"><a class="el" href="dir_3f40bfae0b1f6b03444daffc78cbbe28.html">ast</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">source_location.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="source__location_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SQLCC_SQL_PARSER_AST_CORE_SOURCE_LOCATION_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SQLCC_SQL_PARSER_AST_CORE_SOURCE_LOCATION_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span>ast {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="foldopen" id="foldopen00017" data-start="{" data-end="};">
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">   17</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">SourceLocation</a> {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#ab44294729b4086b7e3a540f98972b7ea">   18</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#ab44294729b4086b7e3a540f98972b7ea">line_</a>;      </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#a5b6c0d133e7a7f4b1bfe71dc281c3945">   19</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#a5b6c0d133e7a7f4b1bfe71dc281c3945">column_</a>;    </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#aa5d7a1508bae7f397e81a21e38f80e48">   20</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#aa5d7a1508bae7f397e81a21e38f80e48">offset_</a>;    </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#a9ec826cc89d4226d4fa4d0ad9df4941a">   21</a></span>    std::string <a class="code hl_variable" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#a9ec826cc89d4226d4fa4d0ad9df4941a">file_</a>; </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_struct" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">SourceLocation</a>(<span class="keywordtype">size_t</span> line = 0, <span class="keywordtype">size_t</span> column = 0,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                   <span class="keywordtype">size_t</span> offset = 0, <span class="keyword">const</span> std::string&amp; file = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#ae11f59bed9fe2597afc627e9eb57a5e2">isValid</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <a class="code hl_struct" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">SourceLocation</a> <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#acd95bc21be164f0da0f01b97496c0195">merge</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">SourceLocation</a>&amp; other) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    std::string <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#a1bd9ffc31591946d9e9b890b4595d41b">toString</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    std::string <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#a0089247bfbcb13e28cbc0fc40d03dc66">toJson</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#afc51e7f363b4b8e960bb56532fa8f442">operator==</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">SourceLocation</a>&amp; other) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#ab4cbd11ff05d12155857de0e30129ac8">operator!=</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">SourceLocation</a>&amp; other) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#ac453886154ad280c615fd3ec6e675b3e">operator&lt;</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">SourceLocation</a>&amp; other) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>};</div>
+</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>} <span class="comment">// namespace ast</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SQL_PARSER_AST_CORE_SOURCE_LOCATION_H</span></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation_html"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">sqlcc::sql_parser::ast::SourceLocation</a></div><div class="ttdoc">Source location information for AST nodes</div><div class="ttdef"><b>Definition</b> source_location.h:17</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation_html_a0089247bfbcb13e28cbc0fc40d03dc66"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#a0089247bfbcb13e28cbc0fc40d03dc66">sqlcc::sql_parser::ast::SourceLocation::toJson</a></div><div class="ttdeci">std::string toJson() const</div><div class="ttdoc">Convert to JSON representation</div><div class="ttdef"><b>Definition</b> source_location.cpp:61</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation_html_a1bd9ffc31591946d9e9b890b4595d41b"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#a1bd9ffc31591946d9e9b890b4595d41b">sqlcc::sql_parser::ast::SourceLocation::toString</a></div><div class="ttdeci">std::string toString() const</div><div class="ttdoc">Convert to string representation</div><div class="ttdef"><b>Definition</b> source_location.cpp:52</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation_html_a5b6c0d133e7a7f4b1bfe71dc281c3945"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#a5b6c0d133e7a7f4b1bfe71dc281c3945">sqlcc::sql_parser::ast::SourceLocation::column_</a></div><div class="ttdeci">size_t column_</div><div class="ttdoc">Column number (1-based)</div><div class="ttdef"><b>Definition</b> source_location.h:19</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation_html_a9ec826cc89d4226d4fa4d0ad9df4941a"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#a9ec826cc89d4226d4fa4d0ad9df4941a">sqlcc::sql_parser::ast::SourceLocation::file_</a></div><div class="ttdeci">std::string file_</div><div class="ttdoc">Source file name (optional)</div><div class="ttdef"><b>Definition</b> source_location.h:21</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation_html_aa5d7a1508bae7f397e81a21e38f80e48"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#aa5d7a1508bae7f397e81a21e38f80e48">sqlcc::sql_parser::ast::SourceLocation::offset_</a></div><div class="ttdeci">size_t offset_</div><div class="ttdoc">Character offset from start (0-based)</div><div class="ttdef"><b>Definition</b> source_location.h:20</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation_html_ab44294729b4086b7e3a540f98972b7ea"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#ab44294729b4086b7e3a540f98972b7ea">sqlcc::sql_parser::ast::SourceLocation::line_</a></div><div class="ttdeci">size_t line_</div><div class="ttdoc">Line number (1-based)</div><div class="ttdef"><b>Definition</b> source_location.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation_html_ab4cbd11ff05d12155857de0e30129ac8"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#ab4cbd11ff05d12155857de0e30129ac8">sqlcc::sql_parser::ast::SourceLocation::operator!=</a></div><div class="ttdeci">bool operator!=(const SourceLocation &amp;other) const</div><div class="ttdef"><b>Definition</b> source_location.cpp:81</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation_html_ac453886154ad280c615fd3ec6e675b3e"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#ac453886154ad280c615fd3ec6e675b3e">sqlcc::sql_parser::ast::SourceLocation::operator&lt;</a></div><div class="ttdeci">bool operator&lt;(const SourceLocation &amp;other) const</div><div class="ttdoc">Ordering comparison (by file, then line, then column)</div><div class="ttdef"><b>Definition</b> source_location.cpp:85</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation_html_acd95bc21be164f0da0f01b97496c0195"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#acd95bc21be164f0da0f01b97496c0195">sqlcc::sql_parser::ast::SourceLocation::merge</a></div><div class="ttdeci">SourceLocation merge(const SourceLocation &amp;other) const</div><div class="ttdoc">Merge two source locations (for multi-token spans)</div><div class="ttdef"><b>Definition</b> source_location.cpp:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation_html_ae11f59bed9fe2597afc627e9eb57a5e2"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#ae11f59bed9fe2597afc627e9eb57a5e2">sqlcc::sql_parser::ast::SourceLocation::isValid</a></div><div class="ttdeci">bool isValid() const</div><div class="ttdoc">Check if location is valid</div><div class="ttdef"><b>Definition</b> source_location.cpp:14</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation_html_afc51e7f363b4b8e960bb56532fa8f442"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html#afc51e7f363b4b8e960bb56532fa8f442">sqlcc::sql_parser::ast::SourceLocation::operator==</a></div><div class="ttdeci">bool operator==(const SourceLocation &amp;other) const</div><div class="ttdoc">Equality comparison</div><div class="ttdef"><b>Definition</b> source_location.cpp:74</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: audit_trail.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_8a6c31bbbfb30065ee9a683ead3fe21a.html">security</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">audit_trail.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="audit__trail_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#ifndef SQLCC_SECURITY_AUDIT_TRAIL_H_</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#define SQLCC_SECURITY_AUDIT_TRAIL_H_</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;map&gt;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="foldopen" id="foldopen00026" data-start="{" data-end="};">
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AuditEntry.html">   26</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1AuditEntry.html">AuditEntry</a> {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="};">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">   32</a></span>    <span class="keyword">enum class</span> <a class="code hl_enumeration" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEventType</a> {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a4976d7ca80f2cb54c1c7d5c87fb0c7ef">LOGIN</a>,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a6b4ea69e17243db95f7b46c384d40370">LOGOUT</a>,</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a5d1994d8701e82ea3ae1c4f9b5d64dbf">QUERY_EXECUTION</a>,</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a4bd47d35bee2547c54843bb0d3e7c6d4">TABLE_MODIFICATION</a>,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a5b29f8edbe95ef9d3198b771b601833e">USER_MANAGEMENT</a>,</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a4f38f21abc027f222f132e4c7d43d3ef">SECURITY_CHANGE</a>,</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9ad5e1d0a8706fe8892fdc1d9bc42f2ce8">SYSTEM_CONFIG_CHANGE</a>,</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a25a2fc6debec92afe0ba791c37b0d117">BACKUP_OPERATION</a>,</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9ae8bdac85425007281563a053ccc3fb44">RESTORE_OPERATION</a>,</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a696b031073e74bf2cb98e5ef201d4aa3">UNKNOWN</a></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    };</div>
+</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_class" href="classsqlcc_1_1AuditEntry.html">AuditEntry</a>(<a class="code hl_enumeration" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEventType</a> event_type,</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>               <span class="keyword">const</span> std::string&amp; user_name,</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>               <span class="keyword">const</span> std::string&amp; action,</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>               <span class="keyword">const</span> std::string&amp; details = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// Getters</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <a class="code hl_enumeration" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEventType</a> <a class="code hl_function" href="classsqlcc_1_1AuditEntry.html#a76b27d2678adccdd575d9093d0f5f3bb">get_event_type</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1AuditEntry.html#ae90024edb1447f8d4d7ac41944107229">get_user_name</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1AuditEntry.html#a1d283bb49ae2c43d1a1dd47f3d1b8633">get_action</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1AuditEntry.html#a1c5254f4d6f7c121cd1b1c243d4dc891">get_details</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    std::chrono::system_clock::time_point <a class="code hl_function" href="classsqlcc_1_1AuditEntry.html#afd5ba9b8efd7606d8586e079f1dbfe40">get_timestamp</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keyword">static</span> std::string <a class="code hl_function" href="classsqlcc_1_1AuditEntry.html#abf0125c389c0338c2df2a8e2f3ff5120">event_type_to_string</a>(<a class="code hl_enumeration" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEventType</a> type);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AuditEntry.html#afdf57219e0247610d84720a486030f9e">   72</a></span>    <a class="code hl_enumeration" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEventType</a> <a class="code hl_variable" href="classsqlcc_1_1AuditEntry.html#afdf57219e0247610d84720a486030f9e">event_type_</a>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AuditEntry.html#a5f5dd7db82228750d7c3f61e5f635892">   73</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1AuditEntry.html#a5f5dd7db82228750d7c3f61e5f635892">user_name_</a>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AuditEntry.html#aef0a0c2d6d9cba86ea64a40d32fbe19c">   74</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1AuditEntry.html#aef0a0c2d6d9cba86ea64a40d32fbe19c">action_</a>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AuditEntry.html#a073905fe66f914bbedbb80c154c46372">   75</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1AuditEntry.html#a073905fe66f914bbedbb80c154c46372">details_</a>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AuditEntry.html#ac948027438a32058a9de0f4f7a92b8c5">   76</a></span>    std::chrono::system_clock::time_point <a class="code hl_variable" href="classsqlcc_1_1AuditEntry.html#ac948027438a32058a9de0f4f7a92b8c5">timestamp_</a>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>};</div>
+</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="foldopen" id="foldopen00086" data-start="{" data-end="};">
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AuditTrail.html">   86</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1AuditTrail.html">AuditTrail</a> {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#ad9dc15f36b04ccb8af64c32925dffc68">AuditTrail</a>();</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#ab01887ea20131d20f1367d06e9ea5c6e">~AuditTrail</a>();</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#afb07ab9a53c5a7346a4a1b33ec1725de">initialize</a>();</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#aa4375626b44c12f11202eff4b46aa21d">shutdown</a>();</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#afb76099be9937fc962c8121feca8de1d">record_event</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1AuditEntry.html">AuditEntry</a>&amp; event);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#afb76099be9937fc962c8121feca8de1d">record_event</a>(<a class="code hl_enumeration" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEntry::AuditEventType</a> event_type,</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>                     <span class="keyword">const</span> std::string&amp; user_name,</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                     <span class="keyword">const</span> std::string&amp; action,</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                     <span class="keyword">const</span> std::string&amp; details = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    std::vector&lt;AuditEntry&gt; <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#a1c6dd00c8b1131f5b84dce02999ff014">get_entries</a>(</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        <span class="keyword">const</span> std::chrono::system_clock::time_point&amp; start_time,</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        <span class="keyword">const</span> std::chrono::system_clock::time_point&amp; end_time);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    std::vector&lt;AuditEntry&gt; <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#a4c97fabb08324e9678293ecff45f1275">get_entries_for_user</a>(</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keyword">const</span> std::string&amp; user_name, <span class="keywordtype">size_t</span> limit = 100);</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    std::vector&lt;AuditEntry&gt; <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#a3a71d1d2f2c32ef604e3710921600c94">get_entries_by_type</a>(</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        <a class="code hl_enumeration" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEntry::AuditEventType</a> event_type, <span class="keywordtype">size_t</span> limit = 100);</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    std::string <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#a00d290911817c842e2f8e8709e270aa6">generate_compliance_report</a>(</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <span class="keyword">const</span> std::chrono::system_clock::time_point&amp; start_time,</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <span class="keyword">const</span> std::chrono::system_clock::time_point&amp; end_time);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#afece8c067444087bda73cd84ad60a6e2">clear_old_entries</a>(<span class="keywordtype">int</span> retention_days);</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#a3ba5d8e4761e3064afca1325ee403d74">get_total_entries</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#af815df93ad6ee1a6d678be8539442a2a">is_enabled</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#a92cd893f3aea1d058cf260c938cbd92b">set_enabled</a>(<span class="keywordtype">bool</span> enabled);</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AuditTrail.html#abd05815f53d788b1340f627dd344e554">  196</a></span>    std::vector&lt;AuditEntry&gt; <a class="code hl_variable" href="classsqlcc_1_1AuditTrail.html#abd05815f53d788b1340f627dd344e554">audit_entries_</a>;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AuditTrail.html#a01f0c5931c51a3215444e16d80dfa7d3">  201</a></span>    <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1AuditTrail.html#a01f0c5931c51a3215444e16d80dfa7d3">mutex_</a>;</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AuditTrail.html#ac440eaf4c7712ea65e7e7ea0d6d803aa">  206</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1AuditTrail.html#ac440eaf4c7712ea65e7e7ea0d6d803aa">enabled_</a>;</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="classsqlcc_1_1AuditTrail.html#ab1d31f2ead43c6bcf75288d2a39c8adc">  211</a></span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1AuditTrail.html#ab1d31f2ead43c6bcf75288d2a39c8adc">MAX_ENTRIES</a> = 10000;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#a4290048540c8cab7881cb575448786c2">persist_entry</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1AuditEntry.html">AuditEntry</a>&amp; entry);</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#a7a7e907b8dec848d601368ebb1ea13ba">load_entries</a>();</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span> </div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1AuditTrail.html#a197ba601b94e30b8f1c44834a95ee67e">persist_entries</a>();</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>};</div>
+</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span> </div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SECURITY_AUDIT_TRAIL_H_</span></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html">sqlcc::AuditEntry</a></div><div class="ttdoc">Represents a single audit log entry</div><div class="ttdef"><b>Definition</b> audit_trail.h:26</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a073905fe66f914bbedbb80c154c46372"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a073905fe66f914bbedbb80c154c46372">sqlcc::AuditEntry::details_</a></div><div class="ttdeci">std::string details_</div><div class="ttdef"><b>Definition</b> audit_trail.h:75</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a080c60505cbfc2c3646295d8c358ffd9"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">sqlcc::AuditEntry::AuditEventType</a></div><div class="ttdeci">AuditEventType</div><div class="ttdoc">Types of audit events</div><div class="ttdef"><b>Definition</b> audit_trail.h:32</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a080c60505cbfc2c3646295d8c358ffd9a25a2fc6debec92afe0ba791c37b0d117"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a25a2fc6debec92afe0ba791c37b0d117">sqlcc::AuditEntry::AuditEventType::BACKUP_OPERATION</a></div><div class="ttdeci">@ BACKUP_OPERATION</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a080c60505cbfc2c3646295d8c358ffd9a4976d7ca80f2cb54c1c7d5c87fb0c7ef"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a4976d7ca80f2cb54c1c7d5c87fb0c7ef">sqlcc::AuditEntry::AuditEventType::LOGIN</a></div><div class="ttdeci">@ LOGIN</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a080c60505cbfc2c3646295d8c358ffd9a4bd47d35bee2547c54843bb0d3e7c6d4"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a4bd47d35bee2547c54843bb0d3e7c6d4">sqlcc::AuditEntry::AuditEventType::TABLE_MODIFICATION</a></div><div class="ttdeci">@ TABLE_MODIFICATION</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a080c60505cbfc2c3646295d8c358ffd9a4f38f21abc027f222f132e4c7d43d3ef"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a4f38f21abc027f222f132e4c7d43d3ef">sqlcc::AuditEntry::AuditEventType::SECURITY_CHANGE</a></div><div class="ttdeci">@ SECURITY_CHANGE</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a080c60505cbfc2c3646295d8c358ffd9a5b29f8edbe95ef9d3198b771b601833e"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a5b29f8edbe95ef9d3198b771b601833e">sqlcc::AuditEntry::AuditEventType::USER_MANAGEMENT</a></div><div class="ttdeci">@ USER_MANAGEMENT</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a080c60505cbfc2c3646295d8c358ffd9a5d1994d8701e82ea3ae1c4f9b5d64dbf"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a5d1994d8701e82ea3ae1c4f9b5d64dbf">sqlcc::AuditEntry::AuditEventType::QUERY_EXECUTION</a></div><div class="ttdeci">@ QUERY_EXECUTION</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a080c60505cbfc2c3646295d8c358ffd9a696b031073e74bf2cb98e5ef201d4aa3"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a696b031073e74bf2cb98e5ef201d4aa3">sqlcc::AuditEntry::AuditEventType::UNKNOWN</a></div><div class="ttdeci">@ UNKNOWN</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a080c60505cbfc2c3646295d8c358ffd9a6b4ea69e17243db95f7b46c384d40370"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a6b4ea69e17243db95f7b46c384d40370">sqlcc::AuditEntry::AuditEventType::LOGOUT</a></div><div class="ttdeci">@ LOGOUT</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a080c60505cbfc2c3646295d8c358ffd9ad5e1d0a8706fe8892fdc1d9bc42f2ce8"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9ad5e1d0a8706fe8892fdc1d9bc42f2ce8">sqlcc::AuditEntry::AuditEventType::SYSTEM_CONFIG_CHANGE</a></div><div class="ttdeci">@ SYSTEM_CONFIG_CHANGE</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a080c60505cbfc2c3646295d8c358ffd9ae8bdac85425007281563a053ccc3fb44"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9ae8bdac85425007281563a053ccc3fb44">sqlcc::AuditEntry::AuditEventType::RESTORE_OPERATION</a></div><div class="ttdeci">@ RESTORE_OPERATION</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a1c5254f4d6f7c121cd1b1c243d4dc891"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a1c5254f4d6f7c121cd1b1c243d4dc891">sqlcc::AuditEntry::get_details</a></div><div class="ttdeci">const std::string &amp; get_details() const</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:40</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a1d283bb49ae2c43d1a1dd47f3d1b8633"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a1d283bb49ae2c43d1a1dd47f3d1b8633">sqlcc::AuditEntry::get_action</a></div><div class="ttdeci">const std::string &amp; get_action() const</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:36</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a5f5dd7db82228750d7c3f61e5f635892"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a5f5dd7db82228750d7c3f61e5f635892">sqlcc::AuditEntry::user_name_</a></div><div class="ttdeci">std::string user_name_</div><div class="ttdef"><b>Definition</b> audit_trail.h:73</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_a76b27d2678adccdd575d9093d0f5f3bb"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#a76b27d2678adccdd575d9093d0f5f3bb">sqlcc::AuditEntry::get_event_type</a></div><div class="ttdeci">AuditEventType get_event_type() const</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:28</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_abf0125c389c0338c2df2a8e2f3ff5120"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#abf0125c389c0338c2df2a8e2f3ff5120">sqlcc::AuditEntry::event_type_to_string</a></div><div class="ttdeci">static std::string event_type_to_string(AuditEventType type)</div><div class="ttdoc">Convert audit event type to string</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:48</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_ac948027438a32058a9de0f4f7a92b8c5"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#ac948027438a32058a9de0f4f7a92b8c5">sqlcc::AuditEntry::timestamp_</a></div><div class="ttdeci">std::chrono::system_clock::time_point timestamp_</div><div class="ttdef"><b>Definition</b> audit_trail.h:76</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_ae90024edb1447f8d4d7ac41944107229"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#ae90024edb1447f8d4d7ac41944107229">sqlcc::AuditEntry::get_user_name</a></div><div class="ttdeci">const std::string &amp; get_user_name() const</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:32</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_aef0a0c2d6d9cba86ea64a40d32fbe19c"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#aef0a0c2d6d9cba86ea64a40d32fbe19c">sqlcc::AuditEntry::action_</a></div><div class="ttdeci">std::string action_</div><div class="ttdef"><b>Definition</b> audit_trail.h:74</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_afd5ba9b8efd7606d8586e079f1dbfe40"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#afd5ba9b8efd7606d8586e079f1dbfe40">sqlcc::AuditEntry::get_timestamp</a></div><div class="ttdeci">std::chrono::system_clock::time_point get_timestamp() const</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:44</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditEntry_html_afdf57219e0247610d84720a486030f9e"><div class="ttname"><a href="classsqlcc_1_1AuditEntry.html#afdf57219e0247610d84720a486030f9e">sqlcc::AuditEntry::event_type_</a></div><div class="ttdeci">AuditEventType event_type_</div><div class="ttdef"><b>Definition</b> audit_trail.h:72</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html">sqlcc::AuditTrail</a></div><div class="ttdoc">Main audit trail management class</div><div class="ttdef"><b>Definition</b> audit_trail.h:86</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_a00d290911817c842e2f8e8709e270aa6"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#a00d290911817c842e2f8e8709e270aa6">sqlcc::AuditTrail::generate_compliance_report</a></div><div class="ttdeci">std::string generate_compliance_report(const std::chrono::system_clock::time_point &amp;start_time, const std::chrono::system_clock::time_point &amp;end_time)</div><div class="ttdoc">Generate compliance report</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:170</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_a01f0c5931c51a3215444e16d80dfa7d3"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#a01f0c5931c51a3215444e16d80dfa7d3">sqlcc::AuditTrail::mutex_</a></div><div class="ttdeci">std::mutex mutex_</div><div class="ttdoc">Mutex for thread safety</div><div class="ttdef"><b>Definition</b> audit_trail.h:201</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_a197ba601b94e30b8f1c44834a95ee67e"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#a197ba601b94e30b8f1c44834a95ee67e">sqlcc::AuditTrail::persist_entries</a></div><div class="ttdeci">bool persist_entries()</div><div class="ttdoc">Persist all audit entries to storage</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:257</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_a1c6dd00c8b1131f5b84dce02999ff014"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#a1c6dd00c8b1131f5b84dce02999ff014">sqlcc::AuditTrail::get_entries</a></div><div class="ttdeci">std::vector&lt; AuditEntry &gt; get_entries(const std::chrono::system_clock::time_point &amp;start_time, const std::chrono::system_clock::time_point &amp;end_time)</div><div class="ttdoc">Retrieve audit entries within a time range</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:118</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_a3a71d1d2f2c32ef604e3710921600c94"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#a3a71d1d2f2c32ef604e3710921600c94">sqlcc::AuditTrail::get_entries_by_type</a></div><div class="ttdeci">std::vector&lt; AuditEntry &gt; get_entries_by_type(AuditEntry::AuditEventType event_type, size_t limit=100)</div><div class="ttdoc">Retrieve audit entries by event type</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:152</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_a3ba5d8e4761e3064afca1325ee403d74"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#a3ba5d8e4761e3064afca1325ee403d74">sqlcc::AuditTrail::get_total_entries</a></div><div class="ttdeci">size_t get_total_entries() const</div><div class="ttdoc">Get total number of audit entries</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:230</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_a4290048540c8cab7881cb575448786c2"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#a4290048540c8cab7881cb575448786c2">sqlcc::AuditTrail::persist_entry</a></div><div class="ttdeci">bool persist_entry(const AuditEntry &amp;entry)</div><div class="ttdoc">Persist audit entry to storage</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:245</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_a4c97fabb08324e9678293ecff45f1275"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#a4c97fabb08324e9678293ecff45f1275">sqlcc::AuditTrail::get_entries_for_user</a></div><div class="ttdeci">std::vector&lt; AuditEntry &gt; get_entries_for_user(const std::string &amp;user_name, size_t limit=100)</div><div class="ttdoc">Retrieve audit entries for a specific user</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:134</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_a7a7e907b8dec848d601368ebb1ea13ba"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#a7a7e907b8dec848d601368ebb1ea13ba">sqlcc::AuditTrail::load_entries</a></div><div class="ttdeci">bool load_entries()</div><div class="ttdoc">Load audit entries from storage</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:251</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_a92cd893f3aea1d058cf260c938cbd92b"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#a92cd893f3aea1d058cf260c938cbd92b">sqlcc::AuditTrail::set_enabled</a></div><div class="ttdeci">void set_enabled(bool enabled)</div><div class="ttdoc">Enable or disable audit trail</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:240</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_aa4375626b44c12f11202eff4b46aa21d"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#aa4375626b44c12f11202eff4b46aa21d">sqlcc::AuditTrail::shutdown</a></div><div class="ttdeci">void shutdown()</div><div class="ttdoc">Shutdown the audit trail system</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:88</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_ab01887ea20131d20f1367d06e9ea5c6e"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#ab01887ea20131d20f1367d06e9ea5c6e">sqlcc::AuditTrail::~AuditTrail</a></div><div class="ttdeci">~AuditTrail()</div><div class="ttdoc">Destructor</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:78</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_ab1d31f2ead43c6bcf75288d2a39c8adc"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#ab1d31f2ead43c6bcf75288d2a39c8adc">sqlcc::AuditTrail::MAX_ENTRIES</a></div><div class="ttdeci">static constexpr size_t MAX_ENTRIES</div><div class="ttdoc">Maximum number of entries to keep in memory</div><div class="ttdef"><b>Definition</b> audit_trail.h:211</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_abd05815f53d788b1340f627dd344e554"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#abd05815f53d788b1340f627dd344e554">sqlcc::AuditTrail::audit_entries_</a></div><div class="ttdeci">std::vector&lt; AuditEntry &gt; audit_entries_</div><div class="ttdoc">Internal storage for audit entries</div><div class="ttdef"><b>Definition</b> audit_trail.h:196</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_ac440eaf4c7712ea65e7e7ea0d6d803aa"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#ac440eaf4c7712ea65e7e7ea0d6d803aa">sqlcc::AuditTrail::enabled_</a></div><div class="ttdeci">bool enabled_</div><div class="ttdoc">Whether audit trail is enabled</div><div class="ttdef"><b>Definition</b> audit_trail.h:206</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_ad9dc15f36b04ccb8af64c32925dffc68"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#ad9dc15f36b04ccb8af64c32925dffc68">sqlcc::AuditTrail::AuditTrail</a></div><div class="ttdeci">AuditTrail()</div><div class="ttdoc">Constructor</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:74</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_af815df93ad6ee1a6d678be8539442a2a"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#af815df93ad6ee1a6d678be8539442a2a">sqlcc::AuditTrail::is_enabled</a></div><div class="ttdeci">bool is_enabled() const</div><div class="ttdoc">Check if audit trail is enabled</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:235</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_afb07ab9a53c5a7346a4a1b33ec1725de"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#afb07ab9a53c5a7346a4a1b33ec1725de">sqlcc::AuditTrail::initialize</a></div><div class="ttdeci">bool initialize()</div><div class="ttdoc">Initialize the audit trail system</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:82</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_afb76099be9937fc962c8121feca8de1d"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#afb76099be9937fc962c8121feca8de1d">sqlcc::AuditTrail::record_event</a></div><div class="ttdeci">bool record_event(const AuditEntry &amp;event)</div><div class="ttdoc">Record an audit event</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:94</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AuditTrail_html_afece8c067444087bda73cd84ad60a6e2"><div class="ttname"><a href="classsqlcc_1_1AuditTrail.html#afece8c067444087bda73cd84ad60a6e2">sqlcc::AuditTrail::clear_old_entries</a></div><div class="ttdeci">size_t clear_old_entries(int retention_days)</div><div class="ttdoc">Clear old audit entries</div><div class="ttdef"><b>Definition</b> audit_trail.cpp:210</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

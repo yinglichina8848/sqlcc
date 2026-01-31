@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::execution::DMLWithTriggerTask类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1execution.html">execution</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html">DMLWithTriggerTask</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1execution_1_1DMLWithTriggerTask-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::execution::DMLWithTriggerTask类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>DML操作任务类（包含触发器）  
+ <a href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="procedure__trigger__task_8h_source.html">procedure_trigger_task.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::execution::DMLWithTriggerTask 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1execution_1_1DMLWithTriggerTask__inherit__graph.png" border="0" usemap="#asqlcc_1_1execution_1_1DMLWithTriggerTask_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1execution_1_1DMLWithTriggerTask_inherit__map" id="asqlcc_1_1execution_1_1DMLWithTriggerTask_inherit__map">
+<area shape="rect" title="DML操作任务类（包含触发器）" alt="" coords="5,79,197,119"/>
+<area shape="rect" href="classsqlcc_1_1Task.html" title=" " alt="" coords="55,5,147,31"/>
+<area shape="poly" title=" " alt="" coords="104,44,104,79,99,79,99,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<div class="dynheader">
+sqlcc::execution::DMLWithTriggerTask 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1execution_1_1DMLWithTriggerTask__coll__graph.png" border="0" usemap="#asqlcc_1_1execution_1_1DMLWithTriggerTask_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1execution_1_1DMLWithTriggerTask_coll__map" id="asqlcc_1_1execution_1_1DMLWithTriggerTask_coll__map">
+<area shape="rect" title="DML操作任务类（包含触发器）" alt="" coords="5,79,197,119"/>
+<area shape="rect" href="classsqlcc_1_1Task.html" title=" " alt="" coords="55,5,147,31"/>
+<area shape="poly" title=" " alt="" coords="104,44,104,79,99,79,99,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a9d8d150e0a2c9bf3a2f5ffb94ce57bbe" id="r_a9d8d150e0a2c9bf3a2f5ffb94ce57bbe"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbe">DMLType</a> { <a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbeaa2d09545510a7f56b42a8c4f244472eb">INSERT</a>
+, <a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbeaac28d976fcd5b00f1368dc7bfe955e87">UPDATE</a>
+, <a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbea6c439d32dc7ef3d43b5ea9f92be9d323">DELETE</a>
+ }</td></tr>
+<tr class="separator:a9d8d150e0a2c9bf3a2f5ffb94ce57bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a8d1641faaa96e2b802d9cc234e03dca2" id="r_a8d1641faaa96e2b802d9cc234e03dca2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a8d1641faaa96e2b802d9cc234e03dca2">DMLWithTriggerTask</a> (const std::string &amp;task_id, <a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbe">DMLType</a> type, std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt; stmt)</td></tr>
+<tr class="separator:a8d1641faaa96e2b802d9cc234e03dca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d3652c9d58abedd54d5311996922cbb" id="r_a8d3652c9d58abedd54d5311996922cbb"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a8d3652c9d58abedd54d5311996922cbb">~DMLWithTriggerTask</a> ()=default</td></tr>
+<tr class="separator:a8d3652c9d58abedd54d5311996922cbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b4abeb23e72c915aa96f4d008899d42" id="r_a0b4abeb23e72c915aa96f4d008899d42"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TaskResult.html">TaskResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a0b4abeb23e72c915aa96f4d008899d42">execute</a> () override</td></tr>
+<tr class="separator:a0b4abeb23e72c915aa96f4d008899d42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsqlcc_1_1Task"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsqlcc_1_1Task')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsqlcc_1_1Task.html">sqlcc::Task</a></td></tr>
+<tr class="memitem:a9f808f15a1b316a540dd86ffcff5d102 inherit pub_methods_classsqlcc_1_1Task" id="r_a9f808f15a1b316a540dd86ffcff5d102"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Task.html#a9f808f15a1b316a540dd86ffcff5d102">Task</a> ()</td></tr>
+<tr class="separator:a9f808f15a1b316a540dd86ffcff5d102 inherit pub_methods_classsqlcc_1_1Task"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad0a4af0d7e28ab2bc7ce80965dbff07 inherit pub_methods_classsqlcc_1_1Task" id="r_aad0a4af0d7e28ab2bc7ce80965dbff07"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Task.html#aad0a4af0d7e28ab2bc7ce80965dbff07">Task</a> (const std::string &amp;task_id, <a class="el" href="namespacesqlcc.html#ac31c369593b5ec87cad6620a3f2d8eb0">TaskType</a> type, int priority=0)</td></tr>
+<tr class="separator:aad0a4af0d7e28ab2bc7ce80965dbff07 inherit pub_methods_classsqlcc_1_1Task"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f34b18e0c1629c07bc825673cb157a4 inherit pub_methods_classsqlcc_1_1Task" id="r_a6f34b18e0c1629c07bc825673cb157a4"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Task.html#a6f34b18e0c1629c07bc825673cb157a4">~Task</a> ()=default</td></tr>
+<tr class="separator:a6f34b18e0c1629c07bc825673cb157a4 inherit pub_methods_classsqlcc_1_1Task"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76907d89f2cfb8ff4e5de1e9f77f0cfe inherit pub_methods_classsqlcc_1_1Task" id="r_a76907d89f2cfb8ff4e5de1e9f77f0cfe"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Task.html#a76907d89f2cfb8ff4e5de1e9f77f0cfe">getDescription</a> () const</td></tr>
+<tr class="separator:a76907d89f2cfb8ff4e5de1e9f77f0cfe inherit pub_methods_classsqlcc_1_1Task"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12d3fc9431ada45c010103489d8987ed inherit pub_methods_classsqlcc_1_1Task" id="r_a12d3fc9431ada45c010103489d8987ed"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespacesqlcc.html#af5d433080382f336cdc6776044b9128e">TaskPriority</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Task.html#a12d3fc9431ada45c010103489d8987ed">getPriority</a> () const</td></tr>
+<tr class="separator:a12d3fc9431ada45c010103489d8987ed inherit pub_methods_classsqlcc_1_1Task"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ccada518a1b6d2087caeb78ed359308 inherit pub_methods_classsqlcc_1_1Task" id="r_a9ccada518a1b6d2087caeb78ed359308"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Task.html#a9ccada518a1b6d2087caeb78ed359308">getTaskId</a> () const</td></tr>
+<tr class="separator:a9ccada518a1b6d2087caeb78ed359308 inherit pub_methods_classsqlcc_1_1Task"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00b2cc34f2ae377115e3cfd0159542f5 inherit pub_methods_classsqlcc_1_1Task" id="r_a00b2cc34f2ae377115e3cfd0159542f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#ac31c369593b5ec87cad6620a3f2d8eb0">TaskType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Task.html#a00b2cc34f2ae377115e3cfd0159542f5">getTaskType</a> () const</td></tr>
+<tr class="separator:a00b2cc34f2ae377115e3cfd0159542f5 inherit pub_methods_classsqlcc_1_1Task"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f6c9d06b5af018a08bcac11ba8d2994 inherit pub_methods_classsqlcc_1_1Task" id="r_a6f6c9d06b5af018a08bcac11ba8d2994"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Task.html#a6f6c9d06b5af018a08bcac11ba8d2994">getPriorityValue</a> () const</td></tr>
+<tr class="separator:a6f6c9d06b5af018a08bcac11ba8d2994 inherit pub_methods_classsqlcc_1_1Task"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8b875997e32c10d7d2f8467c2618a8c inherit pub_methods_classsqlcc_1_1Task" id="r_ae8b875997e32c10d7d2f8467c2618a8c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Task.html#ae8b875997e32c10d7d2f8467c2618a8c">isCompleted</a> () const</td></tr>
+<tr class="separator:ae8b875997e32c10d7d2f8467c2618a8c inherit pub_methods_classsqlcc_1_1Task"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5596d83090005b58e17f5c6e30eb691 inherit pub_methods_classsqlcc_1_1Task" id="r_ae5596d83090005b58e17f5c6e30eb691"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Task.html#ae5596d83090005b58e17f5c6e30eb691">setTaskId</a> (const std::string &amp;task_id)</td></tr>
+<tr class="separator:ae5596d83090005b58e17f5c6e30eb691 inherit pub_methods_classsqlcc_1_1Task"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:ad01f0c127a11f31c7333ee1a65bf5728" id="r_ad01f0c127a11f31c7333ee1a65bf5728"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbe">DMLType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#ad01f0c127a11f31c7333ee1a65bf5728">type_</a></td></tr>
+<tr class="separator:ad01f0c127a11f31c7333ee1a65bf5728"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5272d2a3ba966f063934486a02b404b" id="r_ad5272d2a3ba966f063934486a02b404b"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#ad5272d2a3ba966f063934486a02b404b">stmt_</a></td></tr>
+<tr class="separator:ad5272d2a3ba966f063934486a02b404b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>DML操作任务类（包含触发器） </p>
+<p>处理包含触发器的INSERT/UPDATE/DELETE操作 </p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a9d8d150e0a2c9bf3a2f5ffb94ce57bbe" name="a9d8d150e0a2c9bf3a2f5ffb94ce57bbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d8d150e0a2c9bf3a2f5ffb94ce57bbe">&#9670;&#160;</a></span>DMLType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbe">sqlcc::execution::DMLWithTriggerTask::DMLType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a9d8d150e0a2c9bf3a2f5ffb94ce57bbeaa2d09545510a7f56b42a8c4f244472eb" name="a9d8d150e0a2c9bf3a2f5ffb94ce57bbeaa2d09545510a7f56b42a8c4f244472eb"></a>INSERT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9d8d150e0a2c9bf3a2f5ffb94ce57bbeaac28d976fcd5b00f1368dc7bfe955e87" name="a9d8d150e0a2c9bf3a2f5ffb94ce57bbeaac28d976fcd5b00f1368dc7bfe955e87"></a>UPDATE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9d8d150e0a2c9bf3a2f5ffb94ce57bbea6c439d32dc7ef3d43b5ea9f92be9d323" name="a9d8d150e0a2c9bf3a2f5ffb94ce57bbea6c439d32dc7ef3d43b5ea9f92be9d323"></a>DELETE&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a8d1641faaa96e2b802d9cc234e03dca2" name="a8d1641faaa96e2b802d9cc234e03dca2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d1641faaa96e2b802d9cc234e03dca2">&#9670;&#160;</a></span>DMLWithTriggerTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::execution::DMLWithTriggerTask::DMLWithTriggerTask </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>task_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbe">DMLType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt;&#160;</td>
+          <td class="paramname"><em>stmt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8d3652c9d58abedd54d5311996922cbb" name="a8d3652c9d58abedd54d5311996922cbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d3652c9d58abedd54d5311996922cbb">&#9670;&#160;</a></span>~DMLWithTriggerTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual sqlcc::execution::DMLWithTriggerTask::~DMLWithTriggerTask </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a0b4abeb23e72c915aa96f4d008899d42" name="a0b4abeb23e72c915aa96f4d008899d42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b4abeb23e72c915aa96f4d008899d42">&#9670;&#160;</a></span>execute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TaskResult.html">TaskResult</a> &gt; sqlcc::execution::DMLWithTriggerTask::execute </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1Task.html#a8705dd247c7f3741fb5b100f0453eaf7">sqlcc::Task</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ad5272d2a3ba966f063934486a02b404b" name="ad5272d2a3ba966f063934486a02b404b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5272d2a3ba966f063934486a02b404b">&#9670;&#160;</a></span>stmt_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a>&gt; sqlcc::execution::DMLWithTriggerTask::stmt_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad01f0c127a11f31c7333ee1a65bf5728" name="ad01f0c127a11f31c7333ee1a65bf5728"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad01f0c127a11f31c7333ee1a65bf5728">&#9670;&#160;</a></span>type_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbe">DMLType</a> sqlcc::execution::DMLWithTriggerTask::type_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="procedure__trigger__task_8h_source.html">procedure_trigger_task.h</a></li>
+<li><a class="el" href="procedure__trigger__task_8cpp.html">procedure_trigger_task.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

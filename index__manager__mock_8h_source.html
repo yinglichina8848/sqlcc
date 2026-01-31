@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: index_manager_mock.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_96e7e2b482a7ad21f14d30b126e4a026.html">mocks</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">index_manager_mock.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="index__manager__mock_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="storage_2index__manager_8h.html">storage/index_manager.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span>mocks {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="};">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html">   22</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html">IndexManagerMock</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1IndexManager.html">IndexManager</a> {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <a class="code hl_class" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html">IndexManagerMock</a>(std::shared_ptr&lt;StorageEngine&gt; storage_engine, <a class="code hl_class" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a8ee8fb19b21d1fc48dd965a8c3679fc7">~IndexManagerMock</a>();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="comment">// 禁止拷贝</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#ad06468258f4d0982cb4f9968b503b70e">   37</a></span>    <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#ad06468258f4d0982cb4f9968b503b70e">IndexManagerMock</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html">IndexManagerMock</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a8cd880766dd7cf3813dc36b8158c9855">   38</a></span>    <a class="code hl_class" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html">IndexManagerMock</a>&amp; <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a8cd880766dd7cf3813dc36b8158c9855">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html">IndexManagerMock</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="comment">// Mock配置方法</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a25c2af2810106e6f76f8633db34ab0c8">SetCreateIndexResult</a>(<span class="keywordtype">bool</span> success);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a1a6967aa8f066fe32a7d447869e8f9c7">SetCreateCompositeIndexResult</a>(<span class="keywordtype">bool</span> success);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#acfd8467bcd6b25d2c40971e136fb13d1">SetDropIndexResult</a>(<span class="keywordtype">bool</span> success);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#aaa58220011a1d4eac24734d1a1eed0b4">SetIndexExistsResult</a>(<span class="keywordtype">bool</span> exists);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a133b7b26544a1b198c081d8599cdc953">SetGetIndexResult</a>(<a class="code hl_class" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a>* index);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a34f3b1cda041e180c9d4a92f7321f36b">SetGetTableIndexesResult</a>(<span class="keyword">const</span> std::vector&lt;BPlusTreeIndex*&gt;&amp; indexes);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#ae0153f0f931116a00938a95644e4b41f">SetGetIndexedColumnsResult</a>(<span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; columns);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a4187b6ff19eb2886c258d23427f6bb71">SetGetCompositeIndexedColumnsResult</a>(<span class="keyword">const</span> std::vector&lt;std::vector&lt;std::string&gt;&gt;&amp; columns);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#ab4e4a6bc57422bb2fe451eba838f88b4">SetGetIndexNameResult</a>(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a9547816838b9292e64f28aeee23be423">SetGetCompositeIndexNameResult</a>(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="comment">// 调用历史记录</span></div>
+<div class="foldopen" id="foldopen00053" data-start="{" data-end="};">
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="structsqlcc_1_1mocks_1_1IndexManagerMock_1_1CallRecord.html">   53</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1mocks_1_1IndexManagerMock_1_1CallRecord.html">CallRecord</a> {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="structsqlcc_1_1mocks_1_1IndexManagerMock_1_1CallRecord.html#a7d0a404eff077b22a3f22997c998ef1e">   54</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1mocks_1_1IndexManagerMock_1_1CallRecord.html#a7d0a404eff077b22a3f22997c998ef1e">method_name</a>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="structsqlcc_1_1mocks_1_1IndexManagerMock_1_1CallRecord.html#a914324ee30eae44f2a6d3addd4fd38a6">   55</a></span>        std::vector&lt;std::string&gt; <a class="code hl_variable" href="structsqlcc_1_1mocks_1_1IndexManagerMock_1_1CallRecord.html#a914324ee30eae44f2a6d3addd4fd38a6">args</a>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    };</div>
+</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#af05329b1cdaeaffee56c6f68967186bb">   58</a></span>    <span class="keyword">const</span> std::vector&lt;CallRecord&gt;&amp; <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#af05329b1cdaeaffee56c6f68967186bb">GetCallHistory</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a181a8b1fff40f6b0af2aeb26f30baaee">call_history_</a>; }</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a2a42aefc006810c8366a224ed232586c">   59</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a2a42aefc006810c8366a224ed232586c">ClearCallHistory</a>() { <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a181a8b1fff40f6b0af2aeb26f30baaee">call_history_</a>.clear(); }</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="comment">// 重写IndexManager接口方法</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#ad7cde922a9078fb8241d72d81fdf9ba6">CreateIndex</a>(<span class="keyword">const</span> std::string &amp;index_name, <span class="keyword">const</span> std::string &amp;table_name,</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                    <span class="keyword">const</span> std::string &amp;column_name, <span class="keywordtype">bool</span> unique = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a9eec3efde8fb3a053da963f7cd2ffd11">CreateCompositeIndex</a>(<span class="keyword">const</span> std::string &amp;index_name,</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                             <span class="keyword">const</span> std::string &amp;table_name,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                             <span class="keyword">const</span> std::vector&lt;std::string&gt; &amp;columns,</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                             <span class="keywordtype">bool</span> unique = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a5087553f53003c830c6cb07f2f7884d1">DropIndex</a>(<span class="keyword">const</span> std::string &amp;index_name, <span class="keyword">const</span> std::string &amp;table_name);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a0cd6437e1b7e4c753e1ea246acbaa5d3">IndexExists</a>(<span class="keyword">const</span> std::string &amp;index_name,</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                    <span class="keyword">const</span> std::string &amp;table_name) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <a class="code hl_class" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> *<a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a14611d7aeb24b66ecb3b57b7b3d33557">GetIndex</a>(<span class="keyword">const</span> std::string &amp;index_name,</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                            <span class="keyword">const</span> std::string &amp;table_name);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    std::vector&lt;BPlusTreeIndex *&gt; <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#aa9d90e65a19186c87633ccd882092a6d">GetTableIndexes</a>(<span class="keyword">const</span> std::string &amp;table_name) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a33f7758cd0f8fd620f2f2bd5ffd92864">GetIndexedColumns</a>(<span class="keyword">const</span> std::string &amp;table_name) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    std::vector&lt;std::vector&lt;std::string&gt;&gt; <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a6ace17b86eae3faf781880897363bd18">GetCompositeIndexedColumns</a>(<span class="keyword">const</span> std::string &amp;table_name) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    std::string <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a74f3d141d8052ba8893472faa3e2f0ef">GetIndexName</a>(<span class="keyword">const</span> std::string &amp;table_name,</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                            <span class="keyword">const</span> std::string &amp;column_name) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    std::string <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a04cb116f24c21d4eaa20d5212ef48df1">GetCompositeIndexName</a>(<span class="keyword">const</span> std::string &amp;table_name,</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>                                     <span class="keyword">const</span> std::vector&lt;std::string&gt; &amp;columns) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#abf3ae12b22326a53b38424c89270fa8c">RecordCall</a>(<span class="keyword">const</span> std::string&amp; method, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; args = {}) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="comment">// Mock配置</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a4fb655445d56e584a8e2f19ad0feeaaf">   85</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a4fb655445d56e584a8e2f19ad0feeaaf">create_index_success_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a61fe080375c17baaf2b7f944970aeefc">   86</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a61fe080375c17baaf2b7f944970aeefc">create_composite_index_success_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#acf140bb1b04660fb80e2587f4a1c298d">   87</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#acf140bb1b04660fb80e2587f4a1c298d">drop_index_success_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a8ba0b986a754909e8d78c6b181e630bc">   88</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a8ba0b986a754909e8d78c6b181e630bc">index_exists_result_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a38aacf7bb7bf72ab06f3ac6f87fede17">   89</a></span>    <a class="code hl_class" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a>* <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a38aacf7bb7bf72ab06f3ac6f87fede17">get_index_result_</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#aec580170d025e23e5ea9c2d347214380">   90</a></span>    std::vector&lt;BPlusTreeIndex*&gt; <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#aec580170d025e23e5ea9c2d347214380">get_table_indexes_result_</a>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#abf010a83c1384ad8d799ea4d1ddc8c9a">   91</a></span>    std::vector&lt;std::string&gt; <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#abf010a83c1384ad8d799ea4d1ddc8c9a">get_indexed_columns_result_</a>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a1e417ea2f83567c10f9b72a3b978fdc0">   92</a></span>    std::vector&lt;std::vector&lt;std::string&gt;&gt; <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a1e417ea2f83567c10f9b72a3b978fdc0">get_composite_indexed_columns_result_</a>;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a49c8035a8815941a7cd360480f17f333">   93</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a49c8035a8815941a7cd360480f17f333">get_index_name_result_</a> = <span class="stringliteral">&quot;mock_index_name&quot;</span>;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a8e3188b1e30d3a53cd741b2416502307">   94</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a8e3188b1e30d3a53cd741b2416502307">get_composite_index_name_result_</a> = <span class="stringliteral">&quot;mock_composite_index_name&quot;</span>;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="comment">// 调用历史</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a181a8b1fff40f6b0af2aeb26f30baaee">   97</a></span>    <span class="keyword">mutable</span> std::vector&lt;CallRecord&gt; <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a181a8b1fff40f6b0af2aeb26f30baaee">call_history_</a>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>};</div>
+</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>} <span class="comment">// namespace mocks</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_MOCKS_INDEX_MANAGER_MOCK_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeIndex_html"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeIndex.html">sqlcc::BPlusTreeIndex</a></div><div class="ttdoc">B+树索引类</div><div class="ttdef"><b>Definition</b> storage/b_plus_tree.h:112</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigManager_html"><div class="ttname"><a href="classsqlcc_1_1ConfigManager.html">sqlcc::ConfigManager</a></div><div class="ttdef"><b>Definition</b> config_manager.h:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1IndexManager_html"><div class="ttname"><a href="classsqlcc_1_1IndexManager.html">sqlcc::IndexManager</a></div><div class="ttdef"><b>Definition</b> storage/index_manager.h:18</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html">sqlcc::mocks::IndexManagerMock</a></div><div class="ttdoc">IndexManager Mock类，用于单元测试</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:22</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a04cb116f24c21d4eaa20d5212ef48df1"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a04cb116f24c21d4eaa20d5212ef48df1">sqlcc::mocks::IndexManagerMock::GetCompositeIndexName</a></div><div class="ttdeci">std::string GetCompositeIndexName(const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;columns) const</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:114</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a0cd6437e1b7e4c753e1ea246acbaa5d3"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a0cd6437e1b7e4c753e1ea246acbaa5d3">sqlcc::mocks::IndexManagerMock::IndexExists</a></div><div class="ttdeci">bool IndexExists(const std::string &amp;index_name, const std::string &amp;table_name) const</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:84</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a133b7b26544a1b198c081d8599cdc953"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a133b7b26544a1b198c081d8599cdc953">sqlcc::mocks::IndexManagerMock::SetGetIndexResult</a></div><div class="ttdeci">void SetGetIndexResult(BPlusTreeIndex *index)</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:33</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a14611d7aeb24b66ecb3b57b7b3d33557"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a14611d7aeb24b66ecb3b57b7b3d33557">sqlcc::mocks::IndexManagerMock::GetIndex</a></div><div class="ttdeci">BPlusTreeIndex * GetIndex(const std::string &amp;index_name, const std::string &amp;table_name)</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:89</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a181a8b1fff40f6b0af2aeb26f30baaee"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a181a8b1fff40f6b0af2aeb26f30baaee">sqlcc::mocks::IndexManagerMock::call_history_</a></div><div class="ttdeci">std::vector&lt; CallRecord &gt; call_history_</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:97</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a1a6967aa8f066fe32a7d447869e8f9c7"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a1a6967aa8f066fe32a7d447869e8f9c7">sqlcc::mocks::IndexManagerMock::SetCreateCompositeIndexResult</a></div><div class="ttdeci">void SetCreateCompositeIndexResult(bool success)</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:21</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a1e417ea2f83567c10f9b72a3b978fdc0"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a1e417ea2f83567c10f9b72a3b978fdc0">sqlcc::mocks::IndexManagerMock::get_composite_indexed_columns_result_</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; std::string &gt; &gt; get_composite_indexed_columns_result_</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:92</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a25c2af2810106e6f76f8633db34ab0c8"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a25c2af2810106e6f76f8633db34ab0c8">sqlcc::mocks::IndexManagerMock::SetCreateIndexResult</a></div><div class="ttdeci">void SetCreateIndexResult(bool success)</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:17</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a2a42aefc006810c8366a224ed232586c"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a2a42aefc006810c8366a224ed232586c">sqlcc::mocks::IndexManagerMock::ClearCallHistory</a></div><div class="ttdeci">void ClearCallHistory()</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:59</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a33f7758cd0f8fd620f2f2bd5ffd92864"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a33f7758cd0f8fd620f2f2bd5ffd92864">sqlcc::mocks::IndexManagerMock::GetIndexedColumns</a></div><div class="ttdeci">std::vector&lt; std::string &gt; GetIndexedColumns(const std::string &amp;table_name) const</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:99</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a34f3b1cda041e180c9d4a92f7321f36b"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a34f3b1cda041e180c9d4a92f7321f36b">sqlcc::mocks::IndexManagerMock::SetGetTableIndexesResult</a></div><div class="ttdeci">void SetGetTableIndexesResult(const std::vector&lt; BPlusTreeIndex * &gt; &amp;indexes)</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:37</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a38aacf7bb7bf72ab06f3ac6f87fede17"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a38aacf7bb7bf72ab06f3ac6f87fede17">sqlcc::mocks::IndexManagerMock::get_index_result_</a></div><div class="ttdeci">BPlusTreeIndex * get_index_result_</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:89</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a4187b6ff19eb2886c258d23427f6bb71"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a4187b6ff19eb2886c258d23427f6bb71">sqlcc::mocks::IndexManagerMock::SetGetCompositeIndexedColumnsResult</a></div><div class="ttdeci">void SetGetCompositeIndexedColumnsResult(const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;columns)</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:45</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a49c8035a8815941a7cd360480f17f333"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a49c8035a8815941a7cd360480f17f333">sqlcc::mocks::IndexManagerMock::get_index_name_result_</a></div><div class="ttdeci">std::string get_index_name_result_</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:93</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a4fb655445d56e584a8e2f19ad0feeaaf"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a4fb655445d56e584a8e2f19ad0feeaaf">sqlcc::mocks::IndexManagerMock::create_index_success_</a></div><div class="ttdeci">bool create_index_success_</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:85</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a5087553f53003c830c6cb07f2f7884d1"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a5087553f53003c830c6cb07f2f7884d1">sqlcc::mocks::IndexManagerMock::DropIndex</a></div><div class="ttdeci">bool DropIndex(const std::string &amp;index_name, const std::string &amp;table_name)</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:79</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a61fe080375c17baaf2b7f944970aeefc"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a61fe080375c17baaf2b7f944970aeefc">sqlcc::mocks::IndexManagerMock::create_composite_index_success_</a></div><div class="ttdeci">bool create_composite_index_success_</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:86</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a6ace17b86eae3faf781880897363bd18"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a6ace17b86eae3faf781880897363bd18">sqlcc::mocks::IndexManagerMock::GetCompositeIndexedColumns</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; std::string &gt; &gt; GetCompositeIndexedColumns(const std::string &amp;table_name) const</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:104</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a74f3d141d8052ba8893472faa3e2f0ef"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a74f3d141d8052ba8893472faa3e2f0ef">sqlcc::mocks::IndexManagerMock::GetIndexName</a></div><div class="ttdeci">std::string GetIndexName(const std::string &amp;table_name, const std::string &amp;column_name) const</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:109</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a8ba0b986a754909e8d78c6b181e630bc"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a8ba0b986a754909e8d78c6b181e630bc">sqlcc::mocks::IndexManagerMock::index_exists_result_</a></div><div class="ttdeci">bool index_exists_result_</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:88</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a8cd880766dd7cf3813dc36b8158c9855"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a8cd880766dd7cf3813dc36b8158c9855">sqlcc::mocks::IndexManagerMock::operator=</a></div><div class="ttdeci">IndexManagerMock &amp; operator=(const IndexManagerMock &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a8e3188b1e30d3a53cd741b2416502307"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a8e3188b1e30d3a53cd741b2416502307">sqlcc::mocks::IndexManagerMock::get_composite_index_name_result_</a></div><div class="ttdeci">std::string get_composite_index_name_result_</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:94</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a8ee8fb19b21d1fc48dd965a8c3679fc7"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a8ee8fb19b21d1fc48dd965a8c3679fc7">sqlcc::mocks::IndexManagerMock::~IndexManagerMock</a></div><div class="ttdeci">~IndexManagerMock()</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:12</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a9547816838b9292e64f28aeee23be423"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a9547816838b9292e64f28aeee23be423">sqlcc::mocks::IndexManagerMock::SetGetCompositeIndexNameResult</a></div><div class="ttdeci">void SetGetCompositeIndexNameResult(const std::string &amp;name)</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:53</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_a9eec3efde8fb3a053da963f7cd2ffd11"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#a9eec3efde8fb3a053da963f7cd2ffd11">sqlcc::mocks::IndexManagerMock::CreateCompositeIndex</a></div><div class="ttdeci">bool CreateCompositeIndex(const std::string &amp;index_name, const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;columns, bool unique=false)</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:64</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_aa9d90e65a19186c87633ccd882092a6d"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#aa9d90e65a19186c87633ccd882092a6d">sqlcc::mocks::IndexManagerMock::GetTableIndexes</a></div><div class="ttdeci">std::vector&lt; BPlusTreeIndex * &gt; GetTableIndexes(const std::string &amp;table_name) const</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:94</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_aaa58220011a1d4eac24734d1a1eed0b4"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#aaa58220011a1d4eac24734d1a1eed0b4">sqlcc::mocks::IndexManagerMock::SetIndexExistsResult</a></div><div class="ttdeci">void SetIndexExistsResult(bool exists)</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:29</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_ab4e4a6bc57422bb2fe451eba838f88b4"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#ab4e4a6bc57422bb2fe451eba838f88b4">sqlcc::mocks::IndexManagerMock::SetGetIndexNameResult</a></div><div class="ttdeci">void SetGetIndexNameResult(const std::string &amp;name)</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:49</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_abf010a83c1384ad8d799ea4d1ddc8c9a"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#abf010a83c1384ad8d799ea4d1ddc8c9a">sqlcc::mocks::IndexManagerMock::get_indexed_columns_result_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; get_indexed_columns_result_</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:91</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_abf3ae12b22326a53b38424c89270fa8c"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#abf3ae12b22326a53b38424c89270fa8c">sqlcc::mocks::IndexManagerMock::RecordCall</a></div><div class="ttdeci">void RecordCall(const std::string &amp;method, const std::vector&lt; std::string &gt; &amp;args={}) const</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:127</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_acf140bb1b04660fb80e2587f4a1c298d"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#acf140bb1b04660fb80e2587f4a1c298d">sqlcc::mocks::IndexManagerMock::drop_index_success_</a></div><div class="ttdeci">bool drop_index_success_</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:87</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_acfd8467bcd6b25d2c40971e136fb13d1"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#acfd8467bcd6b25d2c40971e136fb13d1">sqlcc::mocks::IndexManagerMock::SetDropIndexResult</a></div><div class="ttdeci">void SetDropIndexResult(bool success)</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:25</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_ad06468258f4d0982cb4f9968b503b70e"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#ad06468258f4d0982cb4f9968b503b70e">sqlcc::mocks::IndexManagerMock::IndexManagerMock</a></div><div class="ttdeci">IndexManagerMock(const IndexManagerMock &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_ad7cde922a9078fb8241d72d81fdf9ba6"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#ad7cde922a9078fb8241d72d81fdf9ba6">sqlcc::mocks::IndexManagerMock::CreateIndex</a></div><div class="ttdeci">bool CreateIndex(const std::string &amp;index_name, const std::string &amp;table_name, const std::string &amp;column_name, bool unique=false)</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:58</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_ae0153f0f931116a00938a95644e4b41f"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#ae0153f0f931116a00938a95644e4b41f">sqlcc::mocks::IndexManagerMock::SetGetIndexedColumnsResult</a></div><div class="ttdeci">void SetGetIndexedColumnsResult(const std::vector&lt; std::string &gt; &amp;columns)</div><div class="ttdef"><b>Definition</b> index_manager_mock.cpp:41</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_aec580170d025e23e5ea9c2d347214380"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#aec580170d025e23e5ea9c2d347214380">sqlcc::mocks::IndexManagerMock::get_table_indexes_result_</a></div><div class="ttdeci">std::vector&lt; BPlusTreeIndex * &gt; get_table_indexes_result_</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:90</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1IndexManagerMock_html_af05329b1cdaeaffee56c6f68967186bb"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1IndexManagerMock.html#af05329b1cdaeaffee56c6f68967186bb">sqlcc::mocks::IndexManagerMock::GetCallHistory</a></div><div class="ttdeci">const std::vector&lt; CallRecord &gt; &amp; GetCallHistory() const</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:58</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astorage_2index__manager_8h_html"><div class="ttname"><a href="storage_2index__manager_8h.html">index_manager.h</a></div></div>
+<div class="ttc" id="astructsqlcc_1_1mocks_1_1IndexManagerMock_1_1CallRecord_html"><div class="ttname"><a href="structsqlcc_1_1mocks_1_1IndexManagerMock_1_1CallRecord.html">sqlcc::mocks::IndexManagerMock::CallRecord</a></div><div class="ttdef"><b>Definition</b> index_manager_mock.h:53</div></div>
+<div class="ttc" id="astructsqlcc_1_1mocks_1_1IndexManagerMock_1_1CallRecord_html_a7d0a404eff077b22a3f22997c998ef1e"><div class="ttname"><a href="structsqlcc_1_1mocks_1_1IndexManagerMock_1_1CallRecord.html#a7d0a404eff077b22a3f22997c998ef1e">sqlcc::mocks::IndexManagerMock::CallRecord::method_name</a></div><div class="ttdeci">std::string method_name</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:54</div></div>
+<div class="ttc" id="astructsqlcc_1_1mocks_1_1IndexManagerMock_1_1CallRecord_html_a914324ee30eae44f2a6d3addd4fd38a6"><div class="ttname"><a href="structsqlcc_1_1mocks_1_1IndexManagerMock_1_1CallRecord.html#a914324ee30eae44f2a6d3addd4fd38a6">sqlcc::mocks::IndexManagerMock::CallRecord::args</a></div><div class="ttdeci">std::vector&lt; std::string &gt; args</div><div class="ttdef"><b>Definition</b> index_manager_mock.h:55</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

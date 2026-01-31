@@ -1,0 +1,275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: procedure_trigger_task.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bd0755c95a42e835fb06f38bbeb1d6ed.html">execution</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">procedure_trigger_task.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="procedure__trigger__task_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ast__node_8h.html">sql_parser/ast/ast_node.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#ifndef SQLCC_PROCEDURE_TRIGGER_TASK_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#define SQLCC_PROCEDURE_TRIGGER_TASK_H</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="task__executor_8h.html">execution/task_executor.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="task__result_8h.html">execution/task_result.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="procedure__trigger__executor_8h.html">procedure/procedure_trigger_executor.h</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;sql_parser/ast_nodes.h&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">namespace </span>execution {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00020" data-start="{" data-end="};">
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureCallTask.html">   20</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1execution_1_1ProcedureCallTask.html">ProcedureCallTask</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1Task.html">Task</a> {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <a class="code hl_class" href="classsqlcc_1_1execution_1_1ProcedureCallTask.html">ProcedureCallTask</a>(<span class="keyword">const</span> std::string&amp; task_id, std::unique_ptr&lt;sql_parser::CallProcedureStatement&gt; stmt);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureCallTask.html#a2217bb09bbaa1c446cfe1fb3031fbd25">   23</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1execution_1_1ProcedureCallTask.html#a2217bb09bbaa1c446cfe1fb3031fbd25">~ProcedureCallTask</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    std::shared_ptr&lt;TaskResult&gt; <a class="code hl_function" href="classsqlcc_1_1execution_1_1ProcedureCallTask.html#aaac8fd190ac9968db7d3798c658d7ee3">execute</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureCallTask.html#a3b7d43ffdf3ea0fbd8758e621735b3d2">   28</a></span>    std::unique_ptr&lt;sql_parser::CallProcedureStatement&gt; <a class="code hl_variable" href="classsqlcc_1_1execution_1_1ProcedureCallTask.html#a3b7d43ffdf3ea0fbd8758e621735b3d2">stmt_</a>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>};</div>
+</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="};">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html">   36</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html">TriggerExecuteTask</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1Task.html">Task</a> {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <a class="code hl_class" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html">TriggerExecuteTask</a>(<span class="keyword">const</span> std::string&amp; task_id,</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                      <a class="code hl_enumeration" href="namespacesqlcc_1_1trigger.html#aafc6faa2e7d6c4de2f2a651ed5cb7843">trigger::TriggerTiming</a> timing,</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                      <a class="code hl_enumeration" href="namespacesqlcc_1_1trigger.html#a9048eb6b0f22224de968d97a266c8032">trigger::TriggerEvent</a> event,</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                      <span class="keyword">const</span> std::string&amp; table_name);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a2cfec01fc2b651a2a26a24bcaedd7184">   42</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a2cfec01fc2b651a2a26a24bcaedd7184">~TriggerExecuteTask</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    std::shared_ptr&lt;TaskResult&gt; <a class="code hl_function" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a0cc122982b7821e54e8762cbde960cc4">execute</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#ac31076f778710cc75ebf93bde95c53fe">setRowData</a>(<span class="keyword">const</span> std::vector&lt;trigger::RowData&gt;&amp; old_rows,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                   <span class="keyword">const</span> std::vector&lt;trigger::RowData&gt;&amp; new_rows);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#aacf2047506d2c077d5be49e04dad00fa">   50</a></span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1trigger.html#aafc6faa2e7d6c4de2f2a651ed5cb7843">trigger::TriggerTiming</a> <a class="code hl_variable" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#aacf2047506d2c077d5be49e04dad00fa">timing_</a>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#abed1b019bb23fca8fbefd4e22d77b9a6">   51</a></span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1trigger.html#a9048eb6b0f22224de968d97a266c8032">trigger::TriggerEvent</a> <a class="code hl_variable" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#abed1b019bb23fca8fbefd4e22d77b9a6">event_</a>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a56a26cbfd07376a6ca24457bcd440b64">   52</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a56a26cbfd07376a6ca24457bcd440b64">table_name_</a>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a6876925010eda2ba2b2e7fc26e0c8063">   53</a></span>    std::vector&lt;trigger::RowData&gt; <a class="code hl_variable" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a6876925010eda2ba2b2e7fc26e0c8063">old_rows_</a>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a1f1764de67dc5030c2b9f7c1019dd152">   54</a></span>    std::vector&lt;trigger::RowData&gt; <a class="code hl_variable" href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a1f1764de67dc5030c2b9f7c1019dd152">new_rows_</a>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>};</div>
+</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="foldopen" id="foldopen00062" data-start="{" data-end="};">
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html">   62</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html">ProcedureTriggerCreateTask</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1Task.html">Task</a> {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00064" data-start="{" data-end="};">
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#aef90c4ed5f41256caeba69de9d0852a9">   64</a></span>    <span class="keyword">enum</span> <a class="code hl_enumeration" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#aef90c4ed5f41256caeba69de9d0852a9">CreateType</a> {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#aef90c4ed5f41256caeba69de9d0852a9aa55f94c35409064e03b1efc359651378">   65</a></span>        <a class="code hl_enumvalue" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#aef90c4ed5f41256caeba69de9d0852a9aa55f94c35409064e03b1efc359651378">CREATE_PROCEDURE</a>,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#aef90c4ed5f41256caeba69de9d0852a9a6ef2421870aac07d5c3907d83fc08420">CREATE_TRIGGER</a></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#aef90c4ed5f41256caeba69de9d0852a9a6ef2421870aac07d5c3907d83fc08420">   67</a></span>    };</div>
+</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <a class="code hl_class" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html">ProcedureTriggerCreateTask</a>(<span class="keyword">const</span> std::string&amp; task_id, <a class="code hl_enumeration" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#aef90c4ed5f41256caeba69de9d0852a9">CreateType</a> type,</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                              std::unique_ptr&lt;sql_parser::CreateStatement&gt; stmt);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#a63c688abc364b3418774a01286c74e4a">   71</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#a63c688abc364b3418774a01286c74e4a">~ProcedureTriggerCreateTask</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    std::shared_ptr&lt;TaskResult&gt; <a class="code hl_function" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#a8e625f874c50ae92418063575d850014">execute</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#a99e30fca60335e801788bbba005c6467">   76</a></span>    <a class="code hl_enumeration" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#aef90c4ed5f41256caeba69de9d0852a9">CreateType</a> <a class="code hl_variable" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#a99e30fca60335e801788bbba005c6467">type_</a>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#aac297792564cc6c18910a677cd3c10dd">   77</a></span>    std::unique_ptr&lt;sql_parser::CreateStatement&gt; <a class="code hl_variable" href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#aac297792564cc6c18910a677cd3c10dd">stmt_</a>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>};</div>
+</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="foldopen" id="foldopen00085" data-start="{" data-end="};">
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html">   85</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html">ProcedureTriggerDropTask</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1Task.html">Task</a> {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00087" data-start="{" data-end="};">
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#afaee740a505ac7ef5e2e74f56ec098f3">   87</a></span>    <span class="keyword">enum</span> <a class="code hl_enumeration" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#afaee740a505ac7ef5e2e74f56ec098f3">DropType</a> {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#afaee740a505ac7ef5e2e74f56ec098f3af6966d68e89906079c30480ffc26775e">   88</a></span>        <a class="code hl_enumvalue" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#afaee740a505ac7ef5e2e74f56ec098f3af6966d68e89906079c30480ffc26775e">DROP_PROCEDURE</a>,</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#afaee740a505ac7ef5e2e74f56ec098f3a7f4e4dd782cc1558b430828ecca911b4">DROP_TRIGGER</a></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#afaee740a505ac7ef5e2e74f56ec098f3a7f4e4dd782cc1558b430828ecca911b4">   90</a></span>    };</div>
+</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <a class="code hl_class" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html">ProcedureTriggerDropTask</a>(<span class="keyword">const</span> std::string&amp; task_id, <a class="code hl_enumeration" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#afaee740a505ac7ef5e2e74f56ec098f3">DropType</a> type,</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                            std::unique_ptr&lt;sql_parser::DropStatement&gt; stmt);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#aa3db21d41d796473ce8435ab182f56c0">   94</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#aa3db21d41d796473ce8435ab182f56c0">~ProcedureTriggerDropTask</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    std::shared_ptr&lt;TaskResult&gt; <a class="code hl_function" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#a64fb689e20ce15e05619054db8cd1a44">execute</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#a848470abd5f31fdea86273ebff2cb164">   99</a></span>    <a class="code hl_enumeration" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#afaee740a505ac7ef5e2e74f56ec098f3">DropType</a> <a class="code hl_variable" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#a848470abd5f31fdea86273ebff2cb164">type_</a>;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#a9205a05d0c71601b179880ae3995548c">  100</a></span>    std::unique_ptr&lt;sql_parser::DropStatement&gt; <a class="code hl_variable" href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#a9205a05d0c71601b179880ae3995548c">stmt_</a>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>};</div>
+</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="foldopen" id="foldopen00108" data-start="{" data-end="};">
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1TriggerAlterTask.html">  108</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1execution_1_1TriggerAlterTask.html">TriggerAlterTask</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1Task.html">Task</a> {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <a class="code hl_class" href="classsqlcc_1_1execution_1_1TriggerAlterTask.html">TriggerAlterTask</a>(<span class="keyword">const</span> std::string&amp; task_id, std::unique_ptr&lt;sql_parser::AlterTriggerStatement&gt; stmt);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1TriggerAlterTask.html#a47f1b27bb2177be2d72a288ba478ad75">  111</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1execution_1_1TriggerAlterTask.html#a47f1b27bb2177be2d72a288ba478ad75">~TriggerAlterTask</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    std::shared_ptr&lt;TaskResult&gt; <a class="code hl_function" href="classsqlcc_1_1execution_1_1TriggerAlterTask.html#ac37a916a5f33039e75f2fc123144ef4c">execute</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1TriggerAlterTask.html#ad1b6f667c31d41ad2f77954a2242e407">  116</a></span>    std::unique_ptr&lt;sql_parser::AlterTriggerStatement&gt; <a class="code hl_variable" href="classsqlcc_1_1execution_1_1TriggerAlterTask.html#ad1b6f667c31d41ad2f77954a2242e407">stmt_</a>;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>};</div>
+</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="foldopen" id="foldopen00124" data-start="{" data-end="};">
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html">  124</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html">DMLWithTriggerTask</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1Task.html">Task</a> {</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00126" data-start="{" data-end="};">
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbe">  126</a></span>    <span class="keyword">enum</span> <a class="code hl_enumeration" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbe">DMLType</a> {</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbeaa2d09545510a7f56b42a8c4f244472eb">  127</a></span>        <a class="code hl_enumvalue" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbeaa2d09545510a7f56b42a8c4f244472eb">INSERT</a>,</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbeaac28d976fcd5b00f1368dc7bfe955e87">  128</a></span>        <a class="code hl_enumvalue" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbeaac28d976fcd5b00f1368dc7bfe955e87">UPDATE</a>,</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbea6c439d32dc7ef3d43b5ea9f92be9d323">DELETE</a></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbea6c439d32dc7ef3d43b5ea9f92be9d323">  130</a></span>    };</div>
+</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <a class="code hl_class" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html">DMLWithTriggerTask</a>(<span class="keyword">const</span> std::string&amp; task_id, <a class="code hl_enumeration" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbe">DMLType</a> type,</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                      std::unique_ptr&lt;sql_parser::Statement&gt; stmt);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a8d3652c9d58abedd54d5311996922cbb">  134</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a8d3652c9d58abedd54d5311996922cbb">~DMLWithTriggerTask</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    std::shared_ptr&lt;TaskResult&gt; <a class="code hl_function" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a0b4abeb23e72c915aa96f4d008899d42">execute</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#ad01f0c127a11f31c7333ee1a65bf5728">  139</a></span>    <a class="code hl_enumeration" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbe">DMLType</a> <a class="code hl_variable" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#ad01f0c127a11f31c7333ee1a65bf5728">type_</a>;</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#ad5272d2a3ba966f063934486a02b404b">  140</a></span>    std::unique_ptr&lt;sql_parser::Statement&gt; <a class="code hl_variable" href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#ad5272d2a3ba966f063934486a02b404b">stmt_</a>;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>};</div>
+</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>} <span class="comment">// namespace execution</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_PROCEDURE_TRIGGER_TASK_H</span></div>
+<div class="ttc" id="aast__node_8h_html"><div class="ttname"><a href="ast__node_8h.html">ast_node.h</a></div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html"><div class="ttname"><a href="classsqlcc_1_1Task.html">sqlcc::Task</a></div><div class="ttdef"><b>Definition</b> task_executor.h:179</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1DMLWithTriggerTask_html"><div class="ttname"><a href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html">sqlcc::execution::DMLWithTriggerTask</a></div><div class="ttdoc">DML操作任务类（包含触发器）</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:124</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1DMLWithTriggerTask_html_a0b4abeb23e72c915aa96f4d008899d42"><div class="ttname"><a href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a0b4abeb23e72c915aa96f4d008899d42">sqlcc::execution::DMLWithTriggerTask::execute</a></div><div class="ttdeci">std::shared_ptr&lt; TaskResult &gt; execute() override</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.cpp:196</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1DMLWithTriggerTask_html_a8d3652c9d58abedd54d5311996922cbb"><div class="ttname"><a href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a8d3652c9d58abedd54d5311996922cbb">sqlcc::execution::DMLWithTriggerTask::~DMLWithTriggerTask</a></div><div class="ttdeci">virtual ~DMLWithTriggerTask()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1DMLWithTriggerTask_html_a9d8d150e0a2c9bf3a2f5ffb94ce57bbe"><div class="ttname"><a href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbe">sqlcc::execution::DMLWithTriggerTask::DMLType</a></div><div class="ttdeci">DMLType</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:126</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1DMLWithTriggerTask_html_a9d8d150e0a2c9bf3a2f5ffb94ce57bbea6c439d32dc7ef3d43b5ea9f92be9d323"><div class="ttname"><a href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbea6c439d32dc7ef3d43b5ea9f92be9d323">sqlcc::execution::DMLWithTriggerTask::DELETE</a></div><div class="ttdeci">@ DELETE</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:129</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1DMLWithTriggerTask_html_a9d8d150e0a2c9bf3a2f5ffb94ce57bbeaa2d09545510a7f56b42a8c4f244472eb"><div class="ttname"><a href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbeaa2d09545510a7f56b42a8c4f244472eb">sqlcc::execution::DMLWithTriggerTask::INSERT</a></div><div class="ttdeci">@ INSERT</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:127</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1DMLWithTriggerTask_html_a9d8d150e0a2c9bf3a2f5ffb94ce57bbeaac28d976fcd5b00f1368dc7bfe955e87"><div class="ttname"><a href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#a9d8d150e0a2c9bf3a2f5ffb94ce57bbeaac28d976fcd5b00f1368dc7bfe955e87">sqlcc::execution::DMLWithTriggerTask::UPDATE</a></div><div class="ttdeci">@ UPDATE</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:128</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1DMLWithTriggerTask_html_ad01f0c127a11f31c7333ee1a65bf5728"><div class="ttname"><a href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#ad01f0c127a11f31c7333ee1a65bf5728">sqlcc::execution::DMLWithTriggerTask::type_</a></div><div class="ttdeci">DMLType type_</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:139</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1DMLWithTriggerTask_html_ad5272d2a3ba966f063934486a02b404b"><div class="ttname"><a href="classsqlcc_1_1execution_1_1DMLWithTriggerTask.html#ad5272d2a3ba966f063934486a02b404b">sqlcc::execution::DMLWithTriggerTask::stmt_</a></div><div class="ttdeci">std::unique_ptr&lt; sql_parser::Statement &gt; stmt_</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:140</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureCallTask_html"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureCallTask.html">sqlcc::execution::ProcedureCallTask</a></div><div class="ttdoc">存储过程任务类</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:20</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureCallTask_html_a2217bb09bbaa1c446cfe1fb3031fbd25"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureCallTask.html#a2217bb09bbaa1c446cfe1fb3031fbd25">sqlcc::execution::ProcedureCallTask::~ProcedureCallTask</a></div><div class="ttdeci">virtual ~ProcedureCallTask()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureCallTask_html_a3b7d43ffdf3ea0fbd8758e621735b3d2"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureCallTask.html#a3b7d43ffdf3ea0fbd8758e621735b3d2">sqlcc::execution::ProcedureCallTask::stmt_</a></div><div class="ttdeci">std::unique_ptr&lt; sql_parser::CallProcedureStatement &gt; stmt_</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:28</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureCallTask_html_aaac8fd190ac9968db7d3798c658d7ee3"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureCallTask.html#aaac8fd190ac9968db7d3798c658d7ee3">sqlcc::execution::ProcedureCallTask::execute</a></div><div class="ttdeci">std::shared_ptr&lt; TaskResult &gt; execute() override</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.cpp:15</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerCreateTask_html"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html">sqlcc::execution::ProcedureTriggerCreateTask</a></div><div class="ttdoc">存储过程/触发器创建任务类</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:62</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerCreateTask_html_a63c688abc364b3418774a01286c74e4a"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#a63c688abc364b3418774a01286c74e4a">sqlcc::execution::ProcedureTriggerCreateTask::~ProcedureTriggerCreateTask</a></div><div class="ttdeci">virtual ~ProcedureTriggerCreateTask()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerCreateTask_html_a8e625f874c50ae92418063575d850014"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#a8e625f874c50ae92418063575d850014">sqlcc::execution::ProcedureTriggerCreateTask::execute</a></div><div class="ttdeci">std::shared_ptr&lt; TaskResult &gt; execute() override</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.cpp:87</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerCreateTask_html_a99e30fca60335e801788bbba005c6467"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#a99e30fca60335e801788bbba005c6467">sqlcc::execution::ProcedureTriggerCreateTask::type_</a></div><div class="ttdeci">CreateType type_</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:76</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerCreateTask_html_aac297792564cc6c18910a677cd3c10dd"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#aac297792564cc6c18910a677cd3c10dd">sqlcc::execution::ProcedureTriggerCreateTask::stmt_</a></div><div class="ttdeci">std::unique_ptr&lt; sql_parser::CreateStatement &gt; stmt_</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:77</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerCreateTask_html_aef90c4ed5f41256caeba69de9d0852a9"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#aef90c4ed5f41256caeba69de9d0852a9">sqlcc::execution::ProcedureTriggerCreateTask::CreateType</a></div><div class="ttdeci">CreateType</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:64</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerCreateTask_html_aef90c4ed5f41256caeba69de9d0852a9a6ef2421870aac07d5c3907d83fc08420"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#aef90c4ed5f41256caeba69de9d0852a9a6ef2421870aac07d5c3907d83fc08420">sqlcc::execution::ProcedureTriggerCreateTask::CREATE_TRIGGER</a></div><div class="ttdeci">@ CREATE_TRIGGER</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:66</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerCreateTask_html_aef90c4ed5f41256caeba69de9d0852a9aa55f94c35409064e03b1efc359651378"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerCreateTask.html#aef90c4ed5f41256caeba69de9d0852a9aa55f94c35409064e03b1efc359651378">sqlcc::execution::ProcedureTriggerCreateTask::CREATE_PROCEDURE</a></div><div class="ttdeci">@ CREATE_PROCEDURE</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:65</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerDropTask_html"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html">sqlcc::execution::ProcedureTriggerDropTask</a></div><div class="ttdoc">存储过程/触发器删除任务类</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:85</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerDropTask_html_a64fb689e20ce15e05619054db8cd1a44"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#a64fb689e20ce15e05619054db8cd1a44">sqlcc::execution::ProcedureTriggerDropTask::execute</a></div><div class="ttdeci">std::shared_ptr&lt; TaskResult &gt; execute() override</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.cpp:127</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerDropTask_html_a848470abd5f31fdea86273ebff2cb164"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#a848470abd5f31fdea86273ebff2cb164">sqlcc::execution::ProcedureTriggerDropTask::type_</a></div><div class="ttdeci">DropType type_</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:99</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerDropTask_html_a9205a05d0c71601b179880ae3995548c"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#a9205a05d0c71601b179880ae3995548c">sqlcc::execution::ProcedureTriggerDropTask::stmt_</a></div><div class="ttdeci">std::unique_ptr&lt; sql_parser::DropStatement &gt; stmt_</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:100</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerDropTask_html_aa3db21d41d796473ce8435ab182f56c0"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#aa3db21d41d796473ce8435ab182f56c0">sqlcc::execution::ProcedureTriggerDropTask::~ProcedureTriggerDropTask</a></div><div class="ttdeci">virtual ~ProcedureTriggerDropTask()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerDropTask_html_afaee740a505ac7ef5e2e74f56ec098f3"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#afaee740a505ac7ef5e2e74f56ec098f3">sqlcc::execution::ProcedureTriggerDropTask::DropType</a></div><div class="ttdeci">DropType</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:87</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerDropTask_html_afaee740a505ac7ef5e2e74f56ec098f3a7f4e4dd782cc1558b430828ecca911b4"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#afaee740a505ac7ef5e2e74f56ec098f3a7f4e4dd782cc1558b430828ecca911b4">sqlcc::execution::ProcedureTriggerDropTask::DROP_TRIGGER</a></div><div class="ttdeci">@ DROP_TRIGGER</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:89</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1ProcedureTriggerDropTask_html_afaee740a505ac7ef5e2e74f56ec098f3af6966d68e89906079c30480ffc26775e"><div class="ttname"><a href="classsqlcc_1_1execution_1_1ProcedureTriggerDropTask.html#afaee740a505ac7ef5e2e74f56ec098f3af6966d68e89906079c30480ffc26775e">sqlcc::execution::ProcedureTriggerDropTask::DROP_PROCEDURE</a></div><div class="ttdeci">@ DROP_PROCEDURE</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:88</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1TriggerAlterTask_html"><div class="ttname"><a href="classsqlcc_1_1execution_1_1TriggerAlterTask.html">sqlcc::execution::TriggerAlterTask</a></div><div class="ttdoc">触发器修改任务类</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:108</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1TriggerAlterTask_html_a47f1b27bb2177be2d72a288ba478ad75"><div class="ttname"><a href="classsqlcc_1_1execution_1_1TriggerAlterTask.html#a47f1b27bb2177be2d72a288ba478ad75">sqlcc::execution::TriggerAlterTask::~TriggerAlterTask</a></div><div class="ttdeci">virtual ~TriggerAlterTask()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1TriggerAlterTask_html_ac37a916a5f33039e75f2fc123144ef4c"><div class="ttname"><a href="classsqlcc_1_1execution_1_1TriggerAlterTask.html#ac37a916a5f33039e75f2fc123144ef4c">sqlcc::execution::TriggerAlterTask::execute</a></div><div class="ttdeci">std::shared_ptr&lt; TaskResult &gt; execute() override</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.cpp:166</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1TriggerAlterTask_html_ad1b6f667c31d41ad2f77954a2242e407"><div class="ttname"><a href="classsqlcc_1_1execution_1_1TriggerAlterTask.html#ad1b6f667c31d41ad2f77954a2242e407">sqlcc::execution::TriggerAlterTask::stmt_</a></div><div class="ttdeci">std::unique_ptr&lt; sql_parser::AlterTriggerStatement &gt; stmt_</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:116</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1TriggerExecuteTask_html"><div class="ttname"><a href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html">sqlcc::execution::TriggerExecuteTask</a></div><div class="ttdoc">触发器任务类</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:36</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1TriggerExecuteTask_html_a0cc122982b7821e54e8762cbde960cc4"><div class="ttname"><a href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a0cc122982b7821e54e8762cbde960cc4">sqlcc::execution::TriggerExecuteTask::execute</a></div><div class="ttdeci">std::shared_ptr&lt; TaskResult &gt; execute() override</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.cpp:47</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1TriggerExecuteTask_html_a1f1764de67dc5030c2b9f7c1019dd152"><div class="ttname"><a href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a1f1764de67dc5030c2b9f7c1019dd152">sqlcc::execution::TriggerExecuteTask::new_rows_</a></div><div class="ttdeci">std::vector&lt; trigger::RowData &gt; new_rows_</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:54</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1TriggerExecuteTask_html_a2cfec01fc2b651a2a26a24bcaedd7184"><div class="ttname"><a href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a2cfec01fc2b651a2a26a24bcaedd7184">sqlcc::execution::TriggerExecuteTask::~TriggerExecuteTask</a></div><div class="ttdeci">virtual ~TriggerExecuteTask()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1TriggerExecuteTask_html_a56a26cbfd07376a6ca24457bcd440b64"><div class="ttname"><a href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a56a26cbfd07376a6ca24457bcd440b64">sqlcc::execution::TriggerExecuteTask::table_name_</a></div><div class="ttdeci">std::string table_name_</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:52</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1TriggerExecuteTask_html_a6876925010eda2ba2b2e7fc26e0c8063"><div class="ttname"><a href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a6876925010eda2ba2b2e7fc26e0c8063">sqlcc::execution::TriggerExecuteTask::old_rows_</a></div><div class="ttdeci">std::vector&lt; trigger::RowData &gt; old_rows_</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:53</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1TriggerExecuteTask_html_aacf2047506d2c077d5be49e04dad00fa"><div class="ttname"><a href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#aacf2047506d2c077d5be49e04dad00fa">sqlcc::execution::TriggerExecuteTask::timing_</a></div><div class="ttdeci">trigger::TriggerTiming timing_</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:50</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1TriggerExecuteTask_html_abed1b019bb23fca8fbefd4e22d77b9a6"><div class="ttname"><a href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#abed1b019bb23fca8fbefd4e22d77b9a6">sqlcc::execution::TriggerExecuteTask::event_</a></div><div class="ttdeci">trigger::TriggerEvent event_</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.h:51</div></div>
+<div class="ttc" id="aclasssqlcc_1_1execution_1_1TriggerExecuteTask_html_ac31076f778710cc75ebf93bde95c53fe"><div class="ttname"><a href="classsqlcc_1_1execution_1_1TriggerExecuteTask.html#ac31076f778710cc75ebf93bde95c53fe">sqlcc::execution::TriggerExecuteTask::setRowData</a></div><div class="ttdeci">void setRowData(const std::vector&lt; trigger::RowData &gt; &amp;old_rows, const std::vector&lt; trigger::RowData &gt; &amp;new_rows)</div><div class="ttdef"><b>Definition</b> procedure_trigger_task.cpp:75</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1trigger_html_a9048eb6b0f22224de968d97a266c8032"><div class="ttname"><a href="namespacesqlcc_1_1trigger.html#a9048eb6b0f22224de968d97a266c8032">sqlcc::trigger::TriggerEvent</a></div><div class="ttdeci">TriggerEvent</div><div class="ttdoc">触发器事件类型</div><div class="ttdef"><b>Definition</b> trigger_definition.h:20</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1trigger_html_aafc6faa2e7d6c4de2f2a651ed5cb7843"><div class="ttname"><a href="namespacesqlcc_1_1trigger.html#aafc6faa2e7d6c4de2f2a651ed5cb7843">sqlcc::trigger::TriggerTiming</a></div><div class="ttdeci">TriggerTiming</div><div class="ttdoc">触发器时机</div><div class="ttdef"><b>Definition</b> trigger_definition.h:29</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="aprocedure__trigger__executor_8h_html"><div class="ttname"><a href="procedure__trigger__executor_8h.html">procedure_trigger_executor.h</a></div></div>
+<div class="ttc" id="atask__executor_8h_html"><div class="ttname"><a href="task__executor_8h.html">task_executor.h</a></div></div>
+<div class="ttc" id="atask__result_8h_html"><div class="ttname"><a href="task__result_8h.html">task_result.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

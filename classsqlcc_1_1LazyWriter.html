@@ -1,0 +1,1389 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::LazyWriter类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1LazyWriter.html">LazyWriter</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1LazyWriter-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::LazyWriter类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>延迟写入器类  
+ <a href="classsqlcc_1_1LazyWriter.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="storage_2lazy__writer_8h_source.html">lazy_writer.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::LazyWriter 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1LazyWriter__coll__graph.png" border="0" usemap="#asqlcc_1_1LazyWriter_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1LazyWriter_coll__map" id="asqlcc_1_1LazyWriter_coll__map">
+<area shape="rect" title="延迟写入器类" alt="" coords="214,196,347,221"/>
+<area shape="rect" href="classsqlcc_1_1ConfigManager.html" title=" " alt="" coords="5,5,167,31"/>
+<area shape="poly" title=" " alt="" coords="79,44,70,88,71,111,80,132,107,159,141,179,178,192,214,200,213,205,176,197,139,184,104,163,76,135,66,112,64,88,74,43"/>
+<area shape="rect" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器类" alt="" coords="206,101,355,126"/>
+<area shape="poly" title=" " alt="" coords="113,37,161,67,201,85,241,98,239,103,199,89,158,72,110,41"/>
+<area shape="poly" title=" " alt="" coords="283,140,283,196,278,196,278,140"/>
+<area shape="rect" href="structsqlcc_1_1DiskIOStats.html" title="磁盘I/O统计信息" alt="" coords="211,5,350,31"/>
+<area shape="poly" title=" " alt="" coords="283,44,283,101,278,101,278,44"/>
+<area shape="rect" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html" title="延迟写入器统计信息" alt="" coords="379,93,521,133"/>
+<area shape="poly" title=" " alt="" coords="427,145,391,174,362,188,333,199,331,193,360,183,389,170,423,141"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriterStats</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">延迟写入器统计信息  <a href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a524b9de05ae892c85dd1d5ef47a4f91a" id="r_a524b9de05ae892c85dd1d5ef47a4f91a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a524b9de05ae892c85dd1d5ef47a4f91a">LazyWriter</a> (<a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager, <a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;disk_manager)</td></tr>
+<tr class="memdesc:a524b9de05ae892c85dd1d5ef47a4f91a"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a524b9de05ae892c85dd1d5ef47a4f91a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbd1ba97cde551581ff9bc3e56f76d40" id="r_acbd1ba97cde551581ff9bc3e56f76d40"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#acbd1ba97cde551581ff9bc3e56f76d40">~LazyWriter</a> ()</td></tr>
+<tr class="memdesc:acbd1ba97cde551581ff9bc3e56f76d40"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:acbd1ba97cde551581ff9bc3e56f76d40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a336b451c2aa254e2fcb02e23d4a03f" id="r_a0a336b451c2aa254e2fcb02e23d4a03f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a0a336b451c2aa254e2fcb02e23d4a03f">Start</a> ()</td></tr>
+<tr class="memdesc:a0a336b451c2aa254e2fcb02e23d4a03f"><td class="mdescLeft">&#160;</td><td class="mdescRight">启动延迟写入器  <br /></td></tr>
+<tr class="separator:a0a336b451c2aa254e2fcb02e23d4a03f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a112b8696ce3335aa7102904c2f796db3" id="r_a112b8696ce3335aa7102904c2f796db3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a112b8696ce3335aa7102904c2f796db3">Stop</a> ()</td></tr>
+<tr class="memdesc:a112b8696ce3335aa7102904c2f796db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止延迟写入器  <br /></td></tr>
+<tr class="separator:a112b8696ce3335aa7102904c2f796db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed079417747123955d99a8f379860302" id="r_aed079417747123955d99a8f379860302"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#aed079417747123955d99a8f379860302">MarkDirty</a> (int32_t page_id, const <a class="el" href="storage_2lazy__writer_8h.html#a42c06721f4d401a1122a7bbff208c4fe">PageData</a> &amp;page_data)</td></tr>
+<tr class="memdesc:aed079417747123955d99a8f379860302"><td class="mdescLeft">&#160;</td><td class="mdescRight">标记页面为脏页  <br /></td></tr>
+<tr class="separator:aed079417747123955d99a8f379860302"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac54f416eecf41eb1616ce50376350e7f" id="r_ac54f416eecf41eb1616ce50376350e7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#ac54f416eecf41eb1616ce50376350e7f">ForceFlush</a> ()</td></tr>
+<tr class="memdesc:ac54f416eecf41eb1616ce50376350e7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">强制刷新所有脏页  <br /></td></tr>
+<tr class="separator:ac54f416eecf41eb1616ce50376350e7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8f0b91fc4c0d1e5eb3acbcab5dd9519" id="r_af8f0b91fc4c0d1e5eb3acbcab5dd9519"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriterStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#af8f0b91fc4c0d1e5eb3acbcab5dd9519">GetStats</a> () const</td></tr>
+<tr class="memdesc:af8f0b91fc4c0d1e5eb3acbcab5dd9519"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取延迟写入器统计信息  <br /></td></tr>
+<tr class="separator:af8f0b91fc4c0d1e5eb3acbcab5dd9519"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac08e54e2a9ff87b50c63bf4122552113" id="r_ac08e54e2a9ff87b50c63bf4122552113"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#ac08e54e2a9ff87b50c63bf4122552113">ResetStats</a> ()</td></tr>
+<tr class="memdesc:ac08e54e2a9ff87b50c63bf4122552113"><td class="mdescLeft">&#160;</td><td class="mdescRight">重置统计信息  <br /></td></tr>
+<tr class="separator:ac08e54e2a9ff87b50c63bf4122552113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08daa80d5d96bd28b4ac4476f862c15a" id="r_a08daa80d5d96bd28b4ac4476f862c15a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a08daa80d5d96bd28b4ac4476f862c15a">SetEnabled</a> (bool enabled)</td></tr>
+<tr class="memdesc:a08daa80d5d96bd28b4ac4476f862c15a"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置是否启用  <br /></td></tr>
+<tr class="separator:a08daa80d5d96bd28b4ac4476f862c15a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc658661d9d8ca08cebdc44e0fa726e0" id="r_adc658661d9d8ca08cebdc44e0fa726e0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#adc658661d9d8ca08cebdc44e0fa726e0">IsEnabled</a> () const</td></tr>
+<tr class="memdesc:adc658661d9d8ca08cebdc44e0fa726e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否启用  <br /></td></tr>
+<tr class="separator:adc658661d9d8ca08cebdc44e0fa726e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a524b9de05ae892c85dd1d5ef47a4f91a" id="r_a524b9de05ae892c85dd1d5ef47a4f91a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a524b9de05ae892c85dd1d5ef47a4f91a">LazyWriter</a> (<a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager, <a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;disk_manager)</td></tr>
+<tr class="memdesc:a524b9de05ae892c85dd1d5ef47a4f91a"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a524b9de05ae892c85dd1d5ef47a4f91a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbd1ba97cde551581ff9bc3e56f76d40" id="r_acbd1ba97cde551581ff9bc3e56f76d40"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#acbd1ba97cde551581ff9bc3e56f76d40">~LazyWriter</a> ()</td></tr>
+<tr class="memdesc:acbd1ba97cde551581ff9bc3e56f76d40"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:acbd1ba97cde551581ff9bc3e56f76d40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a336b451c2aa254e2fcb02e23d4a03f" id="r_a0a336b451c2aa254e2fcb02e23d4a03f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a0a336b451c2aa254e2fcb02e23d4a03f">Start</a> ()</td></tr>
+<tr class="memdesc:a0a336b451c2aa254e2fcb02e23d4a03f"><td class="mdescLeft">&#160;</td><td class="mdescRight">启动延迟写入器  <br /></td></tr>
+<tr class="separator:a0a336b451c2aa254e2fcb02e23d4a03f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a112b8696ce3335aa7102904c2f796db3" id="r_a112b8696ce3335aa7102904c2f796db3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a112b8696ce3335aa7102904c2f796db3">Stop</a> ()</td></tr>
+<tr class="memdesc:a112b8696ce3335aa7102904c2f796db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止延迟写入器  <br /></td></tr>
+<tr class="separator:a112b8696ce3335aa7102904c2f796db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed079417747123955d99a8f379860302" id="r_aed079417747123955d99a8f379860302"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#aed079417747123955d99a8f379860302">MarkDirty</a> (int32_t page_id, const <a class="el" href="storage_2lazy__writer_8h.html#a42c06721f4d401a1122a7bbff208c4fe">PageData</a> &amp;page_data)</td></tr>
+<tr class="memdesc:aed079417747123955d99a8f379860302"><td class="mdescLeft">&#160;</td><td class="mdescRight">标记页面为脏页  <br /></td></tr>
+<tr class="separator:aed079417747123955d99a8f379860302"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac54f416eecf41eb1616ce50376350e7f" id="r_ac54f416eecf41eb1616ce50376350e7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#ac54f416eecf41eb1616ce50376350e7f">ForceFlush</a> ()</td></tr>
+<tr class="memdesc:ac54f416eecf41eb1616ce50376350e7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">强制刷新所有脏页  <br /></td></tr>
+<tr class="separator:ac54f416eecf41eb1616ce50376350e7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a152007cd78efb7df905054a3e575e1a7" id="r_a152007cd78efb7df905054a3e575e1a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriterStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a152007cd78efb7df905054a3e575e1a7">GetStats</a> () const</td></tr>
+<tr class="memdesc:a152007cd78efb7df905054a3e575e1a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取延迟写入器统计信息  <br /></td></tr>
+<tr class="separator:a152007cd78efb7df905054a3e575e1a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac08e54e2a9ff87b50c63bf4122552113" id="r_ac08e54e2a9ff87b50c63bf4122552113"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#ac08e54e2a9ff87b50c63bf4122552113">ResetStats</a> ()</td></tr>
+<tr class="memdesc:ac08e54e2a9ff87b50c63bf4122552113"><td class="mdescLeft">&#160;</td><td class="mdescRight">重置统计信息  <br /></td></tr>
+<tr class="separator:ac08e54e2a9ff87b50c63bf4122552113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08daa80d5d96bd28b4ac4476f862c15a" id="r_a08daa80d5d96bd28b4ac4476f862c15a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a08daa80d5d96bd28b4ac4476f862c15a">SetEnabled</a> (bool enabled)</td></tr>
+<tr class="memdesc:a08daa80d5d96bd28b4ac4476f862c15a"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置是否启用  <br /></td></tr>
+<tr class="separator:a08daa80d5d96bd28b4ac4476f862c15a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc658661d9d8ca08cebdc44e0fa726e0" id="r_adc658661d9d8ca08cebdc44e0fa726e0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#adc658661d9d8ca08cebdc44e0fa726e0">IsEnabled</a> () const</td></tr>
+<tr class="memdesc:adc658661d9d8ca08cebdc44e0fa726e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否启用  <br /></td></tr>
+<tr class="separator:adc658661d9d8ca08cebdc44e0fa726e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:ae564e469578afbfb497551762f59a8b0" id="r_ae564e469578afbfb497551762f59a8b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#ae564e469578afbfb497551762f59a8b0">LazyWriteWorker</a> ()</td></tr>
+<tr class="memdesc:ae564e469578afbfb497551762f59a8b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">延迟写入工作线程函数  <br /></td></tr>
+<tr class="separator:ae564e469578afbfb497551762f59a8b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad53f50fd5e7ca3c04ed20482fe5f1614" id="r_ad53f50fd5e7ca3c04ed20482fe5f1614"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#ad53f50fd5e7ca3c04ed20482fe5f1614">FlushBatch</a> (const std::vector&lt; <a class="el" href="structsqlcc_1_1DirtyPageInfo.html">DirtyPageInfo</a> &gt; &amp;dirty_pages)</td></tr>
+<tr class="memdesc:ad53f50fd5e7ca3c04ed20482fe5f1614"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行批量写入  <br /></td></tr>
+<tr class="separator:ad53f50fd5e7ca3c04ed20482fe5f1614"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6453ea60d3a44167803a0d5aca3e4d58" id="r_a6453ea60d3a44167803a0d5aca3e4d58"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a6453ea60d3a44167803a0d5aca3e4d58">ShouldFlush</a> () const</td></tr>
+<tr class="memdesc:a6453ea60d3a44167803a0d5aca3e4d58"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否应该触发写入  <br /></td></tr>
+<tr class="separator:a6453ea60d3a44167803a0d5aca3e4d58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81fccf235e57457c5cffb4c0db6062d4" id="r_a81fccf235e57457c5cffb4c0db6062d4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a81fccf235e57457c5cffb4c0db6062d4">UpdateConfig</a> ()</td></tr>
+<tr class="memdesc:a81fccf235e57457c5cffb4c0db6062d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新配置参数  <br /></td></tr>
+<tr class="separator:a81fccf235e57457c5cffb4c0db6062d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc3bf0a547426dca206c067ecbbff885" id="r_afc3bf0a547426dca206c067ecbbff885"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1DirtyPageInfo.html">DirtyPageInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#afc3bf0a547426dca206c067ecbbff885">GetPagesToFlush</a> ()</td></tr>
+<tr class="memdesc:afc3bf0a547426dca206c067ecbbff885"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取需要刷新的脏页  <br /></td></tr>
+<tr class="separator:afc3bf0a547426dca206c067ecbbff885"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae564e469578afbfb497551762f59a8b0" id="r_ae564e469578afbfb497551762f59a8b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#ae564e469578afbfb497551762f59a8b0">LazyWriteWorker</a> ()</td></tr>
+<tr class="memdesc:ae564e469578afbfb497551762f59a8b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">延迟写入工作线程函数  <br /></td></tr>
+<tr class="separator:ae564e469578afbfb497551762f59a8b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad53f50fd5e7ca3c04ed20482fe5f1614" id="r_ad53f50fd5e7ca3c04ed20482fe5f1614"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#ad53f50fd5e7ca3c04ed20482fe5f1614">FlushBatch</a> (const std::vector&lt; <a class="el" href="structsqlcc_1_1DirtyPageInfo.html">DirtyPageInfo</a> &gt; &amp;dirty_pages)</td></tr>
+<tr class="memdesc:ad53f50fd5e7ca3c04ed20482fe5f1614"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行批量写入  <br /></td></tr>
+<tr class="separator:ad53f50fd5e7ca3c04ed20482fe5f1614"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6453ea60d3a44167803a0d5aca3e4d58" id="r_a6453ea60d3a44167803a0d5aca3e4d58"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a6453ea60d3a44167803a0d5aca3e4d58">ShouldFlush</a> () const</td></tr>
+<tr class="memdesc:a6453ea60d3a44167803a0d5aca3e4d58"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否应该触发写入  <br /></td></tr>
+<tr class="separator:a6453ea60d3a44167803a0d5aca3e4d58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81fccf235e57457c5cffb4c0db6062d4" id="r_a81fccf235e57457c5cffb4c0db6062d4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a81fccf235e57457c5cffb4c0db6062d4">UpdateConfig</a> ()</td></tr>
+<tr class="memdesc:a81fccf235e57457c5cffb4c0db6062d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新配置参数  <br /></td></tr>
+<tr class="separator:a81fccf235e57457c5cffb4c0db6062d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc3bf0a547426dca206c067ecbbff885" id="r_afc3bf0a547426dca206c067ecbbff885"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1DirtyPageInfo.html">DirtyPageInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#afc3bf0a547426dca206c067ecbbff885">GetPagesToFlush</a> ()</td></tr>
+<tr class="memdesc:afc3bf0a547426dca206c067ecbbff885"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取需要刷新的脏页  <br /></td></tr>
+<tr class="separator:afc3bf0a547426dca206c067ecbbff885"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a760c5676d96b8c5f50f8bd840c24706c" id="r_a760c5676d96b8c5f50f8bd840c24706c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a760c5676d96b8c5f50f8bd840c24706c">config_manager_</a></td></tr>
+<tr class="separator:a760c5676d96b8c5f50f8bd840c24706c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aded682ed3d5ff3b5304711f522f4a0d0" id="r_aded682ed3d5ff3b5304711f522f4a0d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#aded682ed3d5ff3b5304711f522f4a0d0">disk_manager_</a></td></tr>
+<tr class="separator:aded682ed3d5ff3b5304711f522f4a0d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5363bf2dd898294788e5f519413afe25" id="r_a5363bf2dd898294788e5f519413afe25"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, <a class="el" href="structsqlcc_1_1DirtyPageInfo.html">DirtyPageInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a5363bf2dd898294788e5f519413afe25">dirty_pages_</a></td></tr>
+<tr class="separator:a5363bf2dd898294788e5f519413afe25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a733e12767e5a274bf9ba03a1eeb5e32f" id="r_a733e12767e5a274bf9ba03a1eeb5e32f"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, <a class="el" href="storage_2lazy__writer_8h.html#a42c06721f4d401a1122a7bbff208c4fe">PageData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a733e12767e5a274bf9ba03a1eeb5e32f">dirty_page_data_</a></td></tr>
+<tr class="separator:a733e12767e5a274bf9ba03a1eeb5e32f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab183a95ac0496302f9dced3f77a99439" id="r_ab183a95ac0496302f9dced3f77a99439"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#ab183a95ac0496302f9dced3f77a99439">dirty_mutex_</a></td></tr>
+<tr class="separator:ab183a95ac0496302f9dced3f77a99439"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ad33190fcb44ea69357216891b321f5" id="r_a1ad33190fcb44ea69357216891b321f5"><td class="memItemLeft" align="right" valign="top">std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a1ad33190fcb44ea69357216891b321f5">worker_thread_</a></td></tr>
+<tr class="separator:a1ad33190fcb44ea69357216891b321f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af74b850a988bccf62b30d118240e35e4" id="r_af74b850a988bccf62b30d118240e35e4"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#af74b850a988bccf62b30d118240e35e4">running_</a></td></tr>
+<tr class="separator:af74b850a988bccf62b30d118240e35e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaeb749dff1688f95689474031f15739e" id="r_aaeb749dff1688f95689474031f15739e"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#aaeb749dff1688f95689474031f15739e">enabled_</a></td></tr>
+<tr class="separator:aaeb749dff1688f95689474031f15739e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5746c6a850860fc8568cf8f90b26dab" id="r_ac5746c6a850860fc8568cf8f90b26dab"><td class="memItemLeft" align="right" valign="top">std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#ac5746c6a850860fc8568cf8f90b26dab">flush_cv_</a></td></tr>
+<tr class="separator:ac5746c6a850860fc8568cf8f90b26dab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a989d2f6e506631f1096f9d7d86c49970" id="r_a989d2f6e506631f1096f9d7d86c49970"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a989d2f6e506631f1096f9d7d86c49970">flush_mutex_</a></td></tr>
+<tr class="separator:a989d2f6e506631f1096f9d7d86c49970"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e3a2b8921e6c714ebb9b0712006e211" id="r_a4e3a2b8921e6c714ebb9b0712006e211"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a4e3a2b8921e6c714ebb9b0712006e211">stats_mutex_</a></td></tr>
+<tr class="separator:a4e3a2b8921e6c714ebb9b0712006e211"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81691d6c171dcc00b4acee4c6c81512f" id="r_a81691d6c171dcc00b4acee4c6c81512f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriterStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a81691d6c171dcc00b4acee4c6c81512f">stats_</a></td></tr>
+<tr class="separator:a81691d6c171dcc00b4acee4c6c81512f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac94049eb78173715ecf4578d302c852c" id="r_ac94049eb78173715ecf4578d302c852c"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#ac94049eb78173715ecf4578d302c852c">flush_interval_</a></td></tr>
+<tr class="separator:ac94049eb78173715ecf4578d302c852c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a775f4243f6f539ab2941f739ee42ff57" id="r_a775f4243f6f539ab2941f739ee42ff57"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a775f4243f6f539ab2941f739ee42ff57">max_dirty_pages_</a></td></tr>
+<tr class="separator:a775f4243f6f539ab2941f739ee42ff57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a445b7eb9d94b6651bcc0e61cb59571d7" id="r_a445b7eb9d94b6651bcc0e61cb59571d7"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a445b7eb9d94b6651bcc0e61cb59571d7">batch_size_</a></td></tr>
+<tr class="separator:a445b7eb9d94b6651bcc0e61cb59571d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c5064e44be0d7ad5a80002d90817158" id="r_a9c5064e44be0d7ad5a80002d90817158"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LazyWriter.html#a9c5064e44be0d7ad5a80002d90817158">max_dirty_age_</a></td></tr>
+<tr class="separator:a9c5064e44be0d7ad5a80002d90817158"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>延迟写入器类 </p>
+<p>负责将脏页异步批量写入磁盘，减少I/O等待时间 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a524b9de05ae892c85dd1d5ef47a4f91a" name="a524b9de05ae892c85dd1d5ef47a4f91a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a524b9de05ae892c85dd1d5ef47a4f91a">&#9670;&#160;</a></span>LazyWriter() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::LazyWriter::LazyWriter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>config_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>disk_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config_manager</td><td>配置管理器引用 </td></tr>
+    <tr><td class="paramname">disk_manager</td><td>磁盘管理器引用 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="acbd1ba97cde551581ff9bc3e56f76d40" name="acbd1ba97cde551581ff9bc3e56f76d40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbd1ba97cde551581ff9bc3e56f76d40">&#9670;&#160;</a></span>~LazyWriter() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::LazyWriter::~LazyWriter </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<a id="a524b9de05ae892c85dd1d5ef47a4f91a" name="a524b9de05ae892c85dd1d5ef47a4f91a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a524b9de05ae892c85dd1d5ef47a4f91a">&#9670;&#160;</a></span>LazyWriter() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::LazyWriter::LazyWriter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>config_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>disk_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config_manager</td><td>配置管理器引用 </td></tr>
+    <tr><td class="paramname">disk_manager</td><td>磁盘管理器引用 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="acbd1ba97cde551581ff9bc3e56f76d40" name="acbd1ba97cde551581ff9bc3e56f76d40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbd1ba97cde551581ff9bc3e56f76d40">&#9670;&#160;</a></span>~LazyWriter() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::LazyWriter::~LazyWriter </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="ad53f50fd5e7ca3c04ed20482fe5f1614" name="ad53f50fd5e7ca3c04ed20482fe5f1614"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad53f50fd5e7ca3c04ed20482fe5f1614">&#9670;&#160;</a></span>FlushBatch() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::FlushBatch </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structsqlcc_1_1DirtyPageInfo.html">DirtyPageInfo</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>dirty_pages</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行批量写入 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dirty_pages</td><td>要写入的脏页列表 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad53f50fd5e7ca3c04ed20482fe5f1614" name="ad53f50fd5e7ca3c04ed20482fe5f1614"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad53f50fd5e7ca3c04ed20482fe5f1614">&#9670;&#160;</a></span>FlushBatch() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::FlushBatch </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structsqlcc_1_1DirtyPageInfo.html">DirtyPageInfo</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>dirty_pages</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行批量写入 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dirty_pages</td><td>要写入的脏页列表 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac54f416eecf41eb1616ce50376350e7f" name="ac54f416eecf41eb1616ce50376350e7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac54f416eecf41eb1616ce50376350e7f">&#9670;&#160;</a></span>ForceFlush() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::ForceFlush </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>强制刷新所有脏页 </p>
+
+</div>
+</div>
+<a id="ac54f416eecf41eb1616ce50376350e7f" name="ac54f416eecf41eb1616ce50376350e7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac54f416eecf41eb1616ce50376350e7f">&#9670;&#160;</a></span>ForceFlush() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::ForceFlush </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>强制刷新所有脏页 </p>
+
+</div>
+</div>
+<a id="afc3bf0a547426dca206c067ecbbff885" name="afc3bf0a547426dca206c067ecbbff885"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc3bf0a547426dca206c067ecbbff885">&#9670;&#160;</a></span>GetPagesToFlush() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1DirtyPageInfo.html">DirtyPageInfo</a> &gt; sqlcc::LazyWriter::GetPagesToFlush </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取需要刷新的脏页 </p>
+<dl class="section return"><dt>返回</dt><dd>脏页列表 </dd></dl>
+
+</div>
+</div>
+<a id="afc3bf0a547426dca206c067ecbbff885" name="afc3bf0a547426dca206c067ecbbff885"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc3bf0a547426dca206c067ecbbff885">&#9670;&#160;</a></span>GetPagesToFlush() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1DirtyPageInfo.html">DirtyPageInfo</a> &gt; sqlcc::LazyWriter::GetPagesToFlush </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取需要刷新的脏页 </p>
+<dl class="section return"><dt>返回</dt><dd>脏页列表 </dd></dl>
+
+</div>
+</div>
+<a id="af8f0b91fc4c0d1e5eb3acbcab5dd9519" name="af8f0b91fc4c0d1e5eb3acbcab5dd9519"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8f0b91fc4c0d1e5eb3acbcab5dd9519">&#9670;&#160;</a></span>GetStats() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriter::LazyWriterStats</a> sqlcc::LazyWriter::GetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取延迟写入器统计信息 </p>
+<dl class="section return"><dt>返回</dt><dd>统计信息 </dd></dl>
+
+</div>
+</div>
+<a id="a152007cd78efb7df905054a3e575e1a7" name="a152007cd78efb7df905054a3e575e1a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a152007cd78efb7df905054a3e575e1a7">&#9670;&#160;</a></span>GetStats() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriterStats</a> sqlcc::LazyWriter::GetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取延迟写入器统计信息 </p>
+<dl class="section return"><dt>返回</dt><dd>统计信息 </dd></dl>
+
+</div>
+</div>
+<a id="adc658661d9d8ca08cebdc44e0fa726e0" name="adc658661d9d8ca08cebdc44e0fa726e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc658661d9d8ca08cebdc44e0fa726e0">&#9670;&#160;</a></span>IsEnabled() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::LazyWriter::IsEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查是否启用 </p>
+<dl class="section return"><dt>返回</dt><dd>是否启用 </dd></dl>
+
+</div>
+</div>
+<a id="adc658661d9d8ca08cebdc44e0fa726e0" name="adc658661d9d8ca08cebdc44e0fa726e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc658661d9d8ca08cebdc44e0fa726e0">&#9670;&#160;</a></span>IsEnabled() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::LazyWriter::IsEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查是否启用 </p>
+<dl class="section return"><dt>返回</dt><dd>是否启用 </dd></dl>
+
+</div>
+</div>
+<a id="ae564e469578afbfb497551762f59a8b0" name="ae564e469578afbfb497551762f59a8b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae564e469578afbfb497551762f59a8b0">&#9670;&#160;</a></span>LazyWriteWorker() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::LazyWriteWorker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>延迟写入工作线程函数 </p>
+
+</div>
+</div>
+<a id="ae564e469578afbfb497551762f59a8b0" name="ae564e469578afbfb497551762f59a8b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae564e469578afbfb497551762f59a8b0">&#9670;&#160;</a></span>LazyWriteWorker() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::LazyWriteWorker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>延迟写入工作线程函数 </p>
+
+</div>
+</div>
+<a id="aed079417747123955d99a8f379860302" name="aed079417747123955d99a8f379860302"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed079417747123955d99a8f379860302">&#9670;&#160;</a></span>MarkDirty() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::MarkDirty </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="storage_2lazy__writer_8h.html#a42c06721f4d401a1122a7bbff208c4fe">PageData</a> &amp;&#160;</td>
+          <td class="paramname"><em>page_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>标记页面为脏页 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+    <tr><td class="paramname">page_data</td><td>页面数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aed079417747123955d99a8f379860302" name="aed079417747123955d99a8f379860302"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed079417747123955d99a8f379860302">&#9670;&#160;</a></span>MarkDirty() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::MarkDirty </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="storage_2lazy__writer_8h.html#a42c06721f4d401a1122a7bbff208c4fe">PageData</a> &amp;&#160;</td>
+          <td class="paramname"><em>page_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>标记页面为脏页 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+    <tr><td class="paramname">page_data</td><td>页面数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac08e54e2a9ff87b50c63bf4122552113" name="ac08e54e2a9ff87b50c63bf4122552113"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac08e54e2a9ff87b50c63bf4122552113">&#9670;&#160;</a></span>ResetStats() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::ResetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>重置统计信息 </p>
+
+</div>
+</div>
+<a id="ac08e54e2a9ff87b50c63bf4122552113" name="ac08e54e2a9ff87b50c63bf4122552113"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac08e54e2a9ff87b50c63bf4122552113">&#9670;&#160;</a></span>ResetStats() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::ResetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>重置统计信息 </p>
+
+</div>
+</div>
+<a id="a08daa80d5d96bd28b4ac4476f862c15a" name="a08daa80d5d96bd28b4ac4476f862c15a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08daa80d5d96bd28b4ac4476f862c15a">&#9670;&#160;</a></span>SetEnabled() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::SetEnabled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置是否启用 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enabled</td><td>是否启用 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a08daa80d5d96bd28b4ac4476f862c15a" name="a08daa80d5d96bd28b4ac4476f862c15a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08daa80d5d96bd28b4ac4476f862c15a">&#9670;&#160;</a></span>SetEnabled() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::SetEnabled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置是否启用 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enabled</td><td>是否启用 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6453ea60d3a44167803a0d5aca3e4d58" name="a6453ea60d3a44167803a0d5aca3e4d58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6453ea60d3a44167803a0d5aca3e4d58">&#9670;&#160;</a></span>ShouldFlush() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::LazyWriter::ShouldFlush </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查是否应该触发写入 </p>
+<dl class="section return"><dt>返回</dt><dd>是否应该写入 </dd></dl>
+
+</div>
+</div>
+<a id="a6453ea60d3a44167803a0d5aca3e4d58" name="a6453ea60d3a44167803a0d5aca3e4d58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6453ea60d3a44167803a0d5aca3e4d58">&#9670;&#160;</a></span>ShouldFlush() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::LazyWriter::ShouldFlush </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查是否应该触发写入 </p>
+<dl class="section return"><dt>返回</dt><dd>是否应该写入 </dd></dl>
+
+</div>
+</div>
+<a id="a0a336b451c2aa254e2fcb02e23d4a03f" name="a0a336b451c2aa254e2fcb02e23d4a03f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a336b451c2aa254e2fcb02e23d4a03f">&#9670;&#160;</a></span>Start() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::Start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>启动延迟写入器 </p>
+
+</div>
+</div>
+<a id="a0a336b451c2aa254e2fcb02e23d4a03f" name="a0a336b451c2aa254e2fcb02e23d4a03f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a336b451c2aa254e2fcb02e23d4a03f">&#9670;&#160;</a></span>Start() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::Start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>启动延迟写入器 </p>
+
+</div>
+</div>
+<a id="a112b8696ce3335aa7102904c2f796db3" name="a112b8696ce3335aa7102904c2f796db3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a112b8696ce3335aa7102904c2f796db3">&#9670;&#160;</a></span>Stop() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::Stop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>停止延迟写入器 </p>
+
+</div>
+</div>
+<a id="a112b8696ce3335aa7102904c2f796db3" name="a112b8696ce3335aa7102904c2f796db3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a112b8696ce3335aa7102904c2f796db3">&#9670;&#160;</a></span>Stop() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::Stop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>停止延迟写入器 </p>
+
+</div>
+</div>
+<a id="a81fccf235e57457c5cffb4c0db6062d4" name="a81fccf235e57457c5cffb4c0db6062d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81fccf235e57457c5cffb4c0db6062d4">&#9670;&#160;</a></span>UpdateConfig() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::UpdateConfig </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新配置参数 </p>
+
+</div>
+</div>
+<a id="a81fccf235e57457c5cffb4c0db6062d4" name="a81fccf235e57457c5cffb4c0db6062d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81fccf235e57457c5cffb4c0db6062d4">&#9670;&#160;</a></span>UpdateConfig() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LazyWriter::UpdateConfig </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新配置参数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a445b7eb9d94b6651bcc0e61cb59571d7" name="a445b7eb9d94b6651bcc0e61cb59571d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a445b7eb9d94b6651bcc0e61cb59571d7">&#9670;&#160;</a></span>batch_size_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::LazyWriter::batch_size_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a760c5676d96b8c5f50f8bd840c24706c" name="a760c5676d96b8c5f50f8bd840c24706c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a760c5676d96b8c5f50f8bd840c24706c">&#9670;&#160;</a></span>config_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp; sqlcc::LazyWriter::config_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab183a95ac0496302f9dced3f77a99439" name="ab183a95ac0496302f9dced3f77a99439"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab183a95ac0496302f9dced3f77a99439">&#9670;&#160;</a></span>dirty_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::LazyWriter::dirty_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a733e12767e5a274bf9ba03a1eeb5e32f" name="a733e12767e5a274bf9ba03a1eeb5e32f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a733e12767e5a274bf9ba03a1eeb5e32f">&#9670;&#160;</a></span>dirty_page_data_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; int32_t, <a class="el" href="storage_2lazy__writer_8h.html#a42c06721f4d401a1122a7bbff208c4fe">PageData</a> &gt; sqlcc::LazyWriter::dirty_page_data_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5363bf2dd898294788e5f519413afe25" name="a5363bf2dd898294788e5f519413afe25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5363bf2dd898294788e5f519413afe25">&#9670;&#160;</a></span>dirty_pages_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; int32_t, <a class="el" href="structsqlcc_1_1DirtyPageInfo.html">DirtyPageInfo</a> &gt; sqlcc::LazyWriter::dirty_pages_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aded682ed3d5ff3b5304711f522f4a0d0" name="aded682ed3d5ff3b5304711f522f4a0d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aded682ed3d5ff3b5304711f522f4a0d0">&#9670;&#160;</a></span>disk_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp; sqlcc::LazyWriter::disk_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaeb749dff1688f95689474031f15739e" name="aaeb749dff1688f95689474031f15739e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaeb749dff1688f95689474031f15739e">&#9670;&#160;</a></span>enabled_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt; bool &gt; sqlcc::LazyWriter::enabled_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac5746c6a850860fc8568cf8f90b26dab" name="ac5746c6a850860fc8568cf8f90b26dab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5746c6a850860fc8568cf8f90b26dab">&#9670;&#160;</a></span>flush_cv_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::condition_variable sqlcc::LazyWriter::flush_cv_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac94049eb78173715ecf4578d302c852c" name="ac94049eb78173715ecf4578d302c852c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac94049eb78173715ecf4578d302c852c">&#9670;&#160;</a></span>flush_interval_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::LazyWriter::flush_interval_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a989d2f6e506631f1096f9d7d86c49970" name="a989d2f6e506631f1096f9d7d86c49970"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a989d2f6e506631f1096f9d7d86c49970">&#9670;&#160;</a></span>flush_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::LazyWriter::flush_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9c5064e44be0d7ad5a80002d90817158" name="a9c5064e44be0d7ad5a80002d90817158"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c5064e44be0d7ad5a80002d90817158">&#9670;&#160;</a></span>max_dirty_age_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::LazyWriter::max_dirty_age_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a775f4243f6f539ab2941f739ee42ff57" name="a775f4243f6f539ab2941f739ee42ff57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a775f4243f6f539ab2941f739ee42ff57">&#9670;&#160;</a></span>max_dirty_pages_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::LazyWriter::max_dirty_pages_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af74b850a988bccf62b30d118240e35e4" name="af74b850a988bccf62b30d118240e35e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af74b850a988bccf62b30d118240e35e4">&#9670;&#160;</a></span>running_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt; bool &gt; sqlcc::LazyWriter::running_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a81691d6c171dcc00b4acee4c6c81512f" name="a81691d6c171dcc00b4acee4c6c81512f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81691d6c171dcc00b4acee4c6c81512f">&#9670;&#160;</a></span>stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1LazyWriter_1_1LazyWriterStats.html">LazyWriterStats</a> sqlcc::LazyWriter::stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4e3a2b8921e6c714ebb9b0712006e211" name="a4e3a2b8921e6c714ebb9b0712006e211"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e3a2b8921e6c714ebb9b0712006e211">&#9670;&#160;</a></span>stats_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::LazyWriter::stats_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1ad33190fcb44ea69357216891b321f5" name="a1ad33190fcb44ea69357216891b321f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ad33190fcb44ea69357216891b321f5">&#9670;&#160;</a></span>worker_thread_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::thread sqlcc::LazyWriter::worker_thread_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage_2lazy__writer_8h_source.html">storage/lazy_writer.h</a></li>
+<li><a class="el" href="storage__engine_2lazy__writer_8h_source.html">storage_engine/lazy_writer.h</a></li>
+<li><a class="el" href="lazy__writer_8cpp.html">lazy_writer.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

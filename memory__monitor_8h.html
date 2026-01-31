@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: memory_monitor.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_8a6c31bbbfb30065ee9a683ead3fe21a.html">security</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#define-members">宏定义</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle"><div class="title">memory_monitor.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;condition_variable&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+memory_monitor.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__monitor_8h__incl.png" border="0" usemap="#amemory__monitor_8h" alt=""/></div>
+<map name="amemory__monitor_8h" id="amemory__monitor_8h">
+<area shape="rect" title=" " alt="" coords="476,5,623,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,72,104"/>
+<area shape="poly" title=" " alt="" coords="476,29,302,48,86,81,85,76,301,43,476,23"/>
+<area shape="rect" title=" " alt="" coords="96,79,173,104"/>
+<area shape="poly" title=" " alt="" coords="476,33,187,81,186,76,475,27"/>
+<area shape="rect" title=" " alt="" coords="197,79,256,104"/>
+<area shape="poly" title=" " alt="" coords="491,33,270,81,269,76,490,28"/>
+<area shape="rect" title=" " alt="" coords="281,79,343,104"/>
+<area shape="poly" title=" " alt="" coords="512,33,357,79,356,74,510,28"/>
+<area shape="rect" title=" " alt="" coords="367,79,491,104"/>
+<area shape="poly" title=" " alt="" coords="531,33,462,74,460,69,529,28"/>
+<area shape="rect" title=" " alt="" coords="516,79,583,104"/>
+<area shape="poly" title=" " alt="" coords="552,31,552,65,547,65,547,31"/>
+<area shape="rect" title=" " alt="" coords="607,79,671,104"/>
+<area shape="poly" title=" " alt="" coords="565,29,615,68,612,72,562,33"/>
+<area shape="rect" title=" " alt="" coords="695,79,759,104"/>
+<area shape="poly" title=" " alt="" coords="579,28,686,71,684,76,577,33"/>
+<area shape="rect" title=" " alt="" coords="783,79,926,104"/>
+<area shape="poly" title=" " alt="" coords="599,28,793,73,791,78,598,33"/>
+<area shape="rect" title=" " alt="" coords="950,79,1037,104"/>
+<area shape="poly" title=" " alt="" coords="623,27,937,76,936,81,622,32"/>
+<area shape="rect" title=" " alt="" coords="1061,79,1141,104"/>
+<area shape="poly" title=" " alt="" coords="623,23,812,43,1048,76,1047,81,811,48,623,28"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="memory__monitor_8h__dep__incl.png" border="0" usemap="#amemory__monitor_8hdep" alt=""/></div>
+<map name="amemory__monitor_8hdep" id="amemory__monitor_8hdep">
+<area shape="rect" title=" " alt="" coords="13,5,159,31"/>
+<area shape="rect" href="memory__monitor_8cpp.html" title=" " alt="" coords="5,79,167,104"/>
+<area shape="poly" title=" " alt="" coords="89,44,89,79,83,79,83,44"/>
+</map>
+</div>
+</div>
+<p><a href="memory__monitor_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html">sqlcc::security::MemoryMonitor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">内存安全监控系统 - Phase 4长效机制  <a href="classsqlcc_1_1security_1_1MemoryMonitor.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1security_1_1MemoryMonitor_1_1MemoryMetrics.html">sqlcc::security::MemoryMonitor::MemoryMetrics</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1security_1_1MemoryMonitor_1_1AllocationInfo.html">sqlcc::security::MemoryMonitor::AllocationInfo</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemorySafetyAuditor.html">sqlcc::security::MemorySafetyAuditor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">内存安全审计器  <a href="classsqlcc_1_1security_1_1MemorySafetyAuditor.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1memory__utils_1_1MemoryUsageTracker.html">sqlcc::security::memory_utils::MemoryUsageTracker</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">内存使用统计  <a href="classsqlcc_1_1security_1_1memory__utils_1_1MemoryUsageTracker.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1security" id="r_namespacesqlcc_1_1security"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1security.html">sqlcc::security</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1security_1_1memory__utils" id="r_namespacesqlcc_1_1security_1_1memory__utils"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1security_1_1memory__utils.html">sqlcc::security::memory_utils</a></td></tr>
+<tr class="memdesc:namespacesqlcc_1_1security_1_1memory__utils"><td class="mdescLeft">&#160;</td><td class="mdescRight">内存安全工具函数 <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:a290b859cd1985424461c8279359d6eeb" id="r_a290b859cd1985424461c8279359d6eeb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__monitor_8h.html#a290b859cd1985424461c8279359d6eeb">SQLCC_MEMORY_ALLOC</a>(size)&#160;&#160;&#160;    <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5d73e4114e3b83d94b77cb48e566d5cb">sqlcc::security::MemoryMonitor::getInstance</a>().recordAllocation(size, __FILE__, __LINE__)</td></tr>
+<tr class="separator:a290b859cd1985424461c8279359d6eeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1249327980b2b0e2dcdd9abd68db3134" id="r_a1249327980b2b0e2dcdd9abd68db3134"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__monitor_8h.html#a1249327980b2b0e2dcdd9abd68db3134">SQLCC_MEMORY_FREE</a>(size)&#160;&#160;&#160;    <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5d73e4114e3b83d94b77cb48e566d5cb">sqlcc::security::MemoryMonitor::getInstance</a>().recordDeallocation(size)</td></tr>
+<tr class="separator:a1249327980b2b0e2dcdd9abd68db3134"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61dabbb0866fe99480f4b870a83740b1" id="r_a61dabbb0866fe99480f4b870a83740b1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="memory__monitor_8h.html#a61dabbb0866fe99480f4b870a83740b1">SQLCC_MEMORY_TRACKER</a>(context)&#160;&#160;&#160;    <a class="el" href="classsqlcc_1_1security_1_1memory__utils_1_1MemoryUsageTracker.html">sqlcc::security::memory_utils::MemoryUsageTracker</a> tracker(context)</td></tr>
+<tr class="separator:a61dabbb0866fe99480f4b870a83740b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:a3e51d4d15e150e3dbe56b5204d57fc78" id="r_a3e51d4d15e150e3dbe56b5204d57fc78"><td class="memTemplParams" colspan="2">template&lt;typename T , typename... Args&gt; </td></tr>
+<tr class="memitem:a3e51d4d15e150e3dbe56b5204d57fc78"><td class="memTemplItemLeft" align="right" valign="top">std::unique_ptr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1security_1_1memory__utils.html#a3e51d4d15e150e3dbe56b5204d57fc78">sqlcc::security::memory_utils::make_safe_unique</a> (Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:a3e51d4d15e150e3dbe56b5204d57fc78"><td class="mdescLeft">&#160;</td><td class="mdescRight">安全内存分配（带监控）  <br /></td></tr>
+<tr class="separator:a3e51d4d15e150e3dbe56b5204d57fc78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0472f7d48a7d4995b7451e6d94409ee1" id="r_a0472f7d48a7d4995b7451e6d94409ee1"><td class="memTemplParams" colspan="2">template&lt;typename T , typename... Args&gt; </td></tr>
+<tr class="memitem:a0472f7d48a7d4995b7451e6d94409ee1"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1security_1_1memory__utils.html#a0472f7d48a7d4995b7451e6d94409ee1">sqlcc::security::memory_utils::make_safe_shared</a> (Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a0472f7d48a7d4995b7451e6d94409ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="a290b859cd1985424461c8279359d6eeb" name="a290b859cd1985424461c8279359d6eeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a290b859cd1985424461c8279359d6eeb">&#9670;&#160;</a></span>SQLCC_MEMORY_ALLOC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SQLCC_MEMORY_ALLOC</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">size</td><td>)</td>
+          <td>&#160;&#160;&#160;    <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5d73e4114e3b83d94b77cb48e566d5cb">sqlcc::security::MemoryMonitor::getInstance</a>().recordAllocation(size, __FILE__, __LINE__)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1249327980b2b0e2dcdd9abd68db3134" name="a1249327980b2b0e2dcdd9abd68db3134"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1249327980b2b0e2dcdd9abd68db3134">&#9670;&#160;</a></span>SQLCC_MEMORY_FREE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SQLCC_MEMORY_FREE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">size</td><td>)</td>
+          <td>&#160;&#160;&#160;    <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5d73e4114e3b83d94b77cb48e566d5cb">sqlcc::security::MemoryMonitor::getInstance</a>().recordDeallocation(size)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a61dabbb0866fe99480f4b870a83740b1" name="a61dabbb0866fe99480f4b870a83740b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61dabbb0866fe99480f4b870a83740b1">&#9670;&#160;</a></span>SQLCC_MEMORY_TRACKER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SQLCC_MEMORY_TRACKER</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">context</td><td>)</td>
+          <td>&#160;&#160;&#160;    <a class="el" href="classsqlcc_1_1security_1_1memory__utils_1_1MemoryUsageTracker.html">sqlcc::security::memory_utils::MemoryUsageTracker</a> tracker(context)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

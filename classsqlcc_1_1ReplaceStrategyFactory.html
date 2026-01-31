@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::ReplaceStrategyFactory类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html">ReplaceStrategyFactory</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="classsqlcc_1_1ReplaceStrategyFactory-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::ReplaceStrategyFactory类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>替换策略工厂  
+ <a href="classsqlcc_1_1ReplaceStrategyFactory.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="strategy__factory_8h_source.html">strategy_factory.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:aed3e2e345ce53dba81fb926ad4579ed1" id="r_aed3e2e345ce53dba81fb926ad4579ed1"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#aed3e2e345ce53dba81fb926ad4579ed1">StrategyType</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#aed3e2e345ce53dba81fb926ad4579ed1a875ecb34f6d21d13d4b9fd4980a8b5af">LRU</a>
+, <a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#aed3e2e345ce53dba81fb926ad4579ed1a96a74b4240085d5b2a73287deef3a5fa">LFU</a>
+, <a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#aed3e2e345ce53dba81fb926ad4579ed1aca6c44800b2dc123e0d4389a867e8686">CLOCK</a>
+, <a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#aed3e2e345ce53dba81fb926ad4579ed1ad72a48a8ebd238e1497a911e938f46e8">ARC</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#aed3e2e345ce53dba81fb926ad4579ed1ac589858dbe1d06c46544266ae4cd2c6f">FIFO</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:aed3e2e345ce53dba81fb926ad4579ed1"><td class="mdescLeft">&#160;</td><td class="mdescRight">策略类型枚举  <a href="classsqlcc_1_1ReplaceStrategyFactory.html#aed3e2e345ce53dba81fb926ad4579ed1">更多...</a><br /></td></tr>
+<tr class="separator:aed3e2e345ce53dba81fb926ad4579ed1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:add34b406a1bd70b8e90f67671b366150" id="r_add34b406a1bd70b8e90f67671b366150"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html">AbstractReplaceStrategy</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#add34b406a1bd70b8e90f67671b366150">CreateStrategy</a> (<a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#aed3e2e345ce53dba81fb926ad4579ed1">StrategyType</a> type)</td></tr>
+<tr class="memdesc:add34b406a1bd70b8e90f67671b366150"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建替换策略实例  <br /></td></tr>
+<tr class="separator:add34b406a1bd70b8e90f67671b366150"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca4597f69db38783fd417879f7802e41" id="r_aca4597f69db38783fd417879f7802e41"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#aca4597f69db38783fd417879f7802e41">GetStrategyName</a> (<a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#aed3e2e345ce53dba81fb926ad4579ed1">StrategyType</a> type)</td></tr>
+<tr class="memdesc:aca4597f69db38783fd417879f7802e41"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取策略类型对应的名称  <br /></td></tr>
+<tr class="separator:aca4597f69db38783fd417879f7802e41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af30a952505666ece706b83e7f037ddae" id="r_af30a952505666ece706b83e7f037ddae"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#aed3e2e345ce53dba81fb926ad4579ed1">StrategyType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#af30a952505666ece706b83e7f037ddae">GetStrategyType</a> (const std::string &amp;name)</td></tr>
+<tr class="memdesc:af30a952505666ece706b83e7f037ddae"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据名称获取策略类型  <br /></td></tr>
+<tr class="separator:af30a952505666ece706b83e7f037ddae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>替换策略工厂 </p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="aed3e2e345ce53dba81fb926ad4579ed1" name="aed3e2e345ce53dba81fb926ad4579ed1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed3e2e345ce53dba81fb926ad4579ed1">&#9670;&#160;</a></span>StrategyType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#aed3e2e345ce53dba81fb926ad4579ed1">sqlcc::ReplaceStrategyFactory::StrategyType</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>策略类型枚举 </p>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="aed3e2e345ce53dba81fb926ad4579ed1a875ecb34f6d21d13d4b9fd4980a8b5af" name="aed3e2e345ce53dba81fb926ad4579ed1a875ecb34f6d21d13d4b9fd4980a8b5af"></a>LRU&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aed3e2e345ce53dba81fb926ad4579ed1a96a74b4240085d5b2a73287deef3a5fa" name="aed3e2e345ce53dba81fb926ad4579ed1a96a74b4240085d5b2a73287deef3a5fa"></a>LFU&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aed3e2e345ce53dba81fb926ad4579ed1aca6c44800b2dc123e0d4389a867e8686" name="aed3e2e345ce53dba81fb926ad4579ed1aca6c44800b2dc123e0d4389a867e8686"></a>CLOCK&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aed3e2e345ce53dba81fb926ad4579ed1ad72a48a8ebd238e1497a911e938f46e8" name="aed3e2e345ce53dba81fb926ad4579ed1ad72a48a8ebd238e1497a911e938f46e8"></a>ARC&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aed3e2e345ce53dba81fb926ad4579ed1ac589858dbe1d06c46544266ae4cd2c6f" name="aed3e2e345ce53dba81fb926ad4579ed1ac589858dbe1d06c46544266ae4cd2c6f"></a>FIFO&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="add34b406a1bd70b8e90f67671b366150" name="add34b406a1bd70b8e90f67671b366150"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add34b406a1bd70b8e90f67671b366150">&#9670;&#160;</a></span>CreateStrategy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html">AbstractReplaceStrategy</a> &gt; sqlcc::ReplaceStrategyFactory::CreateStrategy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#aed3e2e345ce53dba81fb926ad4579ed1">StrategyType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建替换策略实例 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>策略类型 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>策略实例 </dd></dl>
+
+</div>
+</div>
+<a id="aca4597f69db38783fd417879f7802e41" name="aca4597f69db38783fd417879f7802e41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca4597f69db38783fd417879f7802e41">&#9670;&#160;</a></span>GetStrategyName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static std::string sqlcc::ReplaceStrategyFactory::GetStrategyName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#aed3e2e345ce53dba81fb926ad4579ed1">StrategyType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取策略类型对应的名称 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>策略类型 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>策略名称 </dd></dl>
+
+</div>
+</div>
+<a id="af30a952505666ece706b83e7f037ddae" name="af30a952505666ece706b83e7f037ddae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af30a952505666ece706b83e7f037ddae">&#9670;&#160;</a></span>GetStrategyType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html#aed3e2e345ce53dba81fb926ad4579ed1">StrategyType</a> sqlcc::ReplaceStrategyFactory::GetStrategyType </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>根据名称获取策略类型 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>策略名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>策略类型 </dd></dl>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="strategy__factory_8h_source.html">strategy_factory.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

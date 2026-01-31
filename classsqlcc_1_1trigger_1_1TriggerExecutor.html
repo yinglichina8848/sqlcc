@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::trigger::TriggerExecutor类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1trigger.html">trigger</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerExecutor.html">TriggerExecutor</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="classsqlcc_1_1trigger_1_1TriggerExecutor-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::trigger::TriggerExecutor类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>触发器执行器接口  
+ <a href="classsqlcc_1_1trigger_1_1TriggerExecutor.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="trigger_2trigger__executor_8h_source.html">trigger_executor.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::trigger::TriggerExecutor 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1trigger_1_1TriggerExecutor__inherit__graph.png" border="0" usemap="#asqlcc_1_1trigger_1_1TriggerExecutor_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1trigger_1_1TriggerExecutor_inherit__map" id="asqlcc_1_1trigger_1_1TriggerExecutor_inherit__map">
+<area shape="rect" title="触发器执行器接口" alt="" coords="111,5,325,31"/>
+<area shape="rect" href="classsqlcc_1_1trigger_1_1DefaultTriggerExecutor.html" title=" " alt="" coords="5,79,212,119"/>
+<area shape="poly" title=" " alt="" coords="193,41,137,81,133,76,189,36"/>
+<area shape="rect" href="classsqlcc_1_1trigger_1_1SQLTriggerExecutor.html" title="SQL触发器执行器" alt="" coords="236,79,419,119"/>
+<area shape="poly" title=" " alt="" coords="247,36,303,76,299,81,243,41"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a4d8e8694d0720a43b719d1d61eddb87b" id="r_a4d8e8694d0720a43b719d1d61eddb87b"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerExecutor.html#a4d8e8694d0720a43b719d1d61eddb87b">~TriggerExecutor</a> ()=default</td></tr>
+<tr class="memdesc:a4d8e8694d0720a43b719d1d61eddb87b"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a4d8e8694d0720a43b719d1d61eddb87b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae37e04ddc2622be23902c740811d9454" id="r_ae37e04ddc2622be23902c740811d9454"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerExecutor.html#ae37e04ddc2622be23902c740811d9454">executeTrigger</a> (const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> *trigger, const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> *old_row, const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> *new_row)=0</td></tr>
+<tr class="memdesc:ae37e04ddc2622be23902c740811d9454"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行触发器  <br /></td></tr>
+<tr class="separator:ae37e04ddc2622be23902c740811d9454"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bac3157cb943862a7748662f70e74d3" id="r_a3bac3157cb943862a7748662f70e74d3"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerExecutor.html#a3bac3157cb943862a7748662f70e74d3">evaluateCondition</a> (const std::string &amp;condition, const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> *old_row, const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> *new_row)=0</td></tr>
+<tr class="memdesc:a3bac3157cb943862a7748662f70e74d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查触发条件  <br /></td></tr>
+<tr class="separator:a3bac3157cb943862a7748662f70e74d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>触发器执行器接口 </p>
+<p>定义触发器执行的标准接口，包括触发器执行和条件评估 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a4d8e8694d0720a43b719d1d61eddb87b" name="a4d8e8694d0720a43b719d1d61eddb87b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d8e8694d0720a43b719d1d61eddb87b">&#9670;&#160;</a></span>~TriggerExecutor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual sqlcc::trigger::TriggerExecutor::~TriggerExecutor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a3bac3157cb943862a7748662f70e74d3" name="a3bac3157cb943862a7748662f70e74d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bac3157cb943862a7748662f70e74d3">&#9670;&#160;</a></span>evaluateCondition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool sqlcc::trigger::TriggerExecutor::evaluateCondition </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>condition</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> *&#160;</td>
+          <td class="paramname"><em>old_row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> *&#160;</td>
+          <td class="paramname"><em>new_row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查触发条件 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">condition</td><td>条件表达式 </td></tr>
+    <tr><td class="paramname">old_row</td><td>旧行数据 </td></tr>
+    <tr><td class="paramname">new_row</td><td>新行数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>条件是否满足 </dd></dl>
+
+<p>在 <a class="el" href="classsqlcc_1_1trigger_1_1SQLTriggerExecutor.html#a78beba54aa6d50f202e50dfaef9b812d">sqlcc::trigger::SQLTriggerExecutor</a> , 以及 <a class="el" href="classsqlcc_1_1trigger_1_1DefaultTriggerExecutor.html#a8747750d3f88a5d526018e3716d56e94">sqlcc::trigger::DefaultTriggerExecutor</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ae37e04ddc2622be23902c740811d9454" name="ae37e04ddc2622be23902c740811d9454"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae37e04ddc2622be23902c740811d9454">&#9670;&#160;</a></span>executeTrigger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool sqlcc::trigger::TriggerExecutor::executeTrigger </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> *&#160;</td>
+          <td class="paramname"><em>trigger</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> *&#160;</td>
+          <td class="paramname"><em>old_row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> *&#160;</td>
+          <td class="paramname"><em>new_row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行触发器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trigger</td><td>触发器定义 </td></tr>
+    <tr><td class="paramname">old_row</td><td>旧行数据 (UPDATE/DELETE时有效) </td></tr>
+    <tr><td class="paramname">new_row</td><td>新行数据 (INSERT/UPDATE时有效) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>执行结果 </dd></dl>
+
+<p>在 <a class="el" href="classsqlcc_1_1trigger_1_1SQLTriggerExecutor.html#a9da0a9c3a895009d80d5e3b044498322">sqlcc::trigger::SQLTriggerExecutor</a> , 以及 <a class="el" href="classsqlcc_1_1trigger_1_1DefaultTriggerExecutor.html#ad2d1ffd99096fc26c30a98602bfd5624">sqlcc::trigger::DefaultTriggerExecutor</a> 内被实现.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="trigger_2trigger__executor_8h_source.html">trigger/trigger_executor.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

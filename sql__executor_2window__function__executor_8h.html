@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: window_function_executor.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c4da858a4a51ad367068831bac354363.html">sql_executor</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">window_function_executor.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="window__function_8h_source.html">sql_parser/window_function.h</a>&quot;</code><br />
+<code>#include &quot;database_manager.h&quot;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+sql_executor/window_function_executor.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="sql__executor_2window__function__executor_8h__incl.png" border="0" usemap="#awindow__function__executor_8h" alt=""/></div>
+<map name="awindow__function__executor_8h" id="awindow__function__executor_8h">
+<area shape="rect" title=" " alt="" coords="266,5,473,31"/>
+<area shape="rect" href="window__function_8h.html" title=" " alt="" coords="262,79,477,104"/>
+<area shape="poly" title=" " alt="" coords="372,31,372,65,367,65,367,31"/>
+<area shape="rect" title=" " alt="" coords="511,372,588,397"/>
+<area shape="poly" title=" " alt="" coords="473,28,534,44,591,70,615,87,634,109,646,134,651,163,651,240,643,278,625,312,601,342,577,365,573,361,597,338,620,310,638,276,645,239,645,164,641,135,629,112,611,91,588,74,532,49,471,33"/>
+<area shape="rect" title=" " alt="" coords="96,372,155,397"/>
+<area shape="poly" title=" " alt="" coords="307,33,216,54,118,83,74,101,39,121,16,142,10,152,8,164,8,239,10,259,17,278,39,312,67,341,96,362,93,367,64,345,34,315,12,280,5,260,3,239,3,163,5,151,12,138,36,116,72,96,116,78,215,49,306,28"/>
+<area shape="rect" title=" " alt="" coords="94,299,157,324"/>
+<area shape="poly" title=" " alt="" coords="334,33,291,52,251,81,209,132,176,189,151,243,135,286,130,284,146,241,171,186,205,129,248,77,289,47,332,28"/>
+<area shape="rect" title=" " alt="" coords="686,79,845,104"/>
+<area shape="poly" title=" " alt="" coords="433,28,688,74,687,79,432,33"/>
+<area shape="poly" title=" " alt="" coords="415,102,462,120,485,134,506,150,537,184,555,216,565,252,575,298,574,331,564,360,559,359,569,330,569,299,560,254,550,218,532,187,502,154,482,138,459,125,413,106"/>
+<area shape="poly" title=" " alt="" coords="336,107,276,132,203,172,167,198,134,228,106,262,84,300,81,315,85,331,104,360,100,363,80,333,76,315,79,298,101,259,130,224,164,194,200,167,273,127,334,102"/>
+<area shape="poly" title=" " alt="" coords="350,106,316,127,279,154,203,226,146,290,142,286,199,222,276,150,313,123,347,102"/>
+<area shape="rect" href="ast__node_8h.html" title=" " alt="" coords="443,299,560,324"/>
+<area shape="poly" title=" " alt="" coords="398,102,435,122,474,150,505,183,524,225,526,241,525,257,516,287,511,285,520,256,521,241,519,226,501,186,470,154,433,126,395,106"/>
+<area shape="rect" href="expression_8h.html" title=" " alt="" coords="230,225,359,251"/>
+<area shape="poly" title=" " alt="" coords="344,106,314,125,301,138,290,153,286,167,284,182,289,211,283,212,279,182,280,166,286,151,297,135,311,121,341,102"/>
+<area shape="rect" href="statement_8h.html" title=" " alt="" coords="384,225,509,251"/>
+<area shape="poly" title=" " alt="" coords="397,102,427,121,441,135,452,151,459,182,456,212,451,212,454,182,447,153,437,138,424,125,394,106"/>
+<area shape="rect" href="node__visitor_8h.html" title=" " alt="" coords="301,152,438,177"/>
+<area shape="poly" title=" " alt="" coords="372,104,372,138,367,138,367,104"/>
+<area shape="poly" title=" " alt="" coords="511,323,536,359,532,362,507,326"/>
+<area shape="poly" title=" " alt="" coords="443,326,169,378,168,373,442,321"/>
+<area shape="poly" title=" " alt="" coords="313,249,432,322,514,364,511,368,429,326,311,253"/>
+<area shape="poly" title=" " alt="" coords="281,253,222,301,150,364,146,360,218,297,278,249"/>
+<area shape="poly" title=" " alt="" coords="268,253,167,296,165,291,266,248"/>
+<area shape="poly" title=" " alt="" coords="329,248,456,292,454,297,327,253"/>
+<area shape="rect" href="operator__kind_8h.html" title=" " alt="" coords="232,299,368,324"/>
+<area shape="poly" title=" " alt="" coords="298,251,301,285,295,285,293,251"/>
+<area shape="poly" title=" " alt="" coords="458,249,486,286,482,289,454,253"/>
+<area shape="poly" title=" " alt="" coords="359,179,319,218,315,214,356,175"/>
+<area shape="poly" title=" " alt="" coords="384,175,426,214,422,218,380,179"/>
+</map>
+</div>
+</div>
+<p><a href="sql__executor_2window__function__executor_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1WindowFunctionResult.html">sqlcc::WindowFunctionResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口函数执行结果  <a href="structsqlcc_1_1WindowFunctionResult.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WindowFunctionExecutor.html">sqlcc::WindowFunctionExecutor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">窗口函数执行器  <a href="classsqlcc_1_1WindowFunctionExecutor.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

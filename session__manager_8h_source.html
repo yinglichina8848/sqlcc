@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: session_manager.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fc4c7f03e1a69a98c370fae55a743828.html">network</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">session_manager.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="session__manager_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc_1_1network.html">network</a> {</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span> </div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="keyword">class </span>Session;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
+<div class="foldopen" id="foldopen00208" data-start="{" data-end="};">
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1SessionManager.html">  208</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1network_1_1SessionManager.html">SessionManager</a> {</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <a class="code hl_function" href="classsqlcc_1_1network_1_1SessionManager.html#a1b333160aa318b09fe9a5f55f832a11a">SessionManager</a>();</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    std::shared_ptr&lt;Session&gt; <a class="code hl_function" href="classsqlcc_1_1network_1_1SessionManager.html#aa2ade0f2901d34c81bb7006756db3147">CreateSession</a>();</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    std::shared_ptr&lt;Session&gt; <a class="code hl_function" href="classsqlcc_1_1network_1_1SessionManager.html#a2a9d36328372fdc19e8ec04c6708abc5">GetSession</a>(<span class="keywordtype">int</span> session_id);</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1SessionManager.html#af19be171b617a98f90284d0594a7b21d">DestroySession</a>(<span class="keywordtype">int</span> session_id);</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1SessionManager.html#ac85bde4df05b08db20dc6cbc07e87a84">Authenticate</a>(<span class="keywordtype">int</span> session_id, <span class="keyword">const</span> std::string&amp; username,</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>                     <span class="keyword">const</span> std::string&amp; password);</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1SessionManager.html#a651e4efbbe1aa0289ed9af14e28fde7f">CheckPermission</a>(<span class="keywordtype">int</span> session_id, <span class="keyword">const</span> std::string&amp; database,</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                        <span class="keyword">const</span> std::string&amp; operation);</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span> </div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1SessionManager.html#a94fcb7648aa8cfd3979d16d7ce80f605">  255</a></span>    std::mutex <a class="code hl_variable" href="classsqlcc_1_1network_1_1SessionManager.html#a94fcb7648aa8cfd3979d16d7ce80f605">sessions_mutex_</a>;                                    </div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1SessionManager.html#a1f524b0c93dd109ee003b7dd56bdae7b">  256</a></span>    std::unordered_map&lt;int, std::weak_ptr&lt;Session&gt;&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1SessionManager.html#a1f524b0c93dd109ee003b7dd56bdae7b">sessions_</a>;    </div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1SessionManager.html#a46376975898032eb23f6c977b19f6f4c">  257</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1SessionManager.html#a46376975898032eb23f6c977b19f6f4c">next_session_id_</a>;                                          </div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>};</div>
+</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>} <span class="comment">// namespace network</span></div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1SessionManager_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1SessionManager.html">sqlcc::network::SessionManager</a></div><div class="ttdoc">会话管理器类，负责管理所有客户端会话</div><div class="ttdef"><b>Definition</b> session_manager.h:208</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1SessionManager_html_a1b333160aa318b09fe9a5f55f832a11a"><div class="ttname"><a href="classsqlcc_1_1network_1_1SessionManager.html#a1b333160aa318b09fe9a5f55f832a11a">sqlcc::network::SessionManager::SessionManager</a></div><div class="ttdeci">SessionManager()</div><div class="ttdoc">构造函数</div><div class="ttdef"><b>Definition</b> network.cpp:132</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1SessionManager_html_a1f524b0c93dd109ee003b7dd56bdae7b"><div class="ttname"><a href="classsqlcc_1_1network_1_1SessionManager.html#a1f524b0c93dd109ee003b7dd56bdae7b">sqlcc::network::SessionManager::sessions_</a></div><div class="ttdeci">std::unordered_map&lt; int, std::weak_ptr&lt; Session &gt; &gt; sessions_</div><div class="ttdoc">会话映射表（使用弱引用避免循环依赖）</div><div class="ttdef"><b>Definition</b> session_manager.h:256</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1SessionManager_html_a2a9d36328372fdc19e8ec04c6708abc5"><div class="ttname"><a href="classsqlcc_1_1network_1_1SessionManager.html#a2a9d36328372fdc19e8ec04c6708abc5">sqlcc::network::SessionManager::GetSession</a></div><div class="ttdeci">std::shared_ptr&lt; Session &gt; GetSession(int session_id)</div><div class="ttdoc">根据会话ID查找会话</div><div class="ttdef"><b>Definition</b> network.cpp:148</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1SessionManager_html_a46376975898032eb23f6c977b19f6f4c"><div class="ttname"><a href="classsqlcc_1_1network_1_1SessionManager.html#a46376975898032eb23f6c977b19f6f4c">sqlcc::network::SessionManager::next_session_id_</a></div><div class="ttdeci">int next_session_id_</div><div class="ttdoc">下一个会话ID</div><div class="ttdef"><b>Definition</b> session_manager.h:257</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1SessionManager_html_a651e4efbbe1aa0289ed9af14e28fde7f"><div class="ttname"><a href="classsqlcc_1_1network_1_1SessionManager.html#a651e4efbbe1aa0289ed9af14e28fde7f">sqlcc::network::SessionManager::CheckPermission</a></div><div class="ttdeci">bool CheckPermission(int session_id, const std::string &amp;database, const std::string &amp;operation)</div><div class="ttdoc">检查用户权限</div><div class="ttdef"><b>Definition</b> network.cpp:195</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1SessionManager_html_a94fcb7648aa8cfd3979d16d7ce80f605"><div class="ttname"><a href="classsqlcc_1_1network_1_1SessionManager.html#a94fcb7648aa8cfd3979d16d7ce80f605">sqlcc::network::SessionManager::sessions_mutex_</a></div><div class="ttdeci">std::mutex sessions_mutex_</div><div class="ttdoc">会话映射表的互斥锁</div><div class="ttdef"><b>Definition</b> session_manager.h:255</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1SessionManager_html_aa2ade0f2901d34c81bb7006756db3147"><div class="ttname"><a href="classsqlcc_1_1network_1_1SessionManager.html#aa2ade0f2901d34c81bb7006756db3147">sqlcc::network::SessionManager::CreateSession</a></div><div class="ttdeci">std::shared_ptr&lt; Session &gt; CreateSession()</div><div class="ttdoc">创建新会话</div><div class="ttdef"><b>Definition</b> network.cpp:134</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1SessionManager_html_ac85bde4df05b08db20dc6cbc07e87a84"><div class="ttname"><a href="classsqlcc_1_1network_1_1SessionManager.html#ac85bde4df05b08db20dc6cbc07e87a84">sqlcc::network::SessionManager::Authenticate</a></div><div class="ttdeci">bool Authenticate(int session_id, const std::string &amp;username, const std::string &amp;password)</div><div class="ttdoc">用户认证</div><div class="ttdef"><b>Definition</b> network.cpp:172</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1SessionManager_html_af19be171b617a98f90284d0594a7b21d"><div class="ttname"><a href="classsqlcc_1_1network_1_1SessionManager.html#af19be171b617a98f90284d0594a7b21d">sqlcc::network::SessionManager::DestroySession</a></div><div class="ttdeci">void DestroySession(int session_id)</div><div class="ttdoc">销毁指定会话</div><div class="ttdef"><b>Definition</b> network.cpp:167</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html"><div class="ttname"><a href="namespacesqlcc_1_1network.html">sqlcc::network</a></div><div class="ttdef"><b>Definition</b> client_main.cpp:286</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

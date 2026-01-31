@@ -1,0 +1,766 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::AbstractReplaceStrategy类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html">AbstractReplaceStrategy</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pro-methods">Protected 成员函数</a> &#124;
+<a href="#pro-attribs">Protected 属性</a> &#124;
+<a href="classsqlcc_1_1AbstractReplaceStrategy-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::AbstractReplaceStrategy类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>抽象替换策略基类  
+ <a href="classsqlcc_1_1AbstractReplaceStrategy.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="abstract__strategy_8h_source.html">abstract_strategy.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::AbstractReplaceStrategy 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1AbstractReplaceStrategy__inherit__graph.png" border="0" usemap="#asqlcc_1_1AbstractReplaceStrategy_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1AbstractReplaceStrategy_inherit__map" id="asqlcc_1_1AbstractReplaceStrategy_inherit__map">
+<area shape="rect" title="抽象替换策略基类" alt="" coords="5,80,229,105"/>
+<area shape="rect" href="classsqlcc_1_1ARCReplaceStrategy.html" title="ARC（自适应替换缓存）替换策略" alt="" coords="282,5,479,31"/>
+<area shape="poly" title=" " alt="" coords="168,73,277,39,321,28,323,33,278,45,169,78"/>
+<area shape="rect" href="classsqlcc_1_1ClockReplaceStrategy.html" title="CLOCK（时钟）替换策略" alt="" coords="277,55,484,80"/>
+<area shape="poly" title=" " alt="" coords="243,78,277,75,277,80,243,83"/>
+<area shape="rect" href="classsqlcc_1_1LFUReplaceStrategy.html" title="LFU（最不经常使用）替换策略" alt="" coords="283,104,478,129"/>
+<area shape="poly" title=" " alt="" coords="243,101,284,105,283,110,243,107"/>
+<area shape="rect" href="classsqlcc_1_1LRUReplaceStrategy.html" title="LRU（最近最少使用）替换策略" alt="" coords="283,153,479,179"/>
+<area shape="poly" title=" " alt="" coords="173,107,278,138,326,151,325,156,277,143,171,112"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<div class="dynheader">
+sqlcc::AbstractReplaceStrategy 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1AbstractReplaceStrategy__coll__graph.png" border="0" usemap="#asqlcc_1_1AbstractReplaceStrategy_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1AbstractReplaceStrategy_coll__map" id="asqlcc_1_1AbstractReplaceStrategy_coll__map">
+<area shape="rect" title="抽象替换策略基类" alt="" coords="5,108,229,133"/>
+<area shape="rect" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html" title="策略统计信息" alt="" coords="5,5,229,45"/>
+<area shape="poly" title=" " alt="" coords="120,59,120,108,115,108,115,59"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html">PageAccessInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面访问信息  <a href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html">StrategyStats</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">策略统计信息  <a href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:ad6342c1c7d29275d68c774d477713d24" id="r_ad6342c1c7d29275d68c774d477713d24"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#ad6342c1c7d29275d68c774d477713d24">AbstractReplaceStrategy</a> (const std::string &amp;name)</td></tr>
+<tr class="memdesc:ad6342c1c7d29275d68c774d477713d24"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:ad6342c1c7d29275d68c774d477713d24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c1b559a9c0c9da9835b1f14a1071d68" id="r_a3c1b559a9c0c9da9835b1f14a1071d68"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#a3c1b559a9c0c9da9835b1f14a1071d68">~AbstractReplaceStrategy</a> ()=default</td></tr>
+<tr class="memdesc:a3c1b559a9c0c9da9835b1f14a1071d68"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a3c1b559a9c0c9da9835b1f14a1071d68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04bd3331abec9fe621cb41f122d98da5" id="r_a04bd3331abec9fe621cb41f122d98da5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#a04bd3331abec9fe621cb41f122d98da5">RecordAccess</a> (int32_t page_id, bool is_hit, bool is_write)=0</td></tr>
+<tr class="memdesc:a04bd3331abec9fe621cb41f122d98da5"><td class="mdescLeft">&#160;</td><td class="mdescRight">记录页面访问  <br /></td></tr>
+<tr class="separator:a04bd3331abec9fe621cb41f122d98da5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade2aaf2f2c24370fdf4485355cee1db0" id="r_ade2aaf2f2c24370fdf4485355cee1db0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#ade2aaf2f2c24370fdf4485355cee1db0">PinPage</a> (int32_t page_id)</td></tr>
+<tr class="memdesc:ade2aaf2f2c24370fdf4485355cee1db0"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面被钉住（引用计数增加）  <br /></td></tr>
+<tr class="separator:ade2aaf2f2c24370fdf4485355cee1db0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad21bcab5491eab63cfd71caf95a3f54" id="r_aad21bcab5491eab63cfd71caf95a3f54"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#aad21bcab5491eab63cfd71caf95a3f54">UnpinPage</a> (int32_t page_id)</td></tr>
+<tr class="memdesc:aad21bcab5491eab63cfd71caf95a3f54"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面被释放（引用计数减少）  <br /></td></tr>
+<tr class="separator:aad21bcab5491eab63cfd71caf95a3f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fedcae1e1df17b977aa7113d609985e" id="r_a1fedcae1e1df17b977aa7113d609985e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#a1fedcae1e1df17b977aa7113d609985e">MarkDirty</a> (int32_t page_id)</td></tr>
+<tr class="memdesc:a1fedcae1e1df17b977aa7113d609985e"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面被修改（标记为脏页）  <br /></td></tr>
+<tr class="separator:a1fedcae1e1df17b977aa7113d609985e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17fdffe93cef2f9bf68c5f71f07d5d7c" id="r_a17fdffe93cef2f9bf68c5f71f07d5d7c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#a17fdffe93cef2f9bf68c5f71f07d5d7c">CleanPage</a> (int32_t page_id)</td></tr>
+<tr class="memdesc:a17fdffe93cef2f9bf68c5f71f07d5d7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面被清理（脏页状态清除）  <br /></td></tr>
+<tr class="separator:a17fdffe93cef2f9bf68c5f71f07d5d7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9de0f42f66b1253bab726c3098f26b7c" id="r_a9de0f42f66b1253bab726c3098f26b7c"><td class="memItemLeft" align="right" valign="top">virtual int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#a9de0f42f66b1253bab726c3098f26b7c">SelectVictim</a> ()=0</td></tr>
+<tr class="memdesc:a9de0f42f66b1253bab726c3098f26b7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">选择要替换的页面  <br /></td></tr>
+<tr class="separator:a9de0f42f66b1253bab726c3098f26b7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ae7f7c21652ad5bbf4916b786ec2fbc" id="r_a2ae7f7c21652ad5bbf4916b786ec2fbc"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#a2ae7f7c21652ad5bbf4916b786ec2fbc">GetName</a> () const</td></tr>
+<tr class="memdesc:a2ae7f7c21652ad5bbf4916b786ec2fbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取策略名称  <br /></td></tr>
+<tr class="separator:a2ae7f7c21652ad5bbf4916b786ec2fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a319a13a97c41251e87529711e2120082" id="r_a319a13a97c41251e87529711e2120082"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html">StrategyStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#a319a13a97c41251e87529711e2120082">GetStats</a> () const</td></tr>
+<tr class="memdesc:a319a13a97c41251e87529711e2120082"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取统计信息  <br /></td></tr>
+<tr class="separator:a319a13a97c41251e87529711e2120082"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a734664488758608d99583bcbb722dfcc" id="r_a734664488758608d99583bcbb722dfcc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#a734664488758608d99583bcbb722dfcc">ResetStats</a> ()</td></tr>
+<tr class="memdesc:a734664488758608d99583bcbb722dfcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">重置统计信息  <br /></td></tr>
+<tr class="separator:a734664488758608d99583bcbb722dfcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecf0a91f6344e12c477f80d87117afd8" id="r_aecf0a91f6344e12c477f80d87117afd8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html">PageAccessInfo</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#aecf0a91f6344e12c477f80d87117afd8">GetPageInfo</a> (int32_t page_id)</td></tr>
+<tr class="memdesc:aecf0a91f6344e12c477f80d87117afd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取页面访问信息  <br /></td></tr>
+<tr class="separator:aecf0a91f6344e12c477f80d87117afd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c7715391d8f9d38ad2953c5ebce99d7" id="r_a7c7715391d8f9d38ad2953c5ebce99d7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#a7c7715391d8f9d38ad2953c5ebce99d7">RemovePage</a> (int32_t page_id)</td></tr>
+<tr class="memdesc:a7c7715391d8f9d38ad2953c5ebce99d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">移除页面信息  <br /></td></tr>
+<tr class="separator:a7c7715391d8f9d38ad2953c5ebce99d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected 成员函数</h2></td></tr>
+<tr class="memitem:a7257c0368760db0aed16a1aac6b572e7" id="r_a7257c0368760db0aed16a1aac6b572e7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#a7257c0368760db0aed16a1aac6b572e7">AddPage</a> (int32_t page_id)</td></tr>
+<tr class="memdesc:a7257c0368760db0aed16a1aac6b572e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加新页面  <br /></td></tr>
+<tr class="separator:a7257c0368760db0aed16a1aac6b572e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
+Protected 属性</h2></td></tr>
+<tr class="memitem:aba01c4426e2257468c90dad677e7f008" id="r_aba01c4426e2257468c90dad677e7f008"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, <a class="el" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html">PageAccessInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#aba01c4426e2257468c90dad677e7f008">page_info_</a></td></tr>
+<tr class="memdesc:aba01c4426e2257468c90dad677e7f008"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面访问信息映射  <br /></td></tr>
+<tr class="separator:aba01c4426e2257468c90dad677e7f008"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ad7e8acf65c41237831f9fc4174f554" id="r_a8ad7e8acf65c41237831f9fc4174f554"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#a8ad7e8acf65c41237831f9fc4174f554">page_info_mutex_</a></td></tr>
+<tr class="memdesc:a8ad7e8acf65c41237831f9fc4174f554"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面访问信息互斥锁  <br /></td></tr>
+<tr class="separator:a8ad7e8acf65c41237831f9fc4174f554"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d81cca9efc27073b9cd86c2fcb581cd" id="r_a4d81cca9efc27073b9cd86c2fcb581cd"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#a4d81cca9efc27073b9cd86c2fcb581cd">name_</a></td></tr>
+<tr class="memdesc:a4d81cca9efc27073b9cd86c2fcb581cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">策略名称  <br /></td></tr>
+<tr class="separator:a4d81cca9efc27073b9cd86c2fcb581cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a687f5099d373693b5c5bb6f3bc87925d" id="r_a687f5099d373693b5c5bb6f3bc87925d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html">StrategyStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#a687f5099d373693b5c5bb6f3bc87925d">stats_</a></td></tr>
+<tr class="memdesc:a687f5099d373693b5c5bb6f3bc87925d"><td class="mdescLeft">&#160;</td><td class="mdescRight">统计信息  <br /></td></tr>
+<tr class="separator:a687f5099d373693b5c5bb6f3bc87925d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac955ffd7d213ead11ea8d7beae2efcb6" id="r_ac955ffd7d213ead11ea8d7beae2efcb6"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AbstractReplaceStrategy.html#ac955ffd7d213ead11ea8d7beae2efcb6">stats_mutex_</a></td></tr>
+<tr class="memdesc:ac955ffd7d213ead11ea8d7beae2efcb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">统计信息互斥锁  <br /></td></tr>
+<tr class="separator:ac955ffd7d213ead11ea8d7beae2efcb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>抽象替换策略基类 </p>
+<p>定义了页面替换策略的通用接口，支持多种替换算法。 派生类需要实现具体的替换逻辑。 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="ad6342c1c7d29275d68c774d477713d24" name="ad6342c1c7d29275d68c774d477713d24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6342c1c7d29275d68c774d477713d24">&#9670;&#160;</a></span>AbstractReplaceStrategy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::AbstractReplaceStrategy::AbstractReplaceStrategy </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+
+</div>
+</div>
+<a id="a3c1b559a9c0c9da9835b1f14a1071d68" name="a3c1b559a9c0c9da9835b1f14a1071d68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c1b559a9c0c9da9835b1f14a1071d68">&#9670;&#160;</a></span>~AbstractReplaceStrategy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual sqlcc::AbstractReplaceStrategy::~AbstractReplaceStrategy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a7257c0368760db0aed16a1aac6b572e7" name="a7257c0368760db0aed16a1aac6b572e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7257c0368760db0aed16a1aac6b572e7">&#9670;&#160;</a></span>AddPage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::AbstractReplaceStrategy::AddPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>添加新页面 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a17fdffe93cef2f9bf68c5f71f07d5d7c" name="a17fdffe93cef2f9bf68c5f71f07d5d7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17fdffe93cef2f9bf68c5f71f07d5d7c">&#9670;&#160;</a></span>CleanPage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::AbstractReplaceStrategy::CleanPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>页面被清理（脏页状态清除） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2ae7f7c21652ad5bbf4916b786ec2fbc" name="a2ae7f7c21652ad5bbf4916b786ec2fbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ae7f7c21652ad5bbf4916b786ec2fbc">&#9670;&#160;</a></span>GetName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::AbstractReplaceStrategy::GetName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取策略名称 </p>
+<dl class="section return"><dt>返回</dt><dd>策略名称 </dd></dl>
+
+</div>
+</div>
+<a id="aecf0a91f6344e12c477f80d87117afd8" name="aecf0a91f6344e12c477f80d87117afd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecf0a91f6344e12c477f80d87117afd8">&#9670;&#160;</a></span>GetPageInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html">PageAccessInfo</a> * sqlcc::AbstractReplaceStrategy::GetPageInfo </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取页面访问信息 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>页面访问信息，如果页面不存在返回nullptr </dd></dl>
+
+</div>
+</div>
+<a id="a319a13a97c41251e87529711e2120082" name="a319a13a97c41251e87529711e2120082"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a319a13a97c41251e87529711e2120082">&#9670;&#160;</a></span>GetStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html">StrategyStats</a> sqlcc::AbstractReplaceStrategy::GetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取统计信息 </p>
+<dl class="section return"><dt>返回</dt><dd>统计信息 </dd></dl>
+
+</div>
+</div>
+<a id="a1fedcae1e1df17b977aa7113d609985e" name="a1fedcae1e1df17b977aa7113d609985e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fedcae1e1df17b977aa7113d609985e">&#9670;&#160;</a></span>MarkDirty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::AbstractReplaceStrategy::MarkDirty </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>页面被修改（标记为脏页） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ade2aaf2f2c24370fdf4485355cee1db0" name="ade2aaf2f2c24370fdf4485355cee1db0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade2aaf2f2c24370fdf4485355cee1db0">&#9670;&#160;</a></span>PinPage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::AbstractReplaceStrategy::PinPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>页面被钉住（引用计数增加） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a04bd3331abec9fe621cb41f122d98da5" name="a04bd3331abec9fe621cb41f122d98da5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04bd3331abec9fe621cb41f122d98da5">&#9670;&#160;</a></span>RecordAccess()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::AbstractReplaceStrategy::RecordAccess </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_hit</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_write</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>记录页面访问 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+    <tr><td class="paramname">is_hit</td><td>是否命中 </td></tr>
+    <tr><td class="paramname">is_write</td><td>是否为写操作 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>在 <a class="el" href="classsqlcc_1_1ARCReplaceStrategy.html#aacc0cb6b47776f35769c6fd118870fed">sqlcc::ARCReplaceStrategy</a>, <a class="el" href="classsqlcc_1_1ClockReplaceStrategy.html#ac98521b58bf831b2b29e16aab9aec6b4">sqlcc::ClockReplaceStrategy</a>, <a class="el" href="classsqlcc_1_1LFUReplaceStrategy.html#ab0a7023cbe58a9e8cb5fe1a8b01255db">sqlcc::LFUReplaceStrategy</a> , 以及 <a class="el" href="classsqlcc_1_1LRUReplaceStrategy.html#a26a7385e3811cf741d8326bcd7f330ca">sqlcc::LRUReplaceStrategy</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a7c7715391d8f9d38ad2953c5ebce99d7" name="a7c7715391d8f9d38ad2953c5ebce99d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c7715391d8f9d38ad2953c5ebce99d7">&#9670;&#160;</a></span>RemovePage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::AbstractReplaceStrategy::RemovePage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>移除页面信息 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a734664488758608d99583bcbb722dfcc" name="a734664488758608d99583bcbb722dfcc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a734664488758608d99583bcbb722dfcc">&#9670;&#160;</a></span>ResetStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::AbstractReplaceStrategy::ResetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>重置统计信息 </p>
+
+</div>
+</div>
+<a id="a9de0f42f66b1253bab726c3098f26b7c" name="a9de0f42f66b1253bab726c3098f26b7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9de0f42f66b1253bab726c3098f26b7c">&#9670;&#160;</a></span>SelectVictim()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int32_t sqlcc::AbstractReplaceStrategy::SelectVictim </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>选择要替换的页面 </p>
+<dl class="section return"><dt>返回</dt><dd>被选中的页面ID，如果没有可替换的页面返回-1 </dd></dl>
+
+<p>在 <a class="el" href="classsqlcc_1_1ARCReplaceStrategy.html#a2a47f9c260f815deadaa5714461f25c9">sqlcc::ARCReplaceStrategy</a>, <a class="el" href="classsqlcc_1_1ClockReplaceStrategy.html#a75a2f72d6fb0fdd21f1dcbd566e4b001">sqlcc::ClockReplaceStrategy</a>, <a class="el" href="classsqlcc_1_1LFUReplaceStrategy.html#a0b17bcbc33af722f0238eee15502c140">sqlcc::LFUReplaceStrategy</a> , 以及 <a class="el" href="classsqlcc_1_1LRUReplaceStrategy.html#a2b7934e26064255b412e69a7450e360c">sqlcc::LRUReplaceStrategy</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="aad21bcab5491eab63cfd71caf95a3f54" name="aad21bcab5491eab63cfd71caf95a3f54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad21bcab5491eab63cfd71caf95a3f54">&#9670;&#160;</a></span>UnpinPage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::AbstractReplaceStrategy::UnpinPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>页面被释放（引用计数减少） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a4d81cca9efc27073b9cd86c2fcb581cd" name="a4d81cca9efc27073b9cd86c2fcb581cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d81cca9efc27073b9cd86c2fcb581cd">&#9670;&#160;</a></span>name_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string sqlcc::AbstractReplaceStrategy::name_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>策略名称 </p>
+
+</div>
+</div>
+<a id="aba01c4426e2257468c90dad677e7f008" name="aba01c4426e2257468c90dad677e7f008"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba01c4426e2257468c90dad677e7f008">&#9670;&#160;</a></span>page_info_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;int32_t, <a class="el" href="structsqlcc_1_1AbstractReplaceStrategy_1_1PageAccessInfo.html">PageAccessInfo</a>&gt; sqlcc::AbstractReplaceStrategy::page_info_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>页面访问信息映射 </p>
+
+</div>
+</div>
+<a id="a8ad7e8acf65c41237831f9fc4174f554" name="a8ad7e8acf65c41237831f9fc4174f554"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ad7e8acf65c41237831f9fc4174f554">&#9670;&#160;</a></span>page_info_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::AbstractReplaceStrategy::page_info_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>页面访问信息互斥锁 </p>
+
+</div>
+</div>
+<a id="a687f5099d373693b5c5bb6f3bc87925d" name="a687f5099d373693b5c5bb6f3bc87925d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a687f5099d373693b5c5bb6f3bc87925d">&#9670;&#160;</a></span>stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1AbstractReplaceStrategy_1_1StrategyStats.html">StrategyStats</a> sqlcc::AbstractReplaceStrategy::stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>统计信息 </p>
+
+</div>
+</div>
+<a id="ac955ffd7d213ead11ea8d7beae2efcb6" name="ac955ffd7d213ead11ea8d7beae2efcb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac955ffd7d213ead11ea8d7beae2efcb6">&#9670;&#160;</a></span>stats_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::AbstractReplaceStrategy::stats_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>统计信息互斥锁 </p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="abstract__strategy_8h_source.html">abstract_strategy.h</a></li>
+<li><a class="el" href="replace__strategy_8cpp.html">replace_strategy.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

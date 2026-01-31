@@ -1,0 +1,1041 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::ConfigLifecycleManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html">ConfigLifecycleManager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1ConfigLifecycleManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::ConfigLifecycleManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Manages the overall state and versioning of system configuration.  
+ <a href="classsqlcc_1_1ConfigLifecycleManager.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="config__lifecycle_8h_source.html">config_lifecycle.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::ConfigLifecycleManager 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1ConfigLifecycleManager__coll__graph.png" border="0" usemap="#asqlcc_1_1ConfigLifecycleManager_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1ConfigLifecycleManager_coll__map" id="asqlcc_1_1ConfigLifecycleManager_coll__map">
+<area shape="rect" title="Manages the overall state and versioning of system configuration." alt="" coords="7,93,225,119"/>
+<area shape="rect" href="classsqlcc_1_1ConfigSnapshotManager.html" title="配置快照管理器" alt="" coords="5,5,227,31"/>
+<area shape="poly" title=" " alt="" coords="119,45,119,93,113,93,113,45"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:acdd20e4864b63ed9e29de3b44964ffa9" id="r_acdd20e4864b63ed9e29de3b44964ffa9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#acdd20e4864b63ed9e29de3b44964ffa9">ConfigLifecycleManager</a> (const std::string &amp;config_path=&quot;&quot;)</td></tr>
+<tr class="memdesc:acdd20e4864b63ed9e29de3b44964ffa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs the lifecycle manager.  <br /></td></tr>
+<tr class="separator:acdd20e4864b63ed9e29de3b44964ffa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e82da1da7c849b500ac92854cb10ab0" id="r_a9e82da1da7c849b500ac92854cb10ab0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a9e82da1da7c849b500ac92854cb10ab0">~ConfigLifecycleManager</a> ()</td></tr>
+<tr class="memdesc:a9e82da1da7c849b500ac92854cb10ab0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor that ensures a clean shutdown.  <br /></td></tr>
+<tr class="separator:a9e82da1da7c849b500ac92854cb10ab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9664e949fe1fcaaadec31ded0ffe2e09" id="r_a9664e949fe1fcaaadec31ded0ffe2e09"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a9664e949fe1fcaaadec31ded0ffe2e09">ConfigLifecycleManager</a> (const <a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html">ConfigLifecycleManager</a> &amp;)=delete</td></tr>
+<tr class="separator:a9664e949fe1fcaaadec31ded0ffe2e09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee2c20c293ee884671406ddabff68f6a" id="r_aee2c20c293ee884671406ddabff68f6a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html">ConfigLifecycleManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#aee2c20c293ee884671406ddabff68f6a">operator=</a> (const <a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html">ConfigLifecycleManager</a> &amp;)=delete</td></tr>
+<tr class="separator:aee2c20c293ee884671406ddabff68f6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ef0189fdef1417e9a4524082ebb43e1" id="r_a8ef0189fdef1417e9a4524082ebb43e1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a8ef0189fdef1417e9a4524082ebb43e1">ConfigLifecycleManager</a> (<a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html">ConfigLifecycleManager</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="separator:a8ef0189fdef1417e9a4524082ebb43e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c3759bb7e40c84350fb6aa78e6231dd" id="r_a3c3759bb7e40c84350fb6aa78e6231dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html">ConfigLifecycleManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a3c3759bb7e40c84350fb6aa78e6231dd">operator=</a> (<a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html">ConfigLifecycleManager</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="separator:a3c3759bb7e40c84350fb6aa78e6231dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93ee0dd325140eaf9f36e4ddf9688a40" id="r_a93ee0dd325140eaf9f36e4ddf9688a40"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a93ee0dd325140eaf9f36e4ddf9688a40">Initialize</a> (const std::string &amp;config_path=&quot;&quot;)</td></tr>
+<tr class="memdesc:a93ee0dd325140eaf9f36e4ddf9688a40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the configuration manager, making it ready.  <br /></td></tr>
+<tr class="separator:a93ee0dd325140eaf9f36e4ddf9688a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb52084463dac0f070dbd5c87a6a4cd4" id="r_acb52084463dac0f070dbd5c87a6a4cd4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#acb52084463dac0f070dbd5c87a6a4cd4">Shutdown</a> ()</td></tr>
+<tr class="memdesc:acb52084463dac0f070dbd5c87a6a4cd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shuts down the manager and cleans up resources. This is idempotent; calling it multiple times has no effect.  <br /></td></tr>
+<tr class="separator:acb52084463dac0f070dbd5c87a6a4cd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a817ed0e87f7ea136ca15f5ed85ae972d" id="r_a817ed0e87f7ea136ca15f5ed85ae972d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a32e5fc9ecc4b6caf1f8975d443ef91fb">ConfigLifecycleState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a817ed0e87f7ea136ca15f5ed85ae972d">GetState</a> () const</td></tr>
+<tr class="memdesc:a817ed0e87f7ea136ca15f5ed85ae972d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the current state of the lifecycle manager.  <br /></td></tr>
+<tr class="separator:a817ed0e87f7ea136ca15f5ed85ae972d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2497d80db1df21b4593c1c946e71a2ee" id="r_a2497d80db1df21b4593c1c946e71a2ee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a2497d80db1df21b4593c1c946e71a2ee">IsReady</a> () const</td></tr>
+<tr class="memdesc:a2497d80db1df21b4593c1c946e71a2ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the manager is ready to serve configuration.  <br /></td></tr>
+<tr class="separator:a2497d80db1df21b4593c1c946e71a2ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9201b89b799fd7a74f0faa4a31812ead" id="r_a9201b89b799fd7a74f0faa4a31812ead"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">ConfigSnapshot::SnapshotPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a9201b89b799fd7a74f0faa4a31812ead">GetCurrentSnapshot</a> () const</td></tr>
+<tr class="memdesc:a9201b89b799fd7a74f0faa4a31812ead"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a shared pointer to the current configuration snapshot. This is the core method used by RAII accessors.  <br /></td></tr>
+<tr class="separator:a9201b89b799fd7a74f0faa4a31812ead"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ae14c628c6cf94f7be259cfb8055507" id="r_a9ae14c628c6cf94f7be259cfb8055507"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a9ae14c628c6cf94f7be259cfb8055507">UpdateSnapshot</a> (const <a class="el" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">ConfigSnapshot::SnapshotPtr</a> &amp;snapshot)</td></tr>
+<tr class="memdesc:a9ae14c628c6cf94f7be259cfb8055507"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomically updates the configuration by adding a new snapshot.  <br /></td></tr>
+<tr class="separator:a9ae14c628c6cf94f7be259cfb8055507"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4e2e93ca8e242eedec89ce0e937490b" id="r_ad4e2e93ca8e242eedec89ce0e937490b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#ad4e2e93ca8e242eedec89ce0e937490b">RollbackToVersion</a> (const std::string &amp;version_id)</td></tr>
+<tr class="memdesc:ad4e2e93ca8e242eedec89ce0e937490b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomically rolls back the configuration to a previous version.  <br /></td></tr>
+<tr class="separator:ad4e2e93ca8e242eedec89ce0e937490b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae98777e98e035b684a4fb0bec72c7356" id="r_ae98777e98e035b684a4fb0bec72c7356"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ConfigSnapshotManager.html">ConfigSnapshotManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#ae98777e98e035b684a4fb0bec72c7356">GetSnapshotManager</a> ()</td></tr>
+<tr class="memdesc:ae98777e98e035b684a4fb0bec72c7356"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a reference to the underlying snapshot manager.  <br /></td></tr>
+<tr class="separator:ae98777e98e035b684a4fb0bec72c7356"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a822cbb51f289f70dd767a3c8a3360a1e" id="r_a822cbb51f289f70dd767a3c8a3360a1e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsqlcc_1_1ConfigSnapshotManager.html">ConfigSnapshotManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a822cbb51f289f70dd767a3c8a3360a1e">GetSnapshotManager</a> () const</td></tr>
+<tr class="memdesc:a822cbb51f289f70dd767a3c8a3360a1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a const reference to the underlying snapshot manager.  <br /></td></tr>
+<tr class="separator:a822cbb51f289f70dd767a3c8a3360a1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a879bd2be5618870361dcab70320e87ac" id="r_a879bd2be5618870361dcab70320e87ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a879bd2be5618870361dcab70320e87ac">SetInitializeCallback</a> (std::function&lt; void()&gt; callback)</td></tr>
+<tr class="memdesc:a879bd2be5618870361dcab70320e87ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a callback function to be executed upon initialization.  <br /></td></tr>
+<tr class="separator:a879bd2be5618870361dcab70320e87ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f5092c834302e0dc495f58118e1958c" id="r_a9f5092c834302e0dc495f58118e1958c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a9f5092c834302e0dc495f58118e1958c">SetShutdownCallback</a> (std::function&lt; void()&gt; callback)</td></tr>
+<tr class="memdesc:a9f5092c834302e0dc495f58118e1958c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a callback function to be executed upon shutdown.  <br /></td></tr>
+<tr class="separator:a9f5092c834302e0dc495f58118e1958c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa42d35544d04c5cfbf65c82a951306d3" id="r_aa42d35544d04c5cfbf65c82a951306d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#aa42d35544d04c5cfbf65c82a951306d3">SetConfigChangeCallback</a> (std::function&lt; void(const std::string &amp;)&gt; callback)</td></tr>
+<tr class="memdesc:aa42d35544d04c5cfbf65c82a951306d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a callback function to be executed after a configuration change.  <br /></td></tr>
+<tr class="separator:aa42d35544d04c5cfbf65c82a951306d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f3af1dfd555c7e09cf50acc31dd45fb" id="r_a0f3af1dfd555c7e09cf50acc31dd45fb"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a0f3af1dfd555c7e09cf50acc31dd45fb">GetStatistics</a> () const</td></tr>
+<tr class="memdesc:a0f3af1dfd555c7e09cf50acc31dd45fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gathers and returns performance and health statistics.  <br /></td></tr>
+<tr class="separator:a0f3af1dfd555c7e09cf50acc31dd45fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a2b922dcac51fb8c6bb9d0839d3f3fd64" id="r_a2b922dcac51fb8c6bb9d0839d3f3fd64"><td class="memItemLeft" align="right" valign="top">std::shared_mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a2b922dcac51fb8c6bb9d0839d3f3fd64">state_mutex_</a></td></tr>
+<tr class="separator:a2b922dcac51fb8c6bb9d0839d3f3fd64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75635f674c69d2b34138e1dc8473f9ca" id="r_a75635f674c69d2b34138e1dc8473f9ca"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; <a class="el" href="namespacesqlcc.html#a32e5fc9ecc4b6caf1f8975d443ef91fb">ConfigLifecycleState</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a75635f674c69d2b34138e1dc8473f9ca">state_</a> {<a class="el" href="namespacesqlcc.html#a32e5fc9ecc4b6caf1f8975d443ef91fbadd652546039b18970b8dcf2cff824268">ConfigLifecycleState::UNINITIALIZED</a>}</td></tr>
+<tr class="separator:a75635f674c69d2b34138e1dc8473f9ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90fa2747a074c59c5bfd20a9a3cd5c21" id="r_a90fa2747a074c59c5bfd20a9a3cd5c21"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ConfigSnapshotManager.html">ConfigSnapshotManager</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a90fa2747a074c59c5bfd20a9a3cd5c21">snapshot_manager_</a></td></tr>
+<tr class="separator:a90fa2747a074c59c5bfd20a9a3cd5c21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11213b32c32f29ca6ee37e529cee1d7c" id="r_a11213b32c32f29ca6ee37e529cee1d7c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a11213b32c32f29ca6ee37e529cee1d7c">current_config_path_</a></td></tr>
+<tr class="separator:a11213b32c32f29ca6ee37e529cee1d7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61e1b4f82eb6bc03f350b3497e26137f" id="r_a61e1b4f82eb6bc03f350b3497e26137f"><td class="memItemLeft" align="right" valign="top">std::function&lt; void()&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a61e1b4f82eb6bc03f350b3497e26137f">on_initialize_</a></td></tr>
+<tr class="separator:a61e1b4f82eb6bc03f350b3497e26137f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3a5b68db8a9d5251c21cbd773a1aad9" id="r_ab3a5b68db8a9d5251c21cbd773a1aad9"><td class="memItemLeft" align="right" valign="top">std::function&lt; void()&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#ab3a5b68db8a9d5251c21cbd773a1aad9">on_shutdown_</a></td></tr>
+<tr class="separator:ab3a5b68db8a9d5251c21cbd773a1aad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51f5edcb0b4c24810cb2c6e883cc1cd1" id="r_a51f5edcb0b4c24810cb2c6e883cc1cd1"><td class="memItemLeft" align="right" valign="top">std::function&lt; void(const std::string &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a51f5edcb0b4c24810cb2c6e883cc1cd1">on_config_change_</a></td></tr>
+<tr class="separator:a51f5edcb0b4c24810cb2c6e883cc1cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ab81705e053afa05afad7e3c0ec6d73" id="r_a3ab81705e053afa05afad7e3c0ec6d73"><td class="memItemLeft" align="right" valign="top">std::chrono::steady_clock::time_point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a3ab81705e053afa05afad7e3c0ec6d73">init_time_</a></td></tr>
+<tr class="separator:a3ab81705e053afa05afad7e3c0ec6d73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23f99b36b7ba82ad11f2788b8f6a03d3" id="r_a23f99b36b7ba82ad11f2788b8f6a03d3"><td class="memItemLeft" align="right" valign="top">std::chrono::steady_clock::time_point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a23f99b36b7ba82ad11f2788b8f6a03d3">last_update_time_</a></td></tr>
+<tr class="separator:a23f99b36b7ba82ad11f2788b8f6a03d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d0c63d7f865c4c44b2d49aa27e6942d" id="r_a0d0c63d7f865c4c44b2d49aa27e6942d"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a0d0c63d7f865c4c44b2d49aa27e6942d">update_count_</a> {0}</td></tr>
+<tr class="separator:a0d0c63d7f865c4c44b2d49aa27e6942d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a707175ad090f6ae10581c4089ad2029c" id="r_a707175ad090f6ae10581c4089ad2029c"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html#a707175ad090f6ae10581c4089ad2029c">error_count_</a> {0}</td></tr>
+<tr class="separator:a707175ad090f6ae10581c4089ad2029c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>Manages the overall state and versioning of system configuration. </p>
+<p>This class acts as a state machine and the central authority for configuration. It is responsible for:</p><ul>
+<li>Owning the history of configuration snapshots (<code><a class="el" href="classsqlcc_1_1ConfigSnapshotManager.html" title="配置快照管理器">ConfigSnapshotManager</a></code>).</li>
+<li>Managing the lifecycle state (e.g., UNINITIALIZED, READY, SHUTDOWN).</li>
+<li>Coordinating atomic updates and rollbacks to configuration.</li>
+<li>Providing a single point of access for RAII-based configuration accessor. It is expected to be a long-lived object (e.g., a singleton) within the system. </li>
+</ul>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="acdd20e4864b63ed9e29de3b44964ffa9" name="acdd20e4864b63ed9e29de3b44964ffa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdd20e4864b63ed9e29de3b44964ffa9">&#9670;&#160;</a></span>ConfigLifecycleManager() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::ConfigLifecycleManager::ConfigLifecycleManager </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>config_path</em> = <code>&quot;&quot;</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructs the lifecycle manager. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config_path</td><td>Optional initial path to the configuration file. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9e82da1da7c849b500ac92854cb10ab0" name="a9e82da1da7c849b500ac92854cb10ab0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e82da1da7c849b500ac92854cb10ab0">&#9670;&#160;</a></span>~ConfigLifecycleManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::ConfigLifecycleManager::~ConfigLifecycleManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Destructor that ensures a clean shutdown. </p>
+
+</div>
+</div>
+<a id="a9664e949fe1fcaaadec31ded0ffe2e09" name="a9664e949fe1fcaaadec31ded0ffe2e09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9664e949fe1fcaaadec31ded0ffe2e09">&#9670;&#160;</a></span>ConfigLifecycleManager() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::ConfigLifecycleManager::ConfigLifecycleManager </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html">ConfigLifecycleManager</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8ef0189fdef1417e9a4524082ebb43e1" name="a8ef0189fdef1417e9a4524082ebb43e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ef0189fdef1417e9a4524082ebb43e1">&#9670;&#160;</a></span>ConfigLifecycleManager() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::ConfigLifecycleManager::ConfigLifecycleManager </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html">ConfigLifecycleManager</a> &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a9201b89b799fd7a74f0faa4a31812ead" name="a9201b89b799fd7a74f0faa4a31812ead"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9201b89b799fd7a74f0faa4a31812ead">&#9670;&#160;</a></span>GetCurrentSnapshot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">ConfigSnapshot::SnapshotPtr</a> sqlcc::ConfigLifecycleManager::GetCurrentSnapshot </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets a shared pointer to the current configuration snapshot. This is the core method used by RAII accessors. </p>
+<dl class="section return"><dt>返回</dt><dd>A thread-safe, shared pointer to the immutable current snapshot. </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classsqlcc_1_1ConfigLifecycleException.html" title="Custom exception for errors related to the configuration lifecycle. Provides context about the state ...">ConfigLifecycleException</a></td><td>if the manager is not in a READY state. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae98777e98e035b684a4fb0bec72c7356" name="ae98777e98e035b684a4fb0bec72c7356"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae98777e98e035b684a4fb0bec72c7356">&#9670;&#160;</a></span>GetSnapshotManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ConfigSnapshotManager.html">ConfigSnapshotManager</a> &amp; sqlcc::ConfigLifecycleManager::GetSnapshotManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets a reference to the underlying snapshot manager. </p>
+<dl class="section return"><dt>返回</dt><dd>A mutable reference to <a class="el" href="classsqlcc_1_1ConfigSnapshotManager.html" title="配置快照管理器">ConfigSnapshotManager</a>. </dd></dl>
+
+</div>
+</div>
+<a id="a822cbb51f289f70dd767a3c8a3360a1e" name="a822cbb51f289f70dd767a3c8a3360a1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a822cbb51f289f70dd767a3c8a3360a1e">&#9670;&#160;</a></span>GetSnapshotManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsqlcc_1_1ConfigSnapshotManager.html">ConfigSnapshotManager</a> &amp; sqlcc::ConfigLifecycleManager::GetSnapshotManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets a const reference to the underlying snapshot manager. </p>
+<dl class="section return"><dt>返回</dt><dd>A const reference to <a class="el" href="classsqlcc_1_1ConfigSnapshotManager.html" title="配置快照管理器">ConfigSnapshotManager</a>. </dd></dl>
+
+</div>
+</div>
+<a id="a817ed0e87f7ea136ca15f5ed85ae972d" name="a817ed0e87f7ea136ca15f5ed85ae972d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a817ed0e87f7ea136ca15f5ed85ae972d">&#9670;&#160;</a></span>GetState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a32e5fc9ecc4b6caf1f8975d443ef91fb">ConfigLifecycleState</a> sqlcc::ConfigLifecycleManager::GetState </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the current state of the lifecycle manager. </p>
+<dl class="section return"><dt>返回</dt><dd>The current ConfigLifecycleState. </dd></dl>
+
+</div>
+</div>
+<a id="a0f3af1dfd555c7e09cf50acc31dd45fb" name="a0f3af1dfd555c7e09cf50acc31dd45fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f3af1dfd555c7e09cf50acc31dd45fb">&#9670;&#160;</a></span>GetStatistics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::ConfigLifecycleManager::GetStatistics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gathers and returns performance and health statistics. </p>
+<dl class="section return"><dt>返回</dt><dd>A formatted string containing key statistics. </dd></dl>
+
+</div>
+</div>
+<a id="a93ee0dd325140eaf9f36e4ddf9688a40" name="a93ee0dd325140eaf9f36e4ddf9688a40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93ee0dd325140eaf9f36e4ddf9688a40">&#9670;&#160;</a></span>Initialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::ConfigLifecycleManager::Initialize </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>config_path</em> = <code>&quot;&quot;</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initializes the configuration manager, making it ready. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config_path</td><td>Path to the configuration file to load. If empty, uses the path provided in the constructor. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>True if initialization was successful, false if already initialized. </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classsqlcc_1_1ConfigLifecycleException.html" title="Custom exception for errors related to the configuration lifecycle. Provides context about the state ...">ConfigLifecycleException</a></td><td>if initialization fails. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2497d80db1df21b4593c1c946e71a2ee" name="a2497d80db1df21b4593c1c946e71a2ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2497d80db1df21b4593c1c946e71a2ee">&#9670;&#160;</a></span>IsReady()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::ConfigLifecycleManager::IsReady </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks if the manager is ready to serve configuration. </p>
+<dl class="section return"><dt>返回</dt><dd>True if the state is READY, otherwise false. </dd></dl>
+
+</div>
+</div>
+<a id="a3c3759bb7e40c84350fb6aa78e6231dd" name="a3c3759bb7e40c84350fb6aa78e6231dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c3759bb7e40c84350fb6aa78e6231dd">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html">ConfigLifecycleManager</a> &amp; sqlcc::ConfigLifecycleManager::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html">ConfigLifecycleManager</a> &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aee2c20c293ee884671406ddabff68f6a" name="aee2c20c293ee884671406ddabff68f6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee2c20c293ee884671406ddabff68f6a">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html">ConfigLifecycleManager</a> &amp; sqlcc::ConfigLifecycleManager::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html">ConfigLifecycleManager</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad4e2e93ca8e242eedec89ce0e937490b" name="ad4e2e93ca8e242eedec89ce0e937490b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4e2e93ca8e242eedec89ce0e937490b">&#9670;&#160;</a></span>RollbackToVersion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::ConfigLifecycleManager::RollbackToVersion </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>version_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Atomically rolls back the configuration to a previous version. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">version_id</td><td>The ID of the target snapshot to restore. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>True on success. </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classsqlcc_1_1ConfigLifecycleException.html" title="Custom exception for errors related to the configuration lifecycle. Provides context about the state ...">ConfigLifecycleException</a></td><td>if the rollback fails. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa42d35544d04c5cfbf65c82a951306d3" name="aa42d35544d04c5cfbf65c82a951306d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa42d35544d04c5cfbf65c82a951306d3">&#9670;&#160;</a></span>SetConfigChangeCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConfigLifecycleManager::SetConfigChangeCallback </td>
+          <td>(</td>
+          <td class="paramtype">std::function&lt; void(const std::string &amp;)&gt;&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Registers a callback function to be executed after a configuration change. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callback</td><td>The function to call, which receives the new version ID. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a879bd2be5618870361dcab70320e87ac" name="a879bd2be5618870361dcab70320e87ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a879bd2be5618870361dcab70320e87ac">&#9670;&#160;</a></span>SetInitializeCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConfigLifecycleManager::SetInitializeCallback </td>
+          <td>(</td>
+          <td class="paramtype">std::function&lt; void()&gt;&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Registers a callback function to be executed upon initialization. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callback</td><td>The function to call. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9f5092c834302e0dc495f58118e1958c" name="a9f5092c834302e0dc495f58118e1958c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f5092c834302e0dc495f58118e1958c">&#9670;&#160;</a></span>SetShutdownCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConfigLifecycleManager::SetShutdownCallback </td>
+          <td>(</td>
+          <td class="paramtype">std::function&lt; void()&gt;&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Registers a callback function to be executed upon shutdown. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callback</td><td>The function to call. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="acb52084463dac0f070dbd5c87a6a4cd4" name="acb52084463dac0f070dbd5c87a6a4cd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb52084463dac0f070dbd5c87a6a4cd4">&#9670;&#160;</a></span>Shutdown()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::ConfigLifecycleManager::Shutdown </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Shuts down the manager and cleans up resources. This is idempotent; calling it multiple times has no effect. </p>
+<dl class="section return"><dt>返回</dt><dd>True always. </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classsqlcc_1_1ConfigLifecycleException.html" title="Custom exception for errors related to the configuration lifecycle. Provides context about the state ...">ConfigLifecycleException</a></td><td>if a catastrophic failure occurs during shutdown. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9ae14c628c6cf94f7be259cfb8055507" name="a9ae14c628c6cf94f7be259cfb8055507"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ae14c628c6cf94f7be259cfb8055507">&#9670;&#160;</a></span>UpdateSnapshot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::ConfigLifecycleManager::UpdateSnapshot </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">ConfigSnapshot::SnapshotPtr</a> &amp;&#160;</td>
+          <td class="paramname"><em>snapshot</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Atomically updates the configuration by adding a new snapshot. </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">snapshot</td><td>The new snapshot to make current. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>True on success. </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classsqlcc_1_1ConfigLifecycleException.html" title="Custom exception for errors related to the configuration lifecycle. Provides context about the state ...">ConfigLifecycleException</a></td><td>if the update fails. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a11213b32c32f29ca6ee37e529cee1d7c" name="a11213b32c32f29ca6ee37e529cee1d7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11213b32c32f29ca6ee37e529cee1d7c">&#9670;&#160;</a></span>current_config_path_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::ConfigLifecycleManager::current_config_path_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a707175ad090f6ae10581c4089ad2029c" name="a707175ad090f6ae10581c4089ad2029c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a707175ad090f6ae10581c4089ad2029c">&#9670;&#160;</a></span>error_count_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;size_t&gt; sqlcc::ConfigLifecycleManager::error_count_ {0}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3ab81705e053afa05afad7e3c0ec6d73" name="a3ab81705e053afa05afad7e3c0ec6d73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ab81705e053afa05afad7e3c0ec6d73">&#9670;&#160;</a></span>init_time_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::steady_clock::time_point sqlcc::ConfigLifecycleManager::init_time_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a23f99b36b7ba82ad11f2788b8f6a03d3" name="a23f99b36b7ba82ad11f2788b8f6a03d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23f99b36b7ba82ad11f2788b8f6a03d3">&#9670;&#160;</a></span>last_update_time_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::steady_clock::time_point sqlcc::ConfigLifecycleManager::last_update_time_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a51f5edcb0b4c24810cb2c6e883cc1cd1" name="a51f5edcb0b4c24810cb2c6e883cc1cd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51f5edcb0b4c24810cb2c6e883cc1cd1">&#9670;&#160;</a></span>on_config_change_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt;void(const std::string&amp;)&gt; sqlcc::ConfigLifecycleManager::on_config_change_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a61e1b4f82eb6bc03f350b3497e26137f" name="a61e1b4f82eb6bc03f350b3497e26137f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61e1b4f82eb6bc03f350b3497e26137f">&#9670;&#160;</a></span>on_initialize_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt;void()&gt; sqlcc::ConfigLifecycleManager::on_initialize_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab3a5b68db8a9d5251c21cbd773a1aad9" name="ab3a5b68db8a9d5251c21cbd773a1aad9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3a5b68db8a9d5251c21cbd773a1aad9">&#9670;&#160;</a></span>on_shutdown_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt;void()&gt; sqlcc::ConfigLifecycleManager::on_shutdown_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a90fa2747a074c59c5bfd20a9a3cd5c21" name="a90fa2747a074c59c5bfd20a9a3cd5c21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90fa2747a074c59c5bfd20a9a3cd5c21">&#9670;&#160;</a></span>snapshot_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ConfigSnapshotManager.html">ConfigSnapshotManager</a> sqlcc::ConfigLifecycleManager::snapshot_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a75635f674c69d2b34138e1dc8473f9ca" name="a75635f674c69d2b34138e1dc8473f9ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75635f674c69d2b34138e1dc8473f9ca">&#9670;&#160;</a></span>state_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;<a class="el" href="namespacesqlcc.html#a32e5fc9ecc4b6caf1f8975d443ef91fb">ConfigLifecycleState</a>&gt; sqlcc::ConfigLifecycleManager::state_ {<a class="el" href="namespacesqlcc.html#a32e5fc9ecc4b6caf1f8975d443ef91fbadd652546039b18970b8dcf2cff824268">ConfigLifecycleState::UNINITIALIZED</a>}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2b922dcac51fb8c6bb9d0839d3f3fd64" name="a2b922dcac51fb8c6bb9d0839d3f3fd64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b922dcac51fb8c6bb9d0839d3f3fd64">&#9670;&#160;</a></span>state_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_mutex sqlcc::ConfigLifecycleManager::state_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0d0c63d7f865c4c44b2d49aa27e6942d" name="a0d0c63d7f865c4c44b2d49aa27e6942d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d0c63d7f865c4c44b2d49aa27e6942d">&#9670;&#160;</a></span>update_count_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;size_t&gt; sqlcc::ConfigLifecycleManager::update_count_ {0}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="config__lifecycle_8h_source.html">config_lifecycle.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

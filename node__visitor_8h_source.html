@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: node_visitor.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li><li class="navelem"><a class="el" href="dir_3f40bfae0b1f6b03444daffc78cbbe28.html">ast</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">node_visitor.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="node__visitor_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="expression_8h.html">expression.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="statement_8h.html">statement.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">class </span><a class="code hl_typedef" href="namespacesqlcc.html#ac067b1354501aeaddecb74eb3f7c531f">WindowFunction</a>;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">class </span>WithRecursiveClause;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">class </span><a class="code hl_typedef" href="namespacesqlcc.html#a28cb0949702798d81675c3019be8cecb">WindowSpecification</a>;  <span class="comment">// 添加WindowSpecification前向声明</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">class </span>CommitStatement;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">class </span>RollbackStatement;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">class </span>BeginStatement;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">class </span>UseStatement;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">class </span>ShowStatement;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">class </span>LoadDataStatement;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">class </span>GrantStatement;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">class </span>RevokeStatement;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">class </span>CreateViewStatement;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">class </span>AlterViewStatement;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">class </span>DropViewStatement;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">namespace </span>ast {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="};">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">   27</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">NodeVisitor</a> {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a48f12229773be6369b849900113c6354">   29</a></span>  <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a48f12229773be6369b849900113c6354">~NodeVisitor</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <span class="comment">// Expression visitor methods</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a4f9ae5907c0727a8887a785214d0f15b">   32</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a4f9ae5907c0727a8887a785214d0f15b">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1Expression.html">Expression</a>&amp;) {}</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a20b84bb07be9fd369dc437ab00ff7789">   33</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a20b84bb07be9fd369dc437ab00ff7789">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1NumericLiteralExpression.html">NumericLiteralExpression</a>&amp;) {}</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a279e7947a19ac8438747006a532d8b1c">   34</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a279e7947a19ac8438747006a532d8b1c">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1StringLiteralExpression.html">StringLiteralExpression</a>&amp;) {}</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#aa45816697f7e64187a6a1d69c47eaf7f">   35</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#aa45816697f7e64187a6a1d69c47eaf7f">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1BooleanLiteralExpression.html">BooleanLiteralExpression</a>&amp;) {}</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#adbdbf544d69475245263a489a14f7eee">   36</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#adbdbf544d69475245263a489a14f7eee">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1NullLiteralExpression.html">NullLiteralExpression</a>&amp;) {}</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a18fd5b26831c48fd5d6ab10d4adeceb9">   37</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a18fd5b26831c48fd5d6ab10d4adeceb9">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1IdentifierExpression.html">IdentifierExpression</a>&amp;) {}</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a21efc5520fc13b15f560caa43fe6d8de">   38</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a21efc5520fc13b15f560caa43fe6d8de">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1FunctionCallExpression.html">FunctionCallExpression</a>&amp;) {}</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a77d81a80349910208d77bec154c828c6">   39</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a77d81a80349910208d77bec154c828c6">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1BinaryExpression.html">BinaryExpression</a>&amp;) {}</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a443c31bece2ec7bbdccf5c29b41bc201">   40</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a443c31bece2ec7bbdccf5c29b41bc201">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1WindowFunction.html">WindowFunction</a>&amp;) {}</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  <span class="comment">// Statement visitor methods</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a9f0e8c2f9721364a6fe28af0dcaa767a">   43</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a9f0e8c2f9721364a6fe28af0dcaa767a">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html">WithRecursiveClause</a>&amp;) {}</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#ac733ccd7cb68bc2283cc3a5bf7d3fa05">   44</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#ac733ccd7cb68bc2283cc3a5bf7d3fa05">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1WindowSpecification.html">WindowSpecification</a>&amp;) {}  <span class="comment">// 添加WindowSpecification的visit方法</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  <span class="comment">// Utility statement visitor methods</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a1b559610588c0af22c17ddbf06ff7a1a">   47</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a1b559610588c0af22c17ddbf06ff7a1a">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1CommitStatement.html">CommitStatement</a>&amp;) {}</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a2c9b3b1c14236f316d20ffc862d03777">   48</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a2c9b3b1c14236f316d20ffc862d03777">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1RollbackStatement.html">RollbackStatement</a>&amp;) {}</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a2ec1345a0cc598feec65ab61c9f04154">   49</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a2ec1345a0cc598feec65ab61c9f04154">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1BeginStatement.html">BeginStatement</a>&amp;) {}</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#aa86c1612b3d46a3e023369f4c575c601">   50</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#aa86c1612b3d46a3e023369f4c575c601">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1UseStatement.html">UseStatement</a>&amp;) {}</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a3ed19cebf4eeb9b8fa81af75cad50f2a">   51</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a3ed19cebf4eeb9b8fa81af75cad50f2a">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ShowStatement.html">ShowStatement</a>&amp;) {}</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a78fd59ac5c6e5e1a523ee02073e85c02">   52</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a78fd59ac5c6e5e1a523ee02073e85c02">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1LoadDataStatement.html">LoadDataStatement</a>&amp;) {}</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a5721671f6475fe3f354433a0e32ebf9d">   53</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a5721671f6475fe3f354433a0e32ebf9d">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1GrantStatement.html">GrantStatement</a>&amp;) {}</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#ab625a607a3b856cfa7082baeee8f5a33">   54</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#ab625a607a3b856cfa7082baeee8f5a33">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1RevokeStatement.html">RevokeStatement</a>&amp;) {}</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <span class="comment">// View statement visitor methods</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a6dfc2e4088d1a45d39a4f6986d8a4221">   57</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a6dfc2e4088d1a45d39a4f6986d8a4221">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1CreateViewStatement.html">CreateViewStatement</a>&amp;) {}</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#abdec7fbbb7b4d22ccad35871227574f2">   58</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#abdec7fbbb7b4d22ccad35871227574f2">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1AlterViewStatement.html">AlterViewStatement</a>&amp;) {}</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a630ce00b7adc19c370386107b0cf4ea0">   59</a></span>  <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a630ce00b7adc19c370386107b0cf4ea0">visit</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1DropViewStatement.html">DropViewStatement</a>&amp;) {}</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>};</div>
+</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>} <span class="comment">// namespace ast</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1AlterViewStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1AlterViewStatement.html">sqlcc::sql_parser::AlterViewStatement</a></div><div class="ttdef"><b>Definition</b> ast_nodes.h:320</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1BeginStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1BeginStatement.html">sqlcc::sql_parser::BeginStatement</a></div><div class="ttdef"><b>Definition</b> ast_nodes.h:566</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CommitStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CommitStatement.html">sqlcc::sql_parser::CommitStatement</a></div><div class="ttdef"><b>Definition</b> ast_nodes.h:542</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateViewStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateViewStatement.html">sqlcc::sql_parser::CreateViewStatement</a></div><div class="ttdef"><b>Definition</b> ast_ddl_nodes.h:208</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DropViewStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DropViewStatement.html">sqlcc::sql_parser::DropViewStatement</a></div><div class="ttdef"><b>Definition</b> ast_nodes.h:344</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1GrantStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1GrantStatement.html">sqlcc::sql_parser::GrantStatement</a></div><div class="ttdef"><b>Definition</b> ast_nodes.h:448</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1LoadDataStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1LoadDataStatement.html">sqlcc::sql_parser::LoadDataStatement</a></div><div class="ttdef"><b>Definition</b> load_data_ast.h:12</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1RevokeStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1RevokeStatement.html">sqlcc::sql_parser::RevokeStatement</a></div><div class="ttdef"><b>Definition</b> ast_nodes.h:477</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1RollbackStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1RollbackStatement.html">sqlcc::sql_parser::RollbackStatement</a></div><div class="ttdef"><b>Definition</b> ast_nodes.h:554</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ShowStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ShowStatement.html">sqlcc::sql_parser::ShowStatement</a></div><div class="ttdef"><b>Definition</b> ast_nodes.h:506</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1UseStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1UseStatement.html">sqlcc::sql_parser::UseStatement</a></div><div class="ttdef"><b>Definition</b> ast_nodes.h:420</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1WindowFunction_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1WindowFunction.html">sqlcc::sql_parser::WindowFunction</a></div><div class="ttdoc">窗口函数表达式节点</div><div class="ttdef"><b>Definition</b> window_function.h:194</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1WindowSpecification_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1WindowSpecification.html">sqlcc::sql_parser::WindowSpecification</a></div><div class="ttdoc">窗口规格类</div><div class="ttdef"><b>Definition</b> window_function.h:222</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1WithRecursiveClause_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html">sqlcc::sql_parser::WithRecursiveClause</a></div><div class="ttdoc">WITH RECURSIVE语句</div><div class="ttdef"><b>Definition</b> recursive_query.h:160</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1BinaryExpression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1BinaryExpression.html">sqlcc::sql_parser::ast::BinaryExpression</a></div><div class="ttdef"><b>Definition</b> expression.h:98</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1BooleanLiteralExpression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1BooleanLiteralExpression.html">sqlcc::sql_parser::ast::BooleanLiteralExpression</a></div><div class="ttdef"><b>Definition</b> expression.h:56</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1Expression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1Expression.html">sqlcc::sql_parser::ast::Expression</a></div><div class="ttdef"><b>Definition</b> expression.h:25</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1FunctionCallExpression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1FunctionCallExpression.html">sqlcc::sql_parser::ast::FunctionCallExpression</a></div><div class="ttdef"><b>Definition</b> expression.h:84</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1IdentifierExpression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1IdentifierExpression.html">sqlcc::sql_parser::ast::IdentifierExpression</a></div><div class="ttdef"><b>Definition</b> expression.h:73</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">sqlcc::sql_parser::ast::NodeVisitor</a></div><div class="ttdef"><b>Definition</b> node_visitor.h:27</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a18fd5b26831c48fd5d6ab10d4adeceb9"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a18fd5b26831c48fd5d6ab10d4adeceb9">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(IdentifierExpression &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:37</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a1b559610588c0af22c17ddbf06ff7a1a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a1b559610588c0af22c17ddbf06ff7a1a">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(CommitStatement &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:47</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a20b84bb07be9fd369dc437ab00ff7789"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a20b84bb07be9fd369dc437ab00ff7789">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(NumericLiteralExpression &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:33</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a21efc5520fc13b15f560caa43fe6d8de"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a21efc5520fc13b15f560caa43fe6d8de">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(FunctionCallExpression &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:38</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a279e7947a19ac8438747006a532d8b1c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a279e7947a19ac8438747006a532d8b1c">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(StringLiteralExpression &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:34</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a2c9b3b1c14236f316d20ffc862d03777"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a2c9b3b1c14236f316d20ffc862d03777">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(RollbackStatement &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:48</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a2ec1345a0cc598feec65ab61c9f04154"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a2ec1345a0cc598feec65ab61c9f04154">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(BeginStatement &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:49</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a3ed19cebf4eeb9b8fa81af75cad50f2a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a3ed19cebf4eeb9b8fa81af75cad50f2a">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(ShowStatement &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:51</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a443c31bece2ec7bbdccf5c29b41bc201"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a443c31bece2ec7bbdccf5c29b41bc201">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(WindowFunction &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:40</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a48f12229773be6369b849900113c6354"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a48f12229773be6369b849900113c6354">sqlcc::sql_parser::ast::NodeVisitor::~NodeVisitor</a></div><div class="ttdeci">virtual ~NodeVisitor()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a4f9ae5907c0727a8887a785214d0f15b"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a4f9ae5907c0727a8887a785214d0f15b">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(Expression &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:32</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a5721671f6475fe3f354433a0e32ebf9d"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a5721671f6475fe3f354433a0e32ebf9d">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(GrantStatement &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:53</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a630ce00b7adc19c370386107b0cf4ea0"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a630ce00b7adc19c370386107b0cf4ea0">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(DropViewStatement &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:59</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a6dfc2e4088d1a45d39a4f6986d8a4221"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a6dfc2e4088d1a45d39a4f6986d8a4221">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(CreateViewStatement &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:57</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a77d81a80349910208d77bec154c828c6"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a77d81a80349910208d77bec154c828c6">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(BinaryExpression &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:39</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a78fd59ac5c6e5e1a523ee02073e85c02"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a78fd59ac5c6e5e1a523ee02073e85c02">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(LoadDataStatement &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:52</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_a9f0e8c2f9721364a6fe28af0dcaa767a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#a9f0e8c2f9721364a6fe28af0dcaa767a">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(WithRecursiveClause &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:43</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_aa45816697f7e64187a6a1d69c47eaf7f"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#aa45816697f7e64187a6a1d69c47eaf7f">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(BooleanLiteralExpression &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:35</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_aa86c1612b3d46a3e023369f4c575c601"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#aa86c1612b3d46a3e023369f4c575c601">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(UseStatement &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:50</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_ab625a607a3b856cfa7082baeee8f5a33"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#ab625a607a3b856cfa7082baeee8f5a33">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(RevokeStatement &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:54</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_abdec7fbbb7b4d22ccad35871227574f2"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#abdec7fbbb7b4d22ccad35871227574f2">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(AlterViewStatement &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:58</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_ac733ccd7cb68bc2283cc3a5bf7d3fa05"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#ac733ccd7cb68bc2283cc3a5bf7d3fa05">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(WindowSpecification &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:44</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html_adbdbf544d69475245263a489a14f7eee"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html#adbdbf544d69475245263a489a14f7eee">sqlcc::sql_parser::ast::NodeVisitor::visit</a></div><div class="ttdeci">virtual void visit(NullLiteralExpression &amp;)</div><div class="ttdef"><b>Definition</b> node_visitor.h:36</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NullLiteralExpression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NullLiteralExpression.html">sqlcc::sql_parser::ast::NullLiteralExpression</a></div><div class="ttdef"><b>Definition</b> expression.h:67</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NumericLiteralExpression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NumericLiteralExpression.html">sqlcc::sql_parser::ast::NumericLiteralExpression</a></div><div class="ttdef"><b>Definition</b> expression.h:34</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1StringLiteralExpression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1StringLiteralExpression.html">sqlcc::sql_parser::ast::StringLiteralExpression</a></div><div class="ttdef"><b>Definition</b> expression.h:45</div></div>
+<div class="ttc" id="aexpression_8h_html"><div class="ttname"><a href="expression_8h.html">expression.h</a></div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a28cb0949702798d81675c3019be8cecb"><div class="ttname"><a href="namespacesqlcc.html#a28cb0949702798d81675c3019be8cecb">sqlcc::WindowSpecification</a></div><div class="ttdeci">sql_parser::WindowSpecification WindowSpecification</div><div class="ttdef"><b>Definition</b> window_function.h:258</div></div>
+<div class="ttc" id="anamespacesqlcc_html_ac067b1354501aeaddecb74eb3f7c531f"><div class="ttname"><a href="namespacesqlcc.html#ac067b1354501aeaddecb74eb3f7c531f">sqlcc::WindowFunction</a></div><div class="ttdeci">sql_parser::WindowFunction WindowFunction</div><div class="ttdef"><b>Definition</b> window_function.h:257</div></div>
+<div class="ttc" id="astatement_8h_html"><div class="ttname"><a href="statement_8h.html">statement.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

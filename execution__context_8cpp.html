@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: execution_context.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html">core</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">execution_context.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="execution__context_8h_source.html">execution_context.h</a>&quot;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+execution_context.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="execution__context_8cpp__incl.png" border="0" usemap="#aexecution__context_8cpp" alt=""/></div>
+<map name="aexecution__context_8cpp" id="aexecution__context_8cpp">
+<area shape="rect" title=" " alt="" coords="1984,5,2152,31"/>
+<area shape="rect" href="execution__context_8h.html" title=" " alt="" coords="1922,79,2075,104"/>
+<area shape="poly" title=" " alt="" coords="2058,33,2021,71,2017,67,2055,29"/>
+<area shape="rect" title=" " alt="" coords="2100,79,2175,104"/>
+<area shape="poly" title=" " alt="" coords="2081,29,2119,67,2115,71,2078,33"/>
+<area shape="rect" title=" " alt="" coords="895,489,972,515"/>
+<area shape="poly" title=" " alt="" coords="1990,106,1930,169,1827,263,1764,314,1694,364,1620,408,1542,444,1494,458,1430,469,1274,486,1113,497,986,502,986,497,1112,491,1274,481,1430,464,1493,452,1540,439,1617,403,1691,359,1760,310,1824,259,1927,165,1987,102"/>
+<area shape="rect" title=" " alt="" coords="1984,489,2043,515"/>
+<area shape="poly" title=" " alt="" coords="2024,102,2063,124,2105,157,2124,177,2139,199,2150,224,2153,251,2153,349,2151,372,2143,394,2117,431,2083,462,2049,484,2046,480,2079,458,2113,428,2138,391,2145,371,2148,349,2148,252,2144,226,2134,202,2120,180,2101,161,2060,128,2022,106"/>
+<area shape="rect" title=" " alt="" coords="1835,489,1959,515"/>
+<area shape="poly" title=" " alt="" coords="2008,103,2035,165,2047,207,2052,251,2052,350,2049,373,2040,395,2011,433,1974,464,1937,486,1934,481,1971,459,2007,430,2036,393,2044,372,2047,349,2047,251,2042,208,2030,167,2003,105"/>
+<area shape="rect" title=" " alt="" coords="126,489,189,515"/>
+<area shape="poly" title=" " alt="" coords="1922,97,1468,112,826,143,515,164,254,190,151,204,73,219,24,236,12,244,8,252,8,349,11,372,19,393,47,430,84,459,121,481,118,486,81,464,43,433,14,395,6,373,3,350,3,251,8,241,22,231,72,214,150,199,253,184,515,159,826,137,1468,107,1922,92"/>
+<area shape="rect" href="core__database__manager_8h.html" title=" " alt="" coords="1067,152,1261,177"/>
+<area shape="poly" title=" " alt="" coords="1922,102,1275,157,1275,151,1921,97"/>
+<area shape="poly" title=" " alt="" coords="1074,180,877,211,758,233,637,261,521,293,418,330,375,350,337,372,308,394,286,417,281,429,286,439,360,450,529,466,881,494,881,499,529,472,360,456,282,443,276,429,282,415,304,390,334,367,372,345,416,325,519,288,636,255,757,228,876,205,1073,175"/>
+<area shape="poly" title=" " alt="" coords="1261,172,1404,190,1484,205,1562,223,1639,244,1698,264,1756,289,1827,326,1894,364,1953,414,1980,445,2001,476,1997,479,1975,448,1949,418,1891,368,1824,330,1753,294,1696,269,1638,249,1561,228,1483,210,1403,196,1260,177"/>
+<area shape="poly" title=" " alt="" coords="1232,175,1337,196,1470,227,1617,271,1761,326,1842,357,1872,378,1900,415,1908,446,1906,476,1901,475,1903,446,1895,417,1869,381,1839,362,1759,330,1615,276,1469,233,1335,201,1231,180"/>
+<area shape="poly" title=" " alt="" coords="1067,168,905,171,712,179,531,197,458,211,404,228,361,251,322,281,286,315,255,351,204,423,171,478,167,476,199,420,250,348,282,311,318,277,358,247,402,223,457,205,530,192,712,174,905,165,1067,163"/>
+<area shape="rect" title=" " alt="" coords="284,489,348,515"/>
+<area shape="poly" title=" " alt="" coords="1067,168,961,172,834,181,696,199,561,228,494,246,443,264,396,289,342,330,301,368,288,388,277,417,275,433,279,448,297,477,292,480,274,450,270,433,272,415,284,386,297,365,338,326,394,285,441,259,493,241,559,223,695,193,833,176,961,166,1067,163"/>
+<area shape="rect" title=" " alt="" coords="1207,240,1257,265"/>
+<area shape="poly" title=" " alt="" coords="1175,176,1216,227,1212,230,1171,179"/>
+<area shape="rect" href="buffer__pool__sharded_8h.html" title=" " alt="" coords="1007,225,1183,280"/>
+<area shape="poly" title=" " alt="" coords="1157,179,1126,217,1122,213,1153,176"/>
+<area shape="poly" title=" " alt="" coords="1184,275,1195,277,1264,288,1320,290,1374,299,1404,309,1437,326,1479,350,1514,377,1526,392,1532,408,1531,425,1519,443,1491,457,1439,469,1290,486,1122,497,986,502,986,497,1122,491,1290,481,1438,464,1489,452,1516,439,1525,424,1527,409,1522,395,1511,381,1476,354,1435,330,1402,314,1372,304,1319,296,1264,293,1194,283,1182,280"/>
+<area shape="poly" title=" " alt="" coords="1183,275,1195,277,1281,288,1354,291,1481,287,1542,286,1606,290,1678,302,1761,325,1833,358,1898,400,1954,442,1994,478,1990,482,1950,447,1895,404,1830,363,1759,331,1677,307,1606,295,1542,291,1481,292,1354,297,1280,294,1194,283,1182,280"/>
+<area shape="poly" title=" " alt="" coords="1183,275,1195,277,1267,288,1328,293,1433,295,1538,301,1599,309,1670,325,1783,351,1828,372,1850,390,1874,414,1891,444,1898,474,1893,476,1886,446,1870,418,1847,394,1825,377,1781,356,1669,331,1598,315,1538,306,1433,301,1328,298,1266,293,1194,283,1182,280"/>
+<area shape="poly" title=" " alt="" coords="1007,258,843,263,646,274,549,284,460,296,385,311,329,330,279,362,235,403,199,444,174,479,170,476,195,441,231,399,276,358,327,326,383,306,459,291,548,278,646,269,843,257,1006,252"/>
+<area shape="poly" title=" " alt="" coords="1006,262,788,284,658,304,528,331,452,343,389,349,362,356,336,369,311,388,286,417,281,432,283,447,299,477,294,479,278,448,276,431,282,415,307,384,333,364,360,351,388,344,452,337,528,325,657,299,787,279,1006,257"/>
+<area shape="rect" title=" " alt="" coords="1021,335,1064,361"/>
+<area shape="poly" title=" " alt="" coords="1082,282,1058,324,1054,322,1078,279"/>
+<area shape="rect" title=" " alt="" coords="1088,335,1203,361"/>
+<area shape="poly" title=" " alt="" coords="1111,279,1135,322,1130,324,1107,282"/>
+<area shape="rect" title=" " alt="" coords="296,416,363,441"/>
+<area shape="poly" title=" " alt="" coords="1007,270,852,295,677,331,511,374,377,415,375,410,509,369,675,325,851,290,1006,264"/>
+<area shape="rect" title=" " alt="" coords="1227,335,1341,361"/>
+<area shape="poly" title=" " alt="" coords="1149,278,1250,327,1248,332,1147,282"/>
+<area shape="rect" title=" " alt="" coords="1365,335,1424,361"/>
+<area shape="poly" title=" " alt="" coords="1184,275,1354,325,1359,327,1357,332,1352,331,1182,280"/>
+<area shape="rect" href="storage_2disk__manager_8h.html" title=" " alt="" coords="870,328,997,368"/>
+<area shape="poly" title=" " alt="" coords="1051,282,979,323,977,319,1048,278"/>
+<area shape="rect" href="page_8h.html" title=" " alt="" coords="488,416,603,441"/>
+<area shape="poly" title=" " alt="" coords="1007,274,902,299,789,331,675,373,583,413,581,408,673,368,787,325,901,293,1006,269"/>
+<area shape="rect" href="config__manager_8h.html" title=" " alt="" coords="627,416,808,441"/>
+<area shape="poly" title=" " alt="" coords="1007,277,933,300,859,330,794,370,742,409,739,405,791,365,856,326,932,295,1006,272"/>
+<area shape="rect" href="exception_8h.html" title=" " alt="" coords="1681,416,1860,441"/>
+<area shape="poly" title=" " alt="" coords="1183,275,1195,277,1258,287,1313,291,1406,291,1451,292,1499,297,1552,307,1613,325,1652,342,1689,363,1748,405,1745,409,1686,368,1650,347,1611,331,1550,312,1498,302,1451,297,1406,296,1312,296,1258,292,1194,283,1182,280"/>
+<area shape="poly" title=" " alt="" coords="936,368,936,476,931,476,931,368"/>
+<area shape="poly" title=" " alt="" coords="998,363,1010,365,1152,384,1263,390,1375,396,1518,413,1696,448,1842,483,1841,488,1695,453,1517,419,1375,402,1263,396,1151,389,1009,371,997,368"/>
+<area shape="poly" title=" " alt="" coords="870,353,780,357,667,367,543,387,481,401,421,418,398,430,376,444,284,474,203,494,202,489,283,469,374,439,396,426,419,414,479,396,542,382,666,362,779,351,869,347"/>
+<area shape="poly" title=" " alt="" coords="870,354,790,360,690,372,583,391,477,419,418,446,349,485,346,480,415,442,475,413,582,385,690,366,789,355,869,349"/>
+<area shape="poly" title=" " alt="" coords="870,358,653,381,382,419,377,420,376,414,381,413,653,375,869,352"/>
+<area shape="rect" title=" " alt="" coords="971,416,1037,441"/>
+<area shape="poly" title=" " alt="" coords="952,366,986,404,982,408,948,370"/>
+<area shape="rect" title=" " alt="" coords="1062,416,1205,441"/>
+<area shape="poly" title=" " alt="" coords="982,366,1092,408,1090,413,980,371"/>
+<area shape="rect" title=" " alt="" coords="1229,416,1320,441"/>
+<area shape="poly" title=" " alt="" coords="997,362,1010,365,1217,412,1215,417,1009,371,996,368"/>
+<area shape="rect" title=" " alt="" coords="1345,416,1418,441"/>
+<area shape="poly" title=" " alt="" coords="997,363,1010,365,1098,381,1168,390,1240,398,1331,413,1330,419,1239,404,1168,395,1097,386,1009,371,996,368"/>
+<area shape="rect" title=" " alt="" coords="1442,416,1505,441"/>
+<area shape="poly" title=" " alt="" coords="998,363,1010,365,1125,382,1217,389,1310,396,1429,413,1428,419,1310,401,1217,394,1125,387,1009,371,997,368"/>
+<area shape="rect" title=" " alt="" coords="832,416,896,441"/>
+<area shape="poly" title=" " alt="" coords="919,370,886,407,882,404,915,366"/>
+<area shape="poly" title=" " alt="" coords="870,365,616,416,615,411,869,360"/>
+<area shape="poly" title=" " alt="" coords="883,371,763,414,761,409,881,366"/>
+<area shape="poly" title=" " alt="" coords="998,363,1010,365,1140,381,1318,396,1667,419,1667,424,1318,401,1139,386,1009,371,997,368"/>
+<area shape="rect" title=" " alt="" coords="507,489,573,515"/>
+<area shape="poly" title=" " alt="" coords="547,442,545,476,539,476,542,441"/>
+<area shape="rect" title=" " alt="" coords="597,489,664,515"/>
+<area shape="poly" title=" " alt="" coords="561,439,608,478,605,483,557,443"/>
+<area shape="rect" title=" " alt="" coords="429,489,483,515"/>
+<area shape="poly" title=" " alt="" coords="533,443,483,483,480,478,529,439"/>
+<area shape="poly" title=" " alt="" coords="753,439,886,482,885,487,751,444"/>
+<area shape="poly" title=" " alt="" coords="809,438,820,439,994,449,1142,451,1395,448,1517,448,1648,452,1797,464,1971,487,1970,492,1796,469,1648,457,1517,453,1395,453,1142,457,994,454,820,444,808,443"/>
+<area shape="poly" title=" " alt="" coords="809,438,820,439,1100,455,1319,459,1539,465,1669,473,1821,487,1821,492,1668,479,1539,471,1319,464,1100,460,820,444,808,443"/>
+<area shape="poly" title=" " alt="" coords="628,444,203,498,202,492,627,439"/>
+<area shape="poly" title=" " alt="" coords="653,444,362,495,361,490,652,439"/>
+<area shape="rect" title=" " alt="" coords="689,489,757,515"/>
+<area shape="poly" title=" " alt="" coords="721,441,723,476,718,476,716,442"/>
+<area shape="poly" title=" " alt="" coords="1810,439,1971,486,1970,491,1809,444"/>
+<area shape="rect" title=" " alt="" coords="1725,489,1811,515"/>
+<area shape="poly" title=" " alt="" coords="1773,442,1772,476,1766,476,1768,442"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么需要执行上下文？</p>
+<p>SQL查询执行是一个复杂的状态机过程，需要在多个组件间传递和维护状态信息。 执行上下文解决了以下关键问题：</p><ol type="1">
+<li>状态隔离：每个查询都有独立的执行环境，避免状态污染</li>
+<li>权限控制：基于用户和数据库的访问权限验证</li>
+<li>事务管理：跟踪事务状态和执行历史</li>
+<li>性能监控：记录执行统计和优化信息</li>
+<li>错误处理：集中管理执行过程中的异常情况</li>
+</ol>
+<p>执行上下文确保了：</p><ul>
+<li>查询执行的原子性和一致性</li>
+<li>资源使用的隔离和控制</li>
+<li>执行历史的完整记录</li>
+<li>系统安全的权限验证</li>
+</ul>
+<p>设计目标：</p><ul>
+<li>线程安全：支持多线程并发执行</li>
+<li>内存效率：最小化上下文开销</li>
+<li>扩展性：支持自定义上下文属性</li>
+<li>兼容性：向后兼容旧版接口</li>
+</ul>
+<p>WHAT: 这实现了什么功能？</p>
+<p>执行上下文提供完整的查询执行状态管理：</p><ul>
+<li>用户会话：当前用户、数据库、权限信息</li>
+<li>执行状态：事务状态、只读标志、执行时间</li>
+<li>结果统计：影响行数、返回行数、索引使用情况</li>
+<li>查询优化：执行计划、优化规则、成本估算</li>
+<li>错误管理：错误状态和错误信息维护</li>
+<li>管理器集成：数据库、用户、权限验证器集成</li>
+</ul>
+<p>核心组件：</p><ul>
+<li>ExecutionContext: 主上下文类，管理所有执行状态</li>
+<li>兼容接口：保持与旧版本的向后兼容性</li>
+<li>克隆支持：支持上下文的深拷贝和共享</li>
+<li>调试信息：完整的状态字符串化输出</li>
+</ul>
+<p>HOW: 如何实现的？</p>
+<p>技术实现要点：</p><ol type="1">
+<li>双接口设计：新私有成员+兼容公共成员</li>
+<li>智能指针管理：自动内存管理和资源清理</li>
+<li>RAII模式：构造函数初始化，析构函数清理</li>
+<li>线程安全：互斥锁保护共享状态修改</li>
+<li>深拷贝克隆：完全独立的上下文副本</li>
+<li>字符串化调试：完整的状态信息输出</li>
+</ol>
+<p>性能优化：</p><ul>
+<li>延迟初始化：按需创建和管理器实例</li>
+<li>共享指针复用：减少内存分配开销</li>
+<li>内联访问器：快速的状态查询操作</li>
+<li>缓存优化：避免重复的状态计算</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>该实现专为SQLCC查询执行器优化，支持复杂SQL语句的执行 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>docs/design/execution/execution_context_design.md </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

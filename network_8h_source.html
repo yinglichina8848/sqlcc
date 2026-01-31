@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: network.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fc4c7f03e1a69a98c370fae55a743828.html">network</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">network.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="network_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SQLCC_NETWORK_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SQLCC_NETWORK_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">// Message types for network protocol</span></div>
+<div class="foldopen" id="foldopen00007" data-start="{" data-end="};">
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013">    7</a></span><span class="keyword">enum</span> <a class="code hl_enumeration" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013">MessageType</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a20391dd2915a0e64343d24c2f2e40b95">    8</a></span>    <a class="code hl_enumvalue" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a20391dd2915a0e64343d24c2f2e40b95">CONNECT</a> = 1,</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a21043ddfa5289b4cf14cd4e3f5a89b62">    9</a></span>    <a class="code hl_enumvalue" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a21043ddfa5289b4cf14cd4e3f5a89b62">QUERY</a> = 2,</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013afb95ee545d749f11305939b93fe2bda3">   10</a></span>    <a class="code hl_enumvalue" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013afb95ee545d749f11305939b93fe2bda3">RESPONSE</a> = 3,</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a2fd6f336d08340583bd620a7f5694c90">   11</a></span>    <a class="code hl_enumvalue" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a2fd6f336d08340583bd620a7f5694c90">ERROR</a> = 4,</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a1053899dda88ceda630197718490f14b">   12</a></span>    <a class="code hl_enumvalue" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a1053899dda88ceda630197718490f14b">AUTHENTICATE</a> = 5,</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a685f73194ad125cbc784c3210cdb3449">   13</a></span>    <a class="code hl_enumvalue" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a685f73194ad125cbc784c3210cdb3449">CLOSE</a> = 6,</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a57ca4e83eec59b2a3e634e62b2716215">   14</a></span>    <a class="code hl_enumvalue" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a57ca4e83eec59b2a3e634e62b2716215">KEY_EXCHANGE</a> = 7,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <a class="code hl_enumvalue" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a4dcb0fd0aabb0eea6d9215f8cb1c57e7">KEY_EXCHANGE_ACK</a> = 8</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a4dcb0fd0aabb0eea6d9215f8cb1c57e7">   16</a></span>};</div>
+</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">// Expected magic number for message validation</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="network_8h.html#a17776b167d7b706e2880808a7847ad97">   19</a></span><span class="keyword">const</span> uint32_t <a class="code hl_variable" href="network_8h.html#a17776b167d7b706e2880808a7847ad97">EXPECTED_MAGIC</a> = 0x534C4343; <span class="comment">// &quot;SLCC&quot; in ASCII</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc_1_1network.html">network</a> {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>} <span class="comment">// namespace network</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_NETWORK_H</span></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html"><div class="ttname"><a href="namespacesqlcc_1_1network.html">sqlcc::network</a></div><div class="ttdef"><b>Definition</b> client_main.cpp:286</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="anetwork_8h_html_a17776b167d7b706e2880808a7847ad97"><div class="ttname"><a href="network_8h.html#a17776b167d7b706e2880808a7847ad97">EXPECTED_MAGIC</a></div><div class="ttdeci">const uint32_t EXPECTED_MAGIC</div><div class="ttdef"><b>Definition</b> network.h:19</div></div>
+<div class="ttc" id="anetwork_8h_html_ac6606ebe91c8ac66a2c314c79f5ab013"><div class="ttname"><a href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013">MessageType</a></div><div class="ttdeci">MessageType</div><div class="ttdef"><b>Definition</b> network.h:7</div></div>
+<div class="ttc" id="anetwork_8h_html_ac6606ebe91c8ac66a2c314c79f5ab013a1053899dda88ceda630197718490f14b"><div class="ttname"><a href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a1053899dda88ceda630197718490f14b">AUTHENTICATE</a></div><div class="ttdeci">@ AUTHENTICATE</div><div class="ttdef"><b>Definition</b> network.h:12</div></div>
+<div class="ttc" id="anetwork_8h_html_ac6606ebe91c8ac66a2c314c79f5ab013a20391dd2915a0e64343d24c2f2e40b95"><div class="ttname"><a href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a20391dd2915a0e64343d24c2f2e40b95">CONNECT</a></div><div class="ttdeci">@ CONNECT</div><div class="ttdef"><b>Definition</b> network.h:8</div></div>
+<div class="ttc" id="anetwork_8h_html_ac6606ebe91c8ac66a2c314c79f5ab013a21043ddfa5289b4cf14cd4e3f5a89b62"><div class="ttname"><a href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a21043ddfa5289b4cf14cd4e3f5a89b62">QUERY</a></div><div class="ttdeci">@ QUERY</div><div class="ttdef"><b>Definition</b> network.h:9</div></div>
+<div class="ttc" id="anetwork_8h_html_ac6606ebe91c8ac66a2c314c79f5ab013a2fd6f336d08340583bd620a7f5694c90"><div class="ttname"><a href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a2fd6f336d08340583bd620a7f5694c90">ERROR</a></div><div class="ttdeci">@ ERROR</div><div class="ttdef"><b>Definition</b> network.h:11</div></div>
+<div class="ttc" id="anetwork_8h_html_ac6606ebe91c8ac66a2c314c79f5ab013a4dcb0fd0aabb0eea6d9215f8cb1c57e7"><div class="ttname"><a href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a4dcb0fd0aabb0eea6d9215f8cb1c57e7">KEY_EXCHANGE_ACK</a></div><div class="ttdeci">@ KEY_EXCHANGE_ACK</div><div class="ttdef"><b>Definition</b> network.h:15</div></div>
+<div class="ttc" id="anetwork_8h_html_ac6606ebe91c8ac66a2c314c79f5ab013a57ca4e83eec59b2a3e634e62b2716215"><div class="ttname"><a href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a57ca4e83eec59b2a3e634e62b2716215">KEY_EXCHANGE</a></div><div class="ttdeci">@ KEY_EXCHANGE</div><div class="ttdef"><b>Definition</b> network.h:14</div></div>
+<div class="ttc" id="anetwork_8h_html_ac6606ebe91c8ac66a2c314c79f5ab013a685f73194ad125cbc784c3210cdb3449"><div class="ttname"><a href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013a685f73194ad125cbc784c3210cdb3449">CLOSE</a></div><div class="ttdeci">@ CLOSE</div><div class="ttdef"><b>Definition</b> network.h:13</div></div>
+<div class="ttc" id="anetwork_8h_html_ac6606ebe91c8ac66a2c314c79f5ab013afb95ee545d749f11305939b93fe2bda3"><div class="ttname"><a href="network_8h.html#ac6606ebe91c8ac66a2c314c79f5ab013afb95ee545d749f11305939b93fe2bda3">RESPONSE</a></div><div class="ttdeci">@ RESPONSE</div><div class="ttdef"><b>Definition</b> network.h:10</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

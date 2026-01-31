@@ -1,0 +1,555 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::TokenStream类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1TokenStream-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::TokenStream类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Token流管理类 - 负责词法分析器的token流管理  
+ <a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="token__stream_8h_source.html">token_stream.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::sql_parser::TokenStream 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__parser_1_1TokenStream__coll__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1TokenStream_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1sql__parser_1_1TokenStream_coll__map" id="asqlcc_1_1sql__parser_1_1TokenStream_coll__map">
+<area shape="rect" title="Token流管理类 &#45; 负责词法分析器的token流管理" alt="" coords="87,137,225,177"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1Lexer.html" title="SQL词法分析器类" alt="" coords="5,5,144,45"/>
+<area shape="poly" title=" " alt="" coords="96,56,146,136,142,139,92,59"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1Token.html" title="Token类" alt="" coords="168,5,307,45"/>
+<area shape="poly" title=" " alt="" coords="220,59,170,139,166,136,216,56"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:ae42a47245af22d56481ecbd7501dba6b" id="r_ae42a47245af22d56481ecbd7501dba6b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#ae42a47245af22d56481ecbd7501dba6b">TokenStream</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1Lexer.html">Lexer</a> &amp;lexer)</td></tr>
+<tr class="memdesc:ae42a47245af22d56481ecbd7501dba6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数 - 初始化token流管理器  <br /></td></tr>
+<tr class="separator:ae42a47245af22d56481ecbd7501dba6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a5d61d2cc6abe41035bd39f9318b26f" id="r_a5a5d61d2cc6abe41035bd39f9318b26f"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a5a5d61d2cc6abe41035bd39f9318b26f">current</a> () const</td></tr>
+<tr class="memdesc:a5a5d61d2cc6abe41035bd39f9318b26f"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前token  <br /></td></tr>
+<tr class="separator:a5a5d61d2cc6abe41035bd39f9318b26f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9df6782fdf270f259173a501b13cf30" id="r_af9df6782fdf270f259173a501b13cf30"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#af9df6782fdf270f259173a501b13cf30">peek</a> ()</td></tr>
+<tr class="memdesc:af9df6782fdf270f259173a501b13cf30"><td class="mdescLeft">&#160;</td><td class="mdescRight">前瞻下一个token（不消费）  <br /></td></tr>
+<tr class="separator:af9df6782fdf270f259173a501b13cf30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ea710e2fec9cf302eb7b8124f2c05e3" id="r_a5ea710e2fec9cf302eb7b8124f2c05e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a5ea710e2fec9cf302eb7b8124f2c05e3">advance</a> ()</td></tr>
+<tr class="memdesc:a5ea710e2fec9cf302eb7b8124f2c05e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">前进到下一个token 使用缓存的前瞻token或从词法分析器获取新token  <br /></td></tr>
+<tr class="separator:a5ea710e2fec9cf302eb7b8124f2c05e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ccd570997f6a1c695ad61d89365217c" id="r_a3ccd570997f6a1c695ad61d89365217c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a3ccd570997f6a1c695ad61d89365217c">check</a> (<a class="el" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a> type) const</td></tr>
+<tr class="memdesc:a3ccd570997f6a1c695ad61d89365217c"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查当前token是否为指定类型  <br /></td></tr>
+<tr class="separator:a3ccd570997f6a1c695ad61d89365217c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa153b70d3c967a766329adf8cbe5c9a8" id="r_aa153b70d3c967a766329adf8cbe5c9a8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#aa153b70d3c967a766329adf8cbe5c9a8">match</a> (<a class="el" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a> type)</td></tr>
+<tr class="memdesc:aa153b70d3c967a766329adf8cbe5c9a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">如果当前token匹配指定类型，则消费它并返回true  <br /></td></tr>
+<tr class="separator:aa153b70d3c967a766329adf8cbe5c9a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a40f34601f41a2aa91ece4d2f8cbba8" id="r_a6a40f34601f41a2aa91ece4d2f8cbba8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a6a40f34601f41a2aa91ece4d2f8cbba8">expect</a> (<a class="el" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a> type, const std::string &amp;message=&quot;&quot;)</td></tr>
+<tr class="memdesc:a6a40f34601f41a2aa91ece4d2f8cbba8"><td class="mdescLeft">&#160;</td><td class="mdescRight">强制消费指定类型的token  <br /></td></tr>
+<tr class="separator:a6a40f34601f41a2aa91ece4d2f8cbba8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d34c00072b895c3d311e7a962c0fb70" id="r_a9d34c00072b895c3d311e7a962c0fb70"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a9d34c00072b895c3d311e7a962c0fb70">isAtEnd</a> () const</td></tr>
+<tr class="memdesc:a9d34c00072b895c3d311e7a962c0fb70"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否到达输入末尾  <br /></td></tr>
+<tr class="separator:a9d34c00072b895c3d311e7a962c0fb70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03eb1e76052aa0185af63733e668d93c" id="r_a03eb1e76052aa0185af63733e668d93c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a03eb1e76052aa0185af63733e668d93c">previous</a> () const</td></tr>
+<tr class="memdesc:a03eb1e76052aa0185af63733e668d93c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取前一个token  <br /></td></tr>
+<tr class="separator:a03eb1e76052aa0185af63733e668d93c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a3717390577adc0916732e870919e4f05" id="r_a3717390577adc0916732e870919e4f05"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1Lexer.html">Lexer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a3717390577adc0916732e870919e4f05">lexer_</a></td></tr>
+<tr class="memdesc:a3717390577adc0916732e870919e4f05"><td class="mdescLeft">&#160;</td><td class="mdescRight">词法分析器引用  <br /></td></tr>
+<tr class="separator:a3717390577adc0916732e870919e4f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24e8e2048e7943a8fa89a53d9667c606" id="r_a24e8e2048e7943a8fa89a53d9667c606"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a24e8e2048e7943a8fa89a53d9667c606">previousToken_</a></td></tr>
+<tr class="memdesc:a24e8e2048e7943a8fa89a53d9667c606"><td class="mdescLeft">&#160;</td><td class="mdescRight">前一个处理过的token  <br /></td></tr>
+<tr class="separator:a24e8e2048e7943a8fa89a53d9667c606"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41b2463dbfba9011ff407acd31004855" id="r_a41b2463dbfba9011ff407acd31004855"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a41b2463dbfba9011ff407acd31004855">currentToken_</a></td></tr>
+<tr class="memdesc:a41b2463dbfba9011ff407acd31004855"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前正在处理的token  <br /></td></tr>
+<tr class="separator:a41b2463dbfba9011ff407acd31004855"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26756f460c59d21e864c452d67c32562" id="r_a26756f460c59d21e864c452d67c32562"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a26756f460c59d21e864c452d67c32562">lookaheadToken_</a></td></tr>
+<tr class="memdesc:a26756f460c59d21e864c452d67c32562"><td class="mdescLeft">&#160;</td><td class="mdescRight">缓存的前瞻token  <br /></td></tr>
+<tr class="separator:a26756f460c59d21e864c452d67c32562"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09bd7845b6bc33028df31aeca2728478" id="r_a09bd7845b6bc33028df31aeca2728478"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a09bd7845b6bc33028df31aeca2728478">hasLookahead_</a></td></tr>
+<tr class="memdesc:a09bd7845b6bc33028df31aeca2728478"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否有缓存的前瞻token  <br /></td></tr>
+<tr class="separator:a09bd7845b6bc33028df31aeca2728478"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>Token流管理类 - 负责词法分析器的token流管理 </p>
+<p>WHY层 - 设计意图： TokenStream类封装了token流的管理逻辑，从Parser中分离出来， 实现了单一职责原则。Token流管理是递归下降解析器的基础设施， 通过精心设计的缓存机制和前瞻功能，提高了解析效率。</p>
+<p>WHAT层 - 功能说明：</p><ol type="1">
+<li>管理词法分析器产生的token流</li>
+<li>提供前瞻(lookahead)功能，支持LL(k)文法</li>
+<li>实现token前进机制</li>
+<li>提供类型检查和强制消费功能</li>
+</ol>
+<p>HOW层 - 实现细节： <b>组合模式</b>: 组合Lexer对象，协同工作 <b>缓存策略</b>: 使用hasLookahead_和lookaheadToken_缓存前瞻token <b>状态管理</b>: 维护currentToken_作为当前解析位置 <b>错误处理</b>: 提供详细的token相关错误信息</p>
+<p>编译原理中的对应概念：</p><ul>
+<li><b>输入指针</b>: TokenStream管理语法分析器的输入指针</li>
+<li><b>前瞻符号</b>: 实现LL(1)文法的1个前瞻符号</li>
+<li><b>词法接口</b>: 作为语法分析器与词法分析器的桥梁</li>
+<li><b>状态机转换</b>: 实现token流的状态转换</li>
+</ul>
+<p>前瞻机制的工作原理： </p><div class="fragment"><div class="line">假设输入流: <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a63225f19fccb18e7c709f1fa11bc738e">SELECT</a> name FROM users;</div>
+<div class="line">当前状态: <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a41b2463dbfba9011ff407acd31004855">currentToken_</a> = <span class="stringliteral">&quot;SELECT&quot;</span></div>
+<div class="line">前瞻调用: <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#af9df6782fdf270f259173a501b13cf30">peek</a>() -&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a26756f460c59d21e864c452d67c32562">lookaheadToken_</a> = <span class="stringliteral">&quot;name&quot;</span>, <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a09bd7845b6bc33028df31aeca2728478">hasLookahead_</a> = <span class="keyword">true</span></div>
+<div class="line">前进调用: <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a5ea710e2fec9cf302eb7b8124f2c05e3">advance</a>() -&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a41b2463dbfba9011ff407acd31004855">currentToken_</a> = <span class="stringliteral">&quot;name&quot;</span>, <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a09bd7845b6bc33028df31aeca2728478">hasLookahead_</a> = <span class="keyword">false</span></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a09bd7845b6bc33028df31aeca2728478"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a09bd7845b6bc33028df31aeca2728478">sqlcc::sql_parser::TokenStream::hasLookahead_</a></div><div class="ttdeci">bool hasLookahead_</div><div class="ttdoc">是否有缓存的前瞻token</div><div class="ttdef"><b>Definition</b> token_stream.h:125</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a26756f460c59d21e864c452d67c32562"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a26756f460c59d21e864c452d67c32562">sqlcc::sql_parser::TokenStream::lookaheadToken_</a></div><div class="ttdeci">Token lookaheadToken_</div><div class="ttdoc">缓存的前瞻token</div><div class="ttdef"><b>Definition</b> token_stream.h:124</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a41b2463dbfba9011ff407acd31004855"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a41b2463dbfba9011ff407acd31004855">sqlcc::sql_parser::TokenStream::currentToken_</a></div><div class="ttdeci">Token currentToken_</div><div class="ttdoc">当前正在处理的token</div><div class="ttdef"><b>Definition</b> token_stream.h:123</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a5ea710e2fec9cf302eb7b8124f2c05e3"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a5ea710e2fec9cf302eb7b8124f2c05e3">sqlcc::sql_parser::TokenStream::advance</a></div><div class="ttdeci">void advance()</div><div class="ttdoc">前进到下一个token 使用缓存的前瞻token或从词法分析器获取新token</div><div class="ttdef"><b>Definition</b> token_stream.cpp:30</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_af9df6782fdf270f259173a501b13cf30"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#af9df6782fdf270f259173a501b13cf30">sqlcc::sql_parser::TokenStream::peek</a></div><div class="ttdeci">const Token &amp; peek()</div><div class="ttdoc">前瞻下一个token（不消费）</div><div class="ttdef"><b>Definition</b> token_stream.cpp:18</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552a63225f19fccb18e7c709f1fa11bc738e"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a63225f19fccb18e7c709f1fa11bc738e">sqlcc::PermissionOperation::SELECT</a></div><div class="ttdeci">@ SELECT</div></div>
+</div><!-- fragment --><p>性能优化考虑：</p><ul>
+<li><b>缓存复用</b>: 前瞻token被缓存避免重复词法分析</li>
+<li><b>按需获取</b>: 只有在需要时才调用lexer_.nextToken()</li>
+<li><b>内存效率</b>: 只维护必要的token状态信息</li>
+<li><b>调用开销</b>: 最小化lexer_.nextToken()的调用频率</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>该类不进行任何语法验证，只负责token流管理 </dd>
+<dd>
+前瞻机制是递归下降法避免回溯的关键技术 </dd>
+<dd>
+与Parser配合使用实现完整的语法分析功能</dd></dl>
+<dl class="section see"><dt>参见</dt><dd><a class="el" href="classsqlcc_1_1sql__parser_1_1Lexer.html" title="SQL词法分析器类">Lexer</a> 词法分析器类 </dd>
+<dd>
+<a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html" title="Token类">Token</a> token数据结构 </dd>
+<dd>
+<a class="el" href="classsqlcc_1_1sql__parser_1_1Parser.html">Parser</a> 语法分析器类 </dd></dl>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="ae42a47245af22d56481ecbd7501dba6b" name="ae42a47245af22d56481ecbd7501dba6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae42a47245af22d56481ecbd7501dba6b">&#9670;&#160;</a></span>TokenStream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::TokenStream::TokenStream </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1Lexer.html">Lexer</a> &amp;&#160;</td>
+          <td class="paramname"><em>lexer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 - 初始化token流管理器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lexer</td><td>词法分析器引用，用于获取token </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a5ea710e2fec9cf302eb7b8124f2c05e3" name="a5ea710e2fec9cf302eb7b8124f2c05e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ea710e2fec9cf302eb7b8124f2c05e3">&#9670;&#160;</a></span>advance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::TokenStream::advance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>前进到下一个token 使用缓存的前瞻token或从词法分析器获取新token </p>
+
+</div>
+</div>
+<a id="a3ccd570997f6a1c695ad61d89365217c" name="a3ccd570997f6a1c695ad61d89365217c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ccd570997f6a1c695ad61d89365217c">&#9670;&#160;</a></span>check()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::TokenStream::check </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查当前token是否为指定类型 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>要检查的token类型 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>如果匹配返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="a5a5d61d2cc6abe41035bd39f9318b26f" name="a5a5d61d2cc6abe41035bd39f9318b26f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a5d61d2cc6abe41035bd39f9318b26f">&#9670;&#160;</a></span>current()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> &amp; sqlcc::sql_parser::TokenStream::current </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取当前token </p>
+<dl class="section return"><dt>返回</dt><dd>当前正在处理的token </dd></dl>
+
+</div>
+</div>
+<a id="a6a40f34601f41a2aa91ece4d2f8cbba8" name="a6a40f34601f41a2aa91ece4d2f8cbba8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a40f34601f41a2aa91ece4d2f8cbba8">&#9670;&#160;</a></span>expect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::TokenStream::expect </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>message</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>强制消费指定类型的token </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>期望的token类型 </td></tr>
+    <tr><td class="paramname">message</td><td>错误消息（当类型不匹配时使用） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>当token类型不匹配时抛出 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9d34c00072b895c3d311e7a962c0fb70" name="a9d34c00072b895c3d311e7a962c0fb70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d34c00072b895c3d311e7a962c0fb70">&#9670;&#160;</a></span>isAtEnd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::TokenStream::isAtEnd </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查是否到达输入末尾 </p>
+<dl class="section return"><dt>返回</dt><dd>如果当前token是END_OF_INPUT则返回true </dd></dl>
+
+</div>
+</div>
+<a id="aa153b70d3c967a766329adf8cbe5c9a8" name="aa153b70d3c967a766329adf8cbe5c9a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa153b70d3c967a766329adf8cbe5c9a8">&#9670;&#160;</a></span>match()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::TokenStream::match </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>如果当前token匹配指定类型，则消费它并返回true </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>要检查并消费的token类型 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>如果匹配并消费返回true，否则返回false </dd></dl>
+
+</div>
+</div>
+<a id="af9df6782fdf270f259173a501b13cf30" name="af9df6782fdf270f259173a501b13cf30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9df6782fdf270f259173a501b13cf30">&#9670;&#160;</a></span>peek()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> &amp; sqlcc::sql_parser::TokenStream::peek </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>前瞻下一个token（不消费） </p>
+<dl class="section return"><dt>返回</dt><dd>下一个token，如果没有则抛出异常 </dd></dl>
+
+</div>
+</div>
+<a id="a03eb1e76052aa0185af63733e668d93c" name="a03eb1e76052aa0185af63733e668d93c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03eb1e76052aa0185af63733e668d93c">&#9670;&#160;</a></span>previous()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> &amp; sqlcc::sql_parser::TokenStream::previous </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取前一个token </p>
+<dl class="section return"><dt>返回</dt><dd>前一个处理过的token </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a41b2463dbfba9011ff407acd31004855" name="a41b2463dbfba9011ff407acd31004855"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41b2463dbfba9011ff407acd31004855">&#9670;&#160;</a></span>currentToken_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> sqlcc::sql_parser::TokenStream::currentToken_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前正在处理的token </p>
+
+</div>
+</div>
+<a id="a09bd7845b6bc33028df31aeca2728478" name="a09bd7845b6bc33028df31aeca2728478"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09bd7845b6bc33028df31aeca2728478">&#9670;&#160;</a></span>hasLookahead_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::TokenStream::hasLookahead_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否有缓存的前瞻token </p>
+
+</div>
+</div>
+<a id="a3717390577adc0916732e870919e4f05" name="a3717390577adc0916732e870919e4f05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3717390577adc0916732e870919e4f05">&#9670;&#160;</a></span>lexer_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1Lexer.html">Lexer</a>&amp; sqlcc::sql_parser::TokenStream::lexer_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>词法分析器引用 </p>
+
+</div>
+</div>
+<a id="a26756f460c59d21e864c452d67c32562" name="a26756f460c59d21e864c452d67c32562"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26756f460c59d21e864c452d67c32562">&#9670;&#160;</a></span>lookaheadToken_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> sqlcc::sql_parser::TokenStream::lookaheadToken_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>缓存的前瞻token </p>
+
+</div>
+</div>
+<a id="a24e8e2048e7943a8fa89a53d9667c606" name="a24e8e2048e7943a8fa89a53d9667c606"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24e8e2048e7943a8fa89a53d9667c606">&#9670;&#160;</a></span>previousToken_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> sqlcc::sql_parser::TokenStream::previousToken_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>前一个处理过的token </p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="token__stream_8h_source.html">token_stream.h</a></li>
+<li><a class="el" href="token__stream_8cpp.html">token_stream.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,997 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_executor::ProcedureExecutor类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__executor.html">sql_executor</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html">ProcedureExecutor</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="#pri-static-attribs">静态 Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_executor::ProcedureExecutor类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="procedure__executor_8h_source.html">procedure_executor.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::sql_executor::ProcedureExecutor 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__executor_1_1ProcedureExecutor__coll__graph.png" border="0" usemap="#asqlcc_1_1sql__executor_1_1ProcedureExecutor_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1sql__executor_1_1ProcedureExecutor_coll__map" id="asqlcc_1_1sql__executor_1_1ProcedureExecutor_coll__map">
+<area shape="rect" title=" " alt="" coords="128,93,279,133"/>
+<area shape="rect" href="classsqlcc_1_1DatabaseManager.html" title=" " alt="" coords="5,5,188,31"/>
+<area shape="poly" title=" " alt="" coords="122,38,183,91,180,95,118,42"/>
+<area shape="rect" href="classsqlcc_1_1TransactionManager.html" title="事务管理器类 &#45; SQLCC数据库系统的ACID属性实现核心" alt="" coords="213,5,407,31"/>
+<area shape="poly" title=" " alt="" coords="288,42,254,71,227,95,223,91,251,67,285,38"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a774903f3a1a28953f3e7c3d3af59fb81" id="r_a774903f3a1a28953f3e7c3d3af59fb81"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a774903f3a1a28953f3e7c3d3af59fb81">ProcedureExecutor</a> ()</td></tr>
+<tr class="separator:a774903f3a1a28953f3e7c3d3af59fb81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a3eb157d4649ac0c5c8d27ca2cf5b64" id="r_a7a3eb157d4649ac0c5c8d27ca2cf5b64"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a7a3eb157d4649ac0c5c8d27ca2cf5b64">~ProcedureExecutor</a> ()</td></tr>
+<tr class="separator:a7a3eb157d4649ac0c5c8d27ca2cf5b64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a415d8d70720a05cf0f52854c128e324d" id="r_a415d8d70720a05cf0f52854c128e324d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a415d8d70720a05cf0f52854c128e324d">initialize</a> (<a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> *db_manager, <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> *txn_manager)</td></tr>
+<tr class="separator:a415d8d70720a05cf0f52854c128e324d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0261b52e5a78630c4b5e612e914db6e" id="r_af0261b52e5a78630c4b5e612e914db6e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureResult.html">ProcedureResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#af0261b52e5a78630c4b5e612e914db6e">execute_procedure</a> (const std::string &amp;procedure_name, const std::vector&lt; <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;parameters)</td></tr>
+<tr class="separator:af0261b52e5a78630c4b5e612e914db6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5a0462f9a9eee022e486e852436c369" id="r_ae5a0462f9a9eee022e486e852436c369"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#ae5a0462f9a9eee022e486e852436c369">compile_procedure</a> (const std::string &amp;procedure_code, std::string &amp;error_message)</td></tr>
+<tr class="separator:ae5a0462f9a9eee022e486e852436c369"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55b9da41dc418ef087229c04355d06d0" id="r_a55b9da41dc418ef087229c04355d06d0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a55b9da41dc418ef087229c04355d06d0">validate_procedure</a> (const <a class="el" href="classsqlcc_1_1procedure_1_1ProcedureDefinition.html">procedure::ProcedureDefinition</a> &amp;procedure, std::string &amp;error_message)</td></tr>
+<tr class="separator:a55b9da41dc418ef087229c04355d06d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa53d4f22fdb9d090ee8648afb56c2a04" id="r_aa53d4f22fdb9d090ee8648afb56c2a04"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#aa53d4f22fdb9d090ee8648afb56c2a04">get_procedure_names</a> ()</td></tr>
+<tr class="separator:aa53d4f22fdb9d090ee8648afb56c2a04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41cb59b540d2010b94cff90b114531a3" id="r_a41cb59b540d2010b94cff90b114531a3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a41cb59b540d2010b94cff90b114531a3">get_procedure_definition</a> (const std::string &amp;procedure_name)</td></tr>
+<tr class="separator:a41cb59b540d2010b94cff90b114531a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec0d9681d2e642be30d302b684281001" id="r_aec0d9681d2e642be30d302b684281001"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#aec0d9681d2e642be30d302b684281001">enable_performance_monitoring</a> (bool enable)</td></tr>
+<tr class="separator:aec0d9681d2e642be30d302b684281001"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a679dee0d2e1b0356e9b1ea5419dbc43d" id="r_a679dee0d2e1b0356e9b1ea5419dbc43d"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, int64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a679dee0d2e1b0356e9b1ea5419dbc43d">get_execution_stats</a> ()</td></tr>
+<tr class="separator:a679dee0d2e1b0356e9b1ea5419dbc43d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:aa3761d7f375387cf534c925ac3e2a01e" id="r_aa3761d7f375387cf534c925ac3e2a01e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureResult.html">ProcedureResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#aa3761d7f375387cf534c925ac3e2a01e">execute_procedure_ast</a> (const <a class="el" href="classsqlcc_1_1procedure_1_1ProcedureDefinition.html">procedure::ProcedureDefinition</a> &amp;procedure, const std::vector&lt; <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;parameters)</td></tr>
+<tr class="separator:aa3761d7f375387cf534c925ac3e2a01e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea04530a8f3b07fbd96e9e4cb2baeb31" id="r_aea04530a8f3b07fbd96e9e4cb2baeb31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#aea04530a8f3b07fbd96e9e4cb2baeb31">execute_statement</a> (const <a class="el" href="classsqlcc_1_1procedure_1_1Statement.html">procedure::Statement</a> &amp;stmt, std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;variables, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureResult.html">ProcedureResult</a> &amp;result)</td></tr>
+<tr class="separator:aea04530a8f3b07fbd96e9e4cb2baeb31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af810b946083ef5dc6ded02838f8d332d" id="r_af810b946083ef5dc6ded02838f8d332d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#af810b946083ef5dc6ded02838f8d332d">declare_variable</a> (const <a class="el" href="classsqlcc_1_1procedure_1_1VariableDeclaration.html">procedure::VariableDeclaration</a> &amp;decl, std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;variables)</td></tr>
+<tr class="separator:af810b946083ef5dc6ded02838f8d332d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87a02053e28f455e82cda49d0ef00ee2" id="r_a87a02053e28f455e82cda49d0ef00ee2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a87a02053e28f455e82cda49d0ef00ee2">assign_variable</a> (const <a class="el" href="classsqlcc_1_1procedure_1_1AssignmentStatement.html">procedure::AssignmentStatement</a> &amp;assign, std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;variables)</td></tr>
+<tr class="separator:a87a02053e28f455e82cda49d0ef00ee2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a619073d88f0bc05a284df46574d37d71" id="r_a619073d88f0bc05a284df46574d37d71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a619073d88f0bc05a284df46574d37d71">execute_if_statement</a> (const <a class="el" href="classsqlcc_1_1procedure_1_1IfStatement.html">procedure::IfStatement</a> &amp;if_stmt, std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;variables, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureResult.html">ProcedureResult</a> &amp;result)</td></tr>
+<tr class="separator:a619073d88f0bc05a284df46574d37d71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc75d74ac926374a2b1c5925cd222dec" id="r_acc75d74ac926374a2b1c5925cd222dec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#acc75d74ac926374a2b1c5925cd222dec">execute_while_statement</a> (const <a class="el" href="classsqlcc_1_1procedure_1_1WhileStatement.html">procedure::WhileStatement</a> &amp;while_stmt, std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;variables, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureResult.html">ProcedureResult</a> &amp;result)</td></tr>
+<tr class="separator:acc75d74ac926374a2b1c5925cd222dec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38983499a354fc84d1e31b66e20c39b4" id="r_a38983499a354fc84d1e31b66e20c39b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a38983499a354fc84d1e31b66e20c39b4">execute_call_statement</a> (const <a class="el" href="classsqlcc_1_1procedure_1_1CallStatement.html">procedure::CallStatement</a> &amp;call_stmt, std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;variables, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureResult.html">ProcedureResult</a> &amp;result)</td></tr>
+<tr class="separator:a38983499a354fc84d1e31b66e20c39b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a679c69cf74e58ae1bfcdb5cc0a630046" id="r_a679c69cf74e58ae1bfcdb5cc0a630046"><td class="memItemLeft" align="right" valign="top">std::variant&lt; int64_t, double, std::string, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a679c69cf74e58ae1bfcdb5cc0a630046">evaluate_expression</a> (const std::string &amp;expression, const std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;variables)</td></tr>
+<tr class="separator:a679c69cf74e58ae1bfcdb5cc0a630046"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82398fbef80940184c3e22244d0668a3" id="r_a82398fbef80940184c3e22244d0668a3"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a82398fbef80940184c3e22244d0668a3"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a82398fbef80940184c3e22244d0668a3">convert_value</a> (const std::variant&lt; int64_t, double, std::string, bool &gt; &amp;value)</td></tr>
+<tr class="separator:a82398fbef80940184c3e22244d0668a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdc917156412a6739dfd1ed7240772db" id="r_abdc917156412a6739dfd1ed7240772db"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#abdc917156412a6739dfd1ed7240772db">is_valid_identifier</a> (const std::string &amp;identifier)</td></tr>
+<tr class="separator:abdc917156412a6739dfd1ed7240772db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e89066541d62f07bc5ee6f871d786df" id="r_a4e89066541d62f07bc5ee6f871d786df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a4e89066541d62f07bc5ee6f871d786df">is_valid_type</a> (const std::string &amp;type)</td></tr>
+<tr class="separator:a4e89066541d62f07bc5ee6f871d786df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f735ceccf11329c5736cba7e2fa3de4" id="r_a9f735ceccf11329c5736cba7e2fa3de4"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a9f735ceccf11329c5736cba7e2fa3de4">get_error_context</a> (const <a class="el" href="classsqlcc_1_1procedure_1_1Statement.html">procedure::Statement</a> &amp;stmt)</td></tr>
+<tr class="separator:a9f735ceccf11329c5736cba7e2fa3de4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aa9c532ac16a045f3c028f9e8358f62d3" id="r_aa9c532ac16a045f3c028f9e8358f62d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#aa9c532ac16a045f3c028f9e8358f62d3">db_manager_</a> = nullptr</td></tr>
+<tr class="separator:aa9c532ac16a045f3c028f9e8358f62d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d1ba31c2a31f1e69c0248023133e39e" id="r_a3d1ba31c2a31f1e69c0248023133e39e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a3d1ba31c2a31f1e69c0248023133e39e">txn_manager_</a> = nullptr</td></tr>
+<tr class="separator:a3d1ba31c2a31f1e69c0248023133e39e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f847fdfb9d5c4fde8af93e63c155912" id="r_a7f847fdfb9d5c4fde8af93e63c155912"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1procedure_1_1ProcedureDefinition.html">procedure::ProcedureDefinition</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a7f847fdfb9d5c4fde8af93e63c155912">procedure_cache_</a></td></tr>
+<tr class="separator:a7f847fdfb9d5c4fde8af93e63c155912"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac428c0716f5f3542355e332c09efc4df" id="r_ac428c0716f5f3542355e332c09efc4df"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#ac428c0716f5f3542355e332c09efc4df">performance_monitoring_enabled_</a> = false</td></tr>
+<tr class="separator:ac428c0716f5f3542355e332c09efc4df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab23ff5e115dce9c9b84f739406314779" id="r_ab23ff5e115dce9c9b84f739406314779"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, int64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#ab23ff5e115dce9c9b84f739406314779">execution_stats_</a></td></tr>
+<tr class="separator:ab23ff5e115dce9c9b84f739406314779"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c4b36df858e165dbef14d8df405d065" id="r_a2c4b36df858e165dbef14d8df405d065"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, int64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a2c4b36df858e165dbef14d8df405d065">call_counts_</a></td></tr>
+<tr class="separator:a2c4b36df858e165dbef14d8df405d065"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa502ffe922e3dce8ddb1d0c2ea6d515b" id="r_aa502ffe922e3dce8ddb1d0c2ea6d515b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#aa502ffe922e3dce8ddb1d0c2ea6d515b">recursion_depth_</a> = 0</td></tr>
+<tr class="separator:aa502ffe922e3dce8ddb1d0c2ea6d515b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
+静态 Private 属性</h2></td></tr>
+<tr class="memitem:a27e2bb42a8638cd775e968a5bde2d730" id="r_a27e2bb42a8638cd775e968a5bde2d730"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1ProcedureExecutor.html#a27e2bb42a8638cd775e968a5bde2d730">MAX_RECURSION_DEPTH</a> = 32</td></tr>
+<tr class="separator:a27e2bb42a8638cd775e968a5bde2d730"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a774903f3a1a28953f3e7c3d3af59fb81" name="a774903f3a1a28953f3e7c3d3af59fb81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a774903f3a1a28953f3e7c3d3af59fb81">&#9670;&#160;</a></span>ProcedureExecutor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_executor::ProcedureExecutor::ProcedureExecutor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a3eb157d4649ac0c5c8d27ca2cf5b64" name="a7a3eb157d4649ac0c5c8d27ca2cf5b64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a3eb157d4649ac0c5c8d27ca2cf5b64">&#9670;&#160;</a></span>~ProcedureExecutor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_executor::ProcedureExecutor::~ProcedureExecutor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a87a02053e28f455e82cda49d0ef00ee2" name="a87a02053e28f455e82cda49d0ef00ee2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87a02053e28f455e82cda49d0ef00ee2">&#9670;&#160;</a></span>assign_variable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_executor::ProcedureExecutor::assign_variable </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1procedure_1_1AssignmentStatement.html">procedure::AssignmentStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>assign</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>variables</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae5a0462f9a9eee022e486e852436c369" name="ae5a0462f9a9eee022e486e852436c369"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5a0462f9a9eee022e486e852436c369">&#9670;&#160;</a></span>compile_procedure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::ProcedureExecutor::compile_procedure </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>procedure_code</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>error_message</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a82398fbef80940184c3e22244d0668a3" name="a82398fbef80940184c3e22244d0668a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82398fbef80940184c3e22244d0668a3">&#9670;&#160;</a></span>convert_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T sqlcc::sql_executor::ProcedureExecutor::convert_value </td>
+          <td>(</td>
+          <td class="paramtype">const std::variant&lt; int64_t, double, std::string, bool &gt; &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af810b946083ef5dc6ded02838f8d332d" name="af810b946083ef5dc6ded02838f8d332d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af810b946083ef5dc6ded02838f8d332d">&#9670;&#160;</a></span>declare_variable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_executor::ProcedureExecutor::declare_variable </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1procedure_1_1VariableDeclaration.html">procedure::VariableDeclaration</a> &amp;&#160;</td>
+          <td class="paramname"><em>decl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>variables</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aec0d9681d2e642be30d302b684281001" name="aec0d9681d2e642be30d302b684281001"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec0d9681d2e642be30d302b684281001">&#9670;&#160;</a></span>enable_performance_monitoring()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_executor::ProcedureExecutor::enable_performance_monitoring </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a679c69cf74e58ae1bfcdb5cc0a630046" name="a679c69cf74e58ae1bfcdb5cc0a630046"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a679c69cf74e58ae1bfcdb5cc0a630046">&#9670;&#160;</a></span>evaluate_expression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::variant&lt; int64_t, double, std::string, bool &gt; sqlcc::sql_executor::ProcedureExecutor::evaluate_expression </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expression</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>variables</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a38983499a354fc84d1e31b66e20c39b4" name="a38983499a354fc84d1e31b66e20c39b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38983499a354fc84d1e31b66e20c39b4">&#9670;&#160;</a></span>execute_call_statement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_executor::ProcedureExecutor::execute_call_statement </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1procedure_1_1CallStatement.html">procedure::CallStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>call_stmt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>variables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureResult.html">ProcedureResult</a> &amp;&#160;</td>
+          <td class="paramname"><em>result</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a619073d88f0bc05a284df46574d37d71" name="a619073d88f0bc05a284df46574d37d71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a619073d88f0bc05a284df46574d37d71">&#9670;&#160;</a></span>execute_if_statement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_executor::ProcedureExecutor::execute_if_statement </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1procedure_1_1IfStatement.html">procedure::IfStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>if_stmt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>variables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureResult.html">ProcedureResult</a> &amp;&#160;</td>
+          <td class="paramname"><em>result</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af0261b52e5a78630c4b5e612e914db6e" name="af0261b52e5a78630c4b5e612e914db6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0261b52e5a78630c4b5e612e914db6e">&#9670;&#160;</a></span>execute_procedure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureResult.html">ProcedureResult</a> sqlcc::sql_executor::ProcedureExecutor::execute_procedure </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>procedure_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>parameters</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa3761d7f375387cf534c925ac3e2a01e" name="aa3761d7f375387cf534c925ac3e2a01e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3761d7f375387cf534c925ac3e2a01e">&#9670;&#160;</a></span>execute_procedure_ast()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureResult.html">ProcedureResult</a> sqlcc::sql_executor::ProcedureExecutor::execute_procedure_ast </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1procedure_1_1ProcedureDefinition.html">procedure::ProcedureDefinition</a> &amp;&#160;</td>
+          <td class="paramname"><em>procedure</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>parameters</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aea04530a8f3b07fbd96e9e4cb2baeb31" name="aea04530a8f3b07fbd96e9e4cb2baeb31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea04530a8f3b07fbd96e9e4cb2baeb31">&#9670;&#160;</a></span>execute_statement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_executor::ProcedureExecutor::execute_statement </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1procedure_1_1Statement.html">procedure::Statement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>variables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureResult.html">ProcedureResult</a> &amp;&#160;</td>
+          <td class="paramname"><em>result</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acc75d74ac926374a2b1c5925cd222dec" name="acc75d74ac926374a2b1c5925cd222dec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc75d74ac926374a2b1c5925cd222dec">&#9670;&#160;</a></span>execute_while_statement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_executor::ProcedureExecutor::execute_while_statement </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1procedure_1_1WhileStatement.html">procedure::WhileStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>while_stmt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>variables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structsqlcc_1_1sql__executor_1_1ProcedureResult.html">ProcedureResult</a> &amp;&#160;</td>
+          <td class="paramname"><em>result</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9f735ceccf11329c5736cba7e2fa3de4" name="a9f735ceccf11329c5736cba7e2fa3de4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f735ceccf11329c5736cba7e2fa3de4">&#9670;&#160;</a></span>get_error_context()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_executor::ProcedureExecutor::get_error_context </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1procedure_1_1Statement.html">procedure::Statement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a679dee0d2e1b0356e9b1ea5419dbc43d" name="a679dee0d2e1b0356e9b1ea5419dbc43d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a679dee0d2e1b0356e9b1ea5419dbc43d">&#9670;&#160;</a></span>get_execution_stats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; std::string, int64_t &gt; sqlcc::sql_executor::ProcedureExecutor::get_execution_stats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a41cb59b540d2010b94cff90b114531a3" name="a41cb59b540d2010b94cff90b114531a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41cb59b540d2010b94cff90b114531a3">&#9670;&#160;</a></span>get_procedure_definition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_executor::ProcedureExecutor::get_procedure_definition </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>procedure_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa53d4f22fdb9d090ee8648afb56c2a04" name="aa53d4f22fdb9d090ee8648afb56c2a04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa53d4f22fdb9d090ee8648afb56c2a04">&#9670;&#160;</a></span>get_procedure_names()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; sqlcc::sql_executor::ProcedureExecutor::get_procedure_names </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a415d8d70720a05cf0f52854c128e324d" name="a415d8d70720a05cf0f52854c128e324d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a415d8d70720a05cf0f52854c128e324d">&#9670;&#160;</a></span>initialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_executor::ProcedureExecutor::initialize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> *&#160;</td>
+          <td class="paramname"><em>db_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> *&#160;</td>
+          <td class="paramname"><em>txn_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abdc917156412a6739dfd1ed7240772db" name="abdc917156412a6739dfd1ed7240772db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdc917156412a6739dfd1ed7240772db">&#9670;&#160;</a></span>is_valid_identifier()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::ProcedureExecutor::is_valid_identifier </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>identifier</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4e89066541d62f07bc5ee6f871d786df" name="a4e89066541d62f07bc5ee6f871d786df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e89066541d62f07bc5ee6f871d786df">&#9670;&#160;</a></span>is_valid_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::ProcedureExecutor::is_valid_type </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a55b9da41dc418ef087229c04355d06d0" name="a55b9da41dc418ef087229c04355d06d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55b9da41dc418ef087229c04355d06d0">&#9670;&#160;</a></span>validate_procedure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::ProcedureExecutor::validate_procedure </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1procedure_1_1ProcedureDefinition.html">procedure::ProcedureDefinition</a> &amp;&#160;</td>
+          <td class="paramname"><em>procedure</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>error_message</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a2c4b36df858e165dbef14d8df405d065" name="a2c4b36df858e165dbef14d8df405d065"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c4b36df858e165dbef14d8df405d065">&#9670;&#160;</a></span>call_counts_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, int64_t&gt; sqlcc::sql_executor::ProcedureExecutor::call_counts_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa9c532ac16a045f3c028f9e8358f62d3" name="aa9c532ac16a045f3c028f9e8358f62d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9c532ac16a045f3c028f9e8358f62d3">&#9670;&#160;</a></span>db_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a>* sqlcc::sql_executor::ProcedureExecutor::db_manager_ = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab23ff5e115dce9c9b84f739406314779" name="ab23ff5e115dce9c9b84f739406314779"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab23ff5e115dce9c9b84f739406314779">&#9670;&#160;</a></span>execution_stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, int64_t&gt; sqlcc::sql_executor::ProcedureExecutor::execution_stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a27e2bb42a8638cd775e968a5bde2d730" name="a27e2bb42a8638cd775e968a5bde2d730"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27e2bb42a8638cd775e968a5bde2d730">&#9670;&#160;</a></span>MAX_RECURSION_DEPTH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr int sqlcc::sql_executor::ProcedureExecutor::MAX_RECURSION_DEPTH = 32</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac428c0716f5f3542355e332c09efc4df" name="ac428c0716f5f3542355e332c09efc4df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac428c0716f5f3542355e332c09efc4df">&#9670;&#160;</a></span>performance_monitoring_enabled_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::ProcedureExecutor::performance_monitoring_enabled_ = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7f847fdfb9d5c4fde8af93e63c155912" name="a7f847fdfb9d5c4fde8af93e63c155912"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f847fdfb9d5c4fde8af93e63c155912">&#9670;&#160;</a></span>procedure_cache_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1procedure_1_1ProcedureDefinition.html">procedure::ProcedureDefinition</a>&gt; &gt; sqlcc::sql_executor::ProcedureExecutor::procedure_cache_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa502ffe922e3dce8ddb1d0c2ea6d515b" name="aa502ffe922e3dce8ddb1d0c2ea6d515b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa502ffe922e3dce8ddb1d0c2ea6d515b">&#9670;&#160;</a></span>recursion_depth_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::sql_executor::ProcedureExecutor::recursion_depth_ = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3d1ba31c2a31f1e69c0248023133e39e" name="a3d1ba31c2a31f1e69c0248023133e39e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d1ba31c2a31f1e69c0248023133e39e">&#9670;&#160;</a></span>txn_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a>* sqlcc::sql_executor::ProcedureExecutor::txn_manager_ = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="procedure__executor_8h_source.html">procedure_executor.h</a></li>
+<li><a class="el" href="procedure__executor_8cpp.html">procedure_executor.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

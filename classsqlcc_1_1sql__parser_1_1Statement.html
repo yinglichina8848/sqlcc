@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::Statement类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">Statement</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1Statement-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::Statement类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="statement_8h_source.html">statement.h</a>&gt;</code></p>
+
+<p>继承自 <a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html">sqlcc::sql_parser::ASTNode</a> .</p>
+
+<p>被 <a class="el" href="classsqlcc_1_1sql__parser_1_1AlterDomainStatement.html">sqlcc::sql_parser::AlterDomainStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1AlterFunctionStatement.html">sqlcc::sql_parser::AlterFunctionStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1AlterStatement.html">sqlcc::sql_parser::AlterStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1AlterTriggerStatement.html">sqlcc::sql_parser::AlterTriggerStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1AlterViewStatement.html">sqlcc::sql_parser::AlterViewStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1BeginStatement.html">sqlcc::sql_parser::BeginStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1BeginStatement.html">sqlcc::sql_parser::BeginStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1BeginStatement.html">sqlcc::sql_parser::BeginStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CallProcedureStatement.html">sqlcc::sql_parser::CallProcedureStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CommitStatement.html">sqlcc::sql_parser::CommitStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CommitStatement.html">sqlcc::sql_parser::CommitStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CompositeSelectStatement.html">sqlcc::sql_parser::CompositeSelectStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateDomainStatement.html">sqlcc::sql_parser::CreateDomainStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html">sqlcc::sql_parser::CreateFunctionStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html">sqlcc::sql_parser::CreateFunctionStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateIndexStatement.html">sqlcc::sql_parser::CreateIndexStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateProcedureStatement.html">sqlcc::sql_parser::CreateProcedureStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html">sqlcc::sql_parser::CreateRoleStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html">sqlcc::sql_parser::CreateStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateTriggerStatement.html">sqlcc::sql_parser::CreateTriggerStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateUserStatement.html">sqlcc::sql_parser::CreateUserStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateViewStatement.html">sqlcc::sql_parser::CreateViewStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DeleteStatement.html">sqlcc::sql_parser::DeleteStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropDomainStatement.html">sqlcc::sql_parser::DropDomainStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropFunctionStatement.html">sqlcc::sql_parser::DropFunctionStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropFunctionStatement.html">sqlcc::sql_parser::DropFunctionStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropIndexStatement.html">sqlcc::sql_parser::DropIndexStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropProcedureStatement.html">sqlcc::sql_parser::DropProcedureStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html">sqlcc::sql_parser::DropRoleStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropStatement.html">sqlcc::sql_parser::DropStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropTriggerStatement.html">sqlcc::sql_parser::DropTriggerStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropUserStatement.html">sqlcc::sql_parser::DropUserStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropViewStatement.html">sqlcc::sql_parser::DropViewStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1EnhancedAlterTableStatement.html">sqlcc::sql_parser::EnhancedAlterTableStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionCallStatement.html">sqlcc::sql_parser::FunctionCallStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html">sqlcc::sql_parser::GrantRoleStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1GrantStatement.html">sqlcc::sql_parser::GrantStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1GrantStatement.html">sqlcc::sql_parser::GrantStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1GrantStatement.html">sqlcc::sql_parser::GrantStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1InsertStatement.html">sqlcc::sql_parser::InsertStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1LoadDataStatement.html">sqlcc::sql_parser::LoadDataStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1LoadDataStatement.html">sqlcc::sql_parser::LoadDataStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ReleaseSavepointStatement.html">sqlcc::sql_parser::ReleaseSavepointStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html">sqlcc::sql_parser::RevokeRoleStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1RevokeStatement.html">sqlcc::sql_parser::RevokeStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1RevokeStatement.html">sqlcc::sql_parser::RevokeStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1RevokeStatement.html">sqlcc::sql_parser::RevokeStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1RollbackStatement.html">sqlcc::sql_parser::RollbackStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1RollbackStatement.html">sqlcc::sql_parser::RollbackStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1RollbackStatement.html">sqlcc::sql_parser::RollbackStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1SavepointStatement.html">sqlcc::sql_parser::SavepointStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sqlcc::sql_parser::SelectStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1SetOperation.html">sqlcc::sql_parser::SetOperation</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1SetOperation.html">sqlcc::sql_parser::SetOperation</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1SetTransactionStatement.html">sqlcc::sql_parser::SetTransactionStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ShowStatement.html">sqlcc::sql_parser::ShowStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ShowStatement.html">sqlcc::sql_parser::ShowStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1UpdateStatement.html">sqlcc::sql_parser::UpdateStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1UseStatement.html">sqlcc::sql_parser::UseStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1UseStatement.html">sqlcc::sql_parser::UseStatement</a> , 以及 <a class="el" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html">sqlcc::sql_parser::WithRecursiveClause</a> 继承.</p>
+<div class="dynheader">
+sqlcc::sql_parser::Statement 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__parser_1_1Statement__coll__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1Statement_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1sql__parser_1_1Statement_coll__map" id="asqlcc_1_1sql__parser_1_1Statement_coll__map">
+<area shape="rect" title=" " alt="" coords="5,93,144,133"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ASTNode.html" title=" " alt="" coords="5,5,144,45"/>
+<area shape="poly" title=" " alt="" coords="77,59,77,93,72,93,72,59"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a5c74f85a376f4509bdba85968ba62ca3" id="r_a5c74f85a376f4509bdba85968ba62ca3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">Type</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a5312fbeaca8912c906f7796c56052061">SELECT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a89ff132aae533d8e679bfe002d0dceac">INSERT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a93e115d268e0f6e84ab6abeb4e9e9a86">UPDATE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a7bf84e5f78e0d2ffbed115673232d99a">DELETE</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ad9d90a972f604215af7639b39fa5cee5">CREATE_TABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a8f4415036790844cdf4d9f71a1f9f5a9">DROP_TABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a863e22b943cdeda8d77f5d00d1f9444e">ALTER_TABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ad4323b35c28f267fdbf3a6817c83045d">CREATE_INDEX</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3aba850d68df245c9dce229eca932e14e1">DROP_INDEX</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ac4af4ecaf7e6292ab8e7821696837def">COMPOSITE_SELECT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a9121959533cef6b2f8dc7f0f5c22e46f">SAVEPOINT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a4706101cd6e85fcd1494a5ec4092442b">RELEASE_SAVEPOINT</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a85ff8dc7070cab2cc08676ff0d8a7536">SET_TRANSACTION</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a4bb216fafd421407cd35295964f031b3">ALTER</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a41d906d0667a22b4d0b08cf078be2216">CREATE_DOMAIN</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3af6391d50bd57d09466186e3550810694">ALTER_DOMAIN</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a50332df5581c8a93eebcc361dff7867b">DROP_DOMAIN</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3aec079bfc7b342e7a76bffcb3ab04db9d">ALTER_TABLE_ENHANCED</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a63948c662fd4c8ea6d800a4994f582c2">CALL_PROCEDURE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a25ce31dfdbb4a786772580fd8cb3c526">CREATE</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a7c82d60fcb058cc29ef452bb6d538a9a">DROP</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a932fde621481f6cede0d4f3b71e3b7e1">WITH_RECURSIVE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ae3f05fc4482b5f171ad20a253880175c">COMMIT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a15d40a6f4a75d72e4637a8227b1bd731">ROLLBACK</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a9e6f8ea690860c93cf6a1fd21a832dd0">BEGIN</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ab52c6cbc8af46c05ee6f9c15f9448d58">USE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3acc4f038c0e0259e991a95a3c4375ccd6">CREATE_USER</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3aba79d04e1e62ed4a8112bdef764859b7">DROP_USER</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ad3a5abca40eafcdcb0de013ac87c38bb">GRANT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a7508aae212bc947af917ccae1aa77cb1">REVOKE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a3ff67f1f4750e9de8d74755f7fd91dcd">SHOW</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a8704dce7935087495eee654c35ef60be">CREATE_VIEW</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a0dd25401eced73f68ec0081ce4b605b0">CREATE_ROLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a7def74862c5ef5eb70e62b31287d5329">DROP_ROLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ad5dc60a56f7850c407a5e037a8840701">GRANT_ROLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3aaf04dc400e2858a1acad22f53ff6ba58">REVOKE_ROLE</a>
+<br />
+ }</td></tr>
+<tr class="separator:a5c74f85a376f4509bdba85968ba62ca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a4d849eed81c60d13e4028c57364228f9" id="r_a4d849eed81c60d13e4028c57364228f9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a4d849eed81c60d13e4028c57364228f9">Statement</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">Type</a> type)</td></tr>
+<tr class="separator:a4d849eed81c60d13e4028c57364228f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70684f89130d749f5923873076df258e" id="r_a70684f89130d749f5923873076df258e"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a70684f89130d749f5923873076df258e">~Statement</a> ()=default</td></tr>
+<tr class="separator:a70684f89130d749f5923873076df258e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab568c4584645d796127272e799ee8a0c" id="r_ab568c4584645d796127272e799ee8a0c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#ab568c4584645d796127272e799ee8a0c">accept</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">ast::NodeVisitor</a> &amp;visitor)=0</td></tr>
+<tr class="separator:ab568c4584645d796127272e799ee8a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe6ee29874bf69d9d80d67f6ee4bb22c" id="r_abe6ee29874bf69d9d80d67f6ee4bb22c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#abe6ee29874bf69d9d80d67f6ee4bb22c">getType</a> () const</td></tr>
+<tr class="separator:abe6ee29874bf69d9d80d67f6ee4bb22c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html">sqlcc::sql_parser::ASTNode</a></td></tr>
+<tr class="memitem:a439bd54fa1a01e60aea9e6a985fbea13 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode" id="r_a439bd54fa1a01e60aea9e6a985fbea13"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html#a439bd54fa1a01e60aea9e6a985fbea13">~ASTNode</a> ()=default</td></tr>
+<tr class="separator:a439bd54fa1a01e60aea9e6a985fbea13 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28e63ff3f8094ac752f2575947665d32 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode" id="r_a28e63ff3f8094ac752f2575947665d32"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html#a28e63ff3f8094ac752f2575947665d32">getTypeName</a> () const</td></tr>
+<tr class="separator:a28e63ff3f8094ac752f2575947665d32 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a0df4ee4d499f0f7d9e050ddfc494f67a" id="r_a0df4ee4d499f0f7d9e050ddfc494f67a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a0df4ee4d499f0f7d9e050ddfc494f67a">type_</a></td></tr>
+<tr class="separator:a0df4ee4d499f0f7d9e050ddfc494f67a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a5c74f85a376f4509bdba85968ba62ca3" name="a5c74f85a376f4509bdba85968ba62ca3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c74f85a376f4509bdba85968ba62ca3">&#9670;&#160;</a></span>Type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">sqlcc::sql_parser::Statement::Type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a5312fbeaca8912c906f7796c56052061" name="a5c74f85a376f4509bdba85968ba62ca3a5312fbeaca8912c906f7796c56052061"></a>SELECT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a89ff132aae533d8e679bfe002d0dceac" name="a5c74f85a376f4509bdba85968ba62ca3a89ff132aae533d8e679bfe002d0dceac"></a>INSERT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a93e115d268e0f6e84ab6abeb4e9e9a86" name="a5c74f85a376f4509bdba85968ba62ca3a93e115d268e0f6e84ab6abeb4e9e9a86"></a>UPDATE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a7bf84e5f78e0d2ffbed115673232d99a" name="a5c74f85a376f4509bdba85968ba62ca3a7bf84e5f78e0d2ffbed115673232d99a"></a>DELETE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3ad9d90a972f604215af7639b39fa5cee5" name="a5c74f85a376f4509bdba85968ba62ca3ad9d90a972f604215af7639b39fa5cee5"></a>CREATE_TABLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a8f4415036790844cdf4d9f71a1f9f5a9" name="a5c74f85a376f4509bdba85968ba62ca3a8f4415036790844cdf4d9f71a1f9f5a9"></a>DROP_TABLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a863e22b943cdeda8d77f5d00d1f9444e" name="a5c74f85a376f4509bdba85968ba62ca3a863e22b943cdeda8d77f5d00d1f9444e"></a>ALTER_TABLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3ad4323b35c28f267fdbf3a6817c83045d" name="a5c74f85a376f4509bdba85968ba62ca3ad4323b35c28f267fdbf3a6817c83045d"></a>CREATE_INDEX&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3aba850d68df245c9dce229eca932e14e1" name="a5c74f85a376f4509bdba85968ba62ca3aba850d68df245c9dce229eca932e14e1"></a>DROP_INDEX&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3ac4af4ecaf7e6292ab8e7821696837def" name="a5c74f85a376f4509bdba85968ba62ca3ac4af4ecaf7e6292ab8e7821696837def"></a>COMPOSITE_SELECT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a9121959533cef6b2f8dc7f0f5c22e46f" name="a5c74f85a376f4509bdba85968ba62ca3a9121959533cef6b2f8dc7f0f5c22e46f"></a>SAVEPOINT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a4706101cd6e85fcd1494a5ec4092442b" name="a5c74f85a376f4509bdba85968ba62ca3a4706101cd6e85fcd1494a5ec4092442b"></a>RELEASE_SAVEPOINT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a85ff8dc7070cab2cc08676ff0d8a7536" name="a5c74f85a376f4509bdba85968ba62ca3a85ff8dc7070cab2cc08676ff0d8a7536"></a>SET_TRANSACTION&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a4bb216fafd421407cd35295964f031b3" name="a5c74f85a376f4509bdba85968ba62ca3a4bb216fafd421407cd35295964f031b3"></a>ALTER&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a41d906d0667a22b4d0b08cf078be2216" name="a5c74f85a376f4509bdba85968ba62ca3a41d906d0667a22b4d0b08cf078be2216"></a>CREATE_DOMAIN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3af6391d50bd57d09466186e3550810694" name="a5c74f85a376f4509bdba85968ba62ca3af6391d50bd57d09466186e3550810694"></a>ALTER_DOMAIN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a50332df5581c8a93eebcc361dff7867b" name="a5c74f85a376f4509bdba85968ba62ca3a50332df5581c8a93eebcc361dff7867b"></a>DROP_DOMAIN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3aec079bfc7b342e7a76bffcb3ab04db9d" name="a5c74f85a376f4509bdba85968ba62ca3aec079bfc7b342e7a76bffcb3ab04db9d"></a>ALTER_TABLE_ENHANCED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a63948c662fd4c8ea6d800a4994f582c2" name="a5c74f85a376f4509bdba85968ba62ca3a63948c662fd4c8ea6d800a4994f582c2"></a>CALL_PROCEDURE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a25ce31dfdbb4a786772580fd8cb3c526" name="a5c74f85a376f4509bdba85968ba62ca3a25ce31dfdbb4a786772580fd8cb3c526"></a>CREATE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a7c82d60fcb058cc29ef452bb6d538a9a" name="a5c74f85a376f4509bdba85968ba62ca3a7c82d60fcb058cc29ef452bb6d538a9a"></a>DROP&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a932fde621481f6cede0d4f3b71e3b7e1" name="a5c74f85a376f4509bdba85968ba62ca3a932fde621481f6cede0d4f3b71e3b7e1"></a>WITH_RECURSIVE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3ae3f05fc4482b5f171ad20a253880175c" name="a5c74f85a376f4509bdba85968ba62ca3ae3f05fc4482b5f171ad20a253880175c"></a>COMMIT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a15d40a6f4a75d72e4637a8227b1bd731" name="a5c74f85a376f4509bdba85968ba62ca3a15d40a6f4a75d72e4637a8227b1bd731"></a>ROLLBACK&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a9e6f8ea690860c93cf6a1fd21a832dd0" name="a5c74f85a376f4509bdba85968ba62ca3a9e6f8ea690860c93cf6a1fd21a832dd0"></a>BEGIN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3ab52c6cbc8af46c05ee6f9c15f9448d58" name="a5c74f85a376f4509bdba85968ba62ca3ab52c6cbc8af46c05ee6f9c15f9448d58"></a>USE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3acc4f038c0e0259e991a95a3c4375ccd6" name="a5c74f85a376f4509bdba85968ba62ca3acc4f038c0e0259e991a95a3c4375ccd6"></a>CREATE_USER&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3aba79d04e1e62ed4a8112bdef764859b7" name="a5c74f85a376f4509bdba85968ba62ca3aba79d04e1e62ed4a8112bdef764859b7"></a>DROP_USER&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3ad3a5abca40eafcdcb0de013ac87c38bb" name="a5c74f85a376f4509bdba85968ba62ca3ad3a5abca40eafcdcb0de013ac87c38bb"></a>GRANT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a7508aae212bc947af917ccae1aa77cb1" name="a5c74f85a376f4509bdba85968ba62ca3a7508aae212bc947af917ccae1aa77cb1"></a>REVOKE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a3ff67f1f4750e9de8d74755f7fd91dcd" name="a5c74f85a376f4509bdba85968ba62ca3a3ff67f1f4750e9de8d74755f7fd91dcd"></a>SHOW&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a8704dce7935087495eee654c35ef60be" name="a5c74f85a376f4509bdba85968ba62ca3a8704dce7935087495eee654c35ef60be"></a>CREATE_VIEW&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a0dd25401eced73f68ec0081ce4b605b0" name="a5c74f85a376f4509bdba85968ba62ca3a0dd25401eced73f68ec0081ce4b605b0"></a>CREATE_ROLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3a7def74862c5ef5eb70e62b31287d5329" name="a5c74f85a376f4509bdba85968ba62ca3a7def74862c5ef5eb70e62b31287d5329"></a>DROP_ROLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3ad5dc60a56f7850c407a5e037a8840701" name="a5c74f85a376f4509bdba85968ba62ca3ad5dc60a56f7850c407a5e037a8840701"></a>GRANT_ROLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c74f85a376f4509bdba85968ba62ca3aaf04dc400e2858a1acad22f53ff6ba58" name="a5c74f85a376f4509bdba85968ba62ca3aaf04dc400e2858a1acad22f53ff6ba58"></a>REVOKE_ROLE&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a4d849eed81c60d13e4028c57364228f9" name="a4d849eed81c60d13e4028c57364228f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d849eed81c60d13e4028c57364228f9">&#9670;&#160;</a></span>Statement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::Statement::Statement </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">Type</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a70684f89130d749f5923873076df258e" name="a70684f89130d749f5923873076df258e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70684f89130d749f5923873076df258e">&#9670;&#160;</a></span>~Statement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual sqlcc::sql_parser::Statement::~Statement </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="ab568c4584645d796127272e799ee8a0c" name="ab568c4584645d796127272e799ee8a0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab568c4584645d796127272e799ee8a0c">&#9670;&#160;</a></span>accept()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::sql_parser::Statement::accept </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">ast::NodeVisitor</a> &amp;&#160;</td>
+          <td class="paramname"><em>visitor</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html#a1c82aa4f0e7bb46c96a0500466f00430">sqlcc::sql_parser::SelectStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1InsertStatement.html#ab58ec438e0f49bb87ad438fbb05caf6c">sqlcc::sql_parser::InsertStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1UpdateStatement.html#a64e2f0136f2685430773fb57a449a64f">sqlcc::sql_parser::UpdateStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1BeginStatement.html#ae0dcb9728844d35a4b9cc8611bddd333">sqlcc::sql_parser::BeginStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1RollbackStatement.html#a7d9e892002c3d6ea16547b451766a101">sqlcc::sql_parser::RollbackStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1GrantStatement.html#a35ea08e7741418f1ffd8f65a8c4743b3">sqlcc::sql_parser::GrantStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1RevokeStatement.html#a8107c060ccb6231693c8b2cf7fda4038">sqlcc::sql_parser::RevokeStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1SavepointStatement.html#aecb853ba2df155026d442018da27360b">sqlcc::sql_parser::SavepointStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ReleaseSavepointStatement.html#a78a57c8055da1cbf24fadef42620d0aa">sqlcc::sql_parser::ReleaseSavepointStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1SetTransactionStatement.html#ac6a20ebc91299e8e0f5502c9deca3775">sqlcc::sql_parser::SetTransactionStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateDomainStatement.html#a3388c4fa6ed1b773f2c8f7b5a05fd3f3">sqlcc::sql_parser::CreateDomainStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1AlterDomainStatement.html#a8b538f88403e178c132ae821c31f9f2b">sqlcc::sql_parser::AlterDomainStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropDomainStatement.html#af19b1dc33f233539fd6f94c11420c770">sqlcc::sql_parser::DropDomainStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a1ac36859720c65a809c12671f7e9d649">sqlcc::sql_parser::CreateFunctionStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropFunctionStatement.html#add36773de32155f961243a8252341909">sqlcc::sql_parser::DropFunctionStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1EnhancedAlterTableStatement.html#ad06e5f7c347b03ab73656d84f1ea079b">sqlcc::sql_parser::EnhancedAlterTableStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CallProcedureStatement.html#ae9fb3e03f479e4b27a7a39bf751a1a63">sqlcc::sql_parser::CallProcedureStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1AlterTriggerStatement.html#abe285d453c5e7472ce40f1e7573009ff">sqlcc::sql_parser::AlterTriggerStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a3508697cf5b9a9d68978ba60d62ee7dd">sqlcc::sql_parser::SetOperation</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1SetOperation.html#a3508697cf5b9a9d68978ba60d62ee7dd">sqlcc::sql_parser::SetOperation</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a34eab09389e4d963b4afad7021fac49b">sqlcc::sql_parser::CreateRoleStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a1948bd1495a60d79c066695c4192d527">sqlcc::sql_parser::DropRoleStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a86ee455952bbc96a0353eed4bd293617">sqlcc::sql_parser::GrantRoleStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#ab7d50c415f06b963bc2a3821e5318bb2">sqlcc::sql_parser::RevokeRoleStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1AlterViewStatement.html#a4a04612cf8d111aec251fc5552949298">sqlcc::sql_parser::AlterViewStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropViewStatement.html#ae9d50091ddf8b79a2e9f933522103d3e">sqlcc::sql_parser::DropViewStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CompositeSelectStatement.html#a40a0d5f56b8c89acd4b2acdc92cad60e">sqlcc::sql_parser::CompositeSelectStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1UseStatement.html#ab896375886f989d35f7d4adbed250957">sqlcc::sql_parser::UseStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1GrantStatement.html#a1ff3922230665ed2eb79a5516b17690b">sqlcc::sql_parser::GrantStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1RevokeStatement.html#ace9ef773caabb8e1949c1a1e658afc0d">sqlcc::sql_parser::RevokeStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ShowStatement.html#a5cc2b6462dfd6d16bfc2f79d73990045">sqlcc::sql_parser::ShowStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CommitStatement.html#a3f9bd7cc125679f1df4dd2b2e66ca622">sqlcc::sql_parser::CommitStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1RollbackStatement.html#a75db0e6cd69233a413cf83ab1b9fa22d">sqlcc::sql_parser::RollbackStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1BeginStatement.html#afd679a24b08c13b7b9bd87af2230684c">sqlcc::sql_parser::BeginStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html#a354d3d4b79d3309129a6078d92c65f14">sqlcc::sql_parser::CreateStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropStatement.html#aa2d88363d47fa9a1c5c729f38afdbd6b">sqlcc::sql_parser::DropStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1AlterStatement.html#aa095453116fc36e5920bc02d18c1b377">sqlcc::sql_parser::AlterStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateViewStatement.html#aecca9fabafb6bbdd2b396f7ffe1dba33">sqlcc::sql_parser::CreateViewStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateUserStatement.html#a7945dfc4ec07d403c13cf4d3bb984c50">sqlcc::sql_parser::CreateUserStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropUserStatement.html#af1cc17fdc2be00b235d895c26dfe37eb">sqlcc::sql_parser::DropUserStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateProcedureStatement.html#ac50243c06594d74f90e3e46368fc5eef">sqlcc::sql_parser::CreateProcedureStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropProcedureStatement.html#a744378251d5967ad4d87db4fc65a236c">sqlcc::sql_parser::DropProcedureStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateTriggerStatement.html#aba2669dd2ea68c9411cfb5c028c5fe8b">sqlcc::sql_parser::CreateTriggerStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropTriggerStatement.html#abdf91bb71f45c7f50d3cbf0722a6edd8">sqlcc::sql_parser::DropTriggerStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateIndexStatement.html#a9ab45891857d008712f493dcd234d0e1">sqlcc::sql_parser::CreateIndexStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DropIndexStatement.html#adfdacfc64baf918d4f820d013935205b">sqlcc::sql_parser::DropIndexStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1DeleteStatement.html#a9d152ebfa8605b2189a9ade87e671f8f">sqlcc::sql_parser::DeleteStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1GrantStatement.html#a1ff3922230665ed2eb79a5516b17690b">sqlcc::sql_parser::GrantStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1RevokeStatement.html#ace9ef773caabb8e1949c1a1e658afc0d">sqlcc::sql_parser::RevokeStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1CommitStatement.html#a3f9bd7cc125679f1df4dd2b2e66ca622">sqlcc::sql_parser::CommitStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1RollbackStatement.html#a75db0e6cd69233a413cf83ab1b9fa22d">sqlcc::sql_parser::RollbackStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1BeginStatement.html#afd679a24b08c13b7b9bd87af2230684c">sqlcc::sql_parser::BeginStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1UseStatement.html#ab896375886f989d35f7d4adbed250957">sqlcc::sql_parser::UseStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ShowStatement.html#a5cc2b6462dfd6d16bfc2f79d73990045">sqlcc::sql_parser::ShowStatement</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1LoadDataStatement.html#a4b94d95dfddaa54830200d082a92770f">sqlcc::sql_parser::LoadDataStatement</a> , 以及 <a class="el" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#afb295011ee4767f1f296467ff50ed95c">sqlcc::sql_parser::WithRecursiveClause</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="abe6ee29874bf69d9d80d67f6ee4bb22c" name="abe6ee29874bf69d9d80d67f6ee4bb22c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe6ee29874bf69d9d80d67f6ee4bb22c">&#9670;&#160;</a></span>getType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">Type</a> sqlcc::sql_parser::Statement::getType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a0df4ee4d499f0f7d9e050ddfc494f67a" name="a0df4ee4d499f0f7d9e050ddfc494f67a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0df4ee4d499f0f7d9e050ddfc494f67a">&#9670;&#160;</a></span>type_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">Type</a> sqlcc::sql_parser::Statement::type_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="statement_8h_source.html">statement.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

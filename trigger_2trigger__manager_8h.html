@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: trigger_manager.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_3f9a2213eb6bc19d1d6772d50b49c61f.html">trigger</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">trigger_manager.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>触发器管理器类定义  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="trigger__definition_8h_source.html">trigger_definition.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="trigger_2trigger__executor_8h_source.html">trigger_executor.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="recursion__guard_8h_source.html">recursion_guard.h</a>&quot;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+trigger/trigger_manager.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="trigger_2trigger__manager_8h__incl.png" border="0" usemap="#atrigger__manager_8h" alt=""/></div>
+<map name="atrigger__manager_8h" id="atrigger__manager_8h">
+<area shape="rect" title="触发器管理器类定义" alt="" coords="353,5,494,31"/>
+<area shape="rect" href="trigger__definition_8h.html" title="触发器定义类定义" alt="" coords="5,152,151,177"/>
+<area shape="poly" title=" " alt="" coords="353,24,276,29,193,38,121,55,95,67,77,80,70,93,68,108,72,138,67,139,63,108,65,91,73,77,92,62,120,50,192,33,275,23,352,18"/>
+<area shape="rect" title=" " alt="" coords="229,225,287,251"/>
+<area shape="poly" title=" " alt="" coords="439,29,468,57,498,95,509,116,515,138,514,159,504,179,490,191,470,201,417,217,301,235,301,230,415,211,468,196,487,186,500,176,509,158,510,138,504,118,494,98,464,60,436,33"/>
+<area shape="rect" href="trigger_2trigger__executor_8h.html" title="触发器执行器接口定义" alt="" coords="87,79,226,104"/>
+<area shape="poly" title=" " alt="" coords="381,33,214,78,213,72,380,28"/>
+<area shape="rect" title=" " alt="" coords="227,152,289,177"/>
+<area shape="poly" title=" " alt="" coords="375,33,330,51,309,64,291,80,273,109,264,140,259,138,268,107,287,77,306,60,328,46,373,28"/>
+<area shape="rect" href="recursion__guard_8h.html" title="递归防护机制类定义" alt="" coords="301,79,439,104"/>
+<area shape="poly" title=" " alt="" coords="417,33,389,69,385,66,412,29"/>
+<area shape="rect" title=" " alt="" coords="365,152,489,177"/>
+<area shape="poly" title=" " alt="" coords="433,30,445,52,454,78,453,111,443,141,438,139,448,110,449,79,440,54,428,32"/>
+<area shape="rect" title=" " alt="" coords="565,79,642,104"/>
+<area shape="poly" title=" " alt="" coords="453,28,562,71,560,76,451,33"/>
+<area shape="rect" title=" " alt="" coords="666,79,730,104"/>
+<area shape="poly" title=" " alt="" coords="468,28,653,76,652,81,467,33"/>
+<area shape="poly" title=" " alt="" coords="108,175,217,218,215,223,106,180"/>
+<area shape="poly" title=" " alt="" coords="146,106,103,145,99,141,142,102"/>
+<area shape="poly" title=" " alt="" coords="167,103,218,176,244,213,239,216,213,179,162,106"/>
+<area shape="poly" title=" " alt="" coords="174,102,232,142,229,146,171,106"/>
+<area shape="poly" title=" " alt="" coords="363,106,277,216,273,213,359,103"/>
+<area shape="poly" title=" " alt="" coords="353,106,290,147,287,142,351,102"/>
+<area shape="poly" title=" " alt="" coords="382,103,411,139,407,143,377,106"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="trigger_2trigger__manager_8h__dep__incl.png" border="0" usemap="#atrigger__manager_8hdep" alt=""/></div>
+<map name="atrigger__manager_8hdep" id="atrigger__manager_8hdep">
+<area shape="rect" title="触发器管理器类定义" alt="" coords="303,5,444,31"/>
+<area shape="rect" href="procedure__trigger__executor_8h.html" title=" " alt="" coords="164,79,375,104"/>
+<area shape="poly" title=" " alt="" coords="347,41,288,81,285,76,344,36"/>
+<area shape="rect" href="trigger__manager_8cpp.html" title=" " alt="" coords="399,79,555,104"/>
+<area shape="poly" title=" " alt="" coords="403,36,462,76,459,81,400,41"/>
+<area shape="rect" href="procedure__trigger__executor_8cpp.html" title=" " alt="" coords="5,152,232,177"/>
+<area shape="poly" title=" " alt="" coords="234,112,144,154,142,149,232,107"/>
+<area shape="rect" href="procedure__trigger__task_8cpp.html" title=" " alt="" coords="234,225,433,251"/>
+<area shape="poly" title=" " alt="" coords="277,117,297,176,327,224,322,226,292,178,272,119"/>
+<area shape="rect" href="procedure__trigger__task_8h.html" title=" " alt="" coords="307,152,491,177"/>
+<area shape="poly" title=" " alt="" coords="304,108,379,149,376,154,301,113"/>
+<area shape="poly" title=" " alt="" coords="381,189,346,227,342,223,377,186"/>
+</map>
+</div>
+</div>
+<p><a href="trigger_2trigger__manager_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html">sqlcc::trigger::TriggerManager</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发器管理器  <a href="classsqlcc_1_1trigger_1_1TriggerManager.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1trigger" id="r_namespacesqlcc_1_1trigger"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1trigger.html">sqlcc::trigger</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>触发器管理器类定义 </p>
+<p>Why: 需要一个统一的触发器管理接口 What: TriggerManager类提供触发器的注册、注销和执行管理 How: 使用单例模式管理所有触发器，提供线程安全操作 </p>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

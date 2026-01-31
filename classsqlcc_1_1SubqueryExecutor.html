@@ -1,0 +1,731 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::SubqueryExecutor类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html">SubqueryExecutor</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1SubqueryExecutor-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::SubqueryExecutor类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>子查询执行器 支持执行各种类型的子查询  
+ <a href="classsqlcc_1_1SubqueryExecutor.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="subquery__executor_8h_source.html">subquery_executor.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::SubqueryExecutor 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1SubqueryExecutor__coll__graph.png" border="0" usemap="#asqlcc_1_1SubqueryExecutor_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1SubqueryExecutor_coll__map" id="asqlcc_1_1SubqueryExecutor_coll__map">
+<area shape="rect" title="子查询执行器 支持执行各种类型的子查询" alt="" coords="5,93,185,119"/>
+<area shape="rect" href="classsqlcc_1_1ExecutionContext.html" title=" " alt="" coords="7,5,184,31"/>
+<area shape="poly" title=" " alt="" coords="98,45,98,93,93,93,93,45"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:ad32f1261362fb5b926bfce992f83753a" id="r_ad32f1261362fb5b926bfce992f83753a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#ad32f1261362fb5b926bfce992f83753a">SubqueryExecutor</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a> &gt; sql_executor, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt; db_manager, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt; user_manager, const <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context)</td></tr>
+<tr class="memdesc:ad32f1261362fb5b926bfce992f83753a"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:ad32f1261362fb5b926bfce992f83753a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19945bac5ce9095b2ff1a437111252cb" id="r_a19945bac5ce9095b2ff1a437111252cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#a19945bac5ce9095b2ff1a437111252cb">~SubqueryExecutor</a> ()</td></tr>
+<tr class="memdesc:a19945bac5ce9095b2ff1a437111252cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a19945bac5ce9095b2ff1a437111252cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affd079dbca0165313b10577b5632e35a" id="r_affd079dbca0165313b10577b5632e35a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#affd079dbca0165313b10577b5632e35a">execute_subquery</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &gt; subquery)</td></tr>
+<tr class="memdesc:affd079dbca0165313b10577b5632e35a"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行子查询  <br /></td></tr>
+<tr class="separator:affd079dbca0165313b10577b5632e35a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af400d799c354e11cf41ed8d4ed4f8f0b" id="r_af400d799c354e11cf41ed8d4ed4f8f0b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#af400d799c354e11cf41ed8d4ed4f8f0b">execute_correlated_subquery</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &gt; subquery, const <a class="el" href="structsqlcc_1_1Row.html">Row</a> &amp;outer_row)</td></tr>
+<tr class="memdesc:af400d799c354e11cf41ed8d4ed4f8f0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行相关子查询  <br /></td></tr>
+<tr class="separator:af400d799c354e11cf41ed8d4ed4f8f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a69d3fc76f22e8fcb2ad6578c3064ca" id="r_a3a69d3fc76f22e8fcb2ad6578c3064ca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#a3a69d3fc76f22e8fcb2ad6578c3064ca">execute_exists_subquery</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &gt; subquery, const <a class="el" href="structsqlcc_1_1Row.html">Row</a> &amp;outer_row)</td></tr>
+<tr class="memdesc:a3a69d3fc76f22e8fcb2ad6578c3064ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行EXISTS子查询  <br /></td></tr>
+<tr class="separator:a3a69d3fc76f22e8fcb2ad6578c3064ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4a67a2903367247ef700265d7cbf527" id="r_ae4a67a2903367247ef700265d7cbf527"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#ae4a67a2903367247ef700265d7cbf527">execute_in_subquery</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &gt; subquery, const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;outer_value)</td></tr>
+<tr class="memdesc:ae4a67a2903367247ef700265d7cbf527"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行IN子查询  <br /></td></tr>
+<tr class="separator:ae4a67a2903367247ef700265d7cbf527"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cc8d938b585673d5bfdb03456bdacef" id="r_a4cc8d938b585673d5bfdb03456bdacef"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classsqlcc_1_1Value.html">Value</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#a4cc8d938b585673d5bfdb03456bdacef">execute_scalar_subquery</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &gt; subquery, const <a class="el" href="structsqlcc_1_1Row.html">Row</a> &amp;outer_row)</td></tr>
+<tr class="memdesc:a4cc8d938b585673d5bfdb03456bdacef"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行标量子查询  <br /></td></tr>
+<tr class="separator:a4cc8d938b585673d5bfdb03456bdacef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad4aa5a6471330d58b254e9610464d84" id="r_aad4aa5a6471330d58b254e9610464d84"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#aad4aa5a6471330d58b254e9610464d84">execute_any_all_subquery</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &gt; subquery, const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;outer_value, bool is_any, const std::string &amp;comparison_op)</td></tr>
+<tr class="memdesc:aad4aa5a6471330d58b254e9610464d84"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行ANY/ALL子查询  <br /></td></tr>
+<tr class="separator:aad4aa5a6471330d58b254e9610464d84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5f4bd8894483f7390293c98b81afa6d" id="r_af5f4bd8894483f7390293c98b81afa6d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#af5f4bd8894483f7390293c98b81afa6d">set_context</a> (const <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context)</td></tr>
+<tr class="memdesc:af5f4bd8894483f7390293c98b81afa6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置执行上下文  <br /></td></tr>
+<tr class="separator:af5f4bd8894483f7390293c98b81afa6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5154e90dbb9b73052f58b250bff98afb" id="r_a5154e90dbb9b73052f58b250bff98afb"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#a5154e90dbb9b73052f58b250bff98afb">get_context</a> () const</td></tr>
+<tr class="memdesc:a5154e90dbb9b73052f58b250bff98afb"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取执行上下文  <br /></td></tr>
+<tr class="separator:a5154e90dbb9b73052f58b250bff98afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a8f820b59249a8ee5c659d608f2312b7c" id="r_a8f820b59249a8ee5c659d608f2312b7c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#a8f820b59249a8ee5c659d608f2312b7c">prepare_subquery_context</a> (const <a class="el" href="structsqlcc_1_1Row.html">Row</a> &amp;outer_row)</td></tr>
+<tr class="memdesc:a8f820b59249a8ee5c659d608f2312b7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">准备子查询执行上下文  <br /></td></tr>
+<tr class="separator:a8f820b59249a8ee5c659d608f2312b7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6c01c23c8549644d4028f2bfd1756db" id="r_ab6c01c23c8549644d4028f2bfd1756db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#ab6c01c23c8549644d4028f2bfd1756db">replace_correlated_references</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &amp;subquery, const <a class="el" href="structsqlcc_1_1Row.html">Row</a> &amp;outer_row)</td></tr>
+<tr class="memdesc:ab6c01c23c8549644d4028f2bfd1756db"><td class="mdescLeft">&#160;</td><td class="mdescRight">替换子查询中的相关引用  <br /></td></tr>
+<tr class="separator:ab6c01c23c8549644d4028f2bfd1756db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ab2826105636116945dd3bc3a975de1" id="r_a2ab2826105636116945dd3bc3a975de1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#a2ab2826105636116945dd3bc3a975de1">evaluate_subquery_result</a> (const <a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> &amp;result, const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;outer_value, const std::string &amp;comparison_op)</td></tr>
+<tr class="memdesc:a2ab2826105636116945dd3bc3a975de1"><td class="mdescLeft">&#160;</td><td class="mdescRight">评估子查询结果  <br /></td></tr>
+<tr class="separator:a2ab2826105636116945dd3bc3a975de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aaa9fbf4e504383e29ab3e6b9f46e47db" id="r_aaa9fbf4e504383e29ab3e6b9f46e47db"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#aaa9fbf4e504383e29ab3e6b9f46e47db">sql_executor_</a></td></tr>
+<tr class="separator:aaa9fbf4e504383e29ab3e6b9f46e47db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addfbdd0747a23593bd3cf35b9ad5b237" id="r_addfbdd0747a23593bd3cf35b9ad5b237"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#addfbdd0747a23593bd3cf35b9ad5b237">db_manager_</a></td></tr>
+<tr class="separator:addfbdd0747a23593bd3cf35b9ad5b237"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26ac706adf949fc68d258c19776abb4d" id="r_a26ac706adf949fc68d258c19776abb4d"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#a26ac706adf949fc68d258c19776abb4d">user_manager_</a></td></tr>
+<tr class="separator:a26ac706adf949fc68d258c19776abb4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2280b01cd186169368f2dd16009c694" id="r_ad2280b01cd186169368f2dd16009c694"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SubqueryExecutor.html#ad2280b01cd186169368f2dd16009c694">context_</a></td></tr>
+<tr class="separator:ad2280b01cd186169368f2dd16009c694"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>子查询执行器 支持执行各种类型的子查询 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="ad32f1261362fb5b926bfce992f83753a" name="ad32f1261362fb5b926bfce992f83753a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad32f1261362fb5b926bfce992f83753a">&#9670;&#160;</a></span>SubqueryExecutor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::SubqueryExecutor::SubqueryExecutor </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a> &gt;&#160;</td>
+          <td class="paramname"><em>sql_executor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>db_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>user_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+
+</div>
+</div>
+<a id="a19945bac5ce9095b2ff1a437111252cb" name="a19945bac5ce9095b2ff1a437111252cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19945bac5ce9095b2ff1a437111252cb">&#9670;&#160;</a></span>~SubqueryExecutor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::SubqueryExecutor::~SubqueryExecutor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a2ab2826105636116945dd3bc3a975de1" name="a2ab2826105636116945dd3bc3a975de1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ab2826105636116945dd3bc3a975de1">&#9670;&#160;</a></span>evaluate_subquery_result()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::SubqueryExecutor::evaluate_subquery_result </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> &amp;&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;&#160;</td>
+          <td class="paramname"><em>outer_value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>comparison_op</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>评估子查询结果 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td>子查询执行结果 </td></tr>
+    <tr><td class="paramname">outer_value</td><td>外部查询的值 </td></tr>
+    <tr><td class="paramname">comparison_op</td><td>比较操作符 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>比较结果 </dd></dl>
+
+</div>
+</div>
+<a id="aad4aa5a6471330d58b254e9610464d84" name="aad4aa5a6471330d58b254e9610464d84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad4aa5a6471330d58b254e9610464d84">&#9670;&#160;</a></span>execute_any_all_subquery()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::SubqueryExecutor::execute_any_all_subquery </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>subquery</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;&#160;</td>
+          <td class="paramname"><em>outer_value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_any</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>comparison_op</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>执行ANY/ALL子查询 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">subquery</td><td>ANY/ALL子查询 </td></tr>
+    <tr><td class="paramname">outer_value</td><td>外部查询的值 </td></tr>
+    <tr><td class="paramname">is_any</td><td>是否为ANY操作 </td></tr>
+    <tr><td class="paramname">comparison_op</td><td>比较操作符 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>ANY/ALL条件是否为真 </dd></dl>
+
+</div>
+</div>
+<a id="af400d799c354e11cf41ed8d4ed4f8f0b" name="af400d799c354e11cf41ed8d4ed4f8f0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af400d799c354e11cf41ed8d4ed4f8f0b">&#9670;&#160;</a></span>execute_correlated_subquery()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::SubqueryExecutor::execute_correlated_subquery </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>subquery</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1Row.html">Row</a> &amp;&#160;</td>
+          <td class="paramname"><em>outer_row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>执行相关子查询 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">subquery</td><td>子查询语句 </td></tr>
+    <tr><td class="paramname">outer_row</td><td>外部查询的当前行 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>子查询执行结果 </dd></dl>
+
+</div>
+</div>
+<a id="a3a69d3fc76f22e8fcb2ad6578c3064ca" name="a3a69d3fc76f22e8fcb2ad6578c3064ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a69d3fc76f22e8fcb2ad6578c3064ca">&#9670;&#160;</a></span>execute_exists_subquery()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::SubqueryExecutor::execute_exists_subquery </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>subquery</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1Row.html">Row</a> &amp;&#160;</td>
+          <td class="paramname"><em>outer_row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>执行EXISTS子查询 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">subquery</td><td>EXISTS子查询 </td></tr>
+    <tr><td class="paramname">outer_row</td><td>外部查询的当前行 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>EXISTS条件是否为真 </dd></dl>
+
+</div>
+</div>
+<a id="ae4a67a2903367247ef700265d7cbf527" name="ae4a67a2903367247ef700265d7cbf527"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4a67a2903367247ef700265d7cbf527">&#9670;&#160;</a></span>execute_in_subquery()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::SubqueryExecutor::execute_in_subquery </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>subquery</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Value.html">Value</a> &amp;&#160;</td>
+          <td class="paramname"><em>outer_value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>执行IN子查询 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">subquery</td><td>IN子查询 </td></tr>
+    <tr><td class="paramname">outer_value</td><td>外部查询的值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>IN条件是否为真 </dd></dl>
+
+</div>
+</div>
+<a id="a4cc8d938b585673d5bfdb03456bdacef" name="a4cc8d938b585673d5bfdb03456bdacef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cc8d938b585673d5bfdb03456bdacef">&#9670;&#160;</a></span>execute_scalar_subquery()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="classsqlcc_1_1Value.html">Value</a> &gt; sqlcc::SubqueryExecutor::execute_scalar_subquery </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>subquery</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1Row.html">Row</a> &amp;&#160;</td>
+          <td class="paramname"><em>outer_row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>执行标量子查询 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">subquery</td><td>标量子查询 </td></tr>
+    <tr><td class="paramname">outer_row</td><td>外部查询的当前行 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>子查询返回的标量值 </dd></dl>
+
+</div>
+</div>
+<a id="affd079dbca0165313b10577b5632e35a" name="affd079dbca0165313b10577b5632e35a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affd079dbca0165313b10577b5632e35a">&#9670;&#160;</a></span>execute_subquery()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::SubqueryExecutor::execute_subquery </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &gt;&#160;</td>
+          <td class="paramname"><em>subquery</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>执行子查询 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">subquery</td><td>子查询语句 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>子查询执行结果 </dd></dl>
+
+</div>
+</div>
+<a id="a5154e90dbb9b73052f58b250bff98afb" name="a5154e90dbb9b73052f58b250bff98afb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5154e90dbb9b73052f58b250bff98afb">&#9670;&#160;</a></span>get_context()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp; sqlcc::SubqueryExecutor::get_context </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取执行上下文 </p>
+<dl class="section return"><dt>返回</dt><dd>执行上下文 </dd></dl>
+
+</div>
+</div>
+<a id="a8f820b59249a8ee5c659d608f2312b7c" name="a8f820b59249a8ee5c659d608f2312b7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f820b59249a8ee5c659d608f2312b7c">&#9670;&#160;</a></span>prepare_subquery_context()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> sqlcc::SubqueryExecutor::prepare_subquery_context </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1Row.html">Row</a> &amp;&#160;</td>
+          <td class="paramname"><em>outer_row</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>准备子查询执行上下文 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">outer_row</td><td>外部查询的当前行 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>准备好的执行上下文 </dd></dl>
+
+</div>
+</div>
+<a id="ab6c01c23c8549644d4028f2bfd1756db" name="ab6c01c23c8549644d4028f2bfd1756db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6c01c23c8549644d4028f2bfd1756db">&#9670;&#160;</a></span>replace_correlated_references()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::SubqueryExecutor::replace_correlated_references </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>subquery</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1Row.html">Row</a> &amp;&#160;</td>
+          <td class="paramname"><em>outer_row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>替换子查询中的相关引用 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">subquery</td><td>子查询语句 </td></tr>
+    <tr><td class="paramname">outer_row</td><td>外部查询的当前行 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af5f4bd8894483f7390293c98b81afa6d" name="af5f4bd8894483f7390293c98b81afa6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5f4bd8894483f7390293c98b81afa6d">&#9670;&#160;</a></span>set_context()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::SubqueryExecutor::set_context </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置执行上下文 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>执行上下文 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ad2280b01cd186169368f2dd16009c694" name="ad2280b01cd186169368f2dd16009c694"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2280b01cd186169368f2dd16009c694">&#9670;&#160;</a></span>context_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> sqlcc::SubqueryExecutor::context_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="addfbdd0747a23593bd3cf35b9ad5b237" name="addfbdd0747a23593bd3cf35b9ad5b237"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addfbdd0747a23593bd3cf35b9ad5b237">&#9670;&#160;</a></span>db_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a>&gt; sqlcc::SubqueryExecutor::db_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaa9fbf4e504383e29ab3e6b9f46e47db" name="aaa9fbf4e504383e29ab3e6b9f46e47db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa9fbf4e504383e29ab3e6b9f46e47db">&#9670;&#160;</a></span>sql_executor_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a>&gt; sqlcc::SubqueryExecutor::sql_executor_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a26ac706adf949fc68d258c19776abb4d" name="a26ac706adf949fc68d258c19776abb4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26ac706adf949fc68d258c19776abb4d">&#9670;&#160;</a></span>user_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a>&gt; sqlcc::SubqueryExecutor::user_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="subquery__executor_8h_source.html">subquery_executor.h</a></li>
+<li><a class="el" href="subquery__executor_8cpp.html">subquery_executor.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

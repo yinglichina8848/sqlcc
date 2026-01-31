@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: replace_strategy.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_452baf35e1d7639c9f2a5ece4ec85855.html">storage</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">storage/replace_strategy.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="storage_2replace__strategy_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">// Why: 防止头文件被多次包含，避免编译错误</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">// What: 使用#pragma once指令确保头文件只被编译一次</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment">// How: 在文件开头添加#pragma once预处理指令</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">// Why: 包含所有分离的替换策略头文件，保持向后兼容性</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">// What: 包含所有替换策略类定义，保持API不变</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment">// How: 使用#include预处理指令包含分离的策略头文件</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;<a class="code" href="abstract__strategy_8h.html">replace_strategy/abstract_strategy.h</a>&quot;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &quot;<a class="code" href="lru__strategy_8h.html">replace_strategy/lru_strategy.h</a>&quot;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &quot;<a class="code" href="lfu__strategy_8h.html">replace_strategy/lfu_strategy.h</a>&quot;</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &quot;<a class="code" href="clock__strategy_8h.html">replace_strategy/clock_strategy.h</a>&quot;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &quot;<a class="code" href="arc__strategy_8h.html">replace_strategy/arc_strategy.h</a>&quot;</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &quot;<a class="code" href="strategy__factory_8h.html">replace_strategy/strategy_factory.h</a>&quot;</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment">// Why: 将所有替换策略类放在命名空间中，避免命名冲突</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment">// What: 定义sqlcc命名空间，包含所有存储相关的替换策略类</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment">// How: 使用namespace关键字定义命名空间，并使用using声明导出所有策略类</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment">// 导出所有替换策略类到sqlcc命名空间，保持向后兼容性</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">using </span><a class="code hl_class" href="classsqlcc_1_1AbstractReplaceStrategy.html">sqlcc::AbstractReplaceStrategy</a>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keyword">using </span><a class="code hl_class" href="classsqlcc_1_1LRUReplaceStrategy.html">sqlcc::LRUReplaceStrategy</a>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keyword">using </span><a class="code hl_class" href="classsqlcc_1_1LFUReplaceStrategy.html">sqlcc::LFUReplaceStrategy</a>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">using </span><a class="code hl_class" href="classsqlcc_1_1ClockReplaceStrategy.html">sqlcc::ClockReplaceStrategy</a>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">using </span><a class="code hl_class" href="classsqlcc_1_1ARCReplaceStrategy.html">sqlcc::ARCReplaceStrategy</a>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">using </span><a class="code hl_class" href="classsqlcc_1_1ReplaceStrategyFactory.html">sqlcc::ReplaceStrategyFactory</a>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aabstract__strategy_8h_html"><div class="ttname"><a href="abstract__strategy_8h.html">abstract_strategy.h</a></div><div class="ttdoc">抽象替换策略基类定义</div></div>
+<div class="ttc" id="aarc__strategy_8h_html"><div class="ttname"><a href="arc__strategy_8h.html">arc_strategy.h</a></div><div class="ttdoc">ARC（自适应替换缓存）替换策略类定义</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ARCReplaceStrategy_html"><div class="ttname"><a href="classsqlcc_1_1ARCReplaceStrategy.html">sqlcc::ARCReplaceStrategy</a></div><div class="ttdoc">ARC（自适应替换缓存）替换策略</div><div class="ttdef"><b>Definition</b> arc_strategy.h:22</div></div>
+<div class="ttc" id="aclasssqlcc_1_1AbstractReplaceStrategy_html"><div class="ttname"><a href="classsqlcc_1_1AbstractReplaceStrategy.html">sqlcc::AbstractReplaceStrategy</a></div><div class="ttdoc">抽象替换策略基类</div><div class="ttdef"><b>Definition</b> abstract_strategy.h:26</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ClockReplaceStrategy_html"><div class="ttname"><a href="classsqlcc_1_1ClockReplaceStrategy.html">sqlcc::ClockReplaceStrategy</a></div><div class="ttdoc">CLOCK（时钟）替换策略</div><div class="ttdef"><b>Definition</b> clock_strategy.h:21</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LFUReplaceStrategy_html"><div class="ttname"><a href="classsqlcc_1_1LFUReplaceStrategy.html">sqlcc::LFUReplaceStrategy</a></div><div class="ttdoc">LFU（最不经常使用）替换策略</div><div class="ttdef"><b>Definition</b> lfu_strategy.h:21</div></div>
+<div class="ttc" id="aclasssqlcc_1_1LRUReplaceStrategy_html"><div class="ttname"><a href="classsqlcc_1_1LRUReplaceStrategy.html">sqlcc::LRUReplaceStrategy</a></div><div class="ttdoc">LRU（最近最少使用）替换策略</div><div class="ttdef"><b>Definition</b> lru_strategy.h:21</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ReplaceStrategyFactory_html"><div class="ttname"><a href="classsqlcc_1_1ReplaceStrategyFactory.html">sqlcc::ReplaceStrategyFactory</a></div><div class="ttdoc">替换策略工厂</div><div class="ttdef"><b>Definition</b> strategy_factory.h:21</div></div>
+<div class="ttc" id="aclock__strategy_8h_html"><div class="ttname"><a href="clock__strategy_8h.html">clock_strategy.h</a></div><div class="ttdoc">CLOCK（时钟）替换策略类定义</div></div>
+<div class="ttc" id="alfu__strategy_8h_html"><div class="ttname"><a href="lfu__strategy_8h.html">lfu_strategy.h</a></div><div class="ttdoc">LFU（最不经常使用）替换策略类定义</div></div>
+<div class="ttc" id="alru__strategy_8h_html"><div class="ttname"><a href="lru__strategy_8h.html">lru_strategy.h</a></div><div class="ttdoc">LRU（最近最少使用）替换策略类定义</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astrategy__factory_8h_html"><div class="ttname"><a href="strategy__factory_8h.html">strategy_factory.h</a></div><div class="ttdoc">替换策略工厂类定义</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: network_exception.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fc4c7f03e1a69a98c370fae55a743828.html">network</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">network_exception.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="network__exception_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc_1_1network.html">network</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">   21</a></span><span class="keyword">enum</span> <a class="code hl_enumeration" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522af1277cbef1441738af73ceca629efaaf">   22</a></span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522af1277cbef1441738af73ceca629efaaf">CONNECTION_LOST</a> = 0,           </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522a0ecce9b2a17051ea9dcc0bde3499353b">   23</a></span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522a0ecce9b2a17051ea9dcc0bde3499353b">CONNECTION_TIMEOUT</a> = 1,        </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522a29474858e9a99a463d24e1a350784931">   24</a></span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522a29474858e9a99a463d24e1a350784931">AUTHENTICATION_FAILED</a> = 2,     </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522ac62ccf95175925a9cc8786ebaf8d3a1c">   25</a></span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522ac62ccf95175925a9cc8786ebaf8d3a1c">PROTOCOL_VIOLATION</a> = 3,        </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522ace43c382c378972dceb8eb2a386c0e0a">   26</a></span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522ace43c382c378972dceb8eb2a386c0e0a">RESOURCE_EXHAUSTED</a> = 4,        </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522a1f7dbc7683756e75d2e30ec85cb1e12f">   27</a></span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522a1f7dbc7683756e75d2e30ec85cb1e12f">DATA_CORRUPTION</a> = 5,           </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522adf94300d7faab8dfcc77fc7308db4989">   28</a></span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522adf94300d7faab8dfcc77fc7308db4989">RATE_LIMIT_EXCEEDED</a> = 6,       </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522a877b53ad4d1bf217b877518a9acbcaea">   29</a></span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522a877b53ad4d1bf217b877518a9acbcaea">SYSTEM_OVERLOAD</a> = 7,           </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522aa1bb47e2bfa999bb900e84492e59af6c">   30</a></span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522aa1bb47e2bfa999bb900e84492e59af6c">NETWORK_UNAVAILABLE</a> = 8,       </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522af71e532e0c5bfc47d75d8d1b7ef8e3c8">UNKNOWN_ERROR</a> = 9             </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522af71e532e0c5bfc47d75d8d1b7ef8e3c8">   32</a></span>};</div>
+</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="foldopen" id="foldopen00039" data-start="{" data-end="};">
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkException.html">   39</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1network_1_1NetworkException.html">NetworkException</a> : <span class="keyword">public</span> std::runtime_error {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <a class="code hl_class" href="classsqlcc_1_1network_1_1NetworkException.html">NetworkException</a>(<a class="code hl_enumeration" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> type,</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                    <span class="keyword">const</span> std::string&amp; message,</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                    <span class="keyword">const</span> std::string&amp; details = <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                    <span class="keywordtype">bool</span> recoverable = <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkException.html#adef39f3b931edf4e767fdf2dd7157eb6">   56</a></span>    <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkException.html#adef39f3b931edf4e767fdf2dd7157eb6">~NetworkException</a>() <span class="keyword">override</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkException.html#a6e05ef4866845eb298e065779df894bc">   62</a></span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkException.html#a6e05ef4866845eb298e065779df894bc">GetType</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkException.html#ade7a0002ffacbcb504532de7a99da859">type_</a>; }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkException.html#a71620111427d72b030c8aa4ca3beba07">   68</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkException.html#a71620111427d72b030c8aa4ca3beba07">GetDetails</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkException.html#a5d7a53d95430415d64880cc47fcba6c0">details_</a>; }</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkException.html#a89e886e21caf2f46f67351a749bc24ef">   74</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkException.html#a89e886e21caf2f46f67351a749bc24ef">IsRecoverable</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkException.html#a9f3b70fcebf9f95c200e3d7d48a6c051">recoverable_</a>; }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    std::string <a class="code hl_function" href="classsqlcc_1_1network_1_1NetworkException.html#a32eb07cf85f25a870c4cbae5333fde78">GetFullMessage</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkException.html#ade7a0002ffacbcb504532de7a99da859">   83</a></span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkException.html#ade7a0002ffacbcb504532de7a99da859">type_</a>;    </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkException.html#a5d7a53d95430415d64880cc47fcba6c0">   84</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkException.html#a5d7a53d95430415d64880cc47fcba6c0">details_</a>;          </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1NetworkException.html#a9f3b70fcebf9f95c200e3d7d48a6c051">   85</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1NetworkException.html#a9f3b70fcebf9f95c200e3d7d48a6c051">recoverable_</a>;             </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>};</div>
+</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>} <span class="comment">// namespace network</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkException_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkException.html">sqlcc::network::NetworkException</a></div><div class="ttdoc">网络异常类</div><div class="ttdef"><b>Definition</b> network_exception.h:39</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkException_html_a32eb07cf85f25a870c4cbae5333fde78"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkException.html#a32eb07cf85f25a870c4cbae5333fde78">sqlcc::network::NetworkException::GetFullMessage</a></div><div class="ttdeci">std::string GetFullMessage() const</div><div class="ttdoc">获取完整错误信息</div><div class="ttdef"><b>Definition</b> network_exception_handler.cpp:29</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkException_html_a5d7a53d95430415d64880cc47fcba6c0"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkException.html#a5d7a53d95430415d64880cc47fcba6c0">sqlcc::network::NetworkException::details_</a></div><div class="ttdeci">std::string details_</div><div class="ttdoc">详细信息</div><div class="ttdef"><b>Definition</b> network_exception.h:84</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkException_html_a6e05ef4866845eb298e065779df894bc"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkException.html#a6e05ef4866845eb298e065779df894bc">sqlcc::network::NetworkException::GetType</a></div><div class="ttdeci">NetworkExceptionType GetType() const</div><div class="ttdoc">获取异常类型</div><div class="ttdef"><b>Definition</b> network_exception.h:62</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkException_html_a71620111427d72b030c8aa4ca3beba07"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkException.html#a71620111427d72b030c8aa4ca3beba07">sqlcc::network::NetworkException::GetDetails</a></div><div class="ttdeci">const std::string &amp; GetDetails() const</div><div class="ttdoc">获取详细信息</div><div class="ttdef"><b>Definition</b> network_exception.h:68</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkException_html_a89e886e21caf2f46f67351a749bc24ef"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkException.html#a89e886e21caf2f46f67351a749bc24ef">sqlcc::network::NetworkException::IsRecoverable</a></div><div class="ttdeci">bool IsRecoverable() const</div><div class="ttdoc">检查是否可恢复</div><div class="ttdef"><b>Definition</b> network_exception.h:74</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkException_html_a9f3b70fcebf9f95c200e3d7d48a6c051"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkException.html#a9f3b70fcebf9f95c200e3d7d48a6c051">sqlcc::network::NetworkException::recoverable_</a></div><div class="ttdeci">bool recoverable_</div><div class="ttdoc">是否可恢复</div><div class="ttdef"><b>Definition</b> network_exception.h:85</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkException_html_ade7a0002ffacbcb504532de7a99da859"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkException.html#ade7a0002ffacbcb504532de7a99da859">sqlcc::network::NetworkException::type_</a></div><div class="ttdeci">NetworkExceptionType type_</div><div class="ttdoc">异常类型</div><div class="ttdef"><b>Definition</b> network_exception.h:83</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1NetworkException_html_adef39f3b931edf4e767fdf2dd7157eb6"><div class="ttname"><a href="classsqlcc_1_1network_1_1NetworkException.html#adef39f3b931edf4e767fdf2dd7157eb6">sqlcc::network::NetworkException::~NetworkException</a></div><div class="ttdeci">~NetworkException() override=default</div><div class="ttdoc">析构函数</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html"><div class="ttname"><a href="namespacesqlcc_1_1network.html">sqlcc::network</a></div><div class="ttdef"><b>Definition</b> client_main.cpp:286</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a49057d63202c6c2f4bc58fa7b2662522"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">sqlcc::network::NetworkExceptionType</a></div><div class="ttdeci">NetworkExceptionType</div><div class="ttdoc">网络异常类型枚举</div><div class="ttdef"><b>Definition</b> network_exception.h:21</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a49057d63202c6c2f4bc58fa7b2662522a0ecce9b2a17051ea9dcc0bde3499353b"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522a0ecce9b2a17051ea9dcc0bde3499353b">sqlcc::network::CONNECTION_TIMEOUT</a></div><div class="ttdeci">@ CONNECTION_TIMEOUT</div><div class="ttdoc">连接超时</div><div class="ttdef"><b>Definition</b> network_exception.h:23</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a49057d63202c6c2f4bc58fa7b2662522a1f7dbc7683756e75d2e30ec85cb1e12f"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522a1f7dbc7683756e75d2e30ec85cb1e12f">sqlcc::network::DATA_CORRUPTION</a></div><div class="ttdeci">@ DATA_CORRUPTION</div><div class="ttdoc">数据损坏</div><div class="ttdef"><b>Definition</b> network_exception.h:27</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a49057d63202c6c2f4bc58fa7b2662522a29474858e9a99a463d24e1a350784931"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522a29474858e9a99a463d24e1a350784931">sqlcc::network::AUTHENTICATION_FAILED</a></div><div class="ttdeci">@ AUTHENTICATION_FAILED</div><div class="ttdoc">认证失败</div><div class="ttdef"><b>Definition</b> network_exception.h:24</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a49057d63202c6c2f4bc58fa7b2662522a877b53ad4d1bf217b877518a9acbcaea"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522a877b53ad4d1bf217b877518a9acbcaea">sqlcc::network::SYSTEM_OVERLOAD</a></div><div class="ttdeci">@ SYSTEM_OVERLOAD</div><div class="ttdoc">系统过载</div><div class="ttdef"><b>Definition</b> network_exception.h:29</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a49057d63202c6c2f4bc58fa7b2662522aa1bb47e2bfa999bb900e84492e59af6c"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522aa1bb47e2bfa999bb900e84492e59af6c">sqlcc::network::NETWORK_UNAVAILABLE</a></div><div class="ttdeci">@ NETWORK_UNAVAILABLE</div><div class="ttdoc">网络不可用</div><div class="ttdef"><b>Definition</b> network_exception.h:30</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a49057d63202c6c2f4bc58fa7b2662522ac62ccf95175925a9cc8786ebaf8d3a1c"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522ac62ccf95175925a9cc8786ebaf8d3a1c">sqlcc::network::PROTOCOL_VIOLATION</a></div><div class="ttdeci">@ PROTOCOL_VIOLATION</div><div class="ttdoc">协议违规</div><div class="ttdef"><b>Definition</b> network_exception.h:25</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a49057d63202c6c2f4bc58fa7b2662522ace43c382c378972dceb8eb2a386c0e0a"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522ace43c382c378972dceb8eb2a386c0e0a">sqlcc::network::RESOURCE_EXHAUSTED</a></div><div class="ttdeci">@ RESOURCE_EXHAUSTED</div><div class="ttdoc">资源耗尽</div><div class="ttdef"><b>Definition</b> network_exception.h:26</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a49057d63202c6c2f4bc58fa7b2662522adf94300d7faab8dfcc77fc7308db4989"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522adf94300d7faab8dfcc77fc7308db4989">sqlcc::network::RATE_LIMIT_EXCEEDED</a></div><div class="ttdeci">@ RATE_LIMIT_EXCEEDED</div><div class="ttdoc">速率限制超限</div><div class="ttdef"><b>Definition</b> network_exception.h:28</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a49057d63202c6c2f4bc58fa7b2662522af1277cbef1441738af73ceca629efaaf"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522af1277cbef1441738af73ceca629efaaf">sqlcc::network::CONNECTION_LOST</a></div><div class="ttdeci">@ CONNECTION_LOST</div><div class="ttdoc">连接丢失</div><div class="ttdef"><b>Definition</b> network_exception.h:22</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a49057d63202c6c2f4bc58fa7b2662522af71e532e0c5bfc47d75d8d1b7ef8e3c8"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522af71e532e0c5bfc47d75d8d1b7ef8e3c8">sqlcc::network::UNKNOWN_ERROR</a></div><div class="ttdeci">@ UNKNOWN_ERROR</div><div class="ttdoc">未知错误</div><div class="ttdef"><b>Definition</b> network_exception.h:31</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

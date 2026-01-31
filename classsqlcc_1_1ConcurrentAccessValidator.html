@@ -1,0 +1,1396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::ConcurrentAccessValidator类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html">ConcurrentAccessValidator</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1ConcurrentAccessValidator-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::ConcurrentAccessValidator类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="storage_2concurrent__access__validator_8h_source.html">concurrent_access_validator.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::ConcurrentAccessValidator 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1ConcurrentAccessValidator__coll__graph.png" border="0" usemap="#asqlcc_1_1ConcurrentAccessValidator_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1ConcurrentAccessValidator_coll__map" id="asqlcc_1_1ConcurrentAccessValidator_coll__map">
+<area shape="rect" title=" " alt="" coords="763,106,1000,131"/>
+<area shape="rect" href="classsqlcc_1_1LockManager.html" title=" " alt="" coords="409,57,559,82"/>
+<area shape="poly" title=" " alt="" coords="573,77,739,97,785,103,785,109,738,103,573,82"/>
+<area shape="rect" href="classsqlcc_1_1DeadlockDetector.html" title=" " alt="" coords="5,26,185,51"/>
+<area shape="poly" title=" " alt="" coords="199,26,209,25,359,18,477,18,593,31,739,64,800,83,851,103,849,108,798,88,738,69,592,36,477,23,359,24,209,31,199,31"/>
+<area shape="poly" title=" " alt="" coords="199,44,409,61,408,66,199,49"/>
+<area shape="rect" href="classsqlcc_1_1MVCCVersionManager.html" title=" " alt="" coords="381,106,587,131"/>
+<area shape="poly" title=" " alt="" coords="601,116,763,116,763,121,601,121"/>
+<area shape="rect" href="structsqlcc_1_1ConcurrencyControlConfig.html" title=" " alt="" coords="389,156,579,196"/>
+<area shape="poly" title=" " alt="" coords="593,158,792,129,793,134,593,163"/>
+<area shape="rect" href="structsqlcc_1_1ConcurrentAccessValidator_1_1ConcurrencyStats.html" title=" " alt="" coords="365,220,603,260"/>
+<area shape="poly" title=" " alt="" coords="587,214,738,172,850,129,852,134,740,177,588,219"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1ConcurrentAccessValidator_1_1ConcurrencyStats.html">ConcurrencyStats</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1ConcurrentAccessValidator_1_1TransactionContext.html">TransactionContext</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:af5730822a01f33e8f681686b456860cd" id="r_af5730822a01f33e8f681686b456860cd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#af5730822a01f33e8f681686b456860cd">ConcurrentAccessValidator</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; storage_engine, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt; transaction_manager)</td></tr>
+<tr class="separator:af5730822a01f33e8f681686b456860cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe4044fa1b148a7ccb1389fc4e75aab5" id="r_abe4044fa1b148a7ccb1389fc4e75aab5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#abe4044fa1b148a7ccb1389fc4e75aab5">~ConcurrentAccessValidator</a> ()=default</td></tr>
+<tr class="separator:abe4044fa1b148a7ccb1389fc4e75aab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d2cf19fb27caadb1bd5ed20af9ee2af" id="r_a3d2cf19fb27caadb1bd5ed20af9ee2af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a3d2cf19fb27caadb1bd5ed20af9ee2af">ValidateConcurrentAccess</a> (int32_t transaction_id, const std::string &amp;table_name, int32_t record_id, <a class="el" href="namespacesqlcc.html#ad4ab4af60d69cafae3f5f8b502bc484d">AccessControlType</a> access_type)</td></tr>
+<tr class="separator:a3d2cf19fb27caadb1bd5ed20af9ee2af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a540e210705af433e70359b94509fcf" id="r_a7a540e210705af433e70359b94509fcf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a7a540e210705af433e70359b94509fcf">BeginTransaction</a> (int32_t transaction_id, <a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a> isolation_level)</td></tr>
+<tr class="separator:a7a540e210705af433e70359b94509fcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1697db64df28c1cfc44fbf69a82137b6" id="r_a1697db64df28c1cfc44fbf69a82137b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a1697db64df28c1cfc44fbf69a82137b6">CommitTransaction</a> (int32_t transaction_id)</td></tr>
+<tr class="separator:a1697db64df28c1cfc44fbf69a82137b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32372810c1912a0897293044156c29b7" id="r_a32372810c1912a0897293044156c29b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a32372810c1912a0897293044156c29b7">RollbackTransaction</a> (int32_t transaction_id)</td></tr>
+<tr class="separator:a32372810c1912a0897293044156c29b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60aa263225e93dc3bafc314096b13c53" id="r_a60aa263225e93dc3bafc314096b13c53"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a60aa263225e93dc3bafc314096b13c53">AcquireRecordLock</a> (int32_t transaction_id, const std::string &amp;table_name, int32_t record_id, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> mode, std::chrono::milliseconds timeout=std::chrono::milliseconds(5000))</td></tr>
+<tr class="separator:a60aa263225e93dc3bafc314096b13c53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14d1982e07d66d0967f000c2d6eb030c" id="r_a14d1982e07d66d0967f000c2d6eb030c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a14d1982e07d66d0967f000c2d6eb030c">ReleaseRecordLock</a> (int32_t transaction_id, const std::string &amp;table_name, int32_t record_id)</td></tr>
+<tr class="separator:a14d1982e07d66d0967f000c2d6eb030c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd3b9eda3d251ff2c2e3b2e2f239428d" id="r_acd3b9eda3d251ff2c2e3b2e2f239428d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#acd3b9eda3d251ff2c2e3b2e2f239428d">ValidateMVCCVersion</a> (const std::string &amp;table_name, int32_t record_id, int32_t transaction_id, uint64_t expected_version)</td></tr>
+<tr class="separator:acd3b9eda3d251ff2c2e3b2e2f239428d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25d6fbdcb4a034badceaf33a20a52790" id="r_a25d6fbdcb4a034badceaf33a20a52790"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a25d6fbdcb4a034badceaf33a20a52790">SetConcurrencyConfig</a> (const <a class="el" href="structsqlcc_1_1ConcurrencyControlConfig.html">ConcurrencyControlConfig</a> &amp;config)</td></tr>
+<tr class="separator:a25d6fbdcb4a034badceaf33a20a52790"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad59da10543f2fac11b8c4acd555de2b8" id="r_ad59da10543f2fac11b8c4acd555de2b8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structsqlcc_1_1ConcurrencyControlConfig.html">ConcurrencyControlConfig</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#ad59da10543f2fac11b8c4acd555de2b8">GetConcurrencyConfig</a> () const</td></tr>
+<tr class="separator:ad59da10543f2fac11b8c4acd555de2b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8da0ae903ed0004c8f431f310c959806" id="r_a8da0ae903ed0004c8f431f310c959806"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ConcurrentAccessValidator_1_1ConcurrencyStats.html">ConcurrencyStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a8da0ae903ed0004c8f431f310c959806">GetConcurrencyStats</a> () const</td></tr>
+<tr class="separator:a8da0ae903ed0004c8f431f310c959806"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5730822a01f33e8f681686b456860cd" id="r_af5730822a01f33e8f681686b456860cd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#af5730822a01f33e8f681686b456860cd">ConcurrentAccessValidator</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; storage_engine, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt; transaction_manager)</td></tr>
+<tr class="separator:af5730822a01f33e8f681686b456860cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe4044fa1b148a7ccb1389fc4e75aab5" id="r_abe4044fa1b148a7ccb1389fc4e75aab5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#abe4044fa1b148a7ccb1389fc4e75aab5">~ConcurrentAccessValidator</a> ()=default</td></tr>
+<tr class="separator:abe4044fa1b148a7ccb1389fc4e75aab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d2cf19fb27caadb1bd5ed20af9ee2af" id="r_a3d2cf19fb27caadb1bd5ed20af9ee2af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a3d2cf19fb27caadb1bd5ed20af9ee2af">ValidateConcurrentAccess</a> (int32_t transaction_id, const std::string &amp;table_name, int32_t record_id, <a class="el" href="namespacesqlcc.html#ad4ab4af60d69cafae3f5f8b502bc484d">AccessControlType</a> access_type)</td></tr>
+<tr class="separator:a3d2cf19fb27caadb1bd5ed20af9ee2af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a540e210705af433e70359b94509fcf" id="r_a7a540e210705af433e70359b94509fcf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a7a540e210705af433e70359b94509fcf">BeginTransaction</a> (int32_t transaction_id, <a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a> isolation_level)</td></tr>
+<tr class="separator:a7a540e210705af433e70359b94509fcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1697db64df28c1cfc44fbf69a82137b6" id="r_a1697db64df28c1cfc44fbf69a82137b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a1697db64df28c1cfc44fbf69a82137b6">CommitTransaction</a> (int32_t transaction_id)</td></tr>
+<tr class="separator:a1697db64df28c1cfc44fbf69a82137b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32372810c1912a0897293044156c29b7" id="r_a32372810c1912a0897293044156c29b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a32372810c1912a0897293044156c29b7">RollbackTransaction</a> (int32_t transaction_id)</td></tr>
+<tr class="separator:a32372810c1912a0897293044156c29b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60aa263225e93dc3bafc314096b13c53" id="r_a60aa263225e93dc3bafc314096b13c53"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a60aa263225e93dc3bafc314096b13c53">AcquireRecordLock</a> (int32_t transaction_id, const std::string &amp;table_name, int32_t record_id, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> mode, std::chrono::milliseconds timeout=std::chrono::milliseconds(5000))</td></tr>
+<tr class="separator:a60aa263225e93dc3bafc314096b13c53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14d1982e07d66d0967f000c2d6eb030c" id="r_a14d1982e07d66d0967f000c2d6eb030c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a14d1982e07d66d0967f000c2d6eb030c">ReleaseRecordLock</a> (int32_t transaction_id, const std::string &amp;table_name, int32_t record_id)</td></tr>
+<tr class="separator:a14d1982e07d66d0967f000c2d6eb030c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd3b9eda3d251ff2c2e3b2e2f239428d" id="r_acd3b9eda3d251ff2c2e3b2e2f239428d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#acd3b9eda3d251ff2c2e3b2e2f239428d">ValidateMVCCVersion</a> (const std::string &amp;table_name, int32_t record_id, int32_t transaction_id, uint64_t expected_version)</td></tr>
+<tr class="separator:acd3b9eda3d251ff2c2e3b2e2f239428d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25d6fbdcb4a034badceaf33a20a52790" id="r_a25d6fbdcb4a034badceaf33a20a52790"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a25d6fbdcb4a034badceaf33a20a52790">SetConcurrencyConfig</a> (const <a class="el" href="structsqlcc_1_1ConcurrencyControlConfig.html">ConcurrencyControlConfig</a> &amp;config)</td></tr>
+<tr class="separator:a25d6fbdcb4a034badceaf33a20a52790"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad59da10543f2fac11b8c4acd555de2b8" id="r_ad59da10543f2fac11b8c4acd555de2b8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structsqlcc_1_1ConcurrencyControlConfig.html">ConcurrencyControlConfig</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#ad59da10543f2fac11b8c4acd555de2b8">GetConcurrencyConfig</a> () const</td></tr>
+<tr class="separator:ad59da10543f2fac11b8c4acd555de2b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64e06f78bd19724c64282f790589cd89" id="r_a64e06f78bd19724c64282f790589cd89"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ConcurrentAccessValidator_1_1ConcurrencyStats.html">ConcurrencyStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a64e06f78bd19724c64282f790589cd89">GetConcurrencyStats</a> () const</td></tr>
+<tr class="separator:a64e06f78bd19724c64282f790589cd89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:ac4dd6e96fc9bcdb8e82e45e9ee3c4311" id="r_ac4dd6e96fc9bcdb8e82e45e9ee3c4311"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#ac4dd6e96fc9bcdb8e82e45e9ee3c4311">GetTransactionIsolationLevel</a> (int32_t transaction_id) const</td></tr>
+<tr class="separator:ac4dd6e96fc9bcdb8e82e45e9ee3c4311"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acacac58afd30e994a0d822f8370da044" id="r_acacac58afd30e994a0d822f8370da044"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#acacac58afd30e994a0d822f8370da044">IsAccessAllowed</a> (int32_t transaction_id, const std::string &amp;table_name, int32_t record_id, <a class="el" href="namespacesqlcc.html#ad4ab4af60d69cafae3f5f8b502bc484d">AccessControlType</a> access_type) const</td></tr>
+<tr class="separator:acacac58afd30e994a0d822f8370da044"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1906a638b9286293b059a151ea314613" id="r_a1906a638b9286293b059a151ea314613"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a1906a638b9286293b059a151ea314613">UpdateConcurrencyStats</a> (<a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> result, std::chrono::milliseconds wait_time)</td></tr>
+<tr class="separator:a1906a638b9286293b059a151ea314613"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae73960899219b38f98a8c1018fdb7f7a" id="r_ae73960899219b38f98a8c1018fdb7f7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#ae73960899219b38f98a8c1018fdb7f7a">CleanupTransactionContext</a> (int32_t transaction_id)</td></tr>
+<tr class="separator:ae73960899219b38f98a8c1018fdb7f7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4dd6e96fc9bcdb8e82e45e9ee3c4311" id="r_ac4dd6e96fc9bcdb8e82e45e9ee3c4311"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#ac4dd6e96fc9bcdb8e82e45e9ee3c4311">GetTransactionIsolationLevel</a> (int32_t transaction_id) const</td></tr>
+<tr class="separator:ac4dd6e96fc9bcdb8e82e45e9ee3c4311"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acacac58afd30e994a0d822f8370da044" id="r_acacac58afd30e994a0d822f8370da044"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#acacac58afd30e994a0d822f8370da044">IsAccessAllowed</a> (int32_t transaction_id, const std::string &amp;table_name, int32_t record_id, <a class="el" href="namespacesqlcc.html#ad4ab4af60d69cafae3f5f8b502bc484d">AccessControlType</a> access_type) const</td></tr>
+<tr class="separator:acacac58afd30e994a0d822f8370da044"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1906a638b9286293b059a151ea314613" id="r_a1906a638b9286293b059a151ea314613"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a1906a638b9286293b059a151ea314613">UpdateConcurrencyStats</a> (<a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> result, std::chrono::milliseconds wait_time)</td></tr>
+<tr class="separator:a1906a638b9286293b059a151ea314613"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae73960899219b38f98a8c1018fdb7f7a" id="r_ae73960899219b38f98a8c1018fdb7f7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#ae73960899219b38f98a8c1018fdb7f7a">CleanupTransactionContext</a> (int32_t transaction_id)</td></tr>
+<tr class="separator:ae73960899219b38f98a8c1018fdb7f7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a38b84e6745aeddadb04fed5ca9021392" id="r_a38b84e6745aeddadb04fed5ca9021392"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a38b84e6745aeddadb04fed5ca9021392">storage_engine_</a></td></tr>
+<tr class="separator:a38b84e6745aeddadb04fed5ca9021392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3d488aae5bf472e1de80380d801cae9" id="r_ac3d488aae5bf472e1de80380d801cae9"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#ac3d488aae5bf472e1de80380d801cae9">transaction_manager_</a></td></tr>
+<tr class="separator:ac3d488aae5bf472e1de80380d801cae9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2867706875ecbbb16dc1f42997d03996" id="r_a2867706875ecbbb16dc1f42997d03996"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1LockManager.html">LockManager</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a2867706875ecbbb16dc1f42997d03996">lock_manager_</a></td></tr>
+<tr class="separator:a2867706875ecbbb16dc1f42997d03996"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a396263ce1a8b304c99b8cf71f42e0679" id="r_a396263ce1a8b304c99b8cf71f42e0679"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1MVCCVersionManager.html">MVCCVersionManager</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a396263ce1a8b304c99b8cf71f42e0679">mvcc_manager_</a></td></tr>
+<tr class="separator:a396263ce1a8b304c99b8cf71f42e0679"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a726a146a148510662587fbf896a9cd04" id="r_a726a146a148510662587fbf896a9cd04"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1DeadlockDetector.html">DeadlockDetector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a726a146a148510662587fbf896a9cd04">deadlock_detector_</a></td></tr>
+<tr class="separator:a726a146a148510662587fbf896a9cd04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a288fc898e8400b00c65f1fa5358d6e6c" id="r_a288fc898e8400b00c65f1fa5358d6e6c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ConcurrencyControlConfig.html">ConcurrencyControlConfig</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a288fc898e8400b00c65f1fa5358d6e6c">config_</a></td></tr>
+<tr class="separator:a288fc898e8400b00c65f1fa5358d6e6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d0530a714327ddb496301aa72c174cf" id="r_a3d0530a714327ddb496301aa72c174cf"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, <a class="el" href="structsqlcc_1_1ConcurrentAccessValidator_1_1TransactionContext.html">TransactionContext</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a3d0530a714327ddb496301aa72c174cf">active_transactions_</a></td></tr>
+<tr class="separator:a3d0530a714327ddb496301aa72c174cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7e248a823f55a893f4a22ea62f59632" id="r_ad7e248a823f55a893f4a22ea62f59632"><td class="memItemLeft" align="right" valign="top">std::shared_mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#ad7e248a823f55a893f4a22ea62f59632">transaction_mutex_</a></td></tr>
+<tr class="separator:ad7e248a823f55a893f4a22ea62f59632"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc2a7c35fc480151c1b44cb09e8ce865" id="r_adc2a7c35fc480151c1b44cb09e8ce865"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ConcurrentAccessValidator_1_1ConcurrencyStats.html">ConcurrencyStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#adc2a7c35fc480151c1b44cb09e8ce865">stats_</a></td></tr>
+<tr class="separator:adc2a7c35fc480151c1b44cb09e8ce865"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a13e33e81f180d6bbd4989956e14dcd" id="r_a5a13e33e81f180d6bbd4989956e14dcd"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a5a13e33e81f180d6bbd4989956e14dcd">lock_wait_times_</a></td></tr>
+<tr class="separator:a5a13e33e81f180d6bbd4989956e14dcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bd5d314aa99adc1901807d2452e6fe2" id="r_a4bd5d314aa99adc1901807d2452e6fe2"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessValidator.html#a4bd5d314aa99adc1901807d2452e6fe2">stats_mutex_</a></td></tr>
+<tr class="separator:a4bd5d314aa99adc1901807d2452e6fe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="af5730822a01f33e8f681686b456860cd" name="af5730822a01f33e8f681686b456860cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5730822a01f33e8f681686b456860cd">&#9670;&#160;</a></span>ConcurrentAccessValidator() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::ConcurrentAccessValidator::ConcurrentAccessValidator </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td>
+          <td class="paramname"><em>storage_engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>transaction_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abe4044fa1b148a7ccb1389fc4e75aab5" name="abe4044fa1b148a7ccb1389fc4e75aab5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe4044fa1b148a7ccb1389fc4e75aab5">&#9670;&#160;</a></span>~ConcurrentAccessValidator() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::ConcurrentAccessValidator::~ConcurrentAccessValidator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af5730822a01f33e8f681686b456860cd" name="af5730822a01f33e8f681686b456860cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5730822a01f33e8f681686b456860cd">&#9670;&#160;</a></span>ConcurrentAccessValidator() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::ConcurrentAccessValidator::ConcurrentAccessValidator </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td>
+          <td class="paramname"><em>storage_engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>transaction_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abe4044fa1b148a7ccb1389fc4e75aab5" name="abe4044fa1b148a7ccb1389fc4e75aab5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe4044fa1b148a7ccb1389fc4e75aab5">&#9670;&#160;</a></span>~ConcurrentAccessValidator() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::ConcurrentAccessValidator::~ConcurrentAccessValidator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a60aa263225e93dc3bafc314096b13c53" name="a60aa263225e93dc3bafc314096b13c53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60aa263225e93dc3bafc314096b13c53">&#9670;&#160;</a></span>AcquireRecordLock() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> sqlcc::ConcurrentAccessValidator::AcquireRecordLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code>std::chrono::milliseconds(5000)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a60aa263225e93dc3bafc314096b13c53" name="a60aa263225e93dc3bafc314096b13c53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60aa263225e93dc3bafc314096b13c53">&#9670;&#160;</a></span>AcquireRecordLock() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> sqlcc::ConcurrentAccessValidator::AcquireRecordLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code>std::chrono::milliseconds(5000)</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a540e210705af433e70359b94509fcf" name="a7a540e210705af433e70359b94509fcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a540e210705af433e70359b94509fcf">&#9670;&#160;</a></span>BeginTransaction() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConcurrentAccessValidator::BeginTransaction </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a>&#160;</td>
+          <td class="paramname"><em>isolation_level</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a540e210705af433e70359b94509fcf" name="a7a540e210705af433e70359b94509fcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a540e210705af433e70359b94509fcf">&#9670;&#160;</a></span>BeginTransaction() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConcurrentAccessValidator::BeginTransaction </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a>&#160;</td>
+          <td class="paramname"><em>isolation_level</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae73960899219b38f98a8c1018fdb7f7a" name="ae73960899219b38f98a8c1018fdb7f7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae73960899219b38f98a8c1018fdb7f7a">&#9670;&#160;</a></span>CleanupTransactionContext() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConcurrentAccessValidator::CleanupTransactionContext </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae73960899219b38f98a8c1018fdb7f7a" name="ae73960899219b38f98a8c1018fdb7f7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae73960899219b38f98a8c1018fdb7f7a">&#9670;&#160;</a></span>CleanupTransactionContext() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConcurrentAccessValidator::CleanupTransactionContext </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1697db64df28c1cfc44fbf69a82137b6" name="a1697db64df28c1cfc44fbf69a82137b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1697db64df28c1cfc44fbf69a82137b6">&#9670;&#160;</a></span>CommitTransaction() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConcurrentAccessValidator::CommitTransaction </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1697db64df28c1cfc44fbf69a82137b6" name="a1697db64df28c1cfc44fbf69a82137b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1697db64df28c1cfc44fbf69a82137b6">&#9670;&#160;</a></span>CommitTransaction() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConcurrentAccessValidator::CommitTransaction </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad59da10543f2fac11b8c4acd555de2b8" name="ad59da10543f2fac11b8c4acd555de2b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad59da10543f2fac11b8c4acd555de2b8">&#9670;&#160;</a></span>GetConcurrencyConfig() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structsqlcc_1_1ConcurrencyControlConfig.html">ConcurrencyControlConfig</a> &amp; sqlcc::ConcurrentAccessValidator::GetConcurrencyConfig </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad59da10543f2fac11b8c4acd555de2b8" name="ad59da10543f2fac11b8c4acd555de2b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad59da10543f2fac11b8c4acd555de2b8">&#9670;&#160;</a></span>GetConcurrencyConfig() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structsqlcc_1_1ConcurrencyControlConfig.html">ConcurrencyControlConfig</a> &amp; sqlcc::ConcurrentAccessValidator::GetConcurrencyConfig </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8da0ae903ed0004c8f431f310c959806" name="a8da0ae903ed0004c8f431f310c959806"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8da0ae903ed0004c8f431f310c959806">&#9670;&#160;</a></span>GetConcurrencyStats() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ConcurrentAccessValidator_1_1ConcurrencyStats.html">ConcurrentAccessValidator::ConcurrencyStats</a> sqlcc::ConcurrentAccessValidator::GetConcurrencyStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a64e06f78bd19724c64282f790589cd89" name="a64e06f78bd19724c64282f790589cd89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64e06f78bd19724c64282f790589cd89">&#9670;&#160;</a></span>GetConcurrencyStats() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ConcurrentAccessValidator_1_1ConcurrencyStats.html">ConcurrencyStats</a> sqlcc::ConcurrentAccessValidator::GetConcurrencyStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac4dd6e96fc9bcdb8e82e45e9ee3c4311" name="ac4dd6e96fc9bcdb8e82e45e9ee3c4311"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4dd6e96fc9bcdb8e82e45e9ee3c4311">&#9670;&#160;</a></span>GetTransactionIsolationLevel() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a> sqlcc::ConcurrentAccessValidator::GetTransactionIsolationLevel </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac4dd6e96fc9bcdb8e82e45e9ee3c4311" name="ac4dd6e96fc9bcdb8e82e45e9ee3c4311"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4dd6e96fc9bcdb8e82e45e9ee3c4311">&#9670;&#160;</a></span>GetTransactionIsolationLevel() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a> sqlcc::ConcurrentAccessValidator::GetTransactionIsolationLevel </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acacac58afd30e994a0d822f8370da044" name="acacac58afd30e994a0d822f8370da044"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acacac58afd30e994a0d822f8370da044">&#9670;&#160;</a></span>IsAccessAllowed() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::ConcurrentAccessValidator::IsAccessAllowed </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4ab4af60d69cafae3f5f8b502bc484d">AccessControlType</a>&#160;</td>
+          <td class="paramname"><em>access_type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acacac58afd30e994a0d822f8370da044" name="acacac58afd30e994a0d822f8370da044"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acacac58afd30e994a0d822f8370da044">&#9670;&#160;</a></span>IsAccessAllowed() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::ConcurrentAccessValidator::IsAccessAllowed </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4ab4af60d69cafae3f5f8b502bc484d">AccessControlType</a>&#160;</td>
+          <td class="paramname"><em>access_type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a14d1982e07d66d0967f000c2d6eb030c" name="a14d1982e07d66d0967f000c2d6eb030c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14d1982e07d66d0967f000c2d6eb030c">&#9670;&#160;</a></span>ReleaseRecordLock() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> sqlcc::ConcurrentAccessValidator::ReleaseRecordLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a14d1982e07d66d0967f000c2d6eb030c" name="a14d1982e07d66d0967f000c2d6eb030c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14d1982e07d66d0967f000c2d6eb030c">&#9670;&#160;</a></span>ReleaseRecordLock() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> sqlcc::ConcurrentAccessValidator::ReleaseRecordLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a32372810c1912a0897293044156c29b7" name="a32372810c1912a0897293044156c29b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32372810c1912a0897293044156c29b7">&#9670;&#160;</a></span>RollbackTransaction() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConcurrentAccessValidator::RollbackTransaction </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a32372810c1912a0897293044156c29b7" name="a32372810c1912a0897293044156c29b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32372810c1912a0897293044156c29b7">&#9670;&#160;</a></span>RollbackTransaction() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConcurrentAccessValidator::RollbackTransaction </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a25d6fbdcb4a034badceaf33a20a52790" name="a25d6fbdcb4a034badceaf33a20a52790"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25d6fbdcb4a034badceaf33a20a52790">&#9670;&#160;</a></span>SetConcurrencyConfig() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConcurrentAccessValidator::SetConcurrencyConfig </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1ConcurrencyControlConfig.html">ConcurrencyControlConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>config</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a25d6fbdcb4a034badceaf33a20a52790" name="a25d6fbdcb4a034badceaf33a20a52790"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25d6fbdcb4a034badceaf33a20a52790">&#9670;&#160;</a></span>SetConcurrencyConfig() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConcurrentAccessValidator::SetConcurrencyConfig </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1ConcurrencyControlConfig.html">ConcurrencyControlConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>config</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1906a638b9286293b059a151ea314613" name="a1906a638b9286293b059a151ea314613"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1906a638b9286293b059a151ea314613">&#9670;&#160;</a></span>UpdateConcurrencyStats() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConcurrentAccessValidator::UpdateConcurrencyStats </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>wait_time</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1906a638b9286293b059a151ea314613" name="a1906a638b9286293b059a151ea314613"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1906a638b9286293b059a151ea314613">&#9670;&#160;</a></span>UpdateConcurrencyStats() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::ConcurrentAccessValidator::UpdateConcurrencyStats </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>wait_time</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3d2cf19fb27caadb1bd5ed20af9ee2af" name="a3d2cf19fb27caadb1bd5ed20af9ee2af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d2cf19fb27caadb1bd5ed20af9ee2af">&#9670;&#160;</a></span>ValidateConcurrentAccess() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> sqlcc::ConcurrentAccessValidator::ValidateConcurrentAccess </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4ab4af60d69cafae3f5f8b502bc484d">AccessControlType</a>&#160;</td>
+          <td class="paramname"><em>access_type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3d2cf19fb27caadb1bd5ed20af9ee2af" name="a3d2cf19fb27caadb1bd5ed20af9ee2af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d2cf19fb27caadb1bd5ed20af9ee2af">&#9670;&#160;</a></span>ValidateConcurrentAccess() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> sqlcc::ConcurrentAccessValidator::ValidateConcurrentAccess </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4ab4af60d69cafae3f5f8b502bc484d">AccessControlType</a>&#160;</td>
+          <td class="paramname"><em>access_type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acd3b9eda3d251ff2c2e3b2e2f239428d" name="acd3b9eda3d251ff2c2e3b2e2f239428d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd3b9eda3d251ff2c2e3b2e2f239428d">&#9670;&#160;</a></span>ValidateMVCCVersion() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::ConcurrentAccessValidator::ValidateMVCCVersion </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>expected_version</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acd3b9eda3d251ff2c2e3b2e2f239428d" name="acd3b9eda3d251ff2c2e3b2e2f239428d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd3b9eda3d251ff2c2e3b2e2f239428d">&#9670;&#160;</a></span>ValidateMVCCVersion() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::ConcurrentAccessValidator::ValidateMVCCVersion </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>expected_version</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a3d0530a714327ddb496301aa72c174cf" name="a3d0530a714327ddb496301aa72c174cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d0530a714327ddb496301aa72c174cf">&#9670;&#160;</a></span>active_transactions_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; int32_t, <a class="el" href="structsqlcc_1_1ConcurrentAccessValidator_1_1TransactionContext.html">TransactionContext</a> &gt; sqlcc::ConcurrentAccessValidator::active_transactions_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a288fc898e8400b00c65f1fa5358d6e6c" name="a288fc898e8400b00c65f1fa5358d6e6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a288fc898e8400b00c65f1fa5358d6e6c">&#9670;&#160;</a></span>config_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ConcurrencyControlConfig.html">ConcurrencyControlConfig</a> sqlcc::ConcurrentAccessValidator::config_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a726a146a148510662587fbf896a9cd04" name="a726a146a148510662587fbf896a9cd04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a726a146a148510662587fbf896a9cd04">&#9670;&#160;</a></span>deadlock_detector_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1DeadlockDetector.html">DeadlockDetector</a> sqlcc::ConcurrentAccessValidator::deadlock_detector_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2867706875ecbbb16dc1f42997d03996" name="a2867706875ecbbb16dc1f42997d03996"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2867706875ecbbb16dc1f42997d03996">&#9670;&#160;</a></span>lock_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1LockManager.html">LockManager</a> sqlcc::ConcurrentAccessValidator::lock_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5a13e33e81f180d6bbd4989956e14dcd" name="a5a13e33e81f180d6bbd4989956e14dcd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a13e33e81f180d6bbd4989956e14dcd">&#9670;&#160;</a></span>lock_wait_times_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; double &gt; sqlcc::ConcurrentAccessValidator::lock_wait_times_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a396263ce1a8b304c99b8cf71f42e0679" name="a396263ce1a8b304c99b8cf71f42e0679"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a396263ce1a8b304c99b8cf71f42e0679">&#9670;&#160;</a></span>mvcc_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1MVCCVersionManager.html">MVCCVersionManager</a> sqlcc::ConcurrentAccessValidator::mvcc_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adc2a7c35fc480151c1b44cb09e8ce865" name="adc2a7c35fc480151c1b44cb09e8ce865"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc2a7c35fc480151c1b44cb09e8ce865">&#9670;&#160;</a></span>stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ConcurrentAccessValidator_1_1ConcurrencyStats.html">ConcurrencyStats</a> sqlcc::ConcurrentAccessValidator::stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4bd5d314aa99adc1901807d2452e6fe2" name="a4bd5d314aa99adc1901807d2452e6fe2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bd5d314aa99adc1901807d2452e6fe2">&#9670;&#160;</a></span>stats_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::ConcurrentAccessValidator::stats_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a38b84e6745aeddadb04fed5ca9021392" name="a38b84e6745aeddadb04fed5ca9021392"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38b84e6745aeddadb04fed5ca9021392">&#9670;&#160;</a></span>storage_engine_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; sqlcc::ConcurrentAccessValidator::storage_engine_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac3d488aae5bf472e1de80380d801cae9" name="ac3d488aae5bf472e1de80380d801cae9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3d488aae5bf472e1de80380d801cae9">&#9670;&#160;</a></span>transaction_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt; sqlcc::ConcurrentAccessValidator::transaction_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad7e248a823f55a893f4a22ea62f59632" name="ad7e248a823f55a893f4a22ea62f59632"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7e248a823f55a893f4a22ea62f59632">&#9670;&#160;</a></span>transaction_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_mutex sqlcc::ConcurrentAccessValidator::transaction_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage_2concurrent__access__validator_8h_source.html">storage/concurrent_access_validator.h</a></li>
+<li><a class="el" href="storage__engine_2concurrent__access__validator_8h_source.html">storage_engine/concurrent_access_validator.h</a></li>
+<li><a class="el" href="concurrent__access__validator_8cpp.html">concurrent_access_validator.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

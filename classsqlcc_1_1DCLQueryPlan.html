@@ -1,0 +1,640 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::DCLQueryPlan类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html">DCLQueryPlan</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pro-methods">Protected 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1DCLQueryPlan-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::DCLQueryPlan类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>DCL查询计划  
+ <a href="classsqlcc_1_1DCLQueryPlan.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="unified__query__plan_8h_source.html">unified_query_plan.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::DCLQueryPlan 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1DCLQueryPlan__inherit__graph.png" border="0" usemap="#asqlcc_1_1DCLQueryPlan_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1DCLQueryPlan_inherit__map" id="asqlcc_1_1DCLQueryPlan_inherit__map">
+<area shape="rect" title="DCL查询计划" alt="" coords="15,79,171,104"/>
+<area shape="rect" href="classsqlcc_1_1UnifiedQueryPlan.html" title="统一查询计划 &#45; 执行SQL语句的抽象接口" alt="" coords="5,5,181,31"/>
+<area shape="poly" title=" " alt="" coords="96,44,96,79,91,79,91,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<div class="dynheader">
+sqlcc::DCLQueryPlan 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1DCLQueryPlan__coll__graph.png" border="0" usemap="#asqlcc_1_1DCLQueryPlan_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1DCLQueryPlan_coll__map" id="asqlcc_1_1DCLQueryPlan_coll__map">
+<area shape="rect" title="DCL查询计划" alt="" coords="15,79,171,104"/>
+<area shape="rect" href="classsqlcc_1_1UnifiedQueryPlan.html" title="统一查询计划 &#45; 执行SQL语句的抽象接口" alt="" coords="5,5,181,31"/>
+<area shape="poly" title=" " alt="" coords="96,44,96,79,91,79,91,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a6de1c15ba9ca6d5faff2c9b07dbb79b2" id="r_a6de1c15ba9ca6d5faff2c9b07dbb79b2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#a6de1c15ba9ca6d5faff2c9b07dbb79b2">DCLQueryPlan</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt; db_manager, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt; user_manager, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1SystemDatabase.html">SystemDatabase</a> &gt; system_db)</td></tr>
+<tr class="separator:a6de1c15ba9ca6d5faff2c9b07dbb79b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsqlcc_1_1UnifiedQueryPlan')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html">sqlcc::UnifiedQueryPlan</a></td></tr>
+<tr class="memitem:a4f4c934652e828c6f438057dc6a311fe inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan" id="r_a4f4c934652e828c6f438057dc6a311fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a4f4c934652e828c6f438057dc6a311fe">UnifiedQueryPlan</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt; db_manager, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt; user_manager, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1SystemDatabase.html">SystemDatabase</a> &gt; system_db)</td></tr>
+<tr class="memdesc:a4f4c934652e828c6f438057dc6a311fe inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a4f4c934652e828c6f438057dc6a311fe inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4eea0f0954e5af01710f5a6390e2b0f6 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan" id="r_a4eea0f0954e5af01710f5a6390e2b0f6"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a4eea0f0954e5af01710f5a6390e2b0f6">~UnifiedQueryPlan</a> ()</td></tr>
+<tr class="memdesc:a4eea0f0954e5af01710f5a6390e2b0f6 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a4eea0f0954e5af01710f5a6390e2b0f6 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a39f9300647ccdaa9ad9b33d77a44bd inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan" id="r_a3a39f9300647ccdaa9ad9b33d77a44bd"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a3a39f9300647ccdaa9ad9b33d77a44bd">buildPlan</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt; stmt)</td></tr>
+<tr class="memdesc:a3a39f9300647ccdaa9ad9b33d77a44bd inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="mdescLeft">&#160;</td><td class="mdescRight">构建查询计划  <br /></td></tr>
+<tr class="separator:a3a39f9300647ccdaa9ad9b33d77a44bd inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae324a82df5ae73ee88328e238d4cd454 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan" id="r_ae324a82df5ae73ee88328e238d4cd454"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#ae324a82df5ae73ee88328e238d4cd454">executePlan</a> ()</td></tr>
+<tr class="memdesc:ae324a82df5ae73ee88328e238d4cd454 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行查询计划  <br /></td></tr>
+<tr class="separator:ae324a82df5ae73ee88328e238d4cd454 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a648f364e5f458de8c952ba5704302db6 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan" id="r_a648f364e5f458de8c952ba5704302db6"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a648f364e5f458de8c952ba5704302db6">getPlanType</a> () const</td></tr>
+<tr class="memdesc:a648f364e5f458de8c952ba5704302db6 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取计划类型  <br /></td></tr>
+<tr class="separator:a648f364e5f458de8c952ba5704302db6 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f4c934652e828c6f438057dc6a311fe inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan" id="r_a4f4c934652e828c6f438057dc6a311fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a4f4c934652e828c6f438057dc6a311fe">UnifiedQueryPlan</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt; db_manager, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt; user_manager, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1SystemDatabase.html">SystemDatabase</a> &gt; system_db)</td></tr>
+<tr class="separator:a4f4c934652e828c6f438057dc6a311fe inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace58e960505604b9fad3589e35cffab9 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan" id="r_ace58e960505604b9fad3589e35cffab9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#ace58e960505604b9fad3589e35cffab9">~UnifiedQueryPlan</a> ()=default</td></tr>
+<tr class="separator:ace58e960505604b9fad3589e35cffab9 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a39f9300647ccdaa9ad9b33d77a44bd inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan" id="r_a3a39f9300647ccdaa9ad9b33d77a44bd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a3a39f9300647ccdaa9ad9b33d77a44bd">buildPlan</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt; stmt)</td></tr>
+<tr class="memdesc:a3a39f9300647ccdaa9ad9b33d77a44bd inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="mdescLeft">&#160;</td><td class="mdescRight">构建查询计划  <br /></td></tr>
+<tr class="separator:a3a39f9300647ccdaa9ad9b33d77a44bd inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae324a82df5ae73ee88328e238d4cd454 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan" id="r_ae324a82df5ae73ee88328e238d4cd454"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#ae324a82df5ae73ee88328e238d4cd454">executePlan</a> ()</td></tr>
+<tr class="memdesc:ae324a82df5ae73ee88328e238d4cd454 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行查询计划  <br /></td></tr>
+<tr class="separator:ae324a82df5ae73ee88328e238d4cd454 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7822d1cd687e581a8012e9f37c1219a inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan" id="r_ad7822d1cd687e581a8012e9f37c1219a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a3db3a4de7e77a43b53be6b9cd30da081">QueryPlanStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#ad7822d1cd687e581a8012e9f37c1219a">getStatus</a> () const</td></tr>
+<tr class="memdesc:ad7822d1cd687e581a8012e9f37c1219a inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取计划状态  <br /></td></tr>
+<tr class="separator:ad7822d1cd687e581a8012e9f37c1219a inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95e69d87fc135229547332a62ae9ed95 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan" id="r_a95e69d87fc135229547332a62ae9ed95"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a95e69d87fc135229547332a62ae9ed95">getErrorMessage</a> () const</td></tr>
+<tr class="memdesc:a95e69d87fc135229547332a62ae9ed95 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取错误信息  <br /></td></tr>
+<tr class="separator:a95e69d87fc135229547332a62ae9ed95 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8a2c21c872a148c678a06b4c807f172 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan" id="r_ab8a2c21c872a148c678a06b4c807f172"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#ab8a2c21c872a148c678a06b4c807f172">getExecutionStats</a> () const</td></tr>
+<tr class="memdesc:ab8a2c21c872a148c678a06b4c807f172 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取执行统计信息  <br /></td></tr>
+<tr class="separator:ab8a2c21c872a148c678a06b4c807f172 inherit pub_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected 成员函数</h2></td></tr>
+<tr class="memitem:a6fd9355b3da6b0585f4a9bd92e3a3405" id="r_a6fd9355b3da6b0585f4a9bd92e3a3405"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#a6fd9355b3da6b0585f4a9bd92e3a3405">buildSpecificPlan</a> () override</td></tr>
+<tr class="separator:a6fd9355b3da6b0585f4a9bd92e3a3405"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab752c8b30bfe6c7d1a7d15cf3754b4a9" id="r_ab752c8b30bfe6c7d1a7d15cf3754b4a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#ab752c8b30bfe6c7d1a7d15cf3754b4a9">executeSpecificPlan</a> () override</td></tr>
+<tr class="separator:ab752c8b30bfe6c7d1a7d15cf3754b4a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classsqlcc_1_1UnifiedQueryPlan"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classsqlcc_1_1UnifiedQueryPlan')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html">sqlcc::UnifiedQueryPlan</a></td></tr>
+<tr class="memitem:aee9740d54de3b55fcc75011d95306594 inherit pro_methods_classsqlcc_1_1UnifiedQueryPlan" id="r_aee9740d54de3b55fcc75011d95306594"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#aee9740d54de3b55fcc75011d95306594">setError</a> (const std::string &amp;error)</td></tr>
+<tr class="separator:aee9740d54de3b55fcc75011d95306594 inherit pro_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea331d085532f17abe795ab767d5a5b4 inherit pro_methods_classsqlcc_1_1UnifiedQueryPlan" id="r_aea331d085532f17abe795ab767d5a5b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#aea331d085532f17abe795ab767d5a5b4">clearError</a> ()</td></tr>
+<tr class="separator:aea331d085532f17abe795ab767d5a5b4 inherit pro_methods_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:aa22d97a1976ad1a1d79d38f614992373" id="r_aa22d97a1976ad1a1d79d38f614992373"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#aa22d97a1976ad1a1d79d38f614992373">buildCreateUserPlan</a> ()</td></tr>
+<tr class="separator:aa22d97a1976ad1a1d79d38f614992373"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06e45e58cd50984228c00548190c1386" id="r_a06e45e58cd50984228c00548190c1386"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#a06e45e58cd50984228c00548190c1386">buildDropUserPlan</a> ()</td></tr>
+<tr class="separator:a06e45e58cd50984228c00548190c1386"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad950d8f4d862d150bd577f1ed11b095f" id="r_ad950d8f4d862d150bd577f1ed11b095f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#ad950d8f4d862d150bd577f1ed11b095f">buildGrantPlan</a> ()</td></tr>
+<tr class="separator:ad950d8f4d862d150bd577f1ed11b095f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b269c7faa703fd76d8f0dfda55cb240" id="r_a6b269c7faa703fd76d8f0dfda55cb240"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#a6b269c7faa703fd76d8f0dfda55cb240">buildRevokePlan</a> ()</td></tr>
+<tr class="separator:a6b269c7faa703fd76d8f0dfda55cb240"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18b4a4f460624d81a27927087b6ac1c1" id="r_a18b4a4f460624d81a27927087b6ac1c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#a18b4a4f460624d81a27927087b6ac1c1">executeCreateUserPlan</a> ()</td></tr>
+<tr class="separator:a18b4a4f460624d81a27927087b6ac1c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c3a534e9a21ed2d1858c3d5d16069ea" id="r_a0c3a534e9a21ed2d1858c3d5d16069ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#a0c3a534e9a21ed2d1858c3d5d16069ea">executeDropUserPlan</a> ()</td></tr>
+<tr class="separator:a0c3a534e9a21ed2d1858c3d5d16069ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d1a670b47da7cf8eb9b4c1cb973bc54" id="r_a9d1a670b47da7cf8eb9b4c1cb973bc54"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#a9d1a670b47da7cf8eb9b4c1cb973bc54">executeGrantPlan</a> ()</td></tr>
+<tr class="separator:a9d1a670b47da7cf8eb9b4c1cb973bc54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af65290b72c0dd0927934857b77efa754" id="r_af65290b72c0dd0927934857b77efa754"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#af65290b72c0dd0927934857b77efa754">executeRevokePlan</a> ()</td></tr>
+<tr class="separator:af65290b72c0dd0927934857b77efa754"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a403258f6a9855070eb0718de3fee96bd" id="r_a403258f6a9855070eb0718de3fee96bd"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#a403258f6a9855070eb0718de3fee96bd">grantee_</a></td></tr>
+<tr class="separator:a403258f6a9855070eb0718de3fee96bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fd05f8a9619a71f16ded109cd953f8d" id="r_a5fd05f8a9619a71f16ded109cd953f8d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#a5fd05f8a9619a71f16ded109cd953f8d">grantor_</a></td></tr>
+<tr class="separator:a5fd05f8a9619a71f16ded109cd953f8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7512e5c8103062c2538ee0633e59eb6e" id="r_a7512e5c8103062c2538ee0633e59eb6e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#a7512e5c8103062c2538ee0633e59eb6e">privileges_</a></td></tr>
+<tr class="separator:a7512e5c8103062c2538ee0633e59eb6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95d041578ddffb08ef4630193d1d0b8f" id="r_a95d041578ddffb08ef4630193d1d0b8f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#a95d041578ddffb08ef4630193d1d0b8f">object_type_</a></td></tr>
+<tr class="separator:a95d041578ddffb08ef4630193d1d0b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cc43a63189b4b36fc9cad263c717080" id="r_a4cc43a63189b4b36fc9cad263c717080"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DCLQueryPlan.html#a4cc43a63189b4b36fc9cad263c717080">object_name_</a></td></tr>
+<tr class="separator:a4cc43a63189b4b36fc9cad263c717080"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+额外继承的成员函数</h2></td></tr>
+<tr class="inherit_header pro_attribs_classsqlcc_1_1UnifiedQueryPlan"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classsqlcc_1_1UnifiedQueryPlan')"><img src="closed.png" alt="-"/>&#160;Protected 属性 继承自 <a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html">sqlcc::UnifiedQueryPlan</a></td></tr>
+<tr class="memitem:a039b43a2f2b02845c623870f3b4545e7 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan" id="r_a039b43a2f2b02845c623870f3b4545e7"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a039b43a2f2b02845c623870f3b4545e7">db_manager_</a></td></tr>
+<tr class="separator:a039b43a2f2b02845c623870f3b4545e7 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bc5acc78401f8a7f52ad8c35233e8e9 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan" id="r_a4bc5acc78401f8a7f52ad8c35233e8e9"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a4bc5acc78401f8a7f52ad8c35233e8e9">user_manager_</a></td></tr>
+<tr class="separator:a4bc5acc78401f8a7f52ad8c35233e8e9 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a258e9b0d4ad6e0261bdc908bc3c4af0f inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan" id="r_a258e9b0d4ad6e0261bdc908bc3c4af0f"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1SystemDatabase.html">SystemDatabase</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a258e9b0d4ad6e0261bdc908bc3c4af0f">system_db_</a></td></tr>
+<tr class="separator:a258e9b0d4ad6e0261bdc908bc3c4af0f inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a242cb506955a6fd0da814cb134c63df3 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan" id="r_a242cb506955a6fd0da814cb134c63df3"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a242cb506955a6fd0da814cb134c63df3">stmt_</a></td></tr>
+<tr class="separator:a242cb506955a6fd0da814cb134c63df3 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff9bf2000df1fa10577200ba520b2074 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan" id="r_aff9bf2000df1fa10577200ba520b2074"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sql_parser::Statement</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#aff9bf2000df1fa10577200ba520b2074">statement_</a></td></tr>
+<tr class="separator:aff9bf2000df1fa10577200ba520b2074 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a613cfed7727c4f8f3a846fbf26454b24 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan" id="r_a613cfed7727c4f8f3a846fbf26454b24"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1QueryStep.html">QueryStep</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a613cfed7727c4f8f3a846fbf26454b24">steps_</a></td></tr>
+<tr class="separator:a613cfed7727c4f8f3a846fbf26454b24 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e389e81cc575a76095d1e4f9b79aa53 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan" id="r_a7e389e81cc575a76095d1e4f9b79aa53"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a3db3a4de7e77a43b53be6b9cd30da081">QueryPlanStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a7e389e81cc575a76095d1e4f9b79aa53">status_</a></td></tr>
+<tr class="separator:a7e389e81cc575a76095d1e4f9b79aa53 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a235952d5886592d76b43dc7786db0813 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan" id="r_a235952d5886592d76b43dc7786db0813"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a235952d5886592d76b43dc7786db0813">error_message_</a></td></tr>
+<tr class="separator:a235952d5886592d76b43dc7786db0813 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21afda4d36770fce1fb5528404920331 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan" id="r_a21afda4d36770fce1fb5528404920331"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a21afda4d36770fce1fb5528404920331">execution_stats_</a></td></tr>
+<tr class="separator:a21afda4d36770fce1fb5528404920331 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a508a84c95407bc9b1b060366d0c15990 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan" id="r_a508a84c95407bc9b1b060366d0c15990"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a508a84c95407bc9b1b060366d0c15990">current_database_</a></td></tr>
+<tr class="separator:a508a84c95407bc9b1b060366d0c15990 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63cecad34a23419afc290e3b6279070f inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan" id="r_a63cecad34a23419afc290e3b6279070f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a63cecad34a23419afc290e3b6279070f">current_user_</a></td></tr>
+<tr class="separator:a63cecad34a23419afc290e3b6279070f inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e6ff4b5983d4f4d03eac9e4cf8350a6 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan" id="r_a7e6ff4b5983d4f4d03eac9e4cf8350a6"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a7e6ff4b5983d4f4d03eac9e4cf8350a6">operation_type_</a></td></tr>
+<tr class="separator:a7e6ff4b5983d4f4d03eac9e4cf8350a6 inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8408e8dbe63050c41a3af855ed73121b inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan" id="r_a8408e8dbe63050c41a3af855ed73121b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#a8408e8dbe63050c41a3af855ed73121b">target_object_</a></td></tr>
+<tr class="separator:a8408e8dbe63050c41a3af855ed73121b inherit pro_attribs_classsqlcc_1_1UnifiedQueryPlan"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>DCL查询计划 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a6de1c15ba9ca6d5faff2c9b07dbb79b2" name="a6de1c15ba9ca6d5faff2c9b07dbb79b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6de1c15ba9ca6d5faff2c9b07dbb79b2">&#9670;&#160;</a></span>DCLQueryPlan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::DCLQueryPlan::DCLQueryPlan </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>db_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1UserManager.html">UserManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>user_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1SystemDatabase.html">SystemDatabase</a> &gt;&#160;</td>
+          <td class="paramname"><em>system_db</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="aa22d97a1976ad1a1d79d38f614992373" name="aa22d97a1976ad1a1d79d38f614992373"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa22d97a1976ad1a1d79d38f614992373">&#9670;&#160;</a></span>buildCreateUserPlan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DCLQueryPlan::buildCreateUserPlan </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a06e45e58cd50984228c00548190c1386" name="a06e45e58cd50984228c00548190c1386"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06e45e58cd50984228c00548190c1386">&#9670;&#160;</a></span>buildDropUserPlan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DCLQueryPlan::buildDropUserPlan </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad950d8f4d862d150bd577f1ed11b095f" name="ad950d8f4d862d150bd577f1ed11b095f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad950d8f4d862d150bd577f1ed11b095f">&#9670;&#160;</a></span>buildGrantPlan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DCLQueryPlan::buildGrantPlan </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6b269c7faa703fd76d8f0dfda55cb240" name="a6b269c7faa703fd76d8f0dfda55cb240"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b269c7faa703fd76d8f0dfda55cb240">&#9670;&#160;</a></span>buildRevokePlan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DCLQueryPlan::buildRevokePlan </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6fd9355b3da6b0585f4a9bd92e3a3405" name="a6fd9355b3da6b0585f4a9bd92e3a3405"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fd9355b3da6b0585f4a9bd92e3a3405">&#9670;&#160;</a></span>buildSpecificPlan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DCLQueryPlan::buildSpecificPlan </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#ac493d1dc72fcad76222d2e88c0900d94">sqlcc::UnifiedQueryPlan</a>.</p>
+
+</div>
+</div>
+<a id="a18b4a4f460624d81a27927087b6ac1c1" name="a18b4a4f460624d81a27927087b6ac1c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18b4a4f460624d81a27927087b6ac1c1">&#9670;&#160;</a></span>executeCreateUserPlan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLQueryPlan::executeCreateUserPlan </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0c3a534e9a21ed2d1858c3d5d16069ea" name="a0c3a534e9a21ed2d1858c3d5d16069ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c3a534e9a21ed2d1858c3d5d16069ea">&#9670;&#160;</a></span>executeDropUserPlan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLQueryPlan::executeDropUserPlan </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9d1a670b47da7cf8eb9b4c1cb973bc54" name="a9d1a670b47da7cf8eb9b4c1cb973bc54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d1a670b47da7cf8eb9b4c1cb973bc54">&#9670;&#160;</a></span>executeGrantPlan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLQueryPlan::executeGrantPlan </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af65290b72c0dd0927934857b77efa754" name="af65290b72c0dd0927934857b77efa754"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af65290b72c0dd0927934857b77efa754">&#9670;&#160;</a></span>executeRevokePlan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLQueryPlan::executeRevokePlan </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab752c8b30bfe6c7d1a7d15cf3754b4a9" name="ab752c8b30bfe6c7d1a7d15cf3754b4a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab752c8b30bfe6c7d1a7d15cf3754b4a9">&#9670;&#160;</a></span>executeSpecificPlan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::DCLQueryPlan::executeSpecificPlan </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1UnifiedQueryPlan.html#aa97cb8355d6b7bdfb480ef9a4d5460be">sqlcc::UnifiedQueryPlan</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a403258f6a9855070eb0718de3fee96bd" name="a403258f6a9855070eb0718de3fee96bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a403258f6a9855070eb0718de3fee96bd">&#9670;&#160;</a></span>grantee_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::DCLQueryPlan::grantee_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5fd05f8a9619a71f16ded109cd953f8d" name="a5fd05f8a9619a71f16ded109cd953f8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fd05f8a9619a71f16ded109cd953f8d">&#9670;&#160;</a></span>grantor_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::DCLQueryPlan::grantor_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4cc43a63189b4b36fc9cad263c717080" name="a4cc43a63189b4b36fc9cad263c717080"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cc43a63189b4b36fc9cad263c717080">&#9670;&#160;</a></span>object_name_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::DCLQueryPlan::object_name_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a95d041578ddffb08ef4630193d1d0b8f" name="a95d041578ddffb08ef4630193d1d0b8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95d041578ddffb08ef4630193d1d0b8f">&#9670;&#160;</a></span>object_type_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::DCLQueryPlan::object_type_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7512e5c8103062c2538ee0633e59eb6e" name="a7512e5c8103062c2538ee0633e59eb6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7512e5c8103062c2538ee0633e59eb6e">&#9670;&#160;</a></span>privileges_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; sqlcc::DCLQueryPlan::privileges_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="unified__query__plan_8h_source.html">unified_query_plan.h</a></li>
+<li><a class="el" href="sql__executor_2unified__query__plan_8cpp.html">sql_executor/unified_query_plan.cpp</a></li>
+<li><a class="el" href="unified__query__plan_8cpp.html">unified_query_plan.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

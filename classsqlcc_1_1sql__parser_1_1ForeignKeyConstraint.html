@@ -1,0 +1,930 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::ForeignKeyConstraint类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html">ForeignKeyConstraint</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::ForeignKeyConstraint类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>外键约束类  
+ <a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="constraint_8h_source.html">constraint.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a7f278e7d1114c58466e7c678ba87e6f6" id="r_a7f278e7d1114c58466e7c678ba87e6f6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29">CASCADE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49">SET_NULL</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd">SET_DEFAULT</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067">NO_ACTION</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29">CASCADE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49">SET_NULL</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd">SET_DEFAULT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067">NO_ACTION</a>
+<br />
+ }</td></tr>
+<tr class="separator:a7f278e7d1114c58466e7c678ba87e6f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a29591d0dbc3cb3c99ef5c80a724293" id="r_a7a29591d0dbc3cb3c99ef5c80a724293"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90">NOT_DEFERRABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a">DEFERRABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83">INITIALLY_DEFERRED</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b">INITIALLY_IMMEDIATE</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90">NOT_DEFERRABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a">DEFERRABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83">INITIALLY_DEFERRED</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b">INITIALLY_IMMEDIATE</a>
+<br />
+ }</td></tr>
+<tr class="separator:a7a29591d0dbc3cb3c99ef5c80a724293"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f278e7d1114c58466e7c678ba87e6f6" id="r_a7f278e7d1114c58466e7c678ba87e6f6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29">CASCADE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49">SET_NULL</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd">SET_DEFAULT</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067">NO_ACTION</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29">CASCADE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49">SET_NULL</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd">SET_DEFAULT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067">NO_ACTION</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a7f278e7d1114c58466e7c678ba87e6f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">级联操作类型  <a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">更多...</a><br /></td></tr>
+<tr class="separator:a7f278e7d1114c58466e7c678ba87e6f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a29591d0dbc3cb3c99ef5c80a724293" id="r_a7a29591d0dbc3cb3c99ef5c80a724293"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90">NOT_DEFERRABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a">DEFERRABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83">INITIALLY_DEFERRED</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b">INITIALLY_IMMEDIATE</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90">NOT_DEFERRABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a">DEFERRABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83">INITIALLY_DEFERRED</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b">INITIALLY_IMMEDIATE</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a7a29591d0dbc3cb3c99ef5c80a724293"><td class="mdescLeft">&#160;</td><td class="mdescRight">约束检查时机  <a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">更多...</a><br /></td></tr>
+<tr class="separator:a7a29591d0dbc3cb3c99ef5c80a724293"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:afb9e3e47f8408590ed2625a5d66b997d" id="r_afb9e3e47f8408590ed2625a5d66b997d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#afb9e3e47f8408590ed2625a5d66b997d">ForeignKeyConstraint</a> (const std::vector&lt; std::string &gt; &amp;columns, const std::string &amp;referenced_table, const std::vector&lt; std::string &gt; &amp;referenced_columns, const std::string &amp;name=&quot;&quot;, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> on_delete=<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> on_update=<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a> deferrable=<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90">NOT_DEFERRABLE</a>)</td></tr>
+<tr class="separator:afb9e3e47f8408590ed2625a5d66b997d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a708cc46582e06981c84042aeb35e2fa8" id="r_a708cc46582e06981c84042aeb35e2fa8"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a708cc46582e06981c84042aeb35e2fa8">getColumns</a> () const</td></tr>
+<tr class="separator:a708cc46582e06981c84042aeb35e2fa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8a24735ecc25dea29ba655147304327" id="r_af8a24735ecc25dea29ba655147304327"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#af8a24735ecc25dea29ba655147304327">getReferencedTable</a> () const</td></tr>
+<tr class="separator:af8a24735ecc25dea29ba655147304327"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa29588bead9ec16ce0a96e2d3de462bf" id="r_aa29588bead9ec16ce0a96e2d3de462bf"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#aa29588bead9ec16ce0a96e2d3de462bf">getReferencedColumns</a> () const</td></tr>
+<tr class="separator:aa29588bead9ec16ce0a96e2d3de462bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f5cefb889e437f1c4945ca3e075ffaf" id="r_a8f5cefb889e437f1c4945ca3e075ffaf"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a8f5cefb889e437f1c4945ca3e075ffaf">getName</a> () const</td></tr>
+<tr class="separator:a8f5cefb889e437f1c4945ca3e075ffaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a890d8ec2c40e3f3bce9db66707d6ed80" id="r_a890d8ec2c40e3f3bce9db66707d6ed80"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a890d8ec2c40e3f3bce9db66707d6ed80">getOnDeleteAction</a> () const</td></tr>
+<tr class="separator:a890d8ec2c40e3f3bce9db66707d6ed80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6be0973cf5a9acabf88311043d13c186" id="r_a6be0973cf5a9acabf88311043d13c186"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a6be0973cf5a9acabf88311043d13c186">getOnUpdateAction</a> () const</td></tr>
+<tr class="separator:a6be0973cf5a9acabf88311043d13c186"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade280c592fd7c1acb916673daac8d1b9" id="r_ade280c592fd7c1acb916673daac8d1b9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#ade280c592fd7c1acb916673daac8d1b9">getDeferrableMode</a> () const</td></tr>
+<tr class="separator:ade280c592fd7c1acb916673daac8d1b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb9e3e47f8408590ed2625a5d66b997d" id="r_afb9e3e47f8408590ed2625a5d66b997d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#afb9e3e47f8408590ed2625a5d66b997d">ForeignKeyConstraint</a> (const std::vector&lt; std::string &gt; &amp;columns, const std::string &amp;referenced_table, const std::vector&lt; std::string &gt; &amp;referenced_columns, const std::string &amp;name=&quot;&quot;, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> on_delete=<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> on_update=<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a> deferrable=<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90">NOT_DEFERRABLE</a>)</td></tr>
+<tr class="memdesc:afb9e3e47f8408590ed2625a5d66b997d"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:afb9e3e47f8408590ed2625a5d66b997d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a708cc46582e06981c84042aeb35e2fa8" id="r_a708cc46582e06981c84042aeb35e2fa8"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a708cc46582e06981c84042aeb35e2fa8">getColumns</a> () const</td></tr>
+<tr class="memdesc:a708cc46582e06981c84042aeb35e2fa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取本表列名列表  <br /></td></tr>
+<tr class="separator:a708cc46582e06981c84042aeb35e2fa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8a24735ecc25dea29ba655147304327" id="r_af8a24735ecc25dea29ba655147304327"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#af8a24735ecc25dea29ba655147304327">getReferencedTable</a> () const</td></tr>
+<tr class="memdesc:af8a24735ecc25dea29ba655147304327"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取被引用表名  <br /></td></tr>
+<tr class="separator:af8a24735ecc25dea29ba655147304327"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa29588bead9ec16ce0a96e2d3de462bf" id="r_aa29588bead9ec16ce0a96e2d3de462bf"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#aa29588bead9ec16ce0a96e2d3de462bf">getReferencedColumns</a> () const</td></tr>
+<tr class="memdesc:aa29588bead9ec16ce0a96e2d3de462bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取被引用列名列表  <br /></td></tr>
+<tr class="separator:aa29588bead9ec16ce0a96e2d3de462bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f5cefb889e437f1c4945ca3e075ffaf" id="r_a8f5cefb889e437f1c4945ca3e075ffaf"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a8f5cefb889e437f1c4945ca3e075ffaf">getName</a> () const</td></tr>
+<tr class="memdesc:a8f5cefb889e437f1c4945ca3e075ffaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取约束名称  <br /></td></tr>
+<tr class="separator:a8f5cefb889e437f1c4945ca3e075ffaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea43e1303703261c923070610b94a6b9" id="r_aea43e1303703261c923070610b94a6b9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#aea43e1303703261c923070610b94a6b9">getOnDeleteAction</a> () const</td></tr>
+<tr class="memdesc:aea43e1303703261c923070610b94a6b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取删除时级联操作  <br /></td></tr>
+<tr class="separator:aea43e1303703261c923070610b94a6b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4c521a52018efdfaa8b521f7b570d8c" id="r_ab4c521a52018efdfaa8b521f7b570d8c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#ab4c521a52018efdfaa8b521f7b570d8c">getOnUpdateAction</a> () const</td></tr>
+<tr class="memdesc:ab4c521a52018efdfaa8b521f7b570d8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取更新时级联操作  <br /></td></tr>
+<tr class="separator:ab4c521a52018efdfaa8b521f7b570d8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cb1ac7e04490a6f8e09793b0e221c4c" id="r_a7cb1ac7e04490a6f8e09793b0e221c4c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7cb1ac7e04490a6f8e09793b0e221c4c">getDeferrableMode</a> () const</td></tr>
+<tr class="memdesc:a7cb1ac7e04490a6f8e09793b0e221c4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取延迟检查模式  <br /></td></tr>
+<tr class="separator:a7cb1ac7e04490a6f8e09793b0e221c4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:ae4700e43a0927b3669c45a43d2e0ab3e" id="r_ae4700e43a0927b3669c45a43d2e0ab3e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#ae4700e43a0927b3669c45a43d2e0ab3e">columns_</a></td></tr>
+<tr class="memdesc:ae4700e43a0927b3669c45a43d2e0ab3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">本表列名列表  <br /></td></tr>
+<tr class="separator:ae4700e43a0927b3669c45a43d2e0ab3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a312334e2ad37d456bfd44c735146c54a" id="r_a312334e2ad37d456bfd44c735146c54a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a312334e2ad37d456bfd44c735146c54a">referenced_table_</a></td></tr>
+<tr class="memdesc:a312334e2ad37d456bfd44c735146c54a"><td class="mdescLeft">&#160;</td><td class="mdescRight">被引用表名  <br /></td></tr>
+<tr class="separator:a312334e2ad37d456bfd44c735146c54a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ebc77874cdeade43234bfe1d78477e3" id="r_a7ebc77874cdeade43234bfe1d78477e3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7ebc77874cdeade43234bfe1d78477e3">referenced_columns_</a></td></tr>
+<tr class="memdesc:a7ebc77874cdeade43234bfe1d78477e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">被引用列名列表  <br /></td></tr>
+<tr class="separator:a7ebc77874cdeade43234bfe1d78477e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af821a69855bfda87f85a44ccdb6b348c" id="r_af821a69855bfda87f85a44ccdb6b348c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#af821a69855bfda87f85a44ccdb6b348c">name_</a></td></tr>
+<tr class="memdesc:af821a69855bfda87f85a44ccdb6b348c"><td class="mdescLeft">&#160;</td><td class="mdescRight">约束名称  <br /></td></tr>
+<tr class="separator:af821a69855bfda87f85a44ccdb6b348c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a446c2cc2fc16c13a7a859575a2b084d6" id="r_a446c2cc2fc16c13a7a859575a2b084d6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a446c2cc2fc16c13a7a859575a2b084d6">on_delete_</a></td></tr>
+<tr class="memdesc:a446c2cc2fc16c13a7a859575a2b084d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">删除时级联操作  <br /></td></tr>
+<tr class="separator:a446c2cc2fc16c13a7a859575a2b084d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a639da35ffd280a4f823ae88194ff8c4d" id="r_a639da35ffd280a4f823ae88194ff8c4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a639da35ffd280a4f823ae88194ff8c4d">on_update_</a></td></tr>
+<tr class="memdesc:a639da35ffd280a4f823ae88194ff8c4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新时级联操作  <br /></td></tr>
+<tr class="separator:a639da35ffd280a4f823ae88194ff8c4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c7339b855ad4cdb58e705e0d4583eae" id="r_a9c7339b855ad4cdb58e705e0d4583eae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a9c7339b855ad4cdb58e705e0d4583eae">deferrable_</a></td></tr>
+<tr class="memdesc:a9c7339b855ad4cdb58e705e0d4583eae"><td class="mdescLeft">&#160;</td><td class="mdescRight">延迟检查模式  <br /></td></tr>
+<tr class="separator:a9c7339b855ad4cdb58e705e0d4583eae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>外键约束类 </p>
+<p>外键约束类</p>
+<p>实现SQL外键约束，支持级联操作和延迟检查 </p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a7f278e7d1114c58466e7c678ba87e6f6" name="a7f278e7d1114c58466e7c678ba87e6f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f278e7d1114c58466e7c678ba87e6f6">&#9670;&#160;</a></span>CascadeAction <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">sqlcc::sql_parser::ForeignKeyConstraint::CascadeAction</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1" name="a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1"></a>RESTRICT&#160;</td><td class="fielddoc"><p>限制删除/更新 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29" name="a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29"></a>CASCADE&#160;</td><td class="fielddoc"><p>级联删除/更新 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49" name="a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49"></a>SET_NULL&#160;</td><td class="fielddoc"><p>设置为空 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd" name="a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd"></a>SET_DEFAULT&#160;</td><td class="fielddoc"><p>设置为默认值 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067" name="a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067"></a>NO_ACTION&#160;</td><td class="fielddoc"><p>无操作 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1" name="a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1"></a>RESTRICT&#160;</td><td class="fielddoc"><p>限制删除/更新 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29" name="a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29"></a>CASCADE&#160;</td><td class="fielddoc"><p>级联删除/更新 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49" name="a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49"></a>SET_NULL&#160;</td><td class="fielddoc"><p>设置为空 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd" name="a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd"></a>SET_DEFAULT&#160;</td><td class="fielddoc"><p>设置为默认值 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067" name="a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067"></a>NO_ACTION&#160;</td><td class="fielddoc"><p>无操作 </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a7f278e7d1114c58466e7c678ba87e6f6" name="a7f278e7d1114c58466e7c678ba87e6f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f278e7d1114c58466e7c678ba87e6f6">&#9670;&#160;</a></span>CascadeAction <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">sqlcc::sql_parser::ForeignKeyConstraint::CascadeAction</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>级联操作类型 </p>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1" name="a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1"></a>RESTRICT&#160;</td><td class="fielddoc"><p>限制删除/更新 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29" name="a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29"></a>CASCADE&#160;</td><td class="fielddoc"><p>级联删除/更新 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49" name="a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49"></a>SET_NULL&#160;</td><td class="fielddoc"><p>设置为空 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd" name="a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd"></a>SET_DEFAULT&#160;</td><td class="fielddoc"><p>设置为默认值 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067" name="a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067"></a>NO_ACTION&#160;</td><td class="fielddoc"><p>无操作 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1" name="a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1"></a>RESTRICT&#160;</td><td class="fielddoc"><p>限制删除/更新 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29" name="a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29"></a>CASCADE&#160;</td><td class="fielddoc"><p>级联删除/更新 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49" name="a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49"></a>SET_NULL&#160;</td><td class="fielddoc"><p>设置为空 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd" name="a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd"></a>SET_DEFAULT&#160;</td><td class="fielddoc"><p>设置为默认值 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067" name="a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067"></a>NO_ACTION&#160;</td><td class="fielddoc"><p>无操作 </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a7a29591d0dbc3cb3c99ef5c80a724293" name="a7a29591d0dbc3cb3c99ef5c80a724293"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a29591d0dbc3cb3c99ef5c80a724293">&#9670;&#160;</a></span>DeferrableMode <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">sqlcc::sql_parser::ForeignKeyConstraint::DeferrableMode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90" name="a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90"></a>NOT_DEFERRABLE&#160;</td><td class="fielddoc"><p>立即检查 (默认) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a" name="a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a"></a>DEFERRABLE&#160;</td><td class="fielddoc"><p>可延迟检查 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83" name="a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83"></a>INITIALLY_DEFERRED&#160;</td><td class="fielddoc"><p>初始延迟检查 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b" name="a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b"></a>INITIALLY_IMMEDIATE&#160;</td><td class="fielddoc"><p>初始立即检查 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90" name="a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90"></a>NOT_DEFERRABLE&#160;</td><td class="fielddoc"><p>立即检查 (默认) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a" name="a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a"></a>DEFERRABLE&#160;</td><td class="fielddoc"><p>可延迟检查 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83" name="a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83"></a>INITIALLY_DEFERRED&#160;</td><td class="fielddoc"><p>初始延迟检查 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b" name="a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b"></a>INITIALLY_IMMEDIATE&#160;</td><td class="fielddoc"><p>初始立即检查 </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a7a29591d0dbc3cb3c99ef5c80a724293" name="a7a29591d0dbc3cb3c99ef5c80a724293"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a29591d0dbc3cb3c99ef5c80a724293">&#9670;&#160;</a></span>DeferrableMode <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">sqlcc::sql_parser::ForeignKeyConstraint::DeferrableMode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>约束检查时机 </p>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90" name="a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90"></a>NOT_DEFERRABLE&#160;</td><td class="fielddoc"><p>立即检查 (默认) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a" name="a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a"></a>DEFERRABLE&#160;</td><td class="fielddoc"><p>可延迟检查 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83" name="a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83"></a>INITIALLY_DEFERRED&#160;</td><td class="fielddoc"><p>初始延迟检查 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b" name="a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b"></a>INITIALLY_IMMEDIATE&#160;</td><td class="fielddoc"><p>初始立即检查 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90" name="a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90"></a>NOT_DEFERRABLE&#160;</td><td class="fielddoc"><p>立即检查 (默认) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a" name="a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a"></a>DEFERRABLE&#160;</td><td class="fielddoc"><p>可延迟检查 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83" name="a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83"></a>INITIALLY_DEFERRED&#160;</td><td class="fielddoc"><p>初始延迟检查 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b" name="a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b"></a>INITIALLY_IMMEDIATE&#160;</td><td class="fielddoc"><p>初始立即检查 </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="afb9e3e47f8408590ed2625a5d66b997d" name="afb9e3e47f8408590ed2625a5d66b997d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb9e3e47f8408590ed2625a5d66b997d">&#9670;&#160;</a></span>ForeignKeyConstraint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::ForeignKeyConstraint::ForeignKeyConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>columns</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>referenced_table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>referenced_columns</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a>&#160;</td>
+          <td class="paramname"><em>on_delete</em> = <code><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a>&#160;</td>
+          <td class="paramname"><em>on_update</em> = <code><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a>&#160;</td>
+          <td class="paramname"><em>deferrable</em> = <code><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90">NOT_DEFERRABLE</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afb9e3e47f8408590ed2625a5d66b997d" name="afb9e3e47f8408590ed2625a5d66b997d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb9e3e47f8408590ed2625a5d66b997d">&#9670;&#160;</a></span>ForeignKeyConstraint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::ForeignKeyConstraint::ForeignKeyConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>columns</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>referenced_table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>referenced_columns</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a>&#160;</td>
+          <td class="paramname"><em>on_delete</em> = <code><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a>&#160;</td>
+          <td class="paramname"><em>on_update</em> = <code><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a>&#160;</td>
+          <td class="paramname"><em>deferrable</em> = <code><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90">NOT_DEFERRABLE</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">columns</td><td>本表列名列表 </td></tr>
+    <tr><td class="paramname">referenced_table</td><td>被引用表名 </td></tr>
+    <tr><td class="paramname">referenced_columns</td><td>被引用列名列表 </td></tr>
+    <tr><td class="paramname">name</td><td>约束名称（可选） </td></tr>
+    <tr><td class="paramname">on_delete</td><td>删除时级联操作 </td></tr>
+    <tr><td class="paramname">on_update</td><td>更新时级联操作 </td></tr>
+    <tr><td class="paramname">deferrable</td><td>延迟检查模式 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a708cc46582e06981c84042aeb35e2fa8" name="a708cc46582e06981c84042aeb35e2fa8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a708cc46582e06981c84042aeb35e2fa8">&#9670;&#160;</a></span>getColumns() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; std::string &gt; &amp; sqlcc::sql_parser::ForeignKeyConstraint::getColumns </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a708cc46582e06981c84042aeb35e2fa8" name="a708cc46582e06981c84042aeb35e2fa8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a708cc46582e06981c84042aeb35e2fa8">&#9670;&#160;</a></span>getColumns() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; std::string &gt; &amp; sqlcc::sql_parser::ForeignKeyConstraint::getColumns </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取本表列名列表 </p>
+
+</div>
+</div>
+<a id="ade280c592fd7c1acb916673daac8d1b9" name="ade280c592fd7c1acb916673daac8d1b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade280c592fd7c1acb916673daac8d1b9">&#9670;&#160;</a></span>getDeferrableMode() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">ForeignKeyConstraint::DeferrableMode</a> sqlcc::sql_parser::ForeignKeyConstraint::getDeferrableMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7cb1ac7e04490a6f8e09793b0e221c4c" name="a7cb1ac7e04490a6f8e09793b0e221c4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cb1ac7e04490a6f8e09793b0e221c4c">&#9670;&#160;</a></span>getDeferrableMode() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a> sqlcc::sql_parser::ForeignKeyConstraint::getDeferrableMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取延迟检查模式 </p>
+
+</div>
+</div>
+<a id="a8f5cefb889e437f1c4945ca3e075ffaf" name="a8f5cefb889e437f1c4945ca3e075ffaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f5cefb889e437f1c4945ca3e075ffaf">&#9670;&#160;</a></span>getName() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::ForeignKeyConstraint::getName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8f5cefb889e437f1c4945ca3e075ffaf" name="a8f5cefb889e437f1c4945ca3e075ffaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f5cefb889e437f1c4945ca3e075ffaf">&#9670;&#160;</a></span>getName() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::ForeignKeyConstraint::getName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取约束名称 </p>
+
+</div>
+</div>
+<a id="a890d8ec2c40e3f3bce9db66707d6ed80" name="a890d8ec2c40e3f3bce9db66707d6ed80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a890d8ec2c40e3f3bce9db66707d6ed80">&#9670;&#160;</a></span>getOnDeleteAction() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">ForeignKeyConstraint::CascadeAction</a> sqlcc::sql_parser::ForeignKeyConstraint::getOnDeleteAction </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aea43e1303703261c923070610b94a6b9" name="aea43e1303703261c923070610b94a6b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea43e1303703261c923070610b94a6b9">&#9670;&#160;</a></span>getOnDeleteAction() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> sqlcc::sql_parser::ForeignKeyConstraint::getOnDeleteAction </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取删除时级联操作 </p>
+
+</div>
+</div>
+<a id="a6be0973cf5a9acabf88311043d13c186" name="a6be0973cf5a9acabf88311043d13c186"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6be0973cf5a9acabf88311043d13c186">&#9670;&#160;</a></span>getOnUpdateAction() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">ForeignKeyConstraint::CascadeAction</a> sqlcc::sql_parser::ForeignKeyConstraint::getOnUpdateAction </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab4c521a52018efdfaa8b521f7b570d8c" name="ab4c521a52018efdfaa8b521f7b570d8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4c521a52018efdfaa8b521f7b570d8c">&#9670;&#160;</a></span>getOnUpdateAction() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> sqlcc::sql_parser::ForeignKeyConstraint::getOnUpdateAction </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取更新时级联操作 </p>
+
+</div>
+</div>
+<a id="aa29588bead9ec16ce0a96e2d3de462bf" name="aa29588bead9ec16ce0a96e2d3de462bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa29588bead9ec16ce0a96e2d3de462bf">&#9670;&#160;</a></span>getReferencedColumns() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; std::string &gt; &amp; sqlcc::sql_parser::ForeignKeyConstraint::getReferencedColumns </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa29588bead9ec16ce0a96e2d3de462bf" name="aa29588bead9ec16ce0a96e2d3de462bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa29588bead9ec16ce0a96e2d3de462bf">&#9670;&#160;</a></span>getReferencedColumns() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; std::string &gt; &amp; sqlcc::sql_parser::ForeignKeyConstraint::getReferencedColumns </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取被引用列名列表 </p>
+
+</div>
+</div>
+<a id="af8a24735ecc25dea29ba655147304327" name="af8a24735ecc25dea29ba655147304327"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8a24735ecc25dea29ba655147304327">&#9670;&#160;</a></span>getReferencedTable() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::ForeignKeyConstraint::getReferencedTable </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af8a24735ecc25dea29ba655147304327" name="af8a24735ecc25dea29ba655147304327"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8a24735ecc25dea29ba655147304327">&#9670;&#160;</a></span>getReferencedTable() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::ForeignKeyConstraint::getReferencedTable </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取被引用表名 </p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ae4700e43a0927b3669c45a43d2e0ab3e" name="ae4700e43a0927b3669c45a43d2e0ab3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4700e43a0927b3669c45a43d2e0ab3e">&#9670;&#160;</a></span>columns_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; sqlcc::sql_parser::ForeignKeyConstraint::columns_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>本表列名列表 </p>
+
+</div>
+</div>
+<a id="a9c7339b855ad4cdb58e705e0d4583eae" name="a9c7339b855ad4cdb58e705e0d4583eae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c7339b855ad4cdb58e705e0d4583eae">&#9670;&#160;</a></span>deferrable_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a> sqlcc::sql_parser::ForeignKeyConstraint::deferrable_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>延迟检查模式 </p>
+
+</div>
+</div>
+<a id="af821a69855bfda87f85a44ccdb6b348c" name="af821a69855bfda87f85a44ccdb6b348c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af821a69855bfda87f85a44ccdb6b348c">&#9670;&#160;</a></span>name_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::ForeignKeyConstraint::name_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>约束名称 </p>
+
+</div>
+</div>
+<a id="a446c2cc2fc16c13a7a859575a2b084d6" name="a446c2cc2fc16c13a7a859575a2b084d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a446c2cc2fc16c13a7a859575a2b084d6">&#9670;&#160;</a></span>on_delete_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> sqlcc::sql_parser::ForeignKeyConstraint::on_delete_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>删除时级联操作 </p>
+
+</div>
+</div>
+<a id="a639da35ffd280a4f823ae88194ff8c4d" name="a639da35ffd280a4f823ae88194ff8c4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a639da35ffd280a4f823ae88194ff8c4d">&#9670;&#160;</a></span>on_update_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> sqlcc::sql_parser::ForeignKeyConstraint::on_update_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新时级联操作 </p>
+
+</div>
+</div>
+<a id="a7ebc77874cdeade43234bfe1d78477e3" name="a7ebc77874cdeade43234bfe1d78477e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ebc77874cdeade43234bfe1d78477e3">&#9670;&#160;</a></span>referenced_columns_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; sqlcc::sql_parser::ForeignKeyConstraint::referenced_columns_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被引用列名列表 </p>
+
+</div>
+</div>
+<a id="a312334e2ad37d456bfd44c735146c54a" name="a312334e2ad37d456bfd44c735146c54a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a312334e2ad37d456bfd44c735146c54a">&#9670;&#160;</a></span>referenced_table_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::ForeignKeyConstraint::referenced_table_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被引用表名 </p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="constraint_8h_source.html">constraint.h</a></li>
+<li><a class="el" href="foreign__key__constraint_8h_source.html">foreign_key_constraint.h</a></li>
+<li><a class="el" href="constraint_8cpp.html">constraint.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

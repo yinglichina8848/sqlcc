@@ -1,0 +1,814 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::CreateFunctionStatement类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html">CreateFunctionStatement</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::CreateFunctionStatement类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>创建函数语句  
+ <a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="advanced__sql92__features_8h_source.html">advanced_sql92_features.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::sql_parser::CreateFunctionStatement 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement__inherit__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1CreateFunctionStatement_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1sql__parser_1_1CreateFunctionStatement_inherit__map" id="asqlcc_1_1sql__parser_1_1CreateFunctionStatement_inherit__map">
+<area shape="rect" title="创建函数语句" alt="" coords="5,181,193,221"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1Statement.html" title=" " alt="" coords="30,93,169,133"/>
+<area shape="poly" title=" " alt="" coords="93,147,94,181,89,181,88,147"/>
+<area shape="poly" title=" " alt="" coords="111,147,110,181,104,181,105,147"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ASTNode.html" title=" " alt="" coords="30,5,169,45"/>
+<area shape="poly" title=" " alt="" coords="102,59,102,93,97,93,97,59"/>
+<area shape="rect" title=" " alt="" coords="193,101,310,126"/>
+<area shape="poly" title=" " alt="" coords="220,135,134,184,132,179,218,131"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<div class="dynheader">
+sqlcc::sql_parser::CreateFunctionStatement 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement__coll__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1CreateFunctionStatement_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1sql__parser_1_1CreateFunctionStatement_coll__map" id="asqlcc_1_1sql__parser_1_1CreateFunctionStatement_coll__map">
+<area shape="rect" title="创建函数语句" alt="" coords="5,181,193,221"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1Statement.html" title=" " alt="" coords="30,93,169,133"/>
+<area shape="poly" title=" " alt="" coords="93,147,94,181,89,181,88,147"/>
+<area shape="poly" title=" " alt="" coords="111,147,110,181,104,181,105,147"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ASTNode.html" title=" " alt="" coords="30,5,169,45"/>
+<area shape="poly" title=" " alt="" coords="102,59,102,93,97,93,97,59"/>
+<area shape="rect" title=" " alt="" coords="193,101,310,126"/>
+<area shape="poly" title=" " alt="" coords="220,135,134,184,132,179,218,131"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:ab482d45e134b254c4839888af9a7f2ce" id="r_ab482d45e134b254c4839888af9a7f2ce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#ab482d45e134b254c4839888af9a7f2ce">CreateFunctionStatement</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionDefinition.html">FunctionDefinition</a> &gt; functionDef)</td></tr>
+<tr class="separator:ab482d45e134b254c4839888af9a7f2ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98524d3ed9b6cb38bca964ad9e480835" id="r_a98524d3ed9b6cb38bca964ad9e480835"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a98524d3ed9b6cb38bca964ad9e480835">~CreateFunctionStatement</a> ()</td></tr>
+<tr class="separator:a98524d3ed9b6cb38bca964ad9e480835"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89eaae1d2fdb5923624dea2ec196aef8" id="r_a89eaae1d2fdb5923624dea2ec196aef8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionDefinition.html">FunctionDefinition</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a89eaae1d2fdb5923624dea2ec196aef8">getFunctionDefinition</a> () const</td></tr>
+<tr class="separator:a89eaae1d2fdb5923624dea2ec196aef8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af51369040e88815f28f7357e9e693171" id="r_af51369040e88815f28f7357e9e693171"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionDefinition.html">FunctionDefinition</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#af51369040e88815f28f7357e9e693171">takeFunctionDefinition</a> ()</td></tr>
+<tr class="separator:af51369040e88815f28f7357e9e693171"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ac36859720c65a809c12671f7e9d649" id="r_a1ac36859720c65a809c12671f7e9d649"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a1ac36859720c65a809c12671f7e9d649">accept</a> (<a class="el" href="namespacesqlcc_1_1sql__parser.html#ac801e90c804fdbcdaf8368f3a7ffa51d">NodeVisitor</a> &amp;visitor)</td></tr>
+<tr class="separator:a1ac36859720c65a809c12671f7e9d649"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9f424ca9121401fac4c68baac6efca6" id="r_aa9f424ca9121401fac4c68baac6efca6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aa9f424ca9121401fac4c68baac6efca6">CreateFunctionStatement</a> (const std::string &amp;function_name, const std::vector&lt; <a class="el" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html">FunctionParameter</a> &gt; &amp;parameters, <a class="el" href="namespacesqlcc_1_1sql__parser.html#ac957dddbae6340c826f93de7af6fd38d">DataType</a> return_type, const std::string &amp;function_body, bool <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#ab0f5393dbcc9366c532466cfb731e5c3">is_replace</a>=false)</td></tr>
+<tr class="separator:aa9f424ca9121401fac4c68baac6efca6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa78e33d1022d92b48040766014c7010c" id="r_aa78e33d1022d92b48040766014c7010c"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aa78e33d1022d92b48040766014c7010c">get_function_name</a> () const</td></tr>
+<tr class="separator:aa78e33d1022d92b48040766014c7010c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8be1a625208c6b824049531f85180bec" id="r_a8be1a625208c6b824049531f85180bec"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html">FunctionParameter</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a8be1a625208c6b824049531f85180bec">get_parameters</a> () const</td></tr>
+<tr class="separator:a8be1a625208c6b824049531f85180bec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f40cc611707b803fc8560a22cd32588" id="r_a4f40cc611707b803fc8560a22cd32588"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc_1_1sql__parser.html#ac957dddbae6340c826f93de7af6fd38d">DataType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a4f40cc611707b803fc8560a22cd32588">get_return_type</a> () const</td></tr>
+<tr class="separator:a4f40cc611707b803fc8560a22cd32588"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45a208f79f3bc162effb609654e01ad2" id="r_a45a208f79f3bc162effb609654e01ad2"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a45a208f79f3bc162effb609654e01ad2">get_function_body</a> () const</td></tr>
+<tr class="separator:a45a208f79f3bc162effb609654e01ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0f5393dbcc9366c532466cfb731e5c3" id="r_ab0f5393dbcc9366c532466cfb731e5c3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#ab0f5393dbcc9366c532466cfb731e5c3">is_replace</a> () const</td></tr>
+<tr class="separator:ab0f5393dbcc9366c532466cfb731e5c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb2fdf1f1382f78853e74a69534d7c45" id="r_afb2fdf1f1382f78853e74a69534d7c45"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#afb2fdf1f1382f78853e74a69534d7c45">accept</a> (ASTVisitor &amp;visitor) override</td></tr>
+<tr class="separator:afb2fdf1f1382f78853e74a69534d7c45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef5059652c38f83951dd058df115708f" id="r_aef5059652c38f83951dd058df115708f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aef5059652c38f83951dd058df115708f">to_string</a> () const override</td></tr>
+<tr class="separator:aef5059652c38f83951dd058df115708f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4f5d1b131c30603a7f60d1e6d324e66" id="r_ac4f5d1b131c30603a7f60d1e6d324e66"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#ac4f5d1b131c30603a7f60d1e6d324e66">CreateFunctionStatement</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionDefinition.html">FunctionDefinition</a> &gt; function_def)</td></tr>
+<tr class="memdesc:ac4f5d1b131c30603a7f60d1e6d324e66"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:ac4f5d1b131c30603a7f60d1e6d324e66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e90b272215bdaf70601026c26742d6d" id="r_a6e90b272215bdaf70601026c26742d6d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a6e90b272215bdaf70601026c26742d6d">~CreateFunctionStatement</a> () override</td></tr>
+<tr class="memdesc:a6e90b272215bdaf70601026c26742d6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a6e90b272215bdaf70601026c26742d6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36ddcad3a8f5d296624b33caa4dce653" id="r_a36ddcad3a8f5d296624b33caa4dce653"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a36ddcad3a8f5d296624b33caa4dce653">isValid</a> () const</td></tr>
+<tr class="memdesc:a36ddcad3a8f5d296624b33caa4dce653"><td class="mdescLeft">&#160;</td><td class="mdescRight">验证语句有效性  <br /></td></tr>
+<tr class="separator:a36ddcad3a8f5d296624b33caa4dce653"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bb9bf98eda272bb0cfac08b772bad4f" id="r_a5bb9bf98eda272bb0cfac08b772bad4f"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionDefinition.html">FunctionDefinition</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a5bb9bf98eda272bb0cfac08b772bad4f">getFunctionDefinition</a> () const</td></tr>
+<tr class="memdesc:a5bb9bf98eda272bb0cfac08b772bad4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取函数定义  <br /></td></tr>
+<tr class="separator:a5bb9bf98eda272bb0cfac08b772bad4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsqlcc_1_1sql__parser_1_1Statement"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsqlcc_1_1sql__parser_1_1Statement')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sqlcc::sql_parser::Statement</a></td></tr>
+<tr class="memitem:a4d849eed81c60d13e4028c57364228f9 inherit pub_methods_classsqlcc_1_1sql__parser_1_1Statement" id="r_a4d849eed81c60d13e4028c57364228f9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a4d849eed81c60d13e4028c57364228f9">Statement</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">Type</a> type)</td></tr>
+<tr class="separator:a4d849eed81c60d13e4028c57364228f9 inherit pub_methods_classsqlcc_1_1sql__parser_1_1Statement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70684f89130d749f5923873076df258e inherit pub_methods_classsqlcc_1_1sql__parser_1_1Statement" id="r_a70684f89130d749f5923873076df258e"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a70684f89130d749f5923873076df258e">~Statement</a> ()=default</td></tr>
+<tr class="separator:a70684f89130d749f5923873076df258e inherit pub_methods_classsqlcc_1_1sql__parser_1_1Statement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe6ee29874bf69d9d80d67f6ee4bb22c inherit pub_methods_classsqlcc_1_1sql__parser_1_1Statement" id="r_abe6ee29874bf69d9d80d67f6ee4bb22c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#abe6ee29874bf69d9d80d67f6ee4bb22c">getType</a> () const</td></tr>
+<tr class="separator:abe6ee29874bf69d9d80d67f6ee4bb22c inherit pub_methods_classsqlcc_1_1sql__parser_1_1Statement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html">sqlcc::sql_parser::ASTNode</a></td></tr>
+<tr class="memitem:a439bd54fa1a01e60aea9e6a985fbea13 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode" id="r_a439bd54fa1a01e60aea9e6a985fbea13"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html#a439bd54fa1a01e60aea9e6a985fbea13">~ASTNode</a> ()=default</td></tr>
+<tr class="separator:a439bd54fa1a01e60aea9e6a985fbea13 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28e63ff3f8094ac752f2575947665d32 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode" id="r_a28e63ff3f8094ac752f2575947665d32"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html#a28e63ff3f8094ac752f2575947665d32">getTypeName</a> () const</td></tr>
+<tr class="separator:a28e63ff3f8094ac752f2575947665d32 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:ad4cd6b5c349e65d4387435dde7d8ba47" id="r_ad4cd6b5c349e65d4387435dde7d8ba47"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionDefinition.html">FunctionDefinition</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#ad4cd6b5c349e65d4387435dde7d8ba47">functionDef_</a></td></tr>
+<tr class="separator:ad4cd6b5c349e65d4387435dde7d8ba47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f627f7112c615e67afbd66bbc2b87c1" id="r_a6f627f7112c615e67afbd66bbc2b87c1"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a6f627f7112c615e67afbd66bbc2b87c1">function_name_</a></td></tr>
+<tr class="separator:a6f627f7112c615e67afbd66bbc2b87c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a399c2dcd0016d1f22ccbabbab941c8" id="r_a2a399c2dcd0016d1f22ccbabbab941c8"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html">FunctionParameter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a2a399c2dcd0016d1f22ccbabbab941c8">parameters_</a></td></tr>
+<tr class="separator:a2a399c2dcd0016d1f22ccbabbab941c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa064e585f9a9a364fe9d1ead6c09a34e" id="r_aa064e585f9a9a364fe9d1ead6c09a34e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc_1_1sql__parser.html#ac957dddbae6340c826f93de7af6fd38d">DataType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#aa064e585f9a9a364fe9d1ead6c09a34e">return_type_</a></td></tr>
+<tr class="separator:aa064e585f9a9a364fe9d1ead6c09a34e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf13001d24b09cc573965c43370ceb65" id="r_adf13001d24b09cc573965c43370ceb65"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#adf13001d24b09cc573965c43370ceb65">function_body_</a></td></tr>
+<tr class="separator:adf13001d24b09cc573965c43370ceb65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a099dea5a64c43149242458f3eff63aa9" id="r_a099dea5a64c43149242458f3eff63aa9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a099dea5a64c43149242458f3eff63aa9">is_replace_</a></td></tr>
+<tr class="separator:a099dea5a64c43149242458f3eff63aa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7edcf31a6ee563a774d36a5d341c258f" id="r_a7edcf31a6ee563a774d36a5d341c258f"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionDefinition.html">FunctionDefinition</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html#a7edcf31a6ee563a774d36a5d341c258f">function_def_</a></td></tr>
+<tr class="memdesc:a7edcf31a6ee563a774d36a5d341c258f"><td class="mdescLeft">&#160;</td><td class="mdescRight">函数定义  <br /></td></tr>
+<tr class="separator:a7edcf31a6ee563a774d36a5d341c258f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+额外继承的成员函数</h2></td></tr>
+<tr class="inherit_header pub_types_classsqlcc_1_1sql__parser_1_1Statement"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classsqlcc_1_1sql__parser_1_1Statement')"><img src="closed.png" alt="-"/>&#160;Public 类型 继承自 <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sqlcc::sql_parser::Statement</a></td></tr>
+<tr class="memitem:a5c74f85a376f4509bdba85968ba62ca3 inherit pub_types_classsqlcc_1_1sql__parser_1_1Statement" id="r_a5c74f85a376f4509bdba85968ba62ca3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3">Type</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a5312fbeaca8912c906f7796c56052061">SELECT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a89ff132aae533d8e679bfe002d0dceac">INSERT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a93e115d268e0f6e84ab6abeb4e9e9a86">UPDATE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a7bf84e5f78e0d2ffbed115673232d99a">DELETE</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ad9d90a972f604215af7639b39fa5cee5">CREATE_TABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a8f4415036790844cdf4d9f71a1f9f5a9">DROP_TABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a863e22b943cdeda8d77f5d00d1f9444e">ALTER_TABLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ad4323b35c28f267fdbf3a6817c83045d">CREATE_INDEX</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3aba850d68df245c9dce229eca932e14e1">DROP_INDEX</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ac4af4ecaf7e6292ab8e7821696837def">COMPOSITE_SELECT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a9121959533cef6b2f8dc7f0f5c22e46f">SAVEPOINT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a4706101cd6e85fcd1494a5ec4092442b">RELEASE_SAVEPOINT</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a85ff8dc7070cab2cc08676ff0d8a7536">SET_TRANSACTION</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a4bb216fafd421407cd35295964f031b3">ALTER</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a41d906d0667a22b4d0b08cf078be2216">CREATE_DOMAIN</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3af6391d50bd57d09466186e3550810694">ALTER_DOMAIN</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a50332df5581c8a93eebcc361dff7867b">DROP_DOMAIN</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3aec079bfc7b342e7a76bffcb3ab04db9d">ALTER_TABLE_ENHANCED</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a63948c662fd4c8ea6d800a4994f582c2">CALL_PROCEDURE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a25ce31dfdbb4a786772580fd8cb3c526">CREATE</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a7c82d60fcb058cc29ef452bb6d538a9a">DROP</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a932fde621481f6cede0d4f3b71e3b7e1">WITH_RECURSIVE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ae3f05fc4482b5f171ad20a253880175c">COMMIT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a15d40a6f4a75d72e4637a8227b1bd731">ROLLBACK</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a9e6f8ea690860c93cf6a1fd21a832dd0">BEGIN</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ab52c6cbc8af46c05ee6f9c15f9448d58">USE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3acc4f038c0e0259e991a95a3c4375ccd6">CREATE_USER</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3aba79d04e1e62ed4a8112bdef764859b7">DROP_USER</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ad3a5abca40eafcdcb0de013ac87c38bb">GRANT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a7508aae212bc947af917ccae1aa77cb1">REVOKE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a3ff67f1f4750e9de8d74755f7fd91dcd">SHOW</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a8704dce7935087495eee654c35ef60be">CREATE_VIEW</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a0dd25401eced73f68ec0081ce4b605b0">CREATE_ROLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3a7def74862c5ef5eb70e62b31287d5329">DROP_ROLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3ad5dc60a56f7850c407a5e037a8840701">GRANT_ROLE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#a5c74f85a376f4509bdba85968ba62ca3aaf04dc400e2858a1acad22f53ff6ba58">REVOKE_ROLE</a>
+<br />
+ }</td></tr>
+<tr class="separator:a5c74f85a376f4509bdba85968ba62ca3 inherit pub_types_classsqlcc_1_1sql__parser_1_1Statement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>创建函数语句 </p>
+<p>CREATE FUNCTION语句</p>
+<p>表示SQL中的CREATE FUNCTION语句 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="ab482d45e134b254c4839888af9a7f2ce" name="ab482d45e134b254c4839888af9a7f2ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab482d45e134b254c4839888af9a7f2ce">&#9670;&#160;</a></span>CreateFunctionStatement() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::CreateFunctionStatement::CreateFunctionStatement </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionDefinition.html">FunctionDefinition</a> &gt;&#160;</td>
+          <td class="paramname"><em>functionDef</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a98524d3ed9b6cb38bca964ad9e480835" name="a98524d3ed9b6cb38bca964ad9e480835"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98524d3ed9b6cb38bca964ad9e480835">&#9670;&#160;</a></span>~CreateFunctionStatement() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::CreateFunctionStatement::~CreateFunctionStatement </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa9f424ca9121401fac4c68baac6efca6" name="aa9f424ca9121401fac4c68baac6efca6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9f424ca9121401fac4c68baac6efca6">&#9670;&#160;</a></span>CreateFunctionStatement() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::CreateFunctionStatement::CreateFunctionStatement </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>function_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html">FunctionParameter</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>parameters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1sql__parser.html#ac957dddbae6340c826f93de7af6fd38d">DataType</a>&#160;</td>
+          <td class="paramname"><em>return_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>function_body</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_replace</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac4f5d1b131c30603a7f60d1e6d324e66" name="ac4f5d1b131c30603a7f60d1e6d324e66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4f5d1b131c30603a7f60d1e6d324e66">&#9670;&#160;</a></span>CreateFunctionStatement() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::CreateFunctionStatement::CreateFunctionStatement </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionDefinition.html">FunctionDefinition</a> &gt;&#160;</td>
+          <td class="paramname"><em>function_def</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">function_def</td><td>函数定义对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6e90b272215bdaf70601026c26742d6d" name="a6e90b272215bdaf70601026c26742d6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e90b272215bdaf70601026c26742d6d">&#9670;&#160;</a></span>~CreateFunctionStatement() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::CreateFunctionStatement::~CreateFunctionStatement </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="afb2fdf1f1382f78853e74a69534d7c45" name="afb2fdf1f1382f78853e74a69534d7c45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb2fdf1f1382f78853e74a69534d7c45">&#9670;&#160;</a></span>accept() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::CreateFunctionStatement::accept </td>
+          <td>(</td>
+          <td class="paramtype">ASTVisitor &amp;&#160;</td>
+          <td class="paramname"><em>visitor</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1ac36859720c65a809c12671f7e9d649" name="a1ac36859720c65a809c12671f7e9d649"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ac36859720c65a809c12671f7e9d649">&#9670;&#160;</a></span>accept() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::CreateFunctionStatement::accept </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1sql__parser.html#ac801e90c804fdbcdaf8368f3a7ffa51d">NodeVisitor</a> &amp;&#160;</td>
+          <td class="paramname"><em>visitor</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html#ab568c4584645d796127272e799ee8a0c">sqlcc::sql_parser::Statement</a>.</p>
+
+</div>
+</div>
+<a id="a45a208f79f3bc162effb609654e01ad2" name="a45a208f79f3bc162effb609654e01ad2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45a208f79f3bc162effb609654e01ad2">&#9670;&#160;</a></span>get_function_body()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::CreateFunctionStatement::get_function_body </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa78e33d1022d92b48040766014c7010c" name="aa78e33d1022d92b48040766014c7010c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa78e33d1022d92b48040766014c7010c">&#9670;&#160;</a></span>get_function_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::CreateFunctionStatement::get_function_name </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8be1a625208c6b824049531f85180bec" name="a8be1a625208c6b824049531f85180bec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8be1a625208c6b824049531f85180bec">&#9670;&#160;</a></span>get_parameters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; <a class="el" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html">FunctionParameter</a> &gt; &amp; sqlcc::sql_parser::CreateFunctionStatement::get_parameters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4f40cc611707b803fc8560a22cd32588" name="a4f40cc611707b803fc8560a22cd32588"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f40cc611707b803fc8560a22cd32588">&#9670;&#160;</a></span>get_return_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc_1_1sql__parser.html#ac957dddbae6340c826f93de7af6fd38d">DataType</a> sqlcc::sql_parser::CreateFunctionStatement::get_return_type </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a89eaae1d2fdb5923624dea2ec196aef8" name="a89eaae1d2fdb5923624dea2ec196aef8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89eaae1d2fdb5923624dea2ec196aef8">&#9670;&#160;</a></span>getFunctionDefinition() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionDefinition.html">FunctionDefinition</a> &amp; sqlcc::sql_parser::CreateFunctionStatement::getFunctionDefinition </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5bb9bf98eda272bb0cfac08b772bad4f" name="a5bb9bf98eda272bb0cfac08b772bad4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bb9bf98eda272bb0cfac08b772bad4f">&#9670;&#160;</a></span>getFunctionDefinition() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionDefinition.html">FunctionDefinition</a> * sqlcc::sql_parser::CreateFunctionStatement::getFunctionDefinition </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取函数定义 </p>
+<dl class="section return"><dt>返回</dt><dd>函数定义对象的常量指针 </dd></dl>
+
+</div>
+</div>
+<a id="ab0f5393dbcc9366c532466cfb731e5c3" name="ab0f5393dbcc9366c532466cfb731e5c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0f5393dbcc9366c532466cfb731e5c3">&#9670;&#160;</a></span>is_replace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::CreateFunctionStatement::is_replace </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a36ddcad3a8f5d296624b33caa4dce653" name="a36ddcad3a8f5d296624b33caa4dce653"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36ddcad3a8f5d296624b33caa4dce653">&#9670;&#160;</a></span>isValid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::CreateFunctionStatement::isValid </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>验证语句有效性 </p>
+<dl class="section return"><dt>返回</dt><dd>语句是否有效 </dd></dl>
+
+</div>
+</div>
+<a id="af51369040e88815f28f7357e9e693171" name="af51369040e88815f28f7357e9e693171"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af51369040e88815f28f7357e9e693171">&#9670;&#160;</a></span>takeFunctionDefinition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionDefinition.html">FunctionDefinition</a> &gt; sqlcc::sql_parser::CreateFunctionStatement::takeFunctionDefinition </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aef5059652c38f83951dd058df115708f" name="aef5059652c38f83951dd058df115708f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef5059652c38f83951dd058df115708f">&#9670;&#160;</a></span>to_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::CreateFunctionStatement::to_string </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="adf13001d24b09cc573965c43370ceb65" name="adf13001d24b09cc573965c43370ceb65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf13001d24b09cc573965c43370ceb65">&#9670;&#160;</a></span>function_body_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::CreateFunctionStatement::function_body_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7edcf31a6ee563a774d36a5d341c258f" name="a7edcf31a6ee563a774d36a5d341c258f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7edcf31a6ee563a774d36a5d341c258f">&#9670;&#160;</a></span>function_def_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionDefinition.html">FunctionDefinition</a>&gt; sqlcc::sql_parser::CreateFunctionStatement::function_def_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>函数定义 </p>
+
+</div>
+</div>
+<a id="a6f627f7112c615e67afbd66bbc2b87c1" name="a6f627f7112c615e67afbd66bbc2b87c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f627f7112c615e67afbd66bbc2b87c1">&#9670;&#160;</a></span>function_name_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::CreateFunctionStatement::function_name_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad4cd6b5c349e65d4387435dde7d8ba47" name="ad4cd6b5c349e65d4387435dde7d8ba47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4cd6b5c349e65d4387435dde7d8ba47">&#9670;&#160;</a></span>functionDef_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionDefinition.html">FunctionDefinition</a>&gt; sqlcc::sql_parser::CreateFunctionStatement::functionDef_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a099dea5a64c43149242458f3eff63aa9" name="a099dea5a64c43149242458f3eff63aa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a099dea5a64c43149242458f3eff63aa9">&#9670;&#160;</a></span>is_replace_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::CreateFunctionStatement::is_replace_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2a399c2dcd0016d1f22ccbabbab941c8" name="a2a399c2dcd0016d1f22ccbabbab941c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a399c2dcd0016d1f22ccbabbab941c8">&#9670;&#160;</a></span>parameters_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html">FunctionParameter</a>&gt; sqlcc::sql_parser::CreateFunctionStatement::parameters_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa064e585f9a9a364fe9d1ead6c09a34e" name="aa064e585f9a9a364fe9d1ead6c09a34e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa064e585f9a9a364fe9d1ead6c09a34e">&#9670;&#160;</a></span>return_type_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc_1_1sql__parser.html#ac957dddbae6340c826f93de7af6fd38d">DataType</a> sqlcc::sql_parser::CreateFunctionStatement::return_type_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="advanced__sql92__features_8h_source.html">advanced_sql92_features.h</a></li>
+<li><a class="el" href="create__function_8h_source.html">create_function.h</a></li>
+<li><a class="el" href="function__ddl_8h_source.html">function_ddl.h</a></li>
+<li><a class="el" href="function__ast_8cpp.html">function_ast.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

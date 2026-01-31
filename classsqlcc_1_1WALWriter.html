@@ -1,0 +1,1024 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::WALWriter类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1WALWriter.html">WALWriter</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1WALWriter-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::WALWriter类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>SQLCC WAL预写日志写入器 - 数据库ACID持久性保障的核心组件  
+ <a href="classsqlcc_1_1WALWriter.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="wal__writer_8h_source.html">wal_writer.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::WALWriter 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1WALWriter__coll__graph.png" border="0" usemap="#asqlcc_1_1WALWriter_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1WALWriter_coll__map" id="asqlcc_1_1WALWriter_coll__map">
+<area shape="rect" title="SQLCC WAL预写日志写入器 &#45; 数据库ACID持久性保障的核心组件" alt="" coords="125,108,255,133"/>
+<area shape="rect" href="classsqlcc_1_1ConfigManager.html" title=" " alt="" coords="5,13,167,38"/>
+<area shape="poly" title=" " alt="" coords="110,45,150,82,178,106,175,110,147,86,107,49"/>
+<area shape="rect" href="structsqlcc_1_1WALWriter_1_1WALWriterStats.html" title="WAL写入器统计信息" alt="" coords="191,5,397,45"/>
+<area shape="poly" title=" " alt="" coords="285,60,267,86,248,100,227,110,225,106,245,96,263,82,280,57"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1WALWriter_1_1WALWriterStats.html">WALWriterStats</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">WAL写入器统计信息  <a href="structsqlcc_1_1WALWriter_1_1WALWriterStats.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:ae96060c169dc653caf7a759b7acc6369" id="r_ae96060c169dc653caf7a759b7acc6369"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#ae96060c169dc653caf7a759b7acc6369">WALWriter</a> (<a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager, const std::string &amp;wal_file)</td></tr>
+<tr class="memdesc:ae96060c169dc653caf7a759b7acc6369"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数 - 初始化WAL写入器核心组件  <br /></td></tr>
+<tr class="separator:ae96060c169dc653caf7a759b7acc6369"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0588242d298975ef813f1c344641909" id="r_ac0588242d298975ef813f1c344641909"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#ac0588242d298975ef813f1c344641909">~WALWriter</a> ()</td></tr>
+<tr class="memdesc:ac0588242d298975ef813f1c344641909"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数 - 安全关闭WAL写入器  <br /></td></tr>
+<tr class="separator:ac0588242d298975ef813f1c344641909"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0930017100d7099aea46b6fb09bbe9e" id="r_ac0930017100d7099aea46b6fb09bbe9e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#ac0930017100d7099aea46b6fb09bbe9e">Start</a> ()</td></tr>
+<tr class="memdesc:ac0930017100d7099aea46b6fb09bbe9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">启动WAL写入器 - 激活异步日志写入机制  <br /></td></tr>
+<tr class="separator:ac0930017100d7099aea46b6fb09bbe9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf44e9fd9d3053aedc990b19afd58bee" id="r_abf44e9fd9d3053aedc990b19afd58bee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#abf44e9fd9d3053aedc990b19afd58bee">Stop</a> ()</td></tr>
+<tr class="memdesc:abf44e9fd9d3053aedc990b19afd58bee"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止WAL写入器 - 优雅关闭异步日志系统  <br /></td></tr>
+<tr class="separator:abf44e9fd9d3053aedc990b19afd58bee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ab7d57d0087cc1d64995dd28ec94b26" id="r_a9ab7d57d0087cc1d64995dd28ec94b26"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a9ab7d57d0087cc1d64995dd28ec94b26">WriteRecords</a> (const std::vector&lt; std::unique_ptr&lt; <a class="el" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html">WALBuffer::WALRecord</a> &gt; &gt; &amp;records)</td></tr>
+<tr class="memdesc:a9ab7d57d0087cc1d64995dd28ec94b26"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入WAL记录到磁盘 - WAL系统的核心API  <br /></td></tr>
+<tr class="separator:a9ab7d57d0087cc1d64995dd28ec94b26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab567399d66e4df77270e69d12a567465" id="r_ab567399d66e4df77270e69d12a567465"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#ab567399d66e4df77270e69d12a567465">Sync</a> ()</td></tr>
+<tr class="memdesc:ab567399d66e4df77270e69d12a567465"><td class="mdescLeft">&#160;</td><td class="mdescRight">同步WAL文件到磁盘 - 强制数据持久化  <br /></td></tr>
+<tr class="separator:ab567399d66e4df77270e69d12a567465"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39422db5fea0c4c2a0239843f9f7008a" id="r_a39422db5fea0c4c2a0239843f9f7008a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structsqlcc_1_1WALWriter_1_1WALWriterStats.html">WALWriterStats</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a39422db5fea0c4c2a0239843f9f7008a">GetStats</a> () const</td></tr>
+<tr class="memdesc:a39422db5fea0c4c2a0239843f9f7008a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取WAL写入器统计信息  <br /></td></tr>
+<tr class="separator:a39422db5fea0c4c2a0239843f9f7008a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a668e822678f8a0b99c4d573f1b59d5d0" id="r_a668e822678f8a0b99c4d573f1b59d5d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a668e822678f8a0b99c4d573f1b59d5d0">ResetStats</a> ()</td></tr>
+<tr class="memdesc:a668e822678f8a0b99c4d573f1b59d5d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">重置统计信息  <br /></td></tr>
+<tr class="separator:a668e822678f8a0b99c4d573f1b59d5d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafebf408ae45ab7f684aafa996874984" id="r_aafebf408ae45ab7f684aafa996874984"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#aafebf408ae45ab7f684aafa996874984">GetCurrentLSN</a> () const</td></tr>
+<tr class="memdesc:aafebf408ae45ab7f684aafa996874984"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前LSN  <br /></td></tr>
+<tr class="separator:aafebf408ae45ab7f684aafa996874984"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13204a53b0d627b0d524a8066e662bfe" id="r_a13204a53b0d627b0d524a8066e662bfe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a13204a53b0d627b0d524a8066e662bfe">TruncateToLSN</a> (uint64_t target_lsn)</td></tr>
+<tr class="memdesc:a13204a53b0d627b0d524a8066e662bfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">截断WAL日志到指定LSN  <br /></td></tr>
+<tr class="separator:a13204a53b0d627b0d524a8066e662bfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a1f5e886369342fcf40c5eb93bc943bd4" id="r_a1f5e886369342fcf40c5eb93bc943bd4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a1f5e886369342fcf40c5eb93bc943bd4">WALWriteWorker</a> ()</td></tr>
+<tr class="memdesc:a1f5e886369342fcf40c5eb93bc943bd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">WAL写入工作线程函数  <br /></td></tr>
+<tr class="separator:a1f5e886369342fcf40c5eb93bc943bd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a700f875a0aa04c62bd6c61733f6821a9" id="r_a700f875a0aa04c62bd6c61733f6821a9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a700f875a0aa04c62bd6c61733f6821a9">PerformWrite</a> (const std::vector&lt; std::unique_ptr&lt; <a class="el" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html">WALBuffer::WALRecord</a> &gt; &gt; &amp;records)</td></tr>
+<tr class="memdesc:a700f875a0aa04c62bd6c61733f6821a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行记录写入  <br /></td></tr>
+<tr class="separator:a700f875a0aa04c62bd6c61733f6821a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e3d97754d180b1dc320218b5cbab8f7" id="r_a3e3d97754d180b1dc320218b5cbab8f7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a3e3d97754d180b1dc320218b5cbab8f7">FormatRecord</a> (const <a class="el" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html">WALBuffer::WALRecord</a> &amp;record)</td></tr>
+<tr class="memdesc:a3e3d97754d180b1dc320218b5cbab8f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">格式化WAL记录为字符串  <br /></td></tr>
+<tr class="separator:a3e3d97754d180b1dc320218b5cbab8f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:ab1db746c5ab2f2efb7dbf0662486850a" id="r_ab1db746c5ab2f2efb7dbf0662486850a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#ab1db746c5ab2f2efb7dbf0662486850a">config_manager_</a></td></tr>
+<tr class="separator:ab1db746c5ab2f2efb7dbf0662486850a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0163e454f80f513bbbe90dc52567b344" id="r_a0163e454f80f513bbbe90dc52567b344"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a0163e454f80f513bbbe90dc52567b344">wal_file_path_</a></td></tr>
+<tr class="separator:a0163e454f80f513bbbe90dc52567b344"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae60ba597b2a5c89a074e604dea67c0f3" id="r_ae60ba597b2a5c89a074e604dea67c0f3"><td class="memItemLeft" align="right" valign="top">std::ofstream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#ae60ba597b2a5c89a074e604dea67c0f3">wal_file_</a></td></tr>
+<tr class="separator:ae60ba597b2a5c89a074e604dea67c0f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c76dc4e23f329297fae8d48d908ca6b" id="r_a4c76dc4e23f329297fae8d48d908ca6b"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a4c76dc4e23f329297fae8d48d908ca6b">file_mutex_</a></td></tr>
+<tr class="separator:a4c76dc4e23f329297fae8d48d908ca6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a927dcde671efaa99933ca73a4c0dfbcb" id="r_a927dcde671efaa99933ca73a4c0dfbcb"><td class="memItemLeft" align="right" valign="top">std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a927dcde671efaa99933ca73a4c0dfbcb">write_thread_</a></td></tr>
+<tr class="separator:a927dcde671efaa99933ca73a4c0dfbcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8168b0ebc1b243364cf5ea3ff596671c" id="r_a8168b0ebc1b243364cf5ea3ff596671c"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a8168b0ebc1b243364cf5ea3ff596671c">running_</a></td></tr>
+<tr class="separator:a8168b0ebc1b243364cf5ea3ff596671c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a290f6eb20ff42a5b5102f76a53cedac9" id="r_a290f6eb20ff42a5b5102f76a53cedac9"><td class="memItemLeft" align="right" valign="top">std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a290f6eb20ff42a5b5102f76a53cedac9">write_cv_</a></td></tr>
+<tr class="separator:a290f6eb20ff42a5b5102f76a53cedac9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad74961698e489e88859d42920f3295e7" id="r_ad74961698e489e88859d42920f3295e7"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#ad74961698e489e88859d42920f3295e7">write_mutex_</a></td></tr>
+<tr class="separator:ad74961698e489e88859d42920f3295e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c033d17da3c3ca4ac480c4c557d1a51" id="r_a0c033d17da3c3ca4ac480c4c557d1a51"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; std::unique_ptr&lt; <a class="el" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html">WALBuffer::WALRecord</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a0c033d17da3c3ca4ac480c4c557d1a51">write_queue_</a></td></tr>
+<tr class="separator:a0c033d17da3c3ca4ac480c4c557d1a51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c30b43fc12f4407a01f06ef6d2dfd28" id="r_a6c30b43fc12f4407a01f06ef6d2dfd28"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a6c30b43fc12f4407a01f06ef6d2dfd28">queue_mutex_</a></td></tr>
+<tr class="separator:a6c30b43fc12f4407a01f06ef6d2dfd28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1de773cdb382c7881f4f27dd661b55a5" id="r_a1de773cdb382c7881f4f27dd661b55a5"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a1de773cdb382c7881f4f27dd661b55a5">stats_mutex_</a></td></tr>
+<tr class="separator:a1de773cdb382c7881f4f27dd661b55a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05336b1bda66dbf679f12ce3b4035915" id="r_a05336b1bda66dbf679f12ce3b4035915"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1WALWriter_1_1WALWriterStats.html">WALWriterStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a05336b1bda66dbf679f12ce3b4035915">stats_</a></td></tr>
+<tr class="separator:a05336b1bda66dbf679f12ce3b4035915"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a623212a2af39ad000d46da8cf094b01d" id="r_a623212a2af39ad000d46da8cf094b01d"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a623212a2af39ad000d46da8cf094b01d">current_lsn_</a></td></tr>
+<tr class="separator:a623212a2af39ad000d46da8cf094b01d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2113757b31d12b922ac8363e9c7ad97c" id="r_a2113757b31d12b922ac8363e9c7ad97c"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a2113757b31d12b922ac8363e9c7ad97c">max_batch_size_</a></td></tr>
+<tr class="separator:a2113757b31d12b922ac8363e9c7ad97c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9edb16a42d787be8f932eb09e058ae57" id="r_a9edb16a42d787be8f932eb09e058ae57"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALWriter.html#a9edb16a42d787be8f932eb09e058ae57">sync_interval_</a></td></tr>
+<tr class="separator:a9edb16a42d787be8f932eb09e058ae57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>SQLCC WAL预写日志写入器 - 数据库ACID持久性保障的核心组件 </p>
+<p>WHY层 - 设计意图： WAL（Write-Ahead Logging）是现代数据库系统的核心机制，确保数据不会因系统崩溃而丢失。 通过"先写日志，再修改数据"的策略，保证了事务的持久性和原子性。 WAL写入器作为独立的异步组件，解耦了事务处理和磁盘I/O，提升了整体性能。</p>
+<p>WHAT层 - 功能说明： 负责将内存中的WAL缓冲区日志记录持久化到磁盘文件，支持异步批量写入。 提供日志截断、同步刷新等管理功能，支持崩溃恢复和检查点操作。 实现了高性能的日志写入，通过批处理和异步I/O减少事务延迟。</p>
+<p>HOW层 - 实现细节： 使用独立工作线程处理日志写入，避免阻塞主事务线程。 通过LSN（Log Sequence Number）维护日志顺序，确保恢复时序正确。 支持组提交优化，多个事务的日志可以批量写入，减少磁盘同步开销。 采用双缓冲机制，前台缓冲区接收新日志，后台缓冲区进行磁盘写入。</p>
+<p>并发安全保证：</p><ul>
+<li>工作线程独立处理I/O，不影响主事务处理</li>
+<li>缓冲区队列使用锁保护，保证多生产者-单消费者模式安全</li>
+<li>LSN原子递增，确保全局日志顺序</li>
+<li>文件操作加锁，防止并发写入冲突</li>
+</ul>
+<p>性能优化策略：</p><ul>
+<li>异步写入：事务提交不等待磁盘I/O完成</li>
+<li>批量处理：积累多个日志记录后一次性写入</li>
+<li>组提交：多个事务可以共享一次磁盘同步</li>
+<li>预分配：日志文件预分配空间，减少动态扩展开销</li>
+</ul>
+<p>故障恢复机制：</p><ul>
+<li>日志截断：检查点后清理过期日志，节省存储空间</li>
+<li>顺序重放：按LSN顺序重做未完成的事务</li>
+<li>一致性检查：验证日志完整性和数据一致性</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>WAL是数据库系统中最复杂的组件之一，涉及并发、性能、可靠性的综合权衡 </dd>
+<dd>
+异步写入可能导致少量日志丢失，但通过配置可以调整同步策略 </dd>
+<dd>
+LSN是全局递增的序列号，用于标识日志记录的顺序关系</dd></dl>
+<dl class="section see"><dt>参见</dt><dd>docs/design/storage_engine/wal_system_design.md 详细的WAL系统设计文档，包含完整的算法分析和故障恢复流程 </dd></dl>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="ae96060c169dc653caf7a759b7acc6369" name="ae96060c169dc653caf7a759b7acc6369"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae96060c169dc653caf7a759b7acc6369">&#9670;&#160;</a></span>WALWriter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::WALWriter::WALWriter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>config_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>wal_file</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>构造函数 - 初始化WAL写入器核心组件 </p>
+<p>WHY层 - 设计意图： WAL写入器是数据库系统的生命线，其初始化必须保证日志系统的可靠性和性能。 通过精心设计的初始化流程，确保写入器在各种配置下都能正常工作。</p>
+<p>WHAT层 - 功能说明： 初始化WAL文件、配置参数和工作线程，为日志写入做好准备。 验证配置的有效性，建立文件I/O通道和统计信息收集。</p>
+<p>HOW层 - 实现细节：</p><ol type="1">
+<li>验证并存储配置文件路径</li>
+<li>初始化LSN计数器为0（或从检查点恢复）</li>
+<li>配置批处理大小和同步间隔参数</li>
+<li>预分配统计信息结构，准备性能监控</li>
+<li>验证文件系统权限和磁盘空间</li>
+</ol>
+<p>关键配置参数：</p><ul>
+<li>max_batch_size_: 控制批量写入的大小，默认1000条记录</li>
+<li>sync_interval_: 控制强制同步的时间间隔，默认1秒</li>
+<li>wal_file_path_: WAL日志文件的完整路径</li>
+</ul>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config_manager</td><td>配置管理器引用，用于获取WAL相关配置 </td></tr>
+    <tr><td class="paramname">wal_file</td><td>WAL文件路径，指定日志文件的存储位置</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>当配置文件无效或文件系统错误时抛出 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>构造函数不会打开文件，文件将在Start()方法中打开 </dd>
+<dd>
+LSN初始化为0，新数据库的起点 </dd></dl>
+
+</div>
+</div>
+<a id="ac0588242d298975ef813f1c344641909" name="ac0588242d298975ef813f1c344641909"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0588242d298975ef813f1c344641909">&#9670;&#160;</a></span>~WALWriter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::WALWriter::~WALWriter </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>析构函数 - 安全关闭WAL写入器 </p>
+<p>WHY层 - 设计意图： WAL写入器的关闭必须保证所有待写入日志都被持久化，避免数据丢失。 优雅关闭防止资源泄漏，确保系统可以安全重启。</p>
+<p>WHAT层 - 功能说明： 停止工作线程，刷新所有缓冲区，确保数据持久化。 清理系统资源，关闭文件句柄，释放内存。</p>
+<p>HOW层 - 实现细节：</p><ol type="1">
+<li>调用Stop()停止工作线程</li>
+<li>强制同步所有待写入数据</li>
+<li>关闭WAL文件句柄</li>
+<li>清理内部数据结构</li>
+<li>记录关闭统计信息</li>
+</ol>
+<dl class="section note"><dt>注解</dt><dd>析构函数会阻塞直到所有数据都被安全写入 </dd>
+<dd>
+这是数据库正常关闭的关键步骤 </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a3e3d97754d180b1dc320218b5cbab8f7" name="a3e3d97754d180b1dc320218b5cbab8f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e3d97754d180b1dc320218b5cbab8f7">&#9670;&#160;</a></span>FormatRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::WALWriter::FormatRecord </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html">WALBuffer::WALRecord</a> &amp;&#160;</td>
+          <td class="paramname"><em>record</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>格式化WAL记录为字符串 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">record</td><td>WAL记录 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>格式化后的字符串 </dd></dl>
+
+</div>
+</div>
+<a id="aafebf408ae45ab7f684aafa996874984" name="aafebf408ae45ab7f684aafa996874984"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafebf408ae45ab7f684aafa996874984">&#9670;&#160;</a></span>GetCurrentLSN()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t sqlcc::WALWriter::GetCurrentLSN </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取当前LSN </p>
+<dl class="section return"><dt>返回</dt><dd>当前LSN </dd></dl>
+
+</div>
+</div>
+<a id="a39422db5fea0c4c2a0239843f9f7008a" name="a39422db5fea0c4c2a0239843f9f7008a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39422db5fea0c4c2a0239843f9f7008a">&#9670;&#160;</a></span>GetStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structsqlcc_1_1WALWriter_1_1WALWriterStats.html">WALWriter::WALWriterStats</a> &amp; sqlcc::WALWriter::GetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取WAL写入器统计信息 </p>
+<dl class="section return"><dt>返回</dt><dd>统计信息引用 </dd></dl>
+
+</div>
+</div>
+<a id="a700f875a0aa04c62bd6c61733f6821a9" name="a700f875a0aa04c62bd6c61733f6821a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a700f875a0aa04c62bd6c61733f6821a9">&#9670;&#160;</a></span>PerformWrite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::WALWriter::PerformWrite </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::unique_ptr&lt; <a class="el" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html">WALBuffer::WALRecord</a> &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>records</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行记录写入 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">records</td><td>要写入的记录 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a668e822678f8a0b99c4d573f1b59d5d0" name="a668e822678f8a0b99c4d573f1b59d5d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a668e822678f8a0b99c4d573f1b59d5d0">&#9670;&#160;</a></span>ResetStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::WALWriter::ResetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>重置统计信息 </p>
+
+</div>
+</div>
+<a id="ac0930017100d7099aea46b6fb09bbe9e" name="ac0930017100d7099aea46b6fb09bbe9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0930017100d7099aea46b6fb09bbe9e">&#9670;&#160;</a></span>Start()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::WALWriter::Start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>启动WAL写入器 - 激活异步日志写入机制 </p>
+<p>WHY层 - 设计意图： WAL写入器的启动标志着数据库进入事务处理状态。 异步写入线程的启动是性能优化的关键，使事务提交不再等待磁盘I/O。</p>
+<p>WHAT层 - 功能说明： 打开WAL文件，启动工作线程，开始接受日志写入请求。 初始化运行状态标志，准备统计信息收集。</p>
+<p>HOW层 - 实现细节：</p><ol type="1">
+<li>打开WAL文件，创建文件流对象</li>
+<li>设置running_标志为true</li>
+<li>创建并启动工作线程WALWriteWorker</li>
+<li>初始化写入队列和条件变量</li>
+<li>记录启动时间戳和初始统计信息</li>
+</ol>
+<p>线程安全保证：</p><ul>
+<li>启动操作是原子的，不会被并发调用</li>
+<li>工作线程独立运行，不影响主线程</li>
+<li>状态标志使用原子操作保证可见性</li>
+</ul>
+<p>性能影响：</p><ul>
+<li>启动后事务提交延迟显著降低</li>
+<li>系统资源消耗增加（一个额外线程）</li>
+<li>I/O性能提升（异步批处理）</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>必须在数据库启动序列中调用 </dd>
+<dd>
+重复调用Start()是安全的（无操作） </dd>
+<dd>
+启动后立即可以接受写入请求 </dd></dl>
+
+</div>
+</div>
+<a id="abf44e9fd9d3053aedc990b19afd58bee" name="abf44e9fd9d3053aedc990b19afd58bee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf44e9fd9d3053aedc990b19afd58bee">&#9670;&#160;</a></span>Stop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::WALWriter::Stop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>停止WAL写入器 - 优雅关闭异步日志系统 </p>
+<p>WHY层 - 设计意图： WAL写入器的停止必须保证数据完整性，防止日志丢失。 优雅停止避免强制终止可能导致的数据不一致。</p>
+<p>WHAT层 - 功能说明： 停止工作线程，处理所有待写入日志，关闭文件。 确保所有缓冲的数据都被持久化到磁盘。</p>
+<p>HOW层 - 实现细节：</p><ol type="1">
+<li>设置running_标志为false，通知工作线程退出</li>
+<li>通过条件变量唤醒工作线程</li>
+<li>等待工作线程完成所有待处理任务</li>
+<li>强制同步所有缓冲数据到磁盘</li>
+<li>关闭WAL文件，释放系统资源</li>
+</ol>
+<p>数据完整性保证：</p><ul>
+<li>工作线程会处理完所有队列中的写入请求</li>
+<li>强制同步确保数据到达磁盘</li>
+<li>文件关闭前进行完整性检查</li>
+</ul>
+<p>阻塞行为：</p><ul>
+<li><a class="el" href="classsqlcc_1_1WALWriter.html#abf44e9fd9d3053aedc990b19afd58bee" title="停止WAL写入器 - 优雅关闭异步日志系统">Stop()</a>会阻塞直到所有数据安全写入</li>
+<li>在高负载情况下可能需要几秒钟</li>
+<li>这是数据库关闭时的必要等待</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>必须在数据库关闭序列中调用 </dd>
+<dd>
+重复调用Stop()是安全的（无操作） </dd>
+<dd>
+调用后写入器进入不可用状态 </dd></dl>
+
+</div>
+</div>
+<a id="ab567399d66e4df77270e69d12a567465" name="ab567399d66e4df77270e69d12a567465"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab567399d66e4df77270e69d12a567465">&#9670;&#160;</a></span>Sync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::WALWriter::Sync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>同步WAL文件到磁盘 - 强制数据持久化 </p>
+<p>WHY层 - 设计意图： WAL同步是ACID属性的D（持久性）保证的关键。 允许应用程序控制数据持久化的时机，平衡性能和可靠性。</p>
+<p>WHAT层 - 功能说明： 强制将所有缓冲的WAL数据刷新到磁盘，确保数据不会因系统崩溃而丢失。 阻塞调用，直到所有数据都被确认写入持久存储。</p>
+<p>HOW层 - 实现细节：</p><ol type="1">
+<li>获取文件锁，保证同步操作的原子性</li>
+<li>调用文件系统的fsync()或等效操作</li>
+<li>等待磁盘确认数据已持久化</li>
+<li>更新统计信息（同步计数和时间）</li>
+<li>返回同步结果状态</li>
+</ol>
+<p>同步策略选择：</p><ul>
+<li>立即同步：每次提交都同步（高可靠性，低性能）</li>
+<li>定期同步：每隔一段时间同步一次（平衡选择）</li>
+<li>组提交：多个事务共享一次同步（高性能）</li>
+</ul>
+<p>性能影响：</p><ul>
+<li>同步操作通常需要几毫秒到几十毫秒</li>
+<li>会阻塞调用线程</li>
+<li>频繁同步会显著降低吞吐量</li>
+</ul>
+<p>使用场景：</p><ul>
+<li>关键事务提交后需要立即确认持久化</li>
+<li>系统关闭前的最终数据刷新</li>
+<li>应用程序需要强一致性保证时</li>
+</ul>
+<dl class="section return"><dt>返回</dt><dd>是否成功同步所有数据到磁盘</dd></dl>
+<dl class="section note"><dt>注解</dt><dd>这是一个阻塞操作，会等待磁盘I/O完成 </dd>
+<dd>
+同步失败通常表示严重的磁盘或文件系统错误 </dd>
+<dd>
+成功同步后，即使系统崩溃也不会丢失数据 </dd></dl>
+
+</div>
+</div>
+<a id="a13204a53b0d627b0d524a8066e662bfe" name="a13204a53b0d627b0d524a8066e662bfe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13204a53b0d627b0d524a8066e662bfe">&#9670;&#160;</a></span>TruncateToLSN()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::WALWriter::TruncateToLSN </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>target_lsn</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>截断WAL日志到指定LSN </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">target_lsn</td><td>目标LSN </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a1f5e886369342fcf40c5eb93bc943bd4" name="a1f5e886369342fcf40c5eb93bc943bd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f5e886369342fcf40c5eb93bc943bd4">&#9670;&#160;</a></span>WALWriteWorker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::WALWriter::WALWriteWorker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>WAL写入工作线程函数 </p>
+
+</div>
+</div>
+<a id="a9ab7d57d0087cc1d64995dd28ec94b26" name="a9ab7d57d0087cc1d64995dd28ec94b26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ab7d57d0087cc1d64995dd28ec94b26">&#9670;&#160;</a></span>WriteRecords()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::WALWriter::WriteRecords </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::unique_ptr&lt; <a class="el" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html">WALBuffer::WALRecord</a> &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>records</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>写入WAL记录到磁盘 - WAL系统的核心API </p>
+<p>WHY层 - 设计意图： 这是WAL机制的核心接口，保证事务的持久性。 通过异步批处理写入，平衡了可靠性和性能。</p>
+<p>WHAT层 - 功能说明： 将一组WAL记录提交给写入器，异步持久化到磁盘。 支持批量写入优化，减少I/O操作次数。</p>
+<p>HOW层 - 实现细节：</p><ol type="1">
+<li>验证写入器运行状态</li>
+<li>创建记录副本，添加到写入队列</li>
+<li>通知工作线程处理新请求</li>
+<li>更新统计信息（写入计数等）</li>
+<li>返回成功状态（不等待实际写入完成）</li>
+</ol>
+<p>异步处理机制：</p><ul>
+<li>主线程立即返回，不等待磁盘I/O</li>
+<li>工作线程在后台批量处理写入</li>
+<li>通过队列解耦生产者和消费者</li>
+</ul>
+<p>错误处理：</p><ul>
+<li>写入器未启动时返回false</li>
+<li>队列满时可以选择阻塞或返回错误</li>
+<li>工作线程处理磁盘I/O错误</li>
+</ul>
+<p>性能优化：</p><ul>
+<li>批量处理减少系统调用次数</li>
+<li>异步处理避免事务阻塞</li>
+<li>内存拷贝最小化</li>
+</ul>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">records</td><td>WAL记录列表，包含需要持久化的日志条目 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功提交到写入队列（不代表已写入磁盘）</dd></dl>
+<dl class="section note"><dt>注解</dt><dd>这是一个异步操作，成功返回不意味着数据已持久化 </dd>
+<dd>
+批量写入可以显著提升性能 </dd>
+<dd>
+记录顺序由LSN保证，不依赖提交顺序 </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ab1db746c5ab2f2efb7dbf0662486850a" name="ab1db746c5ab2f2efb7dbf0662486850a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1db746c5ab2f2efb7dbf0662486850a">&#9670;&#160;</a></span>config_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a>&amp; sqlcc::WALWriter::config_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a623212a2af39ad000d46da8cf094b01d" name="a623212a2af39ad000d46da8cf094b01d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a623212a2af39ad000d46da8cf094b01d">&#9670;&#160;</a></span>current_lsn_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;uint64_t&gt; sqlcc::WALWriter::current_lsn_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4c76dc4e23f329297fae8d48d908ca6b" name="a4c76dc4e23f329297fae8d48d908ca6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c76dc4e23f329297fae8d48d908ca6b">&#9670;&#160;</a></span>file_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::WALWriter::file_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2113757b31d12b922ac8363e9c7ad97c" name="a2113757b31d12b922ac8363e9c7ad97c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2113757b31d12b922ac8363e9c7ad97c">&#9670;&#160;</a></span>max_batch_size_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::WALWriter::max_batch_size_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6c30b43fc12f4407a01f06ef6d2dfd28" name="a6c30b43fc12f4407a01f06ef6d2dfd28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c30b43fc12f4407a01f06ef6d2dfd28">&#9670;&#160;</a></span>queue_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::WALWriter::queue_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8168b0ebc1b243364cf5ea3ff596671c" name="a8168b0ebc1b243364cf5ea3ff596671c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8168b0ebc1b243364cf5ea3ff596671c">&#9670;&#160;</a></span>running_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;bool&gt; sqlcc::WALWriter::running_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a05336b1bda66dbf679f12ce3b4035915" name="a05336b1bda66dbf679f12ce3b4035915"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05336b1bda66dbf679f12ce3b4035915">&#9670;&#160;</a></span>stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1WALWriter_1_1WALWriterStats.html">WALWriterStats</a> sqlcc::WALWriter::stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1de773cdb382c7881f4f27dd661b55a5" name="a1de773cdb382c7881f4f27dd661b55a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1de773cdb382c7881f4f27dd661b55a5">&#9670;&#160;</a></span>stats_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::WALWriter::stats_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9edb16a42d787be8f932eb09e058ae57" name="a9edb16a42d787be8f932eb09e058ae57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9edb16a42d787be8f932eb09e058ae57">&#9670;&#160;</a></span>sync_interval_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::WALWriter::sync_interval_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae60ba597b2a5c89a074e604dea67c0f3" name="ae60ba597b2a5c89a074e604dea67c0f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae60ba597b2a5c89a074e604dea67c0f3">&#9670;&#160;</a></span>wal_file_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ofstream sqlcc::WALWriter::wal_file_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0163e454f80f513bbbe90dc52567b344" name="a0163e454f80f513bbbe90dc52567b344"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0163e454f80f513bbbe90dc52567b344">&#9670;&#160;</a></span>wal_file_path_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string sqlcc::WALWriter::wal_file_path_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a290f6eb20ff42a5b5102f76a53cedac9" name="a290f6eb20ff42a5b5102f76a53cedac9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a290f6eb20ff42a5b5102f76a53cedac9">&#9670;&#160;</a></span>write_cv_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::condition_variable sqlcc::WALWriter::write_cv_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad74961698e489e88859d42920f3295e7" name="ad74961698e489e88859d42920f3295e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad74961698e489e88859d42920f3295e7">&#9670;&#160;</a></span>write_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::WALWriter::write_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0c033d17da3c3ca4ac480c4c557d1a51" name="a0c033d17da3c3ca4ac480c4c557d1a51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c033d17da3c3ca4ac480c4c557d1a51">&#9670;&#160;</a></span>write_queue_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::vector&lt;std::unique_ptr&lt;<a class="el" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html">WALBuffer::WALRecord</a>&gt; &gt; &gt; sqlcc::WALWriter::write_queue_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a927dcde671efaa99933ca73a4c0dfbcb" name="a927dcde671efaa99933ca73a4c0dfbcb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a927dcde671efaa99933ca73a4c0dfbcb">&#9670;&#160;</a></span>write_thread_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::thread sqlcc::WALWriter::write_thread_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="wal__writer_8h_source.html">wal_writer.h</a></li>
+<li><a class="el" href="wal__writer_8cpp.html">wal_writer.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

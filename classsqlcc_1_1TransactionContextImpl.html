@@ -1,0 +1,1441 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::TransactionContextImpl类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html">TransactionContextImpl</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1TransactionContextImpl-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::TransactionContextImpl类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="transaction_2transaction__context__impl_8h_source.html">transaction_context_impl.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::TransactionContextImpl 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1TransactionContextImpl__inherit__graph.png" border="0" usemap="#asqlcc_1_1TransactionContextImpl_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1TransactionContextImpl_inherit__map" id="asqlcc_1_1TransactionContextImpl_inherit__map">
+<area shape="rect" title=" " alt="" coords="5,79,223,104"/>
+<area shape="rect" href="classsqlcc_1_1TransactionContext.html" title=" " alt="" coords="20,5,208,31"/>
+<area shape="poly" title=" " alt="" coords="108,44,110,78,104,79,103,45"/>
+<area shape="poly" title=" " alt="" coords="125,45,124,79,118,78,120,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<div class="dynheader">
+sqlcc::TransactionContextImpl 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1TransactionContextImpl__coll__graph.png" border="0" usemap="#asqlcc_1_1TransactionContextImpl_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1TransactionContextImpl_coll__map" id="asqlcc_1_1TransactionContextImpl_coll__map">
+<area shape="rect" title=" " alt="" coords="5,93,223,119"/>
+<area shape="rect" href="classsqlcc_1_1TransactionContext.html" title=" " alt="" coords="20,5,208,31"/>
+<area shape="poly" title=" " alt="" coords="108,44,110,93,105,93,103,44"/>
+<area shape="poly" title=" " alt="" coords="125,44,123,93,118,93,120,44"/>
+<area shape="rect" href="classsqlcc_1_1TransactionManager.html" title="事务管理器类 &#45; SQLCC数据库系统的ACID属性实现核心" alt="" coords="233,5,427,31"/>
+<area shape="poly" title=" " alt="" coords="289,38,144,96,142,91,287,33"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:acac9e5ce20a22be68a72a70de31b1d46" id="r_acac9e5ce20a22be68a72a70de31b1d46"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#acac9e5ce20a22be68a72a70de31b1d46">TransactionContextImpl</a> (<a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &amp;transaction_manager)</td></tr>
+<tr class="separator:acac9e5ce20a22be68a72a70de31b1d46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4a1f307b7f5a13c963c00be39864dc4" id="r_ac4a1f307b7f5a13c963c00be39864dc4"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#ac4a1f307b7f5a13c963c00be39864dc4">beginTransaction</a> () override</td></tr>
+<tr class="separator:ac4a1f307b7f5a13c963c00be39864dc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2575660cecc6138ac6118419f03eba78" id="r_a2575660cecc6138ac6118419f03eba78"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#a2575660cecc6138ac6118419f03eba78">commitTransaction</a> (const std::string &amp;transaction_id) override</td></tr>
+<tr class="separator:a2575660cecc6138ac6118419f03eba78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11954d49f7cccbd59944e8b2c76a74a8" id="r_a11954d49f7cccbd59944e8b2c76a74a8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#a11954d49f7cccbd59944e8b2c76a74a8">rollbackTransaction</a> (const std::string &amp;transaction_id) override</td></tr>
+<tr class="separator:a11954d49f7cccbd59944e8b2c76a74a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaaf757d7a4a62371a7028f25709a9f2" id="r_acaaf757d7a4a62371a7028f25709a9f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#acaaf757d7a4a62371a7028f25709a9f2">isTransactionActive</a> (const std::string &amp;transaction_id) override</td></tr>
+<tr class="separator:acaaf757d7a4a62371a7028f25709a9f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acac9e5ce20a22be68a72a70de31b1d46" id="r_acac9e5ce20a22be68a72a70de31b1d46"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#acac9e5ce20a22be68a72a70de31b1d46">TransactionContextImpl</a> (<a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &amp;transaction_manager)</td></tr>
+<tr class="separator:acac9e5ce20a22be68a72a70de31b1d46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4a1f307b7f5a13c963c00be39864dc4" id="r_ac4a1f307b7f5a13c963c00be39864dc4"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#ac4a1f307b7f5a13c963c00be39864dc4">beginTransaction</a> () override</td></tr>
+<tr class="separator:ac4a1f307b7f5a13c963c00be39864dc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2575660cecc6138ac6118419f03eba78" id="r_a2575660cecc6138ac6118419f03eba78"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#a2575660cecc6138ac6118419f03eba78">commitTransaction</a> (const std::string &amp;transaction_id) override</td></tr>
+<tr class="separator:a2575660cecc6138ac6118419f03eba78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11954d49f7cccbd59944e8b2c76a74a8" id="r_a11954d49f7cccbd59944e8b2c76a74a8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#a11954d49f7cccbd59944e8b2c76a74a8">rollbackTransaction</a> (const std::string &amp;transaction_id) override</td></tr>
+<tr class="separator:a11954d49f7cccbd59944e8b2c76a74a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaaf757d7a4a62371a7028f25709a9f2" id="r_acaaf757d7a4a62371a7028f25709a9f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#acaaf757d7a4a62371a7028f25709a9f2">isTransactionActive</a> (const std::string &amp;transaction_id) override</td></tr>
+<tr class="separator:acaaf757d7a4a62371a7028f25709a9f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsqlcc_1_1TransactionContext"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsqlcc_1_1TransactionContext')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsqlcc_1_1TransactionContext.html">sqlcc::TransactionContext</a></td></tr>
+<tr class="memitem:a684e54516767ae4789e834a47b569ebb inherit pub_methods_classsqlcc_1_1TransactionContext" id="r_a684e54516767ae4789e834a47b569ebb"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContext.html#a684e54516767ae4789e834a47b569ebb">~TransactionContext</a> ()=default</td></tr>
+<tr class="separator:a684e54516767ae4789e834a47b569ebb inherit pub_methods_classsqlcc_1_1TransactionContext"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a684e54516767ae4789e834a47b569ebb inherit pub_methods_classsqlcc_1_1TransactionContext" id="r_a684e54516767ae4789e834a47b569ebb"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContext.html#a684e54516767ae4789e834a47b569ebb">~TransactionContext</a> ()=default</td></tr>
+<tr class="separator:a684e54516767ae4789e834a47b569ebb inherit pub_methods_classsqlcc_1_1TransactionContext"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:add6472632da081e2abe1d3e35f994269" id="r_add6472632da081e2abe1d3e35f994269"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#add6472632da081e2abe1d3e35f994269">stringToTxnId</a> (const std::string &amp;id) const</td></tr>
+<tr class="separator:add6472632da081e2abe1d3e35f994269"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30a05222346a99553b3a0ace3dd20c99" id="r_a30a05222346a99553b3a0ace3dd20c99"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#a30a05222346a99553b3a0ace3dd20c99">txnIdToString</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> id) const</td></tr>
+<tr class="separator:a30a05222346a99553b3a0ace3dd20c99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add6472632da081e2abe1d3e35f994269" id="r_add6472632da081e2abe1d3e35f994269"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#add6472632da081e2abe1d3e35f994269">stringToTxnId</a> (const std::string &amp;id) const</td></tr>
+<tr class="separator:add6472632da081e2abe1d3e35f994269"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30a05222346a99553b3a0ace3dd20c99" id="r_a30a05222346a99553b3a0ace3dd20c99"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#a30a05222346a99553b3a0ace3dd20c99">txnIdToString</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> id) const</td></tr>
+<tr class="separator:a30a05222346a99553b3a0ace3dd20c99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:acec1be549e6887362940fae95d58dff1" id="r_acec1be549e6887362940fae95d58dff1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#acec1be549e6887362940fae95d58dff1">transaction_manager_</a></td></tr>
+<tr class="separator:acec1be549e6887362940fae95d58dff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么TransactionContextImpl需要适配器模式？</p>
+<p>TransactionManager接口过于复杂且使用内部类型TransactionId：</p><ul>
+<li>复杂性隔离：隐藏TransactionManager的复杂实现细节</li>
+<li>类型简化：将TransactionId转换为易用的字符串ID</li>
+<li>接口简化：提供简洁易用的事务操作API</li>
+<li>错误处理：统一的错误处理和异常转换</li>
+<li>测试支持：便于mock事务管理器进行单元测试</li>
+</ul>
+<p>WHAT: <a class="el" href="classsqlcc_1_1TransactionContextImpl.html">TransactionContextImpl</a> - TransactionContext接口的具体实现</p>
+<p>基于TransactionManager实现TransactionContext接口的适配器类：</p><ul>
+<li>接口实现：完整实现TransactionContext定义的所有方法</li>
+<li>功能委托：将所有操作委托给底层的TransactionManager实例</li>
+<li>类型转换：处理TransactionId与字符串之间的双向转换</li>
+<li>状态管理：维护事务的生命周期和状态转换</li>
+<li>错误处理：统一的错误处理和异常转换机制</li>
+</ul>
+<p>核心特性：</p><ul>
+<li>组合设计：持有TransactionManager的引用，通过组合提供功能</li>
+<li>类型适配：TransactionId与字符串之间的无缝转换</li>
+<li>生命周期管理：事务的完整生命周期管理</li>
+<li>异常安全：保证操作的异常安全性和资源清理</li>
+<li>状态一致性：维护事务状态的一致性和正确性</li>
+</ul>
+<p>HOW: TransactionContextImpl的具体实现机制</p>
+<ol type="1">
+<li>构造函数实现：<ul>
+<li>引用参数：接受TransactionManager的引用参数</li>
+<li>依赖注入：通过构造函数注入事务管理器依赖</li>
+<li>成员初始化：存储TransactionManager引用供后续使用</li>
+<li>生命周期保证：确保事务管理器生命周期长于实现类</li>
+</ul>
+</li>
+<li>类型转换机制：<ul>
+<li><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#add6472632da081e2abe1d3e35f994269">stringToTxnId()</a>：字符串ID转换为TransactionId的私有方法</li>
+<li><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#a30a05222346a99553b3a0ace3dd20c99">txnIdToString()</a>：TransactionId转换为字符串的私有方法</li>
+<li>ID映射表：维护字符串ID与TransactionId的映射关系</li>
+<li>格式验证：验证ID字符串的格式和有效性</li>
+</ul>
+</li>
+<li>事务操作适配：<ul>
+<li><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#ac4a1f307b7f5a13c963c00be39864dc4">beginTransaction()</a>：适配TransactionManager的开始事务接口</li>
+<li><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#a2575660cecc6138ac6118419f03eba78">commitTransaction()</a>：适配TransactionManager的提交事务接口</li>
+<li><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#a11954d49f7cccbd59944e8b2c76a74a8">rollbackTransaction()</a>：适配TransactionManager的回滚事务接口</li>
+<li><a class="el" href="classsqlcc_1_1TransactionContextImpl.html#acaaf757d7a4a62371a7028f25709a9f2">isTransactionActive()</a>：适配TransactionManager的状态查询接口</li>
+</ul>
+</li>
+<li>私有成员设计：<ul>
+<li>transaction_manager_：TransactionManager的引用成员</li>
+<li>引用语义：使用引用而非指针，保证有效性和性能</li>
+<li>线程安全：引用本身不涉及所有权，不需要特殊同步</li>
+<li>访问模式：通过引用调用TransactionManager的所有方法</li>
+</ul>
+</li>
+<li>错误处理策略：<ul>
+<li>异常捕获：捕获TransactionManager可能抛出的异常</li>
+<li>错误转换：将内部异常转换为接口层面的错误</li>
+<li>返回值设计：使用布尔返回值表示操作成功与否</li>
+<li>日志记录：记录操作失败的详细错误信息 </li>
+</ul>
+</li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="acac9e5ce20a22be68a72a70de31b1d46" name="acac9e5ce20a22be68a72a70de31b1d46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acac9e5ce20a22be68a72a70de31b1d46">&#9670;&#160;</a></span>TransactionContextImpl() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::TransactionContextImpl::TransactionContextImpl </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>transaction_manager</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么构造函数需要显式关键字？</p>
+<p>防止隐式类型转换，避免误用：</p><ul>
+<li>类型安全：防止意外的隐式构造</li>
+<li>明确意图：构造函数调用必须明确指定</li>
+<li>编译检查：编译时发现可能的错误用法</li>
+<li>API清晰：接口使用意图更明确</li>
+</ul>
+<p>WHAT: TransactionContextImpl构造函数 - 创建事务上下文实例</p>
+<p>通过依赖注入创建事务上下文实现：</p><ul>
+<li>transaction_manager：底层事务管理器的引用</li>
+<li>组合关系：建立与事务管理器的组合关系</li>
+<li>依赖关系：通过引用注入事务管理器依赖</li>
+<li>生命周期保证：确保事务管理器生命周期长于上下文</li>
+</ul>
+<p>HOW: 构造函数的实现细节</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>验证transaction_manager引用的有效性</li>
+<li>确保存储引擎已正确初始化</li>
+<li>检查事务管理器的可用状态</li>
+</ul>
+</li>
+<li>成员初始化：<ul>
+<li>将transaction_manager引用赋值给成员变量</li>
+<li>建立对象间的组合关系</li>
+<li>准备类型转换所需的内部状态</li>
+</ul>
+</li>
+<li>资源准备：<ul>
+<li>初始化ID映射表和缓存结构</li>
+<li>准备错误处理所需的资源</li>
+<li>设置性能监控的初始状态</li>
+</ul>
+</li>
+<li>异常处理：<ul>
+<li>构造函数可能抛出的异常处理</li>
+<li>资源清理：异常情况下保证资源正确释放</li>
+<li>错误日志：记录初始化失败的原因</li>
+</ul>
+</li>
+<li>线程安全：<ul>
+<li>引用初始化的原子性</li>
+<li>多线程环境下的安全构造</li>
+<li>成员变量初始化的线程安全保证 </li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+<a id="acac9e5ce20a22be68a72a70de31b1d46" name="acac9e5ce20a22be68a72a70de31b1d46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acac9e5ce20a22be68a72a70de31b1d46">&#9670;&#160;</a></span>TransactionContextImpl() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::TransactionContextImpl::TransactionContextImpl </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>transaction_manager</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么构造函数需要显式关键字？</p>
+<p>防止隐式类型转换，避免误用：</p><ul>
+<li>类型安全：防止意外的隐式构造</li>
+<li>明确意图：构造函数调用必须明确指定</li>
+<li>编译检查：编译时发现可能的错误用法</li>
+<li>API清晰：接口使用意图更明确</li>
+</ul>
+<p>WHAT: TransactionContextImpl构造函数 - 创建事务上下文实例</p>
+<p>通过依赖注入创建事务上下文实现：</p><ul>
+<li>transaction_manager：底层事务管理器的引用</li>
+<li>组合关系：建立与事务管理器的组合关系</li>
+<li>依赖关系：通过引用注入事务管理器依赖</li>
+<li>生命周期保证：确保事务管理器生命周期长于上下文</li>
+</ul>
+<p>HOW: 构造函数的实现细节</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>验证transaction_manager引用的有效性</li>
+<li>确保存储引擎已正确初始化</li>
+<li>检查事务管理器的可用状态</li>
+</ul>
+</li>
+<li>成员初始化：<ul>
+<li>将transaction_manager引用赋值给成员变量</li>
+<li>建立对象间的组合关系</li>
+<li>准备类型转换所需的内部状态</li>
+</ul>
+</li>
+<li>资源准备：<ul>
+<li>初始化ID映射表和缓存结构</li>
+<li>准备错误处理所需的资源</li>
+<li>设置性能监控的初始状态</li>
+</ul>
+</li>
+<li>异常处理：<ul>
+<li>构造函数可能抛出的异常处理</li>
+<li>资源清理：异常情况下保证资源正确释放</li>
+<li>错误日志：记录初始化失败的原因</li>
+</ul>
+</li>
+<li>线程安全：<ul>
+<li>引用初始化的原子性</li>
+<li>多线程环境下的安全构造</li>
+<li>成员变量初始化的线程安全保证 </li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="ac4a1f307b7f5a13c963c00be39864dc4" name="ac4a1f307b7f5a13c963c00be39864dc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4a1f307b7f5a13c963c00be39864dc4">&#9670;&#160;</a></span>beginTransaction() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::TransactionContextImpl::beginTransaction </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要beginTransaction方法？</p>
+<p>事务是数据库系统的核心概念，保证数据一致性：</p><ul>
+<li>原子性保证：事务要么完全成功，要么完全失败</li>
+<li>隔离性控制：事务间的并发访问控制</li>
+<li>持久性保证：事务提交的数据持久保存</li>
+<li>一致性维护：事务执行前后数据保持一致性</li>
+<li>并发控制：多事务并发执行的冲突解决</li>
+</ul>
+<p>WHAT: beginTransaction - 开始一个新事务</p>
+<p>启动一个新的数据库事务，获得事务的唯一标识符：</p><ul>
+<li>无参数：事务开始不需要额外的参数</li>
+<li>返回值：新事务的字符串ID，失败时返回空字符串</li>
+<li>ID生成：自动生成全局唯一的事务标识符</li>
+<li>状态管理：将事务标记为活跃状态</li>
+<li>资源分配：为事务分配必要的执行资源</li>
+</ul>
+<p>HOW: beginTransaction的实现机制</p>
+<ol type="1">
+<li>ID生成：<ul>
+<li>调用TransactionManager生成新的TransactionId</li>
+<li>将TransactionId转换为字符串表示</li>
+<li>维护字符串ID与内部ID的映射关系</li>
+</ul>
+</li>
+<li>事务创建：<ul>
+<li>调用transaction_manager_-&gt;<a class="el" href="classsqlcc_1_1TransactionContextImpl.html#ac4a1f307b7f5a13c963c00be39864dc4">beginTransaction()</a></li>
+<li>获取新事务的TransactionId</li>
+<li>在映射表中记录ID对应关系</li>
+</ul>
+</li>
+<li>状态初始化：<ul>
+<li>将事务标记为活跃状态</li>
+<li>初始化事务的执行上下文</li>
+<li>分配事务所需的资源</li>
+</ul>
+</li>
+<li>错误处理：<ul>
+<li>事务创建失败时的错误处理</li>
+<li>资源清理：失败时释放已分配的资源</li>
+<li>返回空字符串表示创建失败</li>
+</ul>
+</li>
+<li>日志记录：<ul>
+<li>记录事务开始的时间和上下文</li>
+<li>审计信息：记录事务发起者的信息</li>
+<li>性能监控：开始事务的性能统计 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1TransactionContext.html#a7e8d081d9981cf2ced8a4c9681de2a90">sqlcc::TransactionContext</a>.</p>
+
+</div>
+</div>
+<a id="ac4a1f307b7f5a13c963c00be39864dc4" name="ac4a1f307b7f5a13c963c00be39864dc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4a1f307b7f5a13c963c00be39864dc4">&#9670;&#160;</a></span>beginTransaction() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::TransactionContextImpl::beginTransaction </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要beginTransaction方法？</p>
+<p>事务是数据库系统的核心概念，保证数据一致性：</p><ul>
+<li>原子性保证：事务要么完全成功，要么完全失败</li>
+<li>隔离性控制：事务间的并发访问控制</li>
+<li>持久性保证：事务提交的数据持久保存</li>
+<li>一致性维护：事务执行前后数据保持一致性</li>
+<li>并发控制：多事务并发执行的冲突解决</li>
+</ul>
+<p>WHAT: beginTransaction - 开始一个新事务</p>
+<p>启动一个新的数据库事务，获得事务的唯一标识符：</p><ul>
+<li>无参数：事务开始不需要额外的参数</li>
+<li>返回值：新事务的字符串ID，失败时返回空字符串</li>
+<li>ID生成：自动生成全局唯一的事务标识符</li>
+<li>状态管理：将事务标记为活跃状态</li>
+<li>资源分配：为事务分配必要的执行资源</li>
+</ul>
+<p>HOW: beginTransaction的实现机制</p>
+<ol type="1">
+<li>ID生成：<ul>
+<li>调用TransactionManager生成新的TransactionId</li>
+<li>将TransactionId转换为字符串表示</li>
+<li>维护字符串ID与内部ID的映射关系</li>
+</ul>
+</li>
+<li>事务创建：<ul>
+<li>调用transaction_manager_-&gt;<a class="el" href="classsqlcc_1_1TransactionContextImpl.html#ac4a1f307b7f5a13c963c00be39864dc4">beginTransaction()</a></li>
+<li>获取新事务的TransactionId</li>
+<li>在映射表中记录ID对应关系</li>
+</ul>
+</li>
+<li>状态初始化：<ul>
+<li>将事务标记为活跃状态</li>
+<li>初始化事务的执行上下文</li>
+<li>分配事务所需的资源</li>
+</ul>
+</li>
+<li>错误处理：<ul>
+<li>事务创建失败时的错误处理</li>
+<li>资源清理：失败时释放已分配的资源</li>
+<li>返回空字符串表示创建失败</li>
+</ul>
+</li>
+<li>日志记录：<ul>
+<li>记录事务开始的时间和上下文</li>
+<li>审计信息：记录事务发起者的信息</li>
+<li>性能监控：开始事务的性能统计 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1TransactionContext.html#a7e8d081d9981cf2ced8a4c9681de2a90">sqlcc::TransactionContext</a>.</p>
+
+</div>
+</div>
+<a id="a2575660cecc6138ac6118419f03eba78" name="a2575660cecc6138ac6118419f03eba78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2575660cecc6138ac6118419f03eba78">&#9670;&#160;</a></span>commitTransaction() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionContextImpl::commitTransaction </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要commitTransaction方法？</p>
+<p>事务提交是事务生命周期的关键环节：</p><ul>
+<li>数据持久化：将事务中修改的数据永久保存</li>
+<li>原子性实现：确保事务的所有修改同时生效</li>
+<li>资源释放：释放事务占用的锁和资源</li>
+<li>状态转换：将事务从活跃状态转换为已提交状态</li>
+<li>并发解锁：释放对其他事务的阻塞</li>
+</ul>
+<p>WHAT: commitTransaction - 提交指定事务</p>
+<p>提交指定ID的事务，使其所有修改永久生效：</p><ul>
+<li>transaction_id：要提交的事务的字符串标识符</li>
+<li>返回值：布尔值表示提交操作是否成功</li>
+<li>原子提交：事务的所有修改同时生效或同时失败</li>
+<li>资源清理：释放事务占用的所有资源</li>
+<li>状态变更：事务状态从活跃变为已提交</li>
+</ul>
+<p>HOW: commitTransaction的实现机制</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>验证transaction_id字符串的有效性</li>
+<li>检查ID格式和长度限制</li>
+<li>查找字符串ID对应的TransactionId</li>
+</ul>
+</li>
+<li>事务验证：<ul>
+<li>检查事务是否存在且处于活跃状态</li>
+<li>验证事务的提交权限</li>
+<li>确保证务没有被其他操作干扰</li>
+</ul>
+</li>
+<li>提交执行：<ul>
+<li>调用transaction_manager_-&gt;<a class="el" href="classsqlcc_1_1TransactionContextImpl.html#a2575660cecc6138ac6118419f03eba78">commitTransaction()</a></li>
+<li>传递对应的TransactionId</li>
+<li>执行事务的提交逻辑</li>
+</ul>
+</li>
+<li>资源清理：<ul>
+<li>释放事务占用的数据库锁</li>
+<li>清理事务的执行上下文</li>
+<li>从活跃事务列表中移除事务</li>
+</ul>
+</li>
+<li>状态更新：<ul>
+<li>将事务状态标记为已提交</li>
+<li>更新事务的完成时间戳</li>
+<li>通知相关的监控和审计系统</li>
+</ul>
+</li>
+<li>错误处理：<ul>
+<li>提交失败时的回滚处理</li>
+<li>部分提交情况的处理策略</li>
+<li>返回false并记录详细错误信息</li>
+</ul>
+</li>
+<li>日志记录：<ul>
+<li>记录事务提交的时间和结果</li>
+<li>审计追踪：记录提交操作的详细信息</li>
+<li>性能统计：记录提交操作的耗时 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1TransactionContext.html#ad9e0817fc4ab7e4735a4dc499b7d9ac3">sqlcc::TransactionContext</a>.</p>
+
+</div>
+</div>
+<a id="a2575660cecc6138ac6118419f03eba78" name="a2575660cecc6138ac6118419f03eba78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2575660cecc6138ac6118419f03eba78">&#9670;&#160;</a></span>commitTransaction() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionContextImpl::commitTransaction </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要commitTransaction方法？</p>
+<p>事务提交是事务生命周期的关键环节：</p><ul>
+<li>数据持久化：将事务中修改的数据永久保存</li>
+<li>原子性实现：确保事务的所有修改同时生效</li>
+<li>资源释放：释放事务占用的锁和资源</li>
+<li>状态转换：将事务从活跃状态转换为已提交状态</li>
+<li>并发解锁：释放对其他事务的阻塞</li>
+</ul>
+<p>WHAT: commitTransaction - 提交指定事务</p>
+<p>提交指定ID的事务，使其所有修改永久生效：</p><ul>
+<li>transaction_id：要提交的事务的字符串标识符</li>
+<li>返回值：布尔值表示提交操作是否成功</li>
+<li>原子提交：事务的所有修改同时生效或同时失败</li>
+<li>资源清理：释放事务占用的所有资源</li>
+<li>状态变更：事务状态从活跃变为已提交</li>
+</ul>
+<p>HOW: commitTransaction的实现机制</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>验证transaction_id字符串的有效性</li>
+<li>检查ID格式和长度限制</li>
+<li>查找字符串ID对应的TransactionId</li>
+</ul>
+</li>
+<li>事务验证：<ul>
+<li>检查事务是否存在且处于活跃状态</li>
+<li>验证事务的提交权限</li>
+<li>确保证务没有被其他操作干扰</li>
+</ul>
+</li>
+<li>提交执行：<ul>
+<li>调用transaction_manager_-&gt;<a class="el" href="classsqlcc_1_1TransactionContextImpl.html#a2575660cecc6138ac6118419f03eba78">commitTransaction()</a></li>
+<li>传递对应的TransactionId</li>
+<li>执行事务的提交逻辑</li>
+</ul>
+</li>
+<li>资源清理：<ul>
+<li>释放事务占用的数据库锁</li>
+<li>清理事务的执行上下文</li>
+<li>从活跃事务列表中移除事务</li>
+</ul>
+</li>
+<li>状态更新：<ul>
+<li>将事务状态标记为已提交</li>
+<li>更新事务的完成时间戳</li>
+<li>通知相关的监控和审计系统</li>
+</ul>
+</li>
+<li>错误处理：<ul>
+<li>提交失败时的回滚处理</li>
+<li>部分提交情况的处理策略</li>
+<li>返回false并记录详细错误信息</li>
+</ul>
+</li>
+<li>日志记录：<ul>
+<li>记录事务提交的时间和结果</li>
+<li>审计追踪：记录提交操作的详细信息</li>
+<li>性能统计：记录提交操作的耗时 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1TransactionContext.html#ad9e0817fc4ab7e4735a4dc499b7d9ac3">sqlcc::TransactionContext</a>.</p>
+
+</div>
+</div>
+<a id="acaaf757d7a4a62371a7028f25709a9f2" name="acaaf757d7a4a62371a7028f25709a9f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaaf757d7a4a62371a7028f25709a9f2">&#9670;&#160;</a></span>isTransactionActive() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionContextImpl::isTransactionActive </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要isTransactionActive方法？</p>
+<p>事务状态查询是事务管理的重要辅助功能：</p><ul>
+<li>状态检查：在执行操作前验证事务状态</li>
+<li>并发控制：避免对已完成事务的操作</li>
+<li>资源管理：检查事务是否仍然占用资源</li>
+<li>调试支持：开发和调试时的事务状态监控</li>
+<li>监控告警：系统监控和性能分析</li>
+</ul>
+<p>WHAT: isTransactionActive - 检查事务是否处于活跃状态</p>
+<p>查询指定ID的事务是否仍然处于活跃状态：</p><ul>
+<li>transaction_id：要检查的事务的字符串标识符</li>
+<li>返回值：布尔值表示事务是否活跃</li>
+<li>状态查询：检查事务是否仍在执行中</li>
+<li>存在性验证：确认事务ID对应的有效性</li>
+<li>性能友好：轻量级的状态查询操作</li>
+</ul>
+<p>HOW: isTransactionActive的实现机制</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>验证transaction_id字符串的有效性</li>
+<li>检查ID格式和长度限制</li>
+<li>查找字符串ID对应的TransactionId</li>
+</ul>
+</li>
+<li>事务查找：<ul>
+<li>在活跃事务列表中查找指定事务</li>
+<li>检查事务是否存在</li>
+<li>验证事务ID的映射关系</li>
+</ul>
+</li>
+<li>状态查询：<ul>
+<li>调用transaction_manager_-&gt;<a class="el" href="classsqlcc_1_1TransactionContextImpl.html#acaaf757d7a4a62371a7028f25709a9f2">isTransactionActive()</a></li>
+<li>传递对应的TransactionId</li>
+<li>获取事务的活跃状态</li>
+</ul>
+</li>
+<li>结果处理：<ul>
+<li>返回事务的活跃状态</li>
+<li>处理事务不存在的情况</li>
+<li>异常情况下返回false</li>
+</ul>
+</li>
+<li>缓存优化：<ul>
+<li>维护活跃事务的状态缓存</li>
+<li>减少对TransactionManager的调用</li>
+<li>提高查询性能</li>
+</ul>
+</li>
+<li>错误处理：<ul>
+<li>处理TransactionManager查询异常</li>
+<li>记录查询过程中的错误信息</li>
+<li>保证查询操作的异常安全性 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1TransactionContext.html#aded87d13c0389b8b276b35e8d18ad038">sqlcc::TransactionContext</a>.</p>
+
+</div>
+</div>
+<a id="acaaf757d7a4a62371a7028f25709a9f2" name="acaaf757d7a4a62371a7028f25709a9f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaaf757d7a4a62371a7028f25709a9f2">&#9670;&#160;</a></span>isTransactionActive() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionContextImpl::isTransactionActive </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要isTransactionActive方法？</p>
+<p>事务状态查询是事务管理的重要辅助功能：</p><ul>
+<li>状态检查：在执行操作前验证事务状态</li>
+<li>并发控制：避免对已完成事务的操作</li>
+<li>资源管理：检查事务是否仍然占用资源</li>
+<li>调试支持：开发和调试时的事务状态监控</li>
+<li>监控告警：系统监控和性能分析</li>
+</ul>
+<p>WHAT: isTransactionActive - 检查事务是否处于活跃状态</p>
+<p>查询指定ID的事务是否仍然处于活跃状态：</p><ul>
+<li>transaction_id：要检查的事务的字符串标识符</li>
+<li>返回值：布尔值表示事务是否活跃</li>
+<li>状态查询：检查事务是否仍在执行中</li>
+<li>存在性验证：确认事务ID对应的有效性</li>
+<li>性能友好：轻量级的状态查询操作</li>
+</ul>
+<p>HOW: isTransactionActive的实现机制</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>验证transaction_id字符串的有效性</li>
+<li>检查ID格式和长度限制</li>
+<li>查找字符串ID对应的TransactionId</li>
+</ul>
+</li>
+<li>事务查找：<ul>
+<li>在活跃事务列表中查找指定事务</li>
+<li>检查事务是否存在</li>
+<li>验证事务ID的映射关系</li>
+</ul>
+</li>
+<li>状态查询：<ul>
+<li>调用transaction_manager_-&gt;<a class="el" href="classsqlcc_1_1TransactionContextImpl.html#acaaf757d7a4a62371a7028f25709a9f2">isTransactionActive()</a></li>
+<li>传递对应的TransactionId</li>
+<li>获取事务的活跃状态</li>
+</ul>
+</li>
+<li>结果处理：<ul>
+<li>返回事务的活跃状态</li>
+<li>处理事务不存在的情况</li>
+<li>异常情况下返回false</li>
+</ul>
+</li>
+<li>缓存优化：<ul>
+<li>维护活跃事务的状态缓存</li>
+<li>减少对TransactionManager的调用</li>
+<li>提高查询性能</li>
+</ul>
+</li>
+<li>错误处理：<ul>
+<li>处理TransactionManager查询异常</li>
+<li>记录查询过程中的错误信息</li>
+<li>保证查询操作的异常安全性 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1TransactionContext.html#aded87d13c0389b8b276b35e8d18ad038">sqlcc::TransactionContext</a>.</p>
+
+</div>
+</div>
+<a id="a11954d49f7cccbd59944e8b2c76a74a8" name="a11954d49f7cccbd59944e8b2c76a74a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11954d49f7cccbd59944e8b2c76a74a8">&#9670;&#160;</a></span>rollbackTransaction() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionContextImpl::rollbackTransaction </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要rollbackTransaction方法？</p>
+<p>事务回滚是事务失败恢复的关键机制：</p><ul>
+<li>错误恢复：撤销失败事务的所有修改</li>
+<li>数据一致性：恢复到事务开始前的状态</li>
+<li>资源释放：释放事务占用的锁和资源</li>
+<li>状态重置：将事务状态重置为已回滚</li>
+<li>并发恢复：解除对其他事务的阻塞</li>
+</ul>
+<p>WHAT: rollbackTransaction - 回滚指定事务</p>
+<p>撤销指定ID事务的所有修改，恢复到事务开始前的状态：</p><ul>
+<li>transaction_id：要回滚的事务的字符串标识符</li>
+<li>返回值：布尔值表示回滚操作是否成功</li>
+<li>完整回滚：撤销事务的所有修改操作</li>
+<li>状态重置：事务状态变为已回滚</li>
+<li>资源清理：释放事务占用的所有资源</li>
+</ul>
+<p>HOW: rollbackTransaction的实现机制</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>验证transaction_id字符串的有效性</li>
+<li>检查ID格式和长度限制</li>
+<li>查找字符串ID对应的TransactionId</li>
+</ul>
+</li>
+<li>事务验证：<ul>
+<li>检查事务是否存在且处于活跃状态</li>
+<li>验证事务的回滚权限</li>
+<li>确保证务可以被安全回滚</li>
+</ul>
+</li>
+<li>回滚执行：<ul>
+<li>调用transaction_manager_-&gt;<a class="el" href="classsqlcc_1_1TransactionContextImpl.html#a11954d49f7cccbd59944e8b2c76a74a8">rollbackTransaction()</a></li>
+<li>传递对应的TransactionId</li>
+<li>执行事务的回滚逻辑</li>
+</ul>
+</li>
+<li>数据恢复：<ul>
+<li>撤销事务中所有的数据修改</li>
+<li>恢复到事务开始前的数据状态</li>
+<li>处理undo日志的回放</li>
+</ul>
+</li>
+<li>资源清理：<ul>
+<li>释放事务占用的数据库锁</li>
+<li>清理事务的执行上下文</li>
+<li>从活跃事务列表中移除事务</li>
+</ul>
+</li>
+<li>状态更新：<ul>
+<li>将事务状态标记为已回滚</li>
+<li>更新事务的完成时间戳</li>
+<li>记录回滚的原因和上下文</li>
+</ul>
+</li>
+<li>错误处理：<ul>
+<li>回滚失败时的错误处理策略</li>
+<li>部分回滚情况的处理</li>
+<li>返回false并记录详细错误信息</li>
+</ul>
+</li>
+<li>日志记录：<ul>
+<li>记录事务回滚的时间和原因</li>
+<li>审计追踪：记录回滚操作的详细信息</li>
+<li>性能统计：记录回滚操作的耗时 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1TransactionContext.html#a6b9b8001ab4bca005153033b0cec1117">sqlcc::TransactionContext</a>.</p>
+
+</div>
+</div>
+<a id="a11954d49f7cccbd59944e8b2c76a74a8" name="a11954d49f7cccbd59944e8b2c76a74a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11954d49f7cccbd59944e8b2c76a74a8">&#9670;&#160;</a></span>rollbackTransaction() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionContextImpl::rollbackTransaction </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要rollbackTransaction方法？</p>
+<p>事务回滚是事务失败恢复的关键机制：</p><ul>
+<li>错误恢复：撤销失败事务的所有修改</li>
+<li>数据一致性：恢复到事务开始前的状态</li>
+<li>资源释放：释放事务占用的锁和资源</li>
+<li>状态重置：将事务状态重置为已回滚</li>
+<li>并发恢复：解除对其他事务的阻塞</li>
+</ul>
+<p>WHAT: rollbackTransaction - 回滚指定事务</p>
+<p>撤销指定ID事务的所有修改，恢复到事务开始前的状态：</p><ul>
+<li>transaction_id：要回滚的事务的字符串标识符</li>
+<li>返回值：布尔值表示回滚操作是否成功</li>
+<li>完整回滚：撤销事务的所有修改操作</li>
+<li>状态重置：事务状态变为已回滚</li>
+<li>资源清理：释放事务占用的所有资源</li>
+</ul>
+<p>HOW: rollbackTransaction的实现机制</p>
+<ol type="1">
+<li>参数验证：<ul>
+<li>验证transaction_id字符串的有效性</li>
+<li>检查ID格式和长度限制</li>
+<li>查找字符串ID对应的TransactionId</li>
+</ul>
+</li>
+<li>事务验证：<ul>
+<li>检查事务是否存在且处于活跃状态</li>
+<li>验证事务的回滚权限</li>
+<li>确保证务可以被安全回滚</li>
+</ul>
+</li>
+<li>回滚执行：<ul>
+<li>调用transaction_manager_-&gt;<a class="el" href="classsqlcc_1_1TransactionContextImpl.html#a11954d49f7cccbd59944e8b2c76a74a8">rollbackTransaction()</a></li>
+<li>传递对应的TransactionId</li>
+<li>执行事务的回滚逻辑</li>
+</ul>
+</li>
+<li>数据恢复：<ul>
+<li>撤销事务中所有的数据修改</li>
+<li>恢复到事务开始前的数据状态</li>
+<li>处理undo日志的回放</li>
+</ul>
+</li>
+<li>资源清理：<ul>
+<li>释放事务占用的数据库锁</li>
+<li>清理事务的执行上下文</li>
+<li>从活跃事务列表中移除事务</li>
+</ul>
+</li>
+<li>状态更新：<ul>
+<li>将事务状态标记为已回滚</li>
+<li>更新事务的完成时间戳</li>
+<li>记录回滚的原因和上下文</li>
+</ul>
+</li>
+<li>错误处理：<ul>
+<li>回滚失败时的错误处理策略</li>
+<li>部分回滚情况的处理</li>
+<li>返回false并记录详细错误信息</li>
+</ul>
+</li>
+<li>日志记录：<ul>
+<li>记录事务回滚的时间和原因</li>
+<li>审计追踪：记录回滚操作的详细信息</li>
+<li>性能统计：记录回滚操作的耗时 </li>
+</ul>
+</li>
+</ol>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1TransactionContext.html#a6b9b8001ab4bca005153033b0cec1117">sqlcc::TransactionContext</a>.</p>
+
+</div>
+</div>
+<a id="add6472632da081e2abe1d3e35f994269" name="add6472632da081e2abe1d3e35f994269"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add6472632da081e2abe1d3e35f994269">&#9670;&#160;</a></span>stringToTxnId() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> sqlcc::TransactionContextImpl::stringToTxnId </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要stringToTxnId私有方法？</p>
+<p>TransactionManager使用内部TransactionId类型，但接口使用字符串：</p><ul>
+<li>类型转换：将外部字符串ID转换为内部TransactionId</li>
+<li>封装隔离：隐藏内部ID类型的实现细节</li>
+<li>一致性保证：维护字符串ID与内部ID的映射关系</li>
+<li>错误处理：处理无效ID字符串的转换错误</li>
+<li>性能优化：缓存ID转换结果避免重复计算</li>
+</ul>
+<p>WHAT: stringToTxnId - 字符串ID转换为TransactionId</p>
+<p>将字符串形式的事务ID转换为内部的TransactionId类型：</p><ul>
+<li>id：字符串形式的事务标识符</li>
+<li>返回值：对应的TransactionId内部类型</li>
+<li>映射查找：在ID映射表中查找对应的内部ID</li>
+<li>格式验证：验证字符串ID的格式正确性</li>
+<li>异常处理：处理无效ID字符串的情况</li>
+</ul>
+<p>HOW: stringToTxnId的实现细节</p>
+<ol type="1">
+<li>格式验证：<ul>
+<li>检查字符串ID的格式规范</li>
+<li>验证ID的长度和字符组成</li>
+<li>处理特殊字符和编码问题</li>
+</ul>
+</li>
+<li>映射查找：<ul>
+<li>在字符串ID到TransactionId的映射表中查找</li>
+<li>处理缓存命中和未命中的情况</li>
+<li>更新缓存的访问统计信息</li>
+</ul>
+</li>
+<li>类型转换：<ul>
+<li>将字符串解析为TransactionId</li>
+<li>处理不同格式的ID表示</li>
+<li>验证转换结果的有效性</li>
+</ul>
+</li>
+<li>错误处理：<ul>
+<li>处理无效字符串ID的情况</li>
+<li>记录转换失败的错误信息</li>
+<li>返回适当的错误指示值</li>
+</ul>
+</li>
+<li>性能优化：<ul>
+<li>维护ID转换的缓存机制</li>
+<li>使用高效的数据结构存储映射</li>
+<li>实现LRU或其他缓存替换策略 </li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+<a id="add6472632da081e2abe1d3e35f994269" name="add6472632da081e2abe1d3e35f994269"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add6472632da081e2abe1d3e35f994269">&#9670;&#160;</a></span>stringToTxnId() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> sqlcc::TransactionContextImpl::stringToTxnId </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要stringToTxnId私有方法？</p>
+<p>TransactionManager使用内部TransactionId类型，但接口使用字符串：</p><ul>
+<li>类型转换：将外部字符串ID转换为内部TransactionId</li>
+<li>封装隔离：隐藏内部ID类型的实现细节</li>
+<li>一致性保证：维护字符串ID与内部ID的映射关系</li>
+<li>错误处理：处理无效ID字符串的转换错误</li>
+<li>性能优化：缓存ID转换结果避免重复计算</li>
+</ul>
+<p>WHAT: stringToTxnId - 字符串ID转换为TransactionId</p>
+<p>将字符串形式的事务ID转换为内部的TransactionId类型：</p><ul>
+<li>id：字符串形式的事务标识符</li>
+<li>返回值：对应的TransactionId内部类型</li>
+<li>映射查找：在ID映射表中查找对应的内部ID</li>
+<li>格式验证：验证字符串ID的格式正确性</li>
+<li>异常处理：处理无效ID字符串的情况</li>
+</ul>
+<p>HOW: stringToTxnId的实现细节</p>
+<ol type="1">
+<li>格式验证：<ul>
+<li>检查字符串ID的格式规范</li>
+<li>验证ID的长度和字符组成</li>
+<li>处理特殊字符和编码问题</li>
+</ul>
+</li>
+<li>映射查找：<ul>
+<li>在字符串ID到TransactionId的映射表中查找</li>
+<li>处理缓存命中和未命中的情况</li>
+<li>更新缓存的访问统计信息</li>
+</ul>
+</li>
+<li>类型转换：<ul>
+<li>将字符串解析为TransactionId</li>
+<li>处理不同格式的ID表示</li>
+<li>验证转换结果的有效性</li>
+</ul>
+</li>
+<li>错误处理：<ul>
+<li>处理无效字符串ID的情况</li>
+<li>记录转换失败的错误信息</li>
+<li>返回适当的错误指示值</li>
+</ul>
+</li>
+<li>性能优化：<ul>
+<li>维护ID转换的缓存机制</li>
+<li>使用高效的数据结构存储映射</li>
+<li>实现LRU或其他缓存替换策略 </li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+<a id="a30a05222346a99553b3a0ace3dd20c99" name="a30a05222346a99553b3a0ace3dd20c99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30a05222346a99553b3a0ace3dd20c99">&#9670;&#160;</a></span>txnIdToString() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::TransactionContextImpl::txnIdToString </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要txnIdToString私有方法？</p>
+<p>接口需要返回字符串ID，但TransactionManager使用内部TransactionId：</p><ul>
+<li>类型转换：将内部TransactionId转换为外部字符串ID</li>
+<li>接口一致性：保证接口返回类型的一致性</li>
+<li>封装隔离：隐藏内部ID类型的表示细节</li>
+<li>格式标准化：提供标准化的字符串ID格式</li>
+<li>调试友好：便于日志记录和调试输出</li>
+</ul>
+<p>WHAT: txnIdToString - TransactionId转换为字符串ID</p>
+<p>将内部的TransactionId类型转换为字符串形式：</p><ul>
+<li>id：内部的TransactionId类型值</li>
+<li>返回值：对应的字符串形式标识符</li>
+<li>格式化输出：将内部ID格式化为标准字符串</li>
+<li>唯一性保证：确保字符串表示的唯一性和可读性</li>
+<li>错误处理：处理无效TransactionId的转换</li>
+</ul>
+<p>HOW: txnIdToString的实现细节</p>
+<ol type="1">
+<li>有效性检查：<ul>
+<li>验证TransactionId的有效性</li>
+<li>检查ID是否在有效范围内</li>
+<li>处理特殊值和边界情况</li>
+</ul>
+</li>
+<li>格式转换：<ul>
+<li>将TransactionId转换为标准字符串格式</li>
+<li>应用统一的ID编码规则</li>
+<li>确保字符串的可读性和唯一性</li>
+</ul>
+</li>
+<li>映射记录：<ul>
+<li>在TransactionId到字符串的映射表中记录</li>
+<li>维护双向映射关系的一致性</li>
+<li>更新映射表的访问统计</li>
+</ul>
+</li>
+<li>错误处理：<ul>
+<li>处理无效TransactionId的情况</li>
+<li>记录转换失败的详细信息</li>
+<li>返回适当的错误表示</li>
+</ul>
+</li>
+<li>性能优化：<ul>
+<li>缓存转换结果避免重复计算</li>
+<li>使用高效的字符串格式化方法</li>
+<li>实现转换结果的内存池管理 </li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+<a id="a30a05222346a99553b3a0ace3dd20c99" name="a30a05222346a99553b3a0ace3dd20c99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30a05222346a99553b3a0ace3dd20c99">&#9670;&#160;</a></span>txnIdToString() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::TransactionContextImpl::txnIdToString </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要txnIdToString私有方法？</p>
+<p>接口需要返回字符串ID，但TransactionManager使用内部TransactionId：</p><ul>
+<li>类型转换：将内部TransactionId转换为外部字符串ID</li>
+<li>接口一致性：保证接口返回类型的一致性</li>
+<li>封装隔离：隐藏内部ID类型的表示细节</li>
+<li>格式标准化：提供标准化的字符串ID格式</li>
+<li>调试友好：便于日志记录和调试输出</li>
+</ul>
+<p>WHAT: txnIdToString - TransactionId转换为字符串ID</p>
+<p>将内部的TransactionId类型转换为字符串形式：</p><ul>
+<li>id：内部的TransactionId类型值</li>
+<li>返回值：对应的字符串形式标识符</li>
+<li>格式化输出：将内部ID格式化为标准字符串</li>
+<li>唯一性保证：确保字符串表示的唯一性和可读性</li>
+<li>错误处理：处理无效TransactionId的转换</li>
+</ul>
+<p>HOW: txnIdToString的实现细节</p>
+<ol type="1">
+<li>有效性检查：<ul>
+<li>验证TransactionId的有效性</li>
+<li>检查ID是否在有效范围内</li>
+<li>处理特殊值和边界情况</li>
+</ul>
+</li>
+<li>格式转换：<ul>
+<li>将TransactionId转换为标准字符串格式</li>
+<li>应用统一的ID编码规则</li>
+<li>确保字符串的可读性和唯一性</li>
+</ul>
+</li>
+<li>映射记录：<ul>
+<li>在TransactionId到字符串的映射表中记录</li>
+<li>维护双向映射关系的一致性</li>
+<li>更新映射表的访问统计</li>
+</ul>
+</li>
+<li>错误处理：<ul>
+<li>处理无效TransactionId的情况</li>
+<li>记录转换失败的详细信息</li>
+<li>返回适当的错误表示</li>
+</ul>
+</li>
+<li>性能优化：<ul>
+<li>缓存转换结果避免重复计算</li>
+<li>使用高效的字符串格式化方法</li>
+<li>实现转换结果的内存池管理 </li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="acec1be549e6887362940fae95d58dff1" name="acec1be549e6887362940fae95d58dff1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acec1be549e6887362940fae95d58dff1">&#9670;&#160;</a></span>transaction_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &amp; sqlcc::TransactionContextImpl::transaction_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHY: 为什么需要transaction_manager_私有成员？</p>
+<p>TransactionContextImpl通过组合TransactionManager提供功能：</p><ul>
+<li>功能委托：所有事务操作都委托给TransactionManager</li>
+<li>资源管理：引用管理TransactionManager的生命周期</li>
+<li>依赖注入：通过构造函数注入，符合依赖倒置原则</li>
+<li>测试友好：可以注入mock对象进行单元测试</li>
+<li>封装隔离：隐藏TransactionManager的具体实现细节</li>
+</ul>
+<p>WHAT: transaction_manager_ - 底层事务管理器的引用</p>
+<p>持有TransactionManager实例的私有引用成员变量：</p><ul>
+<li>类型：TransactionManager&amp;（引用类型）</li>
+<li>生命周期：与TransactionContextImpl实例一致</li>
+<li>所有权：不拥有TransactionManager的所有权</li>
+<li>线程安全：引用本身不涉及所有权，不需要特殊同步</li>
+<li>访问模式：通过引用调用TransactionManager的所有方法</li>
+</ul>
+<p>HOW: transaction_manager_成员的使用和管理</p>
+<ol type="1">
+<li>初始化：<ul>
+<li>在构造函数中通过参数引用赋值</li>
+<li>建立对象间的组合关系</li>
+<li>验证引用的有效性</li>
+</ul>
+</li>
+<li>使用模式：<ul>
+<li>在所有接口方法中调用对应的TransactionManager方法</li>
+<li>每次使用前确保引用的有效性</li>
+<li>处理TransactionManager方法可能抛出的异常</li>
+</ul>
+</li>
+<li>生命周期管理：<ul>
+<li>引用不管理被引用对象的生命周期</li>
+<li>依赖注入保证TransactionManager生命周期长于引用</li>
+<li>避免悬挂引用的风险</li>
+</ul>
+</li>
+<li>线程安全：<ul>
+<li>引用访问本身是线程安全的</li>
+<li>TransactionManager需要保证自身的线程安全</li>
+<li>多线程环境下的并发访问保护</li>
+</ul>
+</li>
+<li>错误处理：<ul>
+<li>检查引用是否仍然有效</li>
+<li>处理TransactionManager方法抛出的异常</li>
+<li>记录操作失败的详细错误信息</li>
+</ul>
+</li>
+<li>性能考虑：<ul>
+<li>引用访问的性能开销最小</li>
+<li>避免了指针解引用的额外开销</li>
+<li>直接调用被引用对象的方法 </li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="transaction_2transaction__context__impl_8h_source.html">transaction/transaction_context_impl.h</a></li>
+<li><a class="el" href="transaction__context__impl_8h_source.html">transaction_context_impl.h</a></li>
+<li><a class="el" href="transaction__context__impl_8cpp.html">transaction_context_impl.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

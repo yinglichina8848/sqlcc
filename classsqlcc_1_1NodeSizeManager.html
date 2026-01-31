@@ -1,0 +1,750 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::NodeSizeManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1NodeSizeManager.html">NodeSizeManager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pub-static-attribs">静态 Public 属性</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1NodeSizeManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::NodeSizeManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>节点大小管理器  
+ <a href="classsqlcc_1_1NodeSizeManager.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="node__size__manager_8h_source.html">node_size_manager.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a6b82bf3bedbae9522ba1d6d8e1ae4a29" id="r_a6b82bf3bedbae9522ba1d6d8e1ae4a29"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#a6b82bf3bedbae9522ba1d6d8e1ae4a29">record_node_stats</a> (const std::string &amp;node_type, const std::vector&lt; size_t &gt; &amp;entry_sizes, size_t current_capacity)</td></tr>
+<tr class="memdesc:a6b82bf3bedbae9522ba1d6d8e1ae4a29"><td class="mdescLeft">&#160;</td><td class="mdescRight">记录节点统计信息  <br /></td></tr>
+<tr class="separator:a6b82bf3bedbae9522ba1d6d8e1ae4a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae9b71de8d7314cda0d7048dac8ee8a4" id="r_aae9b71de8d7314cda0d7048dac8ee8a4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#aae9b71de8d7314cda0d7048dac8ee8a4">get_recommended_capacity</a> (const std::string &amp;node_type) const</td></tr>
+<tr class="memdesc:aae9b71de8d7314cda0d7048dac8ee8a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取推荐容量  <br /></td></tr>
+<tr class="separator:aae9b71de8d7314cda0d7048dac8ee8a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee9593f6b3ba0aa2a8aeee15e1cd8a63" id="r_aee9593f6b3ba0aa2a8aeee15e1cd8a63"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#aee9593f6b3ba0aa2a8aeee15e1cd8a63">should_split_node</a> (const std::string &amp;node_type, size_t current_entries, size_t current_size) const</td></tr>
+<tr class="memdesc:aee9593f6b3ba0aa2a8aeee15e1cd8a63"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断是否需要分裂节点  <br /></td></tr>
+<tr class="separator:aee9593f6b3ba0aa2a8aeee15e1cd8a63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5aacbb6596f908699ea5c3619feee5c0" id="r_a5aacbb6596f908699ea5c3619feee5c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1NodeSizeStats.html">NodeSizeStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#a5aacbb6596f908699ea5c3619feee5c0">get_stats</a> (const std::string &amp;node_type) const</td></tr>
+<tr class="memdesc:a5aacbb6596f908699ea5c3619feee5c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取统计信息  <br /></td></tr>
+<tr class="separator:a5aacbb6596f908699ea5c3619feee5c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af66e4c8fc9d585d8298da58cb07fcad4" id="r_af66e4c8fc9d585d8298da58cb07fcad4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#af66e4c8fc9d585d8298da58cb07fcad4">reset_stats</a> (const std::string &amp;node_type)</td></tr>
+<tr class="memdesc:af66e4c8fc9d585d8298da58cb07fcad4"><td class="mdescLeft">&#160;</td><td class="mdescRight">重置统计信息  <br /></td></tr>
+<tr class="separator:af66e4c8fc9d585d8298da58cb07fcad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5edc05208a188ba862f31f5b5a0503a5" id="r_a5edc05208a188ba862f31f5b5a0503a5"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#a5edc05208a188ba862f31f5b5a0503a5">get_performance_report</a> () const</td></tr>
+<tr class="memdesc:a5edc05208a188ba862f31f5b5a0503a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">生成性能报告  <br /></td></tr>
+<tr class="separator:a5edc05208a188ba862f31f5b5a0503a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a29ab4102f56ec5d50e05a49f7f67e1d9" id="r_a29ab4102f56ec5d50e05a49f7f67e1d9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1NodeSizeManager.html">NodeSizeManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#a29ab4102f56ec5d50e05a49f7f67e1d9">get_instance</a> ()</td></tr>
+<tr class="memdesc:a29ab4102f56ec5d50e05a49f7f67e1d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取单例实例  <br /></td></tr>
+<tr class="separator:a29ab4102f56ec5d50e05a49f7f67e1d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+静态 Public 属性</h2></td></tr>
+<tr class="memitem:a9ef61132c97119c3208115b0f7abed92" id="r_a9ef61132c97119c3208115b0f7abed92"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#a9ef61132c97119c3208115b0f7abed92">MIN_CAPACITY</a> = 4</td></tr>
+<tr class="separator:a9ef61132c97119c3208115b0f7abed92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1499fd9f2604ce55df99f6d3368ffbce" id="r_a1499fd9f2604ce55df99f6d3368ffbce"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#a1499fd9f2604ce55df99f6d3368ffbce">MAX_CAPACITY</a> = 4096</td></tr>
+<tr class="separator:a1499fd9f2604ce55df99f6d3368ffbce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6098d7b2b73bce32f9678940a7af7701" id="r_a6098d7b2b73bce32f9678940a7af7701"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#a6098d7b2b73bce32f9678940a7af7701">DEFAULT_CAPACITY</a> = 256</td></tr>
+<tr class="separator:a6098d7b2b73bce32f9678940a7af7701"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe30a191bae8ecffc599773f05596ee2" id="r_afe30a191bae8ecffc599773f05596ee2"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#afe30a191bae8ecffc599773f05596ee2">MIN_SAMPLES</a> = 10</td></tr>
+<tr class="separator:afe30a191bae8ecffc599773f05596ee2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e911f4757e79a8078a612a1fe1a6bde" id="r_a5e911f4757e79a8078a612a1fe1a6bde"><td class="memItemLeft" align="right" valign="top">static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#a5e911f4757e79a8078a612a1fe1a6bde">SPLIT_THRESHOLD</a> = 0.8</td></tr>
+<tr class="separator:a5e911f4757e79a8078a612a1fe1a6bde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:ace9ab852bd715f528210ac12aa73e16c" id="r_ace9ab852bd715f528210ac12aa73e16c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#ace9ab852bd715f528210ac12aa73e16c">NodeSizeManager</a> ()=default</td></tr>
+<tr class="separator:ace9ab852bd715f528210ac12aa73e16c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d4707669a22663803e2b3c71b4afd13" id="r_a5d4707669a22663803e2b3c71b4afd13"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#a5d4707669a22663803e2b3c71b4afd13">~NodeSizeManager</a> ()=default</td></tr>
+<tr class="separator:a5d4707669a22663803e2b3c71b4afd13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57ec96d6e9a8db1a8db02fe461c8620a" id="r_a57ec96d6e9a8db1a8db02fe461c8620a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#a57ec96d6e9a8db1a8db02fe461c8620a">NodeSizeManager</a> (const <a class="el" href="classsqlcc_1_1NodeSizeManager.html">NodeSizeManager</a> &amp;)=delete</td></tr>
+<tr class="separator:a57ec96d6e9a8db1a8db02fe461c8620a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accf5341def19008a405cf25b7d3586eb" id="r_accf5341def19008a405cf25b7d3586eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1NodeSizeManager.html">NodeSizeManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#accf5341def19008a405cf25b7d3586eb">operator=</a> (const <a class="el" href="classsqlcc_1_1NodeSizeManager.html">NodeSizeManager</a> &amp;)=delete</td></tr>
+<tr class="separator:accf5341def19008a405cf25b7d3586eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1b4986ef22aede6c5629be982478b91" id="r_aa1b4986ef22aede6c5629be982478b91"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#aa1b4986ef22aede6c5629be982478b91">calculate_dynamic_capacity</a> (const <a class="el" href="structsqlcc_1_1NodeSizeStats.html">NodeSizeStats</a> &amp;stats) const</td></tr>
+<tr class="memdesc:aa1b4986ef22aede6c5629be982478b91"><td class="mdescLeft">&#160;</td><td class="mdescRight">计算动态容量  <br /></td></tr>
+<tr class="separator:aa1b4986ef22aede6c5629be982478b91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af36cba678b7b03e92e6a0be103fdf7b1" id="r_af36cba678b7b03e92e6a0be103fdf7b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#af36cba678b7b03e92e6a0be103fdf7b1">update_stats</a> (const std::string &amp;node_type, const std::vector&lt; size_t &gt; &amp;entry_sizes)</td></tr>
+<tr class="memdesc:af36cba678b7b03e92e6a0be103fdf7b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新统计信息  <br /></td></tr>
+<tr class="separator:af36cba678b7b03e92e6a0be103fdf7b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a78c435e72c12cd5ca26ab58eb518391b" id="r_a78c435e72c12cd5ca26ab58eb518391b"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#a78c435e72c12cd5ca26ab58eb518391b">mutex_</a></td></tr>
+<tr class="separator:a78c435e72c12cd5ca26ab58eb518391b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef8d741f0885b417fea83c8d3e420347" id="r_aef8d741f0885b417fea83c8d3e420347"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, <a class="el" href="structsqlcc_1_1NodeSizeStats.html">NodeSizeStats</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#aef8d741f0885b417fea83c8d3e420347">node_stats_</a></td></tr>
+<tr class="separator:aef8d741f0885b417fea83c8d3e420347"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79e733c76191143ff89447877bf8bfb8" id="r_a79e733c76191143ff89447877bf8bfb8"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::atomic&lt; size_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1NodeSizeManager.html#a79e733c76191143ff89447877bf8bfb8">sample_counts_</a></td></tr>
+<tr class="separator:a79e733c76191143ff89447877bf8bfb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>节点大小管理器 </p>
+<p>动态管理B+树节点大小，基于运行时统计信息 优化节点分裂和合并策略 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="ace9ab852bd715f528210ac12aa73e16c" name="ace9ab852bd715f528210ac12aa73e16c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace9ab852bd715f528210ac12aa73e16c">&#9670;&#160;</a></span>NodeSizeManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::NodeSizeManager::NodeSizeManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5d4707669a22663803e2b3c71b4afd13" name="a5d4707669a22663803e2b3c71b4afd13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d4707669a22663803e2b3c71b4afd13">&#9670;&#160;</a></span>~NodeSizeManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::NodeSizeManager::~NodeSizeManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a57ec96d6e9a8db1a8db02fe461c8620a" name="a57ec96d6e9a8db1a8db02fe461c8620a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57ec96d6e9a8db1a8db02fe461c8620a">&#9670;&#160;</a></span>NodeSizeManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::NodeSizeManager::NodeSizeManager </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1NodeSizeManager.html">NodeSizeManager</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="aa1b4986ef22aede6c5629be982478b91" name="aa1b4986ef22aede6c5629be982478b91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1b4986ef22aede6c5629be982478b91">&#9670;&#160;</a></span>calculate_dynamic_capacity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::NodeSizeManager::calculate_dynamic_capacity </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1NodeSizeStats.html">NodeSizeStats</a> &amp;&#160;</td>
+          <td class="paramname"><em>stats</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>计算动态容量 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stats</td><td>统计信息 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>动态计算的容量 </dd></dl>
+
+</div>
+</div>
+<a id="a29ab4102f56ec5d50e05a49f7f67e1d9" name="a29ab4102f56ec5d50e05a49f7f67e1d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29ab4102f56ec5d50e05a49f7f67e1d9">&#9670;&#160;</a></span>get_instance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1NodeSizeManager.html">NodeSizeManager</a> &amp; sqlcc::NodeSizeManager::get_instance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取单例实例 </p>
+<dl class="section return"><dt>返回</dt><dd>NodeSizeManager实例 </dd></dl>
+
+</div>
+</div>
+<a id="a5edc05208a188ba862f31f5b5a0503a5" name="a5edc05208a188ba862f31f5b5a0503a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5edc05208a188ba862f31f5b5a0503a5">&#9670;&#160;</a></span>get_performance_report()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::NodeSizeManager::get_performance_report </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>生成性能报告 </p>
+<dl class="section return"><dt>返回</dt><dd>性能报告字符串 </dd></dl>
+
+</div>
+</div>
+<a id="aae9b71de8d7314cda0d7048dac8ee8a4" name="aae9b71de8d7314cda0d7048dac8ee8a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae9b71de8d7314cda0d7048dac8ee8a4">&#9670;&#160;</a></span>get_recommended_capacity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::NodeSizeManager::get_recommended_capacity </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>node_type</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取推荐容量 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node_type</td><td>节点类型 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>推荐的节点容量 </dd></dl>
+
+</div>
+</div>
+<a id="a5aacbb6596f908699ea5c3619feee5c0" name="a5aacbb6596f908699ea5c3619feee5c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5aacbb6596f908699ea5c3619feee5c0">&#9670;&#160;</a></span>get_stats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1NodeSizeStats.html">NodeSizeStats</a> sqlcc::NodeSizeManager::get_stats </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>node_type</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取统计信息 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node_type</td><td>节点类型 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>统计信息 </dd></dl>
+
+</div>
+</div>
+<a id="accf5341def19008a405cf25b7d3586eb" name="accf5341def19008a405cf25b7d3586eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accf5341def19008a405cf25b7d3586eb">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1NodeSizeManager.html">NodeSizeManager</a> &amp; sqlcc::NodeSizeManager::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1NodeSizeManager.html">NodeSizeManager</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6b82bf3bedbae9522ba1d6d8e1ae4a29" name="a6b82bf3bedbae9522ba1d6d8e1ae4a29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b82bf3bedbae9522ba1d6d8e1ae4a29">&#9670;&#160;</a></span>record_node_stats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::NodeSizeManager::record_node_stats </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>node_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>entry_sizes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>current_capacity</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>记录节点统计信息 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node_type</td><td>节点类型 </td></tr>
+    <tr><td class="paramname">entry_sizes</td><td>条目大小向量 </td></tr>
+    <tr><td class="paramname">current_capacity</td><td>当前容量 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af66e4c8fc9d585d8298da58cb07fcad4" name="af66e4c8fc9d585d8298da58cb07fcad4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af66e4c8fc9d585d8298da58cb07fcad4">&#9670;&#160;</a></span>reset_stats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::NodeSizeManager::reset_stats </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>node_type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>重置统计信息 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node_type</td><td>节点类型 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aee9593f6b3ba0aa2a8aeee15e1cd8a63" name="aee9593f6b3ba0aa2a8aeee15e1cd8a63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee9593f6b3ba0aa2a8aeee15e1cd8a63">&#9670;&#160;</a></span>should_split_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::NodeSizeManager::should_split_node </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>node_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>current_entries</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>current_size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>判断是否需要分裂节点 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node_type</td><td>节点类型 </td></tr>
+    <tr><td class="paramname">current_entries</td><td>当前条目数 </td></tr>
+    <tr><td class="paramname">current_size</td><td>当前大小 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否需要分裂 </dd></dl>
+
+</div>
+</div>
+<a id="af36cba678b7b03e92e6a0be103fdf7b1" name="af36cba678b7b03e92e6a0be103fdf7b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af36cba678b7b03e92e6a0be103fdf7b1">&#9670;&#160;</a></span>update_stats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::NodeSizeManager::update_stats </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>node_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>entry_sizes</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新统计信息 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node_type</td><td>节点类型 </td></tr>
+    <tr><td class="paramname">entry_sizes</td><td>条目大小向量 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a6098d7b2b73bce32f9678940a7af7701" name="a6098d7b2b73bce32f9678940a7af7701"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6098d7b2b73bce32f9678940a7af7701">&#9670;&#160;</a></span>DEFAULT_CAPACITY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t sqlcc::NodeSizeManager::DEFAULT_CAPACITY = 256</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1499fd9f2604ce55df99f6d3368ffbce" name="a1499fd9f2604ce55df99f6d3368ffbce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1499fd9f2604ce55df99f6d3368ffbce">&#9670;&#160;</a></span>MAX_CAPACITY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t sqlcc::NodeSizeManager::MAX_CAPACITY = 4096</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9ef61132c97119c3208115b0f7abed92" name="a9ef61132c97119c3208115b0f7abed92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ef61132c97119c3208115b0f7abed92">&#9670;&#160;</a></span>MIN_CAPACITY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t sqlcc::NodeSizeManager::MIN_CAPACITY = 4</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe30a191bae8ecffc599773f05596ee2" name="afe30a191bae8ecffc599773f05596ee2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe30a191bae8ecffc599773f05596ee2">&#9670;&#160;</a></span>MIN_SAMPLES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t sqlcc::NodeSizeManager::MIN_SAMPLES = 10</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78c435e72c12cd5ca26ab58eb518391b" name="a78c435e72c12cd5ca26ab58eb518391b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78c435e72c12cd5ca26ab58eb518391b">&#9670;&#160;</a></span>mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::NodeSizeManager::mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aef8d741f0885b417fea83c8d3e420347" name="aef8d741f0885b417fea83c8d3e420347"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef8d741f0885b417fea83c8d3e420347">&#9670;&#160;</a></span>node_stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, <a class="el" href="structsqlcc_1_1NodeSizeStats.html">NodeSizeStats</a>&gt; sqlcc::NodeSizeManager::node_stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a79e733c76191143ff89447877bf8bfb8" name="a79e733c76191143ff89447877bf8bfb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79e733c76191143ff89447877bf8bfb8">&#9670;&#160;</a></span>sample_counts_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, std::atomic&lt;size_t&gt; &gt; sqlcc::NodeSizeManager::sample_counts_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5e911f4757e79a8078a612a1fe1a6bde" name="a5e911f4757e79a8078a612a1fe1a6bde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e911f4757e79a8078a612a1fe1a6bde">&#9670;&#160;</a></span>SPLIT_THRESHOLD</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr double sqlcc::NodeSizeManager::SPLIT_THRESHOLD = 0.8</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="node__size__manager_8h_source.html">node_size_manager.h</a></li>
+<li><a class="el" href="node__size__manager_8cpp.html">node_size_manager.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

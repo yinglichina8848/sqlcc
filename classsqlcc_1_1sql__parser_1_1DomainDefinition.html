@@ -1,0 +1,952 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::DomainDefinition类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html">DomainDefinition</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1DomainDefinition-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::DomainDefinition类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="advanced__sql92__features_8h_source.html">advanced_sql92_features.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:aac3f30ad10c5e3304dfaab633531bb95" id="r_aac3f30ad10c5e3304dfaab633531bb95"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95">BaseType</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95a8873b54d6dee6a0af13c242b3253cb7f">CHARACTER</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95a9dd19d3ba9ac30e4f0497c628da5f8f9">DECIMAL</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95a2bf79a969ac217ac1a6bcc8dc96e609f">NUMERIC</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95a3a60c5a39ab64bebb971a5a7770bfc93">INTEGER</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95a1a175c727951af0fd1d389aa19339054">BIGINT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95a9aeaa8e11822b4d1f650c3b02982adc4">SMALLINT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95a08734f0842667c78b428b4eaf02592c9">FLOAT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95add34b66c01d19422fcbeca2b67017501">REAL</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95a0e47ae020c047b839eab3a193dcc6771">DOUBLE_PRECISION</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95a04bac328949394d1c16bbfffb593e196">BOOLEAN</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95aca18ca5ef894ad2a2e00b2d488d83b14">DATE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95ad73736bb77675ecf8d2ebc69058da4e9">TIME</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95a05a77e6a9a569337e768942fec508810">TIMESTAMP</a>
+<br />
+ }</td></tr>
+<tr class="separator:aac3f30ad10c5e3304dfaab633531bb95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a7a4ad5561633b05605b8687296a6eca9" id="r_a7a4ad5561633b05605b8687296a6eca9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a7a4ad5561633b05605b8687296a6eca9">DomainDefinition</a> (const std::string &amp;name, <a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95">BaseType</a> baseType)</td></tr>
+<tr class="separator:a7a4ad5561633b05605b8687296a6eca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65a0c3cfd75a24b4a84082900483b53a" id="r_a65a0c3cfd75a24b4a84082900483b53a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a65a0c3cfd75a24b4a84082900483b53a">~DomainDefinition</a> ()</td></tr>
+<tr class="separator:a65a0c3cfd75a24b4a84082900483b53a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16eb79afd67789edb49e13c3b3eb078d" id="r_a16eb79afd67789edb49e13c3b3eb078d"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a16eb79afd67789edb49e13c3b3eb078d">getName</a> () const</td></tr>
+<tr class="separator:a16eb79afd67789edb49e13c3b3eb078d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b85f8de3124eb44403c571c4485812a" id="r_a8b85f8de3124eb44403c571c4485812a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95">BaseType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a8b85f8de3124eb44403c571c4485812a">getBaseType</a> () const</td></tr>
+<tr class="separator:a8b85f8de3124eb44403c571c4485812a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9859b77fa1ec6d470c9a4b39d26521df" id="r_a9859b77fa1ec6d470c9a4b39d26521df"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a9859b77fa1ec6d470c9a4b39d26521df">getBaseTypeString</a> () const</td></tr>
+<tr class="separator:a9859b77fa1ec6d470c9a4b39d26521df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4559916be147c89b5aeeeecfbb7b54c9" id="r_a4559916be147c89b5aeeeecfbb7b54c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a4559916be147c89b5aeeeecfbb7b54c9">setCharacterLength</a> (int length)</td></tr>
+<tr class="separator:a4559916be147c89b5aeeeecfbb7b54c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a177bab92a81727c1454ff0afecf17edd" id="r_a177bab92a81727c1454ff0afecf17edd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a177bab92a81727c1454ff0afecf17edd">getCharacterLength</a> () const</td></tr>
+<tr class="separator:a177bab92a81727c1454ff0afecf17edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88e714c75180e03bce0223241bb1e930" id="r_a88e714c75180e03bce0223241bb1e930"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a88e714c75180e03bce0223241bb1e930">hasCharacterLength</a> () const</td></tr>
+<tr class="separator:a88e714c75180e03bce0223241bb1e930"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d801088ae0b200334986ac96204aef1" id="r_a0d801088ae0b200334986ac96204aef1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a0d801088ae0b200334986ac96204aef1">setPrecision</a> (int precision)</td></tr>
+<tr class="separator:a0d801088ae0b200334986ac96204aef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6f309ddf216e7d6c82a7e68ce8be2eb" id="r_ae6f309ddf216e7d6c82a7e68ce8be2eb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#ae6f309ddf216e7d6c82a7e68ce8be2eb">getPrecision</a> () const</td></tr>
+<tr class="separator:ae6f309ddf216e7d6c82a7e68ce8be2eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2af09b3ed0431118eb910dcdeee37f96" id="r_a2af09b3ed0431118eb910dcdeee37f96"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a2af09b3ed0431118eb910dcdeee37f96">hasPrecision</a> () const</td></tr>
+<tr class="separator:a2af09b3ed0431118eb910dcdeee37f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae627b967ec6bd718b54f57fc4e622eb2" id="r_ae627b967ec6bd718b54f57fc4e622eb2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#ae627b967ec6bd718b54f57fc4e622eb2">setScale</a> (int scale)</td></tr>
+<tr class="separator:ae627b967ec6bd718b54f57fc4e622eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60e40b6458e5e93c69a7c8d822c4a5a3" id="r_a60e40b6458e5e93c69a7c8d822c4a5a3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a60e40b6458e5e93c69a7c8d822c4a5a3">getScale</a> () const</td></tr>
+<tr class="separator:a60e40b6458e5e93c69a7c8d822c4a5a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6670ab44633aeed39f575f9bb6664bf" id="r_ad6670ab44633aeed39f575f9bb6664bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#ad6670ab44633aeed39f575f9bb6664bf">hasScale</a> () const</td></tr>
+<tr class="separator:ad6670ab44633aeed39f575f9bb6664bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05b76e1d6904210261e307cc0b9ddf30" id="r_a05b76e1d6904210261e307cc0b9ddf30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a05b76e1d6904210261e307cc0b9ddf30">setDefaultValue</a> (const std::string &amp;defaultValue)</td></tr>
+<tr class="separator:a05b76e1d6904210261e307cc0b9ddf30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7e45cd7b3a55afd510d1c70eeee0c8b" id="r_aa7e45cd7b3a55afd510d1c70eeee0c8b"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aa7e45cd7b3a55afd510d1c70eeee0c8b">getDefaultValue</a> () const</td></tr>
+<tr class="separator:aa7e45cd7b3a55afd510d1c70eeee0c8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c9133acb81eb47300e9ddd31a96118e" id="r_a7c9133acb81eb47300e9ddd31a96118e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a7c9133acb81eb47300e9ddd31a96118e">hasDefaultValue</a> () const</td></tr>
+<tr class="separator:a7c9133acb81eb47300e9ddd31a96118e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a421e0b3842f57d2815354b64cf46d8a5" id="r_a421e0b3842f57d2815354b64cf46d8a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a421e0b3842f57d2815354b64cf46d8a5">setCheckConstraint</a> (const std::string &amp;checkConstraint)</td></tr>
+<tr class="separator:a421e0b3842f57d2815354b64cf46d8a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6eb58962ef7907be7acf64f68a703dc4" id="r_a6eb58962ef7907be7acf64f68a703dc4"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a6eb58962ef7907be7acf64f68a703dc4">getCheckConstraint</a> () const</td></tr>
+<tr class="separator:a6eb58962ef7907be7acf64f68a703dc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a112de3a200027f81464888540e4b4880" id="r_a112de3a200027f81464888540e4b4880"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a112de3a200027f81464888540e4b4880">hasCheckConstraint</a> () const</td></tr>
+<tr class="separator:a112de3a200027f81464888540e4b4880"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad004d7682fc843bcc95147b180f8a650" id="r_ad004d7682fc843bcc95147b180f8a650"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#ad004d7682fc843bcc95147b180f8a650">setNotNull</a> (bool notNull)</td></tr>
+<tr class="separator:ad004d7682fc843bcc95147b180f8a650"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92986d70a69d0da81fc245dae31137fe" id="r_a92986d70a69d0da81fc245dae31137fe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a92986d70a69d0da81fc245dae31137fe">isNotNull</a> () const</td></tr>
+<tr class="separator:a92986d70a69d0da81fc245dae31137fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14e620b143a9ee8322258a701641bdc8" id="r_a14e620b143a9ee8322258a701641bdc8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a14e620b143a9ee8322258a701641bdc8">hasNotNull</a> () const</td></tr>
+<tr class="separator:a14e620b143a9ee8322258a701641bdc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aef9ab13789665642d9673933a999d503" id="r_aef9ab13789665642d9673933a999d503"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aef9ab13789665642d9673933a999d503">name_</a></td></tr>
+<tr class="separator:aef9ab13789665642d9673933a999d503"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad7f87244738e4bb50027dcf0497149b" id="r_aad7f87244738e4bb50027dcf0497149b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95">BaseType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aad7f87244738e4bb50027dcf0497149b">baseType_</a></td></tr>
+<tr class="separator:aad7f87244738e4bb50027dcf0497149b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a66b1a994153380669b666db8c6fb3a" id="r_a4a66b1a994153380669b666db8c6fb3a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a4a66b1a994153380669b666db8c6fb3a">characterLength_</a></td></tr>
+<tr class="separator:a4a66b1a994153380669b666db8c6fb3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27d29ce63f2202f39d57861e2c82a8f5" id="r_a27d29ce63f2202f39d57861e2c82a8f5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a27d29ce63f2202f39d57861e2c82a8f5">precision_</a></td></tr>
+<tr class="separator:a27d29ce63f2202f39d57861e2c82a8f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7191bc6827775bf1cbd4c382e458f424" id="r_a7191bc6827775bf1cbd4c382e458f424"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a7191bc6827775bf1cbd4c382e458f424">scale_</a></td></tr>
+<tr class="separator:a7191bc6827775bf1cbd4c382e458f424"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4c0ae872ac7c83920bb97c52a0cf50c" id="r_ab4c0ae872ac7c83920bb97c52a0cf50c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#ab4c0ae872ac7c83920bb97c52a0cf50c">defaultValue_</a></td></tr>
+<tr class="separator:ab4c0ae872ac7c83920bb97c52a0cf50c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25acede89492fc84d4e72fd0c4ad91ac" id="r_a25acede89492fc84d4e72fd0c4ad91ac"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a25acede89492fc84d4e72fd0c4ad91ac">checkConstraint_</a></td></tr>
+<tr class="separator:a25acede89492fc84d4e72fd0c4ad91ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d58380b28a71b945761177d9c2fa058" id="r_a3d58380b28a71b945761177d9c2fa058"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a3d58380b28a71b945761177d9c2fa058">notNull_</a></td></tr>
+<tr class="separator:a3d58380b28a71b945761177d9c2fa058"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4496f182af02f0dbe6cf7b8057ba639" id="r_aa4496f182af02f0dbe6cf7b8057ba639"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aa4496f182af02f0dbe6cf7b8057ba639">hasCharacterLength_</a></td></tr>
+<tr class="separator:aa4496f182af02f0dbe6cf7b8057ba639"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af846896d03d1a429cae01adac5395f13" id="r_af846896d03d1a429cae01adac5395f13"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#af846896d03d1a429cae01adac5395f13">hasPrecision_</a></td></tr>
+<tr class="separator:af846896d03d1a429cae01adac5395f13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47f2e7c9909ee5d96e10644383a83039" id="r_a47f2e7c9909ee5d96e10644383a83039"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a47f2e7c9909ee5d96e10644383a83039">hasScale_</a></td></tr>
+<tr class="separator:a47f2e7c9909ee5d96e10644383a83039"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a592970436bde99c59c543d1a38fb3a53" id="r_a592970436bde99c59c543d1a38fb3a53"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a592970436bde99c59c543d1a38fb3a53">hasDefaultValue_</a></td></tr>
+<tr class="separator:a592970436bde99c59c543d1a38fb3a53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d301171fc3d7f59c23b7f282ec0d69a" id="r_a9d301171fc3d7f59c23b7f282ec0d69a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#a9d301171fc3d7f59c23b7f282ec0d69a">hasCheckConstraint_</a></td></tr>
+<tr class="separator:a9d301171fc3d7f59c23b7f282ec0d69a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd340274ae794c8122e218e53e34388f" id="r_afd340274ae794c8122e218e53e34388f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#afd340274ae794c8122e218e53e34388f">hasNotNull_</a></td></tr>
+<tr class="separator:afd340274ae794c8122e218e53e34388f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>域定义 </p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="aac3f30ad10c5e3304dfaab633531bb95" name="aac3f30ad10c5e3304dfaab633531bb95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac3f30ad10c5e3304dfaab633531bb95">&#9670;&#160;</a></span>BaseType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95">sqlcc::sql_parser::DomainDefinition::BaseType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="aac3f30ad10c5e3304dfaab633531bb95a8873b54d6dee6a0af13c242b3253cb7f" name="aac3f30ad10c5e3304dfaab633531bb95a8873b54d6dee6a0af13c242b3253cb7f"></a>CHARACTER&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aac3f30ad10c5e3304dfaab633531bb95a9dd19d3ba9ac30e4f0497c628da5f8f9" name="aac3f30ad10c5e3304dfaab633531bb95a9dd19d3ba9ac30e4f0497c628da5f8f9"></a>DECIMAL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aac3f30ad10c5e3304dfaab633531bb95a2bf79a969ac217ac1a6bcc8dc96e609f" name="aac3f30ad10c5e3304dfaab633531bb95a2bf79a969ac217ac1a6bcc8dc96e609f"></a>NUMERIC&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aac3f30ad10c5e3304dfaab633531bb95a3a60c5a39ab64bebb971a5a7770bfc93" name="aac3f30ad10c5e3304dfaab633531bb95a3a60c5a39ab64bebb971a5a7770bfc93"></a>INTEGER&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aac3f30ad10c5e3304dfaab633531bb95a1a175c727951af0fd1d389aa19339054" name="aac3f30ad10c5e3304dfaab633531bb95a1a175c727951af0fd1d389aa19339054"></a>BIGINT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aac3f30ad10c5e3304dfaab633531bb95a9aeaa8e11822b4d1f650c3b02982adc4" name="aac3f30ad10c5e3304dfaab633531bb95a9aeaa8e11822b4d1f650c3b02982adc4"></a>SMALLINT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aac3f30ad10c5e3304dfaab633531bb95a08734f0842667c78b428b4eaf02592c9" name="aac3f30ad10c5e3304dfaab633531bb95a08734f0842667c78b428b4eaf02592c9"></a>FLOAT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aac3f30ad10c5e3304dfaab633531bb95add34b66c01d19422fcbeca2b67017501" name="aac3f30ad10c5e3304dfaab633531bb95add34b66c01d19422fcbeca2b67017501"></a>REAL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aac3f30ad10c5e3304dfaab633531bb95a0e47ae020c047b839eab3a193dcc6771" name="aac3f30ad10c5e3304dfaab633531bb95a0e47ae020c047b839eab3a193dcc6771"></a>DOUBLE_PRECISION&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aac3f30ad10c5e3304dfaab633531bb95a04bac328949394d1c16bbfffb593e196" name="aac3f30ad10c5e3304dfaab633531bb95a04bac328949394d1c16bbfffb593e196"></a>BOOLEAN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aac3f30ad10c5e3304dfaab633531bb95aca18ca5ef894ad2a2e00b2d488d83b14" name="aac3f30ad10c5e3304dfaab633531bb95aca18ca5ef894ad2a2e00b2d488d83b14"></a>DATE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aac3f30ad10c5e3304dfaab633531bb95ad73736bb77675ecf8d2ebc69058da4e9" name="aac3f30ad10c5e3304dfaab633531bb95ad73736bb77675ecf8d2ebc69058da4e9"></a>TIME&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aac3f30ad10c5e3304dfaab633531bb95a05a77e6a9a569337e768942fec508810" name="aac3f30ad10c5e3304dfaab633531bb95a05a77e6a9a569337e768942fec508810"></a>TIMESTAMP&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a7a4ad5561633b05605b8687296a6eca9" name="a7a4ad5561633b05605b8687296a6eca9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a4ad5561633b05605b8687296a6eca9">&#9670;&#160;</a></span>DomainDefinition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::DomainDefinition::DomainDefinition </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95">BaseType</a>&#160;</td>
+          <td class="paramname"><em>baseType</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a65a0c3cfd75a24b4a84082900483b53a" name="a65a0c3cfd75a24b4a84082900483b53a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65a0c3cfd75a24b4a84082900483b53a">&#9670;&#160;</a></span>~DomainDefinition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::DomainDefinition::~DomainDefinition </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a8b85f8de3124eb44403c571c4485812a" name="a8b85f8de3124eb44403c571c4485812a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b85f8de3124eb44403c571c4485812a">&#9670;&#160;</a></span>getBaseType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95">DomainDefinition::BaseType</a> sqlcc::sql_parser::DomainDefinition::getBaseType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9859b77fa1ec6d470c9a4b39d26521df" name="a9859b77fa1ec6d470c9a4b39d26521df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9859b77fa1ec6d470c9a4b39d26521df">&#9670;&#160;</a></span>getBaseTypeString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::DomainDefinition::getBaseTypeString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a177bab92a81727c1454ff0afecf17edd" name="a177bab92a81727c1454ff0afecf17edd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a177bab92a81727c1454ff0afecf17edd">&#9670;&#160;</a></span>getCharacterLength()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::sql_parser::DomainDefinition::getCharacterLength </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6eb58962ef7907be7acf64f68a703dc4" name="a6eb58962ef7907be7acf64f68a703dc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6eb58962ef7907be7acf64f68a703dc4">&#9670;&#160;</a></span>getCheckConstraint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::DomainDefinition::getCheckConstraint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa7e45cd7b3a55afd510d1c70eeee0c8b" name="aa7e45cd7b3a55afd510d1c70eeee0c8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7e45cd7b3a55afd510d1c70eeee0c8b">&#9670;&#160;</a></span>getDefaultValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::DomainDefinition::getDefaultValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a16eb79afd67789edb49e13c3b3eb078d" name="a16eb79afd67789edb49e13c3b3eb078d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16eb79afd67789edb49e13c3b3eb078d">&#9670;&#160;</a></span>getName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::DomainDefinition::getName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae6f309ddf216e7d6c82a7e68ce8be2eb" name="ae6f309ddf216e7d6c82a7e68ce8be2eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6f309ddf216e7d6c82a7e68ce8be2eb">&#9670;&#160;</a></span>getPrecision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::sql_parser::DomainDefinition::getPrecision </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a60e40b6458e5e93c69a7c8d822c4a5a3" name="a60e40b6458e5e93c69a7c8d822c4a5a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60e40b6458e5e93c69a7c8d822c4a5a3">&#9670;&#160;</a></span>getScale()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::sql_parser::DomainDefinition::getScale </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a88e714c75180e03bce0223241bb1e930" name="a88e714c75180e03bce0223241bb1e930"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88e714c75180e03bce0223241bb1e930">&#9670;&#160;</a></span>hasCharacterLength()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DomainDefinition::hasCharacterLength </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a112de3a200027f81464888540e4b4880" name="a112de3a200027f81464888540e4b4880"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a112de3a200027f81464888540e4b4880">&#9670;&#160;</a></span>hasCheckConstraint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DomainDefinition::hasCheckConstraint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7c9133acb81eb47300e9ddd31a96118e" name="a7c9133acb81eb47300e9ddd31a96118e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c9133acb81eb47300e9ddd31a96118e">&#9670;&#160;</a></span>hasDefaultValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DomainDefinition::hasDefaultValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a14e620b143a9ee8322258a701641bdc8" name="a14e620b143a9ee8322258a701641bdc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14e620b143a9ee8322258a701641bdc8">&#9670;&#160;</a></span>hasNotNull()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DomainDefinition::hasNotNull </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2af09b3ed0431118eb910dcdeee37f96" name="a2af09b3ed0431118eb910dcdeee37f96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2af09b3ed0431118eb910dcdeee37f96">&#9670;&#160;</a></span>hasPrecision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DomainDefinition::hasPrecision </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad6670ab44633aeed39f575f9bb6664bf" name="ad6670ab44633aeed39f575f9bb6664bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6670ab44633aeed39f575f9bb6664bf">&#9670;&#160;</a></span>hasScale()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DomainDefinition::hasScale </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a92986d70a69d0da81fc245dae31137fe" name="a92986d70a69d0da81fc245dae31137fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92986d70a69d0da81fc245dae31137fe">&#9670;&#160;</a></span>isNotNull()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DomainDefinition::isNotNull </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4559916be147c89b5aeeeecfbb7b54c9" name="a4559916be147c89b5aeeeecfbb7b54c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4559916be147c89b5aeeeecfbb7b54c9">&#9670;&#160;</a></span>setCharacterLength()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::DomainDefinition::setCharacterLength </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>length</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a421e0b3842f57d2815354b64cf46d8a5" name="a421e0b3842f57d2815354b64cf46d8a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a421e0b3842f57d2815354b64cf46d8a5">&#9670;&#160;</a></span>setCheckConstraint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::DomainDefinition::setCheckConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>checkConstraint</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a05b76e1d6904210261e307cc0b9ddf30" name="a05b76e1d6904210261e307cc0b9ddf30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05b76e1d6904210261e307cc0b9ddf30">&#9670;&#160;</a></span>setDefaultValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::DomainDefinition::setDefaultValue </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>defaultValue</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad004d7682fc843bcc95147b180f8a650" name="ad004d7682fc843bcc95147b180f8a650"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad004d7682fc843bcc95147b180f8a650">&#9670;&#160;</a></span>setNotNull()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::DomainDefinition::setNotNull </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>notNull</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0d801088ae0b200334986ac96204aef1" name="a0d801088ae0b200334986ac96204aef1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d801088ae0b200334986ac96204aef1">&#9670;&#160;</a></span>setPrecision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::DomainDefinition::setPrecision </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>precision</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae627b967ec6bd718b54f57fc4e622eb2" name="ae627b967ec6bd718b54f57fc4e622eb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae627b967ec6bd718b54f57fc4e622eb2">&#9670;&#160;</a></span>setScale()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::DomainDefinition::setScale </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>scale</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="aad7f87244738e4bb50027dcf0497149b" name="aad7f87244738e4bb50027dcf0497149b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad7f87244738e4bb50027dcf0497149b">&#9670;&#160;</a></span>baseType_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1DomainDefinition.html#aac3f30ad10c5e3304dfaab633531bb95">BaseType</a> sqlcc::sql_parser::DomainDefinition::baseType_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4a66b1a994153380669b666db8c6fb3a" name="a4a66b1a994153380669b666db8c6fb3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a66b1a994153380669b666db8c6fb3a">&#9670;&#160;</a></span>characterLength_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::sql_parser::DomainDefinition::characterLength_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a25acede89492fc84d4e72fd0c4ad91ac" name="a25acede89492fc84d4e72fd0c4ad91ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25acede89492fc84d4e72fd0c4ad91ac">&#9670;&#160;</a></span>checkConstraint_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::DomainDefinition::checkConstraint_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab4c0ae872ac7c83920bb97c52a0cf50c" name="ab4c0ae872ac7c83920bb97c52a0cf50c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4c0ae872ac7c83920bb97c52a0cf50c">&#9670;&#160;</a></span>defaultValue_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::DomainDefinition::defaultValue_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa4496f182af02f0dbe6cf7b8057ba639" name="aa4496f182af02f0dbe6cf7b8057ba639"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4496f182af02f0dbe6cf7b8057ba639">&#9670;&#160;</a></span>hasCharacterLength_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DomainDefinition::hasCharacterLength_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9d301171fc3d7f59c23b7f282ec0d69a" name="a9d301171fc3d7f59c23b7f282ec0d69a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d301171fc3d7f59c23b7f282ec0d69a">&#9670;&#160;</a></span>hasCheckConstraint_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DomainDefinition::hasCheckConstraint_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a592970436bde99c59c543d1a38fb3a53" name="a592970436bde99c59c543d1a38fb3a53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a592970436bde99c59c543d1a38fb3a53">&#9670;&#160;</a></span>hasDefaultValue_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DomainDefinition::hasDefaultValue_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afd340274ae794c8122e218e53e34388f" name="afd340274ae794c8122e218e53e34388f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd340274ae794c8122e218e53e34388f">&#9670;&#160;</a></span>hasNotNull_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DomainDefinition::hasNotNull_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af846896d03d1a429cae01adac5395f13" name="af846896d03d1a429cae01adac5395f13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af846896d03d1a429cae01adac5395f13">&#9670;&#160;</a></span>hasPrecision_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DomainDefinition::hasPrecision_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a47f2e7c9909ee5d96e10644383a83039" name="a47f2e7c9909ee5d96e10644383a83039"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47f2e7c9909ee5d96e10644383a83039">&#9670;&#160;</a></span>hasScale_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DomainDefinition::hasScale_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aef9ab13789665642d9673933a999d503" name="aef9ab13789665642d9673933a999d503"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef9ab13789665642d9673933a999d503">&#9670;&#160;</a></span>name_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::DomainDefinition::name_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3d58380b28a71b945761177d9c2fa058" name="a3d58380b28a71b945761177d9c2fa058"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d58380b28a71b945761177d9c2fa058">&#9670;&#160;</a></span>notNull_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::DomainDefinition::notNull_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a27d29ce63f2202f39d57861e2c82a8f5" name="a27d29ce63f2202f39d57861e2c82a8f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27d29ce63f2202f39d57861e2c82a8f5">&#9670;&#160;</a></span>precision_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::sql_parser::DomainDefinition::precision_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7191bc6827775bf1cbd4c382e458f424" name="a7191bc6827775bf1cbd4c382e458f424"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7191bc6827775bf1cbd4c382e458f424">&#9670;&#160;</a></span>scale_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::sql_parser::DomainDefinition::scale_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="advanced__sql92__features_8h_source.html">advanced_sql92_features.h</a></li>
+<li><a class="el" href="advanced__sql92__features_8cpp.html">advanced_sql92_features.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

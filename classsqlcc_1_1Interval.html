@@ -1,0 +1,1329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::Interval类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1Interval-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::Interval类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="datetime_8h_source.html">datetime.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a9a637c80f35b6be3e281141554f63f73" id="r_a9a637c80f35b6be3e281141554f63f73"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73">Unit</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73adf80caccf206abf0a3b1a6eb8c2b3fd0">MICROSECOND</a>
+, <a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73a7bda19c24e7fc3a8cb15e5a2f8a36536">MILLISECOND</a>
+, <a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73a4ee8d090aab48cadb928e22a2386543d">SECOND</a>
+, <a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73acf966a33a29e288cd0371780fffbc849">MINUTE</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73a48e4554d9fa62e767a1d9563a8793771">HOUR</a>
+, <a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73a47d607bcb0cd1c6f53ebbcf4d3a7cc2a">DAY</a>
+, <a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73a106e161f0df80d6e029b90f54a9589a4">WEEK</a>
+, <a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73ad21304cb6a5022c45888ad858001ec6d">MONTH</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73ae1a2be25dec0fad0092186735d2af851">YEAR</a>
+<br />
+ }</td></tr>
+<tr class="separator:a9a637c80f35b6be3e281141554f63f73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a5294038c1fafe23aae3da2fe3293d5ff" id="r_a5294038c1fafe23aae3da2fe3293d5ff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a5294038c1fafe23aae3da2fe3293d5ff">Interval</a> ()</td></tr>
+<tr class="separator:a5294038c1fafe23aae3da2fe3293d5ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41836ab85a89dda0deb769beff5b1d95" id="r_a41836ab85a89dda0deb769beff5b1d95"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a41836ab85a89dda0deb769beff5b1d95">Interval</a> (int64_t value, <a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73">Unit</a> unit=<a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73a7bda19c24e7fc3a8cb15e5a2f8a36536">MILLISECOND</a>)</td></tr>
+<tr class="separator:a41836ab85a89dda0deb769beff5b1d95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3ac94fd6b725a65b7ea00beeec1ff8b" id="r_ae3ac94fd6b725a65b7ea00beeec1ff8b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#ae3ac94fd6b725a65b7ea00beeec1ff8b">Interval</a> (int <a class="el" href="classsqlcc_1_1Interval.html#ad7f74c7ab229624c51080a959a65176a">years</a>, int <a class="el" href="classsqlcc_1_1Interval.html#ad29231088b8e2f3e5232c553e8230645">months</a>, int <a class="el" href="classsqlcc_1_1Interval.html#a024d4225c6547f63510099b2b52616bc">days</a>, int <a class="el" href="classsqlcc_1_1Interval.html#aea3a9c47b2df0c95340bd29703ebeb91">hours</a>, int <a class="el" href="classsqlcc_1_1Interval.html#a844beba3be8e31ba18b4cd545921cbc8">minutes</a>, int <a class="el" href="classsqlcc_1_1Interval.html#af0974a418f213cffe766f5e2f1831c02">seconds</a>, int <a class="el" href="classsqlcc_1_1Interval.html#ac5fdc6f1d8b5331d5f85db9f812cf81e">milliseconds</a>)</td></tr>
+<tr class="separator:ae3ac94fd6b725a65b7ea00beeec1ff8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38dc774e0a1582da2c864c9176155043" id="r_a38dc774e0a1582da2c864c9176155043"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a38dc774e0a1582da2c864c9176155043">Interval</a> (const std::string &amp;interval_str)</td></tr>
+<tr class="separator:a38dc774e0a1582da2c864c9176155043"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae642f3e3ad5c4aeb83569702ef0da90e" id="r_ae642f3e3ad5c4aeb83569702ef0da90e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#ae642f3e3ad5c4aeb83569702ef0da90e">Interval</a> (const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;other)</td></tr>
+<tr class="separator:ae642f3e3ad5c4aeb83569702ef0da90e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2979d3a041c8e40190b11d39f64203ac" id="r_a2979d3a041c8e40190b11d39f64203ac"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a2979d3a041c8e40190b11d39f64203ac">Interval</a> (<a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:a2979d3a041c8e40190b11d39f64203ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd5b655ccc52e019000ea0b7f094b6de" id="r_acd5b655ccc52e019000ea0b7f094b6de"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#acd5b655ccc52e019000ea0b7f094b6de">~Interval</a> ()</td></tr>
+<tr class="separator:acd5b655ccc52e019000ea0b7f094b6de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a291c0fd44f286ca39fb8ab111bf77f3c" id="r_a291c0fd44f286ca39fb8ab111bf77f3c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a291c0fd44f286ca39fb8ab111bf77f3c">operator=</a> (const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;other)</td></tr>
+<tr class="separator:a291c0fd44f286ca39fb8ab111bf77f3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cbdcd71f7ae9927034ccb0efeade750" id="r_a7cbdcd71f7ae9927034ccb0efeade750"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a7cbdcd71f7ae9927034ccb0efeade750">operator=</a> (<a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:a7cbdcd71f7ae9927034ccb0efeade750"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08738e909408d459fd2f01825750c639" id="r_a08738e909408d459fd2f01825750c639"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a08738e909408d459fd2f01825750c639">operator+</a> (const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;other) const</td></tr>
+<tr class="separator:a08738e909408d459fd2f01825750c639"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dbdd4d64e0d5c7321f822e9774a052b" id="r_a3dbdd4d64e0d5c7321f822e9774a052b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a3dbdd4d64e0d5c7321f822e9774a052b">operator-</a> (const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;other) const</td></tr>
+<tr class="separator:a3dbdd4d64e0d5c7321f822e9774a052b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71741dc258e87174829848362cd1d42a" id="r_a71741dc258e87174829848362cd1d42a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a71741dc258e87174829848362cd1d42a">operator*</a> (int64_t factor) const</td></tr>
+<tr class="separator:a71741dc258e87174829848362cd1d42a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a754168d819e96ae84163d67a521d3f50" id="r_a754168d819e96ae84163d67a521d3f50"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a754168d819e96ae84163d67a521d3f50">operator/</a> (int64_t divisor) const</td></tr>
+<tr class="separator:a754168d819e96ae84163d67a521d3f50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c8ce3bed74bc2255ab82cc3331d27f8" id="r_a2c8ce3bed74bc2255ab82cc3331d27f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a2c8ce3bed74bc2255ab82cc3331d27f8">operator+=</a> (const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;other)</td></tr>
+<tr class="separator:a2c8ce3bed74bc2255ab82cc3331d27f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec6ad6c2fe90a046e9739ba39303537b" id="r_aec6ad6c2fe90a046e9739ba39303537b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#aec6ad6c2fe90a046e9739ba39303537b">operator-=</a> (const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;other)</td></tr>
+<tr class="separator:aec6ad6c2fe90a046e9739ba39303537b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50d0b6a54ccbc2238fcf5d7768484634" id="r_a50d0b6a54ccbc2238fcf5d7768484634"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a50d0b6a54ccbc2238fcf5d7768484634">operator*=</a> (int64_t factor)</td></tr>
+<tr class="separator:a50d0b6a54ccbc2238fcf5d7768484634"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed9f81123352b550874bba7d20188d2a" id="r_aed9f81123352b550874bba7d20188d2a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#aed9f81123352b550874bba7d20188d2a">operator/=</a> (int64_t divisor)</td></tr>
+<tr class="separator:aed9f81123352b550874bba7d20188d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e23e967d463ec6f8adab5244e6b2ef6" id="r_a6e23e967d463ec6f8adab5244e6b2ef6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a6e23e967d463ec6f8adab5244e6b2ef6">operator==</a> (const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;other) const</td></tr>
+<tr class="separator:a6e23e967d463ec6f8adab5244e6b2ef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a709828235906efb42570985867506d9d" id="r_a709828235906efb42570985867506d9d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a709828235906efb42570985867506d9d">operator!=</a> (const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;other) const</td></tr>
+<tr class="separator:a709828235906efb42570985867506d9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6e0585867aca11b82f45afd526dcbf4" id="r_aa6e0585867aca11b82f45afd526dcbf4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#aa6e0585867aca11b82f45afd526dcbf4">operator&lt;</a> (const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;other) const</td></tr>
+<tr class="separator:aa6e0585867aca11b82f45afd526dcbf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af53fef569024b9202c94d1660e86816e" id="r_af53fef569024b9202c94d1660e86816e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#af53fef569024b9202c94d1660e86816e">operator&lt;=</a> (const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;other) const</td></tr>
+<tr class="separator:af53fef569024b9202c94d1660e86816e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a410f064235360e23a7ba6d68e71b22bb" id="r_a410f064235360e23a7ba6d68e71b22bb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a410f064235360e23a7ba6d68e71b22bb">operator&gt;</a> (const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;other) const</td></tr>
+<tr class="separator:a410f064235360e23a7ba6d68e71b22bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41a958cdf45e4cf9cae9573d8b8ba097" id="r_a41a958cdf45e4cf9cae9573d8b8ba097"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a41a958cdf45e4cf9cae9573d8b8ba097">operator&gt;=</a> (const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;other) const</td></tr>
+<tr class="separator:a41a958cdf45e4cf9cae9573d8b8ba097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa341c50e6f272ad9d8b0c99d3ee8b3f" id="r_aaa341c50e6f272ad9d8b0c99d3ee8b3f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#aaa341c50e6f272ad9d8b0c99d3ee8b3f">to_string</a> () const</td></tr>
+<tr class="separator:aaa341c50e6f272ad9d8b0c99d3ee8b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d49bbecd8f324920547161f267ef304" id="r_a5d49bbecd8f324920547161f267ef304"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a5d49bbecd8f324920547161f267ef304">to_milliseconds</a> () const</td></tr>
+<tr class="separator:a5d49bbecd8f324920547161f267ef304"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7f74c7ab229624c51080a959a65176a" id="r_ad7f74c7ab229624c51080a959a65176a"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#ad7f74c7ab229624c51080a959a65176a">years</a> () const</td></tr>
+<tr class="separator:ad7f74c7ab229624c51080a959a65176a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad29231088b8e2f3e5232c553e8230645" id="r_ad29231088b8e2f3e5232c553e8230645"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#ad29231088b8e2f3e5232c553e8230645">months</a> () const</td></tr>
+<tr class="separator:ad29231088b8e2f3e5232c553e8230645"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a024d4225c6547f63510099b2b52616bc" id="r_a024d4225c6547f63510099b2b52616bc"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a024d4225c6547f63510099b2b52616bc">days</a> () const</td></tr>
+<tr class="separator:a024d4225c6547f63510099b2b52616bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea3a9c47b2df0c95340bd29703ebeb91" id="r_aea3a9c47b2df0c95340bd29703ebeb91"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#aea3a9c47b2df0c95340bd29703ebeb91">hours</a> () const</td></tr>
+<tr class="separator:aea3a9c47b2df0c95340bd29703ebeb91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a844beba3be8e31ba18b4cd545921cbc8" id="r_a844beba3be8e31ba18b4cd545921cbc8"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a844beba3be8e31ba18b4cd545921cbc8">minutes</a> () const</td></tr>
+<tr class="separator:a844beba3be8e31ba18b4cd545921cbc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0974a418f213cffe766f5e2f1831c02" id="r_af0974a418f213cffe766f5e2f1831c02"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#af0974a418f213cffe766f5e2f1831c02">seconds</a> () const</td></tr>
+<tr class="separator:af0974a418f213cffe766f5e2f1831c02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5fdc6f1d8b5331d5f85db9f812cf81e" id="r_ac5fdc6f1d8b5331d5f85db9f812cf81e"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#ac5fdc6f1d8b5331d5f85db9f812cf81e">milliseconds</a> () const</td></tr>
+<tr class="separator:ac5fdc6f1d8b5331d5f85db9f812cf81e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76756a5a3ddf0c76a3fc2200f88c4b9f" id="r_a76756a5a3ddf0c76a3fc2200f88c4b9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a76756a5a3ddf0c76a3fc2200f88c4b9f">set_years</a> (int64_t <a class="el" href="classsqlcc_1_1Interval.html#ad7f74c7ab229624c51080a959a65176a">years</a>)</td></tr>
+<tr class="separator:a76756a5a3ddf0c76a3fc2200f88c4b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a913502239ea2f916f1c350a4fd95f475" id="r_a913502239ea2f916f1c350a4fd95f475"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a913502239ea2f916f1c350a4fd95f475">set_months</a> (int64_t <a class="el" href="classsqlcc_1_1Interval.html#ad29231088b8e2f3e5232c553e8230645">months</a>)</td></tr>
+<tr class="separator:a913502239ea2f916f1c350a4fd95f475"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a41ea9109842d92c4c099340f69605b" id="r_a5a41ea9109842d92c4c099340f69605b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a5a41ea9109842d92c4c099340f69605b">set_days</a> (int64_t <a class="el" href="classsqlcc_1_1Interval.html#a024d4225c6547f63510099b2b52616bc">days</a>)</td></tr>
+<tr class="separator:a5a41ea9109842d92c4c099340f69605b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa1d85c5b60e7888b731fefc9b565bfd" id="r_aaa1d85c5b60e7888b731fefc9b565bfd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#aaa1d85c5b60e7888b731fefc9b565bfd">set_hours</a> (int64_t <a class="el" href="classsqlcc_1_1Interval.html#aea3a9c47b2df0c95340bd29703ebeb91">hours</a>)</td></tr>
+<tr class="separator:aaa1d85c5b60e7888b731fefc9b565bfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48b4d8ed7554ebc500cd8f1f9383eb31" id="r_a48b4d8ed7554ebc500cd8f1f9383eb31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a48b4d8ed7554ebc500cd8f1f9383eb31">set_minutes</a> (int64_t <a class="el" href="classsqlcc_1_1Interval.html#a844beba3be8e31ba18b4cd545921cbc8">minutes</a>)</td></tr>
+<tr class="separator:a48b4d8ed7554ebc500cd8f1f9383eb31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11e941b180217d1f6f23ea917d03d0e7" id="r_a11e941b180217d1f6f23ea917d03d0e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a11e941b180217d1f6f23ea917d03d0e7">set_seconds</a> (int64_t <a class="el" href="classsqlcc_1_1Interval.html#af0974a418f213cffe766f5e2f1831c02">seconds</a>)</td></tr>
+<tr class="separator:a11e941b180217d1f6f23ea917d03d0e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b2613a7e9f6a14108ca41763e52242b" id="r_a1b2613a7e9f6a14108ca41763e52242b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a1b2613a7e9f6a14108ca41763e52242b">set_milliseconds</a> (int64_t <a class="el" href="classsqlcc_1_1Interval.html#ac5fdc6f1d8b5331d5f85db9f812cf81e">milliseconds</a>)</td></tr>
+<tr class="separator:a1b2613a7e9f6a14108ca41763e52242b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a85a261498f3aeab225fc5348be276029" id="r_a85a261498f3aeab225fc5348be276029"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1Interval.html">Interval</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a85a261498f3aeab225fc5348be276029">from_milliseconds</a> (int64_t ms)</td></tr>
+<tr class="separator:a85a261498f3aeab225fc5348be276029"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cc7b201233e15df8c088ac08f7df767" id="r_a4cc7b201233e15df8c088ac08f7df767"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1Interval.html">Interval</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a4cc7b201233e15df8c088ac08f7df767">from_seconds</a> (int64_t <a class="el" href="classsqlcc_1_1Interval.html#af0974a418f213cffe766f5e2f1831c02">seconds</a>)</td></tr>
+<tr class="separator:a4cc7b201233e15df8c088ac08f7df767"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabe215081cf9208f7bf2574317d67368" id="r_aabe215081cf9208f7bf2574317d67368"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1Interval.html">Interval</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#aabe215081cf9208f7bf2574317d67368">from_minutes</a> (int64_t <a class="el" href="classsqlcc_1_1Interval.html#a844beba3be8e31ba18b4cd545921cbc8">minutes</a>)</td></tr>
+<tr class="separator:aabe215081cf9208f7bf2574317d67368"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae67b67cda23505bad6e8088787b53c3c" id="r_ae67b67cda23505bad6e8088787b53c3c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1Interval.html">Interval</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#ae67b67cda23505bad6e8088787b53c3c">from_hours</a> (int64_t <a class="el" href="classsqlcc_1_1Interval.html#aea3a9c47b2df0c95340bd29703ebeb91">hours</a>)</td></tr>
+<tr class="separator:ae67b67cda23505bad6e8088787b53c3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9edf56d512923ec4c4625434514e3093" id="r_a9edf56d512923ec4c4625434514e3093"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1Interval.html">Interval</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a9edf56d512923ec4c4625434514e3093">from_days</a> (int64_t <a class="el" href="classsqlcc_1_1Interval.html#a024d4225c6547f63510099b2b52616bc">days</a>)</td></tr>
+<tr class="separator:a9edf56d512923ec4c4625434514e3093"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a42baa77ab3562bedaf653baf57017b0a" id="r_a42baa77ab3562bedaf653baf57017b0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a42baa77ab3562bedaf653baf57017b0a">normalize</a> ()</td></tr>
+<tr class="separator:a42baa77ab3562bedaf653baf57017b0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a1d9a1d9733fe54ec51dc5330868b8bca" id="r_a1d9a1d9733fe54ec51dc5330868b8bca"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a1d9a1d9733fe54ec51dc5330868b8bca">years_</a></td></tr>
+<tr class="separator:a1d9a1d9733fe54ec51dc5330868b8bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af757506cdc337983d404654a79693ae9" id="r_af757506cdc337983d404654a79693ae9"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#af757506cdc337983d404654a79693ae9">months_</a></td></tr>
+<tr class="separator:af757506cdc337983d404654a79693ae9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea81b31a421294725cdf87aaa0797298" id="r_aea81b31a421294725cdf87aaa0797298"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#aea81b31a421294725cdf87aaa0797298">days_</a></td></tr>
+<tr class="separator:aea81b31a421294725cdf87aaa0797298"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6873c2bba471fbb4011c899176459b7" id="r_ad6873c2bba471fbb4011c899176459b7"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#ad6873c2bba471fbb4011c899176459b7">hours_</a></td></tr>
+<tr class="separator:ad6873c2bba471fbb4011c899176459b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4c21744f71369460b68f33d19414f2a" id="r_ac4c21744f71369460b68f33d19414f2a"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#ac4c21744f71369460b68f33d19414f2a">minutes_</a></td></tr>
+<tr class="separator:ac4c21744f71369460b68f33d19414f2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe7a9367855168ebbf89db2724b82664" id="r_abe7a9367855168ebbf89db2724b82664"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#abe7a9367855168ebbf89db2724b82664">seconds_</a></td></tr>
+<tr class="separator:abe7a9367855168ebbf89db2724b82664"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e80d0d10e45c388bf2146da05a867ac" id="r_a6e80d0d10e45c388bf2146da05a867ac"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Interval.html#a6e80d0d10e45c388bf2146da05a867ac">milliseconds_</a></td></tr>
+<tr class="separator:a6e80d0d10e45c388bf2146da05a867ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a9a637c80f35b6be3e281141554f63f73" name="a9a637c80f35b6be3e281141554f63f73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a637c80f35b6be3e281141554f63f73">&#9670;&#160;</a></span>Unit</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73">sqlcc::Interval::Unit</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a9a637c80f35b6be3e281141554f63f73adf80caccf206abf0a3b1a6eb8c2b3fd0" name="a9a637c80f35b6be3e281141554f63f73adf80caccf206abf0a3b1a6eb8c2b3fd0"></a>MICROSECOND&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9a637c80f35b6be3e281141554f63f73a7bda19c24e7fc3a8cb15e5a2f8a36536" name="a9a637c80f35b6be3e281141554f63f73a7bda19c24e7fc3a8cb15e5a2f8a36536"></a>MILLISECOND&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9a637c80f35b6be3e281141554f63f73a4ee8d090aab48cadb928e22a2386543d" name="a9a637c80f35b6be3e281141554f63f73a4ee8d090aab48cadb928e22a2386543d"></a>SECOND&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9a637c80f35b6be3e281141554f63f73acf966a33a29e288cd0371780fffbc849" name="a9a637c80f35b6be3e281141554f63f73acf966a33a29e288cd0371780fffbc849"></a>MINUTE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9a637c80f35b6be3e281141554f63f73a48e4554d9fa62e767a1d9563a8793771" name="a9a637c80f35b6be3e281141554f63f73a48e4554d9fa62e767a1d9563a8793771"></a>HOUR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9a637c80f35b6be3e281141554f63f73a47d607bcb0cd1c6f53ebbcf4d3a7cc2a" name="a9a637c80f35b6be3e281141554f63f73a47d607bcb0cd1c6f53ebbcf4d3a7cc2a"></a>DAY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9a637c80f35b6be3e281141554f63f73a106e161f0df80d6e029b90f54a9589a4" name="a9a637c80f35b6be3e281141554f63f73a106e161f0df80d6e029b90f54a9589a4"></a>WEEK&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9a637c80f35b6be3e281141554f63f73ad21304cb6a5022c45888ad858001ec6d" name="a9a637c80f35b6be3e281141554f63f73ad21304cb6a5022c45888ad858001ec6d"></a>MONTH&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a9a637c80f35b6be3e281141554f63f73ae1a2be25dec0fad0092186735d2af851" name="a9a637c80f35b6be3e281141554f63f73ae1a2be25dec0fad0092186735d2af851"></a>YEAR&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a5294038c1fafe23aae3da2fe3293d5ff" name="a5294038c1fafe23aae3da2fe3293d5ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5294038c1fafe23aae3da2fe3293d5ff">&#9670;&#160;</a></span>Interval() <span class="overload">[1/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Interval::Interval </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a41836ab85a89dda0deb769beff5b1d95" name="a41836ab85a89dda0deb769beff5b1d95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41836ab85a89dda0deb769beff5b1d95">&#9670;&#160;</a></span>Interval() <span class="overload">[2/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Interval::Interval </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73">Unit</a>&#160;</td>
+          <td class="paramname"><em>unit</em> = <code><a class="el" href="classsqlcc_1_1Interval.html#a9a637c80f35b6be3e281141554f63f73a7bda19c24e7fc3a8cb15e5a2f8a36536">MILLISECOND</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae3ac94fd6b725a65b7ea00beeec1ff8b" name="ae3ac94fd6b725a65b7ea00beeec1ff8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3ac94fd6b725a65b7ea00beeec1ff8b">&#9670;&#160;</a></span>Interval() <span class="overload">[3/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Interval::Interval </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>years</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>months</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>days</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>hours</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>minutes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>seconds</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>milliseconds</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a38dc774e0a1582da2c864c9176155043" name="a38dc774e0a1582da2c864c9176155043"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38dc774e0a1582da2c864c9176155043">&#9670;&#160;</a></span>Interval() <span class="overload">[4/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Interval::Interval </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>interval_str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae642f3e3ad5c4aeb83569702ef0da90e" name="ae642f3e3ad5c4aeb83569702ef0da90e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae642f3e3ad5c4aeb83569702ef0da90e">&#9670;&#160;</a></span>Interval() <span class="overload">[5/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Interval::Interval </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2979d3a041c8e40190b11d39f64203ac" name="a2979d3a041c8e40190b11d39f64203ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2979d3a041c8e40190b11d39f64203ac">&#9670;&#160;</a></span>Interval() <span class="overload">[6/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Interval::Interval </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acd5b655ccc52e019000ea0b7f094b6de" name="acd5b655ccc52e019000ea0b7f094b6de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd5b655ccc52e019000ea0b7f094b6de">&#9670;&#160;</a></span>~Interval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Interval::~Interval </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a024d4225c6547f63510099b2b52616bc" name="a024d4225c6547f63510099b2b52616bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a024d4225c6547f63510099b2b52616bc">&#9670;&#160;</a></span>days()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::days </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9edf56d512923ec4c4625434514e3093" name="a9edf56d512923ec4c4625434514e3093"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9edf56d512923ec4c4625434514e3093">&#9670;&#160;</a></span>from_days()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> sqlcc::Interval::from_days </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>days</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae67b67cda23505bad6e8088787b53c3c" name="ae67b67cda23505bad6e8088787b53c3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae67b67cda23505bad6e8088787b53c3c">&#9670;&#160;</a></span>from_hours()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> sqlcc::Interval::from_hours </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>hours</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a85a261498f3aeab225fc5348be276029" name="a85a261498f3aeab225fc5348be276029"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85a261498f3aeab225fc5348be276029">&#9670;&#160;</a></span>from_milliseconds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> sqlcc::Interval::from_milliseconds </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>ms</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aabe215081cf9208f7bf2574317d67368" name="aabe215081cf9208f7bf2574317d67368"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabe215081cf9208f7bf2574317d67368">&#9670;&#160;</a></span>from_minutes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> sqlcc::Interval::from_minutes </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>minutes</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4cc7b201233e15df8c088ac08f7df767" name="a4cc7b201233e15df8c088ac08f7df767"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cc7b201233e15df8c088ac08f7df767">&#9670;&#160;</a></span>from_seconds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> sqlcc::Interval::from_seconds </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>seconds</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aea3a9c47b2df0c95340bd29703ebeb91" name="aea3a9c47b2df0c95340bd29703ebeb91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea3a9c47b2df0c95340bd29703ebeb91">&#9670;&#160;</a></span>hours()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::hours </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac5fdc6f1d8b5331d5f85db9f812cf81e" name="ac5fdc6f1d8b5331d5f85db9f812cf81e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5fdc6f1d8b5331d5f85db9f812cf81e">&#9670;&#160;</a></span>milliseconds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::milliseconds </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a844beba3be8e31ba18b4cd545921cbc8" name="a844beba3be8e31ba18b4cd545921cbc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a844beba3be8e31ba18b4cd545921cbc8">&#9670;&#160;</a></span>minutes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::minutes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad29231088b8e2f3e5232c553e8230645" name="ad29231088b8e2f3e5232c553e8230645"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad29231088b8e2f3e5232c553e8230645">&#9670;&#160;</a></span>months()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::months </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a42baa77ab3562bedaf653baf57017b0a" name="a42baa77ab3562bedaf653baf57017b0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42baa77ab3562bedaf653baf57017b0a">&#9670;&#160;</a></span>normalize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Interval::normalize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a709828235906efb42570985867506d9d" name="a709828235906efb42570985867506d9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a709828235906efb42570985867506d9d">&#9670;&#160;</a></span>operator!=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Interval::operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a71741dc258e87174829848362cd1d42a" name="a71741dc258e87174829848362cd1d42a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71741dc258e87174829848362cd1d42a">&#9670;&#160;</a></span>operator*()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> sqlcc::Interval::operator* </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>factor</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a50d0b6a54ccbc2238fcf5d7768484634" name="a50d0b6a54ccbc2238fcf5d7768484634"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50d0b6a54ccbc2238fcf5d7768484634">&#9670;&#160;</a></span>operator*=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp; sqlcc::Interval::operator*= </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>factor</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a08738e909408d459fd2f01825750c639" name="a08738e909408d459fd2f01825750c639"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08738e909408d459fd2f01825750c639">&#9670;&#160;</a></span>operator+()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> sqlcc::Interval::operator+ </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2c8ce3bed74bc2255ab82cc3331d27f8" name="a2c8ce3bed74bc2255ab82cc3331d27f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c8ce3bed74bc2255ab82cc3331d27f8">&#9670;&#160;</a></span>operator+=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp; sqlcc::Interval::operator+= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3dbdd4d64e0d5c7321f822e9774a052b" name="a3dbdd4d64e0d5c7321f822e9774a052b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dbdd4d64e0d5c7321f822e9774a052b">&#9670;&#160;</a></span>operator-()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> sqlcc::Interval::operator- </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aec6ad6c2fe90a046e9739ba39303537b" name="aec6ad6c2fe90a046e9739ba39303537b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec6ad6c2fe90a046e9739ba39303537b">&#9670;&#160;</a></span>operator-=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp; sqlcc::Interval::operator-= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a754168d819e96ae84163d67a521d3f50" name="a754168d819e96ae84163d67a521d3f50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a754168d819e96ae84163d67a521d3f50">&#9670;&#160;</a></span>operator/()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> sqlcc::Interval::operator/ </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>divisor</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed9f81123352b550874bba7d20188d2a" name="aed9f81123352b550874bba7d20188d2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed9f81123352b550874bba7d20188d2a">&#9670;&#160;</a></span>operator/=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp; sqlcc::Interval::operator/= </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>divisor</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa6e0585867aca11b82f45afd526dcbf4" name="aa6e0585867aca11b82f45afd526dcbf4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6e0585867aca11b82f45afd526dcbf4">&#9670;&#160;</a></span>operator&lt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Interval::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af53fef569024b9202c94d1660e86816e" name="af53fef569024b9202c94d1660e86816e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af53fef569024b9202c94d1660e86816e">&#9670;&#160;</a></span>operator&lt;=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Interval::operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a291c0fd44f286ca39fb8ab111bf77f3c" name="a291c0fd44f286ca39fb8ab111bf77f3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a291c0fd44f286ca39fb8ab111bf77f3c">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp; sqlcc::Interval::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7cbdcd71f7ae9927034ccb0efeade750" name="a7cbdcd71f7ae9927034ccb0efeade750"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cbdcd71f7ae9927034ccb0efeade750">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp; sqlcc::Interval::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6e23e967d463ec6f8adab5244e6b2ef6" name="a6e23e967d463ec6f8adab5244e6b2ef6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e23e967d463ec6f8adab5244e6b2ef6">&#9670;&#160;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Interval::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a410f064235360e23a7ba6d68e71b22bb" name="a410f064235360e23a7ba6d68e71b22bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a410f064235360e23a7ba6d68e71b22bb">&#9670;&#160;</a></span>operator&gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Interval::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a41a958cdf45e4cf9cae9573d8b8ba097" name="a41a958cdf45e4cf9cae9573d8b8ba097"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41a958cdf45e4cf9cae9573d8b8ba097">&#9670;&#160;</a></span>operator&gt;=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Interval::operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Interval.html">Interval</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af0974a418f213cffe766f5e2f1831c02" name="af0974a418f213cffe766f5e2f1831c02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0974a418f213cffe766f5e2f1831c02">&#9670;&#160;</a></span>seconds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::seconds </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5a41ea9109842d92c4c099340f69605b" name="a5a41ea9109842d92c4c099340f69605b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a41ea9109842d92c4c099340f69605b">&#9670;&#160;</a></span>set_days()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Interval::set_days </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>days</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaa1d85c5b60e7888b731fefc9b565bfd" name="aaa1d85c5b60e7888b731fefc9b565bfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa1d85c5b60e7888b731fefc9b565bfd">&#9670;&#160;</a></span>set_hours()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Interval::set_hours </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>hours</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1b2613a7e9f6a14108ca41763e52242b" name="a1b2613a7e9f6a14108ca41763e52242b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b2613a7e9f6a14108ca41763e52242b">&#9670;&#160;</a></span>set_milliseconds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Interval::set_milliseconds </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>milliseconds</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a48b4d8ed7554ebc500cd8f1f9383eb31" name="a48b4d8ed7554ebc500cd8f1f9383eb31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48b4d8ed7554ebc500cd8f1f9383eb31">&#9670;&#160;</a></span>set_minutes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Interval::set_minutes </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>minutes</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a913502239ea2f916f1c350a4fd95f475" name="a913502239ea2f916f1c350a4fd95f475"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a913502239ea2f916f1c350a4fd95f475">&#9670;&#160;</a></span>set_months()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Interval::set_months </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>months</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a11e941b180217d1f6f23ea917d03d0e7" name="a11e941b180217d1f6f23ea917d03d0e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11e941b180217d1f6f23ea917d03d0e7">&#9670;&#160;</a></span>set_seconds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Interval::set_seconds </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>seconds</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76756a5a3ddf0c76a3fc2200f88c4b9f" name="a76756a5a3ddf0c76a3fc2200f88c4b9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76756a5a3ddf0c76a3fc2200f88c4b9f">&#9670;&#160;</a></span>set_years()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Interval::set_years </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>years</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5d49bbecd8f324920547161f267ef304" name="a5d49bbecd8f324920547161f267ef304"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d49bbecd8f324920547161f267ef304">&#9670;&#160;</a></span>to_milliseconds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::to_milliseconds </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaa341c50e6f272ad9d8b0c99d3ee8b3f" name="aaa341c50e6f272ad9d8b0c99d3ee8b3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa341c50e6f272ad9d8b0c99d3ee8b3f">&#9670;&#160;</a></span>to_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::Interval::to_string </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad7f74c7ab229624c51080a959a65176a" name="ad7f74c7ab229624c51080a959a65176a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7f74c7ab229624c51080a959a65176a">&#9670;&#160;</a></span>years()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::years </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="aea81b31a421294725cdf87aaa0797298" name="aea81b31a421294725cdf87aaa0797298"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea81b31a421294725cdf87aaa0797298">&#9670;&#160;</a></span>days_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::days_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad6873c2bba471fbb4011c899176459b7" name="ad6873c2bba471fbb4011c899176459b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6873c2bba471fbb4011c899176459b7">&#9670;&#160;</a></span>hours_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::hours_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6e80d0d10e45c388bf2146da05a867ac" name="a6e80d0d10e45c388bf2146da05a867ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e80d0d10e45c388bf2146da05a867ac">&#9670;&#160;</a></span>milliseconds_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::milliseconds_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac4c21744f71369460b68f33d19414f2a" name="ac4c21744f71369460b68f33d19414f2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4c21744f71369460b68f33d19414f2a">&#9670;&#160;</a></span>minutes_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::minutes_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af757506cdc337983d404654a79693ae9" name="af757506cdc337983d404654a79693ae9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af757506cdc337983d404654a79693ae9">&#9670;&#160;</a></span>months_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::months_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abe7a9367855168ebbf89db2724b82664" name="abe7a9367855168ebbf89db2724b82664"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe7a9367855168ebbf89db2724b82664">&#9670;&#160;</a></span>seconds_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::seconds_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1d9a1d9733fe54ec51dc5330868b8bca" name="a1d9a1d9733fe54ec51dc5330868b8bca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d9a1d9733fe54ec51dc5330868b8bca">&#9670;&#160;</a></span>years_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Interval::years_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="datetime_8h_source.html">datetime.h</a></li>
+<li><a class="el" href="datetime_8cpp.html">datetime.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

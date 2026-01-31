@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: json_executor.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c4da858a4a51ad367068831bac354363.html">sql_executor</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">json_executor.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="json__executor_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SQLCC_SQL_EXECUTOR_JSON_EXECUTOR_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SQLCC_SQL_EXECUTOR_JSON_EXECUTOR_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span>sql_executor {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html">   21</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html">JSONExecutor</a> {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#aaa443b181ab96fb04f1049b84b56dadc">   26</a></span>    <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#aaa443b181ab96fb04f1049b84b56dadc">JSONExecutor</a>();</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a29a1d8b2cc97dff7046c2e5564bb2472">   31</a></span>    <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a29a1d8b2cc97dff7046c2e5564bb2472">~JSONExecutor</a>();</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a5d688695f4b4793fb14afe028c8628e1">   39</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a5d688695f4b4793fb14afe028c8628e1">ExecuteJSONQuery</a>(<span class="keyword">const</span> std::string&amp; json_data,</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                                <span class="keyword">const</span> std::string&amp; json_path);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#aeae54131efbe58cdb503bbba8187259d">   48</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#aeae54131efbe58cdb503bbba8187259d">ExecuteJSONValue</a>(<span class="keyword">const</span> std::string&amp; json_data,</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                                <span class="keyword">const</span> std::string&amp; json_path);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a807aa156d3ca3bab230d8d652b8760fb">   56</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a807aa156d3ca3bab230d8d652b8760fb">ExecuteJSONArrayAgg</a>(<span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; json_values);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#af0a8d40cde9c90933df007fccf568fca">   63</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#af0a8d40cde9c90933df007fccf568fca">ExecuteJSONObjectAgg</a>(<span class="keyword">const</span> std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;&amp; json_objects);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a0af234a62405ac6068a931a7300802d3">   72</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a0af234a62405ac6068a931a7300802d3">ExecuteJSONModify</a>(<span class="keyword">const</span> std::string&amp; json_data,</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                                 <span class="keyword">const</span> std::string&amp; json_path,</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                                 <span class="keyword">const</span> std::string&amp; new_value);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#abfff35245d84de14215f5188d779cc82">   81</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#abfff35245d84de14215f5188d779cc82">ValidateJSON</a>(<span class="keyword">const</span> std::string&amp; json_data);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a87b2e14fc3d3da4bcae2d12b3bf1388e">   88</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a87b2e14fc3d3da4bcae2d12b3bf1388e">FormatJSON</a>(<span class="keyword">const</span> std::string&amp; json_data);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a9bdd9204dc9c86515f13fca8b7279339">   95</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a9bdd9204dc9c86515f13fca8b7279339">MinifyJSON</a>(<span class="keyword">const</span> std::string&amp; json_data);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#af7b9a85af57ca8972b955ccb43639f21">  102</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#af7b9a85af57ca8972b955ccb43639f21">GetJSONLength</a>(<span class="keyword">const</span> std::string&amp; json_data);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a39f7be1d11bb93d929aef462caf1e7ee">  109</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a39f7be1d11bb93d929aef462caf1e7ee">GetJSONType</a>(<span class="keyword">const</span> std::string&amp; json_data);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="comment">// 私有辅助方法</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#ae6cdfba8f95b3327c8256ed24c51b46b">  113</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#ae6cdfba8f95b3327c8256ed24c51b46b">IsValidJSONPath</a>(<span class="keyword">const</span> std::string&amp; json_path);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a1e17d4d8e229a8c9c3299296bddb54c1">  114</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a1e17d4d8e229a8c9c3299296bddb54c1">EscapeJSON</a>(<span class="keyword">const</span> std::string&amp; input);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a8b3e58b8ce2a09a1cc41a80158ed2d88">  115</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a8b3e58b8ce2a09a1cc41a80158ed2d88">UnescapeJSON</a>(<span class="keyword">const</span> std::string&amp; input);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>};</div>
+</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>} <span class="comment">// namespace sql_executor</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SQL_EXECUTOR_JSON_EXECUTOR_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html">sqlcc::sql_executor::JSONExecutor</a></div><div class="ttdoc">JSON执行器</div><div class="ttdef"><b>Definition</b> json_executor.h:21</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_a0af234a62405ac6068a931a7300802d3"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a0af234a62405ac6068a931a7300802d3">sqlcc::sql_executor::JSONExecutor::ExecuteJSONModify</a></div><div class="ttdeci">std::string ExecuteJSONModify(const std::string &amp;json_data, const std::string &amp;json_path, const std::string &amp;new_value)</div><div class="ttdoc">执行JSON修改操作</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_a1e17d4d8e229a8c9c3299296bddb54c1"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a1e17d4d8e229a8c9c3299296bddb54c1">sqlcc::sql_executor::JSONExecutor::EscapeJSON</a></div><div class="ttdeci">std::string EscapeJSON(const std::string &amp;input)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_a29a1d8b2cc97dff7046c2e5564bb2472"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a29a1d8b2cc97dff7046c2e5564bb2472">sqlcc::sql_executor::JSONExecutor::~JSONExecutor</a></div><div class="ttdeci">~JSONExecutor()</div><div class="ttdoc">析构函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_a39f7be1d11bb93d929aef462caf1e7ee"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a39f7be1d11bb93d929aef462caf1e7ee">sqlcc::sql_executor::JSONExecutor::GetJSONType</a></div><div class="ttdeci">std::string GetJSONType(const std::string &amp;json_data)</div><div class="ttdoc">检查JSON类型</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_a5d688695f4b4793fb14afe028c8628e1"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a5d688695f4b4793fb14afe028c8628e1">sqlcc::sql_executor::JSONExecutor::ExecuteJSONQuery</a></div><div class="ttdeci">std::string ExecuteJSONQuery(const std::string &amp;json_data, const std::string &amp;json_path)</div><div class="ttdoc">执行JSON查询操作</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_a807aa156d3ca3bab230d8d652b8760fb"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a807aa156d3ca3bab230d8d652b8760fb">sqlcc::sql_executor::JSONExecutor::ExecuteJSONArrayAgg</a></div><div class="ttdeci">std::string ExecuteJSONArrayAgg(const std::vector&lt; std::string &gt; &amp;json_values)</div><div class="ttdoc">执行JSON数组聚合操作</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_a87b2e14fc3d3da4bcae2d12b3bf1388e"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a87b2e14fc3d3da4bcae2d12b3bf1388e">sqlcc::sql_executor::JSONExecutor::FormatJSON</a></div><div class="ttdeci">std::string FormatJSON(const std::string &amp;json_data)</div><div class="ttdoc">格式化JSON数据（美化输出）</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_a8b3e58b8ce2a09a1cc41a80158ed2d88"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a8b3e58b8ce2a09a1cc41a80158ed2d88">sqlcc::sql_executor::JSONExecutor::UnescapeJSON</a></div><div class="ttdeci">std::string UnescapeJSON(const std::string &amp;input)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_a9bdd9204dc9c86515f13fca8b7279339"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#a9bdd9204dc9c86515f13fca8b7279339">sqlcc::sql_executor::JSONExecutor::MinifyJSON</a></div><div class="ttdeci">std::string MinifyJSON(const std::string &amp;json_data)</div><div class="ttdoc">压缩JSON数据（去除空白）</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_aaa443b181ab96fb04f1049b84b56dadc"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#aaa443b181ab96fb04f1049b84b56dadc">sqlcc::sql_executor::JSONExecutor::JSONExecutor</a></div><div class="ttdeci">JSONExecutor()</div><div class="ttdoc">构造函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_abfff35245d84de14215f5188d779cc82"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#abfff35245d84de14215f5188d779cc82">sqlcc::sql_executor::JSONExecutor::ValidateJSON</a></div><div class="ttdeci">bool ValidateJSON(const std::string &amp;json_data)</div><div class="ttdoc">验证JSON数据格式</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_ae6cdfba8f95b3327c8256ed24c51b46b"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#ae6cdfba8f95b3327c8256ed24c51b46b">sqlcc::sql_executor::JSONExecutor::IsValidJSONPath</a></div><div class="ttdeci">bool IsValidJSONPath(const std::string &amp;json_path)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_aeae54131efbe58cdb503bbba8187259d"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#aeae54131efbe58cdb503bbba8187259d">sqlcc::sql_executor::JSONExecutor::ExecuteJSONValue</a></div><div class="ttdeci">std::string ExecuteJSONValue(const std::string &amp;json_data, const std::string &amp;json_path)</div><div class="ttdoc">执行JSON值提取操作</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_af0a8d40cde9c90933df007fccf568fca"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#af0a8d40cde9c90933df007fccf568fca">sqlcc::sql_executor::JSONExecutor::ExecuteJSONObjectAgg</a></div><div class="ttdeci">std::string ExecuteJSONObjectAgg(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;json_objects)</div><div class="ttdoc">执行JSON对象聚合操作</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1JSONExecutor_html_af7b9a85af57ca8972b955ccb43639f21"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1JSONExecutor.html#af7b9a85af57ca8972b955ccb43639f21">sqlcc::sql_executor::JSONExecutor::GetJSONLength</a></div><div class="ttdeci">size_t GetJSONLength(const std::string &amp;json_data)</div><div class="ttdoc">计算JSON数据长度</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

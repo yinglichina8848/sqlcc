@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: task_executor.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bd0755c95a42e835fb06f38bbeb1d6ed.html">execution</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">task_executor.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="task__executor_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="preprocessor">#ifndef SQLCC_EXECUTION_TASK_EXECUTOR_H</span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="preprocessor">#define SQLCC_EXECUTION_TASK_EXECUTOR_H</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="preprocessor">#include &lt;queue&gt;</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="preprocessor">#include &lt;condition_variable&gt;</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="preprocessor">#include &quot;../core/execution_result.h&quot;</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="preprocessor">#include &quot;<a class="code" href="task__result_8h.html">task_result.h</a>&quot;</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="keyword">class </span>ExecutionContext;</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="comment">// 任务状态</span></div>
+<div class="foldopen" id="foldopen00160" data-start="{" data-end="};">
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="namespacesqlcc.html#a820a141f6be2d854c314b595918b4b28">  160</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespacesqlcc.html#a820a141f6be2d854c314b595918b4b28">TaskStatus</a> {</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a820a141f6be2d854c314b595918b4b28ac69f06e1a9b016d133907b4e5f5864d2">PENDING</a> = 0,</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a820a141f6be2d854c314b595918b4b28a43491564ebcfd38568918efbd6e840fd">RUNNING</a> = 1,</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a820a141f6be2d854c314b595918b4b28a8f7afecbc8fbc4cd0f50a57d1172482e">COMPLETED</a> = 2,</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4a0b93acc7df52be5b35317a0f07513908">FAILED</a> = 3,</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a820a141f6be2d854c314b595918b4b28a9f935beb31030ad0d4d26126c0f39bf2">CANCELLED</a> = 4</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>};</div>
+</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span><span class="comment">// 任务优先级</span></div>
+<div class="foldopen" id="foldopen00169" data-start="{" data-end="};">
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="namespacesqlcc.html#af5d433080382f336cdc6776044b9128e">  169</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespacesqlcc.html#af5d433080382f336cdc6776044b9128e">TaskPriority</a> {</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#af5d433080382f336cdc6776044b9128ea41bc94cbd8eebea13ce0491b2ac11b88">LOW</a> = 0,</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#af5d433080382f336cdc6776044b9128ea1e23852820b9154316c7c06e2b7ba051">NORMAL</a> = 1,</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#af5d433080382f336cdc6776044b9128eab89de3b4b81c4facfac906edf29aec8c">HIGH</a> = 2,</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4a3c11ffcd0f9b73faaaf96fa848005d4c">CRITICAL</a> = 3</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>};</div>
+</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="comment">// 任务接口</span></div>
+<div class="foldopen" id="foldopen00179" data-start="{" data-end="};">
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html">  179</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1Task.html">Task</a> {</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#a9f808f15a1b316a540dd86ffcff5d102">  181</a></span>    <a class="code hl_function" href="classsqlcc_1_1Task.html#a9f808f15a1b316a540dd86ffcff5d102">Task</a>() : <a class="code hl_variable" href="classsqlcc_1_1Task.html#a51bf02c219a859b76f442d3afceccda2">task_id_</a>(<span class="stringliteral">&quot;&quot;</span>), <a class="code hl_variable" href="classsqlcc_1_1Task.html#af78a5529fa451acd3560509fc7123392">task_type_</a>(<a class="code hl_enumeration" href="namespacesqlcc.html#ac31c369593b5ec87cad6620a3f2d8eb0">TaskType</a>::<a class="code hl_enumvalue" href="namespacesqlcc.html#ac31c369593b5ec87cad6620a3f2d8eb0a696b031073e74bf2cb98e5ef201d4aa3">UNKNOWN</a>), <a class="code hl_variable" href="classsqlcc_1_1Task.html#a0b96a2bb147478926f52cb8e609d46bd">priority_</a>(0), <a class="code hl_variable" href="classsqlcc_1_1Task.html#a37345a08383aba905a26267e01d93c3f">completed_</a>(false) {}</div>
+<div class="foldopen" id="foldopen00182" data-start="{" data-end="}">
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#aad0a4af0d7e28ab2bc7ce80965dbff07">  182</a></span>    <a class="code hl_function" href="classsqlcc_1_1Task.html#aad0a4af0d7e28ab2bc7ce80965dbff07">Task</a>(<span class="keyword">const</span> std::string&amp; task_id, <a class="code hl_enumeration" href="namespacesqlcc.html#ac31c369593b5ec87cad6620a3f2d8eb0">TaskType</a> type, <span class="keywordtype">int</span> priority = 0)</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        : <a class="code hl_variable" href="classsqlcc_1_1Task.html#a51bf02c219a859b76f442d3afceccda2">task_id_</a>(task_id), <a class="code hl_variable" href="classsqlcc_1_1Task.html#af78a5529fa451acd3560509fc7123392">task_type_</a>(type), <a class="code hl_variable" href="classsqlcc_1_1Task.html#a0b96a2bb147478926f52cb8e609d46bd">priority_</a>(priority), <a class="code hl_variable" href="classsqlcc_1_1Task.html#a37345a08383aba905a26267e01d93c3f">completed_</a>(false) {}</div>
+</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#a6f34b18e0c1629c07bc825673cb157a4">  184</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1Task.html#a6f34b18e0c1629c07bc825673cb157a4">~Task</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#a8705dd247c7f3741fb5b100f0453eaf7">  186</a></span>    <span class="keyword">virtual</span> std::shared_ptr&lt;TaskResult&gt; <a class="code hl_function" href="classsqlcc_1_1Task.html#a8705dd247c7f3741fb5b100f0453eaf7">execute</a>() = 0;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#a76907d89f2cfb8ff4e5de1e9f77f0cfe">  187</a></span>    <span class="keyword">virtual</span> std::string <a class="code hl_function" href="classsqlcc_1_1Task.html#a76907d89f2cfb8ff4e5de1e9f77f0cfe">getDescription</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1Task.html#a51bf02c219a859b76f442d3afceccda2">task_id_</a>; }</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#a12d3fc9431ada45c010103489d8987ed">  188</a></span>    <span class="keyword">virtual</span> <a class="code hl_enumeration" href="namespacesqlcc.html#af5d433080382f336cdc6776044b9128e">TaskPriority</a> <a class="code hl_function" href="classsqlcc_1_1Task.html#a12d3fc9431ada45c010103489d8987ed">getPriority</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code hl_enumeration" href="namespacesqlcc.html#af5d433080382f336cdc6776044b9128e">TaskPriority</a><span class="keyword">&gt;</span>(<a class="code hl_variable" href="classsqlcc_1_1Task.html#a0b96a2bb147478926f52cb8e609d46bd">priority_</a>); }</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#a9ccada518a1b6d2087caeb78ed359308">  190</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1Task.html#a9ccada518a1b6d2087caeb78ed359308">getTaskId</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1Task.html#a51bf02c219a859b76f442d3afceccda2">task_id_</a>; }</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#a00b2cc34f2ae377115e3cfd0159542f5">  191</a></span>    <a class="code hl_enumeration" href="namespacesqlcc.html#ac31c369593b5ec87cad6620a3f2d8eb0">TaskType</a> <a class="code hl_function" href="classsqlcc_1_1Task.html#a00b2cc34f2ae377115e3cfd0159542f5">getTaskType</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1Task.html#af78a5529fa451acd3560509fc7123392">task_type_</a>; }</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#a6f6c9d06b5af018a08bcac11ba8d2994">  192</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classsqlcc_1_1Task.html#a6f6c9d06b5af018a08bcac11ba8d2994">getPriorityValue</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1Task.html#a0b96a2bb147478926f52cb8e609d46bd">priority_</a>; }</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#ae8b875997e32c10d7d2f8467c2618a8c">  193</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1Task.html#ae8b875997e32c10d7d2f8467c2618a8c">isCompleted</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1Task.html#a37345a08383aba905a26267e01d93c3f">completed_</a>; }</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#ae5596d83090005b58e17f5c6e30eb691">  195</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1Task.html#ae5596d83090005b58e17f5c6e30eb691">setTaskId</a>(<span class="keyword">const</span> std::string&amp; task_id) { <a class="code hl_variable" href="classsqlcc_1_1Task.html#a51bf02c219a859b76f442d3afceccda2">task_id_</a> = task_id; }</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#a51bf02c219a859b76f442d3afceccda2">  198</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1Task.html#a51bf02c219a859b76f442d3afceccda2">task_id_</a>;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#af78a5529fa451acd3560509fc7123392">  199</a></span>    <a class="code hl_enumeration" href="namespacesqlcc.html#ac31c369593b5ec87cad6620a3f2d8eb0">TaskType</a> <a class="code hl_variable" href="classsqlcc_1_1Task.html#af78a5529fa451acd3560509fc7123392">task_type_</a>;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#a0b96a2bb147478926f52cb8e609d46bd">  200</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="classsqlcc_1_1Task.html#a0b96a2bb147478926f52cb8e609d46bd">priority_</a>;</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Task.html#a37345a08383aba905a26267e01d93c3f">  201</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1Task.html#a37345a08383aba905a26267e01d93c3f">completed_</a>;</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>};</div>
+</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="comment">// 任务执行器 - 管理任务队列和执行</span></div>
+<div class="foldopen" id="foldopen00205" data-start="{" data-end="};">
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="classsqlcc_1_1TaskExecutor.html">  205</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1TaskExecutor.html">TaskExecutor</a> {</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#ae259435b5fe61668110b21d24db8683b">TaskExecutor</a>();</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#a21d556bbb779e56ff0168c5b53e68a42">~TaskExecutor</a>();</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    <span class="comment">// 初始化和配置</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#a6bd95a89e2361a75516202f9c5693984">initialize</a>(<span class="keywordtype">int</span> num_threads = 4);</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#a72d41db2aa42268f7bf75445ef7cc611">shutdown</a>();</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span> </div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    <span class="comment">// 任务提交</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#a45ba7962b21a84534cf876d1315b36cc">submitTask</a>(std::unique_ptr&lt;Task&gt; task);</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#a45ba7962b21a84534cf876d1315b36cc">submitTask</a>(std::function&lt;<span class="keywordtype">void</span>(<a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a>&amp;)&gt; func,</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>                   <span class="keyword">const</span> std::string&amp; description,</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>                   <a class="code hl_enumeration" href="namespacesqlcc.html#af5d433080382f336cdc6776044b9128e">TaskPriority</a> priority = <a class="code hl_enumvalue" href="namespacesqlcc.html#af5d433080382f336cdc6776044b9128ea1e23852820b9154316c7c06e2b7ba051">TaskPriority::NORMAL</a>);</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    <span class="comment">// 任务管理</span></div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#ae483a3b5c670ff4d6bf103e4708aa9c7">cancelTask</a>(<span class="keywordtype">int</span> task_id);</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <a class="code hl_enumeration" href="namespacesqlcc.html#a820a141f6be2d854c314b595918b4b28">TaskStatus</a> <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#a0cd406f8d7865728eaa258dc69cfae4b">getTaskStatus</a>(<span class="keywordtype">int</span> task_id) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#adc8bcc00f247e3d1bd1d4aa9bda773b9">getPendingTaskCount</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#a4519fe879446f6d65bb3502b69e723a4">getRunningTaskCount</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span> </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <span class="comment">// 阻塞等待</span></div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#af7a6cf6ff8770fc1ceb72d2bcf90a9d2">waitForTask</a>(<span class="keywordtype">int</span> task_id);</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#ae2cdff4d1c6308bfb8915531325efa97">waitForAllTasks</a>();</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    <span class="comment">// 资源管理</span></div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#a0b365cee62df36fb5f476f8ea6b69401">setMaxConcurrentTasks</a>(<span class="keywordtype">size_t</span> max_tasks);</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#aaf36079e44ece930f1d35cf6119e0af6">setTaskTimeout</a>(std::chrono::seconds timeout);</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    <span class="comment">// 任务队列</span></div>
+<div class="foldopen" id="foldopen00236" data-start="{" data-end="};">
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno"><a class="line" href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html">  236</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html">TaskItem</a> {</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno"><a class="line" href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html#ac5fd09abbd9cb001e7a5c7d2645b0b6b">  237</a></span>        <span class="keywordtype">int</span> <a class="code hl_variable" href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html#ac5fd09abbd9cb001e7a5c7d2645b0b6b">task_id</a>;</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno"><a class="line" href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html#a594f672141fab4107d23e0db3bb973a5">  238</a></span>        std::unique_ptr&lt;Task&gt; <a class="code hl_variable" href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html#a594f672141fab4107d23e0db3bb973a5">task</a>;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno"><a class="line" href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html#a116c467e4f76ed7a23c1c781abc92754">  239</a></span>        std::chrono::steady_clock::time_point <a class="code hl_variable" href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html#a116c467e4f76ed7a23c1c781abc92754">submit_time</a>;</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span> </div>
+<div class="foldopen" id="foldopen00241" data-start="{" data-end="}">
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno"><a class="line" href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html#a9ffec498522e899b9864a8d3c8e88668">  241</a></span>        <span class="keywordtype">bool</span> <a class="code hl_function" href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html#a9ffec498522e899b9864a8d3c8e88668">operator&lt;</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html">TaskItem</a>&amp; other)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html#a594f672141fab4107d23e0db3bb973a5">task</a>-&gt;getPriority() &lt; other.<a class="code hl_variable" href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html#a594f672141fab4107d23e0db3bb973a5">task</a>-&gt;getPriority();</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>        }</div>
+</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    };</div>
+</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    <span class="comment">// 工作线程</span></div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#ac6090bb5b1f8c110da6708303638228a">workerThread</a>();</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1TaskExecutor.html#aa9a2a01fbc3f0eeb005abbf6c201014d">processTask</a>(TaskItem&amp; task_item);</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    <span class="comment">// 同步原语</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno"><a class="line" href="classsqlcc_1_1TaskExecutor.html#aa666fd47a17fc6b6119876d0a9ead1fb">  251</a></span>    <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1TaskExecutor.html#aa666fd47a17fc6b6119876d0a9ead1fb">queue_mutex_</a>;</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno"><a class="line" href="classsqlcc_1_1TaskExecutor.html#a54525d5143f115b0ac996cb3eaf6315a">  252</a></span>    std::condition_variable <a class="code hl_variable" href="classsqlcc_1_1TaskExecutor.html#a54525d5143f115b0ac996cb3eaf6315a">queue_cv_</a>;</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno"><a class="line" href="classsqlcc_1_1TaskExecutor.html#af48fcb7935cbf9eec2448b2b80785157">  253</a></span>    std::priority_queue&lt;TaskItem&gt; <a class="code hl_variable" href="classsqlcc_1_1TaskExecutor.html#af48fcb7935cbf9eec2448b2b80785157">task_queue_</a>;</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    <span class="comment">// 线程管理</span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno"><a class="line" href="classsqlcc_1_1TaskExecutor.html#af303a646b41eb8f37cec289b5161e18e">  256</a></span>    std::vector&lt;std::thread&gt; <a class="code hl_variable" href="classsqlcc_1_1TaskExecutor.html#af303a646b41eb8f37cec289b5161e18e">worker_threads_</a>;</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno"><a class="line" href="classsqlcc_1_1TaskExecutor.html#a107098876729acb0d5d25e6de62fc75f">  257</a></span>    std::atomic&lt;bool&gt; <a class="code hl_variable" href="classsqlcc_1_1TaskExecutor.html#a107098876729acb0d5d25e6de62fc75f">running_</a>;</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span> </div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>    <span class="comment">// 配置</span></div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno"><a class="line" href="classsqlcc_1_1TaskExecutor.html#a3d046ac0b1d0258f6674a8367b75314a">  260</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1TaskExecutor.html#a3d046ac0b1d0258f6674a8367b75314a">max_concurrent_tasks_</a>;</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno"><a class="line" href="classsqlcc_1_1TaskExecutor.html#acc1d443eb45f7432b3bcd09eabcc7cb3">  261</a></span>    std::chrono::seconds <a class="code hl_variable" href="classsqlcc_1_1TaskExecutor.html#acc1d443eb45f7432b3bcd09eabcc7cb3">task_timeout_</a>;</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    <span class="comment">// 任务跟踪</span></div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno"><a class="line" href="classsqlcc_1_1TaskExecutor.html#ad8dee8af3fc1ff45c5e5886109f48a70">  264</a></span>    <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1TaskExecutor.html#ad8dee8af3fc1ff45c5e5886109f48a70">status_mutex_</a>;</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno"><a class="line" href="classsqlcc_1_1TaskExecutor.html#a5f838d06b19b3c8dd1ad40b20fca41b7">  265</a></span>    std::unordered_map&lt;int, TaskStatus&gt; <a class="code hl_variable" href="classsqlcc_1_1TaskExecutor.html#a5f838d06b19b3c8dd1ad40b20fca41b7">task_statuses_</a>;</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno"><a class="line" href="classsqlcc_1_1TaskExecutor.html#ae91f8db3e1c4f7a2286c72d782b81cf6">  266</a></span>    std::atomic&lt;int&gt; <a class="code hl_variable" href="classsqlcc_1_1TaskExecutor.html#ae91f8db3e1c4f7a2286c72d782b81cf6">next_task_id_</a>;</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>};</div>
+</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span> </div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_EXECUTION_TASK_EXECUTOR_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1ExecutionContext_html"><div class="ttname"><a href="classsqlcc_1_1ExecutionContext.html">sqlcc::ExecutionContext</a></div><div class="ttdef"><b>Definition</b> execution_context.h:162</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html">sqlcc::TaskExecutor</a></div><div class="ttdef"><b>Definition</b> task_executor.h:205</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_a0b365cee62df36fb5f476f8ea6b69401"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#a0b365cee62df36fb5f476f8ea6b69401">sqlcc::TaskExecutor::setMaxConcurrentTasks</a></div><div class="ttdeci">void setMaxConcurrentTasks(size_t max_tasks)</div><div class="ttdef"><b>Definition</b> task_executor.cpp:192</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_a0cd406f8d7865728eaa258dc69cfae4b"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#a0cd406f8d7865728eaa258dc69cfae4b">sqlcc::TaskExecutor::getTaskStatus</a></div><div class="ttdeci">TaskStatus getTaskStatus(int task_id) const</div><div class="ttdef"><b>Definition</b> task_executor.cpp:138</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_a107098876729acb0d5d25e6de62fc75f"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#a107098876729acb0d5d25e6de62fc75f">sqlcc::TaskExecutor::running_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; running_</div><div class="ttdef"><b>Definition</b> task_executor.h:257</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_a21d556bbb779e56ff0168c5b53e68a42"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#a21d556bbb779e56ff0168c5b53e68a42">sqlcc::TaskExecutor::~TaskExecutor</a></div><div class="ttdeci">~TaskExecutor()</div><div class="ttdef"><b>Definition</b> task_executor.cpp:15</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_a3d046ac0b1d0258f6674a8367b75314a"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#a3d046ac0b1d0258f6674a8367b75314a">sqlcc::TaskExecutor::max_concurrent_tasks_</a></div><div class="ttdeci">size_t max_concurrent_tasks_</div><div class="ttdef"><b>Definition</b> task_executor.h:260</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_a4519fe879446f6d65bb3502b69e723a4"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#a4519fe879446f6d65bb3502b69e723a4">sqlcc::TaskExecutor::getRunningTaskCount</a></div><div class="ttdeci">size_t getRunningTaskCount() const</div><div class="ttdef"><b>Definition</b> task_executor.cpp:151</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_a45ba7962b21a84534cf876d1315b36cc"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#a45ba7962b21a84534cf876d1315b36cc">sqlcc::TaskExecutor::submitTask</a></div><div class="ttdeci">int submitTask(std::unique_ptr&lt; Task &gt; task)</div><div class="ttdef"><b>Definition</b> task_executor.cpp:60</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_a54525d5143f115b0ac996cb3eaf6315a"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#a54525d5143f115b0ac996cb3eaf6315a">sqlcc::TaskExecutor::queue_cv_</a></div><div class="ttdeci">std::condition_variable queue_cv_</div><div class="ttdef"><b>Definition</b> task_executor.h:252</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_a5f838d06b19b3c8dd1ad40b20fca41b7"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#a5f838d06b19b3c8dd1ad40b20fca41b7">sqlcc::TaskExecutor::task_statuses_</a></div><div class="ttdeci">std::unordered_map&lt; int, TaskStatus &gt; task_statuses_</div><div class="ttdef"><b>Definition</b> task_executor.h:265</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_a6bd95a89e2361a75516202f9c5693984"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#a6bd95a89e2361a75516202f9c5693984">sqlcc::TaskExecutor::initialize</a></div><div class="ttdeci">bool initialize(int num_threads=4)</div><div class="ttdef"><b>Definition</b> task_executor.cpp:19</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_a72d41db2aa42268f7bf75445ef7cc611"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#a72d41db2aa42268f7bf75445ef7cc611">sqlcc::TaskExecutor::shutdown</a></div><div class="ttdeci">void shutdown()</div><div class="ttdef"><b>Definition</b> task_executor.cpp:34</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_aa666fd47a17fc6b6119876d0a9ead1fb"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#aa666fd47a17fc6b6119876d0a9ead1fb">sqlcc::TaskExecutor::queue_mutex_</a></div><div class="ttdeci">std::mutex queue_mutex_</div><div class="ttdef"><b>Definition</b> task_executor.h:251</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_aa9a2a01fbc3f0eeb005abbf6c201014d"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#aa9a2a01fbc3f0eeb005abbf6c201014d">sqlcc::TaskExecutor::processTask</a></div><div class="ttdeci">void processTask(TaskItem &amp;task_item)</div><div class="ttdef"><b>Definition</b> task_executor.cpp:258</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_aaf36079e44ece930f1d35cf6119e0af6"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#aaf36079e44ece930f1d35cf6119e0af6">sqlcc::TaskExecutor::setTaskTimeout</a></div><div class="ttdeci">void setTaskTimeout(std::chrono::seconds timeout)</div><div class="ttdef"><b>Definition</b> task_executor.cpp:196</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_ac6090bb5b1f8c110da6708303638228a"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#ac6090bb5b1f8c110da6708303638228a">sqlcc::TaskExecutor::workerThread</a></div><div class="ttdeci">void workerThread()</div><div class="ttdef"><b>Definition</b> task_executor.cpp:200</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_acc1d443eb45f7432b3bcd09eabcc7cb3"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#acc1d443eb45f7432b3bcd09eabcc7cb3">sqlcc::TaskExecutor::task_timeout_</a></div><div class="ttdeci">std::chrono::seconds task_timeout_</div><div class="ttdef"><b>Definition</b> task_executor.h:261</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_ad8dee8af3fc1ff45c5e5886109f48a70"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#ad8dee8af3fc1ff45c5e5886109f48a70">sqlcc::TaskExecutor::status_mutex_</a></div><div class="ttdeci">std::mutex status_mutex_</div><div class="ttdef"><b>Definition</b> task_executor.h:264</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_adc8bcc00f247e3d1bd1d4aa9bda773b9"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#adc8bcc00f247e3d1bd1d4aa9bda773b9">sqlcc::TaskExecutor::getPendingTaskCount</a></div><div class="ttdeci">size_t getPendingTaskCount() const</div><div class="ttdef"><b>Definition</b> task_executor.cpp:145</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_ae259435b5fe61668110b21d24db8683b"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#ae259435b5fe61668110b21d24db8683b">sqlcc::TaskExecutor::TaskExecutor</a></div><div class="ttdeci">TaskExecutor()</div><div class="ttdef"><b>Definition</b> task_executor.cpp:10</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_ae2cdff4d1c6308bfb8915531325efa97"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#ae2cdff4d1c6308bfb8915531325efa97">sqlcc::TaskExecutor::waitForAllTasks</a></div><div class="ttdeci">ExecutionResult waitForAllTasks()</div><div class="ttdef"><b>Definition</b> task_executor.cpp:176</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_ae483a3b5c670ff4d6bf103e4708aa9c7"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#ae483a3b5c670ff4d6bf103e4708aa9c7">sqlcc::TaskExecutor::cancelTask</a></div><div class="ttdeci">bool cancelTask(int task_id)</div><div class="ttdef"><b>Definition</b> task_executor.cpp:126</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_ae91f8db3e1c4f7a2286c72d782b81cf6"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#ae91f8db3e1c4f7a2286c72d782b81cf6">sqlcc::TaskExecutor::next_task_id_</a></div><div class="ttdeci">std::atomic&lt; int &gt; next_task_id_</div><div class="ttdef"><b>Definition</b> task_executor.h:266</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_af303a646b41eb8f37cec289b5161e18e"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#af303a646b41eb8f37cec289b5161e18e">sqlcc::TaskExecutor::worker_threads_</a></div><div class="ttdeci">std::vector&lt; std::thread &gt; worker_threads_</div><div class="ttdef"><b>Definition</b> task_executor.h:256</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_af48fcb7935cbf9eec2448b2b80785157"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#af48fcb7935cbf9eec2448b2b80785157">sqlcc::TaskExecutor::task_queue_</a></div><div class="ttdeci">std::priority_queue&lt; TaskItem &gt; task_queue_</div><div class="ttdef"><b>Definition</b> task_executor.h:253</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TaskExecutor_html_af7a6cf6ff8770fc1ceb72d2bcf90a9d2"><div class="ttname"><a href="classsqlcc_1_1TaskExecutor.html#af7a6cf6ff8770fc1ceb72d2bcf90a9d2">sqlcc::TaskExecutor::waitForTask</a></div><div class="ttdeci">ExecutionResult waitForTask(int task_id)</div><div class="ttdef"><b>Definition</b> task_executor.cpp:157</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html"><div class="ttname"><a href="classsqlcc_1_1Task.html">sqlcc::Task</a></div><div class="ttdef"><b>Definition</b> task_executor.h:179</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_a00b2cc34f2ae377115e3cfd0159542f5"><div class="ttname"><a href="classsqlcc_1_1Task.html#a00b2cc34f2ae377115e3cfd0159542f5">sqlcc::Task::getTaskType</a></div><div class="ttdeci">TaskType getTaskType() const</div><div class="ttdef"><b>Definition</b> task_executor.h:191</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_a0b96a2bb147478926f52cb8e609d46bd"><div class="ttname"><a href="classsqlcc_1_1Task.html#a0b96a2bb147478926f52cb8e609d46bd">sqlcc::Task::priority_</a></div><div class="ttdeci">int priority_</div><div class="ttdef"><b>Definition</b> task_executor.h:200</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_a12d3fc9431ada45c010103489d8987ed"><div class="ttname"><a href="classsqlcc_1_1Task.html#a12d3fc9431ada45c010103489d8987ed">sqlcc::Task::getPriority</a></div><div class="ttdeci">virtual TaskPriority getPriority() const</div><div class="ttdef"><b>Definition</b> task_executor.h:188</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_a37345a08383aba905a26267e01d93c3f"><div class="ttname"><a href="classsqlcc_1_1Task.html#a37345a08383aba905a26267e01d93c3f">sqlcc::Task::completed_</a></div><div class="ttdeci">bool completed_</div><div class="ttdef"><b>Definition</b> task_executor.h:201</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_a51bf02c219a859b76f442d3afceccda2"><div class="ttname"><a href="classsqlcc_1_1Task.html#a51bf02c219a859b76f442d3afceccda2">sqlcc::Task::task_id_</a></div><div class="ttdeci">std::string task_id_</div><div class="ttdef"><b>Definition</b> task_executor.h:198</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_a6f34b18e0c1629c07bc825673cb157a4"><div class="ttname"><a href="classsqlcc_1_1Task.html#a6f34b18e0c1629c07bc825673cb157a4">sqlcc::Task::~Task</a></div><div class="ttdeci">virtual ~Task()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_a6f6c9d06b5af018a08bcac11ba8d2994"><div class="ttname"><a href="classsqlcc_1_1Task.html#a6f6c9d06b5af018a08bcac11ba8d2994">sqlcc::Task::getPriorityValue</a></div><div class="ttdeci">int getPriorityValue() const</div><div class="ttdef"><b>Definition</b> task_executor.h:192</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_a76907d89f2cfb8ff4e5de1e9f77f0cfe"><div class="ttname"><a href="classsqlcc_1_1Task.html#a76907d89f2cfb8ff4e5de1e9f77f0cfe">sqlcc::Task::getDescription</a></div><div class="ttdeci">virtual std::string getDescription() const</div><div class="ttdef"><b>Definition</b> task_executor.h:187</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_a8705dd247c7f3741fb5b100f0453eaf7"><div class="ttname"><a href="classsqlcc_1_1Task.html#a8705dd247c7f3741fb5b100f0453eaf7">sqlcc::Task::execute</a></div><div class="ttdeci">virtual std::shared_ptr&lt; TaskResult &gt; execute()=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_a9ccada518a1b6d2087caeb78ed359308"><div class="ttname"><a href="classsqlcc_1_1Task.html#a9ccada518a1b6d2087caeb78ed359308">sqlcc::Task::getTaskId</a></div><div class="ttdeci">const std::string &amp; getTaskId() const</div><div class="ttdef"><b>Definition</b> task_executor.h:190</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_a9f808f15a1b316a540dd86ffcff5d102"><div class="ttname"><a href="classsqlcc_1_1Task.html#a9f808f15a1b316a540dd86ffcff5d102">sqlcc::Task::Task</a></div><div class="ttdeci">Task()</div><div class="ttdef"><b>Definition</b> task_executor.h:181</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_aad0a4af0d7e28ab2bc7ce80965dbff07"><div class="ttname"><a href="classsqlcc_1_1Task.html#aad0a4af0d7e28ab2bc7ce80965dbff07">sqlcc::Task::Task</a></div><div class="ttdeci">Task(const std::string &amp;task_id, TaskType type, int priority=0)</div><div class="ttdef"><b>Definition</b> task_executor.h:182</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_ae5596d83090005b58e17f5c6e30eb691"><div class="ttname"><a href="classsqlcc_1_1Task.html#ae5596d83090005b58e17f5c6e30eb691">sqlcc::Task::setTaskId</a></div><div class="ttdeci">void setTaskId(const std::string &amp;task_id)</div><div class="ttdef"><b>Definition</b> task_executor.h:195</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_ae8b875997e32c10d7d2f8467c2618a8c"><div class="ttname"><a href="classsqlcc_1_1Task.html#ae8b875997e32c10d7d2f8467c2618a8c">sqlcc::Task::isCompleted</a></div><div class="ttdeci">bool isCompleted() const</div><div class="ttdef"><b>Definition</b> task_executor.h:193</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Task_html_af78a5529fa451acd3560509fc7123392"><div class="ttname"><a href="classsqlcc_1_1Task.html#af78a5529fa451acd3560509fc7123392">sqlcc::Task::task_type_</a></div><div class="ttdeci">TaskType task_type_</div><div class="ttdef"><b>Definition</b> task_executor.h:199</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a820a141f6be2d854c314b595918b4b28"><div class="ttname"><a href="namespacesqlcc.html#a820a141f6be2d854c314b595918b4b28">sqlcc::TaskStatus</a></div><div class="ttdeci">TaskStatus</div><div class="ttdef"><b>Definition</b> task_executor.h:160</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a820a141f6be2d854c314b595918b4b28a43491564ebcfd38568918efbd6e840fd"><div class="ttname"><a href="namespacesqlcc.html#a820a141f6be2d854c314b595918b4b28a43491564ebcfd38568918efbd6e840fd">sqlcc::TaskStatus::RUNNING</a></div><div class="ttdeci">@ RUNNING</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a820a141f6be2d854c314b595918b4b28a8f7afecbc8fbc4cd0f50a57d1172482e"><div class="ttname"><a href="namespacesqlcc.html#a820a141f6be2d854c314b595918b4b28a8f7afecbc8fbc4cd0f50a57d1172482e">sqlcc::TaskStatus::COMPLETED</a></div><div class="ttdeci">@ COMPLETED</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a820a141f6be2d854c314b595918b4b28a9f935beb31030ad0d4d26126c0f39bf2"><div class="ttname"><a href="namespacesqlcc.html#a820a141f6be2d854c314b595918b4b28a9f935beb31030ad0d4d26126c0f39bf2">sqlcc::TaskStatus::CANCELLED</a></div><div class="ttdeci">@ CANCELLED</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a820a141f6be2d854c314b595918b4b28ac69f06e1a9b016d133907b4e5f5864d2"><div class="ttname"><a href="namespacesqlcc.html#a820a141f6be2d854c314b595918b4b28ac69f06e1a9b016d133907b4e5f5864d2">sqlcc::TaskStatus::PENDING</a></div><div class="ttdeci">@ PENDING</div></div>
+<div class="ttc" id="anamespacesqlcc_html_ac31c369593b5ec87cad6620a3f2d8eb0"><div class="ttname"><a href="namespacesqlcc.html#ac31c369593b5ec87cad6620a3f2d8eb0">sqlcc::TaskType</a></div><div class="ttdeci">TaskType</div><div class="ttdoc">任务类型枚举</div><div class="ttdef"><b>Definition</b> task_result.h:168</div></div>
+<div class="ttc" id="anamespacesqlcc_html_ac31c369593b5ec87cad6620a3f2d8eb0a696b031073e74bf2cb98e5ef201d4aa3"><div class="ttname"><a href="namespacesqlcc.html#ac31c369593b5ec87cad6620a3f2d8eb0a696b031073e74bf2cb98e5ef201d4aa3">sqlcc::TaskType::UNKNOWN</a></div><div class="ttdeci">@ UNKNOWN</div></div>
+<div class="ttc" id="anamespacesqlcc_html_add5125e3a79677024fcad929c00f8db4a0b93acc7df52be5b35317a0f07513908"><div class="ttname"><a href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4a0b93acc7df52be5b35317a0f07513908">sqlcc::FAILED</a></div><div class="ttdeci">@ FAILED</div><div class="ttdef"><b>Definition</b> storage/disk_error_handler.h:198</div></div>
+<div class="ttc" id="anamespacesqlcc_html_add5125e3a79677024fcad929c00f8db4a3c11ffcd0f9b73faaaf96fa848005d4c"><div class="ttname"><a href="namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4a3c11ffcd0f9b73faaaf96fa848005d4c">sqlcc::CRITICAL</a></div><div class="ttdeci">@ CRITICAL</div><div class="ttdef"><b>Definition</b> storage/disk_error_handler.h:197</div></div>
+<div class="ttc" id="anamespacesqlcc_html_af5d433080382f336cdc6776044b9128e"><div class="ttname"><a href="namespacesqlcc.html#af5d433080382f336cdc6776044b9128e">sqlcc::TaskPriority</a></div><div class="ttdeci">TaskPriority</div><div class="ttdef"><b>Definition</b> task_executor.h:169</div></div>
+<div class="ttc" id="anamespacesqlcc_html_af5d433080382f336cdc6776044b9128ea1e23852820b9154316c7c06e2b7ba051"><div class="ttname"><a href="namespacesqlcc.html#af5d433080382f336cdc6776044b9128ea1e23852820b9154316c7c06e2b7ba051">sqlcc::TaskPriority::NORMAL</a></div><div class="ttdeci">@ NORMAL</div></div>
+<div class="ttc" id="anamespacesqlcc_html_af5d433080382f336cdc6776044b9128ea41bc94cbd8eebea13ce0491b2ac11b88"><div class="ttname"><a href="namespacesqlcc.html#af5d433080382f336cdc6776044b9128ea41bc94cbd8eebea13ce0491b2ac11b88">sqlcc::TaskPriority::LOW</a></div><div class="ttdeci">@ LOW</div></div>
+<div class="ttc" id="anamespacesqlcc_html_af5d433080382f336cdc6776044b9128eab89de3b4b81c4facfac906edf29aec8c"><div class="ttname"><a href="namespacesqlcc.html#af5d433080382f336cdc6776044b9128eab89de3b4b81c4facfac906edf29aec8c">sqlcc::TaskPriority::HIGH</a></div><div class="ttdeci">@ HIGH</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html">sqlcc::ExecutionResult</a></div><div class="ttdoc">执行结果结构体 用于表示SQL查询的执行结果</div><div class="ttdef"><b>Definition</b> execution_result.h:178</div></div>
+<div class="ttc" id="astructsqlcc_1_1TaskExecutor_1_1TaskItem_html"><div class="ttname"><a href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html">sqlcc::TaskExecutor::TaskItem</a></div><div class="ttdef"><b>Definition</b> task_executor.h:236</div></div>
+<div class="ttc" id="astructsqlcc_1_1TaskExecutor_1_1TaskItem_html_a116c467e4f76ed7a23c1c781abc92754"><div class="ttname"><a href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html#a116c467e4f76ed7a23c1c781abc92754">sqlcc::TaskExecutor::TaskItem::submit_time</a></div><div class="ttdeci">std::chrono::steady_clock::time_point submit_time</div><div class="ttdef"><b>Definition</b> task_executor.h:239</div></div>
+<div class="ttc" id="astructsqlcc_1_1TaskExecutor_1_1TaskItem_html_a594f672141fab4107d23e0db3bb973a5"><div class="ttname"><a href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html#a594f672141fab4107d23e0db3bb973a5">sqlcc::TaskExecutor::TaskItem::task</a></div><div class="ttdeci">std::unique_ptr&lt; Task &gt; task</div><div class="ttdef"><b>Definition</b> task_executor.h:238</div></div>
+<div class="ttc" id="astructsqlcc_1_1TaskExecutor_1_1TaskItem_html_a9ffec498522e899b9864a8d3c8e88668"><div class="ttname"><a href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html#a9ffec498522e899b9864a8d3c8e88668">sqlcc::TaskExecutor::TaskItem::operator&lt;</a></div><div class="ttdeci">bool operator&lt;(const TaskItem &amp;other) const</div><div class="ttdef"><b>Definition</b> task_executor.h:241</div></div>
+<div class="ttc" id="astructsqlcc_1_1TaskExecutor_1_1TaskItem_html_ac5fd09abbd9cb001e7a5c7d2645b0b6b"><div class="ttname"><a href="structsqlcc_1_1TaskExecutor_1_1TaskItem.html#ac5fd09abbd9cb001e7a5c7d2645b0b6b">sqlcc::TaskExecutor::TaskItem::task_id</a></div><div class="ttdeci">int task_id</div><div class="ttdef"><b>Definition</b> task_executor.h:237</div></div>
+<div class="ttc" id="atask__result_8h_html"><div class="ttname"><a href="task__result_8h.html">task_result.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: encryption.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fc4c7f03e1a69a98c370fae55a743828.html">network</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">encryption.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="encryption_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span><span class="comment">// Why: 防止头文件被多次包含，避免编译错误</span></div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span><span class="comment">// What: 使用#pragma once指令确保头文件只被编译一次</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span><span class="comment">// How: 在文件开头添加#pragma once预处理指令</span></div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span> </div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span><span class="comment">// Why: 包含所有分离的加密头文件，保持向后兼容性</span></div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span><span class="comment">// What: 包含所有加密类定义，保持API不变</span></div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span><span class="comment">// How: 使用#include预处理指令包含分离的加密头文件</span></div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="preprocessor">#include &quot;<a class="code" href="encryption__key_8h.html">encryption/encryption_key.h</a>&quot;</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span><span class="preprocessor">#include &quot;<a class="code" href="simple__encryptor_8h.html">encryption/simple_encryptor.h</a>&quot;</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="preprocessor">#include &quot;<a class="code" href="aes__encryptor_8h.html">encryption/aes_encryptor.h</a>&quot;</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="preprocessor">#include &quot;<a class="code" href="hmac__sha256_8h.html">encryption/hmac_sha256.h</a>&quot;</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="preprocessor">#include &quot;<a class="code" href="pbkdf2_8h.html">encryption/pbkdf2.h</a>&quot;</span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span><span class="comment">// Why: 将所有加密类放在命名空间中，避免命名冲突</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span><span class="comment">// What: 定义sqlcc::network命名空间，包含所有网络加密相关的类</span></div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span><span class="comment">// How: 使用namespace关键字定义命名空间，并使用using声明导出所有加密类</span></div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc_1_1network.html">network</a> {</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span><span class="comment">// 导出所有加密类到sqlcc::network命名空间，保持向后兼容性</span></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span><span class="keyword">using </span><a class="code hl_class" href="classsqlcc_1_1network_1_1EncryptionKey.html">sqlcc::network::EncryptionKey</a>;</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span><span class="keyword">using </span><a class="code hl_class" href="classsqlcc_1_1network_1_1SimpleEncryptor.html">sqlcc::network::SimpleEncryptor</a>;</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span><span class="keyword">using </span><a class="code hl_class" href="classsqlcc_1_1network_1_1AESEncryptor.html">sqlcc::network::AESEncryptor</a>;</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span><span class="keyword">using </span><a class="code hl_class" href="classsqlcc_1_1network_1_1HMACSHA256.html">sqlcc::network::HMACSHA256</a>;</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span><span class="keyword">using </span><a class="code hl_class" href="classsqlcc_1_1network_1_1PBKDF2.html">sqlcc::network::PBKDF2</a>;</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span><span class="comment">// 导出辅助函数</span></div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span><span class="keyword">using </span><a class="code hl_function" href="namespacesqlcc_1_1network.html#a452dcace9cf1f0f1baa38ceffc253a17">sqlcc::network::DeriveEncryptionKeyFromPassword</a>;</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span> </div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>} <span class="comment">// namespace network</span></div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aaes__encryptor_8h_html"><div class="ttname"><a href="aes__encryptor_8h.html">aes_encryptor.h</a></div><div class="ttdoc">AES-256-CBC加密器类定义</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1AESEncryptor_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1AESEncryptor.html">sqlcc::network::AESEncryptor</a></div><div class="ttdoc">AES-256-CBC加密器类</div><div class="ttdef"><b>Definition</b> aes_encryptor.h:26</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1EncryptionKey_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1EncryptionKey.html">sqlcc::network::EncryptionKey</a></div><div class="ttdoc">加密密钥容器类</div><div class="ttdef"><b>Definition</b> encryption_key.h:24</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1HMACSHA256_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1HMACSHA256.html">sqlcc::network::HMACSHA256</a></div><div class="ttdoc">HMAC-SHA256防篡改类</div><div class="ttdef"><b>Definition</b> hmac_sha256.h:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1PBKDF2_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1PBKDF2.html">sqlcc::network::PBKDF2</a></div><div class="ttdoc">PBKDF2密钥派生类</div><div class="ttdef"><b>Definition</b> pbkdf2.h:24</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1SimpleEncryptor_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1SimpleEncryptor.html">sqlcc::network::SimpleEncryptor</a></div><div class="ttdoc">简单加密器类</div><div class="ttdef"><b>Definition</b> simple_encryptor.h:24</div></div>
+<div class="ttc" id="aencryption__key_8h_html"><div class="ttname"><a href="encryption__key_8h.html">encryption_key.h</a></div><div class="ttdoc">加密密钥容器类定义</div></div>
+<div class="ttc" id="ahmac__sha256_8h_html"><div class="ttname"><a href="hmac__sha256_8h.html">hmac_sha256.h</a></div><div class="ttdoc">HMAC-SHA256防篡改类定义</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html"><div class="ttname"><a href="namespacesqlcc_1_1network.html">sqlcc::network</a></div><div class="ttdef"><b>Definition</b> client_main.cpp:286</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html_a452dcace9cf1f0f1baa38ceffc253a17"><div class="ttname"><a href="namespacesqlcc_1_1network.html#a452dcace9cf1f0f1baa38ceffc253a17">sqlcc::network::DeriveEncryptionKeyFromPassword</a></div><div class="ttdeci">std::shared_ptr&lt; EncryptionKey &gt; DeriveEncryptionKeyFromPassword(const std::string &amp;passphrase, const std::vector&lt; uint8_t &gt; &amp;salt, int iterations, size_t key_len, size_t iv_len)</div><div class="ttdef"><b>Definition</b> encryption.cpp:306</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="apbkdf2_8h_html"><div class="ttname"><a href="pbkdf2_8h.html">pbkdf2.h</a></div><div class="ttdoc">PBKDF2密钥派生类定义</div></div>
+<div class="ttc" id="asimple__encryptor_8h_html"><div class="ttname"><a href="simple__encryptor_8h.html">simple_encryptor.h</a></div><div class="ttdoc">简单加密器类定义（XOR加密）</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

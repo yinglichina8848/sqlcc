@@ -1,0 +1,997 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::security::MemoryMonitor类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1security.html">security</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html">MemoryMonitor</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1security_1_1MemoryMonitor-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::security::MemoryMonitor类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>内存安全监控系统 - Phase 4长效机制  
+ <a href="classsqlcc_1_1security_1_1MemoryMonitor.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="memory__monitor_8h_source.html">memory_monitor.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::security::MemoryMonitor 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1security_1_1MemoryMonitor__coll__graph.png" border="0" usemap="#asqlcc_1_1security_1_1MemoryMonitor_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1security_1_1MemoryMonitor_coll__map" id="asqlcc_1_1security_1_1MemoryMonitor_coll__map">
+<area shape="rect" title="内存安全监控系统 &#45; Phase 4长效机制" alt="" coords="5,108,232,133"/>
+<area shape="rect" href="structsqlcc_1_1security_1_1MemoryMonitor_1_1MemoryMetrics.html" title=" " alt="" coords="5,5,232,45"/>
+<area shape="poly" title=" " alt="" coords="121,59,121,108,116,108,116,59"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1security_1_1MemoryMonitor_1_1AllocationInfo.html">AllocationInfo</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1security_1_1MemoryMonitor_1_1MemoryMetrics.html">MemoryMetrics</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a5c657858e1d2a5d2ada5db49f8c933b0" id="r_a5c657858e1d2a5d2ada5db49f8c933b0"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5c657858e1d2a5d2ada5db49f8c933b0">AlertLevel</a> { <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5c657858e1d2a5d2ada5db49f8c933b0a551b723eafd6a31d444fcb2f5920fbd3">INFO</a>
+, <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5c657858e1d2a5d2ada5db49f8c933b0a059e9861e0400dfbe05c98a841f3f96b">WARNING</a>
+, <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5c657858e1d2a5d2ada5db49f8c933b0abb1ca97ec761fc37101737ba0aa2e7c5">ERROR</a>
+, <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5c657858e1d2a5d2ada5db49f8c933b0a99cd1c61610c76a57cb8d10d6df6b870">CRITICAL</a>
+ }</td></tr>
+<tr class="separator:a5c657858e1d2a5d2ada5db49f8c933b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9118fb13052caff652ec16f02ab1cad0" id="r_a9118fb13052caff652ec16f02ab1cad0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a9118fb13052caff652ec16f02ab1cad0">AlertCallback</a> = std::function&lt; void(<a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5c657858e1d2a5d2ada5db49f8c933b0">AlertLevel</a>, const std::string &amp;, const <a class="el" href="structsqlcc_1_1security_1_1MemoryMonitor_1_1MemoryMetrics.html">MemoryMetrics</a> &amp;)&gt;</td></tr>
+<tr class="separator:a9118fb13052caff652ec16f02ab1cad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:ae3a6690ad2f383ed7d8a0ab2bc682b27" id="r_ae3a6690ad2f383ed7d8a0ab2bc682b27"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#ae3a6690ad2f383ed7d8a0ab2bc682b27">MemoryMonitor</a> (const <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html">MemoryMonitor</a> &amp;)=delete</td></tr>
+<tr class="separator:ae3a6690ad2f383ed7d8a0ab2bc682b27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1932660198b5858b01d2e12c048c0249" id="r_a1932660198b5858b01d2e12c048c0249"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html">MemoryMonitor</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a1932660198b5858b01d2e12c048c0249">operator=</a> (const <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html">MemoryMonitor</a> &amp;)=delete</td></tr>
+<tr class="separator:a1932660198b5858b01d2e12c048c0249"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcea367f12d1c358856250381203b303" id="r_abcea367f12d1c358856250381203b303"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#abcea367f12d1c358856250381203b303">startMonitoring</a> (int check_interval=1000)</td></tr>
+<tr class="memdesc:abcea367f12d1c358856250381203b303"><td class="mdescLeft">&#160;</td><td class="mdescRight">启动内存监控  <br /></td></tr>
+<tr class="separator:abcea367f12d1c358856250381203b303"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae33d1f4cf08a0292647a33a27f8b82d9" id="r_ae33d1f4cf08a0292647a33a27f8b82d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#ae33d1f4cf08a0292647a33a27f8b82d9">stopMonitoring</a> ()</td></tr>
+<tr class="memdesc:ae33d1f4cf08a0292647a33a27f8b82d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止内存监控  <br /></td></tr>
+<tr class="separator:ae33d1f4cf08a0292647a33a27f8b82d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3415769e190eb311b2cb1a8c2061d9ce" id="r_a3415769e190eb311b2cb1a8c2061d9ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a3415769e190eb311b2cb1a8c2061d9ce">registerAlertCallback</a> (<a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a9118fb13052caff652ec16f02ab1cad0">AlertCallback</a> callback)</td></tr>
+<tr class="memdesc:a3415769e190eb311b2cb1a8c2061d9ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">注册告警回调  <br /></td></tr>
+<tr class="separator:a3415769e190eb311b2cb1a8c2061d9ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71f15e56facbecf6436c9cf82b365aa6" id="r_a71f15e56facbecf6436c9cf82b365aa6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a71f15e56facbecf6436c9cf82b365aa6">recordAllocation</a> (size_t size, const char *file=&quot;&quot;, int line=0)</td></tr>
+<tr class="memdesc:a71f15e56facbecf6436c9cf82b365aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">记录内存分配  <br /></td></tr>
+<tr class="separator:a71f15e56facbecf6436c9cf82b365aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a718360a4fd575cfcbc6b9bc570e4130e" id="r_a718360a4fd575cfcbc6b9bc570e4130e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a718360a4fd575cfcbc6b9bc570e4130e">recordDeallocation</a> (size_t size)</td></tr>
+<tr class="memdesc:a718360a4fd575cfcbc6b9bc570e4130e"><td class="mdescLeft">&#160;</td><td class="mdescRight">记录内存释放  <br /></td></tr>
+<tr class="separator:a718360a4fd575cfcbc6b9bc570e4130e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b07d63c93f2b445bce41eff0d601a8f" id="r_a4b07d63c93f2b445bce41eff0d601a8f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1security_1_1MemoryMonitor_1_1MemoryMetrics.html">MemoryMetrics</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a4b07d63c93f2b445bce41eff0d601a8f">getCurrentMetrics</a> ()</td></tr>
+<tr class="memdesc:a4b07d63c93f2b445bce41eff0d601a8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前内存指标  <br /></td></tr>
+<tr class="separator:a4b07d63c93f2b445bce41eff0d601a8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a575a17181b7d288ca834a13b9ebbbf37" id="r_a575a17181b7d288ca834a13b9ebbbf37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a575a17181b7d288ca834a13b9ebbbf37">setMemoryThreshold</a> (size_t threshold_bytes)</td></tr>
+<tr class="memdesc:a575a17181b7d288ca834a13b9ebbbf37"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置内存使用阈值  <br /></td></tr>
+<tr class="separator:a575a17181b7d288ca834a13b9ebbbf37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9559a2efdabe2bfdd6029b45c8cd5f0a" id="r_a9559a2efdabe2bfdd6029b45c8cd5f0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a9559a2efdabe2bfdd6029b45c8cd5f0a">setLeakDetectionSensitivity</a> (int sensitivity)</td></tr>
+<tr class="memdesc:a9559a2efdabe2bfdd6029b45c8cd5f0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置泄漏检测灵敏度  <br /></td></tr>
+<tr class="separator:a9559a2efdabe2bfdd6029b45c8cd5f0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ef383bf18ccc2c0d7ab4e410d0c79e8" id="r_a3ef383bf18ccc2c0d7ab4e410d0c79e8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a3ef383bf18ccc2c0d7ab4e410d0c79e8">generateSecurityReport</a> ()</td></tr>
+<tr class="memdesc:a3ef383bf18ccc2c0d7ab4e410d0c79e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">生成内存安全报告  <br /></td></tr>
+<tr class="separator:a3ef383bf18ccc2c0d7ab4e410d0c79e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44692020308aeb3ca195fafdaf008f4a" id="r_a44692020308aeb3ca195fafdaf008f4a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a44692020308aeb3ca195fafdaf008f4a">hasMemorySafetyIssues</a> ()</td></tr>
+<tr class="memdesc:a44692020308aeb3ca195fafdaf008f4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否存在内存安全问题  <br /></td></tr>
+<tr class="separator:a44692020308aeb3ca195fafdaf008f4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a5d73e4114e3b83d94b77cb48e566d5cb" id="r_a5d73e4114e3b83d94b77cb48e566d5cb"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html">MemoryMonitor</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5d73e4114e3b83d94b77cb48e566d5cb">getInstance</a> ()</td></tr>
+<tr class="separator:a5d73e4114e3b83d94b77cb48e566d5cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:ae02a49207350e73777ca56010cdecf0c" id="r_ae02a49207350e73777ca56010cdecf0c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#ae02a49207350e73777ca56010cdecf0c">MemoryMonitor</a> ()</td></tr>
+<tr class="separator:ae02a49207350e73777ca56010cdecf0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a327c95f1131e2f58ce9f048cb0758566" id="r_a327c95f1131e2f58ce9f048cb0758566"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a327c95f1131e2f58ce9f048cb0758566">~MemoryMonitor</a> ()</td></tr>
+<tr class="separator:a327c95f1131e2f58ce9f048cb0758566"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a6ff115592e32429d29eb288539497e" id="r_a5a6ff115592e32429d29eb288539497e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5a6ff115592e32429d29eb288539497e">monitoringThread</a> ()</td></tr>
+<tr class="separator:a5a6ff115592e32429d29eb288539497e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeae7883fd3d4aaa124070591082acc0a" id="r_aeae7883fd3d4aaa124070591082acc0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#aeae7883fd3d4aaa124070591082acc0a">updateMetrics</a> ()</td></tr>
+<tr class="separator:aeae7883fd3d4aaa124070591082acc0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6affb517ca2954c18f8d9cf69fc914e3" id="r_a6affb517ca2954c18f8d9cf69fc914e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a6affb517ca2954c18f8d9cf69fc914e3">triggerAlert</a> (<a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5c657858e1d2a5d2ada5db49f8c933b0">AlertLevel</a> level, const std::string &amp;message)</td></tr>
+<tr class="separator:a6affb517ca2954c18f8d9cf69fc914e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75e5849d9606247b1d08c9bcaacdb8d7" id="r_a75e5849d9606247b1d08c9bcaacdb8d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a75e5849d9606247b1d08c9bcaacdb8d7">checkMemoryLeaks</a> ()</td></tr>
+<tr class="separator:a75e5849d9606247b1d08c9bcaacdb8d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecb692a631ff7cc045355f9677e0357e" id="r_aecb692a631ff7cc045355f9677e0357e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#aecb692a631ff7cc045355f9677e0357e">checkPerformanceIssues</a> ()</td></tr>
+<tr class="separator:aecb692a631ff7cc045355f9677e0357e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:ae781b7275bfad02a5a5264f1ce9aafda" id="r_ae781b7275bfad02a5a5264f1ce9aafda"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#ae781b7275bfad02a5a5264f1ce9aafda">monitoring_active_</a> {false}</td></tr>
+<tr class="separator:ae781b7275bfad02a5a5264f1ce9aafda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f565f6166f7f6e00cf1ed1232a31eb5" id="r_a9f565f6166f7f6e00cf1ed1232a31eb5"><td class="memItemLeft" align="right" valign="top">std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a9f565f6166f7f6e00cf1ed1232a31eb5">monitoring_thread_</a></td></tr>
+<tr class="separator:a9f565f6166f7f6e00cf1ed1232a31eb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a775b4e6d0818be7d24f2abd728e2978d" id="r_a775b4e6d0818be7d24f2abd728e2978d"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a775b4e6d0818be7d24f2abd728e2978d">metrics_mutex_</a></td></tr>
+<tr class="separator:a775b4e6d0818be7d24f2abd728e2978d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1da933411ff6a101c51c7325fa6efbe5" id="r_a1da933411ff6a101c51c7325fa6efbe5"><td class="memItemLeft" align="right" valign="top">std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a1da933411ff6a101c51c7325fa6efbe5">stop_condition_</a></td></tr>
+<tr class="separator:a1da933411ff6a101c51c7325fa6efbe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae59c5dff64e1e49640ca61adfa0ca6b8" id="r_ae59c5dff64e1e49640ca61adfa0ca6b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1security_1_1MemoryMonitor_1_1MemoryMetrics.html">MemoryMetrics</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#ae59c5dff64e1e49640ca61adfa0ca6b8">current_metrics_</a></td></tr>
+<tr class="separator:ae59c5dff64e1e49640ca61adfa0ca6b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a025dcfdc4dfbd32b18f6a4651792497d" id="r_a025dcfdc4dfbd32b18f6a4651792497d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a9118fb13052caff652ec16f02ab1cad0">AlertCallback</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a025dcfdc4dfbd32b18f6a4651792497d">alert_callbacks_</a></td></tr>
+<tr class="separator:a025dcfdc4dfbd32b18f6a4651792497d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41b05e82a14af3b4eeee3d06799ab55d" id="r_a41b05e82a14af3b4eeee3d06799ab55d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a41b05e82a14af3b4eeee3d06799ab55d">memory_threshold_</a> {0}</td></tr>
+<tr class="separator:a41b05e82a14af3b4eeee3d06799ab55d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2ff8c71b6ac3d19fc9b31cbe6f2ce66" id="r_ae2ff8c71b6ac3d19fc9b31cbe6f2ce66"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#ae2ff8c71b6ac3d19fc9b31cbe6f2ce66">leak_sensitivity_</a> {5}</td></tr>
+<tr class="separator:ae2ff8c71b6ac3d19fc9b31cbe6f2ce66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2614aef8ac02220b6c511c2d7f8f5cab" id="r_a2614aef8ac02220b6c511c2d7f8f5cab"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; void *, <a class="el" href="structsqlcc_1_1security_1_1MemoryMonitor_1_1AllocationInfo.html">AllocationInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a2614aef8ac02220b6c511c2d7f8f5cab">active_allocations_</a></td></tr>
+<tr class="separator:a2614aef8ac02220b6c511c2d7f8f5cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42b80afb5530ec630a810b4c1cbe47d4" id="r_a42b80afb5530ec630a810b4c1cbe47d4"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a42b80afb5530ec630a810b4c1cbe47d4">allocation_mutex_</a></td></tr>
+<tr class="separator:a42b80afb5530ec630a810b4c1cbe47d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>内存安全监控系统 - Phase 4长效机制 </p>
+<p>实时监控内存使用、泄漏检测、性能指标和异常告警 </p>
+</div><h2 class="groupheader">成员类型定义说明</h2>
+<a id="a9118fb13052caff652ec16f02ab1cad0" name="a9118fb13052caff652ec16f02ab1cad0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9118fb13052caff652ec16f02ab1cad0">&#9670;&#160;</a></span>AlertCallback</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a9118fb13052caff652ec16f02ab1cad0">sqlcc::security::MemoryMonitor::AlertCallback</a> =  std::function&lt;void(<a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5c657858e1d2a5d2ada5db49f8c933b0">AlertLevel</a>, const std::string&amp;, const <a class="el" href="structsqlcc_1_1security_1_1MemoryMonitor_1_1MemoryMetrics.html">MemoryMetrics</a>&amp;)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a5c657858e1d2a5d2ada5db49f8c933b0" name="a5c657858e1d2a5d2ada5db49f8c933b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c657858e1d2a5d2ada5db49f8c933b0">&#9670;&#160;</a></span>AlertLevel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5c657858e1d2a5d2ada5db49f8c933b0">sqlcc::security::MemoryMonitor::AlertLevel</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a5c657858e1d2a5d2ada5db49f8c933b0a551b723eafd6a31d444fcb2f5920fbd3" name="a5c657858e1d2a5d2ada5db49f8c933b0a551b723eafd6a31d444fcb2f5920fbd3"></a>INFO&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c657858e1d2a5d2ada5db49f8c933b0a059e9861e0400dfbe05c98a841f3f96b" name="a5c657858e1d2a5d2ada5db49f8c933b0a059e9861e0400dfbe05c98a841f3f96b"></a>WARNING&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c657858e1d2a5d2ada5db49f8c933b0abb1ca97ec761fc37101737ba0aa2e7c5" name="a5c657858e1d2a5d2ada5db49f8c933b0abb1ca97ec761fc37101737ba0aa2e7c5"></a>ERROR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c657858e1d2a5d2ada5db49f8c933b0a99cd1c61610c76a57cb8d10d6df6b870" name="a5c657858e1d2a5d2ada5db49f8c933b0a99cd1c61610c76a57cb8d10d6df6b870"></a>CRITICAL&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="ae3a6690ad2f383ed7d8a0ab2bc682b27" name="ae3a6690ad2f383ed7d8a0ab2bc682b27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3a6690ad2f383ed7d8a0ab2bc682b27">&#9670;&#160;</a></span>MemoryMonitor() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::security::MemoryMonitor::MemoryMonitor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html">MemoryMonitor</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae02a49207350e73777ca56010cdecf0c" name="ae02a49207350e73777ca56010cdecf0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae02a49207350e73777ca56010cdecf0c">&#9670;&#160;</a></span>MemoryMonitor() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::security::MemoryMonitor::MemoryMonitor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a327c95f1131e2f58ce9f048cb0758566" name="a327c95f1131e2f58ce9f048cb0758566"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a327c95f1131e2f58ce9f048cb0758566">&#9670;&#160;</a></span>~MemoryMonitor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::security::MemoryMonitor::~MemoryMonitor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a75e5849d9606247b1d08c9bcaacdb8d7" name="a75e5849d9606247b1d08c9bcaacdb8d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75e5849d9606247b1d08c9bcaacdb8d7">&#9670;&#160;</a></span>checkMemoryLeaks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::security::MemoryMonitor::checkMemoryLeaks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aecb692a631ff7cc045355f9677e0357e" name="aecb692a631ff7cc045355f9677e0357e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecb692a631ff7cc045355f9677e0357e">&#9670;&#160;</a></span>checkPerformanceIssues()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::security::MemoryMonitor::checkPerformanceIssues </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3ef383bf18ccc2c0d7ab4e410d0c79e8" name="a3ef383bf18ccc2c0d7ab4e410d0c79e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ef383bf18ccc2c0d7ab4e410d0c79e8">&#9670;&#160;</a></span>generateSecurityReport()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::security::MemoryMonitor::generateSecurityReport </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>生成内存安全报告 </p>
+
+</div>
+</div>
+<a id="a4b07d63c93f2b445bce41eff0d601a8f" name="a4b07d63c93f2b445bce41eff0d601a8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b07d63c93f2b445bce41eff0d601a8f">&#9670;&#160;</a></span>getCurrentMetrics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1security_1_1MemoryMonitor_1_1MemoryMetrics.html">MemoryMonitor::MemoryMetrics</a> sqlcc::security::MemoryMonitor::getCurrentMetrics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取当前内存指标 </p>
+
+</div>
+</div>
+<a id="a5d73e4114e3b83d94b77cb48e566d5cb" name="a5d73e4114e3b83d94b77cb48e566d5cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d73e4114e3b83d94b77cb48e566d5cb">&#9670;&#160;</a></span>getInstance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html">MemoryMonitor</a> &amp; sqlcc::security::MemoryMonitor::getInstance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a44692020308aeb3ca195fafdaf008f4a" name="a44692020308aeb3ca195fafdaf008f4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44692020308aeb3ca195fafdaf008f4a">&#9670;&#160;</a></span>hasMemorySafetyIssues()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::security::MemoryMonitor::hasMemorySafetyIssues </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查是否存在内存安全问题 </p>
+
+</div>
+</div>
+<a id="a5a6ff115592e32429d29eb288539497e" name="a5a6ff115592e32429d29eb288539497e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a6ff115592e32429d29eb288539497e">&#9670;&#160;</a></span>monitoringThread()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::security::MemoryMonitor::monitoringThread </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1932660198b5858b01d2e12c048c0249" name="a1932660198b5858b01d2e12c048c0249"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1932660198b5858b01d2e12c048c0249">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html">MemoryMonitor</a> &amp; sqlcc::security::MemoryMonitor::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html">MemoryMonitor</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a71f15e56facbecf6436c9cf82b365aa6" name="a71f15e56facbecf6436c9cf82b365aa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71f15e56facbecf6436c9cf82b365aa6">&#9670;&#160;</a></span>recordAllocation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::security::MemoryMonitor::recordAllocation </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>file</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>line</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>记录内存分配 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>分配大小 </td></tr>
+    <tr><td class="paramname">file</td><td>文件名 </td></tr>
+    <tr><td class="paramname">line</td><td>行号 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a718360a4fd575cfcbc6b9bc570e4130e" name="a718360a4fd575cfcbc6b9bc570e4130e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a718360a4fd575cfcbc6b9bc570e4130e">&#9670;&#160;</a></span>recordDeallocation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::security::MemoryMonitor::recordDeallocation </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>记录内存释放 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>释放大小 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3415769e190eb311b2cb1a8c2061d9ce" name="a3415769e190eb311b2cb1a8c2061d9ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3415769e190eb311b2cb1a8c2061d9ce">&#9670;&#160;</a></span>registerAlertCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::security::MemoryMonitor::registerAlertCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a9118fb13052caff652ec16f02ab1cad0">AlertCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>注册告警回调 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callback</td><td>回调函数 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9559a2efdabe2bfdd6029b45c8cd5f0a" name="a9559a2efdabe2bfdd6029b45c8cd5f0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9559a2efdabe2bfdd6029b45c8cd5f0a">&#9670;&#160;</a></span>setLeakDetectionSensitivity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::security::MemoryMonitor::setLeakDetectionSensitivity </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>sensitivity</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置泄漏检测灵敏度 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sensitivity</td><td>灵敏度级别（1-10） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a575a17181b7d288ca834a13b9ebbbf37" name="a575a17181b7d288ca834a13b9ebbbf37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a575a17181b7d288ca834a13b9ebbbf37">&#9670;&#160;</a></span>setMemoryThreshold()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::security::MemoryMonitor::setMemoryThreshold </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>threshold_bytes</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置内存使用阈值 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">threshold_bytes</td><td>阈值字节数 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abcea367f12d1c358856250381203b303" name="abcea367f12d1c358856250381203b303"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abcea367f12d1c358856250381203b303">&#9670;&#160;</a></span>startMonitoring()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::security::MemoryMonitor::startMonitoring </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>check_interval</em> = <code>1000</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>启动内存监控 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">check_interval</td><td>检查间隔（毫秒） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae33d1f4cf08a0292647a33a27f8b82d9" name="ae33d1f4cf08a0292647a33a27f8b82d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae33d1f4cf08a0292647a33a27f8b82d9">&#9670;&#160;</a></span>stopMonitoring()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::security::MemoryMonitor::stopMonitoring </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>停止内存监控 </p>
+
+</div>
+</div>
+<a id="a6affb517ca2954c18f8d9cf69fc914e3" name="a6affb517ca2954c18f8d9cf69fc914e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6affb517ca2954c18f8d9cf69fc914e3">&#9670;&#160;</a></span>triggerAlert()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::security::MemoryMonitor::triggerAlert </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a5c657858e1d2a5d2ada5db49f8c933b0">AlertLevel</a>&#160;</td>
+          <td class="paramname"><em>level</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>message</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeae7883fd3d4aaa124070591082acc0a" name="aeae7883fd3d4aaa124070591082acc0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeae7883fd3d4aaa124070591082acc0a">&#9670;&#160;</a></span>updateMetrics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::security::MemoryMonitor::updateMetrics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a2614aef8ac02220b6c511c2d7f8f5cab" name="a2614aef8ac02220b6c511c2d7f8f5cab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2614aef8ac02220b6c511c2d7f8f5cab">&#9670;&#160;</a></span>active_allocations_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;void*, <a class="el" href="structsqlcc_1_1security_1_1MemoryMonitor_1_1AllocationInfo.html">AllocationInfo</a>&gt; sqlcc::security::MemoryMonitor::active_allocations_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a025dcfdc4dfbd32b18f6a4651792497d" name="a025dcfdc4dfbd32b18f6a4651792497d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a025dcfdc4dfbd32b18f6a4651792497d">&#9670;&#160;</a></span>alert_callbacks_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="classsqlcc_1_1security_1_1MemoryMonitor.html#a9118fb13052caff652ec16f02ab1cad0">AlertCallback</a>&gt; sqlcc::security::MemoryMonitor::alert_callbacks_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a42b80afb5530ec630a810b4c1cbe47d4" name="a42b80afb5530ec630a810b4c1cbe47d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42b80afb5530ec630a810b4c1cbe47d4">&#9670;&#160;</a></span>allocation_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::security::MemoryMonitor::allocation_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae59c5dff64e1e49640ca61adfa0ca6b8" name="ae59c5dff64e1e49640ca61adfa0ca6b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae59c5dff64e1e49640ca61adfa0ca6b8">&#9670;&#160;</a></span>current_metrics_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1security_1_1MemoryMonitor_1_1MemoryMetrics.html">MemoryMetrics</a> sqlcc::security::MemoryMonitor::current_metrics_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae2ff8c71b6ac3d19fc9b31cbe6f2ce66" name="ae2ff8c71b6ac3d19fc9b31cbe6f2ce66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2ff8c71b6ac3d19fc9b31cbe6f2ce66">&#9670;&#160;</a></span>leak_sensitivity_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::security::MemoryMonitor::leak_sensitivity_ {5}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a41b05e82a14af3b4eeee3d06799ab55d" name="a41b05e82a14af3b4eeee3d06799ab55d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41b05e82a14af3b4eeee3d06799ab55d">&#9670;&#160;</a></span>memory_threshold_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::security::MemoryMonitor::memory_threshold_ {0}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a775b4e6d0818be7d24f2abd728e2978d" name="a775b4e6d0818be7d24f2abd728e2978d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a775b4e6d0818be7d24f2abd728e2978d">&#9670;&#160;</a></span>metrics_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::security::MemoryMonitor::metrics_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae781b7275bfad02a5a5264f1ce9aafda" name="ae781b7275bfad02a5a5264f1ce9aafda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae781b7275bfad02a5a5264f1ce9aafda">&#9670;&#160;</a></span>monitoring_active_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;bool&gt; sqlcc::security::MemoryMonitor::monitoring_active_ {false}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9f565f6166f7f6e00cf1ed1232a31eb5" name="a9f565f6166f7f6e00cf1ed1232a31eb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f565f6166f7f6e00cf1ed1232a31eb5">&#9670;&#160;</a></span>monitoring_thread_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::thread sqlcc::security::MemoryMonitor::monitoring_thread_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1da933411ff6a101c51c7325fa6efbe5" name="a1da933411ff6a101c51c7325fa6efbe5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1da933411ff6a101c51c7325fa6efbe5">&#9670;&#160;</a></span>stop_condition_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::condition_variable sqlcc::security::MemoryMonitor::stop_condition_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="memory__monitor_8h_source.html">memory_monitor.h</a></li>
+<li><a class="el" href="memory__monitor_8cpp.html">memory_monitor.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

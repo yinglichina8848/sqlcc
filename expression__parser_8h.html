@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: expression_parser.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">expression_parser.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="token__stream_8h_source.html">token_stream.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ast__node_8h_source.html">ast/ast_node.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="expression_8h_source.html">ast/expression.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="operator__kind_8h_source.html">operator_kind.h</a>&quot;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+expression_parser.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="expression__parser_8h__incl.png" border="0" usemap="#aexpression__parser_8h" alt=""/></div>
+<map name="aexpression__parser_8h" id="aexpression__parser_8h">
+<area shape="rect" title=" " alt="" coords="625,5,777,31"/>
+<area shape="rect" href="token__stream_8h.html" title=" " alt="" coords="251,79,374,104"/>
+<area shape="poly" title=" " alt="" coords="639,33,388,79,387,74,638,28"/>
+<area shape="rect" href="ast__node_8h.html" title=" " alt="" coords="437,152,554,177"/>
+<area shape="poly" title=" " alt="" coords="625,31,570,48,545,62,523,80,506,109,499,139,494,138,501,107,519,77,542,58,568,43,624,25"/>
+<area shape="rect" title=" " alt="" coords="553,225,630,251"/>
+<area shape="poly" title=" " alt="" coords="731,28,784,53,840,88,861,109,875,131,878,155,867,179,852,191,830,202,771,218,705,229,644,236,643,230,704,224,770,213,828,197,849,187,863,176,873,154,870,133,857,112,836,93,782,58,729,33"/>
+<area shape="rect" href="expression_8h.html" title=" " alt="" coords="533,79,663,104"/>
+<area shape="poly" title=" " alt="" coords="686,33,628,73,625,68,683,28"/>
+<area shape="rect" href="operator__kind_8h.html" title=" " alt="" coords="629,152,765,177"/>
+<area shape="poly" title=" " alt="" coords="703,31,700,138,695,138,698,31"/>
+<area shape="rect" title=" " alt="" coords="789,152,852,177"/>
+<area shape="poly" title=" " alt="" coords="713,29,804,140,800,143,708,33"/>
+<area shape="rect" title=" " alt="" coords="928,79,1015,104"/>
+<area shape="poly" title=" " alt="" coords="745,28,916,73,914,78,743,33"/>
+<area shape="rect" href="token_8h.html" title=" " alt="" coords="240,152,311,177"/>
+<area shape="poly" title=" " alt="" coords="309,106,290,141,285,139,304,103"/>
+<area shape="rect" title=" " alt="" coords="319,225,378,251"/>
+<area shape="poly" title=" " alt="" coords="318,104,345,211,340,213,313,105"/>
+<area shape="rect" href="lexer_8h.html" title=" " alt="" coords="151,152,216,177"/>
+<area shape="poly" title=" " alt="" coords="293,106,218,147,216,143,291,102"/>
+<area shape="poly" title=" " alt="" coords="289,176,329,214,325,218,286,180"/>
+<area shape="poly" title=" " alt="" coords="211,175,310,217,308,222,209,180"/>
+<area shape="rect" title=" " alt="" coords="5,225,129,251"/>
+<area shape="poly" title=" " alt="" coords="166,180,99,220,97,216,163,175"/>
+<area shape="rect" title=" " alt="" coords="154,225,269,251"/>
+<area shape="poly" title=" " alt="" coords="190,177,204,212,199,214,185,179"/>
+<area shape="poly" title=" " alt="" coords="473,180,386,222,384,217,471,175"/>
+<area shape="poly" title=" " alt="" coords="512,175,566,215,563,219,509,180"/>
+<area shape="poly" title=" " alt="" coords="543,107,485,125,426,154,392,184,366,216,362,212,388,180,423,150,483,120,542,101"/>
+<area shape="poly" title=" " alt="" coords="583,106,525,146,522,142,580,102"/>
+<area shape="poly" title=" " alt="" coords="600,105,595,212,590,212,595,104"/>
+<area shape="poly" title=" " alt="" coords="615,102,671,142,668,146,612,106"/>
+<area shape="poly" title=" " alt="" coords="635,101,777,147,776,152,633,107"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="expression__parser_8h__dep__incl.png" border="0" usemap="#aexpression__parser_8hdep" alt=""/></div>
+<map name="aexpression__parser_8hdep" id="aexpression__parser_8hdep">
+<area shape="rect" title=" " alt="" coords="279,5,431,31"/>
+<area shape="rect" href="expression__parser_8cpp.html" title=" " alt="" coords="5,79,172,104"/>
+<area shape="poly" title=" " alt="" coords="300,37,133,81,131,76,298,32"/>
+<area shape="rect" href="parser__dml_8cpp.html" title="DML语句解析器实现" alt="" coords="125,152,247,177"/>
+<area shape="poly" title=" " alt="" coords="308,38,271,56,237,81,222,98,209,118,193,153,188,150,205,115,218,95,234,77,269,51,306,33"/>
+<area shape="rect" href="parser__helpers_8cpp.html" title="解析器辅助方法实现" alt="" coords="431,152,576,177"/>
+<area shape="poly" title=" " alt="" coords="375,39,432,102,489,150,486,154,428,106,371,43"/>
+<area shape="rect" href="parser__helpers_8h.html" title=" " alt="" coords="442,79,573,104"/>
+<area shape="poly" title=" " alt="" coords="393,34,484,76,481,81,391,39"/>
+<area shape="rect" href="select__parser_8h.html" title=" " alt="" coords="247,79,367,104"/>
+<area shape="poly" title=" " alt="" coords="342,44,317,80,313,77,338,41"/>
+<area shape="rect" href="statement__parser_8h.html" title=" " alt="" coords="604,79,752,104"/>
+<area shape="poly" title=" " alt="" coords="421,31,626,76,625,81,420,36"/>
+<area shape="poly" title=" " alt="" coords="509,118,507,152,501,152,503,118"/>
+<area shape="poly" title=" " alt="" coords="277,113,207,154,205,149,274,109"/>
+<area shape="rect" href="select__parser_8cpp.html" title=" " alt="" coords="272,152,407,177"/>
+<area shape="poly" title=" " alt="" coords="321,116,337,151,332,153,316,118"/>
+<area shape="rect" href="statement__parser_8cpp.html" title=" " alt="" coords="601,152,763,177"/>
+<area shape="poly" title=" " alt="" coords="682,118,684,152,679,152,677,118"/>
+</map>
+</div>
+</div>
+<p><a href="expression__parser_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html">sqlcc::sql_parser::ExpressionParser</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1sql__parser" id="r_namespacesqlcc_1_1sql__parser"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sqlcc::sql_parser</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

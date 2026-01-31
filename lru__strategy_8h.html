@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: lru_strategy.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li><li class="navelem"><a class="el" href="dir_d6478fa4babe184ca510b5101aee411e.html">replace_strategy</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">lru_strategy.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>LRU（最近最少使用）替换策略类定义  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="abstract__strategy_8h_source.html">abstract_strategy.h</a>&quot;</code><br />
+<code>#include &lt;list&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+lru_strategy.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="lru__strategy_8h__incl.png" border="0" usemap="#alru__strategy_8h" alt=""/></div>
+<map name="alru__strategy_8h" id="alru__strategy_8h">
+<area shape="rect" title="LRU（最近最少使用）替换策略类定义" alt="" coords="180,5,291,31"/>
+<area shape="rect" href="abstract__strategy_8h.html" title="抽象替换策略基类定义" alt="" coords="162,79,309,104"/>
+<area shape="poly" title=" " alt="" coords="238,31,238,65,233,65,233,31"/>
+<area shape="rect" title=" " alt="" coords="5,152,129,177"/>
+<area shape="poly" title=" " alt="" coords="218,33,152,81,88,144,84,140,148,77,215,29"/>
+<area shape="rect" title=" " alt="" coords="333,79,375,104"/>
+<area shape="poly" title=" " alt="" coords="256,28,324,69,321,74,253,33"/>
+<area shape="poly" title=" " alt="" coords="209,106,108,149,106,144,207,102"/>
+<area shape="rect" title=" " alt="" coords="154,152,221,177"/>
+<area shape="poly" title=" " alt="" coords="230,106,205,142,200,139,225,103"/>
+<area shape="rect" title=" " alt="" coords="245,152,322,177"/>
+<area shape="poly" title=" " alt="" coords="245,103,270,139,266,142,241,106"/>
+<area shape="rect" title=" " alt="" coords="346,152,410,177"/>
+<area shape="poly" title=" " alt="" coords="259,102,344,143,341,148,257,106"/>
+<area shape="rect" title=" " alt="" coords="434,152,493,177"/>
+<area shape="poly" title=" " alt="" coords="273,101,421,148,420,153,271,107"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="lru__strategy_8h__dep__incl.png" border="0" usemap="#alru__strategy_8hdep" alt=""/></div>
+<map name="alru__strategy_8hdep" id="alru__strategy_8hdep">
+<area shape="rect" title="LRU（最近最少使用）替换策略类定义" alt="" coords="186,5,297,31"/>
+<area shape="rect" href="storage_2replace__strategy_8h.html" title="页面替换策略头文件" alt="" coords="5,79,147,104"/>
+<area shape="poly" title=" " alt="" coords="203,38,104,81,102,76,201,34"/>
+<area shape="rect" href="storage__engine_2buffer__pool_2replace__strategy_8h.html" title="页面替换策略头文件" alt="" coords="171,79,312,104"/>
+<area shape="poly" title=" " alt="" coords="244,44,244,79,239,79,239,44"/>
+<area shape="rect" href="storage__engine_2replace__strategy_8h.html" title="页面替换策略头文件" alt="" coords="336,79,477,104"/>
+<area shape="poly" title=" " alt="" coords="281,34,381,76,379,81,279,38"/>
+<area shape="rect" href="replace__strategy_8cpp.html" title="Implements various page replacement algorithms for the buffer pool." alt="" coords="329,152,485,177"/>
+<area shape="poly" title=" " alt="" coords="409,118,409,152,404,152,404,118"/>
+</map>
+</div>
+</div>
+<p><a href="lru__strategy_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LRUReplaceStrategy.html">sqlcc::LRUReplaceStrategy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">LRU（最近最少使用）替换策略  <a href="classsqlcc_1_1LRUReplaceStrategy.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>LRU（最近最少使用）替换策略类定义 </p>
+<p>Why: 需要实现LRU页面替换算法，将最近最少使用的页面替换出去 What: LRUReplaceStrategy类继承AbstractReplaceStrategy，实现LRU替换算法 How: 使用双向链表维护页面访问顺序，最近使用的页面在链表头部 </p>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

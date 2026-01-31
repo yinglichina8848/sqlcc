@@ -1,0 +1,3066 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::Prefetcher类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1Prefetcher.html">Prefetcher</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1Prefetcher-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::Prefetcher类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>预取器类  
+ <a href="classsqlcc_1_1Prefetcher.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="storage_2prefetcher_8h_source.html">prefetcher.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::Prefetcher 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1Prefetcher__coll__graph.png" border="0" usemap="#asqlcc_1_1Prefetcher_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1Prefetcher_coll__map" id="asqlcc_1_1Prefetcher_coll__map">
+<area shape="rect" title="预取器类" alt="" coords="215,196,346,221"/>
+<area shape="rect" href="classsqlcc_1_1ConfigManager.html" title=" " alt="" coords="5,5,167,31"/>
+<area shape="poly" title=" " alt="" coords="79,44,70,88,71,111,80,132,107,160,142,179,179,192,216,200,214,205,178,197,139,184,104,164,76,135,66,112,64,88,74,43"/>
+<area shape="rect" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器类" alt="" coords="206,101,355,126"/>
+<area shape="poly" title=" " alt="" coords="113,37,161,67,201,85,241,98,239,103,199,89,158,72,110,41"/>
+<area shape="poly" title=" " alt="" coords="283,140,283,196,278,196,278,140"/>
+<area shape="rect" href="structsqlcc_1_1DiskIOStats.html" title="磁盘I/O统计信息" alt="" coords="211,5,350,31"/>
+<area shape="poly" title=" " alt="" coords="283,44,283,101,278,101,278,44"/>
+<area shape="rect" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html" title="预取器统计信息" alt="" coords="379,93,518,133"/>
+<area shape="poly" title=" " alt="" coords="426,145,391,174,363,188,333,198,331,193,361,183,389,170,423,141"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">预取器统计信息  <a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a92865ab9185ad57a00ee675b996e9a94" id="r_a92865ab9185ad57a00ee675b996e9a94"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a92865ab9185ad57a00ee675b996e9a94">AccessPattern</a> { <a class="el" href="classsqlcc_1_1Prefetcher.html#a92865ab9185ad57a00ee675b996e9a94a39403cd282d944abcd4f14996cb71bcb">SEQUENTIAL</a>
+, <a class="el" href="classsqlcc_1_1Prefetcher.html#a92865ab9185ad57a00ee675b996e9a94a170e02e86972c2be8559884cc3c12254">RANDOM</a>
+, <a class="el" href="classsqlcc_1_1Prefetcher.html#a92865ab9185ad57a00ee675b996e9a94ad53f94ef0dc7e4c63dfd3a338da7c151">STRIDED</a>
+, <a class="el" href="classsqlcc_1_1Prefetcher.html#a92865ab9185ad57a00ee675b996e9a94af8e814b9f103b9c20a93dfed4d3263c2">PREDICTABLE</a>
+ }</td></tr>
+<tr class="memdesc:a92865ab9185ad57a00ee675b996e9a94"><td class="mdescLeft">&#160;</td><td class="mdescRight">访问模式枚举 - 定义不同的页面访问模式  <a href="classsqlcc_1_1Prefetcher.html#a92865ab9185ad57a00ee675b996e9a94">更多...</a><br /></td></tr>
+<tr class="separator:a92865ab9185ad57a00ee675b996e9a94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a79fd1d607634c65ad461893f614ae5ae" id="r_a79fd1d607634c65ad461893f614ae5ae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a79fd1d607634c65ad461893f614ae5ae">Prefetcher</a> (<a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager, <a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;disk_manager)</td></tr>
+<tr class="memdesc:a79fd1d607634c65ad461893f614ae5ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a79fd1d607634c65ad461893f614ae5ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39f0e38455bdd465d9df2ac144e5963f" id="r_a39f0e38455bdd465d9df2ac144e5963f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a39f0e38455bdd465d9df2ac144e5963f">~Prefetcher</a> ()</td></tr>
+<tr class="memdesc:a39f0e38455bdd465d9df2ac144e5963f"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a39f0e38455bdd465d9df2ac144e5963f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84caab77e5d76ea1abd85894a540eb57" id="r_a84caab77e5d76ea1abd85894a540eb57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a84caab77e5d76ea1abd85894a540eb57">Start</a> ()</td></tr>
+<tr class="memdesc:a84caab77e5d76ea1abd85894a540eb57"><td class="mdescLeft">&#160;</td><td class="mdescRight">启动预取器  <br /></td></tr>
+<tr class="separator:a84caab77e5d76ea1abd85894a540eb57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae47958f2e2ebdac7c0d077c4af82eae" id="r_aae47958f2e2ebdac7c0d077c4af82eae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#aae47958f2e2ebdac7c0d077c4af82eae">Stop</a> ()</td></tr>
+<tr class="memdesc:aae47958f2e2ebdac7c0d077c4af82eae"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止预取器  <br /></td></tr>
+<tr class="separator:aae47958f2e2ebdac7c0d077c4af82eae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba4deb3eb77db69650ab874e32a194bf" id="r_aba4deb3eb77db69650ab874e32a194bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#aba4deb3eb77db69650ab874e32a194bf">NotifyPageAccess</a> (int32_t transaction_id, int32_t page_id)</td></tr>
+<tr class="memdesc:aba4deb3eb77db69650ab874e32a194bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">通知页面访问  <br /></td></tr>
+<tr class="separator:aba4deb3eb77db69650ab874e32a194bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1280f4de6b3eab30fb796b34f55d33d5" id="r_a1280f4de6b3eab30fb796b34f55d33d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a1280f4de6b3eab30fb796b34f55d33d5">RequestPrefetch</a> (int32_t page_id, int32_t transaction_id=-1, int priority=0)</td></tr>
+<tr class="memdesc:a1280f4de6b3eab30fb796b34f55d33d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">请求预取页面  <br /></td></tr>
+<tr class="separator:a1280f4de6b3eab30fb796b34f55d33d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a826a0e5059ad7eb7e303cbd95a362ea7" id="r_a826a0e5059ad7eb7e303cbd95a362ea7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a826a0e5059ad7eb7e303cbd95a362ea7">GetPrefetchedPage</a> (int32_t page_id, <a class="el" href="classsqlcc_1_1Page.html">Page</a> &amp;page)</td></tr>
+<tr class="memdesc:a826a0e5059ad7eb7e303cbd95a362ea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取预取的页面  <br /></td></tr>
+<tr class="separator:a826a0e5059ad7eb7e303cbd95a362ea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac69eb865a7ffb3b63e5769b4934eeffe" id="r_ac69eb865a7ffb3b63e5769b4934eeffe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#ac69eb865a7ffb3b63e5769b4934eeffe">GetStats</a> () const</td></tr>
+<tr class="memdesc:ac69eb865a7ffb3b63e5769b4934eeffe"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取预取器统计信息  <br /></td></tr>
+<tr class="separator:ac69eb865a7ffb3b63e5769b4934eeffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9e898175f5cebc2638bc76611ef14e2" id="r_af9e898175f5cebc2638bc76611ef14e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#af9e898175f5cebc2638bc76611ef14e2">ResetStats</a> ()</td></tr>
+<tr class="memdesc:af9e898175f5cebc2638bc76611ef14e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">重置统计信息  <br /></td></tr>
+<tr class="separator:af9e898175f5cebc2638bc76611ef14e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fdc0a72a2207f5eb097fa38e43eed7d" id="r_a0fdc0a72a2207f5eb097fa38e43eed7d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a0fdc0a72a2207f5eb097fa38e43eed7d">SetEnabled</a> (bool enabled)</td></tr>
+<tr class="memdesc:a0fdc0a72a2207f5eb097fa38e43eed7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置是否启用  <br /></td></tr>
+<tr class="separator:a0fdc0a72a2207f5eb097fa38e43eed7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7de5392c64f3b4063e9f17a82695c48" id="r_ad7de5392c64f3b4063e9f17a82695c48"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#ad7de5392c64f3b4063e9f17a82695c48">IsEnabled</a> () const</td></tr>
+<tr class="memdesc:ad7de5392c64f3b4063e9f17a82695c48"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否启用  <br /></td></tr>
+<tr class="separator:ad7de5392c64f3b4063e9f17a82695c48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79fd1d607634c65ad461893f614ae5ae" id="r_a79fd1d607634c65ad461893f614ae5ae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a79fd1d607634c65ad461893f614ae5ae">Prefetcher</a> (<a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager, <a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;disk_manager)</td></tr>
+<tr class="memdesc:a79fd1d607634c65ad461893f614ae5ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a79fd1d607634c65ad461893f614ae5ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39f0e38455bdd465d9df2ac144e5963f" id="r_a39f0e38455bdd465d9df2ac144e5963f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a39f0e38455bdd465d9df2ac144e5963f">~Prefetcher</a> ()</td></tr>
+<tr class="memdesc:a39f0e38455bdd465d9df2ac144e5963f"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a39f0e38455bdd465d9df2ac144e5963f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84caab77e5d76ea1abd85894a540eb57" id="r_a84caab77e5d76ea1abd85894a540eb57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a84caab77e5d76ea1abd85894a540eb57">Start</a> ()</td></tr>
+<tr class="memdesc:a84caab77e5d76ea1abd85894a540eb57"><td class="mdescLeft">&#160;</td><td class="mdescRight">启动预取器  <br /></td></tr>
+<tr class="separator:a84caab77e5d76ea1abd85894a540eb57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae47958f2e2ebdac7c0d077c4af82eae" id="r_aae47958f2e2ebdac7c0d077c4af82eae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#aae47958f2e2ebdac7c0d077c4af82eae">Stop</a> ()</td></tr>
+<tr class="memdesc:aae47958f2e2ebdac7c0d077c4af82eae"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止预取器  <br /></td></tr>
+<tr class="separator:aae47958f2e2ebdac7c0d077c4af82eae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba4deb3eb77db69650ab874e32a194bf" id="r_aba4deb3eb77db69650ab874e32a194bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#aba4deb3eb77db69650ab874e32a194bf">NotifyPageAccess</a> (int32_t transaction_id, int32_t page_id)</td></tr>
+<tr class="memdesc:aba4deb3eb77db69650ab874e32a194bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">通知页面访问  <br /></td></tr>
+<tr class="separator:aba4deb3eb77db69650ab874e32a194bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1280f4de6b3eab30fb796b34f55d33d5" id="r_a1280f4de6b3eab30fb796b34f55d33d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a1280f4de6b3eab30fb796b34f55d33d5">RequestPrefetch</a> (int32_t page_id, int32_t transaction_id=-1, int priority=0)</td></tr>
+<tr class="memdesc:a1280f4de6b3eab30fb796b34f55d33d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">请求预取页面  <br /></td></tr>
+<tr class="separator:a1280f4de6b3eab30fb796b34f55d33d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a826a0e5059ad7eb7e303cbd95a362ea7" id="r_a826a0e5059ad7eb7e303cbd95a362ea7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a826a0e5059ad7eb7e303cbd95a362ea7">GetPrefetchedPage</a> (int32_t page_id, <a class="el" href="classsqlcc_1_1Page.html">Page</a> &amp;page)</td></tr>
+<tr class="memdesc:a826a0e5059ad7eb7e303cbd95a362ea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取预取的页面  <br /></td></tr>
+<tr class="separator:a826a0e5059ad7eb7e303cbd95a362ea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa865535a9d022da72c77145ce9f9ed8" id="r_aaa865535a9d022da72c77145ce9f9ed8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#aaa865535a9d022da72c77145ce9f9ed8">GetStats</a> () const</td></tr>
+<tr class="memdesc:aaa865535a9d022da72c77145ce9f9ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取预取器统计信息  <br /></td></tr>
+<tr class="separator:aaa865535a9d022da72c77145ce9f9ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9e898175f5cebc2638bc76611ef14e2" id="r_af9e898175f5cebc2638bc76611ef14e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#af9e898175f5cebc2638bc76611ef14e2">ResetStats</a> ()</td></tr>
+<tr class="memdesc:af9e898175f5cebc2638bc76611ef14e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">重置统计信息  <br /></td></tr>
+<tr class="separator:af9e898175f5cebc2638bc76611ef14e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fdc0a72a2207f5eb097fa38e43eed7d" id="r_a0fdc0a72a2207f5eb097fa38e43eed7d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a0fdc0a72a2207f5eb097fa38e43eed7d">SetEnabled</a> (bool enabled)</td></tr>
+<tr class="memdesc:a0fdc0a72a2207f5eb097fa38e43eed7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置是否启用  <br /></td></tr>
+<tr class="separator:a0fdc0a72a2207f5eb097fa38e43eed7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7de5392c64f3b4063e9f17a82695c48" id="r_ad7de5392c64f3b4063e9f17a82695c48"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#ad7de5392c64f3b4063e9f17a82695c48">IsEnabled</a> () const</td></tr>
+<tr class="memdesc:ad7de5392c64f3b4063e9f17a82695c48"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否启用  <br /></td></tr>
+<tr class="separator:ad7de5392c64f3b4063e9f17a82695c48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a727b927f12915aab570c38743a575142" id="r_a727b927f12915aab570c38743a575142"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a727b927f12915aab570c38743a575142">Prefetcher</a> (void *buffer_pool, size_t max_prefetch_size=64)</td></tr>
+<tr class="memdesc:a727b927f12915aab570c38743a575142"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数 - 初始化预取器组件  <br /></td></tr>
+<tr class="separator:a727b927f12915aab570c38743a575142"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39f0e38455bdd465d9df2ac144e5963f" id="r_a39f0e38455bdd465d9df2ac144e5963f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a39f0e38455bdd465d9df2ac144e5963f">~Prefetcher</a> ()</td></tr>
+<tr class="memdesc:a39f0e38455bdd465d9df2ac144e5963f"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数 - 安全关闭预取器  <br /></td></tr>
+<tr class="separator:a39f0e38455bdd465d9df2ac144e5963f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28ae243eff11cd553b4d6884ddb2359e" id="r_a28ae243eff11cd553b4d6884ddb2359e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a28ae243eff11cd553b4d6884ddb2359e">RecordPageAccess</a> (int32_t page_id, bool is_write)</td></tr>
+<tr class="memdesc:a28ae243eff11cd553b4d6884ddb2359e"><td class="mdescLeft">&#160;</td><td class="mdescRight">记录页面访问 - 访问模式分析的基础数据收集  <br /></td></tr>
+<tr class="separator:a28ae243eff11cd553b4d6884ddb2359e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaf7e48ddd385c520face1822166c89c" id="r_adaf7e48ddd385c520face1822166c89c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#adaf7e48ddd385c520face1822166c89c">PrefetchPage</a> (int32_t page_id)</td></tr>
+<tr class="memdesc:adaf7e48ddd385c520face1822166c89c"><td class="mdescLeft">&#160;</td><td class="mdescRight">预取页面 - 主动加载页面到内存  <br /></td></tr>
+<tr class="separator:adaf7e48ddd385c520face1822166c89c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72b0f7eb291b97f4a64ba8bf70800443" id="r_a72b0f7eb291b97f4a64ba8bf70800443"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a72b0f7eb291b97f4a64ba8bf70800443">PrefetchPages</a> (const std::vector&lt; int32_t &gt; &amp;page_ids)</td></tr>
+<tr class="memdesc:a72b0f7eb291b97f4a64ba8bf70800443"><td class="mdescLeft">&#160;</td><td class="mdescRight">批量预取页面 - 大规模页面预取优化  <br /></td></tr>
+<tr class="separator:a72b0f7eb291b97f4a64ba8bf70800443"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa865535a9d022da72c77145ce9f9ed8" id="r_aaa865535a9d022da72c77145ce9f9ed8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#aaa865535a9d022da72c77145ce9f9ed8">GetStats</a> () const</td></tr>
+<tr class="memdesc:aaa865535a9d022da72c77145ce9f9ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取预取统计信息 - 预取效果的量化评估  <br /></td></tr>
+<tr class="separator:aaa865535a9d022da72c77145ce9f9ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fdc0a72a2207f5eb097fa38e43eed7d" id="r_a0fdc0a72a2207f5eb097fa38e43eed7d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a0fdc0a72a2207f5eb097fa38e43eed7d">SetEnabled</a> (bool enabled)</td></tr>
+<tr class="memdesc:a0fdc0a72a2207f5eb097fa38e43eed7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">启用/禁用预取功能 - 运行时配置控制  <br /></td></tr>
+<tr class="separator:a0fdc0a72a2207f5eb097fa38e43eed7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b8b1958a1d5290d17e13dfa08360666" id="r_a2b8b1958a1d5290d17e13dfa08360666"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Prefetcher.html#a92865ab9185ad57a00ee675b996e9a94">AccessPattern</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a2b8b1958a1d5290d17e13dfa08360666">GetAccessPattern</a> (int32_t page_id) const</td></tr>
+<tr class="memdesc:a2b8b1958a1d5290d17e13dfa08360666"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取页面访问模式 - 访问模式分析接口  <br /></td></tr>
+<tr class="separator:a2b8b1958a1d5290d17e13dfa08360666"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79fd1d607634c65ad461893f614ae5ae" id="r_a79fd1d607634c65ad461893f614ae5ae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a79fd1d607634c65ad461893f614ae5ae">Prefetcher</a> (<a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager, <a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;disk_manager)</td></tr>
+<tr class="memdesc:a79fd1d607634c65ad461893f614ae5ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a79fd1d607634c65ad461893f614ae5ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39f0e38455bdd465d9df2ac144e5963f" id="r_a39f0e38455bdd465d9df2ac144e5963f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a39f0e38455bdd465d9df2ac144e5963f">~Prefetcher</a> ()</td></tr>
+<tr class="memdesc:a39f0e38455bdd465d9df2ac144e5963f"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a39f0e38455bdd465d9df2ac144e5963f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84caab77e5d76ea1abd85894a540eb57" id="r_a84caab77e5d76ea1abd85894a540eb57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a84caab77e5d76ea1abd85894a540eb57">Start</a> ()</td></tr>
+<tr class="memdesc:a84caab77e5d76ea1abd85894a540eb57"><td class="mdescLeft">&#160;</td><td class="mdescRight">启动预取器  <br /></td></tr>
+<tr class="separator:a84caab77e5d76ea1abd85894a540eb57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae47958f2e2ebdac7c0d077c4af82eae" id="r_aae47958f2e2ebdac7c0d077c4af82eae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#aae47958f2e2ebdac7c0d077c4af82eae">Stop</a> ()</td></tr>
+<tr class="memdesc:aae47958f2e2ebdac7c0d077c4af82eae"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止预取器  <br /></td></tr>
+<tr class="separator:aae47958f2e2ebdac7c0d077c4af82eae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba4deb3eb77db69650ab874e32a194bf" id="r_aba4deb3eb77db69650ab874e32a194bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#aba4deb3eb77db69650ab874e32a194bf">NotifyPageAccess</a> (int32_t transaction_id, int32_t page_id)</td></tr>
+<tr class="memdesc:aba4deb3eb77db69650ab874e32a194bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">通知页面访问  <br /></td></tr>
+<tr class="separator:aba4deb3eb77db69650ab874e32a194bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1280f4de6b3eab30fb796b34f55d33d5" id="r_a1280f4de6b3eab30fb796b34f55d33d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a1280f4de6b3eab30fb796b34f55d33d5">RequestPrefetch</a> (int32_t page_id, int32_t transaction_id=-1, int priority=0)</td></tr>
+<tr class="memdesc:a1280f4de6b3eab30fb796b34f55d33d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">请求预取页面  <br /></td></tr>
+<tr class="separator:a1280f4de6b3eab30fb796b34f55d33d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a826a0e5059ad7eb7e303cbd95a362ea7" id="r_a826a0e5059ad7eb7e303cbd95a362ea7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a826a0e5059ad7eb7e303cbd95a362ea7">GetPrefetchedPage</a> (int32_t page_id, <a class="el" href="classsqlcc_1_1Page.html">Page</a> &amp;page)</td></tr>
+<tr class="memdesc:a826a0e5059ad7eb7e303cbd95a362ea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取预取的页面  <br /></td></tr>
+<tr class="separator:a826a0e5059ad7eb7e303cbd95a362ea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa865535a9d022da72c77145ce9f9ed8" id="r_aaa865535a9d022da72c77145ce9f9ed8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#aaa865535a9d022da72c77145ce9f9ed8">GetStats</a> () const</td></tr>
+<tr class="memdesc:aaa865535a9d022da72c77145ce9f9ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取预取器统计信息  <br /></td></tr>
+<tr class="separator:aaa865535a9d022da72c77145ce9f9ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9e898175f5cebc2638bc76611ef14e2" id="r_af9e898175f5cebc2638bc76611ef14e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#af9e898175f5cebc2638bc76611ef14e2">ResetStats</a> ()</td></tr>
+<tr class="memdesc:af9e898175f5cebc2638bc76611ef14e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">重置统计信息  <br /></td></tr>
+<tr class="separator:af9e898175f5cebc2638bc76611ef14e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fdc0a72a2207f5eb097fa38e43eed7d" id="r_a0fdc0a72a2207f5eb097fa38e43eed7d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a0fdc0a72a2207f5eb097fa38e43eed7d">SetEnabled</a> (bool enabled)</td></tr>
+<tr class="memdesc:a0fdc0a72a2207f5eb097fa38e43eed7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置是否启用  <br /></td></tr>
+<tr class="separator:a0fdc0a72a2207f5eb097fa38e43eed7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7de5392c64f3b4063e9f17a82695c48" id="r_ad7de5392c64f3b4063e9f17a82695c48"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#ad7de5392c64f3b4063e9f17a82695c48">IsEnabled</a> () const</td></tr>
+<tr class="memdesc:ad7de5392c64f3b4063e9f17a82695c48"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否启用  <br /></td></tr>
+<tr class="separator:ad7de5392c64f3b4063e9f17a82695c48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:ad01dd71b88e8f5b17c95bb5af3bd497d" id="r_ad01dd71b88e8f5b17c95bb5af3bd497d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#ad01dd71b88e8f5b17c95bb5af3bd497d">PrefetchWorker</a> ()</td></tr>
+<tr class="memdesc:ad01dd71b88e8f5b17c95bb5af3bd497d"><td class="mdescLeft">&#160;</td><td class="mdescRight">预取工作线程函数  <br /></td></tr>
+<tr class="separator:ad01dd71b88e8f5b17c95bb5af3bd497d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a931416d26a85a6db3708764138287021" id="r_a931416d26a85a6db3708764138287021"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a931416d26a85a6db3708764138287021">PredictNextPages</a> (int32_t transaction_id, int32_t current_page_id)</td></tr>
+<tr class="memdesc:a931416d26a85a6db3708764138287021"><td class="mdescLeft">&#160;</td><td class="mdescRight">分析访问模式并预测下一页面  <br /></td></tr>
+<tr class="separator:a931416d26a85a6db3708764138287021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87af8f9acfb33439f937334ef36247cd" id="r_a87af8f9acfb33439f937334ef36247cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a87af8f9acfb33439f937334ef36247cd">UpdateAccessHistory</a> (int32_t transaction_id, int32_t page_id)</td></tr>
+<tr class="memdesc:a87af8f9acfb33439f937334ef36247cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新访问历史  <br /></td></tr>
+<tr class="separator:a87af8f9acfb33439f937334ef36247cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b523876ed0415d2c8fbcdd8a7acac26" id="r_a4b523876ed0415d2c8fbcdd8a7acac26"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a4b523876ed0415d2c8fbcdd8a7acac26">DoPrefetch</a> (int32_t page_id)</td></tr>
+<tr class="memdesc:a4b523876ed0415d2c8fbcdd8a7acac26"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行预取  <br /></td></tr>
+<tr class="separator:a4b523876ed0415d2c8fbcdd8a7acac26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e58737f4c7e7487cf83832a2cf29fd2" id="r_a8e58737f4c7e7487cf83832a2cf29fd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a8e58737f4c7e7487cf83832a2cf29fd2">CleanupExpiredPages</a> ()</td></tr>
+<tr class="memdesc:a8e58737f4c7e7487cf83832a2cf29fd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">清理过期的预取页面  <br /></td></tr>
+<tr class="separator:a8e58737f4c7e7487cf83832a2cf29fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60cedd6cd7ff2ffce8060c9aedca7da2" id="r_a60cedd6cd7ff2ffce8060c9aedca7da2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a60cedd6cd7ff2ffce8060c9aedca7da2">UpdateConfig</a> ()</td></tr>
+<tr class="memdesc:a60cedd6cd7ff2ffce8060c9aedca7da2"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新配置参数  <br /></td></tr>
+<tr class="separator:a60cedd6cd7ff2ffce8060c9aedca7da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad01dd71b88e8f5b17c95bb5af3bd497d" id="r_ad01dd71b88e8f5b17c95bb5af3bd497d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#ad01dd71b88e8f5b17c95bb5af3bd497d">PrefetchWorker</a> ()</td></tr>
+<tr class="memdesc:ad01dd71b88e8f5b17c95bb5af3bd497d"><td class="mdescLeft">&#160;</td><td class="mdescRight">预取工作线程函数  <br /></td></tr>
+<tr class="separator:ad01dd71b88e8f5b17c95bb5af3bd497d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a931416d26a85a6db3708764138287021" id="r_a931416d26a85a6db3708764138287021"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a931416d26a85a6db3708764138287021">PredictNextPages</a> (int32_t transaction_id, int32_t current_page_id)</td></tr>
+<tr class="memdesc:a931416d26a85a6db3708764138287021"><td class="mdescLeft">&#160;</td><td class="mdescRight">分析访问模式并预测下一页面  <br /></td></tr>
+<tr class="separator:a931416d26a85a6db3708764138287021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87af8f9acfb33439f937334ef36247cd" id="r_a87af8f9acfb33439f937334ef36247cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a87af8f9acfb33439f937334ef36247cd">UpdateAccessHistory</a> (int32_t transaction_id, int32_t page_id)</td></tr>
+<tr class="memdesc:a87af8f9acfb33439f937334ef36247cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新访问历史  <br /></td></tr>
+<tr class="separator:a87af8f9acfb33439f937334ef36247cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b523876ed0415d2c8fbcdd8a7acac26" id="r_a4b523876ed0415d2c8fbcdd8a7acac26"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a4b523876ed0415d2c8fbcdd8a7acac26">DoPrefetch</a> (int32_t page_id)</td></tr>
+<tr class="memdesc:a4b523876ed0415d2c8fbcdd8a7acac26"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行预取  <br /></td></tr>
+<tr class="separator:a4b523876ed0415d2c8fbcdd8a7acac26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e58737f4c7e7487cf83832a2cf29fd2" id="r_a8e58737f4c7e7487cf83832a2cf29fd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a8e58737f4c7e7487cf83832a2cf29fd2">CleanupExpiredPages</a> ()</td></tr>
+<tr class="memdesc:a8e58737f4c7e7487cf83832a2cf29fd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">清理过期的预取页面  <br /></td></tr>
+<tr class="separator:a8e58737f4c7e7487cf83832a2cf29fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60cedd6cd7ff2ffce8060c9aedca7da2" id="r_a60cedd6cd7ff2ffce8060c9aedca7da2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a60cedd6cd7ff2ffce8060c9aedca7da2">UpdateConfig</a> ()</td></tr>
+<tr class="memdesc:a60cedd6cd7ff2ffce8060c9aedca7da2"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新配置参数  <br /></td></tr>
+<tr class="separator:a60cedd6cd7ff2ffce8060c9aedca7da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad01dd71b88e8f5b17c95bb5af3bd497d" id="r_ad01dd71b88e8f5b17c95bb5af3bd497d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#ad01dd71b88e8f5b17c95bb5af3bd497d">PrefetchWorker</a> ()</td></tr>
+<tr class="memdesc:ad01dd71b88e8f5b17c95bb5af3bd497d"><td class="mdescLeft">&#160;</td><td class="mdescRight">预取工作线程函数 - 后台预取任务处理循环  <br /></td></tr>
+<tr class="separator:ad01dd71b88e8f5b17c95bb5af3bd497d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad01dd71b88e8f5b17c95bb5af3bd497d" id="r_ad01dd71b88e8f5b17c95bb5af3bd497d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#ad01dd71b88e8f5b17c95bb5af3bd497d">PrefetchWorker</a> ()</td></tr>
+<tr class="memdesc:ad01dd71b88e8f5b17c95bb5af3bd497d"><td class="mdescLeft">&#160;</td><td class="mdescRight">预取工作线程函数  <br /></td></tr>
+<tr class="separator:ad01dd71b88e8f5b17c95bb5af3bd497d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a931416d26a85a6db3708764138287021" id="r_a931416d26a85a6db3708764138287021"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a931416d26a85a6db3708764138287021">PredictNextPages</a> (int32_t transaction_id, int32_t current_page_id)</td></tr>
+<tr class="memdesc:a931416d26a85a6db3708764138287021"><td class="mdescLeft">&#160;</td><td class="mdescRight">分析访问模式并预测下一页面  <br /></td></tr>
+<tr class="separator:a931416d26a85a6db3708764138287021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87af8f9acfb33439f937334ef36247cd" id="r_a87af8f9acfb33439f937334ef36247cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a87af8f9acfb33439f937334ef36247cd">UpdateAccessHistory</a> (int32_t transaction_id, int32_t page_id)</td></tr>
+<tr class="memdesc:a87af8f9acfb33439f937334ef36247cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新访问历史  <br /></td></tr>
+<tr class="separator:a87af8f9acfb33439f937334ef36247cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b523876ed0415d2c8fbcdd8a7acac26" id="r_a4b523876ed0415d2c8fbcdd8a7acac26"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a4b523876ed0415d2c8fbcdd8a7acac26">DoPrefetch</a> (int32_t page_id)</td></tr>
+<tr class="memdesc:a4b523876ed0415d2c8fbcdd8a7acac26"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行预取  <br /></td></tr>
+<tr class="separator:a4b523876ed0415d2c8fbcdd8a7acac26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e58737f4c7e7487cf83832a2cf29fd2" id="r_a8e58737f4c7e7487cf83832a2cf29fd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a8e58737f4c7e7487cf83832a2cf29fd2">CleanupExpiredPages</a> ()</td></tr>
+<tr class="memdesc:a8e58737f4c7e7487cf83832a2cf29fd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">清理过期的预取页面  <br /></td></tr>
+<tr class="separator:a8e58737f4c7e7487cf83832a2cf29fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60cedd6cd7ff2ffce8060c9aedca7da2" id="r_a60cedd6cd7ff2ffce8060c9aedca7da2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a60cedd6cd7ff2ffce8060c9aedca7da2">UpdateConfig</a> ()</td></tr>
+<tr class="memdesc:a60cedd6cd7ff2ffce8060c9aedca7da2"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新配置参数  <br /></td></tr>
+<tr class="separator:a60cedd6cd7ff2ffce8060c9aedca7da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a2cb9ee6848f70d8eb80e6db9e0591b8d" id="r_a2cb9ee6848f70d8eb80e6db9e0591b8d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a2cb9ee6848f70d8eb80e6db9e0591b8d">config_manager_</a></td></tr>
+<tr class="separator:a2cb9ee6848f70d8eb80e6db9e0591b8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcde6ef4a06803763b5be899fe96693b" id="r_afcde6ef4a06803763b5be899fe96693b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#afcde6ef4a06803763b5be899fe96693b">disk_manager_</a></td></tr>
+<tr class="separator:afcde6ef4a06803763b5be899fe96693b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a330181598914e196570bbb8845cbd47d" id="r_a330181598914e196570bbb8845cbd47d"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a330181598914e196570bbb8845cbd47d">prefetch_cache_</a></td></tr>
+<tr class="separator:a330181598914e196570bbb8845cbd47d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52ed94f6080dfe6321cd0c94b4501ef1" id="r_a52ed94f6080dfe6321cd0c94b4501ef1"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a52ed94f6080dfe6321cd0c94b4501ef1">cache_mutex_</a></td></tr>
+<tr class="separator:a52ed94f6080dfe6321cd0c94b4501ef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a097e9e8bf9c4c55c33f94e4119918de5" id="r_a097e9e8bf9c4c55c33f94e4119918de5"><td class="memItemLeft" align="right" valign="top">std::priority_queue&lt; <a class="el" href="structsqlcc_1_1PrefetchRequest.html">PrefetchRequest</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a097e9e8bf9c4c55c33f94e4119918de5">prefetch_queue_</a></td></tr>
+<tr class="separator:a097e9e8bf9c4c55c33f94e4119918de5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1601c2c111dbca7ebb6103abc8bc23b0" id="r_a1601c2c111dbca7ebb6103abc8bc23b0"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a1601c2c111dbca7ebb6103abc8bc23b0">queue_mutex_</a></td></tr>
+<tr class="separator:a1601c2c111dbca7ebb6103abc8bc23b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76608c2f72eb9ff58b287129ef644a37" id="r_a76608c2f72eb9ff58b287129ef644a37"><td class="memItemLeft" align="right" valign="top">std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a76608c2f72eb9ff58b287129ef644a37">queue_cv_</a></td></tr>
+<tr class="separator:a76608c2f72eb9ff58b287129ef644a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ef089536c3e6c34b8edbd546bc6879c" id="r_a2ef089536c3e6c34b8edbd546bc6879c"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, std::vector&lt; int32_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a2ef089536c3e6c34b8edbd546bc6879c">access_history_</a></td></tr>
+<tr class="separator:a2ef089536c3e6c34b8edbd546bc6879c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab818252ecdc8659a96f360cc9ae79316" id="r_ab818252ecdc8659a96f360cc9ae79316"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#ab818252ecdc8659a96f360cc9ae79316">history_mutex_</a></td></tr>
+<tr class="separator:ab818252ecdc8659a96f360cc9ae79316"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e69f887e30260be91952135192de722" id="r_a6e69f887e30260be91952135192de722"><td class="memItemLeft" align="right" valign="top">std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a6e69f887e30260be91952135192de722">worker_thread_</a></td></tr>
+<tr class="separator:a6e69f887e30260be91952135192de722"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaebb6669659e2f8f20203562d45c6c9b" id="r_aaebb6669659e2f8f20203562d45c6c9b"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#aaebb6669659e2f8f20203562d45c6c9b">running_</a></td></tr>
+<tr class="separator:aaebb6669659e2f8f20203562d45c6c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad396ca09cfed00accdbbe0c27b55552e" id="r_ad396ca09cfed00accdbbe0c27b55552e"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#ad396ca09cfed00accdbbe0c27b55552e">enabled_</a></td></tr>
+<tr class="memdesc:ad396ca09cfed00accdbbe0c27b55552e"><td class="mdescLeft">&#160;</td><td class="mdescRight">预取启用标志 - 控制预取功能的开关  <br /></td></tr>
+<tr class="separator:ad396ca09cfed00accdbbe0c27b55552e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e43236ae774d8e32ba2664226af8d89" id="r_a4e43236ae774d8e32ba2664226af8d89"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a4e43236ae774d8e32ba2664226af8d89">stats_mutex_</a></td></tr>
+<tr class="separator:a4e43236ae774d8e32ba2664226af8d89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9359d31f246f8bec345e2b0329e9cb50" id="r_a9359d31f246f8bec345e2b0329e9cb50"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a9359d31f246f8bec345e2b0329e9cb50">stats_</a></td></tr>
+<tr class="separator:a9359d31f246f8bec345e2b0329e9cb50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa46bf09639370fd7b2e3c9cf48b40528" id="r_aa46bf09639370fd7b2e3c9cf48b40528"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#aa46bf09639370fd7b2e3c9cf48b40528">max_cache_size_</a></td></tr>
+<tr class="separator:aa46bf09639370fd7b2e3c9cf48b40528"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e525ddd0104f2da18e00094130f3786" id="r_a4e525ddd0104f2da18e00094130f3786"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a4e525ddd0104f2da18e00094130f3786">prefetch_timeout_</a></td></tr>
+<tr class="separator:a4e525ddd0104f2da18e00094130f3786"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2ebcae4632d8561e502b4abb76f1925" id="r_ac2ebcae4632d8561e502b4abb76f1925"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#ac2ebcae4632d8561e502b4abb76f1925">cache_expire_time_</a></td></tr>
+<tr class="separator:ac2ebcae4632d8561e502b4abb76f1925"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6654cdb04539e116beec0d73caf1c17" id="r_ae6654cdb04539e116beec0d73caf1c17"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#ae6654cdb04539e116beec0d73caf1c17">max_prefetch_distance_</a></td></tr>
+<tr class="separator:ae6654cdb04539e116beec0d73caf1c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a854c409b2569474d8fed033c2c205385" id="r_a854c409b2569474d8fed033c2c205385"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a854c409b2569474d8fed033c2c205385">prefetch_threshold_</a></td></tr>
+<tr class="separator:a854c409b2569474d8fed033c2c205385"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07748092d4e74956de5d057a1d81220a" id="r_a07748092d4e74956de5d057a1d81220a"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, std::vector&lt; std::chrono::steady_clock::time_point &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a07748092d4e74956de5d057a1d81220a">access_history_</a></td></tr>
+<tr class="memdesc:a07748092d4e74956de5d057a1d81220a"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面访问历史 - 访问模式分析的数据基础  <br /></td></tr>
+<tr class="separator:a07748092d4e74956de5d057a1d81220a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14dbfc0d11851a99cf050d0417a77d46" id="r_a14dbfc0d11851a99cf050d0417a77d46"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a14dbfc0d11851a99cf050d0417a77d46">access_history_mutex_</a></td></tr>
+<tr class="memdesc:a14dbfc0d11851a99cf050d0417a77d46"><td class="mdescLeft">&#160;</td><td class="mdescRight">访问历史互斥锁 - 保护访问历史记录的并发访问  <br /></td></tr>
+<tr class="separator:a14dbfc0d11851a99cf050d0417a77d46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38c9afa4d0391b1ef002843c1dd2a117" id="r_a38c9afa4d0391b1ef002843c1dd2a117"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a38c9afa4d0391b1ef002843c1dd2a117">prefetch_queue_</a></td></tr>
+<tr class="memdesc:a38c9afa4d0391b1ef002843c1dd2a117"><td class="mdescLeft">&#160;</td><td class="mdescRight">预取队列 - 待处理的预取任务队列  <br /></td></tr>
+<tr class="separator:a38c9afa4d0391b1ef002843c1dd2a117"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a295417db1b01edfe15b0986608d88bc7" id="r_a295417db1b01edfe15b0986608d88bc7"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#a295417db1b01edfe15b0986608d88bc7">prefetch_queue_mutex_</a></td></tr>
+<tr class="memdesc:a295417db1b01edfe15b0986608d88bc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">预取队列互斥锁 - 保护预取队列的并发访问  <br /></td></tr>
+<tr class="separator:a295417db1b01edfe15b0986608d88bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad85b94bc258fa484db4c9083354567a5" id="r_ad85b94bc258fa484db4c9083354567a5"><td class="memItemLeft" align="right" valign="top">std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#ad85b94bc258fa484db4c9083354567a5">prefetch_thread_</a></td></tr>
+<tr class="memdesc:ad85b94bc258fa484db4c9083354567a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">预取工作线程 - 后台处理预取任务  <br /></td></tr>
+<tr class="separator:ad85b94bc258fa484db4c9083354567a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9b9822d20a17a472e6eda4774d64827" id="r_ab9b9822d20a17a472e6eda4774d64827"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#ab9b9822d20a17a472e6eda4774d64827">stop_prefetch_</a></td></tr>
+<tr class="memdesc:ab9b9822d20a17a472e6eda4774d64827"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止预取标志 - 控制工作线程的运行状态  <br /></td></tr>
+<tr class="separator:ab9b9822d20a17a472e6eda4774d64827"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add9d44273a2b39e3f638758a0cda790c" id="r_add9d44273a2b39e3f638758a0cda790c"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; <a class="el" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#add9d44273a2b39e3f638758a0cda790c">stats_</a></td></tr>
+<tr class="memdesc:add9d44273a2b39e3f638758a0cda790c"><td class="mdescLeft">&#160;</td><td class="mdescRight">统计信息 - 预取性能的量化指标  <br /></td></tr>
+<tr class="separator:add9d44273a2b39e3f638758a0cda790c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa4f71a1e19869a3a367dcd0daa9ad69" id="r_aaa4f71a1e19869a3a367dcd0daa9ad69"><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html#aaa4f71a1e19869a3a367dcd0daa9ad69">max_prefetch_size_</a></td></tr>
+<tr class="memdesc:aaa4f71a1e19869a3a367dcd0daa9ad69"><td class="mdescLeft">&#160;</td><td class="mdescRight">最大预取大小 - 单次预取操作的上限  <br /></td></tr>
+<tr class="separator:aaa4f71a1e19869a3a367dcd0daa9ad69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>预取器类 </p>
+<p>预取器 - 基于访问模式的智能页面预取组件</p>
+<p>负责预测和预加载可能需要的页面，减少磁盘I/O延迟</p>
+<p>WHY层 - 设计意图： 预取器通过预测未来的页面访问需求，提前加载数据到内存。 通过减少磁盘I/O延迟，提升数据库系统的整体性能。</p>
+<p>WHAT层 - 功能说明： 分析页面访问模式，预测并预取可能需要的页面。 支持顺序访问、随机访问等多种访问模式的识别和优化。</p>
+<p>HOW层 - 预取策略：</p><ul>
+<li>顺序预取：检测顺序访问模式，预读连续页面</li>
+<li>随机预取：基于历史访问预测可能的页面</li>
+<li>跨步预取：处理固定跨步的访问模式</li>
+<li>自适应调整：根据命中率动态调整预取策略</li>
+</ul>
+<p>访问模式识别：</p><ul>
+<li>**顺序模式**：页面访问呈连续递增趋势</li>
+<li>**随机模式**：页面访问无明显规律</li>
+<li>**跨步模式**：页面访问按固定间隔跳跃</li>
+<li>**可预测模式**：可以通过历史预测未来访问</li>
+</ul>
+<p>预取算法：</p><ul>
+<li>**基于历史的预测**：分析最近的访问序列</li>
+<li>**基于模式的识别**：识别访问的规律模式</li>
+<li>**基于频率的预测**：根据访问频率预测热点</li>
+<li>**基于关联的预测**：根据页面关联性预测</li>
+</ul>
+<p>性能监控：</p><ul>
+<li>**命中率统计**：预取页面的实际使用率</li>
+<li>**开销效益分析**：预取成本与收益的对比</li>
+<li>**准确性评估**：预测准确性的量化指标</li>
+<li>**适应性调整**：根据性能反馈调整策略</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>预取器运行在独立的后台线程，不影响主事务处理 </dd>
+<dd>
+预取策略可以根据工作负载特征动态调整 </dd>
+<dd>
+过度的预取可能浪费内存和I/O资源 </dd>
+<dd>
+预取命中率是评估预取效果的关键指标 </dd></dl>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a92865ab9185ad57a00ee675b996e9a94" name="a92865ab9185ad57a00ee675b996e9a94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92865ab9185ad57a00ee675b996e9a94">&#9670;&#160;</a></span>AccessPattern</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classsqlcc_1_1Prefetcher.html#a92865ab9185ad57a00ee675b996e9a94">sqlcc::Prefetcher::AccessPattern</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>访问模式枚举 - 定义不同的页面访问模式 </p>
+<p>WHY层 - 设计意图： 访问模式识别是预取优化的基础，不同的访问模式需要不同的预取策略。 通过准确识别访问模式，可以选择最合适的预取算法。</p>
+<p>WHAT层 - 模式分类：</p><ul>
+<li>SEQUENTIAL: 顺序访问，页面按连续编号访问</li>
+<li>RANDOM: 随机访问，无明显规律的访问模式</li>
+<li>STRIDED: 跨步访问，按固定间隔跳跃访问</li>
+<li>PREDICTABLE: 可预测访问，可以通过历史预测未来</li>
+</ul>
+<p>HOW层 - 识别算法：</p><ul>
+<li>**统计分析**：计算访问间隔的统计特征</li>
+<li>**模式匹配**：匹配典型的访问模式模板</li>
+<li>**机器学习**：使用ML算法预测访问模式</li>
+<li>**自适应调整**：根据历史数据调整识别阈值 </li>
+</ul>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a92865ab9185ad57a00ee675b996e9a94a39403cd282d944abcd4f14996cb71bcb" name="a92865ab9185ad57a00ee675b996e9a94a39403cd282d944abcd4f14996cb71bcb"></a>SEQUENTIAL&#160;</td><td class="fielddoc"><p>顺序访问模式 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a92865ab9185ad57a00ee675b996e9a94a170e02e86972c2be8559884cc3c12254" name="a92865ab9185ad57a00ee675b996e9a94a170e02e86972c2be8559884cc3c12254"></a>RANDOM&#160;</td><td class="fielddoc"><p>随机访问模式 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a92865ab9185ad57a00ee675b996e9a94ad53f94ef0dc7e4c63dfd3a338da7c151" name="a92865ab9185ad57a00ee675b996e9a94ad53f94ef0dc7e4c63dfd3a338da7c151"></a>STRIDED&#160;</td><td class="fielddoc"><p>跨步访问模式 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a92865ab9185ad57a00ee675b996e9a94af8e814b9f103b9c20a93dfed4d3263c2" name="a92865ab9185ad57a00ee675b996e9a94af8e814b9f103b9c20a93dfed4d3263c2"></a>PREDICTABLE&#160;</td><td class="fielddoc"><p>可预测访问模式 </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a79fd1d607634c65ad461893f614ae5ae" name="a79fd1d607634c65ad461893f614ae5ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79fd1d607634c65ad461893f614ae5ae">&#9670;&#160;</a></span>Prefetcher() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Prefetcher::Prefetcher </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>config_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>disk_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config_manager</td><td>配置管理器引用 </td></tr>
+    <tr><td class="paramname">disk_manager</td><td>磁盘管理器引用 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a39f0e38455bdd465d9df2ac144e5963f" name="a39f0e38455bdd465d9df2ac144e5963f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39f0e38455bdd465d9df2ac144e5963f">&#9670;&#160;</a></span>~Prefetcher() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Prefetcher::~Prefetcher </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<a id="a79fd1d607634c65ad461893f614ae5ae" name="a79fd1d607634c65ad461893f614ae5ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79fd1d607634c65ad461893f614ae5ae">&#9670;&#160;</a></span>Prefetcher() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Prefetcher::Prefetcher </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>config_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>disk_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config_manager</td><td>配置管理器引用 </td></tr>
+    <tr><td class="paramname">disk_manager</td><td>磁盘管理器引用 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a39f0e38455bdd465d9df2ac144e5963f" name="a39f0e38455bdd465d9df2ac144e5963f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39f0e38455bdd465d9df2ac144e5963f">&#9670;&#160;</a></span>~Prefetcher() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Prefetcher::~Prefetcher </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<a id="a727b927f12915aab570c38743a575142" name="a727b927f12915aab570c38743a575142"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a727b927f12915aab570c38743a575142">&#9670;&#160;</a></span>Prefetcher() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Prefetcher::Prefetcher </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>buffer_pool</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>max_prefetch_size</em> = <code>64</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 - 初始化预取器组件 </p>
+<p>WHY层 - 设计意图： 预取器的初始化需要平衡预取效果和系统开销。 通过合理的配置参数，为不同应用场景提供最佳性能。</p>
+<p>WHAT层 - 初始化内容：</p><ul>
+<li>配置最大预取大小限制</li>
+<li>初始化访问历史记录结构</li>
+<li>启动预取工作线程</li>
+<li>设置预取策略参数</li>
+</ul>
+<p>HOW层 - 参数配置：</p><ul>
+<li>max_prefetch_size: 控制单次预取的最大页面数</li>
+<li>预取阈值: 触发预取的最小访问次数</li>
+<li>时间窗口: 访问历史的时间范围</li>
+<li>优先级策略: 预取任务的调度优先级</li>
+</ul>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer_pool</td><td>BufferPool的引用，用于页面预取 </td></tr>
+    <tr><td class="paramname">max_prefetch_size</td><td>最大预取大小，默认64页面</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>buffer_pool参数用于实际的页面预取操作 </dd>
+<dd>
+max_prefetch_size影响预取的内存开销 </dd></dl>
+
+</div>
+</div>
+<a id="a39f0e38455bdd465d9df2ac144e5963f" name="a39f0e38455bdd465d9df2ac144e5963f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39f0e38455bdd465d9df2ac144e5963f">&#9670;&#160;</a></span>~Prefetcher() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Prefetcher::~Prefetcher </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>析构函数 - 安全关闭预取器 </p>
+<p>WHY层 - 设计意图： 预取器的关闭必须保证所有预取任务完成，避免资源泄漏。 优雅关闭防止正在进行的预取操作被强制中断。</p>
+<p>WHAT层 - 清理内容：</p><ul>
+<li>停止预取工作线程</li>
+<li>完成所有待处理的预取任务</li>
+<li>清理访问历史记录</li>
+<li>释放系统资源</li>
+</ul>
+<p>HOW层 - 关闭流程：</p><ol type="1">
+<li>设置停止标志，通知工作线程退出</li>
+<li>等待工作线程完成当前任务</li>
+<li>清理预取队列和历史记录</li>
+<li>记录最终统计信息 </li>
+</ol>
+
+</div>
+</div>
+<a id="a79fd1d607634c65ad461893f614ae5ae" name="a79fd1d607634c65ad461893f614ae5ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79fd1d607634c65ad461893f614ae5ae">&#9670;&#160;</a></span>Prefetcher() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Prefetcher::Prefetcher </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>config_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>disk_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config_manager</td><td>配置管理器引用 </td></tr>
+    <tr><td class="paramname">disk_manager</td><td>磁盘管理器引用 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a39f0e38455bdd465d9df2ac144e5963f" name="a39f0e38455bdd465d9df2ac144e5963f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39f0e38455bdd465d9df2ac144e5963f">&#9670;&#160;</a></span>~Prefetcher() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Prefetcher::~Prefetcher </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a8e58737f4c7e7487cf83832a2cf29fd2" name="a8e58737f4c7e7487cf83832a2cf29fd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e58737f4c7e7487cf83832a2cf29fd2">&#9670;&#160;</a></span>CleanupExpiredPages() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::CleanupExpiredPages </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>清理过期的预取页面 </p>
+
+</div>
+</div>
+<a id="a8e58737f4c7e7487cf83832a2cf29fd2" name="a8e58737f4c7e7487cf83832a2cf29fd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e58737f4c7e7487cf83832a2cf29fd2">&#9670;&#160;</a></span>CleanupExpiredPages() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::CleanupExpiredPages </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>清理过期的预取页面 </p>
+
+</div>
+</div>
+<a id="a8e58737f4c7e7487cf83832a2cf29fd2" name="a8e58737f4c7e7487cf83832a2cf29fd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e58737f4c7e7487cf83832a2cf29fd2">&#9670;&#160;</a></span>CleanupExpiredPages() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::CleanupExpiredPages </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>清理过期的预取页面 </p>
+
+</div>
+</div>
+<a id="a4b523876ed0415d2c8fbcdd8a7acac26" name="a4b523876ed0415d2c8fbcdd8a7acac26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b523876ed0415d2c8fbcdd8a7acac26">&#9670;&#160;</a></span>DoPrefetch() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Prefetcher::DoPrefetch </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行预取 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a4b523876ed0415d2c8fbcdd8a7acac26" name="a4b523876ed0415d2c8fbcdd8a7acac26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b523876ed0415d2c8fbcdd8a7acac26">&#9670;&#160;</a></span>DoPrefetch() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Prefetcher::DoPrefetch </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行预取 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a4b523876ed0415d2c8fbcdd8a7acac26" name="a4b523876ed0415d2c8fbcdd8a7acac26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b523876ed0415d2c8fbcdd8a7acac26">&#9670;&#160;</a></span>DoPrefetch() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Prefetcher::DoPrefetch </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行预取 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a2b8b1958a1d5290d17e13dfa08360666" name="a2b8b1958a1d5290d17e13dfa08360666"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b8b1958a1d5290d17e13dfa08360666">&#9670;&#160;</a></span>GetAccessPattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Prefetcher.html#a92865ab9185ad57a00ee675b996e9a94">Prefetcher::AccessPattern</a> sqlcc::Prefetcher::GetAccessPattern </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取页面访问模式 - 访问模式分析接口 </p>
+<p>WHY层 - 设计意图： 访问模式识别是预取优化的核心，通过准确识别访问模式， 预取器可以选择最合适的预取策略。</p>
+<p>WHAT层 - 模式识别： 分析指定页面的访问历史，返回最可能的访问模式。 用于指导预取决策和性能优化。</p>
+<p>HOW层 - 模式分析：</p><ol type="1">
+<li>收集页面的访问历史数据</li>
+<li>计算访问间隔和频率统计</li>
+<li>模式匹配和分类</li>
+<li>返回最匹配的访问模式</li>
+</ol>
+<p>分析算法：</p><ul>
+<li>**统计分析**：计算访问间隔的均值和方差</li>
+<li>**趋势分析**：识别访问的递增或递减趋势</li>
+<li>**周期分析**：检测周期性的访问模式</li>
+<li>**聚类分析**：将相似访问模式分组</li>
+</ul>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>需要分析的页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>识别出的访问模式</dd></dl>
+<dl class="section note"><dt>注解</dt><dd>模式识别需要足够的访问历史数据 </dd>
+<dd>
+新页面可能返回RANDOM模式 </dd>
+<dd>
+模式可能随时间动态变化 </dd></dl>
+
+</div>
+</div>
+<a id="a826a0e5059ad7eb7e303cbd95a362ea7" name="a826a0e5059ad7eb7e303cbd95a362ea7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a826a0e5059ad7eb7e303cbd95a362ea7">&#9670;&#160;</a></span>GetPrefetchedPage() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Prefetcher::GetPrefetchedPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1Page.html">Page</a> &amp;&#160;</td>
+          <td class="paramname"><em>page</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取预取的页面 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+    <tr><td class="paramname">page</td><td>输出页面对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功获取 </dd></dl>
+
+</div>
+</div>
+<a id="a826a0e5059ad7eb7e303cbd95a362ea7" name="a826a0e5059ad7eb7e303cbd95a362ea7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a826a0e5059ad7eb7e303cbd95a362ea7">&#9670;&#160;</a></span>GetPrefetchedPage() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Prefetcher::GetPrefetchedPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1Page.html">Page</a> &amp;&#160;</td>
+          <td class="paramname"><em>page</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取预取的页面 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+    <tr><td class="paramname">page</td><td>输出页面对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功获取 </dd></dl>
+
+</div>
+</div>
+<a id="a826a0e5059ad7eb7e303cbd95a362ea7" name="a826a0e5059ad7eb7e303cbd95a362ea7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a826a0e5059ad7eb7e303cbd95a362ea7">&#9670;&#160;</a></span>GetPrefetchedPage() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Prefetcher::GetPrefetchedPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1Page.html">Page</a> &amp;&#160;</td>
+          <td class="paramname"><em>page</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取预取的页面 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+    <tr><td class="paramname">page</td><td>输出页面对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功获取 </dd></dl>
+
+</div>
+</div>
+<a id="ac69eb865a7ffb3b63e5769b4934eeffe" name="ac69eb865a7ffb3b63e5769b4934eeffe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac69eb865a7ffb3b63e5769b4934eeffe">&#9670;&#160;</a></span>GetStats() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">Prefetcher::PrefetcherStats</a> sqlcc::Prefetcher::GetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取预取器统计信息 </p>
+<dl class="section return"><dt>返回</dt><dd>统计信息 </dd></dl>
+
+</div>
+</div>
+<a id="aaa865535a9d022da72c77145ce9f9ed8" name="aaa865535a9d022da72c77145ce9f9ed8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa865535a9d022da72c77145ce9f9ed8">&#9670;&#160;</a></span>GetStats() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a> sqlcc::Prefetcher::GetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取预取器统计信息 </p>
+<dl class="section return"><dt>返回</dt><dd>统计信息 </dd></dl>
+
+</div>
+</div>
+<a id="aaa865535a9d022da72c77145ce9f9ed8" name="aaa865535a9d022da72c77145ce9f9ed8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa865535a9d022da72c77145ce9f9ed8">&#9670;&#160;</a></span>GetStats() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a> sqlcc::Prefetcher::GetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取预取统计信息 - 预取效果的量化评估 </p>
+<p>WHY层 - 设计意图： 统计信息是预取策略调优的基础，通过详细的性能指标， 系统可以评估预取的有效性并进行相应的调整。</p>
+<p>WHAT层 - 统计内容：</p><ul>
+<li>预取请求和服务的数量统计</li>
+<li>命中率和准确性指标</li>
+<li>不同模式的预取效果对比</li>
+<li>性能开销和收益分析</li>
+</ul>
+<p>HOW层 - 指标计算：</p><ul>
+<li>命中率：预取页面被实际使用的比例</li>
+<li>准确率：预测正确的预取请求比例</li>
+<li>效率比：预取收益与开销的比率</li>
+<li>覆盖率：预取覆盖的页面访问比例</li>
+</ul>
+<dl class="section return"><dt>返回</dt><dd>当前的预取统计信息</dd></dl>
+<dl class="section note"><dt>注解</dt><dd>统计信息可用于性能监控和调优 </dd>
+<dd>
+某些指标需要一定的观察时间才能准确 </dd></dl>
+
+</div>
+</div>
+<a id="aaa865535a9d022da72c77145ce9f9ed8" name="aaa865535a9d022da72c77145ce9f9ed8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa865535a9d022da72c77145ce9f9ed8">&#9670;&#160;</a></span>GetStats() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a> sqlcc::Prefetcher::GetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取预取器统计信息 </p>
+<dl class="section return"><dt>返回</dt><dd>统计信息 </dd></dl>
+
+</div>
+</div>
+<a id="ad7de5392c64f3b4063e9f17a82695c48" name="ad7de5392c64f3b4063e9f17a82695c48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7de5392c64f3b4063e9f17a82695c48">&#9670;&#160;</a></span>IsEnabled() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Prefetcher::IsEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查是否启用 </p>
+<dl class="section return"><dt>返回</dt><dd>是否启用 </dd></dl>
+
+</div>
+</div>
+<a id="ad7de5392c64f3b4063e9f17a82695c48" name="ad7de5392c64f3b4063e9f17a82695c48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7de5392c64f3b4063e9f17a82695c48">&#9670;&#160;</a></span>IsEnabled() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Prefetcher::IsEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查是否启用 </p>
+<dl class="section return"><dt>返回</dt><dd>是否启用 </dd></dl>
+
+</div>
+</div>
+<a id="ad7de5392c64f3b4063e9f17a82695c48" name="ad7de5392c64f3b4063e9f17a82695c48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7de5392c64f3b4063e9f17a82695c48">&#9670;&#160;</a></span>IsEnabled() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Prefetcher::IsEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查是否启用 </p>
+<dl class="section return"><dt>返回</dt><dd>是否启用 </dd></dl>
+
+</div>
+</div>
+<a id="aba4deb3eb77db69650ab874e32a194bf" name="aba4deb3eb77db69650ab874e32a194bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba4deb3eb77db69650ab874e32a194bf">&#9670;&#160;</a></span>NotifyPageAccess() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::NotifyPageAccess </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>通知页面访问 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aba4deb3eb77db69650ab874e32a194bf" name="aba4deb3eb77db69650ab874e32a194bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba4deb3eb77db69650ab874e32a194bf">&#9670;&#160;</a></span>NotifyPageAccess() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::NotifyPageAccess </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>通知页面访问 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aba4deb3eb77db69650ab874e32a194bf" name="aba4deb3eb77db69650ab874e32a194bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba4deb3eb77db69650ab874e32a194bf">&#9670;&#160;</a></span>NotifyPageAccess() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::NotifyPageAccess </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>通知页面访问 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a931416d26a85a6db3708764138287021" name="a931416d26a85a6db3708764138287021"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a931416d26a85a6db3708764138287021">&#9670;&#160;</a></span>PredictNextPages() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; int32_t &gt; sqlcc::Prefetcher::PredictNextPages </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>current_page_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>分析访问模式并预测下一页面 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">current_page_id</td><td>当前页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>预测的下一页面ID列表 </dd></dl>
+
+</div>
+</div>
+<a id="a931416d26a85a6db3708764138287021" name="a931416d26a85a6db3708764138287021"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a931416d26a85a6db3708764138287021">&#9670;&#160;</a></span>PredictNextPages() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; int32_t &gt; sqlcc::Prefetcher::PredictNextPages </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>current_page_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>分析访问模式并预测下一页面 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">current_page_id</td><td>当前页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>预测的下一页面ID列表 </dd></dl>
+
+</div>
+</div>
+<a id="a931416d26a85a6db3708764138287021" name="a931416d26a85a6db3708764138287021"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a931416d26a85a6db3708764138287021">&#9670;&#160;</a></span>PredictNextPages() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; int32_t &gt; sqlcc::Prefetcher::PredictNextPages </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>current_page_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>分析访问模式并预测下一页面 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">current_page_id</td><td>当前页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>预测的下一页面ID列表 </dd></dl>
+
+</div>
+</div>
+<a id="adaf7e48ddd385c520face1822166c89c" name="adaf7e48ddd385c520face1822166c89c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adaf7e48ddd385c520face1822166c89c">&#9670;&#160;</a></span>PrefetchPage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Prefetcher::PrefetchPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>预取页面 - 主动加载页面到内存 </p>
+<p>WHY层 - 设计意图： 预取页面是预取器的核心功能，通过提前加载数据减少访问延迟。 智能的预取决策可以显著提升系统性能。</p>
+<p>WHAT层 - 预取操作： 根据访问模式预测并预取相关页面。 支持单个页面和批量页面的预取。</p>
+<p>HOW层 - 预取决策：</p><ol type="1">
+<li>分析当前页面的访问模式</li>
+<li>预测可能被访问的相关页面</li>
+<li>检查页面是否已在内存中</li>
+<li>发起异步预取操作</li>
+<li>更新预取统计信息</li>
+</ol>
+<p>预取策略：</p><ul>
+<li>**保守策略**：只预取高度可能被访问的页面</li>
+<li>**激进策略**：预取更大范围的页面</li>
+<li>**自适应策略**：根据历史命中率动态调整</li>
+<li>**混合策略**：结合多种预测算法</li>
+</ul>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>触发预取的页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功触发预取操作</dd></dl>
+<dl class="section note"><dt>注解</dt><dd>预取是异步操作，不阻塞调用者 </dd>
+<dd>
+预取失败不影响正常页面访问 </dd></dl>
+
+</div>
+</div>
+<a id="a72b0f7eb291b97f4a64ba8bf70800443" name="a72b0f7eb291b97f4a64ba8bf70800443"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72b0f7eb291b97f4a64ba8bf70800443">&#9670;&#160;</a></span>PrefetchPages()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::Prefetcher::PrefetchPages </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; int32_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>page_ids</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>批量预取页面 - 大规模页面预取优化 </p>
+<p>WHY层 - 设计意图： 批量预取可以减少系统调用的次数，提高预取效率。 通过合并多个预取请求，优化I/O操作的性能。</p>
+<p>WHAT层 - 批量操作： 接受页面ID列表，一次性处理多个预取请求。 返回成功预取的页面数量。</p>
+<p>HOW层 - 批量处理：</p><ol type="1">
+<li>过滤已在内存中的页面</li>
+<li>对剩余页面进行去重排序</li>
+<li>分批提交给I/O子系统</li>
+<li>收集和返回处理结果</li>
+</ol>
+<p>优化技术：</p><ul>
+<li>**请求合并**：合并连续的页面请求</li>
+<li>**I/O调度**：优化磁盘访问顺序</li>
+<li>**并行处理**：利用多核CPU并行预取</li>
+<li>**优先级排序**：按访问概率排序预取顺序</li>
+</ul>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_ids</td><td>需要预取的页面ID列表 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>成功预取的页面数量</dd></dl>
+<dl class="section note"><dt>注解</dt><dd>批量预取可以显著降低单位页面预取开销 </dd>
+<dd>
+返回值可能小于输入列表大小 </dd></dl>
+
+</div>
+</div>
+<a id="ad01dd71b88e8f5b17c95bb5af3bd497d" name="ad01dd71b88e8f5b17c95bb5af3bd497d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad01dd71b88e8f5b17c95bb5af3bd497d">&#9670;&#160;</a></span>PrefetchWorker() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::PrefetchWorker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>预取工作线程函数 </p>
+
+</div>
+</div>
+<a id="ad01dd71b88e8f5b17c95bb5af3bd497d" name="ad01dd71b88e8f5b17c95bb5af3bd497d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad01dd71b88e8f5b17c95bb5af3bd497d">&#9670;&#160;</a></span>PrefetchWorker() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::PrefetchWorker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>预取工作线程函数 </p>
+
+</div>
+</div>
+<a id="ad01dd71b88e8f5b17c95bb5af3bd497d" name="ad01dd71b88e8f5b17c95bb5af3bd497d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad01dd71b88e8f5b17c95bb5af3bd497d">&#9670;&#160;</a></span>PrefetchWorker() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::PrefetchWorker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>预取工作线程函数 - 后台预取任务处理循环 </p>
+<p>WHY层 - 设计意图： 工作线程函数是预取器的核心执行逻辑，独立处理预取任务。 通过独立线程，避免预取操作阻塞主事务处理。</p>
+<p>WHAT层 - 线程职责：</p><ul>
+<li>监听预取队列的新任务</li>
+<li>执行页面预取操作</li>
+<li>更新统计信息</li>
+<li>处理异常情况</li>
+</ul>
+<p>HOW层 - 执行循环：</p><ol type="1">
+<li>检查停止标志，决定是否退出</li>
+<li>从队列获取待预取的页面</li>
+<li>执行实际的预取操作</li>
+<li>处理预取结果和异常</li>
+<li>更新统计信息</li>
+<li>等待新的预取任务</li>
+</ol>
+<p>异常处理：</p><ul>
+<li>I/O错误：记录错误，继续处理其他任务</li>
+<li>内存不足：暂停预取，等待内存释放</li>
+<li>队列为空：进入低功耗等待状态</li>
+<li>系统负载高：降低预取频率</li>
+</ul>
+<p>性能优化：</p><ul>
+<li>批量处理：一次处理多个预取任务</li>
+<li>自适应频率：根据系统负载调整处理速度</li>
+<li>资源控制：限制CPU和内存资源的使用 </li>
+</ul>
+
+</div>
+</div>
+<a id="ad01dd71b88e8f5b17c95bb5af3bd497d" name="ad01dd71b88e8f5b17c95bb5af3bd497d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad01dd71b88e8f5b17c95bb5af3bd497d">&#9670;&#160;</a></span>PrefetchWorker() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::PrefetchWorker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>预取工作线程函数 </p>
+
+</div>
+</div>
+<a id="a28ae243eff11cd553b4d6884ddb2359e" name="a28ae243eff11cd553b4d6884ddb2359e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28ae243eff11cd553b4d6884ddb2359e">&#9670;&#160;</a></span>RecordPageAccess()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::RecordPageAccess </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_write</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>记录页面访问 - 访问模式分析的基础数据收集 </p>
+<p>WHY层 - 设计意图： 页面访问记录是预取决策的基础数据，通过记录访问历史， 预取器可以识别访问模式并预测未来的访问需求。</p>
+<p>WHAT层 - 记录内容：</p><ul>
+<li>页面ID：被访问的页面标识</li>
+<li>访问时间：精确的访问时间戳</li>
+<li>访问类型：读操作还是写操作</li>
+</ul>
+<p>HOW层 - 数据收集：</p><ol type="1">
+<li>记录访问时间戳和页面ID</li>
+<li>更新访问历史统计</li>
+<li>触发访问模式分析</li>
+<li>根据模式决定是否预取</li>
+</ol>
+<p>性能考虑：</p><ul>
+<li>最小化记录开销，不影响主路径性能</li>
+<li>异步处理历史数据分析</li>
+<li>定期清理过期历史记录</li>
+</ul>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>被访问的页面ID </td></tr>
+    <tr><td class="paramname">is_write</td><td>是否为写操作</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>这个函数在每次页面访问时被调用 </dd>
+<dd>
+记录开销必须非常小，不能影响事务性能 </dd></dl>
+
+</div>
+</div>
+<a id="a1280f4de6b3eab30fb796b34f55d33d5" name="a1280f4de6b3eab30fb796b34f55d33d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1280f4de6b3eab30fb796b34f55d33d5">&#9670;&#160;</a></span>RequestPrefetch() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::RequestPrefetch </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em> = <code>-1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>priority</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>请求预取页面 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">priority</td><td>优先级 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1280f4de6b3eab30fb796b34f55d33d5" name="a1280f4de6b3eab30fb796b34f55d33d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1280f4de6b3eab30fb796b34f55d33d5">&#9670;&#160;</a></span>RequestPrefetch() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::RequestPrefetch </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em> = <code>-1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>priority</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>请求预取页面 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">priority</td><td>优先级 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1280f4de6b3eab30fb796b34f55d33d5" name="a1280f4de6b3eab30fb796b34f55d33d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1280f4de6b3eab30fb796b34f55d33d5">&#9670;&#160;</a></span>RequestPrefetch() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::RequestPrefetch </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em> = <code>-1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>priority</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>请求预取页面 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">priority</td><td>优先级 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af9e898175f5cebc2638bc76611ef14e2" name="af9e898175f5cebc2638bc76611ef14e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9e898175f5cebc2638bc76611ef14e2">&#9670;&#160;</a></span>ResetStats() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::ResetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>重置统计信息 </p>
+
+</div>
+</div>
+<a id="af9e898175f5cebc2638bc76611ef14e2" name="af9e898175f5cebc2638bc76611ef14e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9e898175f5cebc2638bc76611ef14e2">&#9670;&#160;</a></span>ResetStats() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::ResetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>重置统计信息 </p>
+
+</div>
+</div>
+<a id="af9e898175f5cebc2638bc76611ef14e2" name="af9e898175f5cebc2638bc76611ef14e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9e898175f5cebc2638bc76611ef14e2">&#9670;&#160;</a></span>ResetStats() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::ResetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>重置统计信息 </p>
+
+</div>
+</div>
+<a id="a0fdc0a72a2207f5eb097fa38e43eed7d" name="a0fdc0a72a2207f5eb097fa38e43eed7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fdc0a72a2207f5eb097fa38e43eed7d">&#9670;&#160;</a></span>SetEnabled() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::SetEnabled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置是否启用 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enabled</td><td>是否启用 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0fdc0a72a2207f5eb097fa38e43eed7d" name="a0fdc0a72a2207f5eb097fa38e43eed7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fdc0a72a2207f5eb097fa38e43eed7d">&#9670;&#160;</a></span>SetEnabled() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::SetEnabled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置是否启用 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enabled</td><td>是否启用 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0fdc0a72a2207f5eb097fa38e43eed7d" name="a0fdc0a72a2207f5eb097fa38e43eed7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fdc0a72a2207f5eb097fa38e43eed7d">&#9670;&#160;</a></span>SetEnabled() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::SetEnabled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>启用/禁用预取功能 - 运行时配置控制 </p>
+<p>WHY层 - 设计意图： 预取功能的动态控制允许系统根据运行时条件调整行为。 在某些场景下，预取可能弊大于利，需要能够动态禁用。</p>
+<p>WHAT层 - 控制功能： 运行时启用或禁用预取功能。 禁用时停止所有预取操作，启用时恢复正常预取。</p>
+<p>HOW层 - 状态转换：</p><ul>
+<li>禁用：停止工作线程，清理预取队列</li>
+<li>启用：重新启动工作线程，继续预取操作</li>
+<li>状态同步：确保状态转换的原子性</li>
+</ul>
+<p>使用场景：</p><ul>
+<li>**内存压力**：内存不足时禁用预取节省内存</li>
+<li>**I/O压力**：磁盘负载高时禁用预取减少I/O</li>
+<li>**调试诊断**：禁用预取进行性能问题诊断</li>
+<li>**手动调优**：管理员手动控制预取行为</li>
+</ul>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enabled</td><td>是否启用预取功能</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>注解</dt><dd>状态改变可能需要几秒钟生效 </dd>
+<dd>
+禁用预取不会影响已经预取的页面 </dd></dl>
+
+</div>
+</div>
+<a id="a0fdc0a72a2207f5eb097fa38e43eed7d" name="a0fdc0a72a2207f5eb097fa38e43eed7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fdc0a72a2207f5eb097fa38e43eed7d">&#9670;&#160;</a></span>SetEnabled() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::SetEnabled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置是否启用 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enabled</td><td>是否启用 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a84caab77e5d76ea1abd85894a540eb57" name="a84caab77e5d76ea1abd85894a540eb57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84caab77e5d76ea1abd85894a540eb57">&#9670;&#160;</a></span>Start() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::Start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>启动预取器 </p>
+
+</div>
+</div>
+<a id="a84caab77e5d76ea1abd85894a540eb57" name="a84caab77e5d76ea1abd85894a540eb57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84caab77e5d76ea1abd85894a540eb57">&#9670;&#160;</a></span>Start() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::Start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>启动预取器 </p>
+
+</div>
+</div>
+<a id="a84caab77e5d76ea1abd85894a540eb57" name="a84caab77e5d76ea1abd85894a540eb57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84caab77e5d76ea1abd85894a540eb57">&#9670;&#160;</a></span>Start() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::Start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>启动预取器 </p>
+
+</div>
+</div>
+<a id="aae47958f2e2ebdac7c0d077c4af82eae" name="aae47958f2e2ebdac7c0d077c4af82eae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae47958f2e2ebdac7c0d077c4af82eae">&#9670;&#160;</a></span>Stop() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::Stop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>停止预取器 </p>
+
+</div>
+</div>
+<a id="aae47958f2e2ebdac7c0d077c4af82eae" name="aae47958f2e2ebdac7c0d077c4af82eae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae47958f2e2ebdac7c0d077c4af82eae">&#9670;&#160;</a></span>Stop() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::Stop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>停止预取器 </p>
+
+</div>
+</div>
+<a id="aae47958f2e2ebdac7c0d077c4af82eae" name="aae47958f2e2ebdac7c0d077c4af82eae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae47958f2e2ebdac7c0d077c4af82eae">&#9670;&#160;</a></span>Stop() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::Stop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>停止预取器 </p>
+
+</div>
+</div>
+<a id="a87af8f9acfb33439f937334ef36247cd" name="a87af8f9acfb33439f937334ef36247cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87af8f9acfb33439f937334ef36247cd">&#9670;&#160;</a></span>UpdateAccessHistory() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::UpdateAccessHistory </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新访问历史 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a87af8f9acfb33439f937334ef36247cd" name="a87af8f9acfb33439f937334ef36247cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87af8f9acfb33439f937334ef36247cd">&#9670;&#160;</a></span>UpdateAccessHistory() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::UpdateAccessHistory </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新访问历史 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a87af8f9acfb33439f937334ef36247cd" name="a87af8f9acfb33439f937334ef36247cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87af8f9acfb33439f937334ef36247cd">&#9670;&#160;</a></span>UpdateAccessHistory() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::UpdateAccessHistory </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新访问历史 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a60cedd6cd7ff2ffce8060c9aedca7da2" name="a60cedd6cd7ff2ffce8060c9aedca7da2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60cedd6cd7ff2ffce8060c9aedca7da2">&#9670;&#160;</a></span>UpdateConfig() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::UpdateConfig </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新配置参数 </p>
+
+</div>
+</div>
+<a id="a60cedd6cd7ff2ffce8060c9aedca7da2" name="a60cedd6cd7ff2ffce8060c9aedca7da2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60cedd6cd7ff2ffce8060c9aedca7da2">&#9670;&#160;</a></span>UpdateConfig() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::UpdateConfig </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新配置参数 </p>
+
+</div>
+</div>
+<a id="a60cedd6cd7ff2ffce8060c9aedca7da2" name="a60cedd6cd7ff2ffce8060c9aedca7da2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60cedd6cd7ff2ffce8060c9aedca7da2">&#9670;&#160;</a></span>UpdateConfig() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Prefetcher::UpdateConfig </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新配置参数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a2ef089536c3e6c34b8edbd546bc6879c" name="a2ef089536c3e6c34b8edbd546bc6879c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ef089536c3e6c34b8edbd546bc6879c">&#9670;&#160;</a></span>access_history_ <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; int32_t, std::vector&lt; int32_t &gt; &gt; sqlcc::Prefetcher::access_history_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a07748092d4e74956de5d057a1d81220a" name="a07748092d4e74956de5d057a1d81220a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07748092d4e74956de5d057a1d81220a">&#9670;&#160;</a></span>access_history_ <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;int32_t, std::vector&lt;std::chrono::steady_clock::time_point&gt; &gt; sqlcc::Prefetcher::access_history_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>页面访问历史 - 访问模式分析的数据基础 </p>
+<p>WHY层 - 设计意图： 访问历史记录是模式识别和预测的基础数据结构。 通过维护每个页面的访问时间序列，实现精准的访问模式分析。</p>
+<p>WHAT层 - 数据结构：</p><ul>
+<li>外层映射：页面ID到时间戳列表</li>
+<li>时间戳列表：该页面的访问历史记录</li>
+<li>自动清理：定期清理过期历史记录</li>
+</ul>
+<p>HOW层 - 内存管理：</p><ul>
+<li>容量限制：防止历史记录无限增长</li>
+<li>时间窗口：只保留最近一段时间的历史</li>
+<li>压缩存储：优化历史数据的存储格式</li>
+<li>并发安全：使用读写锁保护并发访问 </li>
+</ul>
+
+</div>
+</div>
+<a id="a14dbfc0d11851a99cf050d0417a77d46" name="a14dbfc0d11851a99cf050d0417a77d46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14dbfc0d11851a99cf050d0417a77d46">&#9670;&#160;</a></span>access_history_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::Prefetcher::access_history_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>访问历史互斥锁 - 保护访问历史记录的并发访问 </p>
+
+</div>
+</div>
+<a id="ac2ebcae4632d8561e502b4abb76f1925" name="ac2ebcae4632d8561e502b4abb76f1925"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2ebcae4632d8561e502b4abb76f1925">&#9670;&#160;</a></span>cache_expire_time_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::Prefetcher::cache_expire_time_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a52ed94f6080dfe6321cd0c94b4501ef1" name="a52ed94f6080dfe6321cd0c94b4501ef1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52ed94f6080dfe6321cd0c94b4501ef1">&#9670;&#160;</a></span>cache_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::Prefetcher::cache_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2cb9ee6848f70d8eb80e6db9e0591b8d" name="a2cb9ee6848f70d8eb80e6db9e0591b8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cb9ee6848f70d8eb80e6db9e0591b8d">&#9670;&#160;</a></span>config_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp; sqlcc::Prefetcher::config_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afcde6ef4a06803763b5be899fe96693b" name="afcde6ef4a06803763b5be899fe96693b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcde6ef4a06803763b5be899fe96693b">&#9670;&#160;</a></span>disk_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &amp; sqlcc::Prefetcher::disk_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad396ca09cfed00accdbbe0c27b55552e" name="ad396ca09cfed00accdbbe0c27b55552e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad396ca09cfed00accdbbe0c27b55552e">&#9670;&#160;</a></span>enabled_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt; bool &gt; sqlcc::Prefetcher::enabled_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>预取启用标志 - 控制预取功能的开关 </p>
+
+</div>
+</div>
+<a id="ab818252ecdc8659a96f360cc9ae79316" name="ab818252ecdc8659a96f360cc9ae79316"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab818252ecdc8659a96f360cc9ae79316">&#9670;&#160;</a></span>history_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::Prefetcher::history_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa46bf09639370fd7b2e3c9cf48b40528" name="aa46bf09639370fd7b2e3c9cf48b40528"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa46bf09639370fd7b2e3c9cf48b40528">&#9670;&#160;</a></span>max_cache_size_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::Prefetcher::max_cache_size_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae6654cdb04539e116beec0d73caf1c17" name="ae6654cdb04539e116beec0d73caf1c17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6654cdb04539e116beec0d73caf1c17">&#9670;&#160;</a></span>max_prefetch_distance_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::Prefetcher::max_prefetch_distance_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaa4f71a1e19869a3a367dcd0daa9ad69" name="aaa4f71a1e19869a3a367dcd0daa9ad69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa4f71a1e19869a3a367dcd0daa9ad69">&#9670;&#160;</a></span>max_prefetch_size_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const size_t sqlcc::Prefetcher::max_prefetch_size_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最大预取大小 - 单次预取操作的上限 </p>
+
+</div>
+</div>
+<a id="a330181598914e196570bbb8845cbd47d" name="a330181598914e196570bbb8845cbd47d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a330181598914e196570bbb8845cbd47d">&#9670;&#160;</a></span>prefetch_cache_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; int32_t, <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::Prefetcher::prefetch_cache_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a097e9e8bf9c4c55c33f94e4119918de5" name="a097e9e8bf9c4c55c33f94e4119918de5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a097e9e8bf9c4c55c33f94e4119918de5">&#9670;&#160;</a></span>prefetch_queue_ <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::priority_queue&lt; <a class="el" href="structsqlcc_1_1PrefetchRequest.html">PrefetchRequest</a> &gt; sqlcc::Prefetcher::prefetch_queue_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a38c9afa4d0391b1ef002843c1dd2a117" name="a38c9afa4d0391b1ef002843c1dd2a117"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38c9afa4d0391b1ef002843c1dd2a117">&#9670;&#160;</a></span>prefetch_queue_ <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;int32_t&gt; sqlcc::Prefetcher::prefetch_queue_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>预取队列 - 待处理的预取任务队列 </p>
+<p>WHY层 - 设计意图： 预取队列实现生产者-消费者模式，解耦预取请求的提交和处理。 通过队列缓冲，可以平滑预取请求的突发流量。</p>
+<p>WHAT层 - 队列内容： 待预取的页面ID列表，按优先级排序。 支持批量预取和优先级调度。</p>
+<p>HOW层 - 队列管理：</p><ul>
+<li>优先级队列：高优先级页面优先预取</li>
+<li>容量控制：防止队列过大占用内存</li>
+<li>去重机制：避免重复预取同一页面</li>
+<li>超时处理：过期预取请求自动清理 </li>
+</ul>
+
+</div>
+</div>
+<a id="a295417db1b01edfe15b0986608d88bc7" name="a295417db1b01edfe15b0986608d88bc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a295417db1b01edfe15b0986608d88bc7">&#9670;&#160;</a></span>prefetch_queue_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::Prefetcher::prefetch_queue_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>预取队列互斥锁 - 保护预取队列的并发访问 </p>
+
+</div>
+</div>
+<a id="ad85b94bc258fa484db4c9083354567a5" name="ad85b94bc258fa484db4c9083354567a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad85b94bc258fa484db4c9083354567a5">&#9670;&#160;</a></span>prefetch_thread_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::thread sqlcc::Prefetcher::prefetch_thread_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>预取工作线程 - 后台处理预取任务 </p>
+
+</div>
+</div>
+<a id="a854c409b2569474d8fed033c2c205385" name="a854c409b2569474d8fed033c2c205385"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a854c409b2569474d8fed033c2c205385">&#9670;&#160;</a></span>prefetch_threshold_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double sqlcc::Prefetcher::prefetch_threshold_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4e525ddd0104f2da18e00094130f3786" name="a4e525ddd0104f2da18e00094130f3786"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e525ddd0104f2da18e00094130f3786">&#9670;&#160;</a></span>prefetch_timeout_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::Prefetcher::prefetch_timeout_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76608c2f72eb9ff58b287129ef644a37" name="a76608c2f72eb9ff58b287129ef644a37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76608c2f72eb9ff58b287129ef644a37">&#9670;&#160;</a></span>queue_cv_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::condition_variable sqlcc::Prefetcher::queue_cv_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1601c2c111dbca7ebb6103abc8bc23b0" name="a1601c2c111dbca7ebb6103abc8bc23b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1601c2c111dbca7ebb6103abc8bc23b0">&#9670;&#160;</a></span>queue_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::Prefetcher::queue_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaebb6669659e2f8f20203562d45c6c9b" name="aaebb6669659e2f8f20203562d45c6c9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaebb6669659e2f8f20203562d45c6c9b">&#9670;&#160;</a></span>running_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt; bool &gt; sqlcc::Prefetcher::running_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9359d31f246f8bec345e2b0329e9cb50" name="a9359d31f246f8bec345e2b0329e9cb50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9359d31f246f8bec345e2b0329e9cb50">&#9670;&#160;</a></span>stats_ <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a> sqlcc::Prefetcher::stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="add9d44273a2b39e3f638758a0cda790c" name="add9d44273a2b39e3f638758a0cda790c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add9d44273a2b39e3f638758a0cda790c">&#9670;&#160;</a></span>stats_ <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;<a class="el" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">PrefetcherStats</a>&gt; sqlcc::Prefetcher::stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>统计信息 - 预取性能的量化指标 </p>
+
+</div>
+</div>
+<a id="a4e43236ae774d8e32ba2664226af8d89" name="a4e43236ae774d8e32ba2664226af8d89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e43236ae774d8e32ba2664226af8d89">&#9670;&#160;</a></span>stats_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::Prefetcher::stats_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab9b9822d20a17a472e6eda4774d64827" name="ab9b9822d20a17a472e6eda4774d64827"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9b9822d20a17a472e6eda4774d64827">&#9670;&#160;</a></span>stop_prefetch_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;bool&gt; sqlcc::Prefetcher::stop_prefetch_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>停止预取标志 - 控制工作线程的运行状态 </p>
+
+</div>
+</div>
+<a id="a6e69f887e30260be91952135192de722" name="a6e69f887e30260be91952135192de722"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e69f887e30260be91952135192de722">&#9670;&#160;</a></span>worker_thread_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::thread sqlcc::Prefetcher::worker_thread_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage_2prefetcher_8h_source.html">storage/prefetcher.h</a></li>
+<li><a class="el" href="storage__engine_2buffer__pool_2prefetcher_8h_source.html">storage_engine/buffer_pool/prefetcher.h</a></li>
+<li><a class="el" href="concurrency__control_8h_source.html">concurrency_control.h</a></li>
+<li><a class="el" href="storage__engine_2prefetcher_8h_source.html">storage_engine/prefetcher.h</a></li>
+<li><a class="el" href="concurrency__control_8cpp.html">concurrency_control.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

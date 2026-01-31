@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::ast::Expression类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1ast.html">ast</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1Expression.html">Expression</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1ast_1_1Expression-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::ast::Expression类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="expression_8h_source.html">expression.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::sql_parser::ast::Expression 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__parser_1_1ast_1_1Expression__inherit__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1ast_1_1Expression_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1sql__parser_1_1ast_1_1Expression_inherit__map" id="asqlcc_1_1sql__parser_1_1ast_1_1Expression_inherit__map">
+<area shape="rect" title=" " alt="" coords="192,357,331,397"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1BinaryExpression.html" title=" " alt="" coords="418,5,557,45"/>
+<area shape="poly" title=" " alt="" coords="262,343,271,282,291,205,305,164,324,125,348,88,377,55,396,42,417,33,419,38,398,47,380,59,352,91,329,127,310,166,296,207,277,283,268,344"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1FunctionCallExpression.html" title="函数调用表达式" alt="" coords="401,69,574,109"/>
+<area shape="poly" title=" " alt="" coords="268,343,281,296,302,239,334,181,354,155,377,131,399,117,424,107,426,112,402,121,380,135,358,158,338,184,307,242,286,298,273,345"/>
+<area shape="poly" title=" " alt="" coords="265,343,276,291,298,227,330,163,352,133,377,107,399,93,402,98,380,111,356,137,335,166,303,229,282,292,270,344"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1IdentifierExpression.html" title=" " alt="" coords="412,133,563,173"/>
+<area shape="poly" title=" " alt="" coords="271,343,287,306,310,263,340,220,377,183,410,165,413,170,380,187,344,223,315,266,292,308,276,345"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1LiteralExpression.html" title=" " alt="" coords="418,197,557,237"/>
+<area shape="poly" title=" " alt="" coords="281,344,322,294,348,269,377,247,417,229,419,234,380,252,352,273,326,298,285,348"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1UnaryExpression.html" title=" " alt="" coords="418,261,557,301"/>
+<area shape="poly" title=" " alt="" coords="305,348,378,311,417,297,419,302,380,316,308,353"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1WindowFunction.html" title="窗口函数表达式节点" alt="" coords="418,325,557,365"/>
+<area shape="poly" title=" " alt="" coords="344,363,417,352,418,358,344,368"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ast_1_1BinaryExpression.html" title=" " alt="" coords="406,389,569,429"/>
+<area shape="poly" title=" " alt="" coords="345,386,406,395,405,400,344,392"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ast_1_1BooleanLiteralExpression.html" title=" " alt="" coords="380,453,595,493"/>
+<area shape="poly" title=" " alt="" coords="308,402,380,439,412,451,410,456,378,444,305,407"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ast_1_1FunctionCallExpression.html" title=" " alt="" coords="387,517,588,557"/>
+<area shape="poly" title=" " alt="" coords="285,407,326,457,352,482,380,503,403,515,401,520,377,508,348,486,322,460,281,410"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ast_1_1IdentifierExpression.html" title=" " alt="" coords="398,581,577,621"/>
+<area shape="poly" title=" " alt="" coords="276,409,292,446,315,489,344,531,380,567,399,579,396,583,377,571,340,535,310,492,287,448,271,411"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ast_1_1NullLiteralExpression.html" title=" " alt="" coords="393,645,581,685"/>
+<area shape="poly" title=" " alt="" coords="271,410,284,460,305,519,337,580,357,607,380,631,398,643,395,647,377,635,353,611,332,583,300,521,278,461,266,412"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ast_1_1NumericLiteralExpression.html" title=" " alt="" coords="379,709,596,749"/>
+<area shape="poly" title=" " alt="" coords="268,410,277,471,296,548,310,588,329,627,352,664,380,695,396,707,393,711,377,699,348,667,324,630,305,590,291,550,271,472,262,411"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ast_1_1StringLiteralExpression.html" title=" " alt="" coords="387,773,587,813"/>
+<area shape="poly" title=" " alt="" coords="265,411,271,483,287,577,302,626,322,675,348,720,381,759,396,771,392,775,377,763,343,723,317,677,297,628,282,578,265,484,260,411"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ASTNode.html" title=" " alt="" coords="5,357,144,397"/>
+<area shape="poly" title=" " alt="" coords="158,375,191,375,191,380,158,380"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<div class="dynheader">
+sqlcc::sql_parser::ast::Expression 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__parser_1_1ast_1_1Expression__coll__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1ast_1_1Expression_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1sql__parser_1_1ast_1_1Expression_coll__map" id="asqlcc_1_1sql__parser_1_1ast_1_1Expression_coll__map">
+<area shape="rect" title=" " alt="" coords="5,93,144,133"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ASTNode.html" title=" " alt="" coords="5,5,144,45"/>
+<area shape="poly" title=" " alt="" coords="77,59,77,93,72,93,72,59"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a2100d8578c0762c94b1e2580407dc6b2" id="r_a2100d8578c0762c94b1e2580407dc6b2"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1Expression.html#a2100d8578c0762c94b1e2580407dc6b2">~Expression</a> ()=default</td></tr>
+<tr class="separator:a2100d8578c0762c94b1e2580407dc6b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fb0317e42c37ea6ec59ab23c58b120b" id="r_a1fb0317e42c37ea6ec59ab23c58b120b"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespacesqlcc_1_1sql__parser_1_1ast.html#a38412fb2a44a94eb1979d6fb2c8e0924">ExpressionType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1Expression.html#a1fb0317e42c37ea6ec59ab23c58b120b">getType</a> () const =0</td></tr>
+<tr class="separator:a1fb0317e42c37ea6ec59ab23c58b120b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34ca5a3401f53d9147973a4e8a1a11c5" id="r_a34ca5a3401f53d9147973a4e8a1a11c5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1Expression.html#a34ca5a3401f53d9147973a4e8a1a11c5">accept</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">NodeVisitor</a> &amp;visitor)=0</td></tr>
+<tr class="separator:a34ca5a3401f53d9147973a4e8a1a11c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html">sqlcc::sql_parser::ASTNode</a></td></tr>
+<tr class="memitem:a439bd54fa1a01e60aea9e6a985fbea13 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode" id="r_a439bd54fa1a01e60aea9e6a985fbea13"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html#a439bd54fa1a01e60aea9e6a985fbea13">~ASTNode</a> ()=default</td></tr>
+<tr class="separator:a439bd54fa1a01e60aea9e6a985fbea13 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28e63ff3f8094ac752f2575947665d32 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode" id="r_a28e63ff3f8094ac752f2575947665d32"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html#a28e63ff3f8094ac752f2575947665d32">getTypeName</a> () const</td></tr>
+<tr class="separator:a28e63ff3f8094ac752f2575947665d32 inherit pub_methods_classsqlcc_1_1sql__parser_1_1ASTNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a2100d8578c0762c94b1e2580407dc6b2" name="a2100d8578c0762c94b1e2580407dc6b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2100d8578c0762c94b1e2580407dc6b2">&#9670;&#160;</a></span>~Expression()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual sqlcc::sql_parser::ast::Expression::~Expression </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a34ca5a3401f53d9147973a4e8a1a11c5" name="a34ca5a3401f53d9147973a4e8a1a11c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34ca5a3401f53d9147973a4e8a1a11c5">&#9670;&#160;</a></span>accept()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::sql_parser::ast::Expression::accept </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">NodeVisitor</a> &amp;&#160;</td>
+          <td class="paramname"><em>visitor</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1sql__parser_1_1WindowFunction.html#a8a61780262ad7886932fc3023f4b19b1">sqlcc::sql_parser::WindowFunction</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1NumericLiteralExpression.html#a305e9c577ce61b9a0d1616f4f70d3aab">sqlcc::sql_parser::ast::NumericLiteralExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1StringLiteralExpression.html#ab44fd52b9c88e2dc58deddb434d87c78">sqlcc::sql_parser::ast::StringLiteralExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1BooleanLiteralExpression.html#af5874b4bcaabad22301008a7a0077ebc">sqlcc::sql_parser::ast::BooleanLiteralExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1NullLiteralExpression.html#ae78690c080bc331e33ea13aab09c4091">sqlcc::sql_parser::ast::NullLiteralExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1IdentifierExpression.html#a89cbc426b3e063bade1eb57cbfa969e8">sqlcc::sql_parser::ast::IdentifierExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1FunctionCallExpression.html#abd4ed0f6ed4ddcc27bb77a24925dd4f6">sqlcc::sql_parser::ast::FunctionCallExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1BinaryExpression.html#ac91e072bcd6222fd7cee26e20a02db4a">sqlcc::sql_parser::ast::BinaryExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1BinaryExpression.html#a81dcb67a1cd99259013b2d86fc9caac6">sqlcc::sql_parser::BinaryExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1UnaryExpression.html#ae459318db3c5953f0b08302cf96062c7">sqlcc::sql_parser::UnaryExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1LiteralExpression.html#a12fb4e634a42874a90b56baf11d23bc6">sqlcc::sql_parser::LiteralExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionCallExpression.html#a0cef36f0b6b2b83c1de4ebb339fd0546">sqlcc::sql_parser::FunctionCallExpression</a> , 以及 <a class="el" href="classsqlcc_1_1sql__parser_1_1IdentifierExpression.html#a3e38bdf8bd279a72ff6f9b0f2fa374bf">sqlcc::sql_parser::IdentifierExpression</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a1fb0317e42c37ea6ec59ab23c58b120b" name="a1fb0317e42c37ea6ec59ab23c58b120b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fb0317e42c37ea6ec59ab23c58b120b">&#9670;&#160;</a></span>getType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="namespacesqlcc_1_1sql__parser_1_1ast.html#a38412fb2a44a94eb1979d6fb2c8e0924">ExpressionType</a> sqlcc::sql_parser::ast::Expression::getType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1sql__parser_1_1LiteralExpression.html#aaa16939d57f1f590cf9f56eacfbb2905">sqlcc::sql_parser::LiteralExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1NumericLiteralExpression.html#abee2cb417574112e8bf2c617d537b8a6">sqlcc::sql_parser::ast::NumericLiteralExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1StringLiteralExpression.html#a6c534671f804af72fe1dcb07e244ac35">sqlcc::sql_parser::ast::StringLiteralExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1BooleanLiteralExpression.html#abae60232b7eb9465cda419bcb8988707">sqlcc::sql_parser::ast::BooleanLiteralExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1NullLiteralExpression.html#abec624a76bc212d7ce967fc34c534cda">sqlcc::sql_parser::ast::NullLiteralExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1IdentifierExpression.html#a901dc8dcfe2aecfa4d73027a5c4030cb">sqlcc::sql_parser::ast::IdentifierExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1FunctionCallExpression.html#afe1d5b1017e9e435d5286028c70cd865">sqlcc::sql_parser::ast::FunctionCallExpression</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ast_1_1BinaryExpression.html#ab6baf841aec9d37b24d37ae03db8bd66">sqlcc::sql_parser::ast::BinaryExpression</a> , 以及 <a class="el" href="classsqlcc_1_1sql__parser_1_1WindowFunction.html#aaf045e3b44af242783f73a66b4a29225">sqlcc::sql_parser::WindowFunction</a> 内被实现.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="expression_8h_source.html">expression.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

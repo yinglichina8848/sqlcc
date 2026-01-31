@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: database_file_manager.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html">core</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#enum-members">枚举</a>  </div>
+  <div class="headertitle"><div class="title">database_file_manager.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="database__file__manager_8h_source.html">database_file_manager.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="table__storage_8h_source.html">../storage_engine/table_storage.h</a>&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;system_error&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+database_file_manager.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="database__file__manager_8cpp__incl.png" border="0" usemap="#adatabase__file__manager_8cpp" alt=""/></div>
+<map name="adatabase__file__manager_8cpp" id="adatabase__file__manager_8cpp">
+<area shape="rect" title=" " alt="" coords="572,5,772,31"/>
+<area shape="rect" href="database__file__manager_8h.html" title=" " alt="" coords="369,86,554,111"/>
+<area shape="poly" title=" " alt="" coords="642,33,506,84,504,79,640,28"/>
+<area shape="rect" href="table__storage_8h.html" title=" " alt="" coords="173,79,344,119"/>
+<area shape="poly" title=" " alt="" coords="612,33,358,81,357,76,611,28"/>
+<area shape="rect" title=" " alt="" coords="579,86,659,111"/>
+<area shape="poly" title=" " alt="" coords="666,32,637,76,632,73,662,29"/>
+<area shape="rect" title=" " alt="" coords="683,86,768,111"/>
+<area shape="poly" title=" " alt="" coords="682,29,712,73,707,76,678,32"/>
+<area shape="rect" title=" " alt="" coords="792,86,883,111"/>
+<area shape="poly" title=" " alt="" coords="697,28,802,78,800,83,695,33"/>
+<area shape="rect" title=" " alt="" coords="907,86,1015,111"/>
+<area shape="poly" title=" " alt="" coords="716,28,895,76,909,80,908,85,894,81,715,33"/>
+<area shape="rect" title=" " alt="" coords="347,167,405,192"/>
+<area shape="poly" title=" " alt="" coords="451,113,401,159,397,155,447,110"/>
+<area shape="rect" title=" " alt="" coords="430,167,493,192"/>
+<area shape="poly" title=" " alt="" coords="464,112,464,153,459,153,459,112"/>
+<area shape="rect" title=" " alt="" coords="96,167,173,192"/>
+<area shape="poly" title=" " alt="" coords="414,114,187,168,186,163,413,109"/>
+<area shape="rect" title=" " alt="" coords="198,167,322,192"/>
+<area shape="poly" title=" " alt="" coords="433,114,303,164,301,159,431,109"/>
+<area shape="rect" title=" " alt="" coords="517,167,590,192"/>
+<area shape="poly" title=" " alt="" coords="477,109,531,156,528,160,473,114"/>
+<area shape="rect" title=" " alt="" coords="615,167,681,192"/>
+<area shape="poly" title=" " alt="" coords="490,109,609,159,607,164,487,114"/>
+<area shape="rect" title=" " alt="" coords="705,167,772,192"/>
+<area shape="poly" title=" " alt="" coords="502,109,693,162,691,167,501,114"/>
+<area shape="poly" title=" " alt="" coords="289,117,349,157,346,161,286,121"/>
+<area shape="poly" title=" " alt="" coords="308,116,420,159,418,164,306,121"/>
+<area shape="poly" title=" " alt="" coords="230,121,166,161,163,157,227,117"/>
+<area shape="poly" title=" " alt="" coords="262,119,262,153,257,153,256,119"/>
+<area shape="rect" title=" " alt="" coords="5,167,72,192"/>
+<area shape="poly" title=" " alt="" coords="207,121,85,164,83,159,205,116"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:a9a2793ce9cad657611fac208bce030b8" id="r_a9a2793ce9cad657611fac208bce030b8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a9a2793ce9cad657611fac208bce030b8">sqlcc::WALOperation</a> { <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a9a2793ce9cad657611fac208bce030b8a61b460fb89ff599cf517f9aec7e4b25a">sqlcc::OP_BEGIN_TXN</a> = 1
+, <a class="el" href="namespacesqlcc.html#a9a2793ce9cad657611fac208bce030b8abb273921684478892aaaad11de136a72">sqlcc::OP_COMMIT_TXN</a> = 2
+, <a class="el" href="namespacesqlcc.html#a9a2793ce9cad657611fac208bce030b8a394d99cf7e84e498e827bb638e6545df">sqlcc::OP_ROLLBACK_TXN</a> = 3
+, <a class="el" href="namespacesqlcc.html#a9a2793ce9cad657611fac208bce030b8a4a881a7d0b6289ab979efafd14c75304">sqlcc::OP_WRITE_PAGE</a> = 4
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a9a2793ce9cad657611fac208bce030b8a57e14d1fa1ce006df1501279e9f33688">sqlcc::OP_ALLOCATE_PAGE</a> = 5
+, <a class="el" href="namespacesqlcc.html#a9a2793ce9cad657611fac208bce030b8a65ee63d2e8ad4eebdcd9935a10f48e90">sqlcc::OP_FREE_PAGE</a> = 6
+<br />
+ }</td></tr>
+<tr class="separator:a9a2793ce9cad657611fac208bce030b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

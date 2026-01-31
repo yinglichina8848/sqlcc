@@ -1,0 +1,513 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::SelectParser类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html">SelectParser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1SelectParser-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::SelectParser类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="select__parser_8h_source.html">select_parser.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::sql_parser::SelectParser 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__parser_1_1SelectParser__coll__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1SelectParser_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1sql__parser_1_1SelectParser_coll__map" id="asqlcc_1_1sql__parser_1_1SelectParser_coll__map">
+<area shape="rect" title=" " alt="" coords="87,343,225,383"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1TokenStream.html" title="Token流管理类 &#45; 负责词法分析器的token流管理" alt="" coords="87,137,225,177"/>
+<area shape="poly" title=" " alt="" coords="154,191,149,240,149,280,156,342,151,343,144,280,144,240,149,190"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html" title=" " alt="" coords="213,240,352,280"/>
+<area shape="poly" title=" " alt="" coords="192,184,261,238,257,242,189,188"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1Lexer.html" title="SQL词法分析器类" alt="" coords="5,5,144,45"/>
+<area shape="poly" title=" " alt="" coords="96,56,146,136,142,139,92,59"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1Token.html" title="Token类" alt="" coords="168,5,307,45"/>
+<area shape="poly" title=" " alt="" coords="220,59,170,139,166,136,216,56"/>
+<area shape="poly" title=" " alt="" coords="250,291,181,345,178,341,246,287"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:aeb6743b19e331101f324fa667d6055d1" id="r_aeb6743b19e331101f324fa667d6055d1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html#aeb6743b19e331101f324fa667d6055d1">SelectParser</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a> &amp;tokens, <a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html">ExpressionParser</a> &amp;expr_parser)</td></tr>
+<tr class="separator:aeb6743b19e331101f324fa667d6055d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fa1bf5908cff56ab31eda1e9f3dfb65" id="r_a1fa1bf5908cff56ab31eda1e9f3dfb65"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html#a1fa1bf5908cff56ab31eda1e9f3dfb65">parse</a> ()</td></tr>
+<tr class="separator:a1fa1bf5908cff56ab31eda1e9f3dfb65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a25960245b2747622bd75109c2ec723b4" id="r_a25960245b2747622bd75109c2ec723b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html#a25960245b2747622bd75109c2ec723b4">parseSelectClause</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &amp;stmt)</td></tr>
+<tr class="separator:a25960245b2747622bd75109c2ec723b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50756516fb774fb14d11fa9dc69b5280" id="r_a50756516fb774fb14d11fa9dc69b5280"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html#a50756516fb774fb14d11fa9dc69b5280">parseFromClause</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &amp;stmt)</td></tr>
+<tr class="separator:a50756516fb774fb14d11fa9dc69b5280"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e44332fe796ab77284729b35709a810" id="r_a3e44332fe796ab77284729b35709a810"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html">JoinClause</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html#a3e44332fe796ab77284729b35709a810">parseJoinClause</a> ()</td></tr>
+<tr class="separator:a3e44332fe796ab77284729b35709a810"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4aba0dccedf5ef5ee03e910e7d6060c6" id="r_a4aba0dccedf5ef5ee03e910e7d6060c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html#a4aba0dccedf5ef5ee03e910e7d6060c6">parseWhereClause</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &amp;stmt)</td></tr>
+<tr class="separator:a4aba0dccedf5ef5ee03e910e7d6060c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acae9d80582d3e984627d84764b114d35" id="r_acae9d80582d3e984627d84764b114d35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html#acae9d80582d3e984627d84764b114d35">parseGroupByClause</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &amp;stmt)</td></tr>
+<tr class="separator:acae9d80582d3e984627d84764b114d35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a014b11b9e7dbecd2928e73b7f6fb3bb1" id="r_a014b11b9e7dbecd2928e73b7f6fb3bb1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html#a014b11b9e7dbecd2928e73b7f6fb3bb1">parseHavingClause</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &amp;stmt)</td></tr>
+<tr class="separator:a014b11b9e7dbecd2928e73b7f6fb3bb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a845d599c37ab5eda356bbeefd2da35d1" id="r_a845d599c37ab5eda356bbeefd2da35d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html#a845d599c37ab5eda356bbeefd2da35d1">parseOrderByClause</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &amp;stmt)</td></tr>
+<tr class="separator:a845d599c37ab5eda356bbeefd2da35d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ce8e9a4e8195e7b335c3faa57bb79b3" id="r_a3ce8e9a4e8195e7b335c3faa57bb79b3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html#a3ce8e9a4e8195e7b335c3faa57bb79b3">parseSelectItem</a> ()</td></tr>
+<tr class="separator:a3ce8e9a4e8195e7b335c3faa57bb79b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a48f7bc49f118bde98c79d5bc34ff94b0" id="r_a48f7bc49f118bde98c79d5bc34ff94b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html#a48f7bc49f118bde98c79d5bc34ff94b0">tokens_</a></td></tr>
+<tr class="separator:a48f7bc49f118bde98c79d5bc34ff94b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5697f3714c1f32e1d719519e6ecfc2e4" id="r_a5697f3714c1f32e1d719519e6ecfc2e4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html">ExpressionParser</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html#a5697f3714c1f32e1d719519e6ecfc2e4">expr_parser_</a></td></tr>
+<tr class="separator:a5697f3714c1f32e1d719519e6ecfc2e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html">SelectParser</a> - SQL SELECT语句解析器</p>
+<p>专门负责解析复杂的SELECT语句，包括所有子句的处理。 通过依赖注入获得TokenStream和ExpressionParser，确保松耦合和高可测试性。 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="aeb6743b19e331101f324fa667d6055d1" name="aeb6743b19e331101f324fa667d6055d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb6743b19e331101f324fa667d6055d1">&#9670;&#160;</a></span>SelectParser()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::SelectParser::SelectParser </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a> &amp;&#160;</td>
+          <td class="paramname"><em>tokens</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html">ExpressionParser</a> &amp;&#160;</td>
+          <td class="paramname"><em>expr_parser</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>构造函数 - 依赖注入所需的解析器 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tokens</td><td>Token流，提供token访问接口 </td></tr>
+    <tr><td class="paramname">expr_parser</td><td>表达式解析器，用于解析WHERE等条件表达式 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a1fa1bf5908cff56ab31eda1e9f3dfb65" name="a1fa1bf5908cff56ab31eda1e9f3dfb65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fa1bf5908cff56ab31eda1e9f3dfb65">&#9670;&#160;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &gt; sqlcc::sql_parser::SelectParser::parse </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>parse - 解析完整的SELECT语句</p>
+<p>这是主要的入口方法，解析从SELECT关键字开始的完整语句。 处理所有SELECT子句：DISTINCT、选择列表、FROM、JOIN、WHERE、GROUP BY、HAVING、ORDER BY。</p>
+<dl class="section return"><dt>返回</dt><dd>解析成功的SelectStatement AST节点 </dd></dl>
+
+</div>
+</div>
+<a id="a50756516fb774fb14d11fa9dc69b5280" name="a50756516fb774fb14d11fa9dc69b5280"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50756516fb774fb14d11fa9dc69b5280">&#9670;&#160;</a></span>parseFromClause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::SelectParser::parseFromClause </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>parseFromClause - 解析FROM子句</p>
+<p>处理FROM关键字、表名和JOIN操作。 支持多个JOIN的复杂表连接。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stmt</td><td>要填充的SelectStatement对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="acae9d80582d3e984627d84764b114d35" name="acae9d80582d3e984627d84764b114d35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acae9d80582d3e984627d84764b114d35">&#9670;&#160;</a></span>parseGroupByClause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::SelectParser::parseGroupByClause </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>parseGroupByClause - 解析GROUP BY子句</p>
+<p>处理GROUP BY关键字和分组列列表。 支持多个列的分组。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stmt</td><td>要填充的SelectStatement对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a014b11b9e7dbecd2928e73b7f6fb3bb1" name="a014b11b9e7dbecd2928e73b7f6fb3bb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a014b11b9e7dbecd2928e73b7f6fb3bb1">&#9670;&#160;</a></span>parseHavingClause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::SelectParser::parseHavingClause </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>parseHavingClause - 解析HAVING子句</p>
+<p>处理HAVING关键字和分组条件表达式。 HAVING条件只能引用分组列或聚合函数。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stmt</td><td>要填充的SelectStatement对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3e44332fe796ab77284729b35709a810" name="a3e44332fe796ab77284729b35709a810"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e44332fe796ab77284729b35709a810">&#9670;&#160;</a></span>parseJoinClause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html">JoinClause</a> &gt; sqlcc::sql_parser::SelectParser::parseJoinClause </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>parseJoinClause - 解析JOIN子句</p>
+<p>处理各种类型的JOIN：INNER, LEFT, RIGHT, FULL OUTER。 解析JOIN表名和ON条件表达式。</p>
+<dl class="section return"><dt>返回</dt><dd>解析成功的JoinClause对象 </dd></dl>
+
+</div>
+</div>
+<a id="a845d599c37ab5eda356bbeefd2da35d1" name="a845d599c37ab5eda356bbeefd2da35d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a845d599c37ab5eda356bbeefd2da35d1">&#9670;&#160;</a></span>parseOrderByClause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::SelectParser::parseOrderByClause </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>parseOrderByClause - 解析ORDER BY子句</p>
+<p>处理ORDER BY关键字、排序列和方向。 支持ASC/DESC排序方向。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stmt</td><td>要填充的SelectStatement对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a25960245b2747622bd75109c2ec723b4" name="a25960245b2747622bd75109c2ec723b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25960245b2747622bd75109c2ec723b4">&#9670;&#160;</a></span>parseSelectClause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::SelectParser::parseSelectClause </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>parseSelectClause - 解析SELECT子句</p>
+<p>处理SELECT关键字、DISTINCT修饰符和选择列表。 支持*, 列名, 函数调用, 别名等多种选择项。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stmt</td><td>要填充的SelectStatement对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3ce8e9a4e8195e7b335c3faa57bb79b3" name="a3ce8e9a4e8195e7b335c3faa57bb79b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ce8e9a4e8195e7b335c3faa57bb79b3">&#9670;&#160;</a></span>parseSelectItem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::SelectParser::parseSelectItem </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>parseSelectItem - 解析选择列表项</p>
+<p>处理单个选择项：列名、函数调用、通配符。 支持AS关键字定义别名。</p>
+<dl class="section return"><dt>返回</dt><dd>解析的选择项字符串表示 </dd></dl>
+
+</div>
+</div>
+<a id="a4aba0dccedf5ef5ee03e910e7d6060c6" name="a4aba0dccedf5ef5ee03e910e7d6060c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4aba0dccedf5ef5ee03e910e7d6060c6">&#9670;&#160;</a></span>parseWhereClause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::SelectParser::parseWhereClause </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>parseWhereClause - 解析WHERE子句</p>
+<p>处理WHERE关键字和条件表达式。 条件可以是任意复杂的表达式。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stmt</td><td>要填充的SelectStatement对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a5697f3714c1f32e1d719519e6ecfc2e4" name="a5697f3714c1f32e1d719519e6ecfc2e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5697f3714c1f32e1d719519e6ecfc2e4">&#9670;&#160;</a></span>expr_parser_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html">ExpressionParser</a>&amp; sqlcc::sql_parser::SelectParser::expr_parser_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a48f7bc49f118bde98c79d5bc34ff94b0" name="a48f7bc49f118bde98c79d5bc34ff94b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48f7bc49f118bde98c79d5bc34ff94b0">&#9670;&#160;</a></span>tokens_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a>&amp; sqlcc::sql_parser::SelectParser::tokens_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="select__parser_8h_source.html">select_parser.h</a></li>
+<li><a class="el" href="select__parser_8cpp.html">select_parser.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

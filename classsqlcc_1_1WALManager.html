@@ -1,0 +1,1246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::WALManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1WALManager.html">WALManager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1WALManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::WALManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="wal__manager_8h_source.html">wal_manager.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::WALManager 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1WALManager__coll__graph.png" border="0" usemap="#asqlcc_1_1WALManager_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1WALManager_coll__map" id="asqlcc_1_1WALManager_coll__map">
+<area shape="rect" title=" " alt="" coords="9,108,157,133"/>
+<area shape="rect" href="structsqlcc_1_1WALManager_1_1WALMetrics.html" title=" " alt="" coords="5,5,161,45"/>
+<area shape="poly" title=" " alt="" coords="86,59,86,108,81,108,81,59"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1WALManager_1_1WALMetrics.html">WALMetrics</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a986bb1e76ab0b52b35684aa023271e63" id="r_a986bb1e76ab0b52b35684aa023271e63"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a986bb1e76ab0b52b35684aa023271e63">WALManager</a> (const std::string &amp;log_file_path, bool force_sync=false)</td></tr>
+<tr class="separator:a986bb1e76ab0b52b35684aa023271e63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62deaec0e1a59a5da9f2953d1f96854e" id="r_a62deaec0e1a59a5da9f2953d1f96854e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a62deaec0e1a59a5da9f2953d1f96854e">~WALManager</a> ()</td></tr>
+<tr class="separator:a62deaec0e1a59a5da9f2953d1f96854e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cd4656d2d3cbfe45e85829d8e4d4ba4" id="r_a8cd4656d2d3cbfe45e85829d8e4d4ba4"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a8cd4656d2d3cbfe45e85829d8e4d4ba4">Log</a> (<a class="el" href="structsqlcc_1_1LogRecord.html">LogRecord</a> record)</td></tr>
+<tr class="separator:a8cd4656d2d3cbfe45e85829d8e4d4ba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea741255621a6d0c4003ceddcb48b4bc" id="r_aea741255621a6d0c4003ceddcb48b4bc"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#aea741255621a6d0c4003ceddcb48b4bc">LogBatch</a> (const std::vector&lt; <a class="el" href="structsqlcc_1_1LogRecord.html">LogRecord</a> &gt; &amp;records)</td></tr>
+<tr class="separator:aea741255621a6d0c4003ceddcb48b4bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2182448d5fe30eab8a1edb19ea4ac7c2" id="r_a2182448d5fe30eab8a1edb19ea4ac7c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a2182448d5fe30eab8a1edb19ea4ac7c2">ForceFlush</a> ()</td></tr>
+<tr class="separator:a2182448d5fe30eab8a1edb19ea4ac7c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a570b367959d33641bf78e78ed080abc4" id="r_a570b367959d33641bf78e78ed080abc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a570b367959d33641bf78e78ed080abc4">AsyncFlush</a> ()</td></tr>
+<tr class="separator:a570b367959d33641bf78e78ed080abc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a113274a046fac18d8dfae2dd43518ff3" id="r_a113274a046fac18d8dfae2dd43518ff3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1LogRecord.html">LogRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a113274a046fac18d8dfae2dd43518ff3">ReadLogRange</a> (uint64_t from_lsn, uint64_t to_lsn)</td></tr>
+<tr class="separator:a113274a046fac18d8dfae2dd43518ff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1720a736a0404f67c27eae5027a37ee5" id="r_a1720a736a0404f67c27eae5027a37ee5"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a1720a736a0404f67c27eae5027a37ee5">AnalyzeLog</a> () const</td></tr>
+<tr class="separator:a1720a736a0404f67c27eae5027a37ee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07e24136b76e8844bac420b4b156f84a" id="r_a07e24136b76e8844bac420b4b156f84a"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a07e24136b76e8844bac420b4b156f84a">CreateCheckpoint</a> (bool sync=true)</td></tr>
+<tr class="separator:a07e24136b76e8844bac420b4b156f84a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a978a77f99e2ed7e461362508d691974c" id="r_a978a77f99e2ed7e461362508d691974c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1CheckpointState.html">CheckpointState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a978a77f99e2ed7e461362508d691974c">GetLastCheckpoint</a> () const</td></tr>
+<tr class="separator:a978a77f99e2ed7e461362508d691974c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95788376c9417f992faa13a362166d4e" id="r_a95788376c9417f992faa13a362166d4e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1CheckpointState.html">CheckpointState</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a95788376c9417f992faa13a362166d4e">GetCheckpointHistory</a> () const</td></tr>
+<tr class="separator:a95788376c9417f992faa13a362166d4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83952d3e6e769b49573f7484c2b1a8a5" id="r_a83952d3e6e769b49573f7484c2b1a8a5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a83952d3e6e769b49573f7484c2b1a8a5">RecoverFromLog</a> ()</td></tr>
+<tr class="separator:a83952d3e6e769b49573f7484c2b1a8a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a091dca265b65e1f5e39982209f4c4b15" id="r_a091dca265b65e1f5e39982209f4c4b15"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a091dca265b65e1f5e39982209f4c4b15">GetInProgressTransactions</a> () const</td></tr>
+<tr class="separator:a091dca265b65e1f5e39982209f4c4b15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44127a7061391dc317ac29b31dbad139" id="r_a44127a7061391dc317ac29b31dbad139"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a44127a7061391dc317ac29b31dbad139">ReplayLog</a> (uint64_t from_lsn, uint64_t to_lsn)</td></tr>
+<tr class="separator:a44127a7061391dc317ac29b31dbad139"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec3e8eed99b436afb135eb6f6f963fab" id="r_aec3e8eed99b436afb135eb6f6f963fab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1WALManager_1_1WALMetrics.html">WALMetrics</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#aec3e8eed99b436afb135eb6f6f963fab">GetMetrics</a> () const</td></tr>
+<tr class="separator:aec3e8eed99b436afb135eb6f6f963fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5759f104e31d16be56a63582116f9320" id="r_a5759f104e31d16be56a63582116f9320"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a5759f104e31d16be56a63582116f9320">ResetMetrics</a> ()</td></tr>
+<tr class="separator:a5759f104e31d16be56a63582116f9320"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ef484e2e52bc4b154a977fb4c1bba8e" id="r_a0ef484e2e52bc4b154a977fb4c1bba8e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a0ef484e2e52bc4b154a977fb4c1bba8e">CompactLog</a> (uint64_t keep_lsn)</td></tr>
+<tr class="separator:a0ef484e2e52bc4b154a977fb4c1bba8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3e4dcb4d837804376152765cf02465e" id="r_ab3e4dcb4d837804376152765cf02465e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#ab3e4dcb4d837804376152765cf02465e">VerifyLogIntegrity</a> () const</td></tr>
+<tr class="separator:ab3e4dcb4d837804376152765cf02465e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a074d5c37e0a0d7b55a9abd1dee3b5680" id="r_a074d5c37e0a0d7b55a9abd1dee3b5680"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a074d5c37e0a0d7b55a9abd1dee3b5680">InitializeLogFile</a> ()</td></tr>
+<tr class="separator:a074d5c37e0a0d7b55a9abd1dee3b5680"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38c8b378145939d8285b19cbf556933a" id="r_a38c8b378145939d8285b19cbf556933a"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a38c8b378145939d8285b19cbf556933a">GenerateLSN</a> ()</td></tr>
+<tr class="separator:a38c8b378145939d8285b19cbf556933a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fad927d4160a13c505e6266523bc21f" id="r_a7fad927d4160a13c505e6266523bc21f"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a7fad927d4160a13c505e6266523bc21f">WriteRecordsToDisk</a> (const std::vector&lt; <a class="el" href="structsqlcc_1_1LogRecord.html">LogRecord</a> &gt; &amp;records)</td></tr>
+<tr class="separator:a7fad927d4160a13c505e6266523bc21f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9b839bfd1a04c5e1195263a16354662" id="r_ac9b839bfd1a04c5e1195263a16354662"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1LogRecord.html">LogRecord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#ac9b839bfd1a04c5e1195263a16354662">ReadRecordFromDisk</a> (uint64_t lsn)</td></tr>
+<tr class="separator:ac9b839bfd1a04c5e1195263a16354662"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac381c367099dca75a6ea373c963c8154" id="r_ac381c367099dca75a6ea373c963c8154"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#ac381c367099dca75a6ea373c963c8154">WriteCheckpointToDisk</a> (const <a class="el" href="structsqlcc_1_1CheckpointState.html">CheckpointState</a> &amp;checkpoint)</td></tr>
+<tr class="separator:ac381c367099dca75a6ea373c963c8154"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9353abd74630d042dd207b4610ead150" id="r_a9353abd74630d042dd207b4610ead150"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1CheckpointState.html">CheckpointState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a9353abd74630d042dd207b4610ead150">ReadCheckpointFromDisk</a> () const</td></tr>
+<tr class="separator:a9353abd74630d042dd207b4610ead150"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a590724cc46a80d7e002f10abdf6d5679" id="r_a590724cc46a80d7e002f10abdf6d5679"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a590724cc46a80d7e002f10abdf6d5679">AsyncFlushThread</a> ()</td></tr>
+<tr class="separator:a590724cc46a80d7e002f10abdf6d5679"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0379f4c4b5f2a79ae5305ea234c85300" id="r_a0379f4c4b5f2a79ae5305ea234c85300"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a0379f4c4b5f2a79ae5305ea234c85300">WALManager</a> (const <a class="el" href="classsqlcc_1_1WALManager.html">WALManager</a> &amp;)=delete</td></tr>
+<tr class="separator:a0379f4c4b5f2a79ae5305ea234c85300"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32be7c9eb54a8f234c2b928176abf524" id="r_a32be7c9eb54a8f234c2b928176abf524"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1WALManager.html">WALManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a32be7c9eb54a8f234c2b928176abf524">operator=</a> (const <a class="el" href="classsqlcc_1_1WALManager.html">WALManager</a> &amp;)=delete</td></tr>
+<tr class="separator:a32be7c9eb54a8f234c2b928176abf524"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:ad29ce65e1ab00ed57e4d79c65a99e44a" id="r_ad29ce65e1ab00ed57e4d79c65a99e44a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#ad29ce65e1ab00ed57e4d79c65a99e44a">log_file_path_</a></td></tr>
+<tr class="separator:ad29ce65e1ab00ed57e4d79c65a99e44a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae73989908d2b65d7a9c7b671143c8db3" id="r_ae73989908d2b65d7a9c7b671143c8db3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#ae73989908d2b65d7a9c7b671143c8db3">checkpoint_file_path_</a></td></tr>
+<tr class="separator:ae73989908d2b65d7a9c7b671143c8db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab66b3d926874bb5347f825e4c73f627b" id="r_ab66b3d926874bb5347f825e4c73f627b"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#ab66b3d926874bb5347f825e4c73f627b">next_lsn_</a></td></tr>
+<tr class="separator:ab66b3d926874bb5347f825e4c73f627b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41b15908cf56904fb80a53040b4d0025" id="r_a41b15908cf56904fb80a53040b4d0025"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a41b15908cf56904fb80a53040b4d0025">last_flushed_lsn_</a></td></tr>
+<tr class="separator:a41b15908cf56904fb80a53040b4d0025"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea56fc2bf3f9578154648a3f4ff033dc" id="r_aea56fc2bf3f9578154648a3f4ff033dc"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#aea56fc2bf3f9578154648a3f4ff033dc">last_checkpoint_lsn_</a></td></tr>
+<tr class="separator:aea56fc2bf3f9578154648a3f4ff033dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70af2e5f3016d1d2470f18e9c0077897" id="r_a70af2e5f3016d1d2470f18e9c0077897"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1LogRecord.html">LogRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a70af2e5f3016d1d2470f18e9c0077897">log_buffer_</a></td></tr>
+<tr class="separator:a70af2e5f3016d1d2470f18e9c0077897"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a584e5bde2e635c8f4ae2891b4931f306" id="r_a584e5bde2e635c8f4ae2891b4931f306"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a584e5bde2e635c8f4ae2891b4931f306">buffer_mutex_</a></td></tr>
+<tr class="separator:a584e5bde2e635c8f4ae2891b4931f306"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19894317c8741ac6fc0f8b786ee58774" id="r_a19894317c8741ac6fc0f8b786ee58774"><td class="memItemLeft" align="right" valign="top">std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a19894317c8741ac6fc0f8b786ee58774">buffer_cv_</a></td></tr>
+<tr class="separator:a19894317c8741ac6fc0f8b786ee58774"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28811031c46cf1a8e034f41df715bb24" id="r_a28811031c46cf1a8e034f41df715bb24"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; std::thread &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a28811031c46cf1a8e034f41df715bb24">flush_thread_</a></td></tr>
+<tr class="separator:a28811031c46cf1a8e034f41df715bb24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58f40b4c377e50777666692517c16fb3" id="r_a58f40b4c377e50777666692517c16fb3"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a58f40b4c377e50777666692517c16fb3">stop_flush_thread_</a></td></tr>
+<tr class="separator:a58f40b4c377e50777666692517c16fb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cfa568f0b7af8a6635b714b55b9f557" id="r_a6cfa568f0b7af8a6635b714b55b9f557"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a6cfa568f0b7af8a6635b714b55b9f557">force_sync_</a></td></tr>
+<tr class="separator:a6cfa568f0b7af8a6635b714b55b9f557"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad91c54a36b39904be7e76f75ae7177a4" id="r_ad91c54a36b39904be7e76f75ae7177a4"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#ad91c54a36b39904be7e76f75ae7177a4">flush_interval_ms_</a></td></tr>
+<tr class="separator:ad91c54a36b39904be7e76f75ae7177a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2499798b907264408950dc8889ee785" id="r_ab2499798b907264408950dc8889ee785"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#ab2499798b907264408950dc8889ee785">metrics_mutex_</a></td></tr>
+<tr class="separator:ab2499798b907264408950dc8889ee785"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a887731813def7012ce73bad9c6940e4d" id="r_a887731813def7012ce73bad9c6940e4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1WALManager_1_1WALMetrics.html">WALMetrics</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a887731813def7012ce73bad9c6940e4d">metrics_</a></td></tr>
+<tr class="separator:a887731813def7012ce73bad9c6940e4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adee37c93eff7a274e513b99cf03d0e48" id="r_adee37c93eff7a274e513b99cf03d0e48"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1CheckpointState.html">CheckpointState</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#adee37c93eff7a274e513b99cf03d0e48">checkpoint_history_</a></td></tr>
+<tr class="separator:adee37c93eff7a274e513b99cf03d0e48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee6091ea8e78617abbf407fe1bd4c5a8" id="r_aee6091ea8e78617abbf407fe1bd4c5a8"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#aee6091ea8e78617abbf407fe1bd4c5a8">checkpoint_mutex_</a></td></tr>
+<tr class="separator:aee6091ea8e78617abbf407fe1bd4c5a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WAL（预写日志）管理器 - v0.4.8版本初始实现</p>
+<p>核心功能：</p><ul>
+<li>日志记录写入和读取</li>
+<li>原子性确保 (Atomicity)</li>
+<li>持久性确保 (Durability)</li>
+<li>检查点机制</li>
+<li>崩溃恢复支持</li>
+</ul>
+<p>设计原则：</p><ul>
+<li>写前日志：数据修改前必须先写日志</li>
+<li>顺序写：高性能顺序I/O</li>
+<li>批量提交：减少I/O次数</li>
+<li>异步刷盘：性能和一致性平衡 </li>
+</ul>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a986bb1e76ab0b52b35684aa023271e63" name="a986bb1e76ab0b52b35684aa023271e63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a986bb1e76ab0b52b35684aa023271e63">&#9670;&#160;</a></span>WALManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::WALManager::WALManager </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>log_file_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_sync</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>构造函数 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">log_file_path</td><td>日志文件路径 </td></tr>
+    <tr><td class="paramname">force_sync</td><td>是否强制同步写入 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a62deaec0e1a59a5da9f2953d1f96854e" name="a62deaec0e1a59a5da9f2953d1f96854e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62deaec0e1a59a5da9f2953d1f96854e">&#9670;&#160;</a></span>~WALManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::WALManager::~WALManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>析构函数 - 确保所有日志都刷盘 </p>
+
+</div>
+</div>
+<a id="a0379f4c4b5f2a79ae5305ea234c85300" name="a0379f4c4b5f2a79ae5305ea234c85300"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0379f4c4b5f2a79ae5305ea234c85300">&#9670;&#160;</a></span>WALManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::WALManager::WALManager </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1WALManager.html">WALManager</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a1720a736a0404f67c27eae5027a37ee5" name="a1720a736a0404f67c27eae5027a37ee5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1720a736a0404f67c27eae5027a37ee5">&#9670;&#160;</a></span>AnalyzeLog()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; std::string, std::string &gt; sqlcc::WALManager::AnalyzeLog </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>分析日志文件状态 </p><dl class="section return"><dt>返回</dt><dd>状态信息 </dd></dl>
+
+</div>
+</div>
+<a id="a570b367959d33641bf78e78ed080abc4" name="a570b367959d33641bf78e78ed080abc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a570b367959d33641bf78e78ed080abc4">&#9670;&#160;</a></span>AsyncFlush()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::WALManager::AsyncFlush </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>异步刷盘（后台线程） </p>
+
+</div>
+</div>
+<a id="a590724cc46a80d7e002f10abdf6d5679" name="a590724cc46a80d7e002f10abdf6d5679"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a590724cc46a80d7e002f10abdf6d5679">&#9670;&#160;</a></span>AsyncFlushThread()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::WALManager::AsyncFlushThread </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>异步刷盘线程函数 </p>
+
+</div>
+</div>
+<a id="a0ef484e2e52bc4b154a977fb4c1bba8e" name="a0ef484e2e52bc4b154a977fb4c1bba8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ef484e2e52bc4b154a977fb4c1bba8e">&#9670;&#160;</a></span>CompactLog()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::WALManager::CompactLog </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>keep_lsn</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>整理日志文件（移除不必要的旧日志） </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">keep_lsn</td><td>需要保持的最小LSN </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>被清理的日志大小（字节） </dd></dl>
+
+</div>
+</div>
+<a id="a07e24136b76e8844bac420b4b156f84a" name="a07e24136b76e8844bac420b4b156f84a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07e24136b76e8844bac420b4b156f84a">&#9670;&#160;</a></span>CreateCheckpoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t sqlcc::WALManager::CreateCheckpoint </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>sync</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>创建检查点 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sync</td><td>是否同步写入 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>检查点LSN </dd></dl>
+
+</div>
+</div>
+<a id="a2182448d5fe30eab8a1edb19ea4ac7c2" name="a2182448d5fe30eab8a1edb19ea4ac7c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2182448d5fe30eab8a1edb19ea4ac7c2">&#9670;&#160;</a></span>ForceFlush()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::WALManager::ForceFlush </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>强制刷盘所有待写入日志 </p>
+
+</div>
+</div>
+<a id="a38c8b378145939d8285b19cbf556933a" name="a38c8b378145939d8285b19cbf556933a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38c8b378145939d8285b19cbf556933a">&#9670;&#160;</a></span>GenerateLSN()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t sqlcc::WALManager::GenerateLSN </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>生成新的LSN </p><dl class="section return"><dt>返回</dt><dd>新的LSN </dd></dl>
+
+</div>
+</div>
+<a id="a95788376c9417f992faa13a362166d4e" name="a95788376c9417f992faa13a362166d4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95788376c9417f992faa13a362166d4e">&#9670;&#160;</a></span>GetCheckpointHistory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1CheckpointState.html">CheckpointState</a> &gt; sqlcc::WALManager::GetCheckpointHistory </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>获取检查点历史 </p><dl class="section return"><dt>返回</dt><dd>检查点列表（按时间排序） </dd></dl>
+
+</div>
+</div>
+<a id="a091dca265b65e1f5e39982209f4c4b15" name="a091dca265b65e1f5e39982209f4c4b15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a091dca265b65e1f5e39982209f4c4b15">&#9670;&#160;</a></span>GetInProgressTransactions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> &gt; sqlcc::WALManager::GetInProgressTransactions </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>获取正在进行事务的ID列表 </p><dl class="section return"><dt>返回</dt><dd>事务ID列表 </dd></dl>
+
+</div>
+</div>
+<a id="a978a77f99e2ed7e461362508d691974c" name="a978a77f99e2ed7e461362508d691974c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a978a77f99e2ed7e461362508d691974c">&#9670;&#160;</a></span>GetLastCheckpoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1CheckpointState.html">CheckpointState</a> sqlcc::WALManager::GetLastCheckpoint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>获取最后一个检查点状态 </p><dl class="section return"><dt>返回</dt><dd>检查点状态 </dd></dl>
+
+</div>
+</div>
+<a id="aec3e8eed99b436afb135eb6f6f963fab" name="aec3e8eed99b436afb135eb6f6f963fab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec3e8eed99b436afb135eb6f6f963fab">&#9670;&#160;</a></span>GetMetrics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1WALManager_1_1WALMetrics.html">WALManager::WALMetrics</a> sqlcc::WALManager::GetMetrics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>获取WAL性能指标 </p><dl class="section return"><dt>返回</dt><dd>性能指标 </dd></dl>
+
+</div>
+</div>
+<a id="a074d5c37e0a0d7b55a9abd1dee3b5680" name="a074d5c37e0a0d7b55a9abd1dee3b5680"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a074d5c37e0a0d7b55a9abd1dee3b5680">&#9670;&#160;</a></span>InitializeLogFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::WALManager::InitializeLogFile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>初始化日志文件 </p>
+
+</div>
+</div>
+<a id="a8cd4656d2d3cbfe45e85829d8e4d4ba4" name="a8cd4656d2d3cbfe45e85829d8e4d4ba4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8cd4656d2d3cbfe45e85829d8e4d4ba4">&#9670;&#160;</a></span>Log()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t sqlcc::WALManager::Log </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsqlcc_1_1LogRecord.html">LogRecord</a>&#160;</td>
+          <td class="paramname"><em>record</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>写入日志记录 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">record</td><td>要写入的日志记录 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>分配的LSN </dd></dl>
+
+</div>
+</div>
+<a id="aea741255621a6d0c4003ceddcb48b4bc" name="aea741255621a6d0c4003ceddcb48b4bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea741255621a6d0c4003ceddcb48b4bc">&#9670;&#160;</a></span>LogBatch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t sqlcc::WALManager::LogBatch </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structsqlcc_1_1LogRecord.html">LogRecord</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>records</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>批量写入日志记录 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">records</td><td>日志记录列表 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>最后分配的LSN </dd></dl>
+
+</div>
+</div>
+<a id="a32be7c9eb54a8f234c2b928176abf524" name="a32be7c9eb54a8f234c2b928176abf524"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32be7c9eb54a8f234c2b928176abf524">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1WALManager.html">WALManager</a> &amp; sqlcc::WALManager::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1WALManager.html">WALManager</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9353abd74630d042dd207b4610ead150" name="a9353abd74630d042dd207b4610ead150"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9353abd74630d042dd207b4610ead150">&#9670;&#160;</a></span>ReadCheckpointFromDisk()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1CheckpointState.html">CheckpointState</a> sqlcc::WALManager::ReadCheckpointFromDisk </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>从磁盘读取检查点 </p><dl class="section return"><dt>返回</dt><dd>检查点状态 </dd></dl>
+
+</div>
+</div>
+<a id="a113274a046fac18d8dfae2dd43518ff3" name="a113274a046fac18d8dfae2dd43518ff3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a113274a046fac18d8dfae2dd43518ff3">&#9670;&#160;</a></span>ReadLogRange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1LogRecord.html">LogRecord</a> &gt; sqlcc::WALManager::ReadLogRange </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>from_lsn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>to_lsn</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>读取指定范围的日志记录 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">from_lsn</td><td>起始LSN </td></tr>
+    <tr><td class="paramname">to_lsn</td><td>结束LSN </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>日志记录列表 </dd></dl>
+
+</div>
+</div>
+<a id="ac9b839bfd1a04c5e1195263a16354662" name="ac9b839bfd1a04c5e1195263a16354662"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9b839bfd1a04c5e1195263a16354662">&#9670;&#160;</a></span>ReadRecordFromDisk()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1LogRecord.html">LogRecord</a> sqlcc::WALManager::ReadRecordFromDisk </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>lsn</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>读取日志记录从磁盘 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lsn</td><td>指定的LSN </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>日志记录 </dd></dl>
+
+</div>
+</div>
+<a id="a83952d3e6e769b49573f7484c2b1a8a5" name="a83952d3e6e769b49573f7484c2b1a8a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83952d3e6e769b49573f7484c2b1a8a5">&#9670;&#160;</a></span>RecoverFromLog()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::WALManager::RecoverFromLog </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>从WAL执行崩溃恢复 </p><dl class="section return"><dt>返回</dt><dd>是否恢复成功 </dd></dl>
+
+</div>
+</div>
+<a id="a44127a7061391dc317ac29b31dbad139" name="a44127a7061391dc317ac29b31dbad139"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44127a7061391dc317ac29b31dbad139">&#9670;&#160;</a></span>ReplayLog()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t sqlcc::WALManager::ReplayLog </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>from_lsn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>to_lsn</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>重演事务日志 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">from_lsn</td><td>起始LSN </td></tr>
+    <tr><td class="paramname">to_lsn</td><td>结束LSN </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>成功重演到最后一个LSN </dd></dl>
+
+</div>
+</div>
+<a id="a5759f104e31d16be56a63582116f9320" name="a5759f104e31d16be56a63582116f9320"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5759f104e31d16be56a63582116f9320">&#9670;&#160;</a></span>ResetMetrics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::WALManager::ResetMetrics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>重置性能指标 </p>
+
+</div>
+</div>
+<a id="ab3e4dcb4d837804376152765cf02465e" name="ab3e4dcb4d837804376152765cf02465e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3e4dcb4d837804376152765cf02465e">&#9670;&#160;</a></span>VerifyLogIntegrity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::WALManager::VerifyLogIntegrity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>验证日志完整性 </p><dl class="section return"><dt>返回</dt><dd>是否完整 </dd></dl>
+
+</div>
+</div>
+<a id="ac381c367099dca75a6ea373c963c8154" name="ac381c367099dca75a6ea373c963c8154"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac381c367099dca75a6ea373c963c8154">&#9670;&#160;</a></span>WriteCheckpointToDisk()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::WALManager::WriteCheckpointToDisk </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1CheckpointState.html">CheckpointState</a> &amp;&#160;</td>
+          <td class="paramname"><em>checkpoint</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>写入检查点到磁盘 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">checkpoint</td><td>检查点状态 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7fad927d4160a13c505e6266523bc21f" name="a7fad927d4160a13c505e6266523bc21f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fad927d4160a13c505e6266523bc21f">&#9670;&#160;</a></span>WriteRecordsToDisk()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::WALManager::WriteRecordsToDisk </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structsqlcc_1_1LogRecord.html">LogRecord</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>records</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>实际写入日志记录到磁盘 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">records</td><td>要写入的记录 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>成功写入的记录数量 </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a19894317c8741ac6fc0f8b786ee58774" name="a19894317c8741ac6fc0f8b786ee58774"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19894317c8741ac6fc0f8b786ee58774">&#9670;&#160;</a></span>buffer_cv_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::condition_variable sqlcc::WALManager::buffer_cv_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a584e5bde2e635c8f4ae2891b4931f306" name="a584e5bde2e635c8f4ae2891b4931f306"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a584e5bde2e635c8f4ae2891b4931f306">&#9670;&#160;</a></span>buffer_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::WALManager::buffer_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae73989908d2b65d7a9c7b671143c8db3" name="ae73989908d2b65d7a9c7b671143c8db3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae73989908d2b65d7a9c7b671143c8db3">&#9670;&#160;</a></span>checkpoint_file_path_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::WALManager::checkpoint_file_path_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adee37c93eff7a274e513b99cf03d0e48" name="adee37c93eff7a274e513b99cf03d0e48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adee37c93eff7a274e513b99cf03d0e48">&#9670;&#160;</a></span>checkpoint_history_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structsqlcc_1_1CheckpointState.html">CheckpointState</a>&gt; sqlcc::WALManager::checkpoint_history_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aee6091ea8e78617abbf407fe1bd4c5a8" name="aee6091ea8e78617abbf407fe1bd4c5a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee6091ea8e78617abbf407fe1bd4c5a8">&#9670;&#160;</a></span>checkpoint_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::WALManager::checkpoint_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad91c54a36b39904be7e76f75ae7177a4" name="ad91c54a36b39904be7e76f75ae7177a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad91c54a36b39904be7e76f75ae7177a4">&#9670;&#160;</a></span>flush_interval_ms_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sqlcc::WALManager::flush_interval_ms_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a28811031c46cf1a8e034f41df715bb24" name="a28811031c46cf1a8e034f41df715bb24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28811031c46cf1a8e034f41df715bb24">&#9670;&#160;</a></span>flush_thread_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;std::thread&gt; sqlcc::WALManager::flush_thread_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6cfa568f0b7af8a6635b714b55b9f557" name="a6cfa568f0b7af8a6635b714b55b9f557"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cfa568f0b7af8a6635b714b55b9f557">&#9670;&#160;</a></span>force_sync_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::WALManager::force_sync_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aea56fc2bf3f9578154648a3f4ff033dc" name="aea56fc2bf3f9578154648a3f4ff033dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea56fc2bf3f9578154648a3f4ff033dc">&#9670;&#160;</a></span>last_checkpoint_lsn_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;uint64_t&gt; sqlcc::WALManager::last_checkpoint_lsn_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a41b15908cf56904fb80a53040b4d0025" name="a41b15908cf56904fb80a53040b4d0025"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41b15908cf56904fb80a53040b4d0025">&#9670;&#160;</a></span>last_flushed_lsn_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;uint64_t&gt; sqlcc::WALManager::last_flushed_lsn_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a70af2e5f3016d1d2470f18e9c0077897" name="a70af2e5f3016d1d2470f18e9c0077897"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70af2e5f3016d1d2470f18e9c0077897">&#9670;&#160;</a></span>log_buffer_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structsqlcc_1_1LogRecord.html">LogRecord</a>&gt; sqlcc::WALManager::log_buffer_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad29ce65e1ab00ed57e4d79c65a99e44a" name="ad29ce65e1ab00ed57e4d79c65a99e44a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad29ce65e1ab00ed57e4d79c65a99e44a">&#9670;&#160;</a></span>log_file_path_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::WALManager::log_file_path_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a887731813def7012ce73bad9c6940e4d" name="a887731813def7012ce73bad9c6940e4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a887731813def7012ce73bad9c6940e4d">&#9670;&#160;</a></span>metrics_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1WALManager_1_1WALMetrics.html">WALMetrics</a> sqlcc::WALManager::metrics_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab2499798b907264408950dc8889ee785" name="ab2499798b907264408950dc8889ee785"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2499798b907264408950dc8889ee785">&#9670;&#160;</a></span>metrics_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::WALManager::metrics_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab66b3d926874bb5347f825e4c73f627b" name="ab66b3d926874bb5347f825e4c73f627b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab66b3d926874bb5347f825e4c73f627b">&#9670;&#160;</a></span>next_lsn_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;uint64_t&gt; sqlcc::WALManager::next_lsn_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a58f40b4c377e50777666692517c16fb3" name="a58f40b4c377e50777666692517c16fb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58f40b4c377e50777666692517c16fb3">&#9670;&#160;</a></span>stop_flush_thread_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;bool&gt; sqlcc::WALManager::stop_flush_thread_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="wal__manager_8h_source.html">wal_manager.h</a></li>
+<li><a class="el" href="wal__manager_8cpp.html">wal_manager.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

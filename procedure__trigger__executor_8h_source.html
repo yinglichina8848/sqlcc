@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: procedure_trigger_executor.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_de82bde6d098b246b39f144919da02c2.html">procedure</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">procedure_trigger_executor.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="procedure__trigger__executor_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SQLCC_PROCEDURE_PROCEDURE_TRIGGER_EXECUTOR_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SQLCC_PROCEDURE_PROCEDURE_TRIGGER_EXECUTOR_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;../sql_executor.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="procedure__parser_8h.html">procedure/procedure_parser.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="procedure__vm_8h.html">procedure/procedure_vm.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="trigger_2trigger__manager_8h.html">trigger/trigger_manager.h</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;sql_parser/ast_nodes.h&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">namespace </span>procedure {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html">   21</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html">ProcedureTriggerExecutor</a> {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">static</span> <a class="code hl_class" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html">ProcedureTriggerExecutor</a>&amp; <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#ab7fbe1b566fa102076a620e43218e317">getInstance</a>();</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a92f635b5a27eff1f357f8a1464d57a6b">initialize</a>(<a class="code hl_class" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a>* sql_executor);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    std::string <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a29476fd2a2f93c352d1f87b6b6bd593f">executeCreateProcedure</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1CreateProcedureStatement.html">sql_parser::CreateProcedureStatement</a>* stmt);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    std::string <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a639a31eff5adc07f13d4386cf86dc46f">executeCreateTrigger</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1CreateTriggerStatement.html">sql_parser::CreateTriggerStatement</a>* stmt);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    std::string <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a0e9f6e32ad6307d94135b0be6565fec7">executeCallProcedure</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1CallProcedureStatement.html">sql_parser::CallProcedureStatement</a>* stmt);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    std::string <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#ae96e74494ebf3a10cfba81cdac8155db">executeDropProcedure</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1DropProcedureStatement.html">sql_parser::DropProcedureStatement</a>* stmt);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    std::string <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a1cd6f96131676d2eed11bdc47da16296">executeDropTrigger</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1DropTriggerStatement.html">sql_parser::DropTriggerStatement</a>* stmt);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    std::string <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#aa5e92f2d10cae0f9add09030beedf53f">executeAlterTrigger</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1AlterTriggerStatement.html">sql_parser::AlterTriggerStatement</a>* stmt);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    std::string <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a26b3894b3e3b1d5d0e6af2c9e3379253">executeInsertWithTriggers</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1InsertStatement.html">sql_parser::InsertStatement</a>* stmt);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    std::string <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#ad63559f7929258e29213dcef713b2a89">executeUpdateWithTriggers</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1UpdateStatement.html">sql_parser::UpdateStatement</a>* stmt);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    std::string <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#aabe2daba63411818c8104e0afccc258d">executeDeleteWithTriggers</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1DeleteStatement.html">sql_parser::DeleteStatement</a>* stmt);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a85f037281b0f583a53e6245d333e9fd3">getLastError</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#ab1719df253fc700787bb0f8e02aaf83d">setTriggerExecutor</a>(std::unique_ptr&lt;trigger::TriggerExecutor&gt; executor);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#ab2579a8bc3e6eee7b56e8a08ec3cb08b">ProcedureTriggerExecutor</a>();</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a01322598b156ca0f3c2b10420fe4e009">~ProcedureTriggerExecutor</a>();</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="comment">// 禁用拷贝</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a6c8cd181028e220a7dd2bbb8ed634d53">  112</a></span>    <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a6c8cd181028e220a7dd2bbb8ed634d53">ProcedureTriggerExecutor</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html">ProcedureTriggerExecutor</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#aa8989e649df4084f3dcb036dda894a6a">  113</a></span>    <a class="code hl_class" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html">ProcedureTriggerExecutor</a>&amp; <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#aa8989e649df4084f3dcb036dda894a6a">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html">ProcedureTriggerExecutor</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a65f3276a79abbffe64a2187a01f049d5">fireDMLEvent</a>(<a class="code hl_enumeration" href="namespacesqlcc_1_1trigger.html#aafc6faa2e7d6c4de2f2a651ed5cb7843">trigger::TriggerTiming</a> timing, <a class="code hl_enumeration" href="namespacesqlcc_1_1trigger.html#a9048eb6b0f22224de968d97a266c8032">trigger::TriggerEvent</a> event,</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                     <span class="keyword">const</span> std::string&amp; table_name,</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                     <span class="keyword">const</span> std::vector&lt;trigger::RowData&gt;&amp; old_rows,</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                     <span class="keyword">const</span> std::vector&lt;trigger::RowData&gt;&amp; new_rows);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    std::vector&lt;trigger::RowData&gt; <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a09c4ab1e7e873f4b999042fa3416acc7">convertToTriggerRows</a>(</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        <span class="keyword">const</span> std::vector&lt;std::vector&lt;std::string&gt;&gt;&amp; sql_rows,</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; columns);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    std::string <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a600f92aa46e3885cd22c3c781746b257">executeRawSQL</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    std::string <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a8eaee54590d4539b1c4db2ae3b2a1c8e">buildInsertSQL</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1InsertStatement.html">sql_parser::InsertStatement</a>* stmt);</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    std::string <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a50fdf4c22861517930bf01a249c85a45">buildUpdateSQL</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1UpdateStatement.html">sql_parser::UpdateStatement</a>* stmt);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    std::string <a class="code hl_function" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a5c71d00756928cd9f17280290648a50e">buildDeleteSQL</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1DeleteStatement.html">sql_parser::DeleteStatement</a>* stmt);</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a5390a6d5816aea8b673ea78b9f990979">  169</a></span>    <a class="code hl_class" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a>* <a class="code hl_variable" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a5390a6d5816aea8b673ea78b9f990979">sql_executor_</a>;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a70f8d8ea670af735ca56d0f229fdc9f9">  170</a></span>    <a class="code hl_class" href="classsqlcc_1_1procedure_1_1ProcedureParser.html">ProcedureParser</a> <a class="code hl_variable" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a70f8d8ea670af735ca56d0f229fdc9f9">procedure_parser_</a>;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a1d904d503b8c00ba50b9532fd7568b34">  171</a></span>    std::unique_ptr&lt;ProcedureVM&gt; <a class="code hl_variable" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a1d904d503b8c00ba50b9532fd7568b34">procedure_vm_</a>;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a792d65143848d973f0c76651c8a37eb6">  172</a></span>    std::unordered_map&lt;std::string, std::unique_ptr&lt;ProcedureDefinition&gt;&gt; <a class="code hl_variable" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a792d65143848d973f0c76651c8a37eb6">stored_procedures_</a>;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno"><a class="line" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#abc468c55717b8309d8e37b7482b4be89">  173</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#abc468c55717b8309d8e37b7482b4be89">last_error_</a>;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="comment">// 线程安全的存储过程存储</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a9d108553ae639e5ec88479c5e378abd3">  176</a></span>    <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a9d108553ae639e5ec88479c5e378abd3">procedures_mutex_</a>;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>};</div>
+</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>} <span class="comment">// namespace procedure</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_PROCEDURE_PROCEDURE_TRIGGER_EXECUTOR_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html">sqlcc::SqlExecutor</a></div><div class="ttdef"><b>Definition</b> sql_executor.h:218</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureParser_html"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureParser.html">sqlcc::procedure::ProcedureParser</a></div><div class="ttdoc">存储过程解析器</div><div class="ttdef"><b>Definition</b> procedure_parser.h:30</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html">sqlcc::procedure::ProcedureTriggerExecutor</a></div><div class="ttdoc">存储过程和触发器执行器</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.h:21</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a01322598b156ca0f3c2b10420fe4e009"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a01322598b156ca0f3c2b10420fe4e009">sqlcc::procedure::ProcedureTriggerExecutor::~ProcedureTriggerExecutor</a></div><div class="ttdeci">~ProcedureTriggerExecutor()</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:16</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a09c4ab1e7e873f4b999042fa3416acc7"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a09c4ab1e7e873f4b999042fa3416acc7">sqlcc::procedure::ProcedureTriggerExecutor::convertToTriggerRows</a></div><div class="ttdeci">std::vector&lt; trigger::RowData &gt; convertToTriggerRows(const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;sql_rows, const std::vector&lt; std::string &gt; &amp;columns)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:313</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a0e9f6e32ad6307d94135b0be6565fec7"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a0e9f6e32ad6307d94135b0be6565fec7">sqlcc::procedure::ProcedureTriggerExecutor::executeCallProcedure</a></div><div class="ttdeci">std::string executeCallProcedure(sql_parser::CallProcedureStatement *stmt)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:101</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a1cd6f96131676d2eed11bdc47da16296"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a1cd6f96131676d2eed11bdc47da16296">sqlcc::procedure::ProcedureTriggerExecutor::executeDropTrigger</a></div><div class="ttdeci">std::string executeDropTrigger(sql_parser::DropTriggerStatement *stmt)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:161</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a1d904d503b8c00ba50b9532fd7568b34"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a1d904d503b8c00ba50b9532fd7568b34">sqlcc::procedure::ProcedureTriggerExecutor::procedure_vm_</a></div><div class="ttdeci">std::unique_ptr&lt; ProcedureVM &gt; procedure_vm_</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.h:171</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a26b3894b3e3b1d5d0e6af2c9e3379253"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a26b3894b3e3b1d5d0e6af2c9e3379253">sqlcc::procedure::ProcedureTriggerExecutor::executeInsertWithTriggers</a></div><div class="ttdeci">std::string executeInsertWithTriggers(sql_parser::InsertStatement *stmt)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:199</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a29476fd2a2f93c352d1f87b6b6bd593f"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a29476fd2a2f93c352d1f87b6b6bd593f">sqlcc::procedure::ProcedureTriggerExecutor::executeCreateProcedure</a></div><div class="ttdeci">std::string executeCreateProcedure(sql_parser::CreateProcedureStatement *stmt)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:25</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a50fdf4c22861517930bf01a249c85a45"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a50fdf4c22861517930bf01a249c85a45">sqlcc::procedure::ProcedureTriggerExecutor::buildUpdateSQL</a></div><div class="ttdeci">std::string buildUpdateSQL(sql_parser::UpdateStatement *stmt)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:373</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a5390a6d5816aea8b673ea78b9f990979"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a5390a6d5816aea8b673ea78b9f990979">sqlcc::procedure::ProcedureTriggerExecutor::sql_executor_</a></div><div class="ttdeci">SqlExecutor * sql_executor_</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.h:169</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a5c71d00756928cd9f17280290648a50e"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a5c71d00756928cd9f17280290648a50e">sqlcc::procedure::ProcedureTriggerExecutor::buildDeleteSQL</a></div><div class="ttdeci">std::string buildDeleteSQL(sql_parser::DeleteStatement *stmt)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:395</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a600f92aa46e3885cd22c3c781746b257"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a600f92aa46e3885cd22c3c781746b257">sqlcc::procedure::ProcedureTriggerExecutor::executeRawSQL</a></div><div class="ttdeci">std::string executeRawSQL(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:328</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a639a31eff5adc07f13d4386cf86dc46f"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a639a31eff5adc07f13d4386cf86dc46f">sqlcc::procedure::ProcedureTriggerExecutor::executeCreateTrigger</a></div><div class="ttdeci">std::string executeCreateTrigger(sql_parser::CreateTriggerStatement *stmt)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:66</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a65f3276a79abbffe64a2187a01f049d5"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a65f3276a79abbffe64a2187a01f049d5">sqlcc::procedure::ProcedureTriggerExecutor::fireDMLEvent</a></div><div class="ttdeci">bool fireDMLEvent(trigger::TriggerTiming timing, trigger::TriggerEvent event, const std::string &amp;table_name, const std::vector&lt; trigger::RowData &gt; &amp;old_rows, const std::vector&lt; trigger::RowData &gt; &amp;new_rows)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:306</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a6c8cd181028e220a7dd2bbb8ed634d53"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a6c8cd181028e220a7dd2bbb8ed634d53">sqlcc::procedure::ProcedureTriggerExecutor::ProcedureTriggerExecutor</a></div><div class="ttdeci">ProcedureTriggerExecutor(const ProcedureTriggerExecutor &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a70f8d8ea670af735ca56d0f229fdc9f9"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a70f8d8ea670af735ca56d0f229fdc9f9">sqlcc::procedure::ProcedureTriggerExecutor::procedure_parser_</a></div><div class="ttdeci">ProcedureParser procedure_parser_</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.h:170</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a792d65143848d973f0c76651c8a37eb6"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a792d65143848d973f0c76651c8a37eb6">sqlcc::procedure::ProcedureTriggerExecutor::stored_procedures_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::unique_ptr&lt; ProcedureDefinition &gt; &gt; stored_procedures_</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.h:172</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a85f037281b0f583a53e6245d333e9fd3"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a85f037281b0f583a53e6245d333e9fd3">sqlcc::procedure::ProcedureTriggerExecutor::getLastError</a></div><div class="ttdeci">const std::string &amp; getLastError() const</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:298</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a8eaee54590d4539b1c4db2ae3b2a1c8e"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a8eaee54590d4539b1c4db2ae3b2a1c8e">sqlcc::procedure::ProcedureTriggerExecutor::buildInsertSQL</a></div><div class="ttdeci">std::string buildInsertSQL(sql_parser::InsertStatement *stmt)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:342</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a92f635b5a27eff1f357f8a1464d57a6b"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a92f635b5a27eff1f357f8a1464d57a6b">sqlcc::procedure::ProcedureTriggerExecutor::initialize</a></div><div class="ttdeci">void initialize(SqlExecutor *sql_executor)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:18</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_a9d108553ae639e5ec88479c5e378abd3"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#a9d108553ae639e5ec88479c5e378abd3">sqlcc::procedure::ProcedureTriggerExecutor::procedures_mutex_</a></div><div class="ttdeci">std::mutex procedures_mutex_</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.h:176</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_aa5e92f2d10cae0f9add09030beedf53f"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#aa5e92f2d10cae0f9add09030beedf53f">sqlcc::procedure::ProcedureTriggerExecutor::executeAlterTrigger</a></div><div class="ttdeci">std::string executeAlterTrigger(sql_parser::AlterTriggerStatement *stmt)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:177</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_aa8989e649df4084f3dcb036dda894a6a"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#aa8989e649df4084f3dcb036dda894a6a">sqlcc::procedure::ProcedureTriggerExecutor::operator=</a></div><div class="ttdeci">ProcedureTriggerExecutor &amp; operator=(const ProcedureTriggerExecutor &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_aabe2daba63411818c8104e0afccc258d"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#aabe2daba63411818c8104e0afccc258d">sqlcc::procedure::ProcedureTriggerExecutor::executeDeleteWithTriggers</a></div><div class="ttdeci">std::string executeDeleteWithTriggers(sql_parser::DeleteStatement *stmt)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:266</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_ab1719df253fc700787bb0f8e02aaf83d"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#ab1719df253fc700787bb0f8e02aaf83d">sqlcc::procedure::ProcedureTriggerExecutor::setTriggerExecutor</a></div><div class="ttdeci">void setTriggerExecutor(std::unique_ptr&lt; trigger::TriggerExecutor &gt; executor)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:302</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_ab2579a8bc3e6eee7b56e8a08ec3cb08b"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#ab2579a8bc3e6eee7b56e8a08ec3cb08b">sqlcc::procedure::ProcedureTriggerExecutor::ProcedureTriggerExecutor</a></div><div class="ttdeci">ProcedureTriggerExecutor()</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:13</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_ab7fbe1b566fa102076a620e43218e317"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#ab7fbe1b566fa102076a620e43218e317">sqlcc::procedure::ProcedureTriggerExecutor::getInstance</a></div><div class="ttdeci">static ProcedureTriggerExecutor &amp; getInstance()</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:8</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_abc468c55717b8309d8e37b7482b4be89"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#abc468c55717b8309d8e37b7482b4be89">sqlcc::procedure::ProcedureTriggerExecutor::last_error_</a></div><div class="ttdeci">std::string last_error_</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.h:173</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_ad63559f7929258e29213dcef713b2a89"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#ad63559f7929258e29213dcef713b2a89">sqlcc::procedure::ProcedureTriggerExecutor::executeUpdateWithTriggers</a></div><div class="ttdeci">std::string executeUpdateWithTriggers(sql_parser::UpdateStatement *stmt)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:231</div></div>
+<div class="ttc" id="aclasssqlcc_1_1procedure_1_1ProcedureTriggerExecutor_html_ae96e74494ebf3a10cfba81cdac8155db"><div class="ttname"><a href="classsqlcc_1_1procedure_1_1ProcedureTriggerExecutor.html#ae96e74494ebf3a10cfba81cdac8155db">sqlcc::procedure::ProcedureTriggerExecutor::executeDropProcedure</a></div><div class="ttdeci">std::string executeDropProcedure(sql_parser::DropProcedureStatement *stmt)</div><div class="ttdef"><b>Definition</b> procedure_trigger_executor.cpp:141</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1AlterTriggerStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1AlterTriggerStatement.html">sqlcc::sql_parser::AlterTriggerStatement</a></div><div class="ttdef"><b>Definition</b> ast_nodes.h:672</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CallProcedureStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CallProcedureStatement.html">sqlcc::sql_parser::CallProcedureStatement</a></div><div class="ttdef"><b>Definition</b> ast_nodes.h:602</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateProcedureStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateProcedureStatement.html">sqlcc::sql_parser::CreateProcedureStatement</a></div><div class="ttdef"><b>Definition</b> ast_ddl_nodes.h:264</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateTriggerStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateTriggerStatement.html">sqlcc::sql_parser::CreateTriggerStatement</a></div><div class="ttdef"><b>Definition</b> ast_ddl_nodes.h:290</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DeleteStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DeleteStatement.html">sqlcc::sql_parser::DeleteStatement</a></div><div class="ttdef"><b>Definition</b> ast_dml_nodes.h:190</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DropProcedureStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DropProcedureStatement.html">sqlcc::sql_parser::DropProcedureStatement</a></div><div class="ttdef"><b>Definition</b> ast_ddl_nodes.h:276</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DropTriggerStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DropTriggerStatement.html">sqlcc::sql_parser::DropTriggerStatement</a></div><div class="ttdef"><b>Definition</b> ast_ddl_nodes.h:302</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1InsertStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1InsertStatement.html">sqlcc::sql_parser::InsertStatement</a></div><div class="ttdef"><b>Definition</b> ast_dml_nodes.h:132</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1UpdateStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1UpdateStatement.html">sqlcc::sql_parser::UpdateStatement</a></div><div class="ttdef"><b>Definition</b> ast_dml_nodes.h:165</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1trigger_html_a9048eb6b0f22224de968d97a266c8032"><div class="ttname"><a href="namespacesqlcc_1_1trigger.html#a9048eb6b0f22224de968d97a266c8032">sqlcc::trigger::TriggerEvent</a></div><div class="ttdeci">TriggerEvent</div><div class="ttdoc">触发器事件类型</div><div class="ttdef"><b>Definition</b> trigger_definition.h:20</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1trigger_html_aafc6faa2e7d6c4de2f2a651ed5cb7843"><div class="ttname"><a href="namespacesqlcc_1_1trigger.html#aafc6faa2e7d6c4de2f2a651ed5cb7843">sqlcc::trigger::TriggerTiming</a></div><div class="ttdeci">TriggerTiming</div><div class="ttdoc">触发器时机</div><div class="ttdef"><b>Definition</b> trigger_definition.h:29</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="aprocedure__parser_8h_html"><div class="ttname"><a href="procedure__parser_8h.html">procedure_parser.h</a></div></div>
+<div class="ttc" id="aprocedure__vm_8h_html"><div class="ttname"><a href="procedure__vm_8h.html">procedure_vm.h</a></div><div class="ttdoc">存储过程虚拟机定义</div></div>
+<div class="ttc" id="atrigger_2trigger__manager_8h_html"><div class="ttname"><a href="trigger_2trigger__manager_8h.html">trigger_manager.h</a></div><div class="ttdoc">触发器管理器类定义</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: lexer.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">lexer.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="lexer_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="preprocessor">#ifndef SQLCC_SQL_PARSER_LEXER_H</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="preprocessor">#define SQLCC_SQL_PARSER_LEXER_H</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="preprocessor">#include &lt;unordered_set&gt;</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="keyword">class </span>Token;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="foldopen" id="foldopen00110" data-start="{" data-end="};">
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698">  110</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698">LexerState</a> {</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>  <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698ab078ffd28db767c502ac367053f6e0ac">START</a>,                    <span class="comment">// 开始状态</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a6fcc416051346daca31c571646af127a">IDENTIFIER</a>,               <span class="comment">// 标识符状态</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a34f55eca38e0605a84f169ff61a2a396">NUMBER</a>,                   <span class="comment">// 数字状态</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>  <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a7dd54d7fc949ee951f89ad5568c37ad3">NUMBER_DECIMAL</a>,           <span class="comment">// 十进制数字状态</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a5cb46451ea7821c61ed69e0dfb6c707c">NUMBER_EXPONENT</a>,          <span class="comment">// 指数数字状态</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a269792d644f3743f113ef8cf25990a84">STRING_SINGLE</a>,            <span class="comment">// 单引号字符串状态</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>  <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698aebcf9c30c6477128af8c85a3614922c1">STRING_DOUBLE</a>,            <span class="comment">// 双引号字符串状态</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698aa82144b2bf9b265a6f2910bf980b7f6b">STRING_ESCAPE</a>,            <span class="comment">// 字符串转义状态</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>  <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a986496ca5b23669b8661171566a167c3">OPERATOR</a>,                 <span class="comment">// 操作符状态</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>  <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a960f97209f43a4a31e959e7fb9ec573e">PUNCTUATION</a>,              <span class="comment">// 标点符号状态</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>  <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a8f2b9f157cea944b5fdb06fa92a24961">COMMENT_LINE</a>,             <span class="comment">// 行注释状态</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a752a4eb782da3aced3ff1a05c8e09e6c">COMMENT_BLOCK</a>,            <span class="comment">// 块注释状态</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>  <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a1d56e59710131bf096285b745f6a7d80">COMMENT_BLOCK_STAR</a>,       <span class="comment">// 块注释星号状态</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>  <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698addc7141d0f8b4ee8a53b7504e15878cf">END_OF_INPUT</a>              <span class="comment">// 输入结束状态</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>};</div>
+</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="foldopen" id="foldopen00133" data-start="{" data-end="};">
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Lexer.html">  133</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Lexer.html">Lexer</a> {</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>  <span class="keyword">explicit</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Lexer.html">Lexer</a>(<span class="keyword">const</span> std::string &amp;input);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>  <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#ae2dc0b84df320659ba48db2df133ba13">nextToken</a>();</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a1dac68d6de634a45665447cfa62cd005">isAtEnd</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a09559b3ef7d0de8c8142029baa42620b">  165</a></span>  <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a09559b3ef7d0de8c8142029baa42620b">getCurrentLine</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a4df77045708def5fa07cd88e7b1e82af">line_</a>; }</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Lexer.html#add8d319c95f1832025a07ea2d6e393c3">  172</a></span>  <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#add8d319c95f1832025a07ea2d6e393c3">getCurrentColumn</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a5a7d3c528d6c56d6c2ac188895dd87c6">column_</a>; }</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>  <span class="keywordtype">char</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a86962309f3fa0fd7204924fc2c07a1f3">advance</a>();</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>  <span class="keywordtype">char</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a8d80602b0c939aacbedec659fcb2f68c">peek</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>  <span class="keywordtype">char</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a908490bd0e8c5afcf4c84b479b9d72c8">peekNext</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a35f6524e14bffb27bb245f05c3883d11">setupTransitionTable</a>();</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>  <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#ab1ef2e9ef90f35f699c01dea75afb8b0">createToken</a>(<a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698">LexerState</a> state, <span class="keyword">const</span> std::string &amp;lexeme, <span class="keywordtype">int</span> line, <span class="keywordtype">int</span> column);</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>  <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#af93f96a2ab7b8c9c4a633cba13e24a22">createIdentifierToken</a>(<span class="keyword">const</span> std::string &amp;lexeme, <span class="keywordtype">int</span> line, <span class="keywordtype">int</span> column);</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>  <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a393836410d31635a468cdbb73e81b639">createKeywordToken</a>(<span class="keyword">const</span> std::string &amp;lexeme);</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>  <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a6235842c17d893f3bd78b6b631d82945">createNumberToken</a>(<span class="keyword">const</span> std::string &amp;lexeme, <span class="keywordtype">int</span> line, <span class="keywordtype">int</span> column);</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>  <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a1075b405c788a68e09aee9416815a5b5">createStringToken</a>(<span class="keyword">const</span> std::string &amp;lexeme, <span class="keywordtype">int</span> line, <span class="keywordtype">int</span> column);</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>  <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a8cb335068abc85fe1ef553cd112bc791">createOperatorToken</a>(<span class="keyword">const</span> std::string &amp;lexeme, <span class="keywordtype">int</span> line, <span class="keywordtype">int</span> column);</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span> </div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>  <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#aa13f89ba4ac065dfe8eedbd17f8f0792">createPunctuationToken</a>(<span class="keyword">const</span> std::string &amp;lexeme, <span class="keywordtype">int</span> line, <span class="keywordtype">int</span> column);</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a7a8e9941f1279c48943fa6b375dffb8f">handleLineComment</a>();</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span> </div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a70248ddcc6168a1cbd4c91036de63b21">handleBlockComment</a>();</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span> </div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a72f50ed17033132e0470014c095f329a">reportError</a>(<span class="keyword">const</span> std::string &amp;message);</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span> </div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Lexer.html#af0d6dcea7cde1b6d4d04aec0ad806669">  304</a></span>  std::string <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1Lexer.html#af0d6dcea7cde1b6d4d04aec0ad806669">input_</a>;                           <span class="comment">// 输入字符串</span></div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a2b7501e4bc1ff5881c5741d046864451">  305</a></span>  <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a2b7501e4bc1ff5881c5741d046864451">position_</a>;                             <span class="comment">// 当前位置</span></div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a4df77045708def5fa07cd88e7b1e82af">  306</a></span>  <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a4df77045708def5fa07cd88e7b1e82af">line_</a>;                                 <span class="comment">// 当前行号</span></div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a5a7d3c528d6c56d6c2ac188895dd87c6">  307</a></span>  <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1Lexer.html#a5a7d3c528d6c56d6c2ac188895dd87c6">column_</a>;                               <span class="comment">// 当前列号</span></div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Lexer.html#ac783f88dd3213e8f01e806bebbb242b4">  308</a></span>  <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698">LexerState</a> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1Lexer.html#ac783f88dd3213e8f01e806bebbb242b4">current_state_</a>;                    <span class="comment">// 当前状态</span></div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Lexer.html#ae05eef17874fc452ac68a1a4ba22e902">  309</a></span>  std::unordered_map&lt;LexerState, std::unordered_map&lt;char, LexerState&gt;&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1Lexer.html#ae05eef17874fc452ac68a1a4ba22e902">transitions_</a>; <span class="comment">// 状态转换表</span></div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>};</div>
+</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span> </div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span> </div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SQL_PARSER_LEXER_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html">sqlcc::sql_parser::Lexer</a></div><div class="ttdoc">SQL词法分析器类</div><div class="ttdef"><b>Definition</b> lexer.h:133</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a09559b3ef7d0de8c8142029baa42620b"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a09559b3ef7d0de8c8142029baa42620b">sqlcc::sql_parser::Lexer::getCurrentLine</a></div><div class="ttdeci">size_t getCurrentLine() const</div><div class="ttdoc">获取当前行号</div><div class="ttdef"><b>Definition</b> lexer.h:165</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a1075b405c788a68e09aee9416815a5b5"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a1075b405c788a68e09aee9416815a5b5">sqlcc::sql_parser::Lexer::createStringToken</a></div><div class="ttdeci">Token createStringToken(const std::string &amp;lexeme, int line, int column)</div><div class="ttdoc">创建字符串Token</div><div class="ttdef"><b>Definition</b> lexer.cpp:545</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a1dac68d6de634a45665447cfa62cd005"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a1dac68d6de634a45665447cfa62cd005">sqlcc::sql_parser::Lexer::isAtEnd</a></div><div class="ttdeci">bool isAtEnd() const</div><div class="ttdoc">检查是否到达输入末尾</div><div class="ttdef"><b>Definition</b> lexer.cpp:157</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a2b7501e4bc1ff5881c5741d046864451"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a2b7501e4bc1ff5881c5741d046864451">sqlcc::sql_parser::Lexer::position_</a></div><div class="ttdeci">size_t position_</div><div class="ttdef"><b>Definition</b> lexer.h:305</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a35f6524e14bffb27bb245f05c3883d11"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a35f6524e14bffb27bb245f05c3883d11">sqlcc::sql_parser::Lexer::setupTransitionTable</a></div><div class="ttdeci">void setupTransitionTable()</div><div class="ttdoc">设置状态转换表</div><div class="ttdef"><b>Definition</b> lexer.cpp:192</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a393836410d31635a468cdbb73e81b639"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a393836410d31635a468cdbb73e81b639">sqlcc::sql_parser::Lexer::createKeywordToken</a></div><div class="ttdeci">Token createKeywordToken(const std::string &amp;lexeme)</div><div class="ttdoc">创建关键字Token</div><div class="ttdef"><b>Definition</b> lexer.cpp:349</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a4df77045708def5fa07cd88e7b1e82af"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a4df77045708def5fa07cd88e7b1e82af">sqlcc::sql_parser::Lexer::line_</a></div><div class="ttdeci">size_t line_</div><div class="ttdef"><b>Definition</b> lexer.h:306</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a5a7d3c528d6c56d6c2ac188895dd87c6"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a5a7d3c528d6c56d6c2ac188895dd87c6">sqlcc::sql_parser::Lexer::column_</a></div><div class="ttdeci">size_t column_</div><div class="ttdef"><b>Definition</b> lexer.h:307</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a6235842c17d893f3bd78b6b631d82945"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a6235842c17d893f3bd78b6b631d82945">sqlcc::sql_parser::Lexer::createNumberToken</a></div><div class="ttdeci">Token createNumberToken(const std::string &amp;lexeme, int line, int column)</div><div class="ttdoc">创建数字Token</div><div class="ttdef"><b>Definition</b> lexer.cpp:531</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a70248ddcc6168a1cbd4c91036de63b21"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a70248ddcc6168a1cbd4c91036de63b21">sqlcc::sql_parser::Lexer::handleBlockComment</a></div><div class="ttdeci">void handleBlockComment()</div><div class="ttdoc">处理块注释</div><div class="ttdef"><b>Definition</b> lexer.cpp:637</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a72f50ed17033132e0470014c095f329a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a72f50ed17033132e0470014c095f329a">sqlcc::sql_parser::Lexer::reportError</a></div><div class="ttdeci">void reportError(const std::string &amp;message)</div><div class="ttdoc">报告词法错误</div><div class="ttdef"><b>Definition</b> lexer.cpp:651</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a7a8e9941f1279c48943fa6b375dffb8f"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a7a8e9941f1279c48943fa6b375dffb8f">sqlcc::sql_parser::Lexer::handleLineComment</a></div><div class="ttdeci">void handleLineComment()</div><div class="ttdoc">处理行注释</div><div class="ttdef"><b>Definition</b> lexer.cpp:629</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a86962309f3fa0fd7204924fc2c07a1f3"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a86962309f3fa0fd7204924fc2c07a1f3">sqlcc::sql_parser::Lexer::advance</a></div><div class="ttdeci">char advance()</div><div class="ttdoc">前进到下一个字符</div><div class="ttdef"><b>Definition</b> lexer.cpp:160</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a8cb335068abc85fe1ef553cd112bc791"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a8cb335068abc85fe1ef553cd112bc791">sqlcc::sql_parser::Lexer::createOperatorToken</a></div><div class="ttdeci">Token createOperatorToken(const std::string &amp;lexeme, int line, int column)</div><div class="ttdoc">创建操作符Token</div><div class="ttdef"><b>Definition</b> lexer.cpp:550</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a8d80602b0c939aacbedec659fcb2f68c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a8d80602b0c939aacbedec659fcb2f68c">sqlcc::sql_parser::Lexer::peek</a></div><div class="ttdeci">char peek() const</div><div class="ttdoc">查看当前字符（不前进）</div><div class="ttdef"><b>Definition</b> lexer.cpp:176</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_a908490bd0e8c5afcf4c84b479b9d72c8"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#a908490bd0e8c5afcf4c84b479b9d72c8">sqlcc::sql_parser::Lexer::peekNext</a></div><div class="ttdeci">char peekNext() const</div><div class="ttdoc">查看下一个字符（不前进）</div><div class="ttdef"><b>Definition</b> lexer.cpp:184</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_aa13f89ba4ac065dfe8eedbd17f8f0792"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#aa13f89ba4ac065dfe8eedbd17f8f0792">sqlcc::sql_parser::Lexer::createPunctuationToken</a></div><div class="ttdeci">Token createPunctuationToken(const std::string &amp;lexeme, int line, int column)</div><div class="ttdoc">创建标点符号Token</div><div class="ttdef"><b>Definition</b> lexer.cpp:600</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_ab1ef2e9ef90f35f699c01dea75afb8b0"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#ab1ef2e9ef90f35f699c01dea75afb8b0">sqlcc::sql_parser::Lexer::createToken</a></div><div class="ttdeci">Token createToken(LexerState state, const std::string &amp;lexeme, int line, int column)</div><div class="ttdoc">创建Token对象</div><div class="ttdef"><b>Definition</b> lexer.cpp:308</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_ac783f88dd3213e8f01e806bebbb242b4"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#ac783f88dd3213e8f01e806bebbb242b4">sqlcc::sql_parser::Lexer::current_state_</a></div><div class="ttdeci">LexerState current_state_</div><div class="ttdef"><b>Definition</b> lexer.h:308</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_add8d319c95f1832025a07ea2d6e393c3"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#add8d319c95f1832025a07ea2d6e393c3">sqlcc::sql_parser::Lexer::getCurrentColumn</a></div><div class="ttdeci">size_t getCurrentColumn() const</div><div class="ttdoc">获取当前列号</div><div class="ttdef"><b>Definition</b> lexer.h:172</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_ae05eef17874fc452ac68a1a4ba22e902"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#ae05eef17874fc452ac68a1a4ba22e902">sqlcc::sql_parser::Lexer::transitions_</a></div><div class="ttdeci">std::unordered_map&lt; LexerState, std::unordered_map&lt; char, LexerState &gt; &gt; transitions_</div><div class="ttdef"><b>Definition</b> lexer.h:309</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_ae2dc0b84df320659ba48db2df133ba13"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#ae2dc0b84df320659ba48db2df133ba13">sqlcc::sql_parser::Lexer::nextToken</a></div><div class="ttdeci">Token nextToken()</div><div class="ttdoc">获取下一个Token</div><div class="ttdef"><b>Definition</b> lexer.cpp:658</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_af0d6dcea7cde1b6d4d04aec0ad806669"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#af0d6dcea7cde1b6d4d04aec0ad806669">sqlcc::sql_parser::Lexer::input_</a></div><div class="ttdeci">std::string input_</div><div class="ttdef"><b>Definition</b> lexer.h:304</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html_af93f96a2ab7b8c9c4a633cba13e24a22"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html#af93f96a2ab7b8c9c4a633cba13e24a22">sqlcc::sql_parser::Lexer::createIdentifierToken</a></div><div class="ttdeci">Token createIdentifierToken(const std::string &amp;lexeme, int line, int column)</div><div class="ttdoc">创建标识符Token</div><div class="ttdef"><b>Definition</b> lexer.cpp:331</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Token_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Token.html">sqlcc::sql_parser::Token</a></div><div class="ttdoc">Token类</div><div class="ttdef"><b>Definition</b> token.h:289</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698">sqlcc::sql_parser::LexerState</a></div><div class="ttdeci">LexerState</div><div class="ttdoc">词法分析器状态枚举</div><div class="ttdef"><b>Definition</b> lexer.h:110</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698a1d56e59710131bf096285b745f6a7d80"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a1d56e59710131bf096285b745f6a7d80">sqlcc::sql_parser::LexerState::COMMENT_BLOCK_STAR</a></div><div class="ttdeci">@ COMMENT_BLOCK_STAR</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698a269792d644f3743f113ef8cf25990a84"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a269792d644f3743f113ef8cf25990a84">sqlcc::sql_parser::LexerState::STRING_SINGLE</a></div><div class="ttdeci">@ STRING_SINGLE</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698a34f55eca38e0605a84f169ff61a2a396"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a34f55eca38e0605a84f169ff61a2a396">sqlcc::sql_parser::LexerState::NUMBER</a></div><div class="ttdeci">@ NUMBER</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698a5cb46451ea7821c61ed69e0dfb6c707c"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a5cb46451ea7821c61ed69e0dfb6c707c">sqlcc::sql_parser::LexerState::NUMBER_EXPONENT</a></div><div class="ttdeci">@ NUMBER_EXPONENT</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698a6fcc416051346daca31c571646af127a"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a6fcc416051346daca31c571646af127a">sqlcc::sql_parser::LexerState::IDENTIFIER</a></div><div class="ttdeci">@ IDENTIFIER</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698a752a4eb782da3aced3ff1a05c8e09e6c"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a752a4eb782da3aced3ff1a05c8e09e6c">sqlcc::sql_parser::LexerState::COMMENT_BLOCK</a></div><div class="ttdeci">@ COMMENT_BLOCK</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698a7dd54d7fc949ee951f89ad5568c37ad3"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a7dd54d7fc949ee951f89ad5568c37ad3">sqlcc::sql_parser::LexerState::NUMBER_DECIMAL</a></div><div class="ttdeci">@ NUMBER_DECIMAL</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698a8f2b9f157cea944b5fdb06fa92a24961"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a8f2b9f157cea944b5fdb06fa92a24961">sqlcc::sql_parser::LexerState::COMMENT_LINE</a></div><div class="ttdeci">@ COMMENT_LINE</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698a960f97209f43a4a31e959e7fb9ec573e"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a960f97209f43a4a31e959e7fb9ec573e">sqlcc::sql_parser::LexerState::PUNCTUATION</a></div><div class="ttdeci">@ PUNCTUATION</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698a986496ca5b23669b8661171566a167c3"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698a986496ca5b23669b8661171566a167c3">sqlcc::sql_parser::LexerState::OPERATOR</a></div><div class="ttdeci">@ OPERATOR</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698aa82144b2bf9b265a6f2910bf980b7f6b"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698aa82144b2bf9b265a6f2910bf980b7f6b">sqlcc::sql_parser::LexerState::STRING_ESCAPE</a></div><div class="ttdeci">@ STRING_ESCAPE</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698ab078ffd28db767c502ac367053f6e0ac"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698ab078ffd28db767c502ac367053f6e0ac">sqlcc::sql_parser::LexerState::START</a></div><div class="ttdeci">@ START</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698addc7141d0f8b4ee8a53b7504e15878cf"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698addc7141d0f8b4ee8a53b7504e15878cf">sqlcc::sql_parser::LexerState::END_OF_INPUT</a></div><div class="ttdeci">@ END_OF_INPUT</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_af155c89aa2f7bbbe295ac12802efd698aebcf9c30c6477128af8c85a3614922c1"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#af155c89aa2f7bbbe295ac12802efd698aebcf9c30c6477128af8c85a3614922c1">sqlcc::sql_parser::LexerState::STRING_DOUBLE</a></div><div class="ttdeci">@ STRING_DOUBLE</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

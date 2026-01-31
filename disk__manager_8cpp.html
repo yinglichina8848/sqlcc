@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: disk_manager.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li><li class="navelem"><a class="el" href="dir_653839c6bef5f08a2bfcd4125fcf14c0.html">disk_manager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#var-members">变量</a>  </div>
+  <div class="headertitle"><div class="title">disk_manager.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="storage_2disk__manager_8h_source.html">../../storage/disk_manager.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="exception_8h_source.html">../../exception/exception.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="logger_2logger_8h_source.html">../../logger/logger.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="file__descriptor_8h_source.html">../../utils/file_descriptor.h</a>&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
+<code>#include &lt;fcntl.h&gt;</code><br />
+<code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;sys/stat.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+disk_manager.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="disk__manager_8cpp__incl.png" border="0" usemap="#adisk__manager_8cpp" alt=""/></div>
+<map name="adisk__manager_8cpp" id="adisk__manager_8cpp">
+<area shape="rect" title=" " alt="" coords="1465,5,1605,31"/>
+<area shape="rect" href="storage_2disk__manager_8h.html" title=" " alt="" coords="802,79,929,119"/>
+<area shape="poly" title=" " alt="" coords="1465,30,943,91,942,86,1464,25"/>
+<area shape="rect" title=" " alt="" coords="52,167,143,192"/>
+<area shape="poly" title=" " alt="" coords="1465,26,1171,47,790,81,474,119,157,169,156,164,474,114,789,76,1170,41,1464,21"/>
+<area shape="rect" title=" " alt="" coords="1238,167,1311,192"/>
+<area shape="poly" title=" " alt="" coords="1465,25,1428,31,1389,42,1351,58,1318,81,1304,97,1293,116,1281,154,1276,152,1289,114,1299,94,1314,77,1349,53,1387,37,1427,26,1464,20"/>
+<area shape="rect" title=" " alt="" coords="5,240,72,265"/>
+<area shape="poly" title=" " alt="" coords="1464,22,1287,25,1037,33,749,51,601,64,456,81,389,86,329,85,223,80,176,84,130,97,86,124,42,168,35,181,32,196,34,227,29,227,27,196,30,179,38,165,83,120,128,92,175,79,223,75,329,80,389,81,456,76,600,59,748,46,1037,28,1287,20,1464,17"/>
+<area shape="rect" href="exception_8h.html" title=" " alt="" coords="1576,167,1755,192"/>
+<area shape="poly" title=" " alt="" coords="1535,31,1531,72,1534,96,1544,117,1569,142,1602,159,1599,164,1566,147,1539,120,1529,97,1526,72,1529,31"/>
+<area shape="rect" href="logger_2logger_8h.html" title="SQLCC分层日志系统 &#45; 异步写入与智能轮转架构" alt="" coords="1329,86,1471,111"/>
+<area shape="poly" title=" " alt="" coords="1516,33,1433,81,1430,77,1513,29"/>
+<area shape="rect" href="file__descriptor_8h.html" title=" " alt="" coords="1597,86,1779,111"/>
+<area shape="poly" title=" " alt="" coords="1559,28,1654,77,1652,82,1556,33"/>
+<area shape="rect" title=" " alt="" coords="1779,167,1853,192"/>
+<area shape="poly" title=" " alt="" coords="1540,30,1555,73,1569,97,1587,116,1654,136,1766,163,1764,169,1653,141,1584,121,1564,100,1550,75,1535,32"/>
+<area shape="rect" title=" " alt="" coords="1803,86,1888,111"/>
+<area shape="poly" title=" " alt="" coords="1592,28,1686,49,1791,76,1802,79,1800,84,1790,81,1684,54,1590,33"/>
+<area shape="rect" title=" " alt="" coords="1913,86,1975,111"/>
+<area shape="poly" title=" " alt="" coords="1605,23,1743,42,1823,57,1901,76,1908,79,1907,84,1899,81,1821,62,1742,47,1604,28"/>
+<area shape="rect" title=" " alt="" coords="2000,86,2080,111"/>
+<area shape="poly" title=" " alt="" coords="1605,21,1781,39,1885,55,1989,76,2000,79,1998,84,1987,81,1884,60,1780,44,1605,26"/>
+<area shape="rect" title=" " alt="" coords="2104,86,2189,111"/>
+<area shape="poly" title=" " alt="" coords="1605,19,1824,35,1959,52,2093,76,2105,79,2103,84,2091,81,1958,57,1823,40,1605,24"/>
+<area shape="rect" title=" " alt="" coords="612,167,679,192"/>
+<area shape="poly" title=" " alt="" coords="814,121,692,164,690,159,812,116"/>
+<area shape="rect" title=" " alt="" coords="703,167,769,192"/>
+<area shape="poly" title=" " alt="" coords="835,121,768,162,765,157,833,117"/>
+<area shape="rect" title=" " alt="" coords="794,167,937,192"/>
+<area shape="poly" title=" " alt="" coords="868,119,868,153,863,153,863,119"/>
+<area shape="poly" title=" " alt="" coords="802,106,526,128,344,146,157,169,156,164,344,140,525,122,802,101"/>
+<area shape="poly" title=" " alt="" coords="930,109,1219,164,1225,165,1224,170,1218,169,929,114"/>
+<area shape="rect" title=" " alt="" coords="1183,240,1260,265"/>
+<area shape="poly" title=" " alt="" coords="929,101,980,108,1036,120,1095,138,1149,164,1184,194,1209,226,1205,230,1180,198,1147,169,1093,143,1035,125,979,113,929,106"/>
+<area shape="rect" title=" " alt="" coords="1095,240,1159,265"/>
+<area shape="poly" title=" " alt="" coords="930,105,1044,127,1094,144,1113,154,1126,165,1134,179,1137,196,1136,226,1131,226,1132,196,1129,181,1122,168,1110,158,1092,149,1043,132,929,110"/>
+<area shape="rect" title=" " alt="" coords="961,167,1023,192"/>
+<area shape="poly" title=" " alt="" coords="897,117,963,157,961,162,895,121"/>
+<area shape="rect" title=" " alt="" coords="1048,167,1112,192"/>
+<area shape="poly" title=" " alt="" coords="918,116,1037,159,1035,164,916,121"/>
+<area shape="rect" title=" " alt="" coords="374,240,498,265"/>
+<area shape="poly" title=" " alt="" coords="802,102,697,104,575,113,516,122,465,133,424,149,397,168,391,182,394,198,415,229,411,232,389,200,386,182,393,165,421,144,463,128,515,116,574,108,697,99,802,97"/>
+<area shape="rect" title=" " alt="" coords="287,240,350,265"/>
+<area shape="poly" title=" " alt="" coords="802,106,699,112,577,125,463,143,418,155,385,169,369,181,354,197,333,229,328,226,350,193,365,177,383,164,416,150,462,138,576,119,698,107,802,100"/>
+<area shape="rect" href="page_8h.html" title=" " alt="" coords="167,167,281,192"/>
+<area shape="poly" title=" " alt="" coords="802,110,300,169,295,170,295,165,300,164,801,104"/>
+<area shape="rect" href="config__manager_8h.html" title=" " alt="" coords="407,167,588,192"/>
+<area shape="poly" title=" " alt="" coords="802,116,565,166,564,161,801,111"/>
+<area shape="poly" title=" " alt="" coords="929,103,1563,164,1562,169,929,108"/>
+<area shape="rect" title=" " alt="" coords="193,240,260,265"/>
+<area shape="poly" title=" " alt="" coords="227,192,228,226,223,227,222,192"/>
+<area shape="poly" title=" " alt="" coords="195,195,82,237,81,233,193,190"/>
+<area shape="rect" title=" " alt="" coords="116,240,169,265"/>
+<area shape="poly" title=" " alt="" coords="213,194,168,233,164,229,209,190"/>
+<area shape="poly" title=" " alt="" coords="588,188,600,189,759,202,883,208,1009,217,1169,237,1169,243,1008,223,883,213,758,207,600,195,588,193"/>
+<area shape="poly" title=" " alt="" coords="588,188,1081,244,1081,249,588,194"/>
+<area shape="poly" title=" " alt="" coords="489,194,457,231,453,228,485,191"/>
+<area shape="poly" title=" " alt="" coords="470,195,361,237,359,232,468,190"/>
+<area shape="rect" title=" " alt="" coords="1421,240,1480,265"/>
+<area shape="poly" title=" " alt="" coords="588,188,600,189,1008,219,1408,246,1407,251,1007,225,600,195,588,194"/>
+<area shape="rect" title=" " alt="" coords="522,240,590,265"/>
+<area shape="poly" title=" " alt="" coords="509,191,540,228,536,231,505,194"/>
+<area shape="poly" title=" " alt="" coords="1632,195,1494,240,1492,235,1630,189"/>
+<area shape="rect" title=" " alt="" coords="1622,240,1709,265"/>
+<area shape="poly" title=" " alt="" coords="1668,192,1668,226,1663,226,1663,192"/>
+<area shape="poly" title=" " alt="" coords="1383,114,1306,161,1303,157,1380,109"/>
+<area shape="poly" title=" " alt="" coords="1402,112,1393,151,1384,174,1370,194,1349,212,1324,226,1274,244,1272,239,1322,221,1345,208,1366,190,1379,171,1388,150,1396,111"/>
+<area shape="poly" title=" " alt="" coords="1396,113,1368,153,1348,175,1324,194,1263,216,1172,242,1171,237,1262,211,1321,190,1344,171,1364,149,1391,110"/>
+<area shape="poly" title=" " alt="" coords="1406,111,1445,226,1440,228,1401,112"/>
+<area shape="rect" title=" " alt="" coords="1488,167,1552,192"/>
+<area shape="poly" title=" " alt="" coords="1419,109,1492,157,1489,161,1416,114"/>
+<area shape="poly" title=" " alt="" coords="1708,109,1787,157,1784,162,1705,114"/>
+<area shape="rect" title=" " alt="" coords="1878,167,1938,192"/>
+<area shape="poly" title=" " alt="" coords="1721,109,1866,160,1864,165,1719,114"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:af60e67b7145f8e316bfefd914d7c4e7b" id="r_af60e67b7145f8e316bfefd914d7c4e7b"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="disk__manager_8cpp.html#af60e67b7145f8e316bfefd914d7c4e7b">PAGE_SIZE</a> = 8192</td></tr>
+<tr class="separator:af60e67b7145f8e316bfefd914d7c4e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">变量说明</h2>
+<a id="af60e67b7145f8e316bfefd914d7c4e7b" name="af60e67b7145f8e316bfefd914d7c4e7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af60e67b7145f8e316bfefd914d7c4e7b">&#9670;&#160;</a></span>PAGE_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t PAGE_SIZE = 8192</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

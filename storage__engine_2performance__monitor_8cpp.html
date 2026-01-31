@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: performance_monitor.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">performance_monitor.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="storage__engine_2performance__monitor_8h_source.html">performance_monitor.h</a>&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;limits&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+storage_engine/performance_monitor.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="storage__engine_2performance__monitor_8cpp__incl.png" border="0" usemap="#aperformance__monitor_8cpp" alt=""/></div>
+<map name="aperformance__monitor_8cpp" id="aperformance__monitor_8cpp">
+<area shape="rect" title=" " alt="" coords="377,5,567,31"/>
+<area shape="rect" href="storage__engine_2performance__monitor_8h.html" title=" " alt="" coords="233,79,407,104"/>
+<area shape="poly" title=" " alt="" coords="449,33,358,75,356,70,446,28"/>
+<area shape="rect" title=" " alt="" coords="432,79,512,104"/>
+<area shape="poly" title=" " alt="" coords="475,31,475,65,469,65,469,31"/>
+<area shape="rect" title=" " alt="" coords="536,79,595,104"/>
+<area shape="poly" title=" " alt="" coords="489,29,541,68,538,72,485,33"/>
+<area shape="rect" title=" " alt="" coords="5,152,72,177"/>
+<area shape="poly" title=" " alt="" coords="275,107,86,154,85,149,274,101"/>
+<area shape="rect" title=" " alt="" coords="96,152,163,177"/>
+<area shape="poly" title=" " alt="" coords="290,107,174,149,172,144,288,102"/>
+<area shape="rect" title=" " alt="" coords="187,152,264,177"/>
+<area shape="poly" title=" " alt="" coords="306,106,253,146,250,141,303,102"/>
+<area shape="rect" title=" " alt="" coords="288,152,352,177"/>
+<area shape="poly" title=" " alt="" coords="323,104,323,138,317,138,317,104"/>
+<area shape="rect" title=" " alt="" coords="376,152,435,177"/>
+<area shape="poly" title=" " alt="" coords="335,102,383,141,379,145,332,106"/>
+<area shape="rect" title=" " alt="" coords="459,152,583,177"/>
+<area shape="poly" title=" " alt="" coords="353,102,477,145,475,150,351,107"/>
+<area shape="rect" title=" " alt="" coords="607,152,670,177"/>
+<area shape="poly" title=" " alt="" coords="377,101,594,149,593,154,376,107"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么需要性能监控？</p>
+<p>数据库系统运行在复杂多变的负载环境下，需要实时了解系统性能状态。 性能监控提供量化指标，帮助识别性能瓶颈、优化系统配置、保障服务质量。 多维度指标体系支持从宏观统计到微观细节的全方位性能洞察。 实时监控与历史趋势分析相结合，为系统调优提供科学依据。</p>
+<p>设计目标：</p><ul>
+<li>实时性：低延迟的性能数据收集，&lt;1ms的监控开销</li>
+<li>多维度：覆盖CPU、内存、I/O、锁等关键性能指标</li>
+<li>可扩展：支持自定义指标，动态注册新监控项</li>
+<li>准确性：原子操作保证多线程环境下的数据一致性</li>
+</ul>
+<p>WHAT: 这实现了什么功能？</p>
+<p>性能监控模块提供完整的指标收集和分析服务：</p><ul>
+<li>多种指标类型：计数器、仪表盘、直方图、计时器</li>
+<li>指标生命周期管理：注册、更新、重置、导出</li>
+<li>存储引擎指标：专门针对SQLCC存储引擎的性能监控</li>
+<li>导出格式支持：JSON和纯文本格式的数据导出</li>
+</ul>
+<p>核心组件：</p><ul>
+<li>Metric基类：统一的指标接口定义</li>
+<li>具体指标类：CounterMetric、GaugeMetric、HistogramMetric、TimerMetric</li>
+<li>PerformanceMonitor：指标管理中心</li>
+<li>StorageEngineMetrics：存储引擎专用指标集合</li>
+</ul>
+<p>HOW: 如何实现的？</p>
+<p>技术实现要点：</p><ol type="1">
+<li>指标类型设计：基于统计学原理的四种基础指标类型</li>
+<li>线程安全：std::atomic保证多线程环境下的数据一致性</li>
+<li>内存管理：智能指针管理指标生命周期</li>
+<li>性能优化：延迟初始化和缓存机制减少开销</li>
+<li>数据导出：支持多种格式的序列化输出</li>
+<li>RAII模式：ScopedTimer自动管理计时器的生命周期</li>
+</ol>
+<p>性能优化：</p><ul>
+<li>原子操作：无锁的指标更新</li>
+<li>批量导出：减少序列化开销</li>
+<li>懒加载：按需初始化指标实例</li>
+<li>内存复用：对象池模式复用指标实例</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>该实现专为SQLCC数据库优化，支持高并发监控场景 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>docs/design/monitoring/performance_monitor_design.md </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: b_plus_tree_internal_node.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li><li class="navelem"><a class="el" href="dir_1beebb655226e3b3a0da039efb09b088.html">b_plus_tree</a></li><li class="navelem"><a class="el" href="dir_7d85c6dc530f4ea2792ec064f3edcfca.html">node</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">b_plus_tree_internal_node.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="b__plus__tree__internal__node_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="b__plus__tree__node_8h.html">b_plus_tree_node.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="keyword">class </span>BPlusTreeInternalNode : <span class="keyword">public</span> BPlusTreeNode {</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeInternalNode.html#a96925271c48a640c21a114000bb4b23c">  161</a></span>    <a class="code hl_function" href="classsqlcc_1_1BPlusTreeInternalNode.html#a96925271c48a640c21a114000bb4b23c">BPlusTreeInternalNode</a>(std::shared_ptr&lt;StorageEngine&gt; storage_engine, int32_t page_id, <span class="keywordtype">bool</span> is_new = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeInternalNode.html#a6dd3e6277dc7afe579009c71364d530d">  167</a></span>    <a class="code hl_function" href="classsqlcc_1_1BPlusTreeInternalNode.html#a6dd3e6277dc7afe579009c71364d530d">~BPlusTreeInternalNode</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <span class="comment">// 实现基类纯虚函数</span></div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">  170</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">SerializeToPage</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">  171</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">DeserializeFromPage</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">  172</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">Clear</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeInternalNode.html#a335a3ff540e2108191a5ebe10f03ba87">  173</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeInternalNode.html#a335a3ff540e2108191a5ebe10f03ba87">IsFull</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="comment">// 内部节点特有的子节点管理方法</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeInternalNode.html#aafa13728f4593280faca8daaa379eb11">  176</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeInternalNode.html#aafa13728f4593280faca8daaa379eb11">InsertChild</a>(int32_t child_page_id);</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeInternalNode.html#a46450602530ea6d99fae509bd2dce1d2">  177</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeInternalNode.html#a46450602530ea6d99fae509bd2dce1d2">InsertChild</a>(int32_t child_page_id, <span class="keyword">const</span> std::string&amp; key);</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeInternalNode.html#a4eeef06300f08d03f6c22a063f16caa0">  178</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeInternalNode.html#a4eeef06300f08d03f6c22a063f16caa0">RemoveChild</a>(int32_t child_page_id);</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeInternalNode.html#a7966789a79f757c048e22a03eb780984">  179</a></span>    int32_t <a class="code hl_function" href="classsqlcc_1_1BPlusTreeInternalNode.html#a7966789a79f757c048e22a03eb780984">FindChildPageId</a>(<span class="keyword">const</span> std::string&amp; key) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    <span class="comment">// 分裂和合并操作（内部节点特化）</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeInternalNode.html#a8cbd7b906553e61908b602423a5be01f">  182</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeInternalNode.html#a8cbd7b906553e61908b602423a5be01f">Split</a>(std::unique_ptr&lt;BPlusTreeInternalNode&gt;&amp; new_node);</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeInternalNode.html#a63ccf3f4f95ab6c2e01e50b18eeddd4b">  183</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1BPlusTreeInternalNode.html#a63ccf3f4f95ab6c2e01e50b18eeddd4b">Merge</a>(std::unique_ptr&lt;BPlusTreeInternalNode&gt; right_node, <span class="keyword">const</span> std::string&amp; parent_key);</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    <span class="comment">// 调试和测试辅助方法</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeInternalNode.html#ad4bc5fab5fe75aa7f4106b972dbf41f4">  186</a></span>    <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; <a class="code hl_function" href="classsqlcc_1_1BPlusTreeInternalNode.html#ad4bc5fab5fe75aa7f4106b972dbf41f4">GetKeys</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1BPlusTreeInternalNode.html#a29c9528e0192fd02b31b87514fe464d2">keys_</a>; }</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno"><a class="line" href="classsqlcc_1_1BPlusTreeInternalNode.html#a90e7a58577e5ecf4712f156892fcc7a6">  187</a></span>    <span class="keyword">const</span> std::vector&lt;int32_t&gt;&amp; <a class="code hl_function" href="classsqlcc_1_1BPlusTreeInternalNode.html#a90e7a58577e5ecf4712f156892fcc7a6">GetChildPageIds</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1BPlusTreeInternalNode.html#a91a1985cd74888cbace62ccacc51778a">child_page_ids_</a>; }</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    std::vector&lt;std::string&gt; <a class="code hl_variable" href="classsqlcc_1_1BPlusTreeInternalNode.html#a29c9528e0192fd02b31b87514fe464d2">keys_</a>;           </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    std::vector&lt;int32_t&gt; <a class="code hl_variable" href="classsqlcc_1_1BPlusTreeInternalNode.html#a91a1985cd74888cbace62ccacc51778a">child_page_ids_</a>;     </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>};</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="ab__plus__tree__node_8h_html"><div class="ttname"><a href="b__plus__tree__node_8h.html">b_plus_tree_node.h</a></div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_a191f44481f6f53dd0cc6dda5cff413dc"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode::SerializeToPage</a></div><div class="ttdeci">void SerializeToPage() override</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_a29c9528e0192fd02b31b87514fe464d2"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#a29c9528e0192fd02b31b87514fe464d2">sqlcc::BPlusTreeInternalNode::keys_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; keys_</div><div class="ttdef"><b>Definition</b> storage/b_plus_tree_nodes.h:203</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_a335a3ff540e2108191a5ebe10f03ba87"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#a335a3ff540e2108191a5ebe10f03ba87">sqlcc::BPlusTreeInternalNode::IsFull</a></div><div class="ttdeci">bool IsFull() const override</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_a46450602530ea6d99fae509bd2dce1d2"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#a46450602530ea6d99fae509bd2dce1d2">sqlcc::BPlusTreeInternalNode::InsertChild</a></div><div class="ttdeci">void InsertChild(int32_t child_page_id, const std::string &amp;key)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_a4eeef06300f08d03f6c22a063f16caa0"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#a4eeef06300f08d03f6c22a063f16caa0">sqlcc::BPlusTreeInternalNode::RemoveChild</a></div><div class="ttdeci">void RemoveChild(int32_t child_page_id)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_a5b52a9524215d4f90e17288c4406b93a"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode::DeserializeFromPage</a></div><div class="ttdeci">void DeserializeFromPage() override</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_a63ccf3f4f95ab6c2e01e50b18eeddd4b"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#a63ccf3f4f95ab6c2e01e50b18eeddd4b">sqlcc::BPlusTreeInternalNode::Merge</a></div><div class="ttdeci">void Merge(std::unique_ptr&lt; BPlusTreeInternalNode &gt; right_node, const std::string &amp;parent_key)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_a6dd3e6277dc7afe579009c71364d530d"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#a6dd3e6277dc7afe579009c71364d530d">sqlcc::BPlusTreeInternalNode::~BPlusTreeInternalNode</a></div><div class="ttdeci">~BPlusTreeInternalNode() override</div><div class="ttdoc">析构函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_a7966789a79f757c048e22a03eb780984"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#a7966789a79f757c048e22a03eb780984">sqlcc::BPlusTreeInternalNode::FindChildPageId</a></div><div class="ttdeci">int32_t FindChildPageId(const std::string &amp;key) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_a815747dc4c728365a2775a988a1a1178"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode::Clear</a></div><div class="ttdeci">void Clear() override</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_a8cbd7b906553e61908b602423a5be01f"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#a8cbd7b906553e61908b602423a5be01f">sqlcc::BPlusTreeInternalNode::Split</a></div><div class="ttdeci">void Split(std::unique_ptr&lt; BPlusTreeInternalNode &gt; &amp;new_node)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_a90e7a58577e5ecf4712f156892fcc7a6"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#a90e7a58577e5ecf4712f156892fcc7a6">sqlcc::BPlusTreeInternalNode::GetChildPageIds</a></div><div class="ttdeci">const std::vector&lt; int32_t &gt; &amp; GetChildPageIds() const</div><div class="ttdef"><b>Definition</b> b_plus_tree_internal_node.h:187</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_a91a1985cd74888cbace62ccacc51778a"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#a91a1985cd74888cbace62ccacc51778a">sqlcc::BPlusTreeInternalNode::child_page_ids_</a></div><div class="ttdeci">std::vector&lt; int32_t &gt; child_page_ids_</div><div class="ttdef"><b>Definition</b> storage/b_plus_tree_nodes.h:204</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_a96925271c48a640c21a114000bb4b23c"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#a96925271c48a640c21a114000bb4b23c">sqlcc::BPlusTreeInternalNode::BPlusTreeInternalNode</a></div><div class="ttdeci">BPlusTreeInternalNode(std::shared_ptr&lt; StorageEngine &gt; storage_engine, int32_t page_id, bool is_new=false)</div><div class="ttdoc">构造函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_aafa13728f4593280faca8daaa379eb11"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#aafa13728f4593280faca8daaa379eb11">sqlcc::BPlusTreeInternalNode::InsertChild</a></div><div class="ttdeci">void InsertChild(int32_t child_page_id)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1BPlusTreeInternalNode_html_ad4bc5fab5fe75aa7f4106b972dbf41f4"><div class="ttname"><a href="classsqlcc_1_1BPlusTreeInternalNode.html#ad4bc5fab5fe75aa7f4106b972dbf41f4">sqlcc::BPlusTreeInternalNode::GetKeys</a></div><div class="ttdeci">const std::vector&lt; std::string &gt; &amp; GetKeys() const</div><div class="ttdef"><b>Definition</b> b_plus_tree_internal_node.h:186</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

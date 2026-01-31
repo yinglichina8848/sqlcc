@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: transaction.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_483b32a6ce93291d0160e24fe223c96c.html">transaction</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">transaction.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="transaction_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="foldopen" id="foldopen00008" data-start="{" data-end="};">
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Transaction.html">    8</a></span><span class="keyword">class </span><a class="code hl_struct" href="classsqlcc_1_1Transaction.html">Transaction</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Transaction.html#ad0bf7aa008503371fd1e41f1cf761aae">   10</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1Transaction.html#ad0bf7aa008503371fd1e41f1cf761aae">~Transaction</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Transaction.html#a5ceb5ba9b75a8401a9a5f63f2b6f1278">   12</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1Transaction.html#a5ceb5ba9b75a8401a9a5f63f2b6f1278">Begin</a>() = 0;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Transaction.html#a5e32405bdefaaa6a8c5bc7fc5c77f698">   13</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1Transaction.html#a5e32405bdefaaa6a8c5bc7fc5c77f698">Commit</a>() = 0;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Transaction.html#aa8596d5c9338a761864085a73fb3038f">   14</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1Transaction.html#aa8596d5c9338a761864085a73fb3038f">Rollback</a>() = 0;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Transaction.html#a1f9b36a13b64c8a20805ef0a600efbff">   15</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1Transaction.html#a1f9b36a13b64c8a20805ef0a600efbff">IsActive</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classsqlcc_1_1Transaction.html#abf52caf26520531ed3d0bdb190a8e429">   16</a></span>    <span class="keyword">virtual</span> std::string <a class="code hl_function" href="classsqlcc_1_1Transaction.html#abf52caf26520531ed3d0bdb190a8e429">GetId</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>};</div>
+</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="foldopen" id="foldopen00019" data-start="{" data-end="};">
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classsqlcc_1_1TransactionFactory.html">   19</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1TransactionFactory.html">TransactionFactory</a> {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classsqlcc_1_1TransactionFactory.html#a3214f730a47702a33ec9a497639d728a">   21</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1TransactionFactory.html#a3214f730a47702a33ec9a497639d728a">~TransactionFactory</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classsqlcc_1_1TransactionFactory.html#a0d4d3543e16f1925c51ea913e4abac31">   22</a></span>    <span class="keyword">virtual</span> std::unique_ptr&lt;Transaction&gt; <a class="code hl_function" href="classsqlcc_1_1TransactionFactory.html#a0d4d3543e16f1925c51ea913e4abac31">CreateTransaction</a>() = 0;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>};</div>
+</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1TransactionFactory_html"><div class="ttname"><a href="classsqlcc_1_1TransactionFactory.html">sqlcc::TransactionFactory</a></div><div class="ttdef"><b>Definition</b> transaction.h:19</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TransactionFactory_html_a0d4d3543e16f1925c51ea913e4abac31"><div class="ttname"><a href="classsqlcc_1_1TransactionFactory.html#a0d4d3543e16f1925c51ea913e4abac31">sqlcc::TransactionFactory::CreateTransaction</a></div><div class="ttdeci">virtual std::unique_ptr&lt; Transaction &gt; CreateTransaction()=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1TransactionFactory_html_a3214f730a47702a33ec9a497639d728a"><div class="ttname"><a href="classsqlcc_1_1TransactionFactory.html#a3214f730a47702a33ec9a497639d728a">sqlcc::TransactionFactory::~TransactionFactory</a></div><div class="ttdeci">virtual ~TransactionFactory()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Transaction_html"><div class="ttname"><a href="classsqlcc_1_1Transaction.html">sqlcc::Transaction</a></div><div class="ttdoc">事务信息结构体 - 事务元数据的完整描述</div><div class="ttdef"><b>Definition</b> transaction.h:8</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Transaction_html_a1f9b36a13b64c8a20805ef0a600efbff"><div class="ttname"><a href="classsqlcc_1_1Transaction.html#a1f9b36a13b64c8a20805ef0a600efbff">sqlcc::Transaction::IsActive</a></div><div class="ttdeci">virtual bool IsActive() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Transaction_html_a5ceb5ba9b75a8401a9a5f63f2b6f1278"><div class="ttname"><a href="classsqlcc_1_1Transaction.html#a5ceb5ba9b75a8401a9a5f63f2b6f1278">sqlcc::Transaction::Begin</a></div><div class="ttdeci">virtual bool Begin()=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Transaction_html_a5e32405bdefaaa6a8c5bc7fc5c77f698"><div class="ttname"><a href="classsqlcc_1_1Transaction.html#a5e32405bdefaaa6a8c5bc7fc5c77f698">sqlcc::Transaction::Commit</a></div><div class="ttdeci">virtual bool Commit()=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Transaction_html_aa8596d5c9338a761864085a73fb3038f"><div class="ttname"><a href="classsqlcc_1_1Transaction.html#aa8596d5c9338a761864085a73fb3038f">sqlcc::Transaction::Rollback</a></div><div class="ttdeci">virtual bool Rollback()=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Transaction_html_abf52caf26520531ed3d0bdb190a8e429"><div class="ttname"><a href="classsqlcc_1_1Transaction.html#abf52caf26520531ed3d0bdb190a8e429">sqlcc::Transaction::GetId</a></div><div class="ttdeci">virtual std::string GetId() const =0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Transaction_html_ad0bf7aa008503371fd1e41f1cf761aae"><div class="ttname"><a href="classsqlcc_1_1Transaction.html#ad0bf7aa008503371fd1e41f1cf761aae">sqlcc::Transaction::~Transaction</a></div><div class="ttdeci">virtual ~Transaction()=default</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,2632 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::CacheConsistencyManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html">CacheConsistencyManager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1CacheConsistencyManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::CacheConsistencyManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="storage_2cache__consistency__manager_8h_source.html">cache_consistency_manager.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::CacheConsistencyManager 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1CacheConsistencyManager__coll__graph.png" border="0" usemap="#asqlcc_1_1CacheConsistencyManager_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1CacheConsistencyManager_coll__map" id="asqlcc_1_1CacheConsistencyManager_coll__map">
+<area shape="rect" title=" " alt="" coords="5,108,244,133"/>
+<area shape="rect" href="structsqlcc_1_1CacheConsistencyManager_1_1ConsistencyStats.html" title=" " alt="" coords="5,5,244,45"/>
+<area shape="poly" title=" " alt="" coords="127,59,127,108,122,108,122,59"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1CacheConsistencyManager_1_1ConsistencyStats.html">ConsistencyStats</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1CacheConsistencyManager_1_1PageLock.html">PageLock</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a1ccd1c338414dc5e627d7b47177982c7" id="r_a1ccd1c338414dc5e627d7b47177982c7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a1ccd1c338414dc5e627d7b47177982c7">ConsistencyViolationCallback</a> = std::function&lt; void(int32_t page_id, <a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>)&gt;</td></tr>
+<tr class="separator:a1ccd1c338414dc5e627d7b47177982c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b36fd0e1d66cb66bdc1343a6d14a16e" id="r_a0b36fd0e1d66cb66bdc1343a6d14a16e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a0b36fd0e1d66cb66bdc1343a6d14a16e">PageInvalidationCallback</a> = std::function&lt; void(int32_t page_id)&gt;</td></tr>
+<tr class="separator:a0b36fd0e1d66cb66bdc1343a6d14a16e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac81cecfa713692295573602337c96c4e" id="r_ac81cecfa713692295573602337c96c4e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac81cecfa713692295573602337c96c4e">VersionUpdateCallback</a> = std::function&lt; void(int32_t page_id, uint64_t old_version, uint64_t new_version)&gt;</td></tr>
+<tr class="separator:ac81cecfa713692295573602337c96c4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ccd1c338414dc5e627d7b47177982c7" id="r_a1ccd1c338414dc5e627d7b47177982c7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a1ccd1c338414dc5e627d7b47177982c7">ConsistencyViolationCallback</a> = std::function&lt; void(int32_t page_id, <a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>)&gt;</td></tr>
+<tr class="separator:a1ccd1c338414dc5e627d7b47177982c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b36fd0e1d66cb66bdc1343a6d14a16e" id="r_a0b36fd0e1d66cb66bdc1343a6d14a16e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a0b36fd0e1d66cb66bdc1343a6d14a16e">PageInvalidationCallback</a> = std::function&lt; void(int32_t page_id)&gt;</td></tr>
+<tr class="separator:a0b36fd0e1d66cb66bdc1343a6d14a16e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac81cecfa713692295573602337c96c4e" id="r_ac81cecfa713692295573602337c96c4e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac81cecfa713692295573602337c96c4e">VersionUpdateCallback</a> = std::function&lt; void(int32_t page_id, uint64_t old_version, uint64_t new_version)&gt;</td></tr>
+<tr class="separator:ac81cecfa713692295573602337c96c4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a9ccc3e21aa5db12f89e51d57dd5b4d3c" id="r_a9ccc3e21aa5db12f89e51d57dd5b4d3c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a9ccc3e21aa5db12f89e51d57dd5b4d3c">CacheConsistencyManager</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1BufferPoolSharded.html">BufferPoolSharded</a> &gt; buffer_pool, <a class="el" href="namespacesqlcc.html#a9452f376cb67c815c46256de4be6e5b8">CacheConsistencyStrategy</a> strategy=<a class="el" href="namespacesqlcc.html#a9452f376cb67c815c46256de4be6e5b8a93fdfc6f32477d50ac59b94a41176f00">STRICT_CONSISTENCY</a>)</td></tr>
+<tr class="separator:a9ccc3e21aa5db12f89e51d57dd5b4d3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd96bf89e8f56b00a3537ae38fd641cb" id="r_afd96bf89e8f56b00a3537ae38fd641cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#afd96bf89e8f56b00a3537ae38fd641cb">~CacheConsistencyManager</a> ()=default</td></tr>
+<tr class="separator:afd96bf89e8f56b00a3537ae38fd641cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a673b2e40a39079f75b84ca740c4a6156" id="r_a673b2e40a39079f75b84ca740c4a6156"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a673b2e40a39079f75b84ca740c4a6156">CheckReadConsistency</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="separator:a673b2e40a39079f75b84ca740c4a6156"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac777ce20527cd3e26bbdceeb6d8cd85d" id="r_ac777ce20527cd3e26bbdceeb6d8cd85d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac777ce20527cd3e26bbdceeb6d8cd85d">CheckWriteConsistency</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="separator:ac777ce20527cd3e26bbdceeb6d8cd85d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af599d694997e1ece4ae21c47d1a664f5" id="r_af599d694997e1ece4ae21c47d1a664f5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#af599d694997e1ece4ae21c47d1a664f5">AcquireReadLock</a> (int32_t page_id, int32_t transaction_id, std::chrono::milliseconds timeout)</td></tr>
+<tr class="separator:af599d694997e1ece4ae21c47d1a664f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac584e9b49d6acb47b6a4d3540fd90f8e" id="r_ac584e9b49d6acb47b6a4d3540fd90f8e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac584e9b49d6acb47b6a4d3540fd90f8e">AcquireWriteLock</a> (int32_t page_id, int32_t transaction_id, std::chrono::milliseconds timeout)</td></tr>
+<tr class="separator:ac584e9b49d6acb47b6a4d3540fd90f8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98d6f7a85a2b003e41359c810309d885" id="r_a98d6f7a85a2b003e41359c810309d885"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a98d6f7a85a2b003e41359c810309d885">ReleaseReadLock</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="separator:a98d6f7a85a2b003e41359c810309d885"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f8d9f8b891f91719b861f8c06ffe074" id="r_a7f8d9f8b891f91719b861f8c06ffe074"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a7f8d9f8b891f91719b861f8c06ffe074">ReleaseWriteLock</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="separator:a7f8d9f8b891f91719b861f8c06ffe074"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4a0b38c6ab8860b16b6d71a6f846632" id="r_aa4a0b38c6ab8860b16b6d71a6f846632"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#aa4a0b38c6ab8860b16b6d71a6f846632">GetPageVersion</a> (int32_t page_id) const</td></tr>
+<tr class="separator:aa4a0b38c6ab8860b16b6d71a6f846632"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc11bbb10dc4299b9cb26800db8654e5" id="r_afc11bbb10dc4299b9cb26800db8654e5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#afc11bbb10dc4299b9cb26800db8654e5">UpdatePageVersion</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="separator:afc11bbb10dc4299b9cb26800db8654e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5025abb0283c000303a3984fa005108" id="r_aa5025abb0283c000303a3984fa005108"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#aa5025abb0283c000303a3984fa005108">ValidatePageVersion</a> (int32_t page_id, uint64_t expected_version) const</td></tr>
+<tr class="separator:aa5025abb0283c000303a3984fa005108"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89ba79548d54f121922a84db91599db1" id="r_a89ba79548d54f121922a84db91599db1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a89ba79548d54f121922a84db91599db1">MarkPageDirty</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="separator:a89ba79548d54f121922a84db91599db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71493407d7ee32c0c624d048ca45b7f6" id="r_a71493407d7ee32c0c624d048ca45b7f6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a71493407d7ee32c0c624d048ca45b7f6">IsPageDirty</a> (int32_t page_id) const</td></tr>
+<tr class="separator:a71493407d7ee32c0c624d048ca45b7f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9228ccc16fd59ce8bd206f4a3cb5e5d0" id="r_a9228ccc16fd59ce8bd206f4a3cb5e5d0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a9228ccc16fd59ce8bd206f4a3cb5e5d0">GetDirtyPages</a> () const</td></tr>
+<tr class="separator:a9228ccc16fd59ce8bd206f4a3cb5e5d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace6ed4f3127b79a40e361e92c1b2c12c" id="r_ace6ed4f3127b79a40e361e92c1b2c12c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ace6ed4f3127b79a40e361e92c1b2c12c">FlushDirtyPage</a> (int32_t page_id)</td></tr>
+<tr class="separator:ace6ed4f3127b79a40e361e92c1b2c12c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae207c65c9a42c958d8e3c3b76eb84ee8" id="r_ae207c65c9a42c958d8e3c3b76eb84ee8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ae207c65c9a42c958d8e3c3b76eb84ee8">InvalidatePage</a> (int32_t page_id)</td></tr>
+<tr class="separator:ae207c65c9a42c958d8e3c3b76eb84ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a1fb33563f4f1319132a942a833f78d" id="r_a8a1fb33563f4f1319132a942a833f78d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a8a1fb33563f4f1319132a942a833f78d">InvalidateAllPages</a> ()</td></tr>
+<tr class="separator:a8a1fb33563f4f1319132a942a833f78d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebccfde989a28d63f10113399ff97f89" id="r_aebccfde989a28d63f10113399ff97f89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#aebccfde989a28d63f10113399ff97f89">PropagatePageUpdate</a> (int32_t page_id, uint64_t new_version)</td></tr>
+<tr class="separator:aebccfde989a28d63f10113399ff97f89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2300935ba641570927fd74b086c173f6" id="r_a2300935ba641570927fd74b086c173f6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a2300935ba641570927fd74b086c173f6">GetStalePages</a> (std::chrono::milliseconds max_age) const</td></tr>
+<tr class="separator:a2300935ba641570927fd74b086c173f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d1fe39baefcf53164e8d2e908175043" id="r_a8d1fe39baefcf53164e8d2e908175043"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a8d1fe39baefcf53164e8d2e908175043">PerformConsistencyCheck</a> (int32_t page_id)</td></tr>
+<tr class="separator:a8d1fe39baefcf53164e8d2e908175043"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdce74cb3a1eaaa80287f2a1cd54821b" id="r_acdce74cb3a1eaaa80287f2a1cd54821b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#acdce74cb3a1eaaa80287f2a1cd54821b">RepairConsistency</a> (int32_t page_id)</td></tr>
+<tr class="separator:acdce74cb3a1eaaa80287f2a1cd54821b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a542194e12d7bad8be146551e36c077b7" id="r_a542194e12d7bad8be146551e36c077b7"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, <a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a542194e12d7bad8be146551e36c077b7">CheckAllPagesConsistency</a> ()</td></tr>
+<tr class="separator:a542194e12d7bad8be146551e36c077b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86a4528ebff8a2cc40d12996756d16db" id="r_a86a4528ebff8a2cc40d12996756d16db"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1CacheConsistencyManager_1_1ConsistencyStats.html">ConsistencyStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a86a4528ebff8a2cc40d12996756d16db">GetConsistencyStats</a> () const</td></tr>
+<tr class="separator:a86a4528ebff8a2cc40d12996756d16db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d4d53f51a5657dd45883dc10d74f8aa" id="r_a4d4d53f51a5657dd45883dc10d74f8aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a4d4d53f51a5657dd45883dc10d74f8aa">SetConsistencyStrategy</a> (<a class="el" href="namespacesqlcc.html#a9452f376cb67c815c46256de4be6e5b8">CacheConsistencyStrategy</a> strategy)</td></tr>
+<tr class="separator:a4d4d53f51a5657dd45883dc10d74f8aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab741f0ef387f961add88abd89e78862f" id="r_ab741f0ef387f961add88abd89e78862f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ab741f0ef387f961add88abd89e78862f">SetLockTimeout</a> (std::chrono::milliseconds timeout)</td></tr>
+<tr class="separator:ab741f0ef387f961add88abd89e78862f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2464c509c40b34039096580bbcbf5a68" id="r_a2464c509c40b34039096580bbcbf5a68"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a2464c509c40b34039096580bbcbf5a68">SetVersionCheckEnabled</a> (bool enabled)</td></tr>
+<tr class="separator:a2464c509c40b34039096580bbcbf5a68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5961ccc9a054dc4451a9a79853dba3bc" id="r_a5961ccc9a054dc4451a9a79853dba3bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a5961ccc9a054dc4451a9a79853dba3bc">SetAutoRepairEnabled</a> (bool enabled)</td></tr>
+<tr class="separator:a5961ccc9a054dc4451a9a79853dba3bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8026aaefc180038ee1ff44d335fae403" id="r_a8026aaefc180038ee1ff44d335fae403"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a8026aaefc180038ee1ff44d335fae403">SetConsistencyViolationCallback</a> (<a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a1ccd1c338414dc5e627d7b47177982c7">ConsistencyViolationCallback</a> callback)</td></tr>
+<tr class="separator:a8026aaefc180038ee1ff44d335fae403"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a708d7a6cfbde5f00206de303afedd223" id="r_a708d7a6cfbde5f00206de303afedd223"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a708d7a6cfbde5f00206de303afedd223">SetPageInvalidationCallback</a> (<a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a0b36fd0e1d66cb66bdc1343a6d14a16e">PageInvalidationCallback</a> callback)</td></tr>
+<tr class="separator:a708d7a6cfbde5f00206de303afedd223"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa55f538d2a217e7121e6faf599438b80" id="r_aa55f538d2a217e7121e6faf599438b80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#aa55f538d2a217e7121e6faf599438b80">SetVersionUpdateCallback</a> (<a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac81cecfa713692295573602337c96c4e">VersionUpdateCallback</a> callback)</td></tr>
+<tr class="separator:aa55f538d2a217e7121e6faf599438b80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ccc3e21aa5db12f89e51d57dd5b4d3c" id="r_a9ccc3e21aa5db12f89e51d57dd5b4d3c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a9ccc3e21aa5db12f89e51d57dd5b4d3c">CacheConsistencyManager</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1BufferPoolSharded.html">BufferPoolSharded</a> &gt; buffer_pool, <a class="el" href="namespacesqlcc.html#a9452f376cb67c815c46256de4be6e5b8">CacheConsistencyStrategy</a> strategy=<a class="el" href="namespacesqlcc.html#a9452f376cb67c815c46256de4be6e5b8a93fdfc6f32477d50ac59b94a41176f00">STRICT_CONSISTENCY</a>)</td></tr>
+<tr class="separator:a9ccc3e21aa5db12f89e51d57dd5b4d3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd96bf89e8f56b00a3537ae38fd641cb" id="r_afd96bf89e8f56b00a3537ae38fd641cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#afd96bf89e8f56b00a3537ae38fd641cb">~CacheConsistencyManager</a> ()=default</td></tr>
+<tr class="separator:afd96bf89e8f56b00a3537ae38fd641cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a673b2e40a39079f75b84ca740c4a6156" id="r_a673b2e40a39079f75b84ca740c4a6156"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a673b2e40a39079f75b84ca740c4a6156">CheckReadConsistency</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="separator:a673b2e40a39079f75b84ca740c4a6156"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac777ce20527cd3e26bbdceeb6d8cd85d" id="r_ac777ce20527cd3e26bbdceeb6d8cd85d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac777ce20527cd3e26bbdceeb6d8cd85d">CheckWriteConsistency</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="separator:ac777ce20527cd3e26bbdceeb6d8cd85d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af599d694997e1ece4ae21c47d1a664f5" id="r_af599d694997e1ece4ae21c47d1a664f5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#af599d694997e1ece4ae21c47d1a664f5">AcquireReadLock</a> (int32_t page_id, int32_t transaction_id, std::chrono::milliseconds timeout)</td></tr>
+<tr class="separator:af599d694997e1ece4ae21c47d1a664f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac584e9b49d6acb47b6a4d3540fd90f8e" id="r_ac584e9b49d6acb47b6a4d3540fd90f8e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac584e9b49d6acb47b6a4d3540fd90f8e">AcquireWriteLock</a> (int32_t page_id, int32_t transaction_id, std::chrono::milliseconds timeout)</td></tr>
+<tr class="separator:ac584e9b49d6acb47b6a4d3540fd90f8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98d6f7a85a2b003e41359c810309d885" id="r_a98d6f7a85a2b003e41359c810309d885"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a98d6f7a85a2b003e41359c810309d885">ReleaseReadLock</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="separator:a98d6f7a85a2b003e41359c810309d885"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f8d9f8b891f91719b861f8c06ffe074" id="r_a7f8d9f8b891f91719b861f8c06ffe074"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a7f8d9f8b891f91719b861f8c06ffe074">ReleaseWriteLock</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="separator:a7f8d9f8b891f91719b861f8c06ffe074"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4a0b38c6ab8860b16b6d71a6f846632" id="r_aa4a0b38c6ab8860b16b6d71a6f846632"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#aa4a0b38c6ab8860b16b6d71a6f846632">GetPageVersion</a> (int32_t page_id) const</td></tr>
+<tr class="separator:aa4a0b38c6ab8860b16b6d71a6f846632"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc11bbb10dc4299b9cb26800db8654e5" id="r_afc11bbb10dc4299b9cb26800db8654e5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#afc11bbb10dc4299b9cb26800db8654e5">UpdatePageVersion</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="separator:afc11bbb10dc4299b9cb26800db8654e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5025abb0283c000303a3984fa005108" id="r_aa5025abb0283c000303a3984fa005108"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#aa5025abb0283c000303a3984fa005108">ValidatePageVersion</a> (int32_t page_id, uint64_t expected_version) const</td></tr>
+<tr class="separator:aa5025abb0283c000303a3984fa005108"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89ba79548d54f121922a84db91599db1" id="r_a89ba79548d54f121922a84db91599db1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a89ba79548d54f121922a84db91599db1">MarkPageDirty</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="separator:a89ba79548d54f121922a84db91599db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71493407d7ee32c0c624d048ca45b7f6" id="r_a71493407d7ee32c0c624d048ca45b7f6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a71493407d7ee32c0c624d048ca45b7f6">IsPageDirty</a> (int32_t page_id) const</td></tr>
+<tr class="separator:a71493407d7ee32c0c624d048ca45b7f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9228ccc16fd59ce8bd206f4a3cb5e5d0" id="r_a9228ccc16fd59ce8bd206f4a3cb5e5d0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a9228ccc16fd59ce8bd206f4a3cb5e5d0">GetDirtyPages</a> () const</td></tr>
+<tr class="separator:a9228ccc16fd59ce8bd206f4a3cb5e5d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace6ed4f3127b79a40e361e92c1b2c12c" id="r_ace6ed4f3127b79a40e361e92c1b2c12c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ace6ed4f3127b79a40e361e92c1b2c12c">FlushDirtyPage</a> (int32_t page_id)</td></tr>
+<tr class="separator:ace6ed4f3127b79a40e361e92c1b2c12c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae207c65c9a42c958d8e3c3b76eb84ee8" id="r_ae207c65c9a42c958d8e3c3b76eb84ee8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ae207c65c9a42c958d8e3c3b76eb84ee8">InvalidatePage</a> (int32_t page_id)</td></tr>
+<tr class="separator:ae207c65c9a42c958d8e3c3b76eb84ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a1fb33563f4f1319132a942a833f78d" id="r_a8a1fb33563f4f1319132a942a833f78d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a8a1fb33563f4f1319132a942a833f78d">InvalidateAllPages</a> ()</td></tr>
+<tr class="separator:a8a1fb33563f4f1319132a942a833f78d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebccfde989a28d63f10113399ff97f89" id="r_aebccfde989a28d63f10113399ff97f89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#aebccfde989a28d63f10113399ff97f89">PropagatePageUpdate</a> (int32_t page_id, uint64_t new_version)</td></tr>
+<tr class="separator:aebccfde989a28d63f10113399ff97f89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2300935ba641570927fd74b086c173f6" id="r_a2300935ba641570927fd74b086c173f6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a2300935ba641570927fd74b086c173f6">GetStalePages</a> (std::chrono::milliseconds max_age) const</td></tr>
+<tr class="separator:a2300935ba641570927fd74b086c173f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d1fe39baefcf53164e8d2e908175043" id="r_a8d1fe39baefcf53164e8d2e908175043"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a8d1fe39baefcf53164e8d2e908175043">PerformConsistencyCheck</a> (int32_t page_id)</td></tr>
+<tr class="separator:a8d1fe39baefcf53164e8d2e908175043"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdce74cb3a1eaaa80287f2a1cd54821b" id="r_acdce74cb3a1eaaa80287f2a1cd54821b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#acdce74cb3a1eaaa80287f2a1cd54821b">RepairConsistency</a> (int32_t page_id)</td></tr>
+<tr class="separator:acdce74cb3a1eaaa80287f2a1cd54821b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a542194e12d7bad8be146551e36c077b7" id="r_a542194e12d7bad8be146551e36c077b7"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, <a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a542194e12d7bad8be146551e36c077b7">CheckAllPagesConsistency</a> ()</td></tr>
+<tr class="separator:a542194e12d7bad8be146551e36c077b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39480842c1e555fca6abbe444b7937b7" id="r_a39480842c1e555fca6abbe444b7937b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1CacheConsistencyManager_1_1ConsistencyStats.html">ConsistencyStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a39480842c1e555fca6abbe444b7937b7">GetConsistencyStats</a> () const</td></tr>
+<tr class="separator:a39480842c1e555fca6abbe444b7937b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d4d53f51a5657dd45883dc10d74f8aa" id="r_a4d4d53f51a5657dd45883dc10d74f8aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a4d4d53f51a5657dd45883dc10d74f8aa">SetConsistencyStrategy</a> (<a class="el" href="namespacesqlcc.html#a9452f376cb67c815c46256de4be6e5b8">CacheConsistencyStrategy</a> strategy)</td></tr>
+<tr class="separator:a4d4d53f51a5657dd45883dc10d74f8aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab741f0ef387f961add88abd89e78862f" id="r_ab741f0ef387f961add88abd89e78862f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ab741f0ef387f961add88abd89e78862f">SetLockTimeout</a> (std::chrono::milliseconds timeout)</td></tr>
+<tr class="separator:ab741f0ef387f961add88abd89e78862f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2464c509c40b34039096580bbcbf5a68" id="r_a2464c509c40b34039096580bbcbf5a68"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a2464c509c40b34039096580bbcbf5a68">SetVersionCheckEnabled</a> (bool enabled)</td></tr>
+<tr class="separator:a2464c509c40b34039096580bbcbf5a68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5961ccc9a054dc4451a9a79853dba3bc" id="r_a5961ccc9a054dc4451a9a79853dba3bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a5961ccc9a054dc4451a9a79853dba3bc">SetAutoRepairEnabled</a> (bool enabled)</td></tr>
+<tr class="separator:a5961ccc9a054dc4451a9a79853dba3bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8026aaefc180038ee1ff44d335fae403" id="r_a8026aaefc180038ee1ff44d335fae403"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a8026aaefc180038ee1ff44d335fae403">SetConsistencyViolationCallback</a> (<a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a1ccd1c338414dc5e627d7b47177982c7">ConsistencyViolationCallback</a> callback)</td></tr>
+<tr class="separator:a8026aaefc180038ee1ff44d335fae403"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a708d7a6cfbde5f00206de303afedd223" id="r_a708d7a6cfbde5f00206de303afedd223"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a708d7a6cfbde5f00206de303afedd223">SetPageInvalidationCallback</a> (<a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a0b36fd0e1d66cb66bdc1343a6d14a16e">PageInvalidationCallback</a> callback)</td></tr>
+<tr class="separator:a708d7a6cfbde5f00206de303afedd223"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa55f538d2a217e7121e6faf599438b80" id="r_aa55f538d2a217e7121e6faf599438b80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#aa55f538d2a217e7121e6faf599438b80">SetVersionUpdateCallback</a> (<a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac81cecfa713692295573602337c96c4e">VersionUpdateCallback</a> callback)</td></tr>
+<tr class="separator:aa55f538d2a217e7121e6faf599438b80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a1b7d6b37e23d93fad62eee3f613a6d77" id="r_a1b7d6b37e23d93fad62eee3f613a6d77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1PageVersion.html">PageVersion</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a1b7d6b37e23d93fad62eee3f613a6d77">GetOrCreatePageVersion</a> (int32_t page_id)</td></tr>
+<tr class="separator:a1b7d6b37e23d93fad62eee3f613a6d77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1383ce3596249e8ccaa1d8b6443a7629" id="r_a1383ce3596249e8ccaa1d8b6443a7629"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1CacheConsistencyManager_1_1PageLock.html">PageLock</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a1383ce3596249e8ccaa1d8b6443a7629">GetOrCreatePageLock</a> (int32_t page_id)</td></tr>
+<tr class="separator:a1383ce3596249e8ccaa1d8b6443a7629"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1d20b5245a34e5b37e4329ed87376e2" id="r_ad1d20b5245a34e5b37e4329ed87376e2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ad1d20b5245a34e5b37e4329ed87376e2">TryUpgradeLock</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="separator:ad1d20b5245a34e5b37e4329ed87376e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abefc34cfd5272d9456341d8d3ea9d6ac" id="r_abefc34cfd5272d9456341d8d3ea9d6ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#abefc34cfd5272d9456341d8d3ea9d6ac">UpdateLockWaitTime</a> (std::chrono::milliseconds wait_time)</td></tr>
+<tr class="separator:abefc34cfd5272d9456341d8d3ea9d6ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a279f9db3fd21b47a496b5379b1ee5fdd" id="r_a279f9db3fd21b47a496b5379b1ee5fdd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a279f9db3fd21b47a496b5379b1ee5fdd">CheckConsistencyForStrategy</a> (int32_t page_id, const <a class="el" href="structsqlcc_1_1PageVersion.html">PageVersion</a> &amp;version)</td></tr>
+<tr class="separator:a279f9db3fd21b47a496b5379b1ee5fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf61eb60c100f00924c173b5878f4e22" id="r_adf61eb60c100f00924c173b5878f4e22"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#adf61eb60c100f00924c173b5878f4e22">RepairConsistencyForStrategy</a> (int32_t page_id, <a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> issue)</td></tr>
+<tr class="separator:adf61eb60c100f00924c173b5878f4e22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed32b4c1ae58cb293b0799633b59002e" id="r_aed32b4c1ae58cb293b0799633b59002e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#aed32b4c1ae58cb293b0799633b59002e">NotifyConsistencyViolation</a> (int32_t page_id, <a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> result)</td></tr>
+<tr class="separator:aed32b4c1ae58cb293b0799633b59002e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82c3516acc10ba56c76bfd1a95dd12ce" id="r_a82c3516acc10ba56c76bfd1a95dd12ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a82c3516acc10ba56c76bfd1a95dd12ce">NotifyPageInvalidation</a> (int32_t page_id)</td></tr>
+<tr class="separator:a82c3516acc10ba56c76bfd1a95dd12ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a649b2e061f31e640b45202cba5fcafe7" id="r_a649b2e061f31e640b45202cba5fcafe7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a649b2e061f31e640b45202cba5fcafe7">NotifyVersionUpdate</a> (int32_t page_id, uint64_t old_version, uint64_t new_version)</td></tr>
+<tr class="separator:a649b2e061f31e640b45202cba5fcafe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b7d6b37e23d93fad62eee3f613a6d77" id="r_a1b7d6b37e23d93fad62eee3f613a6d77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1PageVersion.html">PageVersion</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a1b7d6b37e23d93fad62eee3f613a6d77">GetOrCreatePageVersion</a> (int32_t page_id)</td></tr>
+<tr class="separator:a1b7d6b37e23d93fad62eee3f613a6d77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a002b74466aeb74b493b1c363a5438f55" id="r_a002b74466aeb74b493b1c363a5438f55"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1CacheConsistencyManager_1_1PageLock.html">PageLock</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a002b74466aeb74b493b1c363a5438f55">GetOrCreatePageLock</a> (int32_t page_id)</td></tr>
+<tr class="separator:a002b74466aeb74b493b1c363a5438f55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1d20b5245a34e5b37e4329ed87376e2" id="r_ad1d20b5245a34e5b37e4329ed87376e2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ad1d20b5245a34e5b37e4329ed87376e2">TryUpgradeLock</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="separator:ad1d20b5245a34e5b37e4329ed87376e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abefc34cfd5272d9456341d8d3ea9d6ac" id="r_abefc34cfd5272d9456341d8d3ea9d6ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#abefc34cfd5272d9456341d8d3ea9d6ac">UpdateLockWaitTime</a> (std::chrono::milliseconds wait_time)</td></tr>
+<tr class="separator:abefc34cfd5272d9456341d8d3ea9d6ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a279f9db3fd21b47a496b5379b1ee5fdd" id="r_a279f9db3fd21b47a496b5379b1ee5fdd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a279f9db3fd21b47a496b5379b1ee5fdd">CheckConsistencyForStrategy</a> (int32_t page_id, const <a class="el" href="structsqlcc_1_1PageVersion.html">PageVersion</a> &amp;version)</td></tr>
+<tr class="separator:a279f9db3fd21b47a496b5379b1ee5fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf61eb60c100f00924c173b5878f4e22" id="r_adf61eb60c100f00924c173b5878f4e22"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#adf61eb60c100f00924c173b5878f4e22">RepairConsistencyForStrategy</a> (int32_t page_id, <a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> issue)</td></tr>
+<tr class="separator:adf61eb60c100f00924c173b5878f4e22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed32b4c1ae58cb293b0799633b59002e" id="r_aed32b4c1ae58cb293b0799633b59002e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#aed32b4c1ae58cb293b0799633b59002e">NotifyConsistencyViolation</a> (int32_t page_id, <a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> result)</td></tr>
+<tr class="separator:aed32b4c1ae58cb293b0799633b59002e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82c3516acc10ba56c76bfd1a95dd12ce" id="r_a82c3516acc10ba56c76bfd1a95dd12ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a82c3516acc10ba56c76bfd1a95dd12ce">NotifyPageInvalidation</a> (int32_t page_id)</td></tr>
+<tr class="separator:a82c3516acc10ba56c76bfd1a95dd12ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a649b2e061f31e640b45202cba5fcafe7" id="r_a649b2e061f31e640b45202cba5fcafe7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a649b2e061f31e640b45202cba5fcafe7">NotifyVersionUpdate</a> (int32_t page_id, uint64_t old_version, uint64_t new_version)</td></tr>
+<tr class="separator:a649b2e061f31e640b45202cba5fcafe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:ab52481280c3fb9c86bb51bd6e99ae289" id="r_ab52481280c3fb9c86bb51bd6e99ae289"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1BufferPoolSharded.html">BufferPoolSharded</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ab52481280c3fb9c86bb51bd6e99ae289">buffer_pool_</a></td></tr>
+<tr class="separator:ab52481280c3fb9c86bb51bd6e99ae289"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad372613d9fae528b59ddad6095f9479c" id="r_ad372613d9fae528b59ddad6095f9479c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a9452f376cb67c815c46256de4be6e5b8">CacheConsistencyStrategy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ad372613d9fae528b59ddad6095f9479c">strategy_</a></td></tr>
+<tr class="separator:ad372613d9fae528b59ddad6095f9479c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a361bb83958b8a8017310548ee72b2bd7" id="r_a361bb83958b8a8017310548ee72b2bd7"><td class="memItemLeft" align="right" valign="top">std::chrono::milliseconds&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a361bb83958b8a8017310548ee72b2bd7">lock_timeout_</a></td></tr>
+<tr class="separator:a361bb83958b8a8017310548ee72b2bd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96f17bb048db2a1777e15bf4fc4f8754" id="r_a96f17bb048db2a1777e15bf4fc4f8754"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a96f17bb048db2a1777e15bf4fc4f8754">version_check_enabled_</a></td></tr>
+<tr class="separator:a96f17bb048db2a1777e15bf4fc4f8754"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b586b4d7675d5bb38de13f3ff500a29" id="r_a7b586b4d7675d5bb38de13f3ff500a29"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a7b586b4d7675d5bb38de13f3ff500a29">auto_repair_enabled_</a></td></tr>
+<tr class="separator:a7b586b4d7675d5bb38de13f3ff500a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a573c309df66c713c4f3dc32440191136" id="r_a573c309df66c713c4f3dc32440191136"><td class="memItemLeft" align="right" valign="top">std::shared_mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a573c309df66c713c4f3dc32440191136">manager_mutex_</a></td></tr>
+<tr class="separator:a573c309df66c713c4f3dc32440191136"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add246c7fed004c8359fa1ccc819cfb06" id="r_add246c7fed004c8359fa1ccc819cfb06"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, <a class="el" href="structsqlcc_1_1PageVersion.html">PageVersion</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#add246c7fed004c8359fa1ccc819cfb06">page_versions_</a></td></tr>
+<tr class="separator:add246c7fed004c8359fa1ccc819cfb06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4384fb8ca255733d9c89277db5782ee8" id="r_a4384fb8ca255733d9c89277db5782ee8"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, <a class="el" href="structsqlcc_1_1CacheConsistencyManager_1_1PageLock.html">PageLock</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a4384fb8ca255733d9c89277db5782ee8">page_locks_</a></td></tr>
+<tr class="separator:a4384fb8ca255733d9c89277db5782ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6f6322f66292cf6ecf85f7dbdd45a54" id="r_aa6f6322f66292cf6ecf85f7dbdd45a54"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#aa6f6322f66292cf6ecf85f7dbdd45a54">stats_mutex_</a></td></tr>
+<tr class="separator:aa6f6322f66292cf6ecf85f7dbdd45a54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1caf827201a6ba72feefcc60194183b3" id="r_a1caf827201a6ba72feefcc60194183b3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1CacheConsistencyManager_1_1ConsistencyStats.html">ConsistencyStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a1caf827201a6ba72feefcc60194183b3">stats_</a></td></tr>
+<tr class="separator:a1caf827201a6ba72feefcc60194183b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27cd551da0ef1f97e437323d039b050a" id="r_a27cd551da0ef1f97e437323d039b050a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a27cd551da0ef1f97e437323d039b050a">lock_wait_times_</a></td></tr>
+<tr class="separator:a27cd551da0ef1f97e437323d039b050a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92a1c06796c0e5517fe74b380866a7c0" id="r_a92a1c06796c0e5517fe74b380866a7c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a1ccd1c338414dc5e627d7b47177982c7">ConsistencyViolationCallback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a92a1c06796c0e5517fe74b380866a7c0">violation_callback_</a></td></tr>
+<tr class="separator:a92a1c06796c0e5517fe74b380866a7c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6759eb77860d19a3da92394ca8d355d4" id="r_a6759eb77860d19a3da92394ca8d355d4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a0b36fd0e1d66cb66bdc1343a6d14a16e">PageInvalidationCallback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a6759eb77860d19a3da92394ca8d355d4">invalidation_callback_</a></td></tr>
+<tr class="separator:a6759eb77860d19a3da92394ca8d355d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41c4ef3733e8d0484e7385eb67d75c97" id="r_a41c4ef3733e8d0484e7385eb67d75c97"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac81cecfa713692295573602337c96c4e">VersionUpdateCallback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a41c4ef3733e8d0484e7385eb67d75c97">version_callback_</a></td></tr>
+<tr class="separator:a41c4ef3733e8d0484e7385eb67d75c97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">成员类型定义说明</h2>
+<a id="a1ccd1c338414dc5e627d7b47177982c7" name="a1ccd1c338414dc5e627d7b47177982c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ccd1c338414dc5e627d7b47177982c7">&#9670;&#160;</a></span>ConsistencyViolationCallback <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a1ccd1c338414dc5e627d7b47177982c7">sqlcc::CacheConsistencyManager::ConsistencyViolationCallback</a> =  std::function&lt;void(int32_t page_id, <a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1ccd1c338414dc5e627d7b47177982c7" name="a1ccd1c338414dc5e627d7b47177982c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ccd1c338414dc5e627d7b47177982c7">&#9670;&#160;</a></span>ConsistencyViolationCallback <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a1ccd1c338414dc5e627d7b47177982c7">sqlcc::CacheConsistencyManager::ConsistencyViolationCallback</a> =  std::function&lt;void(int32_t page_id, <a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0b36fd0e1d66cb66bdc1343a6d14a16e" name="a0b36fd0e1d66cb66bdc1343a6d14a16e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b36fd0e1d66cb66bdc1343a6d14a16e">&#9670;&#160;</a></span>PageInvalidationCallback <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a0b36fd0e1d66cb66bdc1343a6d14a16e">sqlcc::CacheConsistencyManager::PageInvalidationCallback</a> =  std::function&lt;void(int32_t page_id)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0b36fd0e1d66cb66bdc1343a6d14a16e" name="a0b36fd0e1d66cb66bdc1343a6d14a16e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b36fd0e1d66cb66bdc1343a6d14a16e">&#9670;&#160;</a></span>PageInvalidationCallback <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a0b36fd0e1d66cb66bdc1343a6d14a16e">sqlcc::CacheConsistencyManager::PageInvalidationCallback</a> =  std::function&lt;void(int32_t page_id)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac81cecfa713692295573602337c96c4e" name="ac81cecfa713692295573602337c96c4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac81cecfa713692295573602337c96c4e">&#9670;&#160;</a></span>VersionUpdateCallback <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac81cecfa713692295573602337c96c4e">sqlcc::CacheConsistencyManager::VersionUpdateCallback</a> =  std::function&lt;void(int32_t page_id, uint64_t old_version, uint64_t new_version)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac81cecfa713692295573602337c96c4e" name="ac81cecfa713692295573602337c96c4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac81cecfa713692295573602337c96c4e">&#9670;&#160;</a></span>VersionUpdateCallback <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac81cecfa713692295573602337c96c4e">sqlcc::CacheConsistencyManager::VersionUpdateCallback</a> =  std::function&lt;void(int32_t page_id, uint64_t old_version, uint64_t new_version)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a9ccc3e21aa5db12f89e51d57dd5b4d3c" name="a9ccc3e21aa5db12f89e51d57dd5b4d3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ccc3e21aa5db12f89e51d57dd5b4d3c">&#9670;&#160;</a></span>CacheConsistencyManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::CacheConsistencyManager::CacheConsistencyManager </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1BufferPoolSharded.html">BufferPoolSharded</a> &gt;&#160;</td>
+          <td class="paramname"><em>buffer_pool</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a9452f376cb67c815c46256de4be6e5b8">CacheConsistencyStrategy</a>&#160;</td>
+          <td class="paramname"><em>strategy</em> = <code><a class="el" href="namespacesqlcc.html#a9452f376cb67c815c46256de4be6e5b8a93fdfc6f32477d50ac59b94a41176f00">STRICT_CONSISTENCY</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afd96bf89e8f56b00a3537ae38fd641cb" name="afd96bf89e8f56b00a3537ae38fd641cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd96bf89e8f56b00a3537ae38fd641cb">&#9670;&#160;</a></span>~CacheConsistencyManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::CacheConsistencyManager::~CacheConsistencyManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9ccc3e21aa5db12f89e51d57dd5b4d3c" name="a9ccc3e21aa5db12f89e51d57dd5b4d3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ccc3e21aa5db12f89e51d57dd5b4d3c">&#9670;&#160;</a></span>CacheConsistencyManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::CacheConsistencyManager::CacheConsistencyManager </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1BufferPoolSharded.html">BufferPoolSharded</a> &gt;&#160;</td>
+          <td class="paramname"><em>buffer_pool</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a9452f376cb67c815c46256de4be6e5b8">CacheConsistencyStrategy</a>&#160;</td>
+          <td class="paramname"><em>strategy</em> = <code><a class="el" href="namespacesqlcc.html#a9452f376cb67c815c46256de4be6e5b8a93fdfc6f32477d50ac59b94a41176f00">STRICT_CONSISTENCY</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afd96bf89e8f56b00a3537ae38fd641cb" name="afd96bf89e8f56b00a3537ae38fd641cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd96bf89e8f56b00a3537ae38fd641cb">&#9670;&#160;</a></span>~CacheConsistencyManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::CacheConsistencyManager::~CacheConsistencyManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="af599d694997e1ece4ae21c47d1a664f5" name="af599d694997e1ece4ae21c47d1a664f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af599d694997e1ece4ae21c47d1a664f5">&#9670;&#160;</a></span>AcquireReadLock() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::AcquireReadLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af599d694997e1ece4ae21c47d1a664f5" name="af599d694997e1ece4ae21c47d1a664f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af599d694997e1ece4ae21c47d1a664f5">&#9670;&#160;</a></span>AcquireReadLock() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::AcquireReadLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac584e9b49d6acb47b6a4d3540fd90f8e" name="ac584e9b49d6acb47b6a4d3540fd90f8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac584e9b49d6acb47b6a4d3540fd90f8e">&#9670;&#160;</a></span>AcquireWriteLock() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::AcquireWriteLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac584e9b49d6acb47b6a4d3540fd90f8e" name="ac584e9b49d6acb47b6a4d3540fd90f8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac584e9b49d6acb47b6a4d3540fd90f8e">&#9670;&#160;</a></span>AcquireWriteLock() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::AcquireWriteLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a542194e12d7bad8be146551e36c077b7" name="a542194e12d7bad8be146551e36c077b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a542194e12d7bad8be146551e36c077b7">&#9670;&#160;</a></span>CheckAllPagesConsistency() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; int32_t, <a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> &gt; sqlcc::CacheConsistencyManager::CheckAllPagesConsistency </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a542194e12d7bad8be146551e36c077b7" name="a542194e12d7bad8be146551e36c077b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a542194e12d7bad8be146551e36c077b7">&#9670;&#160;</a></span>CheckAllPagesConsistency() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; int32_t, <a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> &gt; sqlcc::CacheConsistencyManager::CheckAllPagesConsistency </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a279f9db3fd21b47a496b5379b1ee5fdd" name="a279f9db3fd21b47a496b5379b1ee5fdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a279f9db3fd21b47a496b5379b1ee5fdd">&#9670;&#160;</a></span>CheckConsistencyForStrategy() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> sqlcc::CacheConsistencyManager::CheckConsistencyForStrategy </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1PageVersion.html">PageVersion</a> &amp;&#160;</td>
+          <td class="paramname"><em>version</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a279f9db3fd21b47a496b5379b1ee5fdd" name="a279f9db3fd21b47a496b5379b1ee5fdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a279f9db3fd21b47a496b5379b1ee5fdd">&#9670;&#160;</a></span>CheckConsistencyForStrategy() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> sqlcc::CacheConsistencyManager::CheckConsistencyForStrategy </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1PageVersion.html">PageVersion</a> &amp;&#160;</td>
+          <td class="paramname"><em>version</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a673b2e40a39079f75b84ca740c4a6156" name="a673b2e40a39079f75b84ca740c4a6156"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a673b2e40a39079f75b84ca740c4a6156">&#9670;&#160;</a></span>CheckReadConsistency() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> sqlcc::CacheConsistencyManager::CheckReadConsistency </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a673b2e40a39079f75b84ca740c4a6156" name="a673b2e40a39079f75b84ca740c4a6156"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a673b2e40a39079f75b84ca740c4a6156">&#9670;&#160;</a></span>CheckReadConsistency() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> sqlcc::CacheConsistencyManager::CheckReadConsistency </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac777ce20527cd3e26bbdceeb6d8cd85d" name="ac777ce20527cd3e26bbdceeb6d8cd85d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac777ce20527cd3e26bbdceeb6d8cd85d">&#9670;&#160;</a></span>CheckWriteConsistency() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> sqlcc::CacheConsistencyManager::CheckWriteConsistency </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac777ce20527cd3e26bbdceeb6d8cd85d" name="ac777ce20527cd3e26bbdceeb6d8cd85d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac777ce20527cd3e26bbdceeb6d8cd85d">&#9670;&#160;</a></span>CheckWriteConsistency() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> sqlcc::CacheConsistencyManager::CheckWriteConsistency </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ace6ed4f3127b79a40e361e92c1b2c12c" name="ace6ed4f3127b79a40e361e92c1b2c12c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace6ed4f3127b79a40e361e92c1b2c12c">&#9670;&#160;</a></span>FlushDirtyPage() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::FlushDirtyPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ace6ed4f3127b79a40e361e92c1b2c12c" name="ace6ed4f3127b79a40e361e92c1b2c12c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace6ed4f3127b79a40e361e92c1b2c12c">&#9670;&#160;</a></span>FlushDirtyPage() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::FlushDirtyPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a86a4528ebff8a2cc40d12996756d16db" name="a86a4528ebff8a2cc40d12996756d16db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86a4528ebff8a2cc40d12996756d16db">&#9670;&#160;</a></span>GetConsistencyStats() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1CacheConsistencyManager_1_1ConsistencyStats.html">CacheConsistencyManager::ConsistencyStats</a> sqlcc::CacheConsistencyManager::GetConsistencyStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a39480842c1e555fca6abbe444b7937b7" name="a39480842c1e555fca6abbe444b7937b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39480842c1e555fca6abbe444b7937b7">&#9670;&#160;</a></span>GetConsistencyStats() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1CacheConsistencyManager_1_1ConsistencyStats.html">ConsistencyStats</a> sqlcc::CacheConsistencyManager::GetConsistencyStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9228ccc16fd59ce8bd206f4a3cb5e5d0" name="a9228ccc16fd59ce8bd206f4a3cb5e5d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9228ccc16fd59ce8bd206f4a3cb5e5d0">&#9670;&#160;</a></span>GetDirtyPages() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; int32_t &gt; sqlcc::CacheConsistencyManager::GetDirtyPages </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9228ccc16fd59ce8bd206f4a3cb5e5d0" name="a9228ccc16fd59ce8bd206f4a3cb5e5d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9228ccc16fd59ce8bd206f4a3cb5e5d0">&#9670;&#160;</a></span>GetDirtyPages() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; int32_t &gt; sqlcc::CacheConsistencyManager::GetDirtyPages </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1383ce3596249e8ccaa1d8b6443a7629" name="a1383ce3596249e8ccaa1d8b6443a7629"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1383ce3596249e8ccaa1d8b6443a7629">&#9670;&#160;</a></span>GetOrCreatePageLock() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1CacheConsistencyManager_1_1PageLock.html">CacheConsistencyManager::PageLock</a> &amp; sqlcc::CacheConsistencyManager::GetOrCreatePageLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a002b74466aeb74b493b1c363a5438f55" name="a002b74466aeb74b493b1c363a5438f55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a002b74466aeb74b493b1c363a5438f55">&#9670;&#160;</a></span>GetOrCreatePageLock() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1CacheConsistencyManager_1_1PageLock.html">PageLock</a> &amp; sqlcc::CacheConsistencyManager::GetOrCreatePageLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1b7d6b37e23d93fad62eee3f613a6d77" name="a1b7d6b37e23d93fad62eee3f613a6d77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b7d6b37e23d93fad62eee3f613a6d77">&#9670;&#160;</a></span>GetOrCreatePageVersion() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1PageVersion.html">PageVersion</a> &amp; sqlcc::CacheConsistencyManager::GetOrCreatePageVersion </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1b7d6b37e23d93fad62eee3f613a6d77" name="a1b7d6b37e23d93fad62eee3f613a6d77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b7d6b37e23d93fad62eee3f613a6d77">&#9670;&#160;</a></span>GetOrCreatePageVersion() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1PageVersion.html">PageVersion</a> &amp; sqlcc::CacheConsistencyManager::GetOrCreatePageVersion </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa4a0b38c6ab8860b16b6d71a6f846632" name="aa4a0b38c6ab8860b16b6d71a6f846632"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4a0b38c6ab8860b16b6d71a6f846632">&#9670;&#160;</a></span>GetPageVersion() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t sqlcc::CacheConsistencyManager::GetPageVersion </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa4a0b38c6ab8860b16b6d71a6f846632" name="aa4a0b38c6ab8860b16b6d71a6f846632"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4a0b38c6ab8860b16b6d71a6f846632">&#9670;&#160;</a></span>GetPageVersion() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t sqlcc::CacheConsistencyManager::GetPageVersion </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2300935ba641570927fd74b086c173f6" name="a2300935ba641570927fd74b086c173f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2300935ba641570927fd74b086c173f6">&#9670;&#160;</a></span>GetStalePages() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; int32_t &gt; sqlcc::CacheConsistencyManager::GetStalePages </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>max_age</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2300935ba641570927fd74b086c173f6" name="a2300935ba641570927fd74b086c173f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2300935ba641570927fd74b086c173f6">&#9670;&#160;</a></span>GetStalePages() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; int32_t &gt; sqlcc::CacheConsistencyManager::GetStalePages </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>max_age</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8a1fb33563f4f1319132a942a833f78d" name="a8a1fb33563f4f1319132a942a833f78d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a1fb33563f4f1319132a942a833f78d">&#9670;&#160;</a></span>InvalidateAllPages() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::InvalidateAllPages </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8a1fb33563f4f1319132a942a833f78d" name="a8a1fb33563f4f1319132a942a833f78d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a1fb33563f4f1319132a942a833f78d">&#9670;&#160;</a></span>InvalidateAllPages() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::InvalidateAllPages </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae207c65c9a42c958d8e3c3b76eb84ee8" name="ae207c65c9a42c958d8e3c3b76eb84ee8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae207c65c9a42c958d8e3c3b76eb84ee8">&#9670;&#160;</a></span>InvalidatePage() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::InvalidatePage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae207c65c9a42c958d8e3c3b76eb84ee8" name="ae207c65c9a42c958d8e3c3b76eb84ee8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae207c65c9a42c958d8e3c3b76eb84ee8">&#9670;&#160;</a></span>InvalidatePage() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::InvalidatePage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a71493407d7ee32c0c624d048ca45b7f6" name="a71493407d7ee32c0c624d048ca45b7f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71493407d7ee32c0c624d048ca45b7f6">&#9670;&#160;</a></span>IsPageDirty() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::IsPageDirty </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a71493407d7ee32c0c624d048ca45b7f6" name="a71493407d7ee32c0c624d048ca45b7f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71493407d7ee32c0c624d048ca45b7f6">&#9670;&#160;</a></span>IsPageDirty() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::IsPageDirty </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a89ba79548d54f121922a84db91599db1" name="a89ba79548d54f121922a84db91599db1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89ba79548d54f121922a84db91599db1">&#9670;&#160;</a></span>MarkPageDirty() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::MarkPageDirty </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a89ba79548d54f121922a84db91599db1" name="a89ba79548d54f121922a84db91599db1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89ba79548d54f121922a84db91599db1">&#9670;&#160;</a></span>MarkPageDirty() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::MarkPageDirty </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed32b4c1ae58cb293b0799633b59002e" name="aed32b4c1ae58cb293b0799633b59002e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed32b4c1ae58cb293b0799633b59002e">&#9670;&#160;</a></span>NotifyConsistencyViolation() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::NotifyConsistencyViolation </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>&#160;</td>
+          <td class="paramname"><em>result</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed32b4c1ae58cb293b0799633b59002e" name="aed32b4c1ae58cb293b0799633b59002e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed32b4c1ae58cb293b0799633b59002e">&#9670;&#160;</a></span>NotifyConsistencyViolation() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::NotifyConsistencyViolation </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>&#160;</td>
+          <td class="paramname"><em>result</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a82c3516acc10ba56c76bfd1a95dd12ce" name="a82c3516acc10ba56c76bfd1a95dd12ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82c3516acc10ba56c76bfd1a95dd12ce">&#9670;&#160;</a></span>NotifyPageInvalidation() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::NotifyPageInvalidation </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a82c3516acc10ba56c76bfd1a95dd12ce" name="a82c3516acc10ba56c76bfd1a95dd12ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82c3516acc10ba56c76bfd1a95dd12ce">&#9670;&#160;</a></span>NotifyPageInvalidation() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::NotifyPageInvalidation </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a649b2e061f31e640b45202cba5fcafe7" name="a649b2e061f31e640b45202cba5fcafe7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a649b2e061f31e640b45202cba5fcafe7">&#9670;&#160;</a></span>NotifyVersionUpdate() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::NotifyVersionUpdate </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>old_version</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>new_version</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a649b2e061f31e640b45202cba5fcafe7" name="a649b2e061f31e640b45202cba5fcafe7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a649b2e061f31e640b45202cba5fcafe7">&#9670;&#160;</a></span>NotifyVersionUpdate() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::NotifyVersionUpdate </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>old_version</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>new_version</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8d1fe39baefcf53164e8d2e908175043" name="a8d1fe39baefcf53164e8d2e908175043"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d1fe39baefcf53164e8d2e908175043">&#9670;&#160;</a></span>PerformConsistencyCheck() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> sqlcc::CacheConsistencyManager::PerformConsistencyCheck </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8d1fe39baefcf53164e8d2e908175043" name="a8d1fe39baefcf53164e8d2e908175043"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d1fe39baefcf53164e8d2e908175043">&#9670;&#160;</a></span>PerformConsistencyCheck() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a> sqlcc::CacheConsistencyManager::PerformConsistencyCheck </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aebccfde989a28d63f10113399ff97f89" name="aebccfde989a28d63f10113399ff97f89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebccfde989a28d63f10113399ff97f89">&#9670;&#160;</a></span>PropagatePageUpdate() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::PropagatePageUpdate </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>new_version</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aebccfde989a28d63f10113399ff97f89" name="aebccfde989a28d63f10113399ff97f89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebccfde989a28d63f10113399ff97f89">&#9670;&#160;</a></span>PropagatePageUpdate() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::PropagatePageUpdate </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>new_version</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a98d6f7a85a2b003e41359c810309d885" name="a98d6f7a85a2b003e41359c810309d885"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98d6f7a85a2b003e41359c810309d885">&#9670;&#160;</a></span>ReleaseReadLock() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::ReleaseReadLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a98d6f7a85a2b003e41359c810309d885" name="a98d6f7a85a2b003e41359c810309d885"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98d6f7a85a2b003e41359c810309d885">&#9670;&#160;</a></span>ReleaseReadLock() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::ReleaseReadLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7f8d9f8b891f91719b861f8c06ffe074" name="a7f8d9f8b891f91719b861f8c06ffe074"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f8d9f8b891f91719b861f8c06ffe074">&#9670;&#160;</a></span>ReleaseWriteLock() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::ReleaseWriteLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7f8d9f8b891f91719b861f8c06ffe074" name="a7f8d9f8b891f91719b861f8c06ffe074"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f8d9f8b891f91719b861f8c06ffe074">&#9670;&#160;</a></span>ReleaseWriteLock() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::ReleaseWriteLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acdce74cb3a1eaaa80287f2a1cd54821b" name="acdce74cb3a1eaaa80287f2a1cd54821b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdce74cb3a1eaaa80287f2a1cd54821b">&#9670;&#160;</a></span>RepairConsistency() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::RepairConsistency </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acdce74cb3a1eaaa80287f2a1cd54821b" name="acdce74cb3a1eaaa80287f2a1cd54821b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdce74cb3a1eaaa80287f2a1cd54821b">&#9670;&#160;</a></span>RepairConsistency() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::RepairConsistency </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adf61eb60c100f00924c173b5878f4e22" name="adf61eb60c100f00924c173b5878f4e22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf61eb60c100f00924c173b5878f4e22">&#9670;&#160;</a></span>RepairConsistencyForStrategy() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::RepairConsistencyForStrategy </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>&#160;</td>
+          <td class="paramname"><em>issue</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adf61eb60c100f00924c173b5878f4e22" name="adf61eb60c100f00924c173b5878f4e22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf61eb60c100f00924c173b5878f4e22">&#9670;&#160;</a></span>RepairConsistencyForStrategy() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::RepairConsistencyForStrategy </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#abe5e1458d56ce3f980b62c4e29a4ab11">ConsistencyCheckResult</a>&#160;</td>
+          <td class="paramname"><em>issue</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5961ccc9a054dc4451a9a79853dba3bc" name="a5961ccc9a054dc4451a9a79853dba3bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5961ccc9a054dc4451a9a79853dba3bc">&#9670;&#160;</a></span>SetAutoRepairEnabled() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::SetAutoRepairEnabled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5961ccc9a054dc4451a9a79853dba3bc" name="a5961ccc9a054dc4451a9a79853dba3bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5961ccc9a054dc4451a9a79853dba3bc">&#9670;&#160;</a></span>SetAutoRepairEnabled() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::SetAutoRepairEnabled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4d4d53f51a5657dd45883dc10d74f8aa" name="a4d4d53f51a5657dd45883dc10d74f8aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d4d53f51a5657dd45883dc10d74f8aa">&#9670;&#160;</a></span>SetConsistencyStrategy() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::SetConsistencyStrategy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a9452f376cb67c815c46256de4be6e5b8">CacheConsistencyStrategy</a>&#160;</td>
+          <td class="paramname"><em>strategy</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4d4d53f51a5657dd45883dc10d74f8aa" name="a4d4d53f51a5657dd45883dc10d74f8aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d4d53f51a5657dd45883dc10d74f8aa">&#9670;&#160;</a></span>SetConsistencyStrategy() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::SetConsistencyStrategy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a9452f376cb67c815c46256de4be6e5b8">CacheConsistencyStrategy</a>&#160;</td>
+          <td class="paramname"><em>strategy</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8026aaefc180038ee1ff44d335fae403" name="a8026aaefc180038ee1ff44d335fae403"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8026aaefc180038ee1ff44d335fae403">&#9670;&#160;</a></span>SetConsistencyViolationCallback() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::SetConsistencyViolationCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a1ccd1c338414dc5e627d7b47177982c7">ConsistencyViolationCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8026aaefc180038ee1ff44d335fae403" name="a8026aaefc180038ee1ff44d335fae403"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8026aaefc180038ee1ff44d335fae403">&#9670;&#160;</a></span>SetConsistencyViolationCallback() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::SetConsistencyViolationCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a1ccd1c338414dc5e627d7b47177982c7">ConsistencyViolationCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab741f0ef387f961add88abd89e78862f" name="ab741f0ef387f961add88abd89e78862f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab741f0ef387f961add88abd89e78862f">&#9670;&#160;</a></span>SetLockTimeout() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::SetLockTimeout </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab741f0ef387f961add88abd89e78862f" name="ab741f0ef387f961add88abd89e78862f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab741f0ef387f961add88abd89e78862f">&#9670;&#160;</a></span>SetLockTimeout() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::SetLockTimeout </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>timeout</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a708d7a6cfbde5f00206de303afedd223" name="a708d7a6cfbde5f00206de303afedd223"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a708d7a6cfbde5f00206de303afedd223">&#9670;&#160;</a></span>SetPageInvalidationCallback() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::SetPageInvalidationCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a0b36fd0e1d66cb66bdc1343a6d14a16e">PageInvalidationCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a708d7a6cfbde5f00206de303afedd223" name="a708d7a6cfbde5f00206de303afedd223"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a708d7a6cfbde5f00206de303afedd223">&#9670;&#160;</a></span>SetPageInvalidationCallback() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::SetPageInvalidationCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a0b36fd0e1d66cb66bdc1343a6d14a16e">PageInvalidationCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2464c509c40b34039096580bbcbf5a68" name="a2464c509c40b34039096580bbcbf5a68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2464c509c40b34039096580bbcbf5a68">&#9670;&#160;</a></span>SetVersionCheckEnabled() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::SetVersionCheckEnabled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2464c509c40b34039096580bbcbf5a68" name="a2464c509c40b34039096580bbcbf5a68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2464c509c40b34039096580bbcbf5a68">&#9670;&#160;</a></span>SetVersionCheckEnabled() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::SetVersionCheckEnabled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa55f538d2a217e7121e6faf599438b80" name="aa55f538d2a217e7121e6faf599438b80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa55f538d2a217e7121e6faf599438b80">&#9670;&#160;</a></span>SetVersionUpdateCallback() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::SetVersionUpdateCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac81cecfa713692295573602337c96c4e">VersionUpdateCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa55f538d2a217e7121e6faf599438b80" name="aa55f538d2a217e7121e6faf599438b80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa55f538d2a217e7121e6faf599438b80">&#9670;&#160;</a></span>SetVersionUpdateCallback() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::SetVersionUpdateCallback </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac81cecfa713692295573602337c96c4e">VersionUpdateCallback</a>&#160;</td>
+          <td class="paramname"><em>callback</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad1d20b5245a34e5b37e4329ed87376e2" name="ad1d20b5245a34e5b37e4329ed87376e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1d20b5245a34e5b37e4329ed87376e2">&#9670;&#160;</a></span>TryUpgradeLock() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::TryUpgradeLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad1d20b5245a34e5b37e4329ed87376e2" name="ad1d20b5245a34e5b37e4329ed87376e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1d20b5245a34e5b37e4329ed87376e2">&#9670;&#160;</a></span>TryUpgradeLock() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::TryUpgradeLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abefc34cfd5272d9456341d8d3ea9d6ac" name="abefc34cfd5272d9456341d8d3ea9d6ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abefc34cfd5272d9456341d8d3ea9d6ac">&#9670;&#160;</a></span>UpdateLockWaitTime() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::UpdateLockWaitTime </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>wait_time</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abefc34cfd5272d9456341d8d3ea9d6ac" name="abefc34cfd5272d9456341d8d3ea9d6ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abefc34cfd5272d9456341d8d3ea9d6ac">&#9670;&#160;</a></span>UpdateLockWaitTime() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::CacheConsistencyManager::UpdateLockWaitTime </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>wait_time</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afc11bbb10dc4299b9cb26800db8654e5" name="afc11bbb10dc4299b9cb26800db8654e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc11bbb10dc4299b9cb26800db8654e5">&#9670;&#160;</a></span>UpdatePageVersion() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::UpdatePageVersion </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afc11bbb10dc4299b9cb26800db8654e5" name="afc11bbb10dc4299b9cb26800db8654e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc11bbb10dc4299b9cb26800db8654e5">&#9670;&#160;</a></span>UpdatePageVersion() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::UpdatePageVersion </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa5025abb0283c000303a3984fa005108" name="aa5025abb0283c000303a3984fa005108"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5025abb0283c000303a3984fa005108">&#9670;&#160;</a></span>ValidatePageVersion() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::ValidatePageVersion </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>expected_version</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa5025abb0283c000303a3984fa005108" name="aa5025abb0283c000303a3984fa005108"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5025abb0283c000303a3984fa005108">&#9670;&#160;</a></span>ValidatePageVersion() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::ValidatePageVersion </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>expected_version</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a7b586b4d7675d5bb38de13f3ff500a29" name="a7b586b4d7675d5bb38de13f3ff500a29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b586b4d7675d5bb38de13f3ff500a29">&#9670;&#160;</a></span>auto_repair_enabled_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::auto_repair_enabled_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab52481280c3fb9c86bb51bd6e99ae289" name="ab52481280c3fb9c86bb51bd6e99ae289"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab52481280c3fb9c86bb51bd6e99ae289">&#9670;&#160;</a></span>buffer_pool_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1BufferPoolSharded.html">BufferPoolSharded</a> &gt; sqlcc::CacheConsistencyManager::buffer_pool_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6759eb77860d19a3da92394ca8d355d4" name="a6759eb77860d19a3da92394ca8d355d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6759eb77860d19a3da92394ca8d355d4">&#9670;&#160;</a></span>invalidation_callback_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a0b36fd0e1d66cb66bdc1343a6d14a16e">PageInvalidationCallback</a> sqlcc::CacheConsistencyManager::invalidation_callback_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a361bb83958b8a8017310548ee72b2bd7" name="a361bb83958b8a8017310548ee72b2bd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a361bb83958b8a8017310548ee72b2bd7">&#9670;&#160;</a></span>lock_timeout_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::milliseconds sqlcc::CacheConsistencyManager::lock_timeout_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a27cd551da0ef1f97e437323d039b050a" name="a27cd551da0ef1f97e437323d039b050a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27cd551da0ef1f97e437323d039b050a">&#9670;&#160;</a></span>lock_wait_times_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; double &gt; sqlcc::CacheConsistencyManager::lock_wait_times_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a573c309df66c713c4f3dc32440191136" name="a573c309df66c713c4f3dc32440191136"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a573c309df66c713c4f3dc32440191136">&#9670;&#160;</a></span>manager_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_mutex sqlcc::CacheConsistencyManager::manager_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4384fb8ca255733d9c89277db5782ee8" name="a4384fb8ca255733d9c89277db5782ee8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4384fb8ca255733d9c89277db5782ee8">&#9670;&#160;</a></span>page_locks_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; int32_t, <a class="el" href="structsqlcc_1_1CacheConsistencyManager_1_1PageLock.html">PageLock</a> &gt; sqlcc::CacheConsistencyManager::page_locks_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="add246c7fed004c8359fa1ccc819cfb06" name="add246c7fed004c8359fa1ccc819cfb06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add246c7fed004c8359fa1ccc819cfb06">&#9670;&#160;</a></span>page_versions_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; int32_t, <a class="el" href="structsqlcc_1_1PageVersion.html">PageVersion</a> &gt; sqlcc::CacheConsistencyManager::page_versions_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1caf827201a6ba72feefcc60194183b3" name="a1caf827201a6ba72feefcc60194183b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1caf827201a6ba72feefcc60194183b3">&#9670;&#160;</a></span>stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1CacheConsistencyManager_1_1ConsistencyStats.html">ConsistencyStats</a> sqlcc::CacheConsistencyManager::stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa6f6322f66292cf6ecf85f7dbdd45a54" name="aa6f6322f66292cf6ecf85f7dbdd45a54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6f6322f66292cf6ecf85f7dbdd45a54">&#9670;&#160;</a></span>stats_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::CacheConsistencyManager::stats_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad372613d9fae528b59ddad6095f9479c" name="ad372613d9fae528b59ddad6095f9479c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad372613d9fae528b59ddad6095f9479c">&#9670;&#160;</a></span>strategy_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a9452f376cb67c815c46256de4be6e5b8">CacheConsistencyStrategy</a> sqlcc::CacheConsistencyManager::strategy_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a41c4ef3733e8d0484e7385eb67d75c97" name="a41c4ef3733e8d0484e7385eb67d75c97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41c4ef3733e8d0484e7385eb67d75c97">&#9670;&#160;</a></span>version_callback_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac81cecfa713692295573602337c96c4e">VersionUpdateCallback</a> sqlcc::CacheConsistencyManager::version_callback_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a96f17bb048db2a1777e15bf4fc4f8754" name="a96f17bb048db2a1777e15bf4fc4f8754"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96f17bb048db2a1777e15bf4fc4f8754">&#9670;&#160;</a></span>version_check_enabled_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::CacheConsistencyManager::version_check_enabled_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a92a1c06796c0e5517fe74b380866a7c0" name="a92a1c06796c0e5517fe74b380866a7c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92a1c06796c0e5517fe74b380866a7c0">&#9670;&#160;</a></span>violation_callback_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a1ccd1c338414dc5e627d7b47177982c7">ConsistencyViolationCallback</a> sqlcc::CacheConsistencyManager::violation_callback_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage_2cache__consistency__manager_8h_source.html">storage/cache_consistency_manager.h</a></li>
+<li><a class="el" href="storage__engine_2cache__consistency__manager_8h_source.html">storage_engine/cache_consistency_manager.h</a></li>
+<li><a class="el" href="cache__consistency__manager_8cpp.html">cache_consistency_manager.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

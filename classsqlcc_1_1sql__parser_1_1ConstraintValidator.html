@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::ConstraintValidator类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1ConstraintValidator.html">ConstraintValidator</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1ConstraintValidator-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::ConstraintValidator类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>约束验证器接口  
+ <a href="classsqlcc_1_1sql__parser_1_1ConstraintValidator.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ast__nodes_8h_source.html">ast_nodes.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::sql_parser::ConstraintValidator 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__parser_1_1ConstraintValidator__inherit__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1ConstraintValidator_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1sql__parser_1_1ConstraintValidator_inherit__map" id="asqlcc_1_1sql__parser_1_1ConstraintValidator_inherit__map">
+<area shape="rect" title="约束验证器接口" alt="" coords="5,101,152,141"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1CheckConstraintValidator.html" title="检查约束验证器" alt="" coords="200,5,387,45"/>
+<area shape="poly" title=" " alt="" coords="125,92,199,55,229,43,231,48,201,60,127,97"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html" title="外键约束验证器" alt="" coords="217,69,369,109"/>
+<area shape="poly" title=" " alt="" coords="165,106,217,98,217,103,166,111"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1PrimaryKeyValidator.html" title="主键约束验证器" alt="" coords="216,133,371,173"/>
+<area shape="poly" title=" " alt="" coords="166,132,216,139,216,144,165,137"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1UniqueKeyValidator.html" title="唯一约束验证器" alt="" coords="218,197,369,237"/>
+<area shape="poly" title=" " alt="" coords="127,146,201,183,231,195,229,200,199,188,125,150"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a84cec5ecc25b42477f16749c10c639ce" id="r_a84cec5ecc25b42477f16749c10c639ce"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ConstraintValidator.html#a84cec5ecc25b42477f16749c10c639ce">~ConstraintValidator</a> ()=default</td></tr>
+<tr class="separator:a84cec5ecc25b42477f16749c10c639ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a092ba72026a1b1af82ccac8aae414681" id="r_a092ba72026a1b1af82ccac8aae414681"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ConstraintValidator.html#a092ba72026a1b1af82ccac8aae414681">validate</a> (const std::vector&lt; std::string &gt; &amp;record, std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1TableMetadata.html">TableMetadata</a> &gt; metadata, const std::string &amp;table_name) const =0</td></tr>
+<tr class="separator:a092ba72026a1b1af82ccac8aae414681"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9657419ba6528c373efb3b6c93bae214" id="r_a9657419ba6528c373efb3b6c93bae214"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ConstraintValidator.html#a9657419ba6528c373efb3b6c93bae214">getConstraintName</a> () const =0</td></tr>
+<tr class="separator:a9657419ba6528c373efb3b6c93bae214"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0230487ee5c0100003d2466460ab74d6" id="r_a0230487ee5c0100003d2466460ab74d6"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ConstraintValidator.html#a0230487ee5c0100003d2466460ab74d6">getConstraintType</a> () const =0</td></tr>
+<tr class="separator:a0230487ee5c0100003d2466460ab74d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>约束验证器接口 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a84cec5ecc25b42477f16749c10c639ce" name="a84cec5ecc25b42477f16749c10c639ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84cec5ecc25b42477f16749c10c639ce">&#9670;&#160;</a></span>~ConstraintValidator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual sqlcc::sql_parser::ConstraintValidator::~ConstraintValidator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a9657419ba6528c373efb3b6c93bae214" name="a9657419ba6528c373efb3b6c93bae214"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9657419ba6528c373efb3b6c93bae214">&#9670;&#160;</a></span>getConstraintName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string sqlcc::sql_parser::ConstraintValidator::getConstraintName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>获取约束名称 </p>
+
+<p>在 <a class="el" href="classsqlcc_1_1sql__parser_1_1PrimaryKeyValidator.html#afa7c0b31a5da771d4a85ac9e2e856a4d">sqlcc::sql_parser::PrimaryKeyValidator</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1UniqueKeyValidator.html#a07a6f6757c1d5d02edd3b90346ce1691">sqlcc::sql_parser::UniqueKeyValidator</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a857722463a674631e77028e8b2dabbb9">sqlcc::sql_parser::ForeignKeyValidator</a> , 以及 <a class="el" href="classsqlcc_1_1sql__parser_1_1CheckConstraintValidator.html#a91917f7e78622f4c71331d64cd4e18ea">sqlcc::sql_parser::CheckConstraintValidator</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a0230487ee5c0100003d2466460ab74d6" name="a0230487ee5c0100003d2466460ab74d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0230487ee5c0100003d2466460ab74d6">&#9670;&#160;</a></span>getConstraintType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string sqlcc::sql_parser::ConstraintValidator::getConstraintType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>获取约束类型 </p>
+
+<p>在 <a class="el" href="classsqlcc_1_1sql__parser_1_1PrimaryKeyValidator.html#ab2d2e62cf0313b2893cc8bff423b876f">sqlcc::sql_parser::PrimaryKeyValidator</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1UniqueKeyValidator.html#a0182694b610ff7d40ac91e320158074b">sqlcc::sql_parser::UniqueKeyValidator</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a468f9699dfcfd960caf0e9c9fe0ce198">sqlcc::sql_parser::ForeignKeyValidator</a> , 以及 <a class="el" href="classsqlcc_1_1sql__parser_1_1CheckConstraintValidator.html#a4fad46ab52229a0d27382cfe41923f1c">sqlcc::sql_parser::CheckConstraintValidator</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a092ba72026a1b1af82ccac8aae414681" name="a092ba72026a1b1af82ccac8aae414681"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a092ba72026a1b1af82ccac8aae414681">&#9670;&#160;</a></span>validate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool sqlcc::sql_parser::ConstraintValidator::validate </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>record</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1TableMetadata.html">TableMetadata</a> &gt;&#160;</td>
+          <td class="paramname"><em>metadata</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>验证记录是否满足约束条件 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">record</td><td>要验证的记录 </td></tr>
+    <tr><td class="paramname">metadata</td><td>表元数据 </td></tr>
+    <tr><td class="paramname">table_name</td><td>表名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>验证结果 </dd></dl>
+
+<p>在 <a class="el" href="classsqlcc_1_1sql__parser_1_1PrimaryKeyValidator.html#af59b121c28309bac7a9640236bcbf425">sqlcc::sql_parser::PrimaryKeyValidator</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1UniqueKeyValidator.html#aa8197bb18a4144c65377a07e67373afd">sqlcc::sql_parser::UniqueKeyValidator</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a1ee51827c2827e38587325b21144b806">sqlcc::sql_parser::ForeignKeyValidator</a> , 以及 <a class="el" href="classsqlcc_1_1sql__parser_1_1CheckConstraintValidator.html#a5a771d301c946dee522cb0c2939808cf">sqlcc::sql_parser::CheckConstraintValidator</a> 内被实现.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="ast__nodes_8h_source.html">ast_nodes.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

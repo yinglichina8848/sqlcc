@@ -1,0 +1,1571 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::BPlusTreeNode类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pro-attribs">Protected 属性</a> &#124;
+<a href="classsqlcc_1_1BPlusTreeNode-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::BPlusTreeNode类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>B+树节点基类  
+ <a href="classsqlcc_1_1BPlusTreeNode.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="storage_2b__plus__tree__nodes_8h_source.html">b_plus_tree_nodes.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::BPlusTreeNode 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1BPlusTreeNode__inherit__graph.png" border="0" usemap="#asqlcc_1_1BPlusTreeNode_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1BPlusTreeNode_inherit__map" id="asqlcc_1_1BPlusTreeNode_inherit__map">
+<area shape="rect" title="B+树节点基类" alt="" coords="143,5,303,31"/>
+<area shape="rect" href="classsqlcc_1_1BPlusTreeInternalNode.html" title="B+树内部节点类" alt="" coords="5,79,216,104"/>
+<area shape="poly" title=" " alt="" coords="173,39,136,60,110,81,107,76,133,56,171,34"/>
+<area shape="poly" title=" " alt="" coords="188,40,124,81,121,76,185,35"/>
+<area shape="poly" title=" " alt="" coords="202,41,137,81,134,76,199,36"/>
+<area shape="poly" title=" " alt="" coords="216,42,186,62,151,81,148,76,184,58,213,38"/>
+<area shape="rect" href="classsqlcc_1_1BPlusTreeLeafNode.html" title="B+树叶子节点类" alt="" coords="241,79,429,104"/>
+<area shape="poly" title=" " alt="" coords="232,38,262,58,297,76,295,81,259,62,229,42"/>
+<area shape="poly" title=" " alt="" coords="246,36,311,76,308,81,243,41"/>
+<area shape="poly" title=" " alt="" coords="261,35,325,76,322,81,258,40"/>
+<area shape="poly" title=" " alt="" coords="275,34,312,56,339,76,335,81,309,60,272,39"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a67516d0cf8dc19601feb983e0647f05e" id="r_a67516d0cf8dc19601feb983e0647f05e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a67516d0cf8dc19601feb983e0647f05e">BPlusTreeNode</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; storage_engine, int32_t page_id, bool is_leaf)</td></tr>
+<tr class="separator:a67516d0cf8dc19601feb983e0647f05e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e9480c159e863d5802985a100401ac3" id="r_a4e9480c159e863d5802985a100401ac3"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a4e9480c159e863d5802985a100401ac3">~BPlusTreeNode</a> ()</td></tr>
+<tr class="separator:a4e9480c159e863d5802985a100401ac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa44f3ca16537f5020eb984ae65366a1" id="r_aaa44f3ca16537f5020eb984ae65366a1"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#aaa44f3ca16537f5020eb984ae65366a1">GetPageId</a> () const</td></tr>
+<tr class="separator:aaa44f3ca16537f5020eb984ae65366a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad33ec178ffc658ab038cee5970886934" id="r_ad33ec178ffc658ab038cee5970886934"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ad33ec178ffc658ab038cee5970886934">GetParentPageId</a> () const</td></tr>
+<tr class="separator:ad33ec178ffc658ab038cee5970886934"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16f91ac5de3c12e3a1c50c102d305778" id="r_a16f91ac5de3c12e3a1c50c102d305778"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a16f91ac5de3c12e3a1c50c102d305778">SetParentPageId</a> (int32_t parent_page_id)</td></tr>
+<tr class="separator:a16f91ac5de3c12e3a1c50c102d305778"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad634d3857a8fe9e686de1c1cc574e376" id="r_ad634d3857a8fe9e686de1c1cc574e376"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ad634d3857a8fe9e686de1c1cc574e376">IsLeaf</a> () const</td></tr>
+<tr class="separator:ad634d3857a8fe9e686de1c1cc574e376"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c24727ff6094473ad4086f41c9f38d4" id="r_a3c24727ff6094473ad4086f41c9f38d4"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a3c24727ff6094473ad4086f41c9f38d4">GetData</a> ()</td></tr>
+<tr class="separator:a3c24727ff6094473ad4086f41c9f38d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac17152c3bd1e53ef5e72625749a4da21" id="r_ac17152c3bd1e53ef5e72625749a4da21"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ac17152c3bd1e53ef5e72625749a4da21">GetData</a> () const</td></tr>
+<tr class="separator:ac17152c3bd1e53ef5e72625749a4da21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac11ea157cfc9536542481c3291df65cf" id="r_ac11ea157cfc9536542481c3291df65cf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ac11ea157cfc9536542481c3291df65cf">SerializeToPage</a> ()=0</td></tr>
+<tr class="separator:ac11ea157cfc9536542481c3291df65cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae18702dcf83ab5e027b49f56d8dd8a7d" id="r_ae18702dcf83ab5e027b49f56d8dd8a7d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ae18702dcf83ab5e027b49f56d8dd8a7d">DeserializeFromPage</a> ()=0</td></tr>
+<tr class="separator:ae18702dcf83ab5e027b49f56d8dd8a7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabda77a13112928826767686413dbe8f" id="r_aabda77a13112928826767686413dbe8f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#aabda77a13112928826767686413dbe8f">Clear</a> ()=0</td></tr>
+<tr class="separator:aabda77a13112928826767686413dbe8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67516d0cf8dc19601feb983e0647f05e" id="r_a67516d0cf8dc19601feb983e0647f05e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a67516d0cf8dc19601feb983e0647f05e">BPlusTreeNode</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; storage_engine, int32_t page_id, bool is_leaf)</td></tr>
+<tr class="memdesc:a67516d0cf8dc19601feb983e0647f05e"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a67516d0cf8dc19601feb983e0647f05e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2515bb9fd662be04f2e28eeb73d88c43" id="r_a2515bb9fd662be04f2e28eeb73d88c43"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a2515bb9fd662be04f2e28eeb73d88c43">~BPlusTreeNode</a> ()</td></tr>
+<tr class="memdesc:a2515bb9fd662be04f2e28eeb73d88c43"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a2515bb9fd662be04f2e28eeb73d88c43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab38b26201495bbe4eca13078cee27cd6" id="r_ab38b26201495bbe4eca13078cee27cd6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ab38b26201495bbe4eca13078cee27cd6">BPlusTreeNode</a> (const <a class="el" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a> &amp;)=delete</td></tr>
+<tr class="separator:ab38b26201495bbe4eca13078cee27cd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae031e1502c1aaa1ab41d901e95a97e28" id="r_ae031e1502c1aaa1ab41d901e95a97e28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ae031e1502c1aaa1ab41d901e95a97e28">operator=</a> (const <a class="el" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a> &amp;)=delete</td></tr>
+<tr class="separator:ae031e1502c1aaa1ab41d901e95a97e28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a141b069539ba265db0b5788fb0d94c53" id="r_a141b069539ba265db0b5788fb0d94c53"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a141b069539ba265db0b5788fb0d94c53">BPlusTreeNode</a> (<a class="el" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a> &amp;&amp;)=default</td></tr>
+<tr class="separator:a141b069539ba265db0b5788fb0d94c53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd4ccfc17ef468d9d1ce184fb3527be9" id="r_acd4ccfc17ef468d9d1ce184fb3527be9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#acd4ccfc17ef468d9d1ce184fb3527be9">operator=</a> (<a class="el" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a> &amp;&amp;)=default</td></tr>
+<tr class="separator:acd4ccfc17ef468d9d1ce184fb3527be9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa44f3ca16537f5020eb984ae65366a1" id="r_aaa44f3ca16537f5020eb984ae65366a1"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#aaa44f3ca16537f5020eb984ae65366a1">GetPageId</a> () const</td></tr>
+<tr class="separator:aaa44f3ca16537f5020eb984ae65366a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad33ec178ffc658ab038cee5970886934" id="r_ad33ec178ffc658ab038cee5970886934"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ad33ec178ffc658ab038cee5970886934">GetParentPageId</a> () const</td></tr>
+<tr class="separator:ad33ec178ffc658ab038cee5970886934"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3795eb719e93fb122d2a3a800e886642" id="r_a3795eb719e93fb122d2a3a800e886642"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a3795eb719e93fb122d2a3a800e886642">SetParentPageId</a> (int32_t parent_id)</td></tr>
+<tr class="separator:a3795eb719e93fb122d2a3a800e886642"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad634d3857a8fe9e686de1c1cc574e376" id="r_ad634d3857a8fe9e686de1c1cc574e376"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ad634d3857a8fe9e686de1c1cc574e376">IsLeaf</a> () const</td></tr>
+<tr class="separator:ad634d3857a8fe9e686de1c1cc574e376"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac11ea157cfc9536542481c3291df65cf" id="r_ac11ea157cfc9536542481c3291df65cf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ac11ea157cfc9536542481c3291df65cf">SerializeToPage</a> ()=0</td></tr>
+<tr class="separator:ac11ea157cfc9536542481c3291df65cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae18702dcf83ab5e027b49f56d8dd8a7d" id="r_ae18702dcf83ab5e027b49f56d8dd8a7d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ae18702dcf83ab5e027b49f56d8dd8a7d">DeserializeFromPage</a> ()=0</td></tr>
+<tr class="separator:ae18702dcf83ab5e027b49f56d8dd8a7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabda77a13112928826767686413dbe8f" id="r_aabda77a13112928826767686413dbe8f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#aabda77a13112928826767686413dbe8f">Clear</a> ()=0</td></tr>
+<tr class="separator:aabda77a13112928826767686413dbe8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc3e2f17362329779387831b30fc5e6e" id="r_abc3e2f17362329779387831b30fc5e6e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#abc3e2f17362329779387831b30fc5e6e">IsFull</a> () const =0</td></tr>
+<tr class="separator:abc3e2f17362329779387831b30fc5e6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c24727ff6094473ad4086f41c9f38d4" id="r_a3c24727ff6094473ad4086f41c9f38d4"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a3c24727ff6094473ad4086f41c9f38d4">GetData</a> ()</td></tr>
+<tr class="separator:a3c24727ff6094473ad4086f41c9f38d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac17152c3bd1e53ef5e72625749a4da21" id="r_ac17152c3bd1e53ef5e72625749a4da21"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ac17152c3bd1e53ef5e72625749a4da21">GetData</a> () const</td></tr>
+<tr class="separator:ac17152c3bd1e53ef5e72625749a4da21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67516d0cf8dc19601feb983e0647f05e" id="r_a67516d0cf8dc19601feb983e0647f05e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a67516d0cf8dc19601feb983e0647f05e">BPlusTreeNode</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; storage_engine, int32_t page_id, bool is_leaf)</td></tr>
+<tr class="separator:a67516d0cf8dc19601feb983e0647f05e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2515bb9fd662be04f2e28eeb73d88c43" id="r_a2515bb9fd662be04f2e28eeb73d88c43"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a2515bb9fd662be04f2e28eeb73d88c43">~BPlusTreeNode</a> ()</td></tr>
+<tr class="separator:a2515bb9fd662be04f2e28eeb73d88c43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa44f3ca16537f5020eb984ae65366a1" id="r_aaa44f3ca16537f5020eb984ae65366a1"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#aaa44f3ca16537f5020eb984ae65366a1">GetPageId</a> () const</td></tr>
+<tr class="separator:aaa44f3ca16537f5020eb984ae65366a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad33ec178ffc658ab038cee5970886934" id="r_ad33ec178ffc658ab038cee5970886934"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ad33ec178ffc658ab038cee5970886934">GetParentPageId</a> () const</td></tr>
+<tr class="separator:ad33ec178ffc658ab038cee5970886934"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16f91ac5de3c12e3a1c50c102d305778" id="r_a16f91ac5de3c12e3a1c50c102d305778"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a16f91ac5de3c12e3a1c50c102d305778">SetParentPageId</a> (int32_t parent_page_id)</td></tr>
+<tr class="separator:a16f91ac5de3c12e3a1c50c102d305778"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad634d3857a8fe9e686de1c1cc574e376" id="r_ad634d3857a8fe9e686de1c1cc574e376"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ad634d3857a8fe9e686de1c1cc574e376">IsLeaf</a> () const</td></tr>
+<tr class="separator:ad634d3857a8fe9e686de1c1cc574e376"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac11ea157cfc9536542481c3291df65cf" id="r_ac11ea157cfc9536542481c3291df65cf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ac11ea157cfc9536542481c3291df65cf">SerializeToPage</a> ()=0</td></tr>
+<tr class="separator:ac11ea157cfc9536542481c3291df65cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae18702dcf83ab5e027b49f56d8dd8a7d" id="r_ae18702dcf83ab5e027b49f56d8dd8a7d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ae18702dcf83ab5e027b49f56d8dd8a7d">DeserializeFromPage</a> ()=0</td></tr>
+<tr class="separator:ae18702dcf83ab5e027b49f56d8dd8a7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabda77a13112928826767686413dbe8f" id="r_aabda77a13112928826767686413dbe8f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#aabda77a13112928826767686413dbe8f">Clear</a> ()=0</td></tr>
+<tr class="separator:aabda77a13112928826767686413dbe8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67516d0cf8dc19601feb983e0647f05e" id="r_a67516d0cf8dc19601feb983e0647f05e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a67516d0cf8dc19601feb983e0647f05e">BPlusTreeNode</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; storage_engine, int32_t page_id, bool is_leaf)</td></tr>
+<tr class="separator:a67516d0cf8dc19601feb983e0647f05e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2515bb9fd662be04f2e28eeb73d88c43" id="r_a2515bb9fd662be04f2e28eeb73d88c43"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a2515bb9fd662be04f2e28eeb73d88c43">~BPlusTreeNode</a> ()</td></tr>
+<tr class="separator:a2515bb9fd662be04f2e28eeb73d88c43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa44f3ca16537f5020eb984ae65366a1" id="r_aaa44f3ca16537f5020eb984ae65366a1"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#aaa44f3ca16537f5020eb984ae65366a1">GetPageId</a> () const</td></tr>
+<tr class="separator:aaa44f3ca16537f5020eb984ae65366a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad33ec178ffc658ab038cee5970886934" id="r_ad33ec178ffc658ab038cee5970886934"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ad33ec178ffc658ab038cee5970886934">GetParentPageId</a> () const</td></tr>
+<tr class="separator:ad33ec178ffc658ab038cee5970886934"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16f91ac5de3c12e3a1c50c102d305778" id="r_a16f91ac5de3c12e3a1c50c102d305778"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a16f91ac5de3c12e3a1c50c102d305778">SetParentPageId</a> (int32_t parent_page_id)</td></tr>
+<tr class="separator:a16f91ac5de3c12e3a1c50c102d305778"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad634d3857a8fe9e686de1c1cc574e376" id="r_ad634d3857a8fe9e686de1c1cc574e376"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ad634d3857a8fe9e686de1c1cc574e376">IsLeaf</a> () const</td></tr>
+<tr class="separator:ad634d3857a8fe9e686de1c1cc574e376"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c24727ff6094473ad4086f41c9f38d4" id="r_a3c24727ff6094473ad4086f41c9f38d4"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a3c24727ff6094473ad4086f41c9f38d4">GetData</a> ()</td></tr>
+<tr class="separator:a3c24727ff6094473ad4086f41c9f38d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac17152c3bd1e53ef5e72625749a4da21" id="r_ac17152c3bd1e53ef5e72625749a4da21"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ac17152c3bd1e53ef5e72625749a4da21">GetData</a> () const</td></tr>
+<tr class="separator:ac17152c3bd1e53ef5e72625749a4da21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac11ea157cfc9536542481c3291df65cf" id="r_ac11ea157cfc9536542481c3291df65cf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ac11ea157cfc9536542481c3291df65cf">SerializeToPage</a> ()=0</td></tr>
+<tr class="separator:ac11ea157cfc9536542481c3291df65cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae18702dcf83ab5e027b49f56d8dd8a7d" id="r_ae18702dcf83ab5e027b49f56d8dd8a7d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ae18702dcf83ab5e027b49f56d8dd8a7d">DeserializeFromPage</a> ()=0</td></tr>
+<tr class="separator:ae18702dcf83ab5e027b49f56d8dd8a7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabda77a13112928826767686413dbe8f" id="r_aabda77a13112928826767686413dbe8f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#aabda77a13112928826767686413dbe8f">Clear</a> ()=0</td></tr>
+<tr class="separator:aabda77a13112928826767686413dbe8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
+Protected 属性</h2></td></tr>
+<tr class="memitem:ae7c7ec99e5e56e05a2e8b3108d465ddf" id="r_ae7c7ec99e5e56e05a2e8b3108d465ddf"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ae7c7ec99e5e56e05a2e8b3108d465ddf">storage_engine_</a></td></tr>
+<tr class="separator:ae7c7ec99e5e56e05a2e8b3108d465ddf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61582dad9fbd1e9f9a759194018e4474" id="r_a61582dad9fbd1e9f9a759194018e4474"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a61582dad9fbd1e9f9a759194018e4474">page_id_</a></td></tr>
+<tr class="separator:a61582dad9fbd1e9f9a759194018e4474"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab06d125f27cde3d830afae0ef6ea7516" id="r_ab06d125f27cde3d830afae0ef6ea7516"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#ab06d125f27cde3d830afae0ef6ea7516">parent_page_id_</a></td></tr>
+<tr class="separator:ab06d125f27cde3d830afae0ef6ea7516"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06ca1e92e104c377925d55d71139ed02" id="r_a06ca1e92e104c377925d55d71139ed02"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#a06ca1e92e104c377925d55d71139ed02">is_leaf_</a></td></tr>
+<tr class="separator:a06ca1e92e104c377925d55d71139ed02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaf89d254b159660e57e2e6c19f73b05" id="r_acaf89d254b159660e57e2e6c19f73b05"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html#acaf89d254b159660e57e2e6c19f73b05">page_</a></td></tr>
+<tr class="separator:acaf89d254b159660e57e2e6c19f73b05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>B+树节点基类 </p>
+<p>B+树节点基类，定义所有节点类型的通用接口</p>
+<p>设计理念：</p><ul>
+<li>抽象接口：定义节点操作的统一契约</li>
+<li>多态行为：支持不同类型的节点实现</li>
+<li>资源管理：统一管理节点的生命周期</li>
+<li>序列化支持：提供磁盘持久化的标准接口 </li>
+</ul>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a67516d0cf8dc19601feb983e0647f05e" name="a67516d0cf8dc19601feb983e0647f05e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67516d0cf8dc19601feb983e0647f05e">&#9670;&#160;</a></span>BPlusTreeNode() <span class="overload">[1/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::BPlusTreeNode::BPlusTreeNode </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td>
+          <td class="paramname"><em>storage_engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_leaf</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4e9480c159e863d5802985a100401ac3" name="a4e9480c159e863d5802985a100401ac3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e9480c159e863d5802985a100401ac3">&#9670;&#160;</a></span>~BPlusTreeNode() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::BPlusTreeNode::~BPlusTreeNode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a67516d0cf8dc19601feb983e0647f05e" name="a67516d0cf8dc19601feb983e0647f05e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67516d0cf8dc19601feb983e0647f05e">&#9670;&#160;</a></span>BPlusTreeNode() <span class="overload">[2/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::BPlusTreeNode::BPlusTreeNode </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td>
+          <td class="paramname"><em>storage_engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_leaf</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"><a class="el" href="namespacesqlcc_1_1storage__engine.html">storage_engine</a></td><td>存储引擎指针，用于磁盘操作 </td></tr>
+    <tr><td class="paramname">page_id</td><td>节点对应的磁盘页面ID </td></tr>
+    <tr><td class="paramname">is_leaf</td><td>是否为叶子节点 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2515bb9fd662be04f2e28eeb73d88c43" name="a2515bb9fd662be04f2e28eeb73d88c43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2515bb9fd662be04f2e28eeb73d88c43">&#9670;&#160;</a></span>~BPlusTreeNode() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual sqlcc::BPlusTreeNode::~BPlusTreeNode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+<p>释放节点占用的资源，包括页面绑定 </p>
+
+</div>
+</div>
+<a id="ab38b26201495bbe4eca13078cee27cd6" name="ab38b26201495bbe4eca13078cee27cd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab38b26201495bbe4eca13078cee27cd6">&#9670;&#160;</a></span>BPlusTreeNode() <span class="overload">[3/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::BPlusTreeNode::BPlusTreeNode </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a141b069539ba265db0b5788fb0d94c53" name="a141b069539ba265db0b5788fb0d94c53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a141b069539ba265db0b5788fb0d94c53">&#9670;&#160;</a></span>BPlusTreeNode() <span class="overload">[4/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::BPlusTreeNode::BPlusTreeNode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a> &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a67516d0cf8dc19601feb983e0647f05e" name="a67516d0cf8dc19601feb983e0647f05e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67516d0cf8dc19601feb983e0647f05e">&#9670;&#160;</a></span>BPlusTreeNode() <span class="overload">[5/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::BPlusTreeNode::BPlusTreeNode </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td>
+          <td class="paramname"><em>storage_engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_leaf</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2515bb9fd662be04f2e28eeb73d88c43" name="a2515bb9fd662be04f2e28eeb73d88c43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2515bb9fd662be04f2e28eeb73d88c43">&#9670;&#160;</a></span>~BPlusTreeNode() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual sqlcc::BPlusTreeNode::~BPlusTreeNode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a67516d0cf8dc19601feb983e0647f05e" name="a67516d0cf8dc19601feb983e0647f05e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67516d0cf8dc19601feb983e0647f05e">&#9670;&#160;</a></span>BPlusTreeNode() <span class="overload">[6/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::BPlusTreeNode::BPlusTreeNode </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td>
+          <td class="paramname"><em>storage_engine</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_leaf</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2515bb9fd662be04f2e28eeb73d88c43" name="a2515bb9fd662be04f2e28eeb73d88c43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2515bb9fd662be04f2e28eeb73d88c43">&#9670;&#160;</a></span>~BPlusTreeNode() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual sqlcc::BPlusTreeNode::~BPlusTreeNode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="aabda77a13112928826767686413dbe8f" name="aabda77a13112928826767686413dbe8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabda77a13112928826767686413dbe8f">&#9670;&#160;</a></span>Clear() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::BPlusTreeNode::Clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a> , 以及 <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="aabda77a13112928826767686413dbe8f" name="aabda77a13112928826767686413dbe8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabda77a13112928826767686413dbe8f">&#9670;&#160;</a></span>Clear() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::BPlusTreeNode::Clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a> , 以及 <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="aabda77a13112928826767686413dbe8f" name="aabda77a13112928826767686413dbe8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabda77a13112928826767686413dbe8f">&#9670;&#160;</a></span>Clear() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::BPlusTreeNode::Clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a> , 以及 <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="aabda77a13112928826767686413dbe8f" name="aabda77a13112928826767686413dbe8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabda77a13112928826767686413dbe8f">&#9670;&#160;</a></span>Clear() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::BPlusTreeNode::Clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a815747dc4c728365a2775a988a1a1178">sqlcc::BPlusTreeInternalNode</a> , 以及 <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad950754a31dcccd5c0c272d8da92b3ba">sqlcc::BPlusTreeLeafNode</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ae18702dcf83ab5e027b49f56d8dd8a7d" name="ae18702dcf83ab5e027b49f56d8dd8a7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae18702dcf83ab5e027b49f56d8dd8a7d">&#9670;&#160;</a></span>DeserializeFromPage() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::BPlusTreeNode::DeserializeFromPage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a> , 以及 <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ae18702dcf83ab5e027b49f56d8dd8a7d" name="ae18702dcf83ab5e027b49f56d8dd8a7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae18702dcf83ab5e027b49f56d8dd8a7d">&#9670;&#160;</a></span>DeserializeFromPage() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::BPlusTreeNode::DeserializeFromPage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a> , 以及 <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ae18702dcf83ab5e027b49f56d8dd8a7d" name="ae18702dcf83ab5e027b49f56d8dd8a7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae18702dcf83ab5e027b49f56d8dd8a7d">&#9670;&#160;</a></span>DeserializeFromPage() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::BPlusTreeNode::DeserializeFromPage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a> , 以及 <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ae18702dcf83ab5e027b49f56d8dd8a7d" name="ae18702dcf83ab5e027b49f56d8dd8a7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae18702dcf83ab5e027b49f56d8dd8a7d">&#9670;&#160;</a></span>DeserializeFromPage() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::BPlusTreeNode::DeserializeFromPage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a5b52a9524215d4f90e17288c4406b93a">sqlcc::BPlusTreeInternalNode</a> , 以及 <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a4497635b3118d1103943bf3532b06fb6">sqlcc::BPlusTreeLeafNode</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a3c24727ff6094473ad4086f41c9f38d4" name="a3c24727ff6094473ad4086f41c9f38d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c24727ff6094473ad4086f41c9f38d4">&#9670;&#160;</a></span>GetData() <span class="overload">[1/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * sqlcc::BPlusTreeNode::GetData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3c24727ff6094473ad4086f41c9f38d4" name="a3c24727ff6094473ad4086f41c9f38d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c24727ff6094473ad4086f41c9f38d4">&#9670;&#160;</a></span>GetData() <span class="overload">[2/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * sqlcc::BPlusTreeNode::GetData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3c24727ff6094473ad4086f41c9f38d4" name="a3c24727ff6094473ad4086f41c9f38d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c24727ff6094473ad4086f41c9f38d4">&#9670;&#160;</a></span>GetData() <span class="overload">[3/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * sqlcc::BPlusTreeNode::GetData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac17152c3bd1e53ef5e72625749a4da21" name="ac17152c3bd1e53ef5e72625749a4da21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac17152c3bd1e53ef5e72625749a4da21">&#9670;&#160;</a></span>GetData() <span class="overload">[4/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * sqlcc::BPlusTreeNode::GetData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac17152c3bd1e53ef5e72625749a4da21" name="ac17152c3bd1e53ef5e72625749a4da21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac17152c3bd1e53ef5e72625749a4da21">&#9670;&#160;</a></span>GetData() <span class="overload">[5/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * sqlcc::BPlusTreeNode::GetData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac17152c3bd1e53ef5e72625749a4da21" name="ac17152c3bd1e53ef5e72625749a4da21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac17152c3bd1e53ef5e72625749a4da21">&#9670;&#160;</a></span>GetData() <span class="overload">[6/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * sqlcc::BPlusTreeNode::GetData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaa44f3ca16537f5020eb984ae65366a1" name="aaa44f3ca16537f5020eb984ae65366a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa44f3ca16537f5020eb984ae65366a1">&#9670;&#160;</a></span>GetPageId() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t sqlcc::BPlusTreeNode::GetPageId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaa44f3ca16537f5020eb984ae65366a1" name="aaa44f3ca16537f5020eb984ae65366a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa44f3ca16537f5020eb984ae65366a1">&#9670;&#160;</a></span>GetPageId() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t sqlcc::BPlusTreeNode::GetPageId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaa44f3ca16537f5020eb984ae65366a1" name="aaa44f3ca16537f5020eb984ae65366a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa44f3ca16537f5020eb984ae65366a1">&#9670;&#160;</a></span>GetPageId() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t sqlcc::BPlusTreeNode::GetPageId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaa44f3ca16537f5020eb984ae65366a1" name="aaa44f3ca16537f5020eb984ae65366a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa44f3ca16537f5020eb984ae65366a1">&#9670;&#160;</a></span>GetPageId() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t sqlcc::BPlusTreeNode::GetPageId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad33ec178ffc658ab038cee5970886934" name="ad33ec178ffc658ab038cee5970886934"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad33ec178ffc658ab038cee5970886934">&#9670;&#160;</a></span>GetParentPageId() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t sqlcc::BPlusTreeNode::GetParentPageId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad33ec178ffc658ab038cee5970886934" name="ad33ec178ffc658ab038cee5970886934"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad33ec178ffc658ab038cee5970886934">&#9670;&#160;</a></span>GetParentPageId() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t sqlcc::BPlusTreeNode::GetParentPageId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad33ec178ffc658ab038cee5970886934" name="ad33ec178ffc658ab038cee5970886934"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad33ec178ffc658ab038cee5970886934">&#9670;&#160;</a></span>GetParentPageId() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t sqlcc::BPlusTreeNode::GetParentPageId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad33ec178ffc658ab038cee5970886934" name="ad33ec178ffc658ab038cee5970886934"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad33ec178ffc658ab038cee5970886934">&#9670;&#160;</a></span>GetParentPageId() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t sqlcc::BPlusTreeNode::GetParentPageId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abc3e2f17362329779387831b30fc5e6e" name="abc3e2f17362329779387831b30fc5e6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc3e2f17362329779387831b30fc5e6e">&#9670;&#160;</a></span>IsFull()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool sqlcc::BPlusTreeNode::IsFull </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#aafc89d04cd8e0878c97a83a78f768875">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad8dcaed989de28529292a685a29be154">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#aafc89d04cd8e0878c97a83a78f768875">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad8dcaed989de28529292a685a29be154">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#aafc89d04cd8e0878c97a83a78f768875">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#ad8dcaed989de28529292a685a29be154">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a335a3ff540e2108191a5ebe10f03ba87">sqlcc::BPlusTreeInternalNode</a> , 以及 <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a3c698c4bbefcc2e5d2a6336ff3685aa9">sqlcc::BPlusTreeLeafNode</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ad634d3857a8fe9e686de1c1cc574e376" name="ad634d3857a8fe9e686de1c1cc574e376"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad634d3857a8fe9e686de1c1cc574e376">&#9670;&#160;</a></span>IsLeaf() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::BPlusTreeNode::IsLeaf </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad634d3857a8fe9e686de1c1cc574e376" name="ad634d3857a8fe9e686de1c1cc574e376"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad634d3857a8fe9e686de1c1cc574e376">&#9670;&#160;</a></span>IsLeaf() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::BPlusTreeNode::IsLeaf </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad634d3857a8fe9e686de1c1cc574e376" name="ad634d3857a8fe9e686de1c1cc574e376"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad634d3857a8fe9e686de1c1cc574e376">&#9670;&#160;</a></span>IsLeaf() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::BPlusTreeNode::IsLeaf </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad634d3857a8fe9e686de1c1cc574e376" name="ad634d3857a8fe9e686de1c1cc574e376"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad634d3857a8fe9e686de1c1cc574e376">&#9670;&#160;</a></span>IsLeaf() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::BPlusTreeNode::IsLeaf </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acd4ccfc17ef468d9d1ce184fb3527be9" name="acd4ccfc17ef468d9d1ce184fb3527be9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd4ccfc17ef468d9d1ce184fb3527be9">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a> &amp; sqlcc::BPlusTreeNode::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a> &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae031e1502c1aaa1ab41d901e95a97e28" name="ae031e1502c1aaa1ab41d901e95a97e28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae031e1502c1aaa1ab41d901e95a97e28">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a> &amp; sqlcc::BPlusTreeNode::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1BPlusTreeNode.html">BPlusTreeNode</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac11ea157cfc9536542481c3291df65cf" name="ac11ea157cfc9536542481c3291df65cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac11ea157cfc9536542481c3291df65cf">&#9670;&#160;</a></span>SerializeToPage() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::BPlusTreeNode::SerializeToPage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a> , 以及 <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ac11ea157cfc9536542481c3291df65cf" name="ac11ea157cfc9536542481c3291df65cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac11ea157cfc9536542481c3291df65cf">&#9670;&#160;</a></span>SerializeToPage() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::BPlusTreeNode::SerializeToPage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a> , 以及 <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ac11ea157cfc9536542481c3291df65cf" name="ac11ea157cfc9536542481c3291df65cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac11ea157cfc9536542481c3291df65cf">&#9670;&#160;</a></span>SerializeToPage() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::BPlusTreeNode::SerializeToPage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a> , 以及 <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ac11ea157cfc9536542481c3291df65cf" name="ac11ea157cfc9536542481c3291df65cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac11ea157cfc9536542481c3291df65cf">&#9670;&#160;</a></span>SerializeToPage() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void sqlcc::BPlusTreeNode::SerializeToPage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a>, <a class="el" href="classsqlcc_1_1BPlusTreeInternalNode.html#a191f44481f6f53dd0cc6dda5cff413dc">sqlcc::BPlusTreeInternalNode</a> , 以及 <a class="el" href="classsqlcc_1_1BPlusTreeLeafNode.html#a28e051b25231043cf79910faa1189318">sqlcc::BPlusTreeLeafNode</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a3795eb719e93fb122d2a3a800e886642" name="a3795eb719e93fb122d2a3a800e886642"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3795eb719e93fb122d2a3a800e886642">&#9670;&#160;</a></span>SetParentPageId() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::BPlusTreeNode::SetParentPageId </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>parent_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a16f91ac5de3c12e3a1c50c102d305778" name="a16f91ac5de3c12e3a1c50c102d305778"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16f91ac5de3c12e3a1c50c102d305778">&#9670;&#160;</a></span>SetParentPageId() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::BPlusTreeNode::SetParentPageId </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>parent_page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a16f91ac5de3c12e3a1c50c102d305778" name="a16f91ac5de3c12e3a1c50c102d305778"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16f91ac5de3c12e3a1c50c102d305778">&#9670;&#160;</a></span>SetParentPageId() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::BPlusTreeNode::SetParentPageId </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>parent_page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a16f91ac5de3c12e3a1c50c102d305778" name="a16f91ac5de3c12e3a1c50c102d305778"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16f91ac5de3c12e3a1c50c102d305778">&#9670;&#160;</a></span>SetParentPageId() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::BPlusTreeNode::SetParentPageId </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>parent_page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a06ca1e92e104c377925d55d71139ed02" name="a06ca1e92e104c377925d55d71139ed02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06ca1e92e104c377925d55d71139ed02">&#9670;&#160;</a></span>is_leaf_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::BPlusTreeNode::is_leaf_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>是否为叶子节点 </p>
+
+</div>
+</div>
+<a id="acaf89d254b159660e57e2e6c19f73b05" name="acaf89d254b159660e57e2e6c19f73b05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaf89d254b159660e57e2e6c19f73b05">&#9670;&#160;</a></span>page_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::BPlusTreeNode::page_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>绑定的磁盘页面 </p>
+
+</div>
+</div>
+<a id="a61582dad9fbd1e9f9a759194018e4474" name="a61582dad9fbd1e9f9a759194018e4474"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61582dad9fbd1e9f9a759194018e4474">&#9670;&#160;</a></span>page_id_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t sqlcc::BPlusTreeNode::page_id_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>节点页面ID </p>
+
+</div>
+</div>
+<a id="ab06d125f27cde3d830afae0ef6ea7516" name="ab06d125f27cde3d830afae0ef6ea7516"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab06d125f27cde3d830afae0ef6ea7516">&#9670;&#160;</a></span>parent_page_id_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t sqlcc::BPlusTreeNode::parent_page_id_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>父节点页面ID </p>
+
+</div>
+</div>
+<a id="ae7c7ec99e5e56e05a2e8b3108d465ddf" name="ae7c7ec99e5e56e05a2e8b3108d465ddf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7c7ec99e5e56e05a2e8b3108d465ddf">&#9670;&#160;</a></span>storage_engine_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt; sqlcc::BPlusTreeNode::storage_engine_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>存储引擎引用 </p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage_2b__plus__tree__nodes_8h_source.html">storage/b_plus_tree_nodes.h</a></li>
+<li><a class="el" href="b__plus__tree__node_8h_source.html">b_plus_tree_node.h</a></li>
+<li><a class="el" href="storage__engine_2b__plus__tree_2node_2b__plus__tree__nodes_8h_source.html">storage_engine/b_plus_tree/node/b_plus_tree_nodes.h</a></li>
+<li><a class="el" href="storage__engine_2b__plus__tree__nodes_8h_source.html">storage_engine/b_plus_tree_nodes.h</a></li>
+<li><a class="el" href="b__plus__tree_8cpp.html">b_plus_tree.cpp</a></li>
+<li><a class="el" href="b__plus__tree__node_8cpp.html">b_plus_tree_node.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

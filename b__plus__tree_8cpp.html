@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: b_plus_tree.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li><li class="navelem"><a class="el" href="dir_1beebb655226e3b3a0da039efb09b088.html">b_plus_tree</a></li><li class="navelem"><a class="el" href="dir_61c365f71a6439fd2d43508a148e77e2.html">core</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#define-members">宏定义</a>  </div>
+  <div class="headertitle"><div class="title">b_plus_tree.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="storage__engine_2b__plus__tree_8h_source.html">../../b_plus_tree.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="storage__engine_8h_source.html">../../storage_engine.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="logger_2logger_8h_source.html">../../../logger/logger.h</a>&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+b_plus_tree.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="b__plus__tree_8cpp__incl.png" border="0" usemap="#ab__plus__tree_8cpp" alt=""/></div>
+<map name="ab__plus__tree_8cpp" id="ab__plus__tree_8cpp">
+<area shape="rect" title=" " alt="" coords="2141,5,2265,31"/>
+<area shape="rect" href="storage__engine_2b__plus__tree_8h.html" title=" " alt="" coords="1953,240,2087,265"/>
+<area shape="poly" title=" " alt="" coords="2195,33,2040,231,2035,227,2191,30"/>
+<area shape="rect" href="storage__engine_8h.html" title=" " alt="" coords="1381,79,1539,104"/>
+<area shape="poly" title=" " alt="" coords="2141,28,1553,84,1553,78,2140,23"/>
+<area shape="rect" href="logger_2logger_8h.html" title="SQLCC分层日志系统 &#45; 异步写入与智能轮转架构" alt="" coords="2305,313,2460,339"/>
+<area shape="poly" title=" " alt="" coords="2213,29,2289,151,2372,300,2368,303,2284,153,2208,32"/>
+<area shape="rect" title=" " alt="" coords="2356,79,2441,104"/>
+<area shape="poly" title=" " alt="" coords="2235,28,2355,71,2353,76,2233,33"/>
+<area shape="rect" title=" " alt="" coords="1585,387,1663,412"/>
+<area shape="poly" title=" " alt="" coords="2013,267,1979,304,1956,324,1929,341,1864,367,1796,384,1731,394,1677,399,1676,394,1731,389,1795,379,1862,362,1927,336,1953,320,1976,300,2009,264"/>
+<area shape="rect" title=" " alt="" coords="2016,387,2075,412"/>
+<area shape="poly" title=" " alt="" coords="2072,263,2111,281,2128,295,2142,312,2147,323,2146,335,2135,354,2113,371,2089,384,2086,380,2111,367,2131,351,2141,333,2142,324,2138,315,2124,299,2108,286,2070,268"/>
+<area shape="rect" title=" " alt="" coords="1166,387,1229,412"/>
+<area shape="poly" title=" " alt="" coords="1953,258,1777,264,1557,275,1359,292,1289,303,1249,316,1235,327,1223,342,1207,374,1203,372,1219,340,1231,324,1247,311,1287,298,1358,287,1556,270,1777,259,1953,253"/>
+<area shape="rect" title=" " alt="" coords="2042,313,2129,339"/>
+<area shape="poly" title=" " alt="" coords="2033,264,2067,301,2064,305,2029,267"/>
+<area shape="rect" href="storage__engine_2b__plus__tree__nodes_8h.html" title=" " alt="" coords="1260,313,1415,339"/>
+<area shape="poly" title=" " alt="" coords="1953,263,1429,316,1428,311,1953,257"/>
+<area shape="poly" title=" " alt="" coords="1384,336,1573,383,1571,388,1383,341"/>
+<area shape="poly" title=" " alt="" coords="1415,335,1427,336,1758,370,2002,392,2002,397,1757,375,1426,341,1414,340"/>
+<area shape="poly" title=" " alt="" coords="1316,341,1233,383,1231,378,1314,336"/>
+<area shape="rect" href="page_8h.html" title=" " alt="" coords="16,387,131,412"/>
+<area shape="poly" title=" " alt="" coords="1260,335,1147,341,144,397,144,392,1147,336,1260,329"/>
+<area shape="rect" title=" " alt="" coords="820,460,887,485"/>
+<area shape="poly" title=" " alt="" coords="131,403,806,464,806,470,130,409"/>
+<area shape="rect" title=" " alt="" coords="83,460,149,485"/>
+<area shape="poly" title=" " alt="" coords="83,411,104,447,100,450,78,414"/>
+<area shape="rect" title=" " alt="" coords="5,460,59,485"/>
+<area shape="poly" title=" " alt="" coords="69,414,48,449,43,447,64,411"/>
+<area shape="poly" title=" " alt="" coords="1476,102,1511,134,1556,183,1601,244,1619,277,1633,313,1637,344,1634,373,1628,373,1632,344,1628,314,1614,280,1596,246,1552,186,1507,138,1472,106"/>
+<area shape="poly" title=" " alt="" coords="1540,100,1687,120,1862,151,1949,169,2027,190,2093,213,2140,238,2168,259,2189,283,2195,296,2198,310,2195,325,2188,340,2167,362,2142,378,2115,388,2089,395,2088,390,2113,383,2140,373,2164,358,2183,337,2190,323,2192,310,2190,298,2185,286,2165,263,2137,242,2091,218,2026,195,1948,175,1861,156,1686,125,1539,105"/>
+<area shape="poly" title=" " alt="" coords="1380,97,1111,106,934,115,747,129,561,147,389,172,244,204,185,222,139,242,114,257,97,271,85,289,73,314,68,344,70,373,65,373,63,344,68,313,80,286,93,267,111,252,136,238,184,217,242,198,388,167,560,142,746,123,934,110,1111,100,1380,91"/>
+<area shape="rect" href="storage_2disk__manager_8h.html" title=" " alt="" coords="634,240,825,265"/>
+<area shape="poly" title=" " alt="" coords="1381,97,1251,103,1097,113,952,130,894,141,850,154,821,170,793,190,750,231,747,227,790,186,818,166,848,150,893,136,952,125,1096,108,1250,97,1381,92"/>
+<area shape="rect" href="config__manager_8h.html" title=" " alt="" coords="812,313,993,339"/>
+<area shape="poly" title=" " alt="" coords="1381,107,1262,127,1125,157,1060,175,1002,196,956,218,925,242,916,255,910,269,905,300,900,299,905,268,911,252,921,238,953,213,1000,191,1058,170,1124,152,1261,122,1380,101"/>
+<area shape="rect" href="buffer__pool__sharded_8h.html" title=" " alt="" coords="1201,152,1338,192"/>
+<area shape="poly" title=" " alt="" coords="1433,106,1329,149,1327,144,1431,102"/>
+<area shape="rect" href="table__storage_8h.html" title=" " alt="" coords="1439,313,1561,339"/>
+<area shape="poly" title=" " alt="" coords="1468,103,1494,160,1508,199,1519,240,1519,272,1512,301,1507,300,1513,271,1513,240,1503,201,1490,162,1464,105"/>
+<area shape="poly" title=" " alt="" coords="825,256,1268,280,1473,295,1541,303,1575,311,1590,324,1602,339,1619,372,1614,374,1598,342,1586,327,1572,316,1540,308,1473,301,1267,285,825,261"/>
+<area shape="poly" title=" " alt="" coords="738,264,762,301,780,321,801,336,848,346,945,361,1153,390,1152,395,944,366,847,351,799,341,776,325,758,304,733,267"/>
+<area shape="poly" title=" " alt="" coords="634,260,486,267,319,278,176,294,127,304,100,315,90,327,83,342,76,373,71,372,78,340,85,324,97,311,126,299,176,289,319,273,486,261,634,255"/>
+<area shape="rect" title=" " alt="" coords="1068,313,1135,339"/>
+<area shape="poly" title=" " alt="" coords="790,263,1055,313,1054,318,789,268"/>
+<area shape="rect" title=" " alt="" coords="620,313,687,339"/>
+<area shape="poly" title=" " alt="" coords="719,267,678,306,674,302,715,263"/>
+<area shape="rect" title=" " alt="" coords="111,313,254,339"/>
+<area shape="poly" title=" " alt="" coords="640,268,268,316,267,311,639,263"/>
+<area shape="rect" title=" " alt="" coords="279,313,369,339"/>
+<area shape="poly" title=" " alt="" coords="664,268,388,316,383,317,382,312,388,311,663,263"/>
+<area shape="rect" title=" " alt="" coords="2177,387,2250,412"/>
+<area shape="poly" title=" " alt="" coords="825,255,1459,284,1772,300,1928,311,2039,340,2167,380,2165,385,2038,345,1928,316,1771,305,1459,289,825,261"/>
+<area shape="rect" title=" " alt="" coords="577,387,641,412"/>
+<area shape="poly" title=" " alt="" coords="634,263,574,270,514,280,464,296,446,305,434,315,426,331,429,343,441,355,460,365,511,381,564,390,563,396,510,386,458,370,438,359,425,346,421,330,430,312,443,300,462,291,513,275,573,265,633,258"/>
+<area shape="rect" title=" " alt="" coords="445,313,507,339"/>
+<area shape="poly" title=" " alt="" coords="689,268,521,315,520,310,688,263"/>
+<area shape="rect" title=" " alt="" coords="532,313,596,339"/>
+<area shape="poly" title=" " alt="" coords="704,268,605,310,602,305,702,263"/>
+<area shape="rect" title=" " alt="" coords="965,387,1089,412"/>
+<area shape="poly" title=" " alt="" coords="732,265,738,301,745,320,758,337,783,347,832,360,952,383,951,388,830,365,781,352,754,341,741,323,733,303,727,266"/>
+<area shape="poly" title=" " alt="" coords="758,263,863,306,861,310,756,268"/>
+<area shape="rect" href="exception_8h.html" title=" " alt="" coords="1737,313,1916,339"/>
+<area shape="poly" title=" " alt="" coords="825,257,1724,315,1723,321,825,263"/>
+<area shape="poly" title=" " alt="" coords="994,334,1572,390,1571,396,993,339"/>
+<area shape="poly" title=" " alt="" coords="994,332,1056,336,1469,360,1882,384,2002,392,2002,398,1881,389,1468,366,1056,341,993,337"/>
+<area shape="poly" title=" " alt="" coords="951,336,1154,385,1152,390,949,341"/>
+<area shape="poly" title=" " alt="" coords="856,341,655,390,654,385,855,336"/>
+<area shape="poly" title=" " alt="" coords="924,336,996,377,993,382,921,341"/>
+<area shape="rect" title=" " alt="" coords="869,387,937,412"/>
+<area shape="poly" title=" " alt="" coords="905,339,905,373,900,373,900,339"/>
+<area shape="poly" title=" " alt="" coords="1863,336,2004,382,2002,387,1861,341"/>
+<area shape="rect" title=" " alt="" coords="1783,387,1870,412"/>
+<area shape="poly" title=" " alt="" coords="1829,339,1829,373,1824,373,1824,339"/>
+<area shape="poly" title=" " alt="" coords="1339,179,1405,193,1478,218,1515,235,1549,257,1580,282,1608,312,1621,342,1626,372,1621,373,1616,343,1603,315,1577,286,1546,261,1512,240,1476,223,1403,198,1338,184"/>
+<area shape="poly" title=" " alt="" coords="1338,173,1763,195,1978,214,2055,225,2100,238,2133,257,2160,280,2168,293,2172,308,2171,323,2164,340,2149,358,2130,372,2089,391,2087,386,2127,368,2145,354,2159,337,2166,322,2167,308,2163,295,2155,283,2130,261,2098,242,2054,230,1978,219,1763,200,1338,179"/>
+<area shape="poly" title=" " alt="" coords="1339,182,1388,194,1430,211,1445,222,1455,235,1456,251,1447,267,1421,290,1393,299,1365,300,1335,295,1306,291,1277,290,1248,296,1221,315,1211,328,1205,342,1200,373,1194,372,1200,341,1206,325,1217,311,1246,292,1276,284,1306,285,1336,290,1365,294,1393,294,1419,285,1443,264,1451,249,1450,237,1442,226,1427,216,1386,199,1338,187"/>
+<area shape="poly" title=" " alt="" coords="1200,177,990,181,710,192,433,212,318,226,233,243,187,254,150,264,119,282,89,315,77,343,74,373,69,373,72,342,84,312,116,278,148,259,185,249,231,237,318,220,432,206,709,187,990,176,1200,172"/>
+<area shape="poly" title=" " alt="" coords="1201,186,822,241,821,235,1200,181"/>
+<area shape="poly" title=" " alt="" coords="1339,186,1379,199,1413,217,1424,227,1431,239,1431,253,1423,267,1402,283,1372,293,1295,305,1215,310,1154,316,1149,317,1148,312,1153,311,1215,305,1295,300,1371,288,1400,278,1419,264,1426,252,1426,241,1420,231,1410,221,1377,204,1337,191"/>
+<area shape="poly" title=" " alt="" coords="1200,179,937,193,587,220,416,239,268,261,158,286,122,300,101,315,95,326,97,336,108,345,127,354,183,369,257,379,425,391,564,395,564,400,425,397,256,385,182,374,125,359,105,350,93,339,89,326,97,312,119,296,156,281,267,256,416,233,586,215,937,188,1200,174"/>
+<area shape="poly" title=" " alt="" coords="1200,183,1141,192,1080,204,1028,221,1009,231,997,241,994,252,997,265,1023,373,1018,374,992,266,989,252,992,239,1006,226,1026,216,1079,199,1140,186,1200,178"/>
+<area shape="poly" title=" " alt="" coords="1201,184,1060,206,996,223,952,242,939,255,928,270,913,301,908,299,923,267,935,251,949,238,994,218,1059,201,1200,178"/>
+<area shape="poly" title=" " alt="" coords="1339,184,1447,207,1567,237,1685,273,1783,306,1781,311,1683,278,1566,243,1446,213,1338,189"/>
+<area shape="rect" title=" " alt="" coords="1007,240,1049,265"/>
+<area shape="poly" title=" " alt="" coords="1211,195,1063,242,1062,237,1209,189"/>
+<area shape="rect" title=" " alt="" coords="1073,240,1188,265"/>
+<area shape="poly" title=" " alt="" coords="1237,194,1164,235,1162,231,1235,190"/>
+<area shape="rect" title=" " alt="" coords="1212,240,1327,265"/>
+<area shape="poly" title=" " alt="" coords="1272,192,1272,226,1267,226,1267,192"/>
+<area shape="rect" title=" " alt="" coords="1351,240,1409,265"/>
+<area shape="poly" title=" " alt="" coords="1298,190,1354,230,1351,234,1295,194"/>
+<area shape="poly" title=" " alt="" coords="1521,336,1593,377,1591,382,1519,341"/>
+<area shape="poly" title=" " alt="" coords="1562,333,2002,390,2001,395,1561,338"/>
+<area shape="poly" title=" " alt="" coords="1452,341,1243,390,1241,385,1451,336"/>
+<area shape="poly" title=" " alt="" coords="1471,341,1370,377,1241,415,1147,434,1053,450,901,469,900,464,1052,444,1146,429,1239,409,1368,372,1470,336"/>
+<area shape="poly" title=" " alt="" coords="1439,340,1427,341,1103,390,1102,384,1426,336,1438,334"/>
+<area shape="poly" title=" " alt="" coords="2305,337,1677,396,1676,390,2305,332"/>
+<area shape="poly" title=" " alt="" coords="2329,341,2089,392,2088,386,2328,336"/>
+<area shape="poly" title=" " alt="" coords="2356,341,2255,384,2253,379,2354,336"/>
+<area shape="poly" title=" " alt="" coords="2305,334,2140,341,856,389,655,398,655,393,856,384,2140,336,2305,328"/>
+<area shape="rect" title=" " alt="" coords="2351,387,2415,412"/>
+<area shape="poly" title=" " alt="" coords="2385,339,2385,373,2380,373,2380,339"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:af11125b8a270a84314fdb616e19b11ec" id="r_af11125b8a270a84314fdb616e19b11ec"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="b__plus__tree_8cpp.html#af11125b8a270a84314fdb616e19b11ec">PAGE_HEADER_SIZE</a>&#160;&#160;&#160;24</td></tr>
+<tr class="separator:af11125b8a270a84314fdb616e19b11ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa483edb2e9e30c3e100aba944a87a02b" id="r_aa483edb2e9e30c3e100aba944a87a02b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="b__plus__tree_8cpp.html#aa483edb2e9e30c3e100aba944a87a02b">PAGE_DATA_SIZE</a>&#160;&#160;&#160;(<a class="el" href="disk__manager_8cpp.html#af60e67b7145f8e316bfefd914d7c4e7b">PAGE_SIZE</a> - <a class="el" href="b__plus__tree_8cpp.html#af11125b8a270a84314fdb616e19b11ec">PAGE_HEADER_SIZE</a>)</td></tr>
+<tr class="separator:aa483edb2e9e30c3e100aba944a87a02b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么需要B+树索引？</p>
+<p>数据库系统需要高效的数据查找、排序和范围查询功能。没有B+树索引，数据库就无法在海量数据中快速定位记录，导致查询性能急剧下降。B+树是数据库索引的核心数据结构，直接决定了查询性能和存储效率。</p>
+<p>主要问题解决：</p><ol type="1">
+<li>快速查找：O(log n)时间复杂度的数据查找</li>
+<li>范围查询：支持高效的范围扫描和排序</li>
+<li>磁盘I/O优化：最小化磁盘访问次数</li>
+<li>并发访问：支持多事务并发读写操作</li>
+<li>动态平衡：自动维护树的平衡性和搜索性能</li>
+</ol>
+<p>B+树索引失败的影响：</p><ul>
+<li>查询性能下降：全表扫描代替索引查找</li>
+<li>系统响应慢：无法满足实时查询需求</li>
+<li>资源消耗大：CPU和内存使用率过高</li>
+<li>用户体验差：查询超时和系统卡顿</li>
+</ul>
+<p>WHAT: 这实现了什么功能？</p>
+<p>B+树索引提供完整的数据库索引功能：</p><ul>
+<li>单键查找：精确匹配键值的快速查找</li>
+<li>范围查询：支持大于、小于、介于等范围查询</li>
+<li>插入操作：动态插入新键值对并维护平衡</li>
+<li>删除操作：安全删除键值并重新平衡树结构</li>
+<li>分裂合并：节点满时自动分裂，空时合并</li>
+<li>并发控制：支持多线程并发访问和修改</li>
+<li>持久化存储：索引数据持久化到磁盘</li>
+</ul>
+<p>核心组件：</p><ul>
+<li>BPlusTreeNode：B+树节点基类，定义节点接口</li>
+<li>BPlusTreeInternalNode：内部节点，存储键和子节点指针</li>
+<li>BPlusTreeLeafNode：叶子节点，存储键值对</li>
+<li>BPlusTreeIndex：索引管理器，协调索引操作</li>
+<li>Page：磁盘页面，存储节点数据的物理单位</li>
+<li>WAL：预写日志，确保索引操作的原子性</li>
+</ul>
+<p>HOW: 如何实现的？</p>
+<p>技术实现要点：</p><ol type="1">
+<li>树结构设计：平衡多叉树，最小化树高</li>
+<li>节点分裂策略：节点满时自动分裂为两个节点</li>
+<li>节点合并策略：节点过空时与兄弟节点合并</li>
+<li>磁盘页面布局：优化磁盘I/O的页面格式</li>
+<li>缓存管理：缓冲池管理内存中的索引页面</li>
+<li>并发锁协议：两阶段锁确保并发安全性</li>
+<li>崩溃恢复：基于WAL的故障恢复机制</li>
+</ol>
+<p>B+树算法特点：</p><ul>
+<li>所有叶子节点在同一层：保证查找性能一致性</li>
+<li>内部节点只存储键：减少内存占用，提高缓存效率</li>
+<li>叶子节点包含完整数据：支持高效的范围查询</li>
+<li>自平衡特性：插入删除自动维护树平衡</li>
+<li>磁盘友好：节点大小与页面大小匹配</li>
+</ul>
+<p>性能优化：</p><ul>
+<li>批量操作：合并多个索引操作减少I/O</li>
+<li>预取策略：预测性加载索引页面</li>
+<li>内存预分配：预先分配节点内存减少分配开销</li>
+<li>索引压缩：压缩键值减少存储空间</li>
+<li>并发优化：细粒度锁减少锁竞争</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>该实现专为SQLCC数据库系统优化，支持高并发和ACID事务特性 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>include/storage/b_plus_tree.h </dd></dl>
+</div><h2 class="groupheader">宏定义说明</h2>
+<a id="aa483edb2e9e30c3e100aba944a87a02b" name="aa483edb2e9e30c3e100aba944a87a02b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa483edb2e9e30c3e100aba944a87a02b">&#9670;&#160;</a></span>PAGE_DATA_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PAGE_DATA_SIZE&#160;&#160;&#160;(<a class="el" href="disk__manager_8cpp.html#af60e67b7145f8e316bfefd914d7c4e7b">PAGE_SIZE</a> - <a class="el" href="b__plus__tree_8cpp.html#af11125b8a270a84314fdb616e19b11ec">PAGE_HEADER_SIZE</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af11125b8a270a84314fdb616e19b11ec" name="af11125b8a270a84314fdb616e19b11ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af11125b8a270a84314fdb616e19b11ec">&#9670;&#160;</a></span>PAGE_HEADER_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PAGE_HEADER_SIZE&#160;&#160;&#160;24</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

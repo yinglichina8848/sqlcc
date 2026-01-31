@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: foreign_key_constraint.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li><li class="navelem"><a class="el" href="dir_366fabb8f540ee53b0c8a12476e507b3.html">constraint</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">foreign_key_constraint.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="foreign__key__constraint_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">class </span>ForeignKeyConstraint {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00028" data-start="{" data-end="};">
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">   28</a></span>    <span class="keyword">enum</span> <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a>,    </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29">CASCADE</a>,     </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49">SET_NULL</a>,    </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd">SET_DEFAULT</a>, </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067">NO_ACTION</a>    </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    };</div>
+</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="foldopen" id="foldopen00039" data-start="{" data-end="};">
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">   39</a></span>    <span class="keyword">enum</span> <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a> {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90">NOT_DEFERRABLE</a>,      </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a">DEFERRABLE</a>,          </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83">INITIALLY_DEFERRED</a>,  </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <a class="code hl_enumvalue" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b">INITIALLY_IMMEDIATE</a>  </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    };</div>
+</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#afb9e3e47f8408590ed2625a5d66b997d">   56</a></span>    <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#afb9e3e47f8408590ed2625a5d66b997d">ForeignKeyConstraint</a>(<span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; columns,</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                        <span class="keyword">const</span> std::string&amp; referenced_table,</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                        <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; referenced_columns,</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                        <span class="keyword">const</span> std::string&amp; name = <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                        <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> on_delete = <a class="code hl_enumvalue" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a>,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                        <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> on_update = <a class="code hl_enumvalue" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">RESTRICT</a>,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                        <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a> deferrable = <a class="code hl_enumvalue" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90">NOT_DEFERRABLE</a>);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a708cc46582e06981c84042aeb35e2fa8">   67</a></span>    <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a708cc46582e06981c84042aeb35e2fa8">getColumns</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#af8a24735ecc25dea29ba655147304327">   72</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#af8a24735ecc25dea29ba655147304327">getReferencedTable</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#aa29588bead9ec16ce0a96e2d3de462bf">   77</a></span>    <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#aa29588bead9ec16ce0a96e2d3de462bf">getReferencedColumns</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a8f5cefb889e437f1c4945ca3e075ffaf">   82</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a8f5cefb889e437f1c4945ca3e075ffaf">getName</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#aea43e1303703261c923070610b94a6b9">   87</a></span>    <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#aea43e1303703261c923070610b94a6b9">getOnDeleteAction</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#ab4c521a52018efdfaa8b521f7b570d8c">   92</a></span>    <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#ab4c521a52018efdfaa8b521f7b570d8c">getOnUpdateAction</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7cb1ac7e04490a6f8e09793b0e221c4c">   97</a></span>    <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7cb1ac7e04490a6f8e09793b0e221c4c">getDeferrableMode</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    std::vector&lt;std::string&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#ae4700e43a0927b3669c45a43d2e0ab3e">columns_</a>;           </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    std::string <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a312334e2ad37d456bfd44c735146c54a">referenced_table_</a>;               </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    std::vector&lt;std::string&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7ebc77874cdeade43234bfe1d78477e3">referenced_columns_</a>; </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    std::string <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#af821a69855bfda87f85a44ccdb6b348c">name_</a>;                           </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a446c2cc2fc16c13a7a859575a2b084d6">on_delete_</a>;                    </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">CascadeAction</a> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a639da35ffd280a4f823ae88194ff8c4d">on_update_</a>;                    </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <a class="code hl_enumeration" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">DeferrableMode</a> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a9c7339b855ad4cdb58e705e0d4583eae">deferrable_</a>;                  </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>};</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a312334e2ad37d456bfd44c735146c54a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a312334e2ad37d456bfd44c735146c54a">sqlcc::sql_parser::ForeignKeyConstraint::referenced_table_</a></div><div class="ttdeci">std::string referenced_table_</div><div class="ttdoc">被引用表名</div><div class="ttdef"><b>Definition</b> constraint.h:189</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a446c2cc2fc16c13a7a859575a2b084d6"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a446c2cc2fc16c13a7a859575a2b084d6">sqlcc::sql_parser::ForeignKeyConstraint::on_delete_</a></div><div class="ttdeci">CascadeAction on_delete_</div><div class="ttdoc">删除时级联操作</div><div class="ttdef"><b>Definition</b> constraint.h:192</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a639da35ffd280a4f823ae88194ff8c4d"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a639da35ffd280a4f823ae88194ff8c4d">sqlcc::sql_parser::ForeignKeyConstraint::on_update_</a></div><div class="ttdeci">CascadeAction on_update_</div><div class="ttdoc">更新时级联操作</div><div class="ttdef"><b>Definition</b> constraint.h:193</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a708cc46582e06981c84042aeb35e2fa8"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a708cc46582e06981c84042aeb35e2fa8">sqlcc::sql_parser::ForeignKeyConstraint::getColumns</a></div><div class="ttdeci">const std::vector&lt; std::string &gt; &amp; getColumns() const</div><div class="ttdoc">获取本表列名列表</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a7a29591d0dbc3cb3c99ef5c80a724293"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293">sqlcc::sql_parser::ForeignKeyConstraint::DeferrableMode</a></div><div class="ttdeci">DeferrableMode</div><div class="ttdef"><b>Definition</b> constraint.h:164</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a02e741ccc198c40d50b5f62312232c83">sqlcc::sql_parser::ForeignKeyConstraint::INITIALLY_DEFERRED</a></div><div class="ttdeci">@ INITIALLY_DEFERRED</div><div class="ttdoc">初始延迟检查</div><div class="ttdef"><b>Definition</b> constraint.h:167</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a57806ad64d5a4ee1ff0af1b3bc6dac7b">sqlcc::sql_parser::ForeignKeyConstraint::INITIALLY_IMMEDIATE</a></div><div class="ttdeci">@ INITIALLY_IMMEDIATE</div><div class="ttdoc">初始立即检查</div><div class="ttdef"><b>Definition</b> constraint.h:168</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293a9fadeb0286473aea12319f6b0c822c90">sqlcc::sql_parser::ForeignKeyConstraint::NOT_DEFERRABLE</a></div><div class="ttdeci">@ NOT_DEFERRABLE</div><div class="ttdoc">立即检查 (默认)</div><div class="ttdef"><b>Definition</b> constraint.h:165</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7a29591d0dbc3cb3c99ef5c80a724293ae8b30f4b6b24794987ad0cb521dc119a">sqlcc::sql_parser::ForeignKeyConstraint::DEFERRABLE</a></div><div class="ttdeci">@ DEFERRABLE</div><div class="ttdoc">可延迟检查</div><div class="ttdef"><b>Definition</b> constraint.h:166</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a7cb1ac7e04490a6f8e09793b0e221c4c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7cb1ac7e04490a6f8e09793b0e221c4c">sqlcc::sql_parser::ForeignKeyConstraint::getDeferrableMode</a></div><div class="ttdeci">DeferrableMode getDeferrableMode() const</div><div class="ttdoc">获取延迟检查模式</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a7ebc77874cdeade43234bfe1d78477e3"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7ebc77874cdeade43234bfe1d78477e3">sqlcc::sql_parser::ForeignKeyConstraint::referenced_columns_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; referenced_columns_</div><div class="ttdoc">被引用列名列表</div><div class="ttdef"><b>Definition</b> constraint.h:190</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a7f278e7d1114c58466e7c678ba87e6f6"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6">sqlcc::sql_parser::ForeignKeyConstraint::CascadeAction</a></div><div class="ttdeci">CascadeAction</div><div class="ttdef"><b>Definition</b> constraint.h:155</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a029ca8a8cd2ee4eedd72fea0893ec1c1">sqlcc::sql_parser::ForeignKeyConstraint::RESTRICT</a></div><div class="ttdeci">@ RESTRICT</div><div class="ttdoc">限制删除/更新</div><div class="ttdef"><b>Definition</b> constraint.h:156</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a10dee92b79938e4be7b8ede73b9d91dd">sqlcc::sql_parser::ForeignKeyConstraint::SET_DEFAULT</a></div><div class="ttdeci">@ SET_DEFAULT</div><div class="ttdoc">设置为默认值</div><div class="ttdef"><b>Definition</b> constraint.h:159</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a20147f6a636840110eced292418be067">sqlcc::sql_parser::ForeignKeyConstraint::NO_ACTION</a></div><div class="ttdeci">@ NO_ACTION</div><div class="ttdoc">无操作</div><div class="ttdef"><b>Definition</b> constraint.h:160</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6a212abb09a8682292d82f70fd1bae8f29">sqlcc::sql_parser::ForeignKeyConstraint::CASCADE</a></div><div class="ttdeci">@ CASCADE</div><div class="ttdoc">级联删除/更新</div><div class="ttdef"><b>Definition</b> constraint.h:157</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a7f278e7d1114c58466e7c678ba87e6f6ab6737195c710d25f917ad184847b0a49">sqlcc::sql_parser::ForeignKeyConstraint::SET_NULL</a></div><div class="ttdeci">@ SET_NULL</div><div class="ttdoc">设置为空</div><div class="ttdef"><b>Definition</b> constraint.h:158</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a8f5cefb889e437f1c4945ca3e075ffaf"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a8f5cefb889e437f1c4945ca3e075ffaf">sqlcc::sql_parser::ForeignKeyConstraint::getName</a></div><div class="ttdeci">const std::string &amp; getName() const</div><div class="ttdoc">获取约束名称</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_a9c7339b855ad4cdb58e705e0d4583eae"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#a9c7339b855ad4cdb58e705e0d4583eae">sqlcc::sql_parser::ForeignKeyConstraint::deferrable_</a></div><div class="ttdeci">DeferrableMode deferrable_</div><div class="ttdoc">延迟检查模式</div><div class="ttdef"><b>Definition</b> constraint.h:194</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_aa29588bead9ec16ce0a96e2d3de462bf"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#aa29588bead9ec16ce0a96e2d3de462bf">sqlcc::sql_parser::ForeignKeyConstraint::getReferencedColumns</a></div><div class="ttdeci">const std::vector&lt; std::string &gt; &amp; getReferencedColumns() const</div><div class="ttdoc">获取被引用列名列表</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_ab4c521a52018efdfaa8b521f7b570d8c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#ab4c521a52018efdfaa8b521f7b570d8c">sqlcc::sql_parser::ForeignKeyConstraint::getOnUpdateAction</a></div><div class="ttdeci">CascadeAction getOnUpdateAction() const</div><div class="ttdoc">获取更新时级联操作</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_ae4700e43a0927b3669c45a43d2e0ab3e"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#ae4700e43a0927b3669c45a43d2e0ab3e">sqlcc::sql_parser::ForeignKeyConstraint::columns_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; columns_</div><div class="ttdoc">本表列名列表</div><div class="ttdef"><b>Definition</b> constraint.h:188</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_aea43e1303703261c923070610b94a6b9"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#aea43e1303703261c923070610b94a6b9">sqlcc::sql_parser::ForeignKeyConstraint::getOnDeleteAction</a></div><div class="ttdeci">CascadeAction getOnDeleteAction() const</div><div class="ttdoc">获取删除时级联操作</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_af821a69855bfda87f85a44ccdb6b348c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#af821a69855bfda87f85a44ccdb6b348c">sqlcc::sql_parser::ForeignKeyConstraint::name_</a></div><div class="ttdeci">std::string name_</div><div class="ttdoc">约束名称</div><div class="ttdef"><b>Definition</b> constraint.h:191</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_af8a24735ecc25dea29ba655147304327"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#af8a24735ecc25dea29ba655147304327">sqlcc::sql_parser::ForeignKeyConstraint::getReferencedTable</a></div><div class="ttdeci">const std::string &amp; getReferencedTable() const</div><div class="ttdoc">获取被引用表名</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ForeignKeyConstraint_html_afb9e3e47f8408590ed2625a5d66b997d"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ForeignKeyConstraint.html#afb9e3e47f8408590ed2625a5d66b997d">sqlcc::sql_parser::ForeignKeyConstraint::ForeignKeyConstraint</a></div><div class="ttdeci">ForeignKeyConstraint(const std::vector&lt; std::string &gt; &amp;columns, const std::string &amp;referenced_table, const std::vector&lt; std::string &gt; &amp;referenced_columns, const std::string &amp;name=&quot;&quot;, CascadeAction on_delete=RESTRICT, CascadeAction on_update=RESTRICT, DeferrableMode deferrable=NOT_DEFERRABLE)</div><div class="ttdoc">构造函数</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

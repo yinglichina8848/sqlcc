@@ -1,0 +1,904 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::trigger::TriggerManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1trigger.html">trigger</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html">TriggerManager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1trigger_1_1TriggerManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::trigger::TriggerManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>触发器管理器  
+ <a href="classsqlcc_1_1trigger_1_1TriggerManager.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="trigger_2trigger__manager_8h_source.html">trigger_manager.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::trigger::TriggerManager 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1trigger_1_1TriggerManager__coll__graph.png" border="0" usemap="#asqlcc_1_1trigger_1_1TriggerManager_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1trigger_1_1TriggerManager_coll__map" id="asqlcc_1_1trigger_1_1TriggerManager_coll__map">
+<area shape="rect" title="触发器管理器" alt="" coords="5,108,220,133"/>
+<area shape="rect" href="classsqlcc_1_1trigger_1_1RecursionGuard.html" title="递归防护机制" alt="" coords="23,5,202,45"/>
+<area shape="poly" title=" " alt="" coords="115,59,115,108,110,108,110,59"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a7c037e9e3a4cf3490a5654493fa7799d" id="r_a7c037e9e3a4cf3490a5654493fa7799d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#a7c037e9e3a4cf3490a5654493fa7799d">initialize</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a> &gt; executor)</td></tr>
+<tr class="memdesc:a7c037e9e3a4cf3490a5654493fa7799d"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化管理器  <br /></td></tr>
+<tr class="separator:a7c037e9e3a4cf3490a5654493fa7799d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77459b995e7531173538c8819cd2a9cd" id="r_a77459b995e7531173538c8819cd2a9cd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#a77459b995e7531173538c8819cd2a9cd">createTrigger</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> &gt; trigger)</td></tr>
+<tr class="memdesc:a77459b995e7531173538c8819cd2a9cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建触发器  <br /></td></tr>
+<tr class="separator:a77459b995e7531173538c8819cd2a9cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab59f142a2695d0adc6dbb46a106b6530" id="r_ab59f142a2695d0adc6dbb46a106b6530"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#ab59f142a2695d0adc6dbb46a106b6530">dropTrigger</a> (const std::string &amp;trigger_name)</td></tr>
+<tr class="memdesc:ab59f142a2695d0adc6dbb46a106b6530"><td class="mdescLeft">&#160;</td><td class="mdescRight">删除触发器  <br /></td></tr>
+<tr class="separator:ab59f142a2695d0adc6dbb46a106b6530"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc9ddd84622aee4ea5a811b80752a50a" id="r_acc9ddd84622aee4ea5a811b80752a50a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#acc9ddd84622aee4ea5a811b80752a50a">enableTrigger</a> (const std::string &amp;trigger_name)</td></tr>
+<tr class="memdesc:acc9ddd84622aee4ea5a811b80752a50a"><td class="mdescLeft">&#160;</td><td class="mdescRight">启用触发器  <br /></td></tr>
+<tr class="separator:acc9ddd84622aee4ea5a811b80752a50a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3301cd9e0f48aaf4ee4d78c6f83e4a1" id="r_af3301cd9e0f48aaf4ee4d78c6f83e4a1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#af3301cd9e0f48aaf4ee4d78c6f83e4a1">disableTrigger</a> (const std::string &amp;trigger_name)</td></tr>
+<tr class="memdesc:af3301cd9e0f48aaf4ee4d78c6f83e4a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">禁用触发器  <br /></td></tr>
+<tr class="separator:af3301cd9e0f48aaf4ee4d78c6f83e4a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8725c325d9d938cfb2ff0aadfac17ee1" id="r_a8725c325d9d938cfb2ff0aadfac17ee1"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#a8725c325d9d938cfb2ff0aadfac17ee1">getTrigger</a> (const std::string &amp;trigger_name) const</td></tr>
+<tr class="memdesc:a8725c325d9d938cfb2ff0aadfac17ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取触发器  <br /></td></tr>
+<tr class="separator:a8725c325d9d938cfb2ff0aadfac17ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd4a7eff3732ab4586ebe0b46bfc9fca" id="r_afd4a7eff3732ab4586ebe0b46bfc9fca"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#afd4a7eff3732ab4586ebe0b46bfc9fca">getTriggersForTable</a> (const std::string &amp;table_name) const</td></tr>
+<tr class="memdesc:afd4a7eff3732ab4586ebe0b46bfc9fca"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取表的所有触发器  <br /></td></tr>
+<tr class="separator:afd4a7eff3732ab4586ebe0b46bfc9fca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6678941cfe3d70938739dc3f2bc9cf92" id="r_a6678941cfe3d70938739dc3f2bc9cf92"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#a6678941cfe3d70938739dc3f2bc9cf92">fireTriggers</a> (<a class="el" href="namespacesqlcc_1_1trigger.html#aafc6faa2e7d6c4de2f2a651ed5cb7843">TriggerTiming</a> timing, <a class="el" href="namespacesqlcc_1_1trigger.html#a9048eb6b0f22224de968d97a266c8032">TriggerEvent</a> event, const std::string &amp;table_name, const std::vector&lt; <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt; &amp;old_rows, const std::vector&lt; <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt; &amp;new_rows)</td></tr>
+<tr class="memdesc:a6678941cfe3d70938739dc3f2bc9cf92"><td class="mdescLeft">&#160;</td><td class="mdescRight">触发事件处理  <br /></td></tr>
+<tr class="separator:a6678941cfe3d70938739dc3f2bc9cf92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06d8dbcee496721f1ece5d81a7f38ce7" id="r_a06d8dbcee496721f1ece5d81a7f38ce7"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#a06d8dbcee496721f1ece5d81a7f38ce7">getLastError</a> () const</td></tr>
+<tr class="memdesc:a06d8dbcee496721f1ece5d81a7f38ce7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取最后错误信息  <br /></td></tr>
+<tr class="separator:a06d8dbcee496721f1ece5d81a7f38ce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7855213489417e19d44c19efc72c420" id="r_ad7855213489417e19d44c19efc72c420"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#ad7855213489417e19d44c19efc72c420">setTriggerExecutor</a> (std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1trigger_1_1TriggerExecutor.html">TriggerExecutor</a> &gt; executor)</td></tr>
+<tr class="memdesc:ad7855213489417e19d44c19efc72c420"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置触发器执行器  <br /></td></tr>
+<tr class="separator:ad7855213489417e19d44c19efc72c420"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a794c8fc33a803cf053cd77c97a1063be" id="r_a794c8fc33a803cf053cd77c97a1063be"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html">TriggerManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#a794c8fc33a803cf053cd77c97a1063be">getInstance</a> ()</td></tr>
+<tr class="memdesc:a794c8fc33a803cf053cd77c97a1063be"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取单例实例  <br /></td></tr>
+<tr class="separator:a794c8fc33a803cf053cd77c97a1063be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:ab2983477aeb4894a70e1f411db1dbacd" id="r_ab2983477aeb4894a70e1f411db1dbacd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#ab2983477aeb4894a70e1f411db1dbacd">TriggerManager</a> ()</td></tr>
+<tr class="separator:ab2983477aeb4894a70e1f411db1dbacd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48d9227f5f3983d04717b0d3967b0fdf" id="r_a48d9227f5f3983d04717b0d3967b0fdf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#a48d9227f5f3983d04717b0d3967b0fdf">~TriggerManager</a> ()</td></tr>
+<tr class="separator:a48d9227f5f3983d04717b0d3967b0fdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76288c6ab4a146c1198c67b81d89eea8" id="r_a76288c6ab4a146c1198c67b81d89eea8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#a76288c6ab4a146c1198c67b81d89eea8">TriggerManager</a> (const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html">TriggerManager</a> &amp;)=delete</td></tr>
+<tr class="separator:a76288c6ab4a146c1198c67b81d89eea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea76d14084854da3f24f278fbbeb808f" id="r_aea76d14084854da3f24f278fbbeb808f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html">TriggerManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#aea76d14084854da3f24f278fbbeb808f">operator=</a> (const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html">TriggerManager</a> &amp;)=delete</td></tr>
+<tr class="separator:aea76d14084854da3f24f278fbbeb808f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78726994441dde5ec7a63c3d759cf459" id="r_a78726994441dde5ec7a63c3d759cf459"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#a78726994441dde5ec7a63c3d759cf459">executeTrigger</a> (std::shared_ptr&lt; const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> &gt; trigger, std::shared_ptr&lt; const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt; old_row, std::shared_ptr&lt; const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt; new_row)</td></tr>
+<tr class="memdesc:a78726994441dde5ec7a63c3d759cf459"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行单个触发器  <br /></td></tr>
+<tr class="separator:a78726994441dde5ec7a63c3d759cf459"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abaa221212ce736332a8ddb542c212c9d" id="r_abaa221212ce736332a8ddb542c212c9d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#abaa221212ce736332a8ddb542c212c9d">checkTriggerCondition</a> (std::shared_ptr&lt; const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> &gt; trigger, std::shared_ptr&lt; const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt; old_row, std::shared_ptr&lt; const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt; new_row)</td></tr>
+<tr class="memdesc:abaa221212ce736332a8ddb542c212c9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查触发条件  <br /></td></tr>
+<tr class="separator:abaa221212ce736332a8ddb542c212c9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a391798d2f7cd70bcfc527f8e7257e4e9" id="r_a391798d2f7cd70bcfc527f8e7257e4e9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#a391798d2f7cd70bcfc527f8e7257e4e9">executeTriggerSql</a> (std::shared_ptr&lt; const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> &gt; trigger, std::shared_ptr&lt; const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt; old_row, std::shared_ptr&lt; const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt; new_row)</td></tr>
+<tr class="memdesc:a391798d2f7cd70bcfc527f8e7257e4e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行触发器SQL（默认实现）  <br /></td></tr>
+<tr class="separator:a391798d2f7cd70bcfc527f8e7257e4e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aa51686aa8587d53a29ac24257fb9227c" id="r_aa51686aa8587d53a29ac24257fb9227c"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#aa51686aa8587d53a29ac24257fb9227c">sql_executor_</a></td></tr>
+<tr class="separator:aa51686aa8587d53a29ac24257fb9227c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33df2d0bf71c2b6839afcb570120eeb7" id="r_a33df2d0bf71c2b6839afcb570120eeb7"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#a33df2d0bf71c2b6839afcb570120eeb7">triggers_</a></td></tr>
+<tr class="separator:a33df2d0bf71c2b6839afcb570120eeb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32cf3ee37a1ad06be96c780192554360" id="r_a32cf3ee37a1ad06be96c780192554360"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1trigger_1_1TriggerExecutor.html">TriggerExecutor</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#a32cf3ee37a1ad06be96c780192554360">trigger_executor_</a></td></tr>
+<tr class="separator:a32cf3ee37a1ad06be96c780192554360"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a055b58bad3c442c38102b769741744b2" id="r_a055b58bad3c442c38102b769741744b2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1trigger_1_1RecursionGuard.html">RecursionGuard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#a055b58bad3c442c38102b769741744b2">recursion_guard_</a></td></tr>
+<tr class="separator:a055b58bad3c442c38102b769741744b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aceab0db1fc476fabe5eade1560787004" id="r_aceab0db1fc476fabe5eade1560787004"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#aceab0db1fc476fabe5eade1560787004">mutex_</a></td></tr>
+<tr class="separator:aceab0db1fc476fabe5eade1560787004"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3052691763d42745c975affbf330f18" id="r_ad3052691763d42745c975affbf330f18"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html#ad3052691763d42745c975affbf330f18">last_error_</a></td></tr>
+<tr class="separator:ad3052691763d42745c975affbf330f18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>触发器管理器 </p>
+<p>负责触发器的注册、注销、触发和递归防护 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="ab2983477aeb4894a70e1f411db1dbacd" name="ab2983477aeb4894a70e1f411db1dbacd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2983477aeb4894a70e1f411db1dbacd">&#9670;&#160;</a></span>TriggerManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::trigger::TriggerManager::TriggerManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a48d9227f5f3983d04717b0d3967b0fdf" name="a48d9227f5f3983d04717b0d3967b0fdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48d9227f5f3983d04717b0d3967b0fdf">&#9670;&#160;</a></span>~TriggerManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::trigger::TriggerManager::~TriggerManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76288c6ab4a146c1198c67b81d89eea8" name="a76288c6ab4a146c1198c67b81d89eea8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76288c6ab4a146c1198c67b81d89eea8">&#9670;&#160;</a></span>TriggerManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::trigger::TriggerManager::TriggerManager </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html">TriggerManager</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="abaa221212ce736332a8ddb542c212c9d" name="abaa221212ce736332a8ddb542c212c9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abaa221212ce736332a8ddb542c212c9d">&#9670;&#160;</a></span>checkTriggerCondition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::trigger::TriggerManager::checkTriggerCondition </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> &gt;&#160;</td>
+          <td class="paramname"><em>trigger</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt;&#160;</td>
+          <td class="paramname"><em>old_row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt;&#160;</td>
+          <td class="paramname"><em>new_row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查触发条件 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trigger</td><td>触发器 </td></tr>
+    <tr><td class="paramname">old_row</td><td>旧行数据 </td></tr>
+    <tr><td class="paramname">new_row</td><td>新行数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否满足条件 </dd></dl>
+
+</div>
+</div>
+<a id="a77459b995e7531173538c8819cd2a9cd" name="a77459b995e7531173538c8819cd2a9cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77459b995e7531173538c8819cd2a9cd">&#9670;&#160;</a></span>createTrigger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::trigger::TriggerManager::createTrigger </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> &gt;&#160;</td>
+          <td class="paramname"><em>trigger</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>创建触发器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trigger</td><td>触发器定义 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="af3301cd9e0f48aaf4ee4d78c6f83e4a1" name="af3301cd9e0f48aaf4ee4d78c6f83e4a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3301cd9e0f48aaf4ee4d78c6f83e4a1">&#9670;&#160;</a></span>disableTrigger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::trigger::TriggerManager::disableTrigger </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>trigger_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>禁用触发器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trigger_name</td><td>触发器名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="ab59f142a2695d0adc6dbb46a106b6530" name="ab59f142a2695d0adc6dbb46a106b6530"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab59f142a2695d0adc6dbb46a106b6530">&#9670;&#160;</a></span>dropTrigger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::trigger::TriggerManager::dropTrigger </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>trigger_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>删除触发器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trigger_name</td><td>触发器名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="acc9ddd84622aee4ea5a811b80752a50a" name="acc9ddd84622aee4ea5a811b80752a50a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc9ddd84622aee4ea5a811b80752a50a">&#9670;&#160;</a></span>enableTrigger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::trigger::TriggerManager::enableTrigger </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>trigger_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>启用触发器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trigger_name</td><td>触发器名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a78726994441dde5ec7a63c3d759cf459" name="a78726994441dde5ec7a63c3d759cf459"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78726994441dde5ec7a63c3d759cf459">&#9670;&#160;</a></span>executeTrigger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::trigger::TriggerManager::executeTrigger </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> &gt;&#160;</td>
+          <td class="paramname"><em>trigger</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt;&#160;</td>
+          <td class="paramname"><em>old_row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt;&#160;</td>
+          <td class="paramname"><em>new_row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行单个触发器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trigger</td><td>触发器定义 </td></tr>
+    <tr><td class="paramname">old_row</td><td>旧行数据 </td></tr>
+    <tr><td class="paramname">new_row</td><td>新行数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>执行结果 </dd></dl>
+
+</div>
+</div>
+<a id="a391798d2f7cd70bcfc527f8e7257e4e9" name="a391798d2f7cd70bcfc527f8e7257e4e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a391798d2f7cd70bcfc527f8e7257e4e9">&#9670;&#160;</a></span>executeTriggerSql()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::trigger::TriggerManager::executeTriggerSql </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> &gt;&#160;</td>
+          <td class="paramname"><em>trigger</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt;&#160;</td>
+          <td class="paramname"><em>old_row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; const <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt;&#160;</td>
+          <td class="paramname"><em>new_row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行触发器SQL（默认实现） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trigger</td><td>触发器定义 </td></tr>
+    <tr><td class="paramname">old_row</td><td>旧行数据 </td></tr>
+    <tr><td class="paramname">new_row</td><td>新行数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>执行结果 </dd></dl>
+
+</div>
+</div>
+<a id="a6678941cfe3d70938739dc3f2bc9cf92" name="a6678941cfe3d70938739dc3f2bc9cf92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6678941cfe3d70938739dc3f2bc9cf92">&#9670;&#160;</a></span>fireTriggers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::trigger::TriggerManager::fireTriggers </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1trigger.html#aafc6faa2e7d6c4de2f2a651ed5cb7843">TriggerTiming</a>&#160;</td>
+          <td class="paramname"><em>timing</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1trigger.html#a9048eb6b0f22224de968d97a266c8032">TriggerEvent</a>&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>old_rows</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structsqlcc_1_1trigger_1_1RowData.html">RowData</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>new_rows</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>触发事件处理 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timing</td><td>触发时机 </td></tr>
+    <tr><td class="paramname">event</td><td>触发事件 </td></tr>
+    <tr><td class="paramname">table_name</td><td>表名 </td></tr>
+    <tr><td class="paramname">old_rows</td><td>旧行数据 </td></tr>
+    <tr><td class="paramname">new_rows</td><td>新行数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a794c8fc33a803cf053cd77c97a1063be" name="a794c8fc33a803cf053cd77c97a1063be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a794c8fc33a803cf053cd77c97a1063be">&#9670;&#160;</a></span>getInstance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html">TriggerManager</a> &amp; sqlcc::trigger::TriggerManager::getInstance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取单例实例 </p>
+
+</div>
+</div>
+<a id="a06d8dbcee496721f1ece5d81a7f38ce7" name="a06d8dbcee496721f1ece5d81a7f38ce7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06d8dbcee496721f1ece5d81a7f38ce7">&#9670;&#160;</a></span>getLastError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::trigger::TriggerManager::getLastError </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取最后错误信息 </p>
+
+</div>
+</div>
+<a id="a8725c325d9d938cfb2ff0aadfac17ee1" name="a8725c325d9d938cfb2ff0aadfac17ee1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8725c325d9d938cfb2ff0aadfac17ee1">&#9670;&#160;</a></span>getTrigger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> &gt; sqlcc::trigger::TriggerManager::getTrigger </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>trigger_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取触发器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trigger_name</td><td>触发器名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>触发器定义的智能指针，如果不存在返回nullptr </dd></dl>
+
+</div>
+</div>
+<a id="afd4a7eff3732ab4586ebe0b46bfc9fca" name="afd4a7eff3732ab4586ebe0b46bfc9fca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd4a7eff3732ab4586ebe0b46bfc9fca">&#9670;&#160;</a></span>getTriggersForTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt; const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a> &gt; &gt; sqlcc::trigger::TriggerManager::getTriggersForTable </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取表的所有触发器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">table_name</td><td>表名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>触发器智能指针列表 </dd></dl>
+
+</div>
+</div>
+<a id="a7c037e9e3a4cf3490a5654493fa7799d" name="a7c037e9e3a4cf3490a5654493fa7799d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c037e9e3a4cf3490a5654493fa7799d">&#9670;&#160;</a></span>initialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::trigger::TriggerManager::initialize </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a> &gt;&#160;</td>
+          <td class="paramname"><em>executor</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>初始化管理器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">executor</td><td>SQL执行器 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aea76d14084854da3f24f278fbbeb808f" name="aea76d14084854da3f24f278fbbeb808f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea76d14084854da3f24f278fbbeb808f">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html">TriggerManager</a> &amp; sqlcc::trigger::TriggerManager::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1trigger_1_1TriggerManager.html">TriggerManager</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad7855213489417e19d44c19efc72c420" name="ad7855213489417e19d44c19efc72c420"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7855213489417e19d44c19efc72c420">&#9670;&#160;</a></span>setTriggerExecutor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::trigger::TriggerManager::setTriggerExecutor </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1trigger_1_1TriggerExecutor.html">TriggerExecutor</a> &gt;&#160;</td>
+          <td class="paramname"><em>executor</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置触发器执行器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">executor</td><td>触发器执行器 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ad3052691763d42745c975affbf330f18" name="ad3052691763d42745c975affbf330f18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3052691763d42745c975affbf330f18">&#9670;&#160;</a></span>last_error_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::trigger::TriggerManager::last_error_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aceab0db1fc476fabe5eade1560787004" name="aceab0db1fc476fabe5eade1560787004"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aceab0db1fc476fabe5eade1560787004">&#9670;&#160;</a></span>mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::trigger::TriggerManager::mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a055b58bad3c442c38102b769741744b2" name="a055b58bad3c442c38102b769741744b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a055b58bad3c442c38102b769741744b2">&#9670;&#160;</a></span>recursion_guard_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1trigger_1_1RecursionGuard.html">RecursionGuard</a> sqlcc::trigger::TriggerManager::recursion_guard_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa51686aa8587d53a29ac24257fb9227c" name="aa51686aa8587d53a29ac24257fb9227c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa51686aa8587d53a29ac24257fb9227c">&#9670;&#160;</a></span>sql_executor_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a>&gt; sqlcc::trigger::TriggerManager::sql_executor_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a32cf3ee37a1ad06be96c780192554360" name="a32cf3ee37a1ad06be96c780192554360"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32cf3ee37a1ad06be96c780192554360">&#9670;&#160;</a></span>trigger_executor_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1trigger_1_1TriggerExecutor.html">TriggerExecutor</a>&gt; sqlcc::trigger::TriggerManager::trigger_executor_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a33df2d0bf71c2b6839afcb570120eeb7" name="a33df2d0bf71c2b6839afcb570120eeb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33df2d0bf71c2b6839afcb570120eeb7">&#9670;&#160;</a></span>triggers_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1trigger_1_1TriggerDefinition.html">TriggerDefinition</a>&gt; &gt; sqlcc::trigger::TriggerManager::triggers_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="trigger_2trigger__manager_8h_source.html">trigger/trigger_manager.h</a></li>
+<li><a class="el" href="trigger__manager_8cpp.html">trigger_manager.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: error_handler.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">error_handler.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="error__handler_8h_source.html">error_handler.h</a>&quot;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;iomanip&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+error_handler.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="error__handler_8cpp__incl.png" border="0" usemap="#aerror__handler_8cpp" alt=""/></div>
+<map name="aerror__handler_8cpp" id="aerror__handler_8cpp">
+<area shape="rect" title=" " alt="" coords="386,5,521,31"/>
+<area shape="rect" href="error__handler_8h.html" title=" " alt="" coords="195,79,315,104"/>
+<area shape="poly" title=" " alt="" coords="422,33,301,76,299,71,421,28"/>
+<area shape="rect" title=" " alt="" coords="376,152,451,177"/>
+<area shape="poly" title=" " alt="" coords="443,33,425,53,411,80,406,109,409,138,404,138,401,109,405,78,420,50,439,29"/>
+<area shape="rect" title=" " alt="" coords="420,79,487,104"/>
+<area shape="poly" title=" " alt="" coords="456,31,456,65,451,65,451,31"/>
+<area shape="rect" title=" " alt="" coords="511,79,585,104"/>
+<area shape="poly" title=" " alt="" coords="470,29,523,68,520,72,467,33"/>
+<area shape="rect" title=" " alt="" coords="609,79,689,104"/>
+<area shape="poly" title=" " alt="" coords="486,28,605,71,604,76,484,33"/>
+<area shape="rect" title=" " alt="" coords="5,152,64,177"/>
+<area shape="poly" title=" " alt="" coords="220,107,78,152,77,147,219,101"/>
+<area shape="rect" title=" " alt="" coords="88,152,139,177"/>
+<area shape="poly" title=" " alt="" coords="233,106,150,148,147,143,231,102"/>
+<area shape="rect" title=" " alt="" coords="163,152,240,177"/>
+<area shape="poly" title=" " alt="" coords="248,106,220,143,216,140,244,103"/>
+<area shape="poly" title=" " alt="" coords="281,102,376,144,374,149,279,106"/>
+<area shape="rect" title=" " alt="" coords="265,152,351,177"/>
+<area shape="poly" title=" " alt="" coords="266,103,293,140,289,143,261,106"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么需要错误处理器？</p>
+<p>数据库系统运行在复杂的分布式环境中，错误无处不在。没有完善的错误处理系统，系统就会因为单个错误而崩溃，导致数据丢失和服务中断。错误处理器是数据库系统稳定性和可靠性的守护者，直接决定了系统的容错能力和用户体验。</p>
+<p>主要问题解决：</p><ol type="1">
+<li>错误统一管理：标准化错误分类和处理流程</li>
+<li>系统稳定性：防止单个错误导致整个系统崩溃</li>
+<li>调试支持：提供详细的错误上下文和调用栈信息</li>
+<li>用户反馈：向用户提供清晰易懂的错误信息</li>
+<li>监控告警：支持错误统计和系统健康监控</li>
+</ol>
+<p>错误处理器失败的影响：</p><ul>
+<li>系统崩溃：未处理的异常导致程序终止</li>
+<li>数据丢失：错误状态下数据可能损坏</li>
+<li>用户困惑：模糊的错误信息无法定位问题</li>
+<li>调试困难：缺乏错误上下文和历史记录</li>
+</ul>
+<p>WHAT: 这实现了什么功能？</p>
+<p>错误处理器提供完整的数据库系统错误管理功能：</p><ul>
+<li>错误分类：按严重程度和类型分类错误</li>
+<li>错误记录：时间戳、模块信息、详细描述</li>
+<li>错误回调：支持自定义错误处理逻辑</li>
+<li>错误历史：维护错误发生的时间线</li>
+<li>错误格式化：标准化错误信息输出格式</li>
+<li>错误统计：支持错误频率和模式的分析</li>
+</ul>
+<p>核心组件：</p><ul>
+<li>ErrorHandler：错误处理器主类，单例模式管理</li>
+<li>ErrorInfo：错误信息结构体，封装错误详情</li>
+<li>ErrorCode：错误代码枚举，标准化错误分类</li>
+<li>ErrorLevel：错误级别枚举，区分错误严重程度</li>
+<li>ErrorCallback：错误回调接口，支持异步处理</li>
+</ul>
+<p>HOW: 如何实现的？</p>
+<p>技术实现要点：</p><ol type="1">
+<li>单例模式：使用静态实例保证全局唯一访问</li>
+<li>错误队列：使用vector存储错误历史记录</li>
+<li>时间戳生成：使用chrono库生成精确时间戳</li>
+<li>回调机制：使用std::function支持灵活的错误处理</li>
+<li>线程安全：考虑多线程环境下的错误记录安全</li>
+<li>错误格式化：使用stringstream构建标准化的错误信息</li>
+</ol>
+<p>架构设计：</p><ul>
+<li>分层处理：错误捕获层、处理层、报告层分离</li>
+<li>插件架构：支持不同类型的错误处理器扩展</li>
+<li>配置驱动：运行时配置错误处理策略和阈值</li>
+<li>异步处理：后台线程处理错误日志和告警</li>
+<li>监控集成：与系统监控和告警系统集成</li>
+</ul>
+<p>错误处理策略：</p><ul>
+<li>优雅降级：非致命错误不影响系统正常运行</li>
+<li>错误恢复：提供错误恢复和重试机制</li>
+<li>错误隔离：单个组件错误不扩散到整个系统</li>
+<li>错误聚合：相同类型错误进行统计和分析</li>
+<li>错误升级：严重错误自动升级处理级别</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>该实现专为SQLCC数据库系统优化，支持高并发和ACID事务特性 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>include/error_handler.h </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

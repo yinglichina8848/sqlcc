@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['range_0',['Range',['../structsqlcc_1_1storage_1_1RangePartition_1_1Range.html',1,'sqlcc::storage::RangePartition']]],
+  ['rangepartition_1',['RangePartition',['../classsqlcc_1_1storage_1_1RangePartition.html',1,'sqlcc::storage']]],
+  ['recordboundaryvalidator_2',['RecordBoundaryValidator',['../classsqlcc_1_1RecordBoundaryValidator.html',1,'sqlcc']]],
+  ['recordboundaryvalidatorfactory_3',['RecordBoundaryValidatorFactory',['../classsqlcc_1_1RecordBoundaryValidatorFactory.html',1,'sqlcc']]],
+  ['recordheader_4',['RecordHeader',['../structsqlcc_1_1RecordHeader.html',1,'sqlcc']]],
+  ['recordsizelimits_5',['RecordSizeLimits',['../structsqlcc_1_1RecordSizeLimits.html',1,'sqlcc']]],
+  ['recordsizevalidator_6',['RecordSizeValidator',['../classsqlcc_1_1RecordSizeValidator.html',1,'sqlcc']]],
+  ['recordvalidationconfig_7',['RecordValidationConfig',['../structsqlcc_1_1RecordValidationConfig.html',1,'sqlcc']]],
+  ['recordvalidator_8',['RecordValidator',['../classsqlcc_1_1storage__engine_1_1table__storage_1_1RecordValidator.html',1,'sqlcc::storage_engine::table_storage']]],
+  ['recursionguard_9',['RecursionGuard',['../classsqlcc_1_1trigger_1_1RecursionGuard.html',1,'sqlcc::trigger']]],
+  ['recursivecontext_10',['RecursiveContext',['../structsqlcc_1_1RecursiveQueryExecutor_1_1RecursiveContext.html',1,'sqlcc::RecursiveQueryExecutor']]],
+  ['recursivequeryexecutor_11',['RecursiveQueryExecutor',['../classsqlcc_1_1RecursiveQueryExecutor.html',1,'sqlcc']]],
+  ['redundancystats_12',['RedundancyStats',['../structsqlcc_1_1DiskRedundancyManager_1_1RedundancyStats.html',1,'sqlcc::DiskRedundancyManager']]],
+  ['releasesavepointstatement_13',['ReleaseSavepointStatement',['../classsqlcc_1_1sql__parser_1_1ReleaseSavepointStatement.html',1,'sqlcc::sql_parser']]],
+  ['replacestrategyfactory_14',['ReplaceStrategyFactory',['../classsqlcc_1_1ReplaceStrategyFactory.html',1,'sqlcc']]],
+  ['revokerolestatement_15',['RevokeRoleStatement',['../classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html',1,'sqlcc::sql_parser']]],
+  ['revokestatement_16',['RevokeStatement',['../classsqlcc_1_1sql__parser_1_1RevokeStatement.html',1,'sqlcc::sql_parser']]],
+  ['role_17',['Role',['../structsqlcc_1_1Role.html',1,'sqlcc']]],
+  ['rollbackstatement_18',['RollbackStatement',['../classsqlcc_1_1sql__parser_1_1RollbackStatement.html',1,'sqlcc::sql_parser']]],
+  ['row_19',['Row',['../structsqlcc_1_1Row.html',1,'sqlcc']]],
+  ['rowdata_20',['RowData',['../structsqlcc_1_1trigger_1_1RowData.html',1,'sqlcc::trigger']]],
+  ['rulebasedoptimizer_21',['RuleBasedOptimizer',['../classsqlcc_1_1RuleBasedOptimizer.html',1,'sqlcc']]]
+];

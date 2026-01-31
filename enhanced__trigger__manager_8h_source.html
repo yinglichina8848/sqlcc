@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: enhanced_trigger_manager.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c4da858a4a51ad367068831bac354363.html">sql_executor</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">enhanced_trigger_manager.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="enhanced__trigger__manager_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span>sql_executor {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">// Forward declarations</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">class </span>CreateTriggerStatement;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">class </span>AlterTriggerStatement;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">class </span>DropTriggerStatement;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">class </span>EnhancedTriggerManager {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a5a124703356773d1d4e84c0f232e5945">   24</a></span>    <span class="keyword">static</span> <a class="code hl_class" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html">EnhancedTriggerManager</a>&amp; <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a5a124703356773d1d4e84c0f232e5945">getInstance</a>();</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="comment">// 触发器管理</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a1dc0304bd833e1407cdfef2003a2b090">   27</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a1dc0304bd833e1407cdfef2003a2b090">createTrigger</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1CreateTriggerStatement.html">sql_parser::CreateTriggerStatement</a>&amp; stmt);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a42888be0f168f0903f05b4710129f900">alterTrigger</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1AlterTriggerStatement.html">sql_parser::AlterTriggerStatement</a>&amp; stmt);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#ae5c1e12de646ae7114e37a12c379dc0a">dropTrigger</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1DropTriggerStatement.html">sql_parser::DropTriggerStatement</a>&amp; stmt);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#acad240cce5fb37d28c46be586f183b10">   30</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#acad240cce5fb37d28c46be586f183b10">triggerExists</a>(<span class="keyword">const</span> std::string&amp; triggerName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="comment">// 触发器执行</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a221314ea7a7f6fab4b8292c797558e3f">executeTrigger</a>(<span class="keyword">const</span> std::string&amp; triggerName, <span class="keyword">const</span> std::string&amp; eventType);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a2c7006739361f6b43e0c8e6accc5425f">executeTriggersForTable</a>(<span class="keyword">const</span> std::string&amp; tableName, <span class="keyword">const</span> std::string&amp; eventType);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="comment">// 触发器信息查询</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a90f6f8f0fb9a96526455182b2b5adb95">   37</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a90f6f8f0fb9a96526455182b2b5adb95">getTriggerInfo</a>(<span class="keyword">const</span> std::string&amp; triggerName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a946e824b9a8416e6a7c8928fb654b1f1">listTriggersForTable</a>(<span class="keyword">const</span> std::string&amp; tableName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#ae2c7901578c20e312d7a21de1eea274a">listAllTriggers</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="comment">// 触发器依赖管理</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a1954d5e13bfbb35f82e828102efd6f94">hasTriggerDependencies</a>(<span class="keyword">const</span> std::string&amp; triggerName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a4bf55789286d0715be53ade4bc1ab43f">getTriggerDependencies</a>(<span class="keyword">const</span> std::string&amp; triggerName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="comment">// 触发器状态管理</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a7902e7c2184ce250b6e645618e66821e">   46</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a7902e7c2184ce250b6e645618e66821e">enableTrigger</a>(<span class="keyword">const</span> std::string&amp; triggerName);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a91275bbf5e620db8f2e2b5dc192a845f">   47</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a91275bbf5e620db8f2e2b5dc192a845f">disableTrigger</a>(<span class="keyword">const</span> std::string&amp; triggerName);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a889b42f60737d35fddfbfa93b1c5d76a">isTriggerEnabled</a>(<span class="keyword">const</span> std::string&amp; triggerName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#abad2e70f7b954d4f5ca4de879b3203fb">   51</a></span>    <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#abad2e70f7b954d4f5ca4de879b3203fb">EnhancedTriggerManager</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="foldopen" id="foldopen00053" data-start="{" data-end="};">
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html">   53</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html">TriggerInfo</a> {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#ad7c97f1263bf0b0e6969353bd8ed3865">   54</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#ad7c97f1263bf0b0e6969353bd8ed3865">name</a>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#ae44c7e6a672d04e787bf17ed1cc0c738">   55</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#ae44c7e6a672d04e787bf17ed1cc0c738">tableName</a>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#aaf9d34e7f01f07189b89d711c2bcf6ac">   56</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#aaf9d34e7f01f07189b89d711c2bcf6ac">eventType</a>; <span class="comment">// INSERT, UPDATE, DELETE</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#aeb8090505bba838d69f7e2233fffe1f9">   57</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#aeb8090505bba838d69f7e2233fffe1f9">timing</a>;    <span class="comment">// BEFORE, AFTER, INSTEAD OF</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a82e6e819993fb6c9c2bbef70deada5bd">   58</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a82e6e819993fb6c9c2bbef70deada5bd">body</a>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a53784ef508708387c029fd0e4b1801df">   59</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a53784ef508708387c029fd0e4b1801df">whenCondition</a>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a88cae7668a09a1998acd670529267f61">   60</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a88cae7668a09a1998acd670529267f61">enabled</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a1c67112e5936ec168a5ef4d2bbb53bf2">   61</a></span>        <span class="keywordtype">long</span> <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a1c67112e5936ec168a5ef4d2bbb53bf2">created_time</a>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a778c1cc771e7a2e74ee224bb647be8d0">   62</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a778c1cc771e7a2e74ee224bb647be8d0">created_by</a>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#af72dab9a052f167eb164a3a978ac8b68">   63</a></span>        std::vector&lt;std::string&gt; <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#af72dab9a052f167eb164a3a978ac8b68">dependencies</a>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    };</div>
+</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a425bfb3cda186bdff999125c3e2def9a">   66</a></span>    std::unordered_map&lt;std::string, TriggerInfo&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a425bfb3cda186bdff999125c3e2def9a">triggers_</a>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    std::unordered_map&lt;std::string, std::vector&lt;std::string&gt;&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a733658827138a2c3d1d3e6ca1ef46693">table_triggers_</a>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a6b7ce52d2231c7d350c83138c7c90346">   68</a></span>    <span class="keywordtype">long</span> <a class="code hl_variable" href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a6b7ce52d2231c7d350c83138c7c90346">next_trigger_id_</a> = 1;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>};</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>} <span class="comment">// namespace sql_executor</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html">sqlcc::sql_executor::EnhancedTriggerManager</a></div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:125</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a1954d5e13bfbb35f82e828102efd6f94"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a1954d5e13bfbb35f82e828102efd6f94">sqlcc::sql_executor::EnhancedTriggerManager::hasTriggerDependencies</a></div><div class="ttdeci">bool hasTriggerDependencies(const std::string &amp;triggerName) const</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.cpp:143</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a1dc0304bd833e1407cdfef2003a2b090"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a1dc0304bd833e1407cdfef2003a2b090">sqlcc::sql_executor::EnhancedTriggerManager::createTrigger</a></div><div class="ttdeci">bool createTrigger(const sql_parser::CreateTriggerStatement &amp;stmt)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a221314ea7a7f6fab4b8292c797558e3f"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a221314ea7a7f6fab4b8292c797558e3f">sqlcc::sql_executor::EnhancedTriggerManager::executeTrigger</a></div><div class="ttdeci">bool executeTrigger(const std::string &amp;triggerName, const std::string &amp;eventType)</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.cpp:72</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a2c7006739361f6b43e0c8e6accc5425f"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a2c7006739361f6b43e0c8e6accc5425f">sqlcc::sql_executor::EnhancedTriggerManager::executeTriggersForTable</a></div><div class="ttdeci">bool executeTriggersForTable(const std::string &amp;tableName, const std::string &amp;eventType)</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.cpp:93</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a425bfb3cda186bdff999125c3e2def9a"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a425bfb3cda186bdff999125c3e2def9a">sqlcc::sql_executor::EnhancedTriggerManager::triggers_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, TriggerInfo &gt; triggers_</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.h:66</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a42888be0f168f0903f05b4710129f900"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a42888be0f168f0903f05b4710129f900">sqlcc::sql_executor::EnhancedTriggerManager::alterTrigger</a></div><div class="ttdeci">bool alterTrigger(const sql_parser::AlterTriggerStatement &amp;stmt)</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.cpp:41</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a4bf55789286d0715be53ade4bc1ab43f"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a4bf55789286d0715be53ade4bc1ab43f">sqlcc::sql_executor::EnhancedTriggerManager::getTriggerDependencies</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getTriggerDependencies(const std::string &amp;triggerName) const</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.cpp:152</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a5a124703356773d1d4e84c0f232e5945"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a5a124703356773d1d4e84c0f232e5945">sqlcc::sql_executor::EnhancedTriggerManager::getInstance</a></div><div class="ttdeci">static EnhancedTriggerManager &amp; getInstance()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a6b7ce52d2231c7d350c83138c7c90346"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a6b7ce52d2231c7d350c83138c7c90346">sqlcc::sql_executor::EnhancedTriggerManager::next_trigger_id_</a></div><div class="ttdeci">long next_trigger_id_</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.h:68</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a733658827138a2c3d1d3e6ca1ef46693"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a733658827138a2c3d1d3e6ca1ef46693">sqlcc::sql_executor::EnhancedTriggerManager::table_triggers_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt; table_triggers_</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:166</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a7902e7c2184ce250b6e645618e66821e"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a7902e7c2184ce250b6e645618e66821e">sqlcc::sql_executor::EnhancedTriggerManager::enableTrigger</a></div><div class="ttdeci">bool enableTrigger(const std::string &amp;triggerName)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a889b42f60737d35fddfbfa93b1c5d76a"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a889b42f60737d35fddfbfa93b1c5d76a">sqlcc::sql_executor::EnhancedTriggerManager::isTriggerEnabled</a></div><div class="ttdeci">bool isTriggerEnabled(const std::string &amp;triggerName) const</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.cpp:178</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a90f6f8f0fb9a96526455182b2b5adb95"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a90f6f8f0fb9a96526455182b2b5adb95">sqlcc::sql_executor::EnhancedTriggerManager::getTriggerInfo</a></div><div class="ttdeci">std::string getTriggerInfo(const std::string &amp;triggerName) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a91275bbf5e620db8f2e2b5dc192a845f"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a91275bbf5e620db8f2e2b5dc192a845f">sqlcc::sql_executor::EnhancedTriggerManager::disableTrigger</a></div><div class="ttdeci">bool disableTrigger(const std::string &amp;triggerName)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_a946e824b9a8416e6a7c8928fb654b1f1"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#a946e824b9a8416e6a7c8928fb654b1f1">sqlcc::sql_executor::EnhancedTriggerManager::listTriggersForTable</a></div><div class="ttdeci">std::vector&lt; std::string &gt; listTriggersForTable(const std::string &amp;tableName) const</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.cpp:126</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_abad2e70f7b954d4f5ca4de879b3203fb"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#abad2e70f7b954d4f5ca4de879b3203fb">sqlcc::sql_executor::EnhancedTriggerManager::EnhancedTriggerManager</a></div><div class="ttdeci">EnhancedTriggerManager()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_acad240cce5fb37d28c46be586f183b10"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#acad240cce5fb37d28c46be586f183b10">sqlcc::sql_executor::EnhancedTriggerManager::triggerExists</a></div><div class="ttdeci">bool triggerExists(const std::string &amp;triggerName) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_ae2c7901578c20e312d7a21de1eea274a"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#ae2c7901578c20e312d7a21de1eea274a">sqlcc::sql_executor::EnhancedTriggerManager::listAllTriggers</a></div><div class="ttdeci">std::vector&lt; std::string &gt; listAllTriggers() const</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.cpp:134</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1EnhancedTriggerManager_html_ae5c1e12de646ae7114e37a12c379dc0a"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1EnhancedTriggerManager.html#ae5c1e12de646ae7114e37a12c379dc0a">sqlcc::sql_executor::EnhancedTriggerManager::dropTrigger</a></div><div class="ttdeci">bool dropTrigger(const std::string &amp;triggerName)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1AlterTriggerStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1AlterTriggerStatement.html">sqlcc::sql_parser::AlterTriggerStatement</a></div><div class="ttdef"><b>Definition</b> ast_nodes.h:672</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateTriggerStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateTriggerStatement.html">sqlcc::sql_parser::CreateTriggerStatement</a></div><div class="ttdef"><b>Definition</b> ast_ddl_nodes.h:290</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DropTriggerStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DropTriggerStatement.html">sqlcc::sql_parser::DropTriggerStatement</a></div><div class="ttdef"><b>Definition</b> ast_ddl_nodes.h:302</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo_html"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html">sqlcc::sql_executor::EnhancedTriggerManager::TriggerInfo</a></div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.h:53</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo_html_a1c67112e5936ec168a5ef4d2bbb53bf2"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a1c67112e5936ec168a5ef4d2bbb53bf2">sqlcc::sql_executor::EnhancedTriggerManager::TriggerInfo::created_time</a></div><div class="ttdeci">long created_time</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.h:61</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo_html_a53784ef508708387c029fd0e4b1801df"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a53784ef508708387c029fd0e4b1801df">sqlcc::sql_executor::EnhancedTriggerManager::TriggerInfo::whenCondition</a></div><div class="ttdeci">std::string whenCondition</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.h:59</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo_html_a778c1cc771e7a2e74ee224bb647be8d0"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a778c1cc771e7a2e74ee224bb647be8d0">sqlcc::sql_executor::EnhancedTriggerManager::TriggerInfo::created_by</a></div><div class="ttdeci">std::string created_by</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.h:62</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo_html_a82e6e819993fb6c9c2bbef70deada5bd"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a82e6e819993fb6c9c2bbef70deada5bd">sqlcc::sql_executor::EnhancedTriggerManager::TriggerInfo::body</a></div><div class="ttdeci">std::string body</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.h:58</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo_html_a88cae7668a09a1998acd670529267f61"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#a88cae7668a09a1998acd670529267f61">sqlcc::sql_executor::EnhancedTriggerManager::TriggerInfo::enabled</a></div><div class="ttdeci">bool enabled</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.h:60</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo_html_aaf9d34e7f01f07189b89d711c2bcf6ac"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#aaf9d34e7f01f07189b89d711c2bcf6ac">sqlcc::sql_executor::EnhancedTriggerManager::TriggerInfo::eventType</a></div><div class="ttdeci">std::string eventType</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.h:56</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo_html_ad7c97f1263bf0b0e6969353bd8ed3865"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#ad7c97f1263bf0b0e6969353bd8ed3865">sqlcc::sql_executor::EnhancedTriggerManager::TriggerInfo::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.h:54</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo_html_ae44c7e6a672d04e787bf17ed1cc0c738"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#ae44c7e6a672d04e787bf17ed1cc0c738">sqlcc::sql_executor::EnhancedTriggerManager::TriggerInfo::tableName</a></div><div class="ttdeci">std::string tableName</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.h:55</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo_html_aeb8090505bba838d69f7e2233fffe1f9"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#aeb8090505bba838d69f7e2233fffe1f9">sqlcc::sql_executor::EnhancedTriggerManager::TriggerInfo::timing</a></div><div class="ttdeci">std::string timing</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.h:57</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo_html_af72dab9a052f167eb164a3a978ac8b68"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html#af72dab9a052f167eb164a3a978ac8b68">sqlcc::sql_executor::EnhancedTriggerManager::TriggerInfo::dependencies</a></div><div class="ttdeci">std::vector&lt; std::string &gt; dependencies</div><div class="ttdef"><b>Definition</b> enhanced_trigger_manager.h:63</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

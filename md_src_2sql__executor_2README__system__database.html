@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: 系统数据库组件重构说明</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+</div><!-- top -->
+<div><div class="header">
+  <div class="headertitle"><div class="title">系统数据库组件重构说明</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p><a class="anchor" id="autotoc_md0"></a> </p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+概述</h1>
+<p>本重构将原本单一的 <code>system_database.cpp</code> 文件拆分为多个职责明确的组件，提高了代码的可维护性和可扩展性。</p>
+<h1><a class="anchor" id="autotoc_md2"></a>
+组件结构</h1>
+<h2><a class="anchor" id="autotoc_md3"></a>
+1. SystemSchemaManager (系统表管理器)</h2>
+<ul>
+<li><b>文件</b>: <code><a class="el" href="system__schema__manager_8h.html">system_schema_manager.h</a></code>, <code><a class="el" href="system__schema__manager_8cpp.html">system_schema_manager.cpp</a></code></li>
+<li><b>职责</b>: 负责创建和管理所有系统表结构</li>
+<li><b>主要功能</b>:<ul>
+<li>创建系统数据库表（sys_databases, sys_users, sys_roles等）</li>
+<li>检查系统表是否存在</li>
+<li>管理系统表结构定义</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md4"></a>
+2. SystemDataInitializer (系统数据初始化器)</h2>
+<ul>
+<li><b>文件</b>: <code><a class="el" href="system__data__initializer_8h.html">system_data_initializer.h</a></code>, <code><a class="el" href="system__data__initializer_8cpp.html">system_data_initializer.cpp</a></code></li>
+<li><b>职责</b>: 负责初始化系统数据库的默认数据</li>
+<li><b>主要功能</b>:<ul>
+<li>创建默认角色（admin, dba, user等）</li>
+<li>创建默认超级用户（root）</li>
+<li>初始化默认权限设置</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md5"></a>
+3. SystemPermissionManager (系统权限管理器)</h2>
+<ul>
+<li><b>文件</b>: <code><a class="el" href="system__permission__manager_8h.html">system_permission_manager.h</a></code>, <code><a class="el" href="system__permission__manager_8cpp.html">system_permission_manager.cpp</a></code></li>
+<li><b>职责</b>: 负责用户、角色和权限的管理</li>
+<li><b>主要功能</b>:<ul>
+<li>用户管理（创建、删除、更新、查询）</li>
+<li>角色管理（创建、删除、查询）</li>
+<li>权限管理（授权、撤销、查询）</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md6"></a>
+4. SystemMetadataManager (系统元数据管理器)</h2>
+<ul>
+<li><b>文件</b>: <code><a class="el" href="system__metadata__manager_8h.html">system_metadata_manager.h</a></code>, <code><a class="el" href="system__metadata__manager_8cpp.html">system_metadata_manager.cpp</a></code></li>
+<li><b>职责</b>: 负责数据库对象元数据的管理</li>
+<li><b>主要功能</b>:<ul>
+<li>数据库元数据管理</li>
+<li>表、列、索引、约束元数据管理</li>
+<li>视图元数据管理</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md7"></a>
+5. SystemDataStructures (系统数据结构定义)</h2>
+<ul>
+<li><b>文件</b>: <code><a class="el" href="system__data__structures_8h.html">system_data_structures.h</a></code></li>
+<li><b>职责</b>: 定义系统数据库中使用的所有数据结构</li>
+<li><b>主要内容</b>:<ul>
+<li>SysDatabase, SysUser, SysRole等结构体定义</li>
+<li>系统表字段定义</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md8"></a>
+6. SystemDatabase (重构后的系统数据库类)</h2>
+<ul>
+<li><b>文件</b>: <code><a class="el" href="system__database__new_8h.html">system_database_new.h</a></code>, <code><a class="el" href="system__database__new_8cpp.html">system_database_new.cpp</a></code></li>
+<li><b>职责</b>: 整合所有组件，提供统一的系统数据库接口</li>
+<li><b>主要功能</b>:<ul>
+<li>初始化系统数据库</li>
+<li>提供数据库、用户、角色、权限等操作的高级接口</li>
+<li>管理各个组件的生命周期</li>
+</ul>
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md9"></a>
+使用方法</h1>
+<h2><a class="anchor" id="autotoc_md10"></a>
+初始化系统数据库</h2>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="system__database__new_8h.html">system_database_new.h</a>&quot;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 创建数据库管理器</span></div>
+<div class="line"><span class="keyword">auto</span> db_manager = std::make_shared&lt;DatabaseManager&gt;();</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 创建系统数据库实例</span></div>
+<div class="line">SystemDatabase system_db(db_manager);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 初始化系统数据库</span></div>
+<div class="line"><span class="keywordflow">if</span> (!system_db.Initialize()) {</div>
+<div class="line">    std::cerr &lt;&lt; <span class="stringliteral">&quot;Failed to initialize system database: &quot;</span> &lt;&lt; system_db.GetLastError() &lt;&lt; std::endl;</div>
+<div class="line">    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line">}</div>
+<div class="ttc" id="asystem__database__new_8h_html"><div class="ttname"><a href="system__database__new_8h.html">system_database_new.h</a></div></div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md11"></a>
+创建用户和数据库</h2>
+<div class="fragment"><div class="line"><span class="comment">// 创建数据库</span></div>
+<div class="line"><span class="keywordflow">if</span> (!system_db.CreateDatabase(<span class="stringliteral">&quot;mydb&quot;</span>, <span class="stringliteral">&quot;admin&quot;</span>, <span class="stringliteral">&quot;My application database&quot;</span>)) {</div>
+<div class="line">    std::cerr &lt;&lt; <span class="stringliteral">&quot;Failed to create database: &quot;</span> &lt;&lt; system_db.GetLastError() &lt;&lt; std::endl;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 创建用户</span></div>
+<div class="line"><span class="keywordflow">if</span> (!system_db.CreateUser(<span class="stringliteral">&quot;myuser&quot;</span>, <span class="stringliteral">&quot;mypassword&quot;</span>, <span class="stringliteral">&quot;user@example.com&quot;</span>, <span class="stringliteral">&quot;user&quot;</span>)) {</div>
+<div class="line">    std::cerr &lt;&lt; <span class="stringliteral">&quot;Failed to create user: &quot;</span> &lt;&lt; system_db.GetLastError() &lt;&lt; std::endl;</div>
+<div class="line">}</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md12"></a>
+权限管理</h2>
+<div class="fragment"><div class="line"><span class="comment">// 授予权限</span></div>
+<div class="line"><span class="keywordflow">if</span> (!system_db.GrantPrivilege(<span class="stringliteral">&quot;myuser&quot;</span>, <span class="stringliteral">&quot;DATABASE&quot;</span>, <span class="stringliteral">&quot;mydb&quot;</span>, <span class="stringliteral">&quot;SELECT&quot;</span>)) {</div>
+<div class="line">    std::cerr &lt;&lt; <span class="stringliteral">&quot;Failed to grant privilege: &quot;</span> &lt;&lt; system_db.GetLastError() &lt;&lt; std::endl;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 检查权限</span></div>
+<div class="line"><span class="keywordflow">if</span> (system_db.HasPrivilege(<span class="stringliteral">&quot;myuser&quot;</span>, <span class="stringliteral">&quot;DATABASE&quot;</span>, <span class="stringliteral">&quot;mydb&quot;</span>, <span class="stringliteral">&quot;SELECT&quot;</span>)) {</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;User has SELECT privilege on mydb&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">}</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md13"></a>
+查询系统信息</h2>
+<div class="fragment"><div class="line"><span class="comment">// 列出所有数据库</span></div>
+<div class="line"><span class="keyword">auto</span> databases = system_db.ListDatabases();</div>
+<div class="line"><span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; db : databases) {</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Database: &quot;</span> &lt;&lt; db.db_name &lt;&lt; <span class="stringliteral">&quot;, Owner: &quot;</span> &lt;&lt; db.owner &lt;&lt; std::endl;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 列出所有用户</span></div>
+<div class="line"><span class="keyword">auto</span> users = system_db.ListUsers();</div>
+<div class="line"><span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; user : users) {</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;User: &quot;</span> &lt;&lt; user.username &lt;&lt; <span class="stringliteral">&quot;, Role: &quot;</span> &lt;&lt; user.role_name &lt;&lt; std::endl;</div>
+<div class="line">}</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md14"></a>
+编译说明</h1>
+<p>使用提供的 <code>CMakeLists_system_database.txt</code> 文件编译系统数据库组件：</p>
+<div class="fragment"><div class="line"># 在项目根目录下</div>
+<div class="line">cmake -DCMAKE_BUILD_TYPE=Release .</div>
+<div class="line">make system_database</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md15"></a>
+设计优势</h1>
+<ol type="1">
+<li><b>单一职责原则</b>: 每个组件只负责一个特定的功能领域</li>
+<li><b>松耦合</b>: 组件之间通过接口交互，降低耦合度</li>
+<li><b>高内聚</b>: 相关功能集中在同一组件内</li>
+<li><b>易于扩展</b>: 新功能可以通过添加新组件或扩展现有组件实现</li>
+<li><b>易于测试</b>: 每个组件可以独立测试</li>
+</ol>
+<h1><a class="anchor" id="autotoc_md16"></a>
+迁移指南</h1>
+<p>从旧的 <code>system_database.cpp</code> 迁移到新的组件化结构：</p>
+<ol type="1">
+<li>将原有的 <code>#include "system_database.h"</code> 替换为 <code>#include "system_database_new.h"</code></li>
+<li>更新类名从 <code>SystemDatabase</code> 保持不变（接口兼容）</li>
+<li>如果直接使用了内部方法，可能需要通过对应的管理器访问</li>
+</ol>
+<h1><a class="anchor" id="autotoc_md17"></a>
+后续改进</h1>
+<ol type="1">
+<li>添加事务支持</li>
+<li>实现更细粒度的权限控制</li>
+<li>添加审计日志功能</li>
+<li>优化性能，特别是大量用户和权限的场景</li>
+<li>添加缓存机制，减少系统数据库访问频率 </li>
+</ol>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

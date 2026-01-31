@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::execution::JoinConditionEvaluator类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1execution.html">execution</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1execution_1_1JoinConditionEvaluator.html">JoinConditionEvaluator</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1execution_1_1JoinConditionEvaluator-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::execution::JoinConditionEvaluator类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>JOIN条件评估器  
+ <a href="classsqlcc_1_1execution_1_1JoinConditionEvaluator.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="join__executor_8h_source.html">join_executor.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:aa2767cf9157bf9cb04ed0e5b6b8c28c2" id="r_aa2767cf9157bf9cb04ed0e5b6b8c28c2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1JoinConditionEvaluator.html#aa2767cf9157bf9cb04ed0e5b6b8c28c2">JoinConditionEvaluator</a> (const std::unordered_map&lt; std::string, size_t &gt; &amp;left_columns, const std::unordered_map&lt; std::string, size_t &gt; &amp;right_columns, std::unique_ptr&lt; sql_parser::Expression &gt; condition)</td></tr>
+<tr class="memdesc:aa2767cf9157bf9cb04ed0e5b6b8c28c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:aa2767cf9157bf9cb04ed0e5b6b8c28c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa10aea3d0fe751b81e01c001653f1932" id="r_aa10aea3d0fe751b81e01c001653f1932"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1JoinConditionEvaluator.html#aa10aea3d0fe751b81e01c001653f1932">evaluate</a> (const std::vector&lt; std::string &gt; &amp;left_row, const std::vector&lt; std::string &gt; &amp;right_row) const</td></tr>
+<tr class="memdesc:aa10aea3d0fe751b81e01c001653f1932"><td class="mdescLeft">&#160;</td><td class="mdescRight">评估JOIN条件  <br /></td></tr>
+<tr class="separator:aa10aea3d0fe751b81e01c001653f1932"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:aacec8f16c25cdad56537e6e5f98a68e3" id="r_aacec8f16c25cdad56537e6e5f98a68e3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1JoinConditionEvaluator.html#aacec8f16c25cdad56537e6e5f98a68e3">evaluateSimpleCondition</a> (const std::vector&lt; std::string &gt; &amp;left_row, const std::vector&lt; std::string &gt; &amp;right_row) const</td></tr>
+<tr class="separator:aacec8f16c25cdad56537e6e5f98a68e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aa4389011b1c4909a20e7c38c957cad30" id="r_aa4389011b1c4909a20e7c38c957cad30"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1JoinConditionEvaluator.html#aa4389011b1c4909a20e7c38c957cad30">left_columns_</a></td></tr>
+<tr class="separator:aa4389011b1c4909a20e7c38c957cad30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a367fd0637f834671ec7949ff59767e03" id="r_a367fd0637f834671ec7949ff59767e03"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1JoinConditionEvaluator.html#a367fd0637f834671ec7949ff59767e03">right_columns_</a></td></tr>
+<tr class="separator:a367fd0637f834671ec7949ff59767e03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d7b73939ec1b954ce32954d79742c65" id="r_a2d7b73939ec1b954ce32954d79742c65"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; sql_parser::Expression &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1JoinConditionEvaluator.html#a2d7b73939ec1b954ce32954d79742c65">condition_</a></td></tr>
+<tr class="separator:a2d7b73939ec1b954ce32954d79742c65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>JOIN条件评估器 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="aa2767cf9157bf9cb04ed0e5b6b8c28c2" name="aa2767cf9157bf9cb04ed0e5b6b8c28c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2767cf9157bf9cb04ed0e5b6b8c28c2">&#9670;&#160;</a></span>JoinConditionEvaluator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::execution::JoinConditionEvaluator::JoinConditionEvaluator </td>
+          <td>(</td>
+          <td class="paramtype">const std::unordered_map&lt; std::string, size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>left_columns</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::unordered_map&lt; std::string, size_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>right_columns</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unique_ptr&lt; sql_parser::Expression &gt;&#160;</td>
+          <td class="paramname"><em>condition</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">left_columns</td><td>左表列名映射 </td></tr>
+    <tr><td class="paramname">right_columns</td><td>右表列名映射 </td></tr>
+    <tr><td class="paramname">condition</td><td>JOIN条件表达式 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="aa10aea3d0fe751b81e01c001653f1932" name="aa10aea3d0fe751b81e01c001653f1932"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa10aea3d0fe751b81e01c001653f1932">&#9670;&#160;</a></span>evaluate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::execution::JoinConditionEvaluator::evaluate </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>left_row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>right_row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>评估JOIN条件 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">left_row</td><td>左表行数据 </td></tr>
+    <tr><td class="paramname">right_row</td><td>右表行数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>条件是否满足 </dd></dl>
+
+</div>
+</div>
+<a id="aacec8f16c25cdad56537e6e5f98a68e3" name="aacec8f16c25cdad56537e6e5f98a68e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacec8f16c25cdad56537e6e5f98a68e3">&#9670;&#160;</a></span>evaluateSimpleCondition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::execution::JoinConditionEvaluator::evaluateSimpleCondition </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>left_row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>right_row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a2d7b73939ec1b954ce32954d79742c65" name="a2d7b73939ec1b954ce32954d79742c65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d7b73939ec1b954ce32954d79742c65">&#9670;&#160;</a></span>condition_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;sql_parser::Expression&gt; sqlcc::execution::JoinConditionEvaluator::condition_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa4389011b1c4909a20e7c38c957cad30" name="aa4389011b1c4909a20e7c38c957cad30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4389011b1c4909a20e7c38c957cad30">&#9670;&#160;</a></span>left_columns_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, size_t&gt; sqlcc::execution::JoinConditionEvaluator::left_columns_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a367fd0637f834671ec7949ff59767e03" name="a367fd0637f834671ec7949ff59767e03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a367fd0637f834671ec7949ff59767e03">&#9670;&#160;</a></span>right_columns_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, size_t&gt; sqlcc::execution::JoinConditionEvaluator::right_columns_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="join__executor_8h_source.html">join_executor.h</a></li>
+<li><a class="el" href="join__executor_8cpp.html">join_executor.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

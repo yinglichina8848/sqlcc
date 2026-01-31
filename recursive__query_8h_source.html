@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: recursive_query.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">recursive_query.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="recursive__query_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="preprocessor">#include &quot;<a class="code" href="ast__node_8h.html">ast/ast_node.h</a>&quot;</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="preprocessor">#include &quot;<a class="code" href="statement_8h.html">ast/statement.h</a>&quot;</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="keyword">class </span>SelectStatement;</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="foldopen" id="foldopen00160" data-start="{" data-end="};">
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html">  160</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html">WithRecursiveClause</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Statement.html">Statement</a> {</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html">WithRecursiveClause</a>(std::string cte_name,</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>                       std::unique_ptr&lt;SelectStatement&gt; base_query,</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>                       std::unique_ptr&lt;SelectStatement&gt; recursive_query);</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#a241d345cd2bfd6463eaa29c4435cc302">  175</a></span>    <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#a241d345cd2bfd6463eaa29c4435cc302">~WithRecursiveClause</a>();</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#a870f362b08c2e1d0abd1793e34b2fd32">getCteName</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a>* <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#a60bbc01a8a462d8aec9023e833a1a26f">getBaseQuery</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a>* <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#a5da740a259c9ff2a46a52ab4c698e733">getRecursiveQuery</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#afb295011ee4767f1f296467ff50ed95c">accept</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">NodeVisitor</a>&amp; visitor) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#afb634ec63337f7daf22d7b3d8eba717a">  202</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#afb634ec63337f7daf22d7b3d8eba717a">cte_name_</a>;                           </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#af34d0eb7ce6f41207e8fa79e3239e32c">  203</a></span>    std::unique_ptr&lt;SelectStatement&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#af34d0eb7ce6f41207e8fa79e3239e32c">base_query_</a>;    </div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#aa52624a5420e6c227ef033fb2a8539a0">  204</a></span>    std::unique_ptr&lt;SelectStatement&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#aa52624a5420e6c227ef033fb2a8539a0">recursive_query_</a>; </div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>};</div>
+</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aast__node_8h_html"><div class="ttname"><a href="ast__node_8h.html">ast_node.h</a></div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1SelectStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sqlcc::sql_parser::SelectStatement</a></div><div class="ttdef"><b>Definition</b> ast_dml_nodes.h:78</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Statement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Statement.html">sqlcc::sql_parser::Statement</a></div><div class="ttdef"><b>Definition</b> statement.h:11</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1WithRecursiveClause_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html">sqlcc::sql_parser::WithRecursiveClause</a></div><div class="ttdoc">WITH RECURSIVE语句</div><div class="ttdef"><b>Definition</b> recursive_query.h:160</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1WithRecursiveClause_html_a241d345cd2bfd6463eaa29c4435cc302"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#a241d345cd2bfd6463eaa29c4435cc302">sqlcc::sql_parser::WithRecursiveClause::~WithRecursiveClause</a></div><div class="ttdeci">~WithRecursiveClause()</div><div class="ttdoc">析构函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1WithRecursiveClause_html_a5da740a259c9ff2a46a52ab4c698e733"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#a5da740a259c9ff2a46a52ab4c698e733">sqlcc::sql_parser::WithRecursiveClause::getRecursiveQuery</a></div><div class="ttdeci">SelectStatement * getRecursiveQuery() const</div><div class="ttdoc">获取递归查询</div><div class="ttdef"><b>Definition</b> recursive_query.cpp:28</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1WithRecursiveClause_html_a60bbc01a8a462d8aec9023e833a1a26f"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#a60bbc01a8a462d8aec9023e833a1a26f">sqlcc::sql_parser::WithRecursiveClause::getBaseQuery</a></div><div class="ttdeci">SelectStatement * getBaseQuery() const</div><div class="ttdoc">获取基础查询</div><div class="ttdef"><b>Definition</b> recursive_query.cpp:24</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1WithRecursiveClause_html_a870f362b08c2e1d0abd1793e34b2fd32"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#a870f362b08c2e1d0abd1793e34b2fd32">sqlcc::sql_parser::WithRecursiveClause::getCteName</a></div><div class="ttdeci">const std::string &amp; getCteName() const</div><div class="ttdoc">获取CTE名称</div><div class="ttdef"><b>Definition</b> recursive_query.cpp:20</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1WithRecursiveClause_html_aa52624a5420e6c227ef033fb2a8539a0"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#aa52624a5420e6c227ef033fb2a8539a0">sqlcc::sql_parser::WithRecursiveClause::recursive_query_</a></div><div class="ttdeci">std::unique_ptr&lt; SelectStatement &gt; recursive_query_</div><div class="ttdoc">递归查询</div><div class="ttdef"><b>Definition</b> recursive_query.h:204</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1WithRecursiveClause_html_af34d0eb7ce6f41207e8fa79e3239e32c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#af34d0eb7ce6f41207e8fa79e3239e32c">sqlcc::sql_parser::WithRecursiveClause::base_query_</a></div><div class="ttdeci">std::unique_ptr&lt; SelectStatement &gt; base_query_</div><div class="ttdoc">基础查询</div><div class="ttdef"><b>Definition</b> recursive_query.h:203</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1WithRecursiveClause_html_afb295011ee4767f1f296467ff50ed95c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#afb295011ee4767f1f296467ff50ed95c">sqlcc::sql_parser::WithRecursiveClause::accept</a></div><div class="ttdeci">void accept(NodeVisitor &amp;visitor) override</div><div class="ttdoc">接受访问者</div><div class="ttdef"><b>Definition</b> recursive_query.cpp:32</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1WithRecursiveClause_html_afb634ec63337f7daf22d7b3d8eba717a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1WithRecursiveClause.html#afb634ec63337f7daf22d7b3d8eba717a">sqlcc::sql_parser::WithRecursiveClause::cte_name_</a></div><div class="ttdeci">std::string cte_name_</div><div class="ttdoc">CTE名称</div><div class="ttdef"><b>Definition</b> recursive_query.h:202</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">sqlcc::sql_parser::ast::NodeVisitor</a></div><div class="ttdef"><b>Definition</b> node_visitor.h:27</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astatement_8h_html"><div class="ttname"><a href="statement_8h.html">statement.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

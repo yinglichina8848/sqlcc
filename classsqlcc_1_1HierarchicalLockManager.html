@@ -1,0 +1,1019 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::HierarchicalLockManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html">HierarchicalLockManager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="#pri-static-attribs">静态 Private 属性</a> &#124;
+<a href="classsqlcc_1_1HierarchicalLockManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::HierarchicalLockManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>层级锁管理器 - 分层并发控制的核心组件  
+ <a href="classsqlcc_1_1HierarchicalLockManager.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="concurrency__control_8h_source.html">concurrency_control.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1HierarchicalLockManager_1_1LockInfo.html">LockInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁类型枚举（已在文件开头定义）  <a href="structsqlcc_1_1HierarchicalLockManager_1_1LockInfo.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1HierarchicalLockManager_1_1LockManagerStats.html">LockManagerStats</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁管理器统计信息 - 并发控制的性能监控数据  <a href="structsqlcc_1_1HierarchicalLockManager_1_1LockManagerStats.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:ab05e304d4a692b6b9acf2b5f81118f73" id="r_ab05e304d4a692b6b9acf2b5f81118f73"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#ab05e304d4a692b6b9acf2b5f81118f73">HierarchicalLockManager</a> (size_t max_locks=1024)</td></tr>
+<tr class="memdesc:ab05e304d4a692b6b9acf2b5f81118f73"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数 - 初始化层级锁管理器  <br /></td></tr>
+<tr class="separator:ab05e304d4a692b6b9acf2b5f81118f73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0df53c39386a8849f73aeac315b8bdcf" id="r_a0df53c39386a8849f73aeac315b8bdcf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#a0df53c39386a8849f73aeac315b8bdcf">~HierarchicalLockManager</a> ()</td></tr>
+<tr class="memdesc:a0df53c39386a8849f73aeac315b8bdcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数 - 安全清理锁管理器资源  <br /></td></tr>
+<tr class="separator:a0df53c39386a8849f73aeac315b8bdcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65ec4a83c3c618e107f9a1282f672635" id="r_a65ec4a83c3c618e107f9a1282f672635"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#a65ec4a83c3c618e107f9a1282f672635">AcquirePageLock</a> (int32_t page_id, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> lock_type, int32_t transaction_id, size_t timeout_ms=5000)</td></tr>
+<tr class="memdesc:a65ec4a83c3c618e107f9a1282f672635"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取页面锁 - 页面级并发控制的核心API  <br /></td></tr>
+<tr class="separator:a65ec4a83c3c618e107f9a1282f672635"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaee31e21f588a22569466a80e0ae9ea2" id="r_aaee31e21f588a22569466a80e0ae9ea2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#aaee31e21f588a22569466a80e0ae9ea2">ReleasePageLock</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="memdesc:aaee31e21f588a22569466a80e0ae9ea2"><td class="mdescLeft">&#160;</td><td class="mdescRight">释放页面锁 - 页面级锁管理的释放操作  <br /></td></tr>
+<tr class="separator:aaee31e21f588a22569466a80e0ae9ea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf984b5386cdadbfadbe186c46e10ac4" id="r_adf984b5386cdadbfadbe186c46e10ac4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#adf984b5386cdadbfadbe186c46e10ac4">AcquireTableLock</a> (int32_t table_id, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> lock_type, int32_t transaction_id, size_t timeout_ms=5000)</td></tr>
+<tr class="memdesc:adf984b5386cdadbfadbe186c46e10ac4"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取表锁 - 表级并发控制的API  <br /></td></tr>
+<tr class="separator:adf984b5386cdadbfadbe186c46e10ac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69a057082b35118c2ee6bf535bf41790" id="r_a69a057082b35118c2ee6bf535bf41790"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#a69a057082b35118c2ee6bf535bf41790">ReleaseTableLock</a> (int32_t table_id, int32_t transaction_id)</td></tr>
+<tr class="memdesc:a69a057082b35118c2ee6bf535bf41790"><td class="mdescLeft">&#160;</td><td class="mdescRight">释放表锁 - 表级锁管理的释放操作  <br /></td></tr>
+<tr class="separator:a69a057082b35118c2ee6bf535bf41790"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0411526e16e30dd76ac00757054ec45c" id="r_a0411526e16e30dd76ac00757054ec45c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1HierarchicalLockManager_1_1LockManagerStats.html">LockManagerStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#a0411526e16e30dd76ac00757054ec45c">GetStats</a> () const</td></tr>
+<tr class="memdesc:a0411526e16e30dd76ac00757054ec45c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取锁统计信息 - 并发控制的性能监控接口  <br /></td></tr>
+<tr class="separator:a0411526e16e30dd76ac00757054ec45c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3e02e07e3e2548196a86b5ec9f756fb" id="r_ac3e02e07e3e2548196a86b5ec9f756fb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#ac3e02e07e3e2548196a86b5ec9f756fb">DetectDeadlock</a> () const</td></tr>
+<tr class="memdesc:ac3e02e07e3e2548196a86b5ec9f756fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">检测死锁 - 并发控制系统的健康检查  <br /></td></tr>
+<tr class="separator:ac3e02e07e3e2548196a86b5ec9f756fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9de87a2c7a4ea30dbd082a7087047161" id="r_a9de87a2c7a4ea30dbd082a7087047161"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#a9de87a2c7a4ea30dbd082a7087047161">UpgradeLock</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="memdesc:a9de87a2c7a4ea30dbd082a7087047161"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁升级 - 将共享锁升级为排他锁  <br /></td></tr>
+<tr class="separator:a9de87a2c7a4ea30dbd082a7087047161"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a938b9e958b3c5844df1320c3b4896c11" id="r_a938b9e958b3c5844df1320c3b4896c11"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#a938b9e958b3c5844df1320c3b4896c11">DowngradeLock</a> (int32_t page_id, int32_t transaction_id)</td></tr>
+<tr class="memdesc:a938b9e958b3c5844df1320c3b4896c11"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁降级 - 将排他锁降级为共享锁  <br /></td></tr>
+<tr class="separator:a938b9e958b3c5844df1320c3b4896c11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa348b3727c1894337ff2e055c369d92f" id="r_aa348b3727c1894337ff2e055c369d92f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>, int32_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#aa348b3727c1894337ff2e055c369d92f">GetLocks</a> (int32_t page_id) const</td></tr>
+<tr class="memdesc:aa348b3727c1894337ff2e055c369d92f"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取页面锁信息 - 查询特定页面的锁状态  <br /></td></tr>
+<tr class="separator:aa348b3727c1894337ff2e055c369d92f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a895cdcdbea3647159a367ccb22709749" id="r_a895cdcdbea3647159a367ccb22709749"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, std::vector&lt; std::pair&lt; <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>, int32_t &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#a895cdcdbea3647159a367ccb22709749">GetAllLocks</a> () const</td></tr>
+<tr class="memdesc:a895cdcdbea3647159a367ccb22709749"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取所有锁信息 - 系统级锁状态监控  <br /></td></tr>
+<tr class="separator:a895cdcdbea3647159a367ccb22709749"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fbe96937c1ad52bc13946fcc3aae8d6" id="r_a4fbe96937c1ad52bc13946fcc3aae8d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#a4fbe96937c1ad52bc13946fcc3aae8d6">CleanupExpiredLocks</a> ()</td></tr>
+<tr class="memdesc:a4fbe96937c1ad52bc13946fcc3aae8d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">清理过期锁 - 系统维护和资源回收  <br /></td></tr>
+<tr class="separator:a4fbe96937c1ad52bc13946fcc3aae8d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aae6819a5e6fe097de2ebe09e79a0f18e" id="r_aae6819a5e6fe097de2ebe09e79a0f18e"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, std::vector&lt; std::pair&lt; <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>, int32_t &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#aae6819a5e6fe097de2ebe09e79a0f18e">page_locks_</a></td></tr>
+<tr class="memdesc:aae6819a5e6fe097de2ebe09e79a0f18e"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面锁映射 - 页面ID到锁列表的映射  <br /></td></tr>
+<tr class="separator:aae6819a5e6fe097de2ebe09e79a0f18e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54b55283d5399350eafc0da5512931e0" id="r_a54b55283d5399350eafc0da5512931e0"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, std::vector&lt; std::pair&lt; <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>, int32_t &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#a54b55283d5399350eafc0da5512931e0">table_locks_</a></td></tr>
+<tr class="memdesc:a54b55283d5399350eafc0da5512931e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">表锁映射 - 表ID到锁列表的映射  <br /></td></tr>
+<tr class="separator:a54b55283d5399350eafc0da5512931e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af99da86b245172e53612cde54e12a738" id="r_af99da86b245172e53612cde54e12a738"><td class="memItemLeft" align="right" valign="top">std::shared_mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#af99da86b245172e53612cde54e12a738">page_locks_mutex_</a></td></tr>
+<tr class="memdesc:af99da86b245172e53612cde54e12a738"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面锁互斥锁 - 保护页面锁映射的并发访问  <br /></td></tr>
+<tr class="separator:af99da86b245172e53612cde54e12a738"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a511cd83082b6176956ff6d3e33c8e3c5" id="r_a511cd83082b6176956ff6d3e33c8e3c5"><td class="memItemLeft" align="right" valign="top">std::shared_mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#a511cd83082b6176956ff6d3e33c8e3c5">table_locks_mutex_</a></td></tr>
+<tr class="memdesc:a511cd83082b6176956ff6d3e33c8e3c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">表锁互斥锁 - 保护表锁映射的并发访问  <br /></td></tr>
+<tr class="separator:a511cd83082b6176956ff6d3e33c8e3c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae33130b0fc753cf2554449c216b681c4" id="r_ae33130b0fc753cf2554449c216b681c4"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; <a class="el" href="structsqlcc_1_1HierarchicalLockManager_1_1LockManagerStats.html">LockManagerStats</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#ae33130b0fc753cf2554449c216b681c4">stats_</a></td></tr>
+<tr class="memdesc:ae33130b0fc753cf2554449c216b681c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">统计信息 - 原子变量保证并发安全  <br /></td></tr>
+<tr class="separator:ae33130b0fc753cf2554449c216b681c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3754aee48a366b2bbf32075151b3ca32" id="r_a3754aee48a366b2bbf32075151b3ca32"><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#a3754aee48a366b2bbf32075151b3ca32">max_locks_</a></td></tr>
+<tr class="memdesc:a3754aee48a366b2bbf32075151b3ca32"><td class="mdescLeft">&#160;</td><td class="mdescRight">最大锁数量限制  <br /></td></tr>
+<tr class="separator:a3754aee48a366b2bbf32075151b3ca32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
+静态 Private 属性</h2></td></tr>
+<tr class="memitem:affb1b7c4a612a98d09cc1bfd801a8b56" id="r_affb1b7c4a612a98d09cc1bfd801a8b56"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html#affb1b7c4a612a98d09cc1bfd801a8b56">LOCK_TIMEOUT_MS</a> = 10000</td></tr>
+<tr class="memdesc:affb1b7c4a612a98d09cc1bfd801a8b56"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁超时时间常量（毫秒）  <br /></td></tr>
+<tr class="separator:affb1b7c4a612a98d09cc1bfd801a8b56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>层级锁管理器 - 分层并发控制的核心组件 </p>
+<p>WHY层 - 设计意图： 层级锁管理器实现了数据库的多粒度锁协议，支持页面级、表级等不同粒度的锁。 通过分层设计和锁兼容性矩阵，实现高并发访问下的数据一致性保证。</p>
+<p>WHAT层 - 功能说明：</p><ul>
+<li>页面级锁：保护单个数据页面的并发访问</li>
+<li>表级锁：保护整个表的并发访问</li>
+<li>锁升级：从细粒度锁升级到粗粒度锁</li>
+<li>死锁检测：实时监控和自动处理死锁</li>
+<li>性能监控：详细的锁统计和性能指标</li>
+</ul>
+<p>HOW层 - 架构设计：</p><ul>
+<li>分层锁表：分别维护页面锁和表锁</li>
+<li>锁队列管理：支持多个事务等待同一资源</li>
+<li>超时处理：防止无限期等待的保护机制</li>
+<li>锁清理：自动清理已完成事务的锁</li>
+</ul>
+<p>锁粒度选择策略：</p><ul>
+<li>**细粒度锁**：行级锁，最大化并发但管理开销大</li>
+<li>**粗粒度锁**：表级锁，简单高效但并发度低</li>
+<li>**动态调整**：根据访问模式自动选择锁粒度</li>
+<li>**锁升级**：从行锁升级到页锁再到表锁</li>
+</ul>
+<p>死锁检测算法：</p><ul>
+<li>**等待图构造**：事务→资源的等待关系图</li>
+<li>**环检测**：深度优先搜索检测死锁环</li>
+<li>**牺牲者选择**：选择最小代价事务进行回滚</li>
+<li>**定期扫描**：固定间隔执行死锁检测</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>层级锁管理器是并发控制系统的核心，直接影响系统的并发性能 </dd>
+<dd>
+实现了严格的两阶段锁协议，确保事务串行化执行 </dd>
+<dd>
+支持锁升级和降级策略，平衡并发度和管理复杂度 </dd>
+<dd>
+提供详细的锁统计信息，支持性能监控和调优 </dd></dl>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="ab05e304d4a692b6b9acf2b5f81118f73" name="ab05e304d4a692b6b9acf2b5f81118f73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab05e304d4a692b6b9acf2b5f81118f73">&#9670;&#160;</a></span>HierarchicalLockManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::HierarchicalLockManager::HierarchicalLockManager </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>max_locks</em> = <code>1024</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 - 初始化层级锁管理器 </p>
+<p>WHY层 - 设计意图： 锁管理器的初始化必须保证线程安全和性能高效。 通过合理的参数配置和数据结构初始化，为高并发场景做好准备。</p>
+<p>WHAT层 - 初始化内容：</p><ul>
+<li>配置最大锁数量限制</li>
+<li>初始化锁表数据结构</li>
+<li>设置统计信息收集</li>
+<li>配置锁超时参数</li>
+</ul>
+<p>HOW层 - 实现细节：</p><ol type="1">
+<li>验证max_locks参数的有效性</li>
+<li>预分配锁表哈希表的空间</li>
+<li>初始化统计信息为零</li>
+<li>设置默认的锁超时时间</li>
+<li>初始化互斥锁和其他同步原语</li>
+</ol>
+<p>配置参数：</p><ul>
+<li>max_locks: 最大锁数量，默认1024</li>
+<li>锁超时时间: 默认10秒</li>
+<li>死锁检测间隔: 默认1秒</li>
+</ul>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">max_locks</td><td>最大锁数量限制</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>当max_locks为0时抛出 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0df53c39386a8849f73aeac315b8bdcf" name="a0df53c39386a8849f73aeac315b8bdcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0df53c39386a8849f73aeac315b8bdcf">&#9670;&#160;</a></span>~HierarchicalLockManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::HierarchicalLockManager::~HierarchicalLockManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>析构函数 - 安全清理锁管理器资源 </p>
+<p>WHY层 - 设计意图： 锁管理器的清理必须保证所有锁都被正确释放，避免资源泄漏。 优雅关闭防止正在进行的操作被强制中断。</p>
+<p>WHAT层 - 清理内容：</p><ul>
+<li>释放所有持有的锁</li>
+<li>清理锁表和等待队列</li>
+<li>停止后台清理线程</li>
+<li>释放系统资源</li>
+</ul>
+<p>HOW层 - 清理顺序：</p><ol type="1">
+<li>停止死锁检测线程</li>
+<li>强制释放所有锁（记录警告）</li>
+<li>清理锁表数据结构</li>
+<li>销毁互斥锁和其他资源</li>
+<li>记录清理统计信息</li>
+</ol>
+<dl class="section note"><dt>注解</dt><dd>析构函数会记录强制释放的锁数量 </dd>
+<dd>
+正常情况下不应有锁在析构时仍被持有 </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a65ec4a83c3c618e107f9a1282f672635" name="a65ec4a83c3c618e107f9a1282f672635"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65ec4a83c3c618e107f9a1282f672635">&#9670;&#160;</a></span>AcquirePageLock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::HierarchicalLockManager::AcquirePageLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>lock_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>timeout_ms</em> = <code>5000</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取页面锁 - 页面级并发控制的核心API </p>
+<p>WHY层 - 设计意图： 页面锁是数据库并发控制的基本单位，保护单个数据页面的完整性。 通过页面级锁，实现细粒度的并发控制，提高系统整体并发度。</p>
+<p>WHAT层 - 功能说明： 为指定页面获取指定类型的锁，支持超时等待和死锁检测。 如果锁不可用，会等待指定时间或直到获取成功。</p>
+<p>HOW层 - 获取流程：</p><ol type="1">
+<li>检查锁兼容性，确定是否可以立即获取</li>
+<li>如果不能获取，加入等待队列</li>
+<li>等待超时或锁释放</li>
+<li>获取锁后更新统计信息</li>
+<li>返回获取结果状态</li>
+</ol>
+<p>锁获取策略：</p><ul>
+<li>**立即获取**：锁可用时立即返回</li>
+<li>**条件等待**：使用条件变量等待锁释放</li>
+<li>**超时控制**：防止无限期等待</li>
+<li>**死锁检测**：检测并处理死锁情况</li>
+</ul>
+<p>性能优化：</p><ul>
+<li>**自旋等待**：短时间高频检查锁状态</li>
+<li>**批量唤醒**：锁释放时唤醒所有等待者</li>
+<li>**锁亲和性**：减少跨CPU的锁竞争</li>
+<li>**锁升级**：高竞争时升级锁粒度</li>
+</ul>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+    <tr><td class="paramname">lock_type</td><td>锁类型（SHARED或EXCLUSIVE） </td></tr>
+    <tr><td class="paramname">transaction_id</td><td>请求锁的事务ID </td></tr>
+    <tr><td class="paramname">timeout_ms</td><td>超时时间（毫秒），0表示无限等待 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功获取锁</dd></dl>
+<dl class="section note"><dt>注解</dt><dd>页面ID必须是有效的正整数 </dd>
+<dd>
+事务ID用于死锁检测和锁管理 </dd>
+<dd>
+超时时间为0表示阻塞等待直到获取锁 </dd>
+<dd>
+获取失败可能是超时或死锁牺牲 </dd></dl>
+
+</div>
+</div>
+<a id="adf984b5386cdadbfadbe186c46e10ac4" name="adf984b5386cdadbfadbe186c46e10ac4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf984b5386cdadbfadbe186c46e10ac4">&#9670;&#160;</a></span>AcquireTableLock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::HierarchicalLockManager::AcquireTableLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>table_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>lock_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>timeout_ms</em> = <code>5000</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取表锁 - 表级并发控制的API </p>
+<p>WHY层 - 设计意图： 表锁提供粗粒度的并发控制，适合全表操作或高冲突场景。 通过表级锁，可以简化并发控制逻辑，提高操作效率。</p>
+<p>WHAT层 - 功能说明： 为指定表获取指定类型的锁，支持超时和死锁检测。 表锁的获取会影响表的所有页面和记录。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>检查表锁的兼容性</li>
+<li>如果需要，隐式获取相关页锁</li>
+<li>更新锁层次结构</li>
+<li>维护锁的层次一致性</li>
+</ol>
+<p>表锁应用场景：</p><ul>
+<li>**DDL操作**：CREATE, DROP, ALTER等表结构修改</li>
+<li>**全表扫描**：需要访问整个表的查询操作</li>
+<li>**批量更新**：影响大量数据的修改操作</li>
+<li>**表级约束**：检查表级完整性约束</li>
+</ul>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">table_id</td><td>表ID </td></tr>
+    <tr><td class="paramname">lock_type</td><td>锁类型 </td></tr>
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">timeout_ms</td><td>超时时间（毫秒） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功获取锁</dd></dl>
+<dl class="section note"><dt>注解</dt><dd>表锁获取可能隐式获取多个页锁 </dd>
+<dd>
+表锁的开销比页锁更大 </dd>
+<dd>
+适用于粗粒度并发控制场景 </dd></dl>
+
+</div>
+</div>
+<a id="a4fbe96937c1ad52bc13946fcc3aae8d6" name="a4fbe96937c1ad52bc13946fcc3aae8d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fbe96937c1ad52bc13946fcc3aae8d6">&#9670;&#160;</a></span>CleanupExpiredLocks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::HierarchicalLockManager::CleanupExpiredLocks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>清理过期锁 - 系统维护和资源回收 </p>
+<p>WHY层 - 设计意图： 过期锁清理是系统健康维护的重要环节，防止锁泄漏和资源浪费。 通过定期清理过期锁，保持锁管理器的效率和正确性。</p>
+<p>WHAT层 - 清理内容： 识别并清理超时或失效的锁，释放相关资源。 更新统计信息，记录清理操作。</p>
+<p>HOW层 - 清理策略：</p><ol type="1">
+<li>扫描所有锁，检查持有时间</li>
+<li>识别超时的锁</li>
+<li>验证事务状态</li>
+<li>安全释放过期锁</li>
+<li>更新统计计数</li>
+</ol>
+<p>清理触发条件：</p><ul>
+<li>**定时清理**：定期执行清理任务</li>
+<li>**负载触发**：高负载时触发清理</li>
+<li>**内存压力**：内存不足时强制清理</li>
+<li>**手动触发**：管理员主动清理</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>清理操作可能影响正在进行的事务 </dd>
+<dd>
+过期锁清理是系统自我修复机制 </dd></dl>
+
+</div>
+</div>
+<a id="ac3e02e07e3e2548196a86b5ec9f756fb" name="ac3e02e07e3e2548196a86b5ec9f756fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3e02e07e3e2548196a86b5ec9f756fb">&#9670;&#160;</a></span>DetectDeadlock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::HierarchicalLockManager::DetectDeadlock </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检测死锁 - 并发控制系统的健康检查 </p>
+<p>WHY层 - 设计意图： 死锁检测是并发控制系统的安全保障，及时发现和处理死锁环。 通过定期死锁检测，防止系统陷入死锁状态。</p>
+<p>WHAT层 - 检测内容： 扫描当前锁等待关系，识别是否存在死锁环。 如果发现死锁，选择合适的事务进行牺牲。</p>
+<p>HOW层 - 检测算法：</p><ol type="1">
+<li>构造等待图（事务→资源→事务）</li>
+<li>使用DFS或拓扑排序检测环</li>
+<li>识别死锁环中的事务</li>
+<li>选择牺牲者进行回滚</li>
+<li>清理死锁状态</li>
+</ol>
+<p>死锁处理策略：</p><ul>
+<li>**牺牲者选择**：基于事务年龄、资源占用等选择牺牲者</li>
+<li>**最小代价**：选择回滚开销最小的事务</li>
+<li>**公平性**：避免总是牺牲同一事务</li>
+<li>**级联避免**：考虑死锁解决的连锁反应</li>
+</ul>
+<dl class="section return"><dt>返回</dt><dd>是否检测到并处理了死锁</dd></dl>
+<dl class="section note"><dt>注解</dt><dd>死锁检测有一定的CPU开销 </dd>
+<dd>
+频繁死锁可能表明锁策略需要调整 </dd>
+<dd>
+死锁处理会影响事务的原子性保证 </dd></dl>
+
+</div>
+</div>
+<a id="a938b9e958b3c5844df1320c3b4896c11" name="a938b9e958b3c5844df1320c3b4896c11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a938b9e958b3c5844df1320c3b4896c11">&#9670;&#160;</a></span>DowngradeLock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::HierarchicalLockManager::DowngradeLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>锁降级 - 将排他锁降级为共享锁 </p>
+<p>WHY层 - 设计意图： 锁降级允许事务降低锁的强度，提高并发度。 在确认不再需要排他访问后，可以降级锁级别。</p>
+<p>WHAT层 - 降级条件： 事务必须持有该资源的排他锁。</p>
+<p>HOW层 - 降级流程：</p><ol type="1">
+<li>查找排他锁</li>
+<li>更改为共享锁</li>
+<li>更新统计信息</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功降级 </dd></dl>
+
+</div>
+</div>
+<a id="a895cdcdbea3647159a367ccb22709749" name="a895cdcdbea3647159a367ccb22709749"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a895cdcdbea3647159a367ccb22709749">&#9670;&#160;</a></span>GetAllLocks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; int32_t, std::vector&lt; std::pair&lt; <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>, int32_t &gt; &gt; &gt; sqlcc::HierarchicalLockManager::GetAllLocks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取所有锁信息 - 系统级锁状态监控 </p>
+<p>WHY层 - 设计意图： 完整的锁状态信息有助于系统性能分析和问题诊断。 为容量规划和性能调优提供数据支持。</p>
+<p>WHAT层 - 返回信息： 系统中所有页面的锁状态的完整映射。</p>
+<p>HOW层 - 查询实现： 返回锁表的完整副本，包含所有页面和锁信息。</p>
+<dl class="section return"><dt>返回</dt><dd>所有锁信息的映射 </dd></dl>
+
+</div>
+</div>
+<a id="aa348b3727c1894337ff2e055c369d92f" name="aa348b3727c1894337ff2e055c369d92f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa348b3727c1894337ff2e055c369d92f">&#9670;&#160;</a></span>GetLocks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::pair&lt; <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>, int32_t &gt; &gt; sqlcc::HierarchicalLockManager::GetLocks </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取页面锁信息 - 查询特定页面的锁状态 </p>
+<p>WHY层 - 设计意图： 锁信息查询为监控和调试提供必要的状态信息。 系统管理员可以通过这些信息了解锁竞争情况。</p>
+<p>WHAT层 - 返回信息： 指定页面的所有锁信息，包括锁类型和持有事务。</p>
+<p>HOW层 - 查询实现： 使用读锁保护并发访问，返回锁信息的副本。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>锁信息列表 </dd></dl>
+
+</div>
+</div>
+<a id="a0411526e16e30dd76ac00757054ec45c" name="a0411526e16e30dd76ac00757054ec45c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0411526e16e30dd76ac00757054ec45c">&#9670;&#160;</a></span>GetStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1HierarchicalLockManager_1_1LockManagerStats.html">HierarchicalLockManager::LockManagerStats</a> sqlcc::HierarchicalLockManager::GetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取锁统计信息 - 并发控制的性能监控接口 </p>
+<p>WHY层 - 设计意图： 统计信息是系统监控和性能调优的基础，为管理员提供并发控制的运行状态。 详细的统计数据支持问题诊断和容量规划。</p>
+<p>WHAT层 - 统计内容：</p><ul>
+<li>当前锁数量：各种类型锁的持有数量</li>
+<li>操作计数：锁操作的累计统计</li>
+<li>性能指标：等待时间、成功率等</li>
+<li>异常统计：死锁、超时等异常情况</li>
+</ul>
+<p>HOW层 - 收集机制：</p><ul>
+<li>原子计数：使用原子操作保证并发安全</li>
+<li>实时更新：在每次锁操作时更新统计</li>
+<li>高效存储：使用紧凑的数据结构</li>
+<li>线程安全：统计访问不影响锁操作性能</li>
+</ul>
+<dl class="section return"><dt>返回</dt><dd>当前的锁统计信息</dd></dl>
+<dl class="section note"><dt>注解</dt><dd>统计信息是实时的，但可能有轻微延迟 </dd>
+<dd>
+统计数据可用于性能监控和调优 </dd>
+<dd>
+某些统计项可能需要定期重置 </dd></dl>
+
+</div>
+</div>
+<a id="aaee31e21f588a22569466a80e0ae9ea2" name="aaee31e21f588a22569466a80e0ae9ea2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaee31e21f588a22569466a80e0ae9ea2">&#9670;&#160;</a></span>ReleasePageLock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::HierarchicalLockManager::ReleasePageLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>释放页面锁 - 页面级锁管理的释放操作 </p>
+<p>WHY层 - 设计意图： 锁释放是锁生命周期的重要环节，释放锁可以唤醒等待的事务。 正确的锁释放确保并发控制的正确性和性能。</p>
+<p>WHAT层 - 功能说明： 释放指定事务对指定页面的锁，唤醒可能的等待者。 更新锁表和统计信息，确保锁状态的一致性。</p>
+<p>HOW层 - 释放流程：</p><ol type="1">
+<li>验证锁的持有者身份</li>
+<li>从锁表中移除锁信息</li>
+<li>更新统计信息</li>
+<li>唤醒等待队列中的事务</li>
+<li>检查是否有锁升级需求</li>
+</ol>
+<p>锁释放策略：</p><ul>
+<li>**条件唤醒**：只唤醒可能获取锁的事务</li>
+<li>**公平调度**：按照等待顺序唤醒事务</li>
+<li>**批量释放**：支持一次释放多个锁</li>
+<li>**锁降级**：在适当时候降低锁粒度</li>
+</ul>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功释放锁</dd></dl>
+<dl class="section note"><dt>注解</dt><dd>只有锁的持有者才能释放锁 </dd>
+<dd>
+释放不存在的锁会返回false </dd>
+<dd>
+释放锁会触发等待事务的唤醒 </dd></dl>
+
+</div>
+</div>
+<a id="a69a057082b35118c2ee6bf535bf41790" name="a69a057082b35118c2ee6bf535bf41790"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69a057082b35118c2ee6bf535bf41790">&#9670;&#160;</a></span>ReleaseTableLock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::HierarchicalLockManager::ReleaseTableLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>table_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>释放表锁 - 表级锁管理的释放操作 </p>
+<p>WHY层 - 设计意图： 表锁释放需要考虑锁层次的一致性，确保所有相关锁都被正确释放。 表锁释放可能触发多个等待事务的唤醒。</p>
+<p>WHAT层 - 功能说明： 释放指定事务对指定表的锁，维护锁层次结构的正确性。 可能隐式释放相关的页面锁。</p>
+<p>HOW层 - 释放策略：</p><ol type="1">
+<li>验证表锁持有权</li>
+<li>检查是否需要释放相关页锁</li>
+<li>更新锁层次信息</li>
+<li>唤醒等待表锁的事务</li>
+<li>维护层次锁的一致性</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">table_id</td><td>表ID </td></tr>
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功释放锁 </dd></dl>
+
+</div>
+</div>
+<a id="a9de87a2c7a4ea30dbd082a7087047161" name="a9de87a2c7a4ea30dbd082a7087047161"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9de87a2c7a4ea30dbd082a7087047161">&#9670;&#160;</a></span>UpgradeLock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::HierarchicalLockManager::UpgradeLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>锁升级 - 将共享锁升级为排他锁 </p>
+<p>WHY层 - 设计意图： 锁升级允许事务在持有共享锁的情况下升级为排他锁， 避免了释放共享锁再获取排他锁的复杂操作。</p>
+<p>WHAT层 - 升级条件： 事务必须持有该资源的共享锁，且没有其他事务持有排他锁。</p>
+<p>HOW层 - 升级流程：</p><ol type="1">
+<li>检查升级条件</li>
+<li>移除共享锁</li>
+<li>添加排他锁</li>
+<li>更新统计信息</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+    <tr><td class="paramname">transaction_id</td><td>事务ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功升级 </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="affb1b7c4a612a98d09cc1bfd801a8b56" name="affb1b7c4a612a98d09cc1bfd801a8b56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affb1b7c4a612a98d09cc1bfd801a8b56">&#9670;&#160;</a></span>LOCK_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr size_t sqlcc::HierarchicalLockManager::LOCK_TIMEOUT_MS = 10000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>锁超时时间常量（毫秒） </p>
+
+</div>
+</div>
+<a id="a3754aee48a366b2bbf32075151b3ca32" name="a3754aee48a366b2bbf32075151b3ca32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3754aee48a366b2bbf32075151b3ca32">&#9670;&#160;</a></span>max_locks_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const size_t sqlcc::HierarchicalLockManager::max_locks_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最大锁数量限制 </p>
+
+</div>
+</div>
+<a id="aae6819a5e6fe097de2ebe09e79a0f18e" name="aae6819a5e6fe097de2ebe09e79a0f18e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae6819a5e6fe097de2ebe09e79a0f18e">&#9670;&#160;</a></span>page_locks_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;int32_t, std::vector&lt;std::pair&lt;<a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>, int32_t&gt; &gt; &gt; sqlcc::HierarchicalLockManager::page_locks_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>页面锁映射 - 页面ID到锁列表的映射 </p>
+<p>WHY层 - 设计意图： 页面锁映射是锁管理器的核心数据结构，支持高效的锁查找和操作。 通过哈希映射实现O(1)时间的锁定位和操作。</p>
+<p>WHAT层 - 数据结构：</p><ul>
+<li>键：页面ID（int32_t）</li>
+<li>值：锁信息列表（vector&lt;pair&lt;LockType, int32_t&gt;&gt;）</li>
+<li>每个页面可以有多个锁（共享锁允许多个持有者）</li>
+</ul>
+<p>HOW层 - 并发安全：</p><ul>
+<li>读写锁保护：使用shared_mutex允许多读单写</li>
+<li>分片设计：减少锁竞争的热点</li>
+<li>原子操作：关键计数器使用原子操作</li>
+</ul>
+<p>内存优化：</p><ul>
+<li>预分配容量：减少动态扩容开销</li>
+<li>对象池复用：重用锁信息对象</li>
+<li>压缩存储：优化锁信息的存储格式 </li>
+</ul>
+
+</div>
+</div>
+<a id="af99da86b245172e53612cde54e12a738" name="af99da86b245172e53612cde54e12a738"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af99da86b245172e53612cde54e12a738">&#9670;&#160;</a></span>page_locks_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_mutex sqlcc::HierarchicalLockManager::page_locks_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>页面锁互斥锁 - 保护页面锁映射的并发访问 </p>
+
+</div>
+</div>
+<a id="ae33130b0fc753cf2554449c216b681c4" name="ae33130b0fc753cf2554449c216b681c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae33130b0fc753cf2554449c216b681c4">&#9670;&#160;</a></span>stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;<a class="el" href="structsqlcc_1_1HierarchicalLockManager_1_1LockManagerStats.html">LockManagerStats</a>&gt; sqlcc::HierarchicalLockManager::stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>统计信息 - 原子变量保证并发安全 </p>
+
+</div>
+</div>
+<a id="a54b55283d5399350eafc0da5512931e0" name="a54b55283d5399350eafc0da5512931e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54b55283d5399350eafc0da5512931e0">&#9670;&#160;</a></span>table_locks_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;int32_t, std::vector&lt;std::pair&lt;<a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>, int32_t&gt; &gt; &gt; sqlcc::HierarchicalLockManager::table_locks_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>表锁映射 - 表ID到锁列表的映射 </p>
+<p>WHY层 - 设计意图： 表锁映射支持粗粒度的并发控制，适用于表级操作。 通过独立的映射实现表级和页面级锁的分离管理。</p>
+<p>WHAT层 - 数据结构： 类似页面锁映射，但粒度为表级 支持表级锁的层次化管理</p>
+<p>HOW层 - 锁层次：</p><ul>
+<li>表锁优先级高于页锁</li>
+<li>获取表锁可能隐式获取相关页锁</li>
+<li>锁释放遵循相反顺序 </li>
+</ul>
+
+</div>
+</div>
+<a id="a511cd83082b6176956ff6d3e33c8e3c5" name="a511cd83082b6176956ff6d3e33c8e3c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a511cd83082b6176956ff6d3e33c8e3c5">&#9670;&#160;</a></span>table_locks_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_mutex sqlcc::HierarchicalLockManager::table_locks_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>表锁互斥锁 - 保护表锁映射的并发访问 </p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="concurrency__control_8h_source.html">concurrency_control.h</a></li>
+<li><a class="el" href="concurrency__control_8cpp.html">concurrency_control.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

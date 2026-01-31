@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: parser_core.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li><li class="navelem"><a class="el" href="dir_95f799c71ff54bf2c8d383fe4040a134.html">parsers</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">parser_core.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="parser__core_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#ifndef SQLCC_SQL_PARSER_PARSERS_PARSER_CORE_H</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#define SQLCC_SQL_PARSER_PARSERS_PARSER_CORE_H</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;../ast/ast_node.h&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;../token.h&quot;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &quot;../lexer.h&quot;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &quot;../token_stream.h&quot;</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &lt;unordered_set&gt;</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="foldopen" id="foldopen00031" data-start="{" data-end="};">
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ParserCore.html">   31</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ParserCore.html">ParserCore</a> {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="comment">// Single source of truth for parser state</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a6ffa767cbc2c570125051834cf81e238">   34</a></span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a>&amp; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a6ffa767cbc2c570125051834cf81e238">tokens_</a>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="comment">// Error recovery</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aba1396b3f8e9a9e3462ae5883c23a30a">   37</a></span>    std::vector&lt;std::string&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aba1396b3f8e9a9e3462ae5883c23a30a">errors_</a>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ad4b13c43bbed01f982ee945292ecb8c8">   38</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ad4b13c43bbed01f982ee945292ecb8c8">panic_mode_</a>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a579ee5a5a9247b5cae7bc2ee5479e7e7">   39</a></span>    std::unordered_set&lt;Type&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a579ee5a5a9247b5cae7bc2ee5479e7e7">sync_tokens_</a>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ParserCore.html">ParserCore</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a>&amp; tokens);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="comment">// 基础token匹配方法</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a7dc3bf8f0352857426afe26a9b9f2c2d">match</a>(<a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a> type);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ae3ad62eb9956a8b3bd13d5a1b60f3753">consume</a>(<a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a> type, <span class="keyword">const</span> std::string&amp; message = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a0ae347c3c8178b5a3e67650e055674cf">check</a>(<a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a> type) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="comment">// 前瞻token管理</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a5dc20e8b85c7e20ff6345398d1462c1c">advance</a>();</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a>&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a70107ce7c443bce019f2fb152ee9bb35">current</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a83f959c34d832b925cad8e51242b7d30">previous</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a>&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a5b2e9418bf5450f56435e1b689c7f167">peek</a>();</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="comment">// 错误处理方法</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a5f04317fd47a05869af68830041711f2">reportError</a>(<span class="keyword">const</span> std::string&amp; message);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a17fafda3f4ac284520df7d9ed6e88c8e">synchronize</a>();</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="comment">// 语句类型判断方法</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ab55321f797c6eeded17e5836a74d25c2">isCreateViewStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aaf84d2c84a7c9909a90067b415daba38">isDropIndexStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ad9126135300a4a85e1b312e3daf7d05b">isCreateIndexStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aac6ea4d6919182713c6830ea972b5528">isShowStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a420264efd03e31e3859b4db35826d04a">isUseStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a2ef36c90073a4d5baac55e037a3c3529">isLoadDataStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a80ec2083bdeb019ebbf9da4afb7fd203">isGrantStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a8e94059531fbbe500420554154606ad7">isRevokeStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aa2c63f6b4f51eec69181a9b01398bbbc">isCommitStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a7b57c5678e124337a29c84e96793b16b">isRollbackStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a59b5d29a3909092f20db8a16edd8e3f0">isBeginStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aacbb1cd5503248bb1fc5d09115c3536f">isCreateUserStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a81db932a72a2d50f89ed309f1c6f6ad9">isDropUserStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ac57609c925da8b0fa06585610a1f296a">isCreateProcedureStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aa35c5d8802ad3dc1084cbcf9385deea1">isCreateTriggerStatement</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aeac9c6569c5e8ddf5e4f236a577183c1">isSetOperation</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="comment">// 错误信息获取</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aab37ed0633c5722c6abcad1800789c38">getErrors</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#add844a52d863c39630df81991ee78975">hasErrors</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="comment">// 状态管理</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aaafeab21125a628e2daf6c8befbaa7da">isAtEnd</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a381b7891d1ed90ae9a6d992eb318fec4">resetPanicMode</a>();</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a16b9203d9080cd02ff66a2b7008e8810">setSyncTokens</a>(<span class="keyword">const</span> std::unordered_set&lt;Type&gt;&amp; tokens);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="comment">// 通用解析助手方法</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ab77757d4bec47f14d73e5a23f19ec2ca">parseIdentifier</a>();</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ac22a5318f5ce6ddd13c49c5689165354">parseQualifiedName</a>();</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a04faf10d0dc20165d3ce7a8999fa6a45">parseStringLiteral</a>();</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a59195677713705367570175131a9500c">parseIntLiteral</a>();</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a8edb006dec43266a9d774f6042dd6495">parseColumnNames</a>();</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>};</div>
+</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SQL_PARSER_PARSERS_PARSER_CORE_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html">sqlcc::sql_parser::ParserCore</a></div><div class="ttdef"><b>Definition</b> parser_core.h:31</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a04faf10d0dc20165d3ce7a8999fa6a45"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a04faf10d0dc20165d3ce7a8999fa6a45">sqlcc::sql_parser::ParserCore::parseStringLiteral</a></div><div class="ttdeci">std::string parseStringLiteral()</div><div class="ttdef"><b>Definition</b> parser_core.cpp:213</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a0ae347c3c8178b5a3e67650e055674cf"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a0ae347c3c8178b5a3e67650e055674cf">sqlcc::sql_parser::ParserCore::check</a></div><div class="ttdeci">bool check(Type type) const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:48</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a16b9203d9080cd02ff66a2b7008e8810"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a16b9203d9080cd02ff66a2b7008e8810">sqlcc::sql_parser::ParserCore::setSyncTokens</a></div><div class="ttdeci">void setSyncTokens(const std::unordered_set&lt; Type &gt; &amp;tokens)</div><div class="ttdef"><b>Definition</b> parser_core.cpp:189</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a17fafda3f4ac284520df7d9ed6e88c8e"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a17fafda3f4ac284520df7d9ed6e88c8e">sqlcc::sql_parser::ParserCore::synchronize</a></div><div class="ttdeci">void synchronize()</div><div class="ttdef"><b>Definition</b> parser_core.cpp:82</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a2ef36c90073a4d5baac55e037a3c3529"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a2ef36c90073a4d5baac55e037a3c3529">sqlcc::sql_parser::ParserCore::isLoadDataStatement</a></div><div class="ttdeci">bool isLoadDataStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:157</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a381b7891d1ed90ae9a6d992eb318fec4"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a381b7891d1ed90ae9a6d992eb318fec4">sqlcc::sql_parser::ParserCore::resetPanicMode</a></div><div class="ttdeci">void resetPanicMode()</div><div class="ttdef"><b>Definition</b> parser_core.cpp:185</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a420264efd03e31e3859b4db35826d04a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a420264efd03e31e3859b4db35826d04a">sqlcc::sql_parser::ParserCore::isUseStatement</a></div><div class="ttdeci">bool isUseStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:153</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a579ee5a5a9247b5cae7bc2ee5479e7e7"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a579ee5a5a9247b5cae7bc2ee5479e7e7">sqlcc::sql_parser::ParserCore::sync_tokens_</a></div><div class="ttdeci">std::unordered_set&lt; Type &gt; sync_tokens_</div><div class="ttdef"><b>Definition</b> parser_core.h:39</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a59195677713705367570175131a9500c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a59195677713705367570175131a9500c">sqlcc::sql_parser::ParserCore::parseIntLiteral</a></div><div class="ttdeci">int parseIntLiteral()</div><div class="ttdef"><b>Definition</b> parser_core.cpp:222</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a59b5d29a3909092f20db8a16edd8e3f0"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a59b5d29a3909092f20db8a16edd8e3f0">sqlcc::sql_parser::ParserCore::isBeginStatement</a></div><div class="ttdeci">bool isBeginStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:169</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a5b2e9418bf5450f56435e1b689c7f167"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a5b2e9418bf5450f56435e1b689c7f167">sqlcc::sql_parser::ParserCore::peek</a></div><div class="ttdeci">const Token &amp; peek()</div><div class="ttdef"><b>Definition</b> parser_core.cpp:71</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a5dc20e8b85c7e20ff6345398d1462c1c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a5dc20e8b85c7e20ff6345398d1462c1c">sqlcc::sql_parser::ParserCore::advance</a></div><div class="ttdeci">void advance()</div><div class="ttdef"><b>Definition</b> parser_core.cpp:57</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a5f04317fd47a05869af68830041711f2"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a5f04317fd47a05869af68830041711f2">sqlcc::sql_parser::ParserCore::reportError</a></div><div class="ttdeci">void reportError(const std::string &amp;message)</div><div class="ttdef"><b>Definition</b> parser_core.cpp:77</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a6ffa767cbc2c570125051834cf81e238"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a6ffa767cbc2c570125051834cf81e238">sqlcc::sql_parser::ParserCore::tokens_</a></div><div class="ttdeci">TokenStream &amp; tokens_</div><div class="ttdef"><b>Definition</b> parser_core.h:34</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a70107ce7c443bce019f2fb152ee9bb35"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a70107ce7c443bce019f2fb152ee9bb35">sqlcc::sql_parser::ParserCore::current</a></div><div class="ttdeci">const Token &amp; current() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:63</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a7b57c5678e124337a29c84e96793b16b"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a7b57c5678e124337a29c84e96793b16b">sqlcc::sql_parser::ParserCore::isRollbackStatement</a></div><div class="ttdeci">bool isRollbackStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:165</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a7dc3bf8f0352857426afe26a9b9f2c2d"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a7dc3bf8f0352857426afe26a9b9f2c2d">sqlcc::sql_parser::ParserCore::match</a></div><div class="ttdeci">bool match(Type type)</div><div class="ttdef"><b>Definition</b> parser_core.cpp:26</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a80ec2083bdeb019ebbf9da4afb7fd203"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a80ec2083bdeb019ebbf9da4afb7fd203">sqlcc::sql_parser::ParserCore::isGrantStatement</a></div><div class="ttdeci">bool isGrantStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:135</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a81db932a72a2d50f89ed309f1c6f6ad9"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a81db932a72a2d50f89ed309f1c6f6ad9">sqlcc::sql_parser::ParserCore::isDropUserStatement</a></div><div class="ttdeci">bool isDropUserStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:112</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a83f959c34d832b925cad8e51242b7d30"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a83f959c34d832b925cad8e51242b7d30">sqlcc::sql_parser::ParserCore::previous</a></div><div class="ttdeci">Token previous() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:67</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a8e94059531fbbe500420554154606ad7"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a8e94059531fbbe500420554154606ad7">sqlcc::sql_parser::ParserCore::isRevokeStatement</a></div><div class="ttdeci">bool isRevokeStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:139</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_a8edb006dec43266a9d774f6042dd6495"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#a8edb006dec43266a9d774f6042dd6495">sqlcc::sql_parser::ParserCore::parseColumnNames</a></div><div class="ttdeci">std::vector&lt; std::string &gt; parseColumnNames()</div><div class="ttdef"><b>Definition</b> parser_core.cpp:235</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_aa2c63f6b4f51eec69181a9b01398bbbc"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aa2c63f6b4f51eec69181a9b01398bbbc">sqlcc::sql_parser::ParserCore::isCommitStatement</a></div><div class="ttdeci">bool isCommitStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:161</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_aa35c5d8802ad3dc1084cbcf9385deea1"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aa35c5d8802ad3dc1084cbcf9385deea1">sqlcc::sql_parser::ParserCore::isCreateTriggerStatement</a></div><div class="ttdeci">bool isCreateTriggerStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:121</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_aaafeab21125a628e2daf6c8befbaa7da"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aaafeab21125a628e2daf6c8befbaa7da">sqlcc::sql_parser::ParserCore::isAtEnd</a></div><div class="ttdeci">bool isAtEnd() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:53</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_aab37ed0633c5722c6abcad1800789c38"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aab37ed0633c5722c6abcad1800789c38">sqlcc::sql_parser::ParserCore::getErrors</a></div><div class="ttdeci">const std::vector&lt; std::string &gt; &amp; getErrors() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:175</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_aac6ea4d6919182713c6830ea972b5528"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aac6ea4d6919182713c6830ea972b5528">sqlcc::sql_parser::ParserCore::isShowStatement</a></div><div class="ttdeci">bool isShowStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:149</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_aacbb1cd5503248bb1fc5d09115c3536f"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aacbb1cd5503248bb1fc5d09115c3536f">sqlcc::sql_parser::ParserCore::isCreateUserStatement</a></div><div class="ttdeci">bool isCreateUserStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:107</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_aaf84d2c84a7c9909a90067b415daba38"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aaf84d2c84a7c9909a90067b415daba38">sqlcc::sql_parser::ParserCore::isDropIndexStatement</a></div><div class="ttdeci">bool isDropIndexStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:130</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_ab55321f797c6eeded17e5836a74d25c2"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ab55321f797c6eeded17e5836a74d25c2">sqlcc::sql_parser::ParserCore::isCreateViewStatement</a></div><div class="ttdeci">bool isCreateViewStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:102</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_ab77757d4bec47f14d73e5a23f19ec2ca"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ab77757d4bec47f14d73e5a23f19ec2ca">sqlcc::sql_parser::ParserCore::parseIdentifier</a></div><div class="ttdeci">std::string parseIdentifier()</div><div class="ttdef"><b>Definition</b> parser_core.cpp:195</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_aba1396b3f8e9a9e3462ae5883c23a30a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aba1396b3f8e9a9e3462ae5883c23a30a">sqlcc::sql_parser::ParserCore::errors_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; errors_</div><div class="ttdef"><b>Definition</b> parser_core.h:37</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_ac22a5318f5ce6ddd13c49c5689165354"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ac22a5318f5ce6ddd13c49c5689165354">sqlcc::sql_parser::ParserCore::parseQualifiedName</a></div><div class="ttdeci">std::string parseQualifiedName()</div><div class="ttdef"><b>Definition</b> parser_core.cpp:205</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_ac57609c925da8b0fa06585610a1f296a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ac57609c925da8b0fa06585610a1f296a">sqlcc::sql_parser::ParserCore::isCreateProcedureStatement</a></div><div class="ttdeci">bool isCreateProcedureStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:116</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_ad4b13c43bbed01f982ee945292ecb8c8"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ad4b13c43bbed01f982ee945292ecb8c8">sqlcc::sql_parser::ParserCore::panic_mode_</a></div><div class="ttdeci">bool panic_mode_</div><div class="ttdef"><b>Definition</b> parser_core.h:38</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_ad9126135300a4a85e1b312e3daf7d05b"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ad9126135300a4a85e1b312e3daf7d05b">sqlcc::sql_parser::ParserCore::isCreateIndexStatement</a></div><div class="ttdeci">bool isCreateIndexStatement() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:126</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_add844a52d863c39630df81991ee78975"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#add844a52d863c39630df81991ee78975">sqlcc::sql_parser::ParserCore::hasErrors</a></div><div class="ttdeci">bool hasErrors() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:179</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_ae3ad62eb9956a8b3bd13d5a1b60f3753"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#ae3ad62eb9956a8b3bd13d5a1b60f3753">sqlcc::sql_parser::ParserCore::consume</a></div><div class="ttdeci">void consume(Type type, const std::string &amp;message=&quot;&quot;)</div><div class="ttdef"><b>Definition</b> parser_core.cpp:34</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html_aeac9c6569c5e8ddf5e4f236a577183c1"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html#aeac9c6569c5e8ddf5e4f236a577183c1">sqlcc::sql_parser::ParserCore::isSetOperation</a></div><div class="ttdeci">bool isSetOperation() const</div><div class="ttdef"><b>Definition</b> parser_core.cpp:143</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html">sqlcc::sql_parser::TokenStream</a></div><div class="ttdoc">Token流管理类 - 负责词法分析器的token流管理</div><div class="ttdef"><b>Definition</b> token_stream.h:59</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Token_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Token.html">sqlcc::sql_parser::Token</a></div><div class="ttdoc">Token类</div><div class="ttdef"><b>Definition</b> token.h:289</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_a5e282252d3f63af85bedb39436b4f867"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">sqlcc::sql_parser::Type</a></div><div class="ttdeci">Type</div><div class="ttdoc">Token类型枚举</div><div class="ttdef"><b>Definition</b> token.h:48</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

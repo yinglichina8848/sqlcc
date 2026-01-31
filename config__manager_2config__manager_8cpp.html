@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: config_manager.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_257e948fe1aea1fb251751e6d7533409.html">config_manager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">config_manager.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="config__manager_8h_source.html">../utils/config_manager.h</a>&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;iomanip&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+config_manager/config_manager.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="config__manager_2config__manager_8cpp__incl.png" border="0" usemap="#aconfig__manager_8cpp" alt=""/></div>
+<map name="aconfig__manager_8cpp" id="aconfig__manager_8cpp">
+<area shape="rect" title=" " alt="" coords="548,5,700,31"/>
+<area shape="rect" href="config__manager_8h.html" title=" " alt="" coords="228,79,409,104"/>
+<area shape="poly" title=" " alt="" coords="576,33,382,78,381,73,574,28"/>
+<area shape="rect" title=" " alt="" coords="433,79,513,104"/>
+<area shape="poly" title=" " alt="" coords="601,33,512,75,509,70,599,28"/>
+<area shape="rect" title=" " alt="" coords="538,79,611,104"/>
+<area shape="poly" title=" " alt="" coords="618,33,593,69,588,66,614,29"/>
+<area shape="rect" title=" " alt="" coords="636,79,711,104"/>
+<area shape="poly" title=" " alt="" coords="634,29,660,66,655,69,630,33"/>
+<area shape="rect" title=" " alt="" coords="735,79,820,104"/>
+<area shape="poly" title=" " alt="" coords="650,28,741,70,739,75,648,33"/>
+<area shape="rect" title=" " alt="" coords="844,79,919,104"/>
+<area shape="poly" title=" " alt="" coords="666,28,832,74,830,79,665,33"/>
+<area shape="rect" title=" " alt="" coords="5,152,64,177"/>
+<area shape="poly" title=" " alt="" coords="271,107,78,154,77,149,270,102"/>
+<area shape="rect" title=" " alt="" coords="89,152,213,177"/>
+<area shape="poly" title=" " alt="" coords="293,106,192,149,190,144,291,102"/>
+<area shape="rect" title=" " alt="" coords="237,152,305,177"/>
+<area shape="poly" title=" " alt="" coords="313,106,288,142,284,139,309,103"/>
+<area shape="rect" title=" " alt="" coords="329,152,407,177"/>
+<area shape="poly" title=" " alt="" coords="329,103,354,139,350,142,325,106"/>
+<area shape="rect" title=" " alt="" coords="431,152,495,177"/>
+<area shape="poly" title=" " alt="" coords="343,102,428,143,426,148,341,106"/>
+<area shape="rect" title=" " alt="" coords="519,152,582,177"/>
+<area shape="poly" title=" " alt="" coords="357,101,507,147,506,152,355,107"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么需要配置管理器？</p>
+<p>数据库系统需要灵活的配置管理来适应不同的部署环境和运行时调优。没有配置管理器，系统参数将硬编码在代码中，无法进行动态调整和环境适配。</p>
+<p>主要问题解决：</p><ol type="1">
+<li>环境适配：支持不同部署环境的参数配置</li>
+<li>运行时调优：允许在线调整系统参数</li>
+<li>配置持久化：保存和恢复配置状态</li>
+<li>类型安全：提供类型安全的配置访问接口</li>
+<li>配置验证：确保配置参数的有效性和合理性</li>
+</ol>
+<p>配置管理器失败的影响：</p><ul>
+<li>系统无法启动：缺少必要的配置参数</li>
+<li>性能不佳：无法调整性能相关参数</li>
+<li>功能异常：配置错误导致功能不正常</li>
+<li>维护困难：配置变更需要重新编译代码</li>
+</ul>
+<p>WHAT: 这实现了什么功能？</p>
+<p>配置管理器提供完整的配置生命周期管理功能：</p><ul>
+<li>配置加载：从文件或环境变量加载配置</li>
+<li>配置访问：类型安全的配置参数访问接口</li>
+<li>配置修改：运行时动态修改配置参数</li>
+<li>配置持久化：将配置保存到文件</li>
+<li>配置验证：检查配置参数的有效性</li>
+<li>配置监控：跟踪配置变更历史</li>
+</ul>
+<p>核心组件：</p><ul>
+<li>单例管理器：全局唯一的配置实例管理</li>
+<li>配置解析器：支持多种配置格式的解析</li>
+<li>类型转换器：安全的数据类型转换</li>
+<li>配置缓存：内存中的配置参数缓存</li>
+<li>配置文件处理器：文件系统的配置读写</li>
+<li>配置监听器：配置变更的通知机制</li>
+</ul>
+<p>HOW: 如何实现的？</p>
+<p>技术实现要点：</p><ol type="1">
+<li>单例模式：std::call_once保证线程安全的单例创建</li>
+<li>变体类型：std::variant存储不同类型的配置值</li>
+<li>字符串处理：精确的配置行解析和类型转换</li>
+<li>文件操作：ifstream/ofstream进行配置文件读写</li>
+<li>异常安全：try-catch块处理配置加载异常</li>
+<li>内存安全：智能指针管理配置对象的生命周期</li>
+</ol>
+<p>架构设计：</p><ul>
+<li>单例模式：确保全局唯一的配置管理实例</li>
+<li>工厂模式：根据配置类型创建相应的处理器</li>
+<li>模板方法：统一的配置加载和保存流程</li>
+<li>策略模式：可插拔的配置解析策略</li>
+<li>观察者模式：配置变更的通知机制</li>
+</ul>
+<p>性能优化：</p><ul>
+<li>内存缓存：避免重复的文件读取开销</li>
+<li>延迟解析：按需进行类型转换</li>
+<li>批量操作：支持批量配置参数的设置</li>
+<li>索引查找：O(1)时间复杂度的参数查找</li>
+<li>最小化拷贝：使用引用和移动语义</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>该实现专为SQLCC数据库系统优化，支持热更新配置 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>include/config_manager.h </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

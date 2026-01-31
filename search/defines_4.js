@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['sqlcc_5fconstraint_5fviolation_0',['sqlcc_constraint_violation',['../error__handler_2error__handler_8h.html#afc9e5f97c5b52b5777a5b9bd0bd24c9e',1,'SQLCC_CONSTRAINT_VIOLATION:&#160;error_handler.h'],['../error__handler_8h.html#afc9e5f97c5b52b5777a5b9bd0bd24c9e',1,'SQLCC_CONSTRAINT_VIOLATION:&#160;error_handler.h']]],
+  ['sqlcc_5fdatabase_5fnot_5ffound_1',['sqlcc_database_not_found',['../error__handler_8h.html#a7ff14e41564132fb655b62473851833f',1,'SQLCC_DATABASE_NOT_FOUND:&#160;error_handler.h'],['../error__handler_2error__handler_8h.html#a7ff14e41564132fb655b62473851833f',1,'SQLCC_DATABASE_NOT_FOUND:&#160;error_handler.h']]],
+  ['sqlcc_5ferror_2',['sqlcc_error',['../error__handler_8h.html#a03ecabef6c3ac6bfba750bda8ea7ba69',1,'SQLCC_ERROR:&#160;error_handler.h'],['../error__handler_2error__handler_8h.html#a03ecabef6c3ac6bfba750bda8ea7ba69',1,'SQLCC_ERROR:&#160;error_handler.h']]],
+  ['sqlcc_5flog_5fdebug_3',['sqlcc_log_debug',['../logger_2logger_8h.html#a745e4cf15e366f591854e16f189a8ccc',1,'SQLCC_LOG_DEBUG:&#160;logger.h'],['../utils_2logger_8h.html#a745e4cf15e366f591854e16f189a8ccc',1,'SQLCC_LOG_DEBUG:&#160;logger.h']]],
+  ['sqlcc_5flog_5ferror_4',['sqlcc_log_error',['../logger_2logger_8h.html#a84e665e7d7b3157724d71a7c46644680',1,'SQLCC_LOG_ERROR:&#160;logger.h'],['../utils_2logger_8h.html#a84e665e7d7b3157724d71a7c46644680',1,'SQLCC_LOG_ERROR:&#160;logger.h']]],
+  ['sqlcc_5flog_5finfo_5',['sqlcc_log_info',['../logger_2logger_8h.html#a51a9494ff02cefe77ed341798f825fdf',1,'SQLCC_LOG_INFO:&#160;logger.h'],['../utils_2logger_8h.html#a51a9494ff02cefe77ed341798f825fdf',1,'SQLCC_LOG_INFO:&#160;logger.h']]],
+  ['sqlcc_5flog_5fwarn_6',['sqlcc_log_warn',['../logger_2logger_8h.html#a6288fa1e809caec231f7ba41f7f9b6e2',1,'SQLCC_LOG_WARN:&#160;logger.h'],['../utils_2logger_8h.html#a6288fa1e809caec231f7ba41f7f9b6e2',1,'SQLCC_LOG_WARN:&#160;logger.h']]],
+  ['sqlcc_5flogger_7',['sqlcc_logger',['../logger_2logger_8h.html#a5d17d04fdaf11402dfac92b0837228d0',1,'SQLCC_LOGGER:&#160;logger.h'],['../utils_2logger_8h.html#a5d17d04fdaf11402dfac92b0837228d0',1,'SQLCC_LOGGER:&#160;logger.h']]],
+  ['sqlcc_5fmemory_5falloc_8',['SQLCC_MEMORY_ALLOC',['../memory__monitor_8h.html#a290b859cd1985424461c8279359d6eeb',1,'memory_monitor.h']]],
+  ['sqlcc_5fmemory_5ffree_9',['SQLCC_MEMORY_FREE',['../memory__monitor_8h.html#a1249327980b2b0e2dcdd9abd68db3134',1,'memory_monitor.h']]],
+  ['sqlcc_5fmemory_5ftracker_10',['SQLCC_MEMORY_TRACKER',['../memory__monitor_8h.html#a61dabbb0866fe99480f4b870a83740b1',1,'memory_monitor.h']]],
+  ['sqlcc_5fpermission_5fdenied_11',['sqlcc_permission_denied',['../error__handler_8h.html#a540c3f801fdeeb165d487f9a2e808386',1,'SQLCC_PERMISSION_DENIED:&#160;error_handler.h'],['../error__handler_2error__handler_8h.html#a540c3f801fdeeb165d487f9a2e808386',1,'SQLCC_PERMISSION_DENIED:&#160;error_handler.h']]],
+  ['sqlcc_5fsql_5fparser_5foperator_5fkind_5fh_12',['sqlcc_sql_parser_operator_kind_h',['../ast_2operator__kind_8h.html#a5e2b94f8b19f8735b4f5f66bfc21f161',1,'SQLCC_SQL_PARSER_OPERATOR_KIND_H:&#160;operator_kind.h'],['../operator__kind_8h.html#a5e2b94f8b19f8735b4f5f66bfc21f161',1,'SQLCC_SQL_PARSER_OPERATOR_KIND_H:&#160;operator_kind.h']]],
+  ['sqlcc_5fsyntax_5ferror_13',['sqlcc_syntax_error',['../error__handler_8h.html#aca7b58d18e6fcf14a1348deba4c87cc6',1,'SQLCC_SYNTAX_ERROR:&#160;error_handler.h'],['../error__handler_2error__handler_8h.html#aca7b58d18e6fcf14a1348deba4c87cc6',1,'SQLCC_SYNTAX_ERROR:&#160;error_handler.h']]],
+  ['sqlcc_5ftable_5fnot_5ffound_14',['sqlcc_table_not_found',['../error__handler_8h.html#aa74e61a565211f2805b630e783b69c69',1,'SQLCC_TABLE_NOT_FOUND:&#160;error_handler.h'],['../error__handler_2error__handler_8h.html#aa74e61a565211f2805b630e783b69c69',1,'SQLCC_TABLE_NOT_FOUND:&#160;error_handler.h']]],
+  ['sqlcc_5fversion_15',['sqlcc_version',['../client__main_8cpp.html#ac637bc08fba690e80ab385d97d39702c',1,'SQLCC_VERSION:&#160;client_main.cpp'],['../version_8h.html#ac637bc08fba690e80ab385d97d39702c',1,'SQLCC_VERSION:&#160;version.h']]],
+  ['sqlcc_5fversion_5fmajor_16',['SQLCC_VERSION_MAJOR',['../version_8h.html#ac527f1bc56f230fc9d46572503d3763d',1,'version.h']]],
+  ['sqlcc_5fversion_5fminor_17',['SQLCC_VERSION_MINOR',['../version_8h.html#a67c46f29db587c7e9ec102c7916749d7',1,'version.h']]],
+  ['sqlcc_5fversion_5fpatch_18',['SQLCC_VERSION_PATCH',['../version_8h.html#afff7736e8b78f8e2ac00baef5a34db2b',1,'version.h']]],
+  ['sqlcc_5fversion_5fstring_19',['SQLCC_VERSION_STRING',['../version_8h.html#aae80d75c4a6b99e266b90243b0f870f9',1,'version.h']]]
+];

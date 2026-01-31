@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: architecture_safeguards.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">architecture_safeguards.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="architecture__safeguards_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#ifndef SQLCC_SQL_PARSER_ARCHITECTURE_SAFEGUARDS_H</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#define SQLCC_SQL_PARSER_ARCHITECTURE_SAFEGUARDS_H</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment">// 前向声明所需类型</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keyword">class </span>Parser;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keyword">class </span>ExpressionParser;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">class </span>TokenStream;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1Expression.html">Expression</a>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="comment">// ============================================================================</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment">// 🛡️ 架构安全宏定义 - 防止架构违规</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">// ============================================================================</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="foldopen" id="foldopen00051" data-start="" data-end="">
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="architecture__safeguards_8h.html#a65c19576f947a997a6efe5c376ad1352">   51</a></span><span class="preprocessor">#define ARCHITECTURE_VIOLATION_WARNING() \</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">    do { \</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">        std::cerr &lt;&lt; &quot;\n&quot; \</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">                  &lt;&lt; &quot;🚨 ARCHITECTURE VIOLATION WARNING 🚨\n&quot; \</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">                  &lt;&lt; &quot;=====================================\n&quot; \</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">                  &lt;&lt; &quot;You are attempting to modify code that violates the Parser architecture!\n&quot; \</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">                  &lt;&lt; &quot;\n&quot; \</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">                  &lt;&lt; &quot;CRITICAL RULES:\n&quot; \</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">                  &lt;&lt; &quot;1. Parser class MUST NOT directly construct AST expression nodes\n&quot; \</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">                  &lt;&lt; &quot;2. All expression parsing MUST go through ExpressionParser\n&quot; \</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">                  &lt;&lt; &quot;3. Do NOT attempt to &#39;sneak back&#39; parseExpression logic\n&quot; \</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">                  &lt;&lt; &quot;\n&quot; \</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">                  &lt;&lt; &quot;CONSEQUENCES OF VIOLATION:\n&quot; \</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">                  &lt;&lt; &quot;- Compilation will FAIL with static assertions\n&quot; \</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">                  &lt;&lt; &quot;- Runtime will THROW exceptions\n&quot; \</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">                  &lt;&lt; &quot;- Code review will REJECT your changes\n&quot; \</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">                  &lt;&lt; &quot;\n&quot; \</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">                  &lt;&lt; &quot;SOLUTION:\n&quot; \</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">                  &lt;&lt; &quot;Implement expression parsing in ExpressionParser class instead.\n&quot; \</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">                  &lt;&lt; &quot;Parser::parseExpression() is a SECURITY GUARDRAIL, not functionality.\n&quot; \</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">                  &lt;&lt; &quot;=====================================\n&quot; \</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">                  &lt;&lt; std::endl; \</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">    } while(0)</span></div>
+</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="foldopen" id="foldopen00081" data-start="" data-end="">
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="architecture__safeguards_8h.html#a56152608b105c1803f557ab2f1c2bfbe">   81</a></span><span class="preprocessor">#define EXPRESSION_PARSER_CHECK() \</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">    do { \</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">        </span><span class="comment">/* 编译时检查：验证ExpressionParser类型存在 */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">        static_assert(!std::is_void_v&lt;ExpressionParser&gt;, \</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">                      &quot;ExpressionParser must be implemented for expression parsing&quot;); \</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">        \</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="preprocessor">        </span><span class="comment">/* 编译时检查：验证TokenStream类型存在 */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">        static_assert(!std::is_void_v&lt;TokenStream&gt;, \</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">                      &quot;TokenStream must be available for ExpressionParser&quot;); \</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">        \</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">        </span><span class="comment">/* 运行时日志：记录检查通过 */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="preprocessor">        std::cout &lt;&lt; &quot;[ARCHITECTURE CHECK] ExpressionParser integration verified&quot; &lt;&lt; std::endl; \</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="preprocessor">    } while(0)</span></div>
+</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="foldopen" id="foldopen00100" data-start="" data-end="">
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="architecture__safeguards_8h.html#a7fac3d379becf1be1ca168a08e4fd0f5">  100</a></span><span class="preprocessor">#define ARCHITECTURE_SAFETY_ASSERT(condition, message) \</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="preprocessor">    static_assert(condition, message)</span></div>
+</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="foldopen" id="foldopen00109" data-start="" data-end="">
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="architecture__safeguards_8h.html#a66a999659872acd6326247be8cacd113">  109</a></span><span class="preprocessor">#define FORBID_DIRECT_AST_CONSTRUCTION() \</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="preprocessor">    ARCHITECTURE_VIOLATION_WARNING(); \</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="preprocessor">    static_assert(false, &quot;Direct AST node construction is FORBIDDEN in Parser class. Use ExpressionParser instead.&quot;)</span></div>
+</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="foldopen" id="foldopen00119" data-start="" data-end="">
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="architecture__safeguards_8h.html#a0a6738119c20fdd316478c51588cee33">  119</a></span><span class="preprocessor">#define VALIDATE_EXPRESSION_PARSING_ENTRY_POINT() \</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="preprocessor">    do { \</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="preprocessor">        </span><span class="comment">/* 检查调用栈中是否包含ExpressionParser */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="preprocessor">        </span><span class="comment">/* 这是一个运行时检查，防止Parser直接调用表达式解析 */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="preprocessor">        std::cout &lt;&lt; &quot;[ARCHITECTURE AUDIT] Validating expression parsing entry point...&quot; &lt;&lt; std::endl; \</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="preprocessor">        \</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="preprocessor">        </span><span class="comment">/* 未来可以扩展为更严格的调用栈检查 */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="preprocessor">        </span><span class="comment">/* 目前通过日志记录提供审计追踪 */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="preprocessor">    } while(0)</span></div>
+</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="comment">// ============================================================================</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="comment">// 📚 架构指导注释宏 - 为开发者提供指导</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="comment">// ============================================================================</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="foldopen" id="foldopen00138" data-start="" data-end="">
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="architecture__safeguards_8h.html#a06e692e8735c1bab9edf3635f1b98c5f">  138</a></span><span class="preprocessor">#define ARCHITECTURE_CONSTRAINT_REMINDER(comment) \</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="preprocessor">    </span><span class="comment">/* Architecture Constraint Reminder: comment */</span><span class="preprocessor"></span></div>
+</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="foldopen" id="foldopen00147" data-start="" data-end="">
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno"><a class="line" href="architecture__safeguards_8h.html#a8a49ba3fe5b4a3e658360d0061a5d117">  147</a></span><span class="preprocessor">#define EXPRESSION_PARSING_SAFE_ZONE_BEGIN() \</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="preprocessor">    </span><span class="comment">/* BEGIN: Expression Parsing Safe Zone */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="preprocessor">    </span><span class="comment">/* WARNING: This zone is currently EMPTY by design */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">    </span><span class="comment">/* All expression parsing must be handled by ExpressionParser */</span><span class="preprocessor"></span></div>
+</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="foldopen" id="foldopen00152" data-start="" data-end="">
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno"><a class="line" href="architecture__safeguards_8h.html#a3c466d8b580eb26f4ffe1d44461299cf">  152</a></span><span class="preprocessor">#define EXPRESSION_PARSING_SAFE_ZONE_END() \</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="preprocessor">    </span><span class="comment">/* END: Expression Parsing Safe Zone */</span><span class="preprocessor"></span></div>
+</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="comment">// ============================================================================</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="comment">// 🔒 编译时类型安全检查</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="comment">// ============================================================================</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="foldopen" id="foldopen00161" data-start="{" data-end="}">
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html">  161</a></span><span class="keyword">namespace </span>architecture_safeguards {</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="comment">// 编译时验证：Parser类必须是final的</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#a016a20fa25207768db7872be3ccd6c73">  164</a></span><a class="code hl_define" href="architecture__safeguards_8h.html#a7fac3d379becf1be1ca168a08e4fd0f5">ARCHITECTURE_SAFETY_ASSERT</a>(std::is_final_v&lt;Parser&gt;,</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="stringliteral">&quot;Parser class must be final to prevent inheritance-based architecture bypass&quot;</span>);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="comment">// 编译时验证：Expression类型必须存在</span></div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#a4adeb207a44dc68eb03a5e630bfc9908">  168</a></span><a class="code hl_define" href="architecture__safeguards_8h.html#a7fac3d379becf1be1ca168a08e4fd0f5">ARCHITECTURE_SAFETY_ASSERT</a>(!std::is_void_v&lt;Expression&gt;,</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <span class="stringliteral">&quot;Expression type must exist for type safety checks&quot;</span>);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span><span class="comment">// 编译时验证：关键类型必须可用</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#a3d54e6ca79a3ae2340390f3e3faab884">  172</a></span><a class="code hl_define" href="architecture__safeguards_8h.html#a7fac3d379becf1be1ca168a08e4fd0f5">ARCHITECTURE_SAFETY_ASSERT</a>(!std::is_void_v&lt;TokenStream&gt;,</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="stringliteral">&quot;TokenStream must be available for ExpressionParser integration&quot;</span>);</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#acd21e0a5d3b997482b9332d9ef6d6028">  175</a></span><a class="code hl_define" href="architecture__safeguards_8h.html#a7fac3d379becf1be1ca168a08e4fd0f5">ARCHITECTURE_SAFETY_ASSERT</a>(!std::is_void_v&lt;ExpressionParser&gt;,</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    <span class="stringliteral">&quot;ExpressionParser must be available for expression parsing&quot;</span>);</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="foldopen" id="foldopen00183" data-start="{" data-end="}">
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#afa253775e8f70a3876bfc2b8927288fa">  183</a></span><span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#afa253775e8f70a3876bfc2b8927288fa">validateArchitectureConstraints</a>() {</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;[ARCHITECTURE VALIDATION] Running architecture safety checks...&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    <span class="comment">// 检查Parser类是否为final</span></div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (!std::is_final_v&lt;Parser&gt;) {</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;ARCHITECTURE VIOLATION: Parser class must be final&quot;</span>);</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    }</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="comment">// 检查关键类型是否存在（使用类型特征而不是sizeof）</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_void_v&lt;Expression&gt;) {</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;ARCHITECTURE VIOLATION: Expression type missing&quot;</span>);</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    }</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_void_v&lt;TokenStream&gt;) {</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;ARCHITECTURE VIOLATION: TokenStream type missing&quot;</span>);</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    }</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_void_v&lt;ExpressionParser&gt;) {</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;ARCHITECTURE VIOLATION: ExpressionParser type missing&quot;</span>);</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    }</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    std::cout &lt;&lt; <span class="stringliteral">&quot;[ARCHITECTURE VALIDATION] All architecture constraints verified ✓&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>}</div>
+</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
+<div class="foldopen" id="foldopen00212" data-start="{" data-end="}">
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#abe31b0bffada163b3deee9772771ba97">  212</a></span><span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#abe31b0bffada163b3deee9772771ba97">reportArchitectureViolation</a>(<span class="keyword">const</span> std::string&amp; location,</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>                                       <span class="keyword">const</span> std::string&amp; violation) {</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    std::cerr &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>              &lt;&lt; <span class="stringliteral">&quot;🚨 CRITICAL ARCHITECTURE VIOLATION DETECTED 🚨\n&quot;</span></div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>              &lt;&lt; <span class="stringliteral">&quot;===============================================\n&quot;</span></div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>              &lt;&lt; <span class="stringliteral">&quot;Location: &quot;</span> &lt;&lt; location &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>              &lt;&lt; <span class="stringliteral">&quot;Violation: &quot;</span> &lt;&lt; violation &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>              &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>              &lt;&lt; <span class="stringliteral">&quot;IMMEDIATE ACTION REQUIRED:\n&quot;</span></div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>              &lt;&lt; <span class="stringliteral">&quot;1. STOP what you are doing\n&quot;</span></div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>              &lt;&lt; <span class="stringliteral">&quot;2. REVIEW the Parser architecture constraints\n&quot;</span></div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>              &lt;&lt; <span class="stringliteral">&quot;3. MOVE expression parsing logic to ExpressionParser\n&quot;</span></div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>              &lt;&lt; <span class="stringliteral">&quot;4. REMOVE any direct AST node construction in Parser\n&quot;</span></div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>              &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>              &lt;&lt; <span class="stringliteral">&quot;Parser class is a SECURITY GUARDRAIL, not a functionality provider.\n&quot;</span></div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>              &lt;&lt; <span class="stringliteral">&quot;===============================================\n&quot;</span></div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>              &lt;&lt; std::endl;</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Architecture violation: &quot;</span> + violation + <span class="stringliteral">&quot; at &quot;</span> + location);</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>}</div>
+</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>} <span class="comment">// namespace architecture_safeguards</span></div>
+</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span> </div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SQL_PARSER_ARCHITECTURE_SAFEGUARDS_H</span></div>
+<div class="ttc" id="aarchitecture__safeguards_8h_html_a7fac3d379becf1be1ca168a08e4fd0f5"><div class="ttname"><a href="architecture__safeguards_8h.html#a7fac3d379becf1be1ca168a08e4fd0f5">ARCHITECTURE_SAFETY_ASSERT</a></div><div class="ttdeci">#define ARCHITECTURE_SAFETY_ASSERT(condition, message)</div><div class="ttdoc">架构安全断言宏</div><div class="ttdef"><b>Definition</b> architecture_safeguards.h:100</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1Expression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1Expression.html">sqlcc::sql_parser::ast::Expression</a></div><div class="ttdef"><b>Definition</b> expression.h:25</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_1_1architecture__safeguards_html_abe31b0bffada163b3deee9772771ba97"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#abe31b0bffada163b3deee9772771ba97">sqlcc::sql_parser::architecture_safeguards::reportArchitectureViolation</a></div><div class="ttdeci">void reportArchitectureViolation(const std::string &amp;location, const std::string &amp;violation)</div><div class="ttdoc">架构违规报告函数</div><div class="ttdef"><b>Definition</b> architecture_safeguards.h:212</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_1_1architecture__safeguards_html_afa253775e8f70a3876bfc2b8927288fa"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser_1_1architecture__safeguards.html#afa253775e8f70a3876bfc2b8927288fa">sqlcc::sql_parser::architecture_safeguards::validateArchitectureConstraints</a></div><div class="ttdeci">void validateArchitectureConstraints()</div><div class="ttdoc">架构安全验证函数</div><div class="ttdef"><b>Definition</b> architecture_safeguards.h:183</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

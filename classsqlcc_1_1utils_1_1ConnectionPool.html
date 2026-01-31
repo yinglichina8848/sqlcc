@@ -1,0 +1,951 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::utils::ConnectionPool&lt; ConnectionType &gt; 模板类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1utils.html">utils</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">ConnectionPool</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1utils_1_1ConnectionPool-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::utils::ConnectionPool&lt; ConnectionType &gt; 模板类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>数据库连接池 - 管理数据库连接的复用  
+ <a href="classsqlcc_1_1utils_1_1ConnectionPool.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="connection__pool_8h_source.html">connection_pool.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::utils::ConnectionPool&lt; ConnectionType &gt; 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1utils_1_1ConnectionPool__coll__graph.png" border="0" usemap="#asqlcc_1_1utils_1_1ConnectionPool_3_01ConnectionType_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1utils_1_1ConnectionPool_3_01ConnectionType_01_4_coll__map" id="asqlcc_1_1utils_1_1ConnectionPool_3_01ConnectionType_01_4_coll__map">
+<area shape="rect" title="数据库连接池 &#45; 管理数据库连接的复用" alt="" coords="287,53,469,93"/>
+<area shape="rect" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolConfig.html" title="连接池配置" alt="" coords="5,5,188,60"/>
+<area shape="poly" title=" " alt="" coords="202,45,287,57,286,62,201,50"/>
+<area shape="rect" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolStats.html" title="连接池统计信息" alt="" coords="5,84,188,139"/>
+<area shape="poly" title=" " alt="" coords="201,94,286,83,287,88,202,100"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolConfig.html">PoolConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">连接池配置  <a href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolConfig.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolStats.html">PoolStats</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">连接池统计信息  <a href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolStats.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a90d01eb58f73ac093ae7de64fd59033c" id="r_a90d01eb58f73ac093ae7de64fd59033c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a90d01eb58f73ac093ae7de64fd59033c">ConnectionFactory</a> = std::function&lt; std::shared_ptr&lt; ConnectionType &gt;()&gt;</td></tr>
+<tr class="memdesc:a90d01eb58f73ac093ae7de64fd59033c"><td class="mdescLeft">&#160;</td><td class="mdescRight">连接工厂函数类型  <br /></td></tr>
+<tr class="separator:a90d01eb58f73ac093ae7de64fd59033c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1752a1a1f9e0759f00649afd5a0a3cb" id="r_ae1752a1a1f9e0759f00649afd5a0a3cb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#ae1752a1a1f9e0759f00649afd5a0a3cb">ConnectionValidator</a> = std::function&lt; bool(std::shared_ptr&lt; ConnectionType &gt;)&gt;</td></tr>
+<tr class="memdesc:ae1752a1a1f9e0759f00649afd5a0a3cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">连接验证函数类型  <br /></td></tr>
+<tr class="separator:ae1752a1a1f9e0759f00649afd5a0a3cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a2c361a5836d85f3006f68abf4886df21" id="r_a2c361a5836d85f3006f68abf4886df21"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a2c361a5836d85f3006f68abf4886df21">ConnectionPool</a> (<a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a90d01eb58f73ac093ae7de64fd59033c">ConnectionFactory</a> factory, <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#ae1752a1a1f9e0759f00649afd5a0a3cb">ConnectionValidator</a> validator=nullptr, const <a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolConfig.html">PoolConfig</a> &amp;config=<a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolConfig.html">PoolConfig</a>())</td></tr>
+<tr class="memdesc:a2c361a5836d85f3006f68abf4886df21"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a2c361a5836d85f3006f68abf4886df21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8756363336f6b89114ef0c56b980aa3e" id="r_a8756363336f6b89114ef0c56b980aa3e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a8756363336f6b89114ef0c56b980aa3e">~ConnectionPool</a> ()</td></tr>
+<tr class="memdesc:a8756363336f6b89114ef0c56b980aa3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a8756363336f6b89114ef0c56b980aa3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a515f4eb552159238a16fde97d7ffd01b" id="r_a515f4eb552159238a16fde97d7ffd01b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a515f4eb552159238a16fde97d7ffd01b">ConnectionPool</a> (const <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">ConnectionPool</a> &amp;)=delete</td></tr>
+<tr class="separator:a515f4eb552159238a16fde97d7ffd01b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a608c6b733ae6ef18af39fd4e04ff9f3a" id="r_a608c6b733ae6ef18af39fd4e04ff9f3a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">ConnectionPool</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a608c6b733ae6ef18af39fd4e04ff9f3a">operator=</a> (const <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">ConnectionPool</a> &amp;)=delete</td></tr>
+<tr class="separator:a608c6b733ae6ef18af39fd4e04ff9f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6f44c7382198a5af3f10ba0c4e73274" id="r_aa6f44c7382198a5af3f10ba0c4e73274"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#aa6f44c7382198a5af3f10ba0c4e73274">start</a> ()</td></tr>
+<tr class="memdesc:aa6f44c7382198a5af3f10ba0c4e73274"><td class="mdescLeft">&#160;</td><td class="mdescRight">启动连接池  <br /></td></tr>
+<tr class="separator:aa6f44c7382198a5af3f10ba0c4e73274"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2f668b836eee2884c06a998c7522b34" id="r_ac2f668b836eee2884c06a998c7522b34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#ac2f668b836eee2884c06a998c7522b34">shutdown</a> ()</td></tr>
+<tr class="memdesc:ac2f668b836eee2884c06a998c7522b34"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止连接池  <br /></td></tr>
+<tr class="separator:ac2f668b836eee2884c06a998c7522b34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63ca471f47b0836c9bd453bc6439e84b" id="r_a63ca471f47b0836c9bd453bc6439e84b"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; ConnectionType &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a63ca471f47b0836c9bd453bc6439e84b">acquire</a> (std::chrono::milliseconds timeout=std::chrono::milliseconds(5000))</td></tr>
+<tr class="memdesc:a63ca471f47b0836c9bd453bc6439e84b"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取连接  <br /></td></tr>
+<tr class="separator:a63ca471f47b0836c9bd453bc6439e84b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6979ab40dab3e8f7a8731e83e86e43b" id="r_af6979ab40dab3e8f7a8731e83e86e43b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#af6979ab40dab3e8f7a8731e83e86e43b">release</a> (std::shared_ptr&lt; ConnectionType &gt; connection)</td></tr>
+<tr class="memdesc:af6979ab40dab3e8f7a8731e83e86e43b"><td class="mdescLeft">&#160;</td><td class="mdescRight">释放连接  <br /></td></tr>
+<tr class="separator:af6979ab40dab3e8f7a8731e83e86e43b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4658d7279bd41295444df033e68ad5e2" id="r_a4658d7279bd41295444df033e68ad5e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolStats.html">PoolStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a4658d7279bd41295444df033e68ad5e2">getStats</a> () const</td></tr>
+<tr class="memdesc:a4658d7279bd41295444df033e68ad5e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取连接池统计信息  <br /></td></tr>
+<tr class="separator:a4658d7279bd41295444df033e68ad5e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a103ecc8ed130e2a29fc2c6d5f84d0835" id="r_a103ecc8ed130e2a29fc2c6d5f84d0835"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a103ecc8ed130e2a29fc2c6d5f84d0835">setConfig</a> (const <a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolConfig.html">PoolConfig</a> &amp;config)</td></tr>
+<tr class="memdesc:a103ecc8ed130e2a29fc2c6d5f84d0835"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置连接池配置  <br /></td></tr>
+<tr class="separator:a103ecc8ed130e2a29fc2c6d5f84d0835"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33b306032dc7002cf4195a80259d283c" id="r_a33b306032dc7002cf4195a80259d283c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolConfig.html">PoolConfig</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a33b306032dc7002cf4195a80259d283c">getConfig</a> () const</td></tr>
+<tr class="memdesc:a33b306032dc7002cf4195a80259d283c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取连接池配置  <br /></td></tr>
+<tr class="separator:a33b306032dc7002cf4195a80259d283c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a40333b693444f5dc7d742d3219126545" id="r_a40333b693444f5dc7d742d3219126545"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a40333b693444f5dc7d742d3219126545">createConnection</a> ()</td></tr>
+<tr class="memdesc:a40333b693444f5dc7d742d3219126545"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建新连接  <br /></td></tr>
+<tr class="separator:a40333b693444f5dc7d742d3219126545"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe7b362ac8ea0300d88852a522fb1879" id="r_afe7b362ac8ea0300d88852a522fb1879"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#afe7b362ac8ea0300d88852a522fb1879">isConnectionValid</a> (std::shared_ptr&lt; ConnectionType &gt; connection)</td></tr>
+<tr class="memdesc:afe7b362ac8ea0300d88852a522fb1879"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查连接是否有效  <br /></td></tr>
+<tr class="separator:afe7b362ac8ea0300d88852a522fb1879"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33abd603cb1b979101ffef9a16b04042" id="r_a33abd603cb1b979101ffef9a16b04042"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a33abd603cb1b979101ffef9a16b04042">cleanupWorker</a> ()</td></tr>
+<tr class="memdesc:a33abd603cb1b979101ffef9a16b04042"><td class="mdescLeft">&#160;</td><td class="mdescRight">清理工作线程  <br /></td></tr>
+<tr class="separator:a33abd603cb1b979101ffef9a16b04042"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aae19f29d6bb7635d4a3965cbdb2192fb" id="r_aae19f29d6bb7635d4a3965cbdb2192fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a90d01eb58f73ac093ae7de64fd59033c">ConnectionFactory</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#aae19f29d6bb7635d4a3965cbdb2192fb">factory_</a></td></tr>
+<tr class="separator:aae19f29d6bb7635d4a3965cbdb2192fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad62ed0da0c4d21aed02145e53f6d1ae2" id="r_ad62ed0da0c4d21aed02145e53f6d1ae2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#ae1752a1a1f9e0759f00649afd5a0a3cb">ConnectionValidator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#ad62ed0da0c4d21aed02145e53f6d1ae2">validator_</a></td></tr>
+<tr class="separator:ad62ed0da0c4d21aed02145e53f6d1ae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a335a9b99ed0e061f3978b78f76e5afdf" id="r_a335a9b99ed0e061f3978b78f76e5afdf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolConfig.html">PoolConfig</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a335a9b99ed0e061f3978b78f76e5afdf">config_</a></td></tr>
+<tr class="separator:a335a9b99ed0e061f3978b78f76e5afdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adabbd0cc46dce90b6562bb3fceb21f86" id="r_adabbd0cc46dce90b6562bb3fceb21f86"><td class="memItemLeft" align="right" valign="top">std::queue&lt; std::shared_ptr&lt; ConnectionType &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#adabbd0cc46dce90b6562bb3fceb21f86">idle_connections_</a></td></tr>
+<tr class="separator:adabbd0cc46dce90b6562bb3fceb21f86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb17552b2c29ad79a5051021a92fa446" id="r_aeb17552b2c29ad79a5051021a92fa446"><td class="memItemLeft" align="right" valign="top">std::set&lt; std::shared_ptr&lt; ConnectionType &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#aeb17552b2c29ad79a5051021a92fa446">active_connections_</a></td></tr>
+<tr class="separator:aeb17552b2c29ad79a5051021a92fa446"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3bb165468eb77097b93bffd27f5b557" id="r_aa3bb165468eb77097b93bffd27f5b557"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#aa3bb165468eb77097b93bffd27f5b557">pool_mutex_</a></td></tr>
+<tr class="separator:aa3bb165468eb77097b93bffd27f5b557"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9b2c57f122eacb631de547e8cba07fe" id="r_af9b2c57f122eacb631de547e8cba07fe"><td class="memItemLeft" align="right" valign="top">std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#af9b2c57f122eacb631de547e8cba07fe">condition_</a></td></tr>
+<tr class="separator:af9b2c57f122eacb631de547e8cba07fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a604c36d613192a807a5057822693982c" id="r_a604c36d613192a807a5057822693982c"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a604c36d613192a807a5057822693982c">running_</a></td></tr>
+<tr class="separator:a604c36d613192a807a5057822693982c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0df8bbf792e22f726c82d3c9fff6cabb" id="r_a0df8bbf792e22f726c82d3c9fff6cabb"><td class="memItemLeft" align="right" valign="top">std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a0df8bbf792e22f726c82d3c9fff6cabb">cleanup_thread_</a></td></tr>
+<tr class="separator:a0df8bbf792e22f726c82d3c9fff6cabb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26b53d79bc8d60fda29114aac66023e2" id="r_a26b53d79bc8d60fda29114aac66023e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolStats.html">PoolStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a26b53d79bc8d60fda29114aac66023e2">stats_</a></td></tr>
+<tr class="separator:a26b53d79bc8d60fda29114aac66023e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename ConnectionType&gt;<br />
+class sqlcc::utils::ConnectionPool&lt; ConnectionType &gt;</div><p>数据库连接池 - 管理数据库连接的复用 </p>
+<p>提供高效的连接管理，支持：</p><ul>
+<li>连接复用减少开销</li>
+<li>自动连接健康检查</li>
+<li>连接超时管理</li>
+<li>线程安全操作 </li>
+</ul>
+</div><h2 class="groupheader">成员类型定义说明</h2>
+<a id="a90d01eb58f73ac093ae7de64fd59033c" name="a90d01eb58f73ac093ae7de64fd59033c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90d01eb58f73ac093ae7de64fd59033c">&#9670;&#160;</a></span>ConnectionFactory</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::ConnectionFactory =  std::function&lt;std::shared_ptr&lt;ConnectionType&gt;()&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>连接工厂函数类型 </p>
+
+</div>
+</div>
+<a id="ae1752a1a1f9e0759f00649afd5a0a3cb" name="ae1752a1a1f9e0759f00649afd5a0a3cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1752a1a1f9e0759f00649afd5a0a3cb">&#9670;&#160;</a></span>ConnectionValidator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::ConnectionValidator =  std::function&lt;bool(std::shared_ptr&lt;ConnectionType&gt;)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>连接验证函数类型 </p>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a2c361a5836d85f3006f68abf4886df21" name="a2c361a5836d85f3006f68abf4886df21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c361a5836d85f3006f68abf4886df21">&#9670;&#160;</a></span>ConnectionPool() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::ConnectionPool </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a90d01eb58f73ac093ae7de64fd59033c">ConnectionFactory</a>&#160;</td>
+          <td class="paramname"><em>factory</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#ae1752a1a1f9e0759f00649afd5a0a3cb">ConnectionValidator</a>&#160;</td>
+          <td class="paramname"><em>validator</em> = <code>nullptr</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolConfig.html">PoolConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>config</em> = <code><a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolConfig.html">PoolConfig</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">factory</td><td>连接工厂函数 </td></tr>
+    <tr><td class="paramname">validator</td><td>连接验证函数 </td></tr>
+    <tr><td class="paramname">config</td><td>连接池配置 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8756363336f6b89114ef0c56b980aa3e" name="a8756363336f6b89114ef0c56b980aa3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8756363336f6b89114ef0c56b980aa3e">&#9670;&#160;</a></span>~ConnectionPool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::~<a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">ConnectionPool</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<a id="a515f4eb552159238a16fde97d7ffd01b" name="a515f4eb552159238a16fde97d7ffd01b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a515f4eb552159238a16fde97d7ffd01b">&#9670;&#160;</a></span>ConnectionPool() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::ConnectionPool </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">ConnectionPool</a>&lt; ConnectionType &gt; &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a63ca471f47b0836c9bd453bc6439e84b" name="a63ca471f47b0836c9bd453bc6439e84b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63ca471f47b0836c9bd453bc6439e84b">&#9670;&#160;</a></span>acquire()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; ConnectionType &gt; <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::acquire </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>timeout</em> = <code>std::chrono::milliseconds(5000)</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取连接 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timeout</td><td>等待超时时间 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>数据库连接，如果获取失败返回nullptr </dd></dl>
+
+</div>
+</div>
+<a id="a33abd603cb1b979101ffef9a16b04042" name="a33abd603cb1b979101ffef9a16b04042"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33abd603cb1b979101ffef9a16b04042">&#9670;&#160;</a></span>cleanupWorker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::cleanupWorker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>清理工作线程 </p>
+
+</div>
+</div>
+<a id="a40333b693444f5dc7d742d3219126545" name="a40333b693444f5dc7d742d3219126545"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40333b693444f5dc7d742d3219126545">&#9670;&#160;</a></span>createConnection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::createConnection </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建新连接 </p>
+
+</div>
+</div>
+<a id="a33b306032dc7002cf4195a80259d283c" name="a33b306032dc7002cf4195a80259d283c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33b306032dc7002cf4195a80259d283c">&#9670;&#160;</a></span>getConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolConfig.html">PoolConfig</a> <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::getConfig </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取连接池配置 </p>
+<dl class="section return"><dt>返回</dt><dd>当前配置 </dd></dl>
+
+</div>
+</div>
+<a id="a4658d7279bd41295444df033e68ad5e2" name="a4658d7279bd41295444df033e68ad5e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4658d7279bd41295444df033e68ad5e2">&#9670;&#160;</a></span>getStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolStats.html">PoolStats</a> <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::getStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取连接池统计信息 </p>
+<dl class="section return"><dt>返回</dt><dd>统计信息 </dd></dl>
+
+</div>
+</div>
+<a id="afe7b362ac8ea0300d88852a522fb1879" name="afe7b362ac8ea0300d88852a522fb1879"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe7b362ac8ea0300d88852a522fb1879">&#9670;&#160;</a></span>isConnectionValid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::isConnectionValid </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; ConnectionType &gt;&#160;</td>
+          <td class="paramname"><em>connection</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查连接是否有效 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">connection</td><td>要检查的连接 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否有效 </dd></dl>
+
+</div>
+</div>
+<a id="a608c6b733ae6ef18af39fd4e04ff9f3a" name="a608c6b733ae6ef18af39fd4e04ff9f3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a608c6b733ae6ef18af39fd4e04ff9f3a">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">ConnectionPool</a> &amp; <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">ConnectionPool</a>&lt; ConnectionType &gt; &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af6979ab40dab3e8f7a8731e83e86e43b" name="af6979ab40dab3e8f7a8731e83e86e43b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6979ab40dab3e8f7a8731e83e86e43b">&#9670;&#160;</a></span>release()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::release </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; ConnectionType &gt;&#160;</td>
+          <td class="paramname"><em>connection</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>释放连接 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">connection</td><td>要释放的连接 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a103ecc8ed130e2a29fc2c6d5f84d0835" name="a103ecc8ed130e2a29fc2c6d5f84d0835"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a103ecc8ed130e2a29fc2c6d5f84d0835">&#9670;&#160;</a></span>setConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::setConfig </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolConfig.html">PoolConfig</a> &amp;&#160;</td>
+          <td class="paramname"><em>config</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置连接池配置 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config</td><td>新配置 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac2f668b836eee2884c06a998c7522b34" name="ac2f668b836eee2884c06a998c7522b34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2f668b836eee2884c06a998c7522b34">&#9670;&#160;</a></span>shutdown()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::shutdown </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>停止连接池 </p>
+
+</div>
+</div>
+<a id="aa6f44c7382198a5af3f10ba0c4e73274" name="aa6f44c7382198a5af3f10ba0c4e73274"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6f44c7382198a5af3f10ba0c4e73274">&#9670;&#160;</a></span>start()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>启动连接池 </p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="aeb17552b2c29ad79a5051021a92fa446" name="aeb17552b2c29ad79a5051021a92fa446"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb17552b2c29ad79a5051021a92fa446">&#9670;&#160;</a></span>active_connections_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::set&lt;std::shared_ptr&lt;ConnectionType&gt; &gt; <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::active_connections_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0df8bbf792e22f726c82d3c9fff6cabb" name="a0df8bbf792e22f726c82d3c9fff6cabb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0df8bbf792e22f726c82d3c9fff6cabb">&#9670;&#160;</a></span>cleanup_thread_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::thread <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::cleanup_thread_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af9b2c57f122eacb631de547e8cba07fe" name="af9b2c57f122eacb631de547e8cba07fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9b2c57f122eacb631de547e8cba07fe">&#9670;&#160;</a></span>condition_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::condition_variable <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::condition_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a335a9b99ed0e061f3978b78f76e5afdf" name="a335a9b99ed0e061f3978b78f76e5afdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a335a9b99ed0e061f3978b78f76e5afdf">&#9670;&#160;</a></span>config_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolConfig.html">PoolConfig</a> <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::config_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aae19f29d6bb7635d4a3965cbdb2192fb" name="aae19f29d6bb7635d4a3965cbdb2192fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae19f29d6bb7635d4a3965cbdb2192fb">&#9670;&#160;</a></span>factory_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#a90d01eb58f73ac093ae7de64fd59033c">ConnectionFactory</a> <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::factory_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adabbd0cc46dce90b6562bb3fceb21f86" name="adabbd0cc46dce90b6562bb3fceb21f86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adabbd0cc46dce90b6562bb3fceb21f86">&#9670;&#160;</a></span>idle_connections_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::queue&lt;std::shared_ptr&lt;ConnectionType&gt; &gt; <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::idle_connections_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa3bb165468eb77097b93bffd27f5b557" name="aa3bb165468eb77097b93bffd27f5b557"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3bb165468eb77097b93bffd27f5b557">&#9670;&#160;</a></span>pool_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::pool_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a604c36d613192a807a5057822693982c" name="a604c36d613192a807a5057822693982c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a604c36d613192a807a5057822693982c">&#9670;&#160;</a></span>running_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;bool&gt; <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::running_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a26b53d79bc8d60fda29114aac66023e2" name="a26b53d79bc8d60fda29114aac66023e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26b53d79bc8d60fda29114aac66023e2">&#9670;&#160;</a></span>stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1utils_1_1ConnectionPool_1_1PoolStats.html">PoolStats</a> <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad62ed0da0c4d21aed02145e53f6d1ae2" name="ad62ed0da0c4d21aed02145e53f6d1ae2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad62ed0da0c4d21aed02145e53f6d1ae2">&#9670;&#160;</a></span>validator_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConnectionType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html#ae1752a1a1f9e0759f00649afd5a0a3cb">ConnectionValidator</a> <a class="el" href="classsqlcc_1_1utils_1_1ConnectionPool.html">sqlcc::utils::ConnectionPool</a>&lt; ConnectionType &gt;::validator_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="connection__pool_8h_source.html">connection_pool.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: checkpoint.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_452baf35e1d7639c9f2a5ece4ec85855.html">storage</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">storage/checkpoint.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="storage_2checkpoint_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;condition_variable&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;../utils/config_manager.h&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;../storage_engine/storage_engine.h&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;../storage_engine/wal_writer.h&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="foldopen" id="foldopen00069" data-start="{" data-end="};">
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CheckpointManager.html">   69</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1CheckpointManager.html">CheckpointManager</a> {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00074" data-start="{" data-end="};">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html">   74</a></span>  <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html">CheckpointStats</a> {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a8ec715f6e8a5c75e4708dd2cd6fad5be">   75</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a8ec715f6e8a5c75e4708dd2cd6fad5be">total_checkpoints</a>{0};     <span class="comment">// 总检查点次数</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#aff704dbb0ce311a38c3c929c74d9fe62">   76</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#aff704dbb0ce311a38c3c929c74d9fe62">total_pages_flushed</a>{0};   <span class="comment">// 总刷新页面数</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a1bd8f7b807a075deebcce191524e3bcc">   77</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a1bd8f7b807a075deebcce191524e3bcc">total_bytes_flushed</a>{0};   <span class="comment">// 总刷新字节数</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a9ada5cb96e2095c19d30781787f77f23">   78</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a9ada5cb96e2095c19d30781787f77f23">wal_logs_cleaned</a>{0};      <span class="comment">// 清理的WAL日志数</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#ae1512c2c9c14ef82848d98e5a0e257fc">   79</a></span>    std::chrono::microseconds <a class="code hl_variable" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#ae1512c2c9c14ef82848d98e5a0e257fc">avg_checkpoint_time</a>{0}; <span class="comment">// 平均检查点时间</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a7e0134b76712d048dfa5a8d1354f25bc">   80</a></span>    std::chrono::microseconds <a class="code hl_variable" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a7e0134b76712d048dfa5a8d1354f25bc">max_checkpoint_time</a>{0}; <span class="comment">// 最大检查点时间</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#aeee804e4baccc0af3ac9ec7fd3524ca0">   81</a></span>    std::chrono::steady_clock::time_point <a class="code hl_variable" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#aeee804e4baccc0af3ac9ec7fd3524ca0">last_checkpoint</a>; <span class="comment">// 最后检查点时间</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="foldopen" id="foldopen00083" data-start="{" data-end="}">
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a4d03486e53f36cf728b46f94248714ac">   83</a></span>    <span class="keywordtype">double</span> <a class="code hl_function" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a4d03486e53f36cf728b46f94248714ac">avg_pages_per_checkpoint</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>      <span class="keywordtype">size_t</span> checkpoints = <a class="code hl_variable" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a8ec715f6e8a5c75e4708dd2cd6fad5be">total_checkpoints</a>.load();</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>      <span class="keywordflow">return</span> checkpoints &gt; 0</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>                 ? <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#aff704dbb0ce311a38c3c929c74d9fe62">total_pages_flushed</a>.load()) / checkpoints</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>                 : 0.0;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    }</div>
+</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>  };</div>
+</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="foldopen" id="foldopen00094" data-start="{" data-end="};">
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html">   94</a></span>  <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html">CheckpointConfig</a> {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#a2c21874f8cdf1735625105eb00808fdd">   95</a></span>    std::chrono::seconds <a class="code hl_variable" href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#a2c21874f8cdf1735625105eb00808fdd">interval</a>{300};          <span class="comment">// 检查点间隔（默认5分钟）</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#a5e211d60b8efc7c0cbdb15baf75a0d06">   96</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#a5e211d60b8efc7c0cbdb15baf75a0d06">max_wal_size</a>{1024 * 1024 * 1024};     <span class="comment">// 最大WAL大小（默认1GB）</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#a79e8d4cfe2e1cc324e53ad6f94ab6024">   97</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#a79e8d4cfe2e1cc324e53ad6f94ab6024">max_checkpoint_pages</a>{10000};          <span class="comment">// 单次检查点最大页面数</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#aeda5252d660bbbc1fa6bd467351b61c0">   98</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#aeda5252d660bbbc1fa6bd467351b61c0">enable_auto_checkpoint</a>{<span class="keyword">true</span>};           <span class="comment">// 是否启用自动检查点</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#aa9a1da595a119ec35dd8a27f858a1326">   99</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#aa9a1da595a119ec35dd8a27f858a1326">dirty_page_threshold</a>{0.8};            <span class="comment">// 脏页阈值（80%）</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>  };</div>
+</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>  <a class="code hl_class" href="classsqlcc_1_1CheckpointManager.html">CheckpointManager</a>(<a class="code hl_class" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a>&amp; config_manager,</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                    <a class="code hl_class" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a>&amp; storage_engine,</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>                    <a class="code hl_class" href="classsqlcc_1_1WALWriter.html">WALWriter</a>&amp; wal_writer);</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>  <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#af650ff8e0031635a4dacd3d349e580b3">~CheckpointManager</a>();</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#a31965b2e98c5ceec07b657dff16ff596">Start</a>();</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#a6ac3b1a9fda465551c8e2aaec389d708">Stop</a>();</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#aeb20d2a6f1d62bb4724441032c4d2484">PerformCheckpoint</a>();</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span> </div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#adc340624d6ff4b6ce44c900b7959da13">ForceCheckpoint</a>();</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span> </div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>  <span class="keyword">const</span> CheckpointStats&amp; <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#a5b04e38f8641fb6379903de0e0395e21">GetStats</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span> </div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#aa08f646dedd1c7e9b2f5141656ac1ea3">ResetStats</a>();</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span> </div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#ab9b50f453285a412af6ca74c9cb7a42a">SetConfig</a>(<span class="keyword">const</span> CheckpointConfig&amp; config);</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span> </div>
+<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>  CheckpointConfig <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#a30a7bfed8cac3c73d8168b51780957f3">GetConfig</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span> </div>
+<div class="line"><a id="l00478" name="l00478"></a><span class="lineno">  478</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#a4a45707c10bb8ec3ba625aee828a3e5d">ShouldCheckpoint</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00479" name="l00479"></a><span class="lineno">  479</span> </div>
+<div class="line"><a id="l00480" name="l00480"></a><span class="lineno">  480</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00484" name="l00484"></a><span class="lineno">  484</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#a06a7fa25c4750d8424f2ffcde83a7a4f">CheckpointWorker</a>();</div>
+<div class="line"><a id="l00485" name="l00485"></a><span class="lineno">  485</span> </div>
+<div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#aadb382407ef3f81be553454bba5021c7">DoCheckpoint</a>();</div>
+<div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span> </div>
+<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span>  <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#a0dcda1fd8451a193b602b307885acc18">FlushDirtyPages</a>();</div>
+<div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span> </div>
+<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span>  <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#a8c2564db21dcd64914fdd51ef4a73e5e">CleanupWALLogs</a>(uint64_t min_lsn);</div>
+<div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span> </div>
+<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1CheckpointManager.html#a7765ead36208a170b1e321c693c4160f">UpdateCheckpointMetadata</a>(uint64_t checkpoint_lsn);</div>
+<div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span> </div>
+<div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span>  <span class="comment">// 配置和依赖</span></div>
+<div class="line"><a id="l00513" name="l00513"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CheckpointManager.html#a8a998006d38b3cc298e6a59f27f0556a">  513</a></span>  <a class="code hl_class" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a>&amp; <a class="code hl_variable" href="classsqlcc_1_1CheckpointManager.html#a8a998006d38b3cc298e6a59f27f0556a">config_manager_</a>;</div>
+<div class="line"><a id="l00514" name="l00514"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CheckpointManager.html#a9970b40d483d456193dd4aa2293c18ed">  514</a></span>  <a class="code hl_class" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a>&amp; <a class="code hl_variable" href="classsqlcc_1_1CheckpointManager.html#a9970b40d483d456193dd4aa2293c18ed">storage_engine_</a>;</div>
+<div class="line"><a id="l00515" name="l00515"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CheckpointManager.html#a223fab9e848d75be6a1b6943b613039c">  515</a></span>  <a class="code hl_class" href="classsqlcc_1_1WALWriter.html">WALWriter</a>&amp; <a class="code hl_variable" href="classsqlcc_1_1CheckpointManager.html#a223fab9e848d75be6a1b6943b613039c">wal_writer_</a>;</div>
+<div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span> </div>
+<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>  <span class="comment">// 工作线程</span></div>
+<div class="line"><a id="l00518" name="l00518"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CheckpointManager.html#a6306f939c2a004afc8d9f1ca1fffec7c">  518</a></span>  std::thread <a class="code hl_variable" href="classsqlcc_1_1CheckpointManager.html#a6306f939c2a004afc8d9f1ca1fffec7c">checkpoint_thread_</a>;</div>
+<div class="line"><a id="l00519" name="l00519"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CheckpointManager.html#a75377e384661fd95cefd73fc13f2c149">  519</a></span>  std::atomic&lt;bool&gt; <a class="code hl_variable" href="classsqlcc_1_1CheckpointManager.html#a75377e384661fd95cefd73fc13f2c149">running_</a>;</div>
+<div class="line"><a id="l00520" name="l00520"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CheckpointManager.html#aec541435393ef8edb687b24f77d63d6c">  520</a></span>  std::condition_variable <a class="code hl_variable" href="classsqlcc_1_1CheckpointManager.html#aec541435393ef8edb687b24f77d63d6c">checkpoint_cv_</a>;</div>
+<div class="line"><a id="l00521" name="l00521"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CheckpointManager.html#a4259229a7accf3eedd6e6a4a2df2fc55">  521</a></span>  <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1CheckpointManager.html#a4259229a7accf3eedd6e6a4a2df2fc55">checkpoint_mutex_</a>;</div>
+<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span> </div>
+<div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span>  <span class="comment">// 统计信息</span></div>
+<div class="line"><a id="l00524" name="l00524"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CheckpointManager.html#a6124d1119cf321c93e023e60e19c3d9a">  524</a></span>  <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1CheckpointManager.html#a6124d1119cf321c93e023e60e19c3d9a">stats_mutex_</a>;</div>
+<div class="line"><a id="l00525" name="l00525"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CheckpointManager.html#a66c0682e8219e18f3df303b578e7229e">  525</a></span>  <a class="code hl_struct" href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html">CheckpointStats</a> <a class="code hl_variable" href="classsqlcc_1_1CheckpointManager.html#a66c0682e8219e18f3df303b578e7229e">stats_</a>;</div>
+<div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span> </div>
+<div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span>  <span class="comment">// 配置</span></div>
+<div class="line"><a id="l00528" name="l00528"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CheckpointManager.html#ae0b13173d40d527205967c5c89744a44">  528</a></span>  <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1CheckpointManager.html#ae0b13173d40d527205967c5c89744a44">config_mutex_</a>;</div>
+<div class="line"><a id="l00529" name="l00529"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CheckpointManager.html#a663a93394e9e5b0583619f08b6eb8c32">  529</a></span>  <a class="code hl_struct" href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html">CheckpointConfig</a> <a class="code hl_variable" href="classsqlcc_1_1CheckpointManager.html#a663a93394e9e5b0583619f08b6eb8c32">config_</a>;</div>
+<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>};</div>
+</div>
+<div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span> </div>
+<div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html">sqlcc::CheckpointManager</a></div><div class="ttdoc">SQLCC检查点管理器 - WAL系统的清理和同步核心组件</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:69</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a06a7fa25c4750d8424f2ffcde83a7a4f"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a06a7fa25c4750d8424f2ffcde83a7a4f">sqlcc::CheckpointManager::CheckpointWorker</a></div><div class="ttdeci">void CheckpointWorker()</div><div class="ttdoc">检查点工作线程函数</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:127</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a0dcda1fd8451a193b602b307885acc18"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a0dcda1fd8451a193b602b307885acc18">sqlcc::CheckpointManager::FlushDirtyPages</a></div><div class="ttdeci">size_t FlushDirtyPages()</div><div class="ttdoc">刷新所有脏页面</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:199</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a223fab9e848d75be6a1b6943b613039c"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a223fab9e848d75be6a1b6943b613039c">sqlcc::CheckpointManager::wal_writer_</a></div><div class="ttdeci">WALWriter &amp; wal_writer_</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:515</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a30a7bfed8cac3c73d8168b51780957f3"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a30a7bfed8cac3c73d8168b51780957f3">sqlcc::CheckpointManager::GetConfig</a></div><div class="ttdeci">CheckpointConfig GetConfig() const</div><div class="ttdoc">获取当前检查点配置 - 查看当前运行参数</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:95</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a31965b2e98c5ceec07b657dff16ff596"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a31965b2e98c5ceec07b657dff16ff596">sqlcc::CheckpointManager::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdoc">启动检查点管理器 - 激活定期检查点机制</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:35</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a4259229a7accf3eedd6e6a4a2df2fc55"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a4259229a7accf3eedd6e6a4a2df2fc55">sqlcc::CheckpointManager::checkpoint_mutex_</a></div><div class="ttdeci">std::mutex checkpoint_mutex_</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:521</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a4a45707c10bb8ec3ba625aee828a3e5d"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a4a45707c10bb8ec3ba625aee828a3e5d">sqlcc::CheckpointManager::ShouldCheckpoint</a></div><div class="ttdeci">bool ShouldCheckpoint() const</div><div class="ttdoc">检查是否需要检查点 - 条件判断逻辑</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:100</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a5b04e38f8641fb6379903de0e0395e21"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a5b04e38f8641fb6379903de0e0395e21">sqlcc::CheckpointManager::GetStats</a></div><div class="ttdeci">const CheckpointStats &amp; GetStats() const</div><div class="ttdoc">获取检查点统计信息 - 监控检查点操作性能</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:75</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a6124d1119cf321c93e023e60e19c3d9a"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a6124d1119cf321c93e023e60e19c3d9a">sqlcc::CheckpointManager::stats_mutex_</a></div><div class="ttdeci">std::mutex stats_mutex_</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:524</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a6306f939c2a004afc8d9f1ca1fffec7c"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a6306f939c2a004afc8d9f1ca1fffec7c">sqlcc::CheckpointManager::checkpoint_thread_</a></div><div class="ttdeci">std::thread checkpoint_thread_</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:518</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a663a93394e9e5b0583619f08b6eb8c32"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a663a93394e9e5b0583619f08b6eb8c32">sqlcc::CheckpointManager::config_</a></div><div class="ttdeci">CheckpointConfig config_</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:529</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a66c0682e8219e18f3df303b578e7229e"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a66c0682e8219e18f3df303b578e7229e">sqlcc::CheckpointManager::stats_</a></div><div class="ttdeci">CheckpointStats stats_</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:525</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a6ac3b1a9fda465551c8e2aaec389d708"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a6ac3b1a9fda465551c8e2aaec389d708">sqlcc::CheckpointManager::Stop</a></div><div class="ttdeci">void Stop()</div><div class="ttdoc">停止检查点管理器 - 优雅关闭定期检查点机制</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:44</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a75377e384661fd95cefd73fc13f2c149"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a75377e384661fd95cefd73fc13f2c149">sqlcc::CheckpointManager::running_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; running_</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:519</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a7765ead36208a170b1e321c693c4160f"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a7765ead36208a170b1e321c693c4160f">sqlcc::CheckpointManager::UpdateCheckpointMetadata</a></div><div class="ttdeci">bool UpdateCheckpointMetadata(uint64_t checkpoint_lsn)</div><div class="ttdoc">更新检查点元数据</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:236</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a8a998006d38b3cc298e6a59f27f0556a"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a8a998006d38b3cc298e6a59f27f0556a">sqlcc::CheckpointManager::config_manager_</a></div><div class="ttdeci">ConfigManager &amp; config_manager_</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:513</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a8c2564db21dcd64914fdd51ef4a73e5e"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a8c2564db21dcd64914fdd51ef4a73e5e">sqlcc::CheckpointManager::CleanupWALLogs</a></div><div class="ttdeci">size_t CleanupWALLogs(uint64_t min_lsn)</div><div class="ttdoc">清理过期的WAL日志</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:216</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_a9970b40d483d456193dd4aa2293c18ed"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#a9970b40d483d456193dd4aa2293c18ed">sqlcc::CheckpointManager::storage_engine_</a></div><div class="ttdeci">StorageEngine &amp; storage_engine_</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:514</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_aa08f646dedd1c7e9b2f5141656ac1ea3"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#aa08f646dedd1c7e9b2f5141656ac1ea3">sqlcc::CheckpointManager::ResetStats</a></div><div class="ttdeci">void ResetStats()</div><div class="ttdoc">重置统计信息 - 清空历史统计数据</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:79</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_aadb382407ef3f81be553454bba5021c7"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#aadb382407ef3f81be553454bba5021c7">sqlcc::CheckpointManager::DoCheckpoint</a></div><div class="ttdeci">bool DoCheckpoint()</div><div class="ttdoc">执行检查点逻辑</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:146</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_ab9b50f453285a412af6ca74c9cb7a42a"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#ab9b50f453285a412af6ca74c9cb7a42a">sqlcc::CheckpointManager::SetConfig</a></div><div class="ttdeci">void SetConfig(const CheckpointConfig &amp;config)</div><div class="ttdoc">设置检查点配置 - 动态调整检查点策略</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:90</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_adc340624d6ff4b6ce44c900b7959da13"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#adc340624d6ff4b6ce44c900b7959da13">sqlcc::CheckpointManager::ForceCheckpoint</a></div><div class="ttdeci">bool ForceCheckpoint()</div><div class="ttdoc">强制执行检查点 - 立即触发检查点操作</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:71</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_ae0b13173d40d527205967c5c89744a44"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#ae0b13173d40d527205967c5c89744a44">sqlcc::CheckpointManager::config_mutex_</a></div><div class="ttdeci">std::mutex config_mutex_</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:528</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_aeb20d2a6f1d62bb4724441032c4d2484"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#aeb20d2a6f1d62bb4724441032c4d2484">sqlcc::CheckpointManager::PerformCheckpoint</a></div><div class="ttdeci">bool PerformCheckpoint()</div><div class="ttdoc">执行检查点操作 - 完整的检查点执行流程</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:60</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_aec541435393ef8edb687b24f77d63d6c"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#aec541435393ef8edb687b24f77d63d6c">sqlcc::CheckpointManager::checkpoint_cv_</a></div><div class="ttdeci">std::condition_variable checkpoint_cv_</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:520</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CheckpointManager_html_af650ff8e0031635a4dacd3d349e580b3"><div class="ttname"><a href="classsqlcc_1_1CheckpointManager.html#af650ff8e0031635a4dacd3d349e580b3">sqlcc::CheckpointManager::~CheckpointManager</a></div><div class="ttdeci">~CheckpointManager()</div><div class="ttdoc">析构函数 - 安全关闭检查点管理器</div><div class="ttdef"><b>Definition</b> checkpoint.cpp:31</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigManager_html"><div class="ttname"><a href="classsqlcc_1_1ConfigManager.html">sqlcc::ConfigManager</a></div><div class="ttdef"><b>Definition</b> config_manager.h:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1StorageEngine_html"><div class="ttname"><a href="classsqlcc_1_1StorageEngine.html">sqlcc::StorageEngine</a></div><div class="ttdoc">存储引擎类，封装磁盘管理和缓冲池功能</div><div class="ttdef"><b>Definition</b> storage_engine.h:59</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALWriter_html"><div class="ttname"><a href="classsqlcc_1_1WALWriter.html">sqlcc::WALWriter</a></div><div class="ttdoc">SQLCC WAL预写日志写入器 - 数据库ACID持久性保障的核心组件</div><div class="ttdef"><b>Definition</b> wal_writer.h:200</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointConfig_html"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html">sqlcc::CheckpointManager::CheckpointConfig</a></div><div class="ttdoc">检查点配置</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:94</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointConfig_html_a2c21874f8cdf1735625105eb00808fdd"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#a2c21874f8cdf1735625105eb00808fdd">sqlcc::CheckpointManager::CheckpointConfig::interval</a></div><div class="ttdeci">std::chrono::seconds interval</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:95</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointConfig_html_a5e211d60b8efc7c0cbdb15baf75a0d06"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#a5e211d60b8efc7c0cbdb15baf75a0d06">sqlcc::CheckpointManager::CheckpointConfig::max_wal_size</a></div><div class="ttdeci">size_t max_wal_size</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:96</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointConfig_html_a79e8d4cfe2e1cc324e53ad6f94ab6024"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#a79e8d4cfe2e1cc324e53ad6f94ab6024">sqlcc::CheckpointManager::CheckpointConfig::max_checkpoint_pages</a></div><div class="ttdeci">size_t max_checkpoint_pages</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:97</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointConfig_html_aa9a1da595a119ec35dd8a27f858a1326"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#aa9a1da595a119ec35dd8a27f858a1326">sqlcc::CheckpointManager::CheckpointConfig::dirty_page_threshold</a></div><div class="ttdeci">double dirty_page_threshold</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:99</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointConfig_html_aeda5252d660bbbc1fa6bd467351b61c0"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointConfig.html#aeda5252d660bbbc1fa6bd467351b61c0">sqlcc::CheckpointManager::CheckpointConfig::enable_auto_checkpoint</a></div><div class="ttdeci">bool enable_auto_checkpoint</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:98</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointStats_html"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html">sqlcc::CheckpointManager::CheckpointStats</a></div><div class="ttdoc">检查点统计信息</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:74</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointStats_html_a1bd8f7b807a075deebcce191524e3bcc"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a1bd8f7b807a075deebcce191524e3bcc">sqlcc::CheckpointManager::CheckpointStats::total_bytes_flushed</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; total_bytes_flushed</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:77</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointStats_html_a4d03486e53f36cf728b46f94248714ac"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a4d03486e53f36cf728b46f94248714ac">sqlcc::CheckpointManager::CheckpointStats::avg_pages_per_checkpoint</a></div><div class="ttdeci">double avg_pages_per_checkpoint() const</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:83</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointStats_html_a7e0134b76712d048dfa5a8d1354f25bc"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a7e0134b76712d048dfa5a8d1354f25bc">sqlcc::CheckpointManager::CheckpointStats::max_checkpoint_time</a></div><div class="ttdeci">std::chrono::microseconds max_checkpoint_time</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:80</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointStats_html_a8ec715f6e8a5c75e4708dd2cd6fad5be"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a8ec715f6e8a5c75e4708dd2cd6fad5be">sqlcc::CheckpointManager::CheckpointStats::total_checkpoints</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; total_checkpoints</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:75</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointStats_html_a9ada5cb96e2095c19d30781787f77f23"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#a9ada5cb96e2095c19d30781787f77f23">sqlcc::CheckpointManager::CheckpointStats::wal_logs_cleaned</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; wal_logs_cleaned</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:78</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointStats_html_ae1512c2c9c14ef82848d98e5a0e257fc"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#ae1512c2c9c14ef82848d98e5a0e257fc">sqlcc::CheckpointManager::CheckpointStats::avg_checkpoint_time</a></div><div class="ttdeci">std::chrono::microseconds avg_checkpoint_time</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:79</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointStats_html_aeee804e4baccc0af3ac9ec7fd3524ca0"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#aeee804e4baccc0af3ac9ec7fd3524ca0">sqlcc::CheckpointManager::CheckpointStats::last_checkpoint</a></div><div class="ttdeci">std::chrono::steady_clock::time_point last_checkpoint</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:81</div></div>
+<div class="ttc" id="astructsqlcc_1_1CheckpointManager_1_1CheckpointStats_html_aff704dbb0ce311a38c3c929c74d9fe62"><div class="ttname"><a href="structsqlcc_1_1CheckpointManager_1_1CheckpointStats.html#aff704dbb0ce311a38c3c929c74d9fe62">sqlcc::CheckpointManager::CheckpointStats::total_pages_flushed</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; total_pages_flushed</div><div class="ttdef"><b>Definition</b> storage/checkpoint.h:76</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

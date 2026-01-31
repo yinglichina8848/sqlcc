@@ -1,0 +1,1175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_executor::EnhancedAlterTableManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__executor.html">sql_executor</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html">EnhancedAlterTableManager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_executor::EnhancedAlterTableManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="enhanced__alter__table__manager_8h_source.html">enhanced_alter_table_manager.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html">AlterOperation</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:ae23dc33e6e6ff3db5ae61c5f5e172970" id="r_ae23dc33e6e6ff3db5ae61c5f5e172970"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ae23dc33e6e6ff3db5ae61c5f5e172970">executeAlterTable</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1EnhancedAlterTableStatement.html">sql_parser::EnhancedAlterTableStatement</a> &amp;stmt)</td></tr>
+<tr class="separator:ae23dc33e6e6ff3db5ae61c5f5e172970"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac499ba9ffa49ff0a666b22babfb0430e" id="r_ac499ba9ffa49ff0a666b22babfb0430e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ac499ba9ffa49ff0a666b22babfb0430e">addColumn</a> (const std::string &amp;tableName, const <a class="el" href="classsqlcc_1_1sql__parser_1_1ColumnDefinition.html">sql_parser::ColumnDefinition</a> &amp;columnDef)</td></tr>
+<tr class="separator:ac499ba9ffa49ff0a666b22babfb0430e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4256683b41b147fc3a67d097ac2ee1e" id="r_ac4256683b41b147fc3a67d097ac2ee1e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ac4256683b41b147fc3a67d097ac2ee1e">dropColumn</a> (const std::string &amp;tableName, const std::string &amp;columnName)</td></tr>
+<tr class="separator:ac4256683b41b147fc3a67d097ac2ee1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1f42c71e144d20f08b413f0510fa4d0" id="r_ae1f42c71e144d20f08b413f0510fa4d0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ae1f42c71e144d20f08b413f0510fa4d0">alterColumn</a> (const std::string &amp;tableName, const <a class="el" href="classsqlcc_1_1sql__parser_1_1ColumnDefinition.html">sql_parser::ColumnDefinition</a> &amp;oldColumn, const <a class="el" href="classsqlcc_1_1sql__parser_1_1ColumnDefinition.html">sql_parser::ColumnDefinition</a> &amp;newColumn)</td></tr>
+<tr class="separator:ae1f42c71e144d20f08b413f0510fa4d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71ffe9ca3b79438fbea6a855223081c1" id="r_a71ffe9ca3b79438fbea6a855223081c1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a71ffe9ca3b79438fbea6a855223081c1">renameColumn</a> (const std::string &amp;tableName, const std::string &amp;oldName, const std::string &amp;newName)</td></tr>
+<tr class="separator:a71ffe9ca3b79438fbea6a855223081c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a4afd8727a6e10c7557bddbee867ff6" id="r_a7a4afd8727a6e10c7557bddbee867ff6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a7a4afd8727a6e10c7557bddbee867ff6">addConstraint</a> (const std::string &amp;tableName, const <a class="el" href="classsqlcc_1_1sql__parser_1_1TableConstraint.html">sql_parser::TableConstraint</a> &amp;constraint)</td></tr>
+<tr class="separator:a7a4afd8727a6e10c7557bddbee867ff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0584e49cc9779a6001a6892ba41e2c07" id="r_a0584e49cc9779a6001a6892ba41e2c07"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a0584e49cc9779a6001a6892ba41e2c07">dropConstraint</a> (const std::string &amp;tableName, const std::string &amp;constraintName)</td></tr>
+<tr class="separator:a0584e49cc9779a6001a6892ba41e2c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3fa8adb1c2bf600fce7749979a8bf5d" id="r_af3fa8adb1c2bf600fce7749979a8bf5d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#af3fa8adb1c2bf600fce7749979a8bf5d">enableTrigger</a> (const std::string &amp;tableName, const std::string &amp;triggerName)</td></tr>
+<tr class="separator:af3fa8adb1c2bf600fce7749979a8bf5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a070732412a583d7a0beae92f2a1fd483" id="r_a070732412a583d7a0beae92f2a1fd483"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a070732412a583d7a0beae92f2a1fd483">disableTrigger</a> (const std::string &amp;tableName, const std::string &amp;triggerName)</td></tr>
+<tr class="separator:a070732412a583d7a0beae92f2a1fd483"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a509abc4962933da07bf52827c22f8fb3" id="r_a509abc4962933da07bf52827c22f8fb3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a509abc4962933da07bf52827c22f8fb3">alterTable</a> (const sql_parser::AlterTableStatement &amp;stmt)</td></tr>
+<tr class="separator:a509abc4962933da07bf52827c22f8fb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a438c66a4f5cf28035c1d9129548baf13" id="r_a438c66a4f5cf28035c1d9129548baf13"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a438c66a4f5cf28035c1d9129548baf13">addColumn</a> (const std::string &amp;tableName, const sql_parser::AddColumnAction &amp;action)</td></tr>
+<tr class="separator:a438c66a4f5cf28035c1d9129548baf13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba7012a8889904891011eefd94017f8c" id="r_aba7012a8889904891011eefd94017f8c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#aba7012a8889904891011eefd94017f8c">dropColumn</a> (const std::string &amp;tableName, const sql_parser::DropColumnAction &amp;action)</td></tr>
+<tr class="separator:aba7012a8889904891011eefd94017f8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1aab3f5393dbc1f6ff9902a8a231973d" id="r_a1aab3f5393dbc1f6ff9902a8a231973d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a1aab3f5393dbc1f6ff9902a8a231973d">modifyColumn</a> (const std::string &amp;tableName, const sql_parser::ModifyColumnAction &amp;action)</td></tr>
+<tr class="separator:a1aab3f5393dbc1f6ff9902a8a231973d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae14ea36e7075cb96a34ea3314615b5b6" id="r_ae14ea36e7075cb96a34ea3314615b5b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ae14ea36e7075cb96a34ea3314615b5b6">renameColumn</a> (const std::string &amp;tableName, const sql_parser::RenameColumnAction &amp;action)</td></tr>
+<tr class="separator:ae14ea36e7075cb96a34ea3314615b5b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15de652f0338c29d557a2cabcf6be4b3" id="r_a15de652f0338c29d557a2cabcf6be4b3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a15de652f0338c29d557a2cabcf6be4b3">addConstraint</a> (const std::string &amp;tableName, const sql_parser::AddConstraintAction &amp;action)</td></tr>
+<tr class="separator:a15de652f0338c29d557a2cabcf6be4b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75ded20a138a65593272497e4a30e7f6" id="r_a75ded20a138a65593272497e4a30e7f6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a75ded20a138a65593272497e4a30e7f6">dropConstraint</a> (const std::string &amp;tableName, const sql_parser::DropConstraintAction &amp;action)</td></tr>
+<tr class="separator:a75ded20a138a65593272497e4a30e7f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a558838b1403def224a414d34209efbb5" id="r_a558838b1403def224a414d34209efbb5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a558838b1403def224a414d34209efbb5">renameTable</a> (const sql_parser::RenameTableAction &amp;action)</td></tr>
+<tr class="separator:a558838b1403def224a414d34209efbb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ec696b82be51382eb0a6f68e64de1eb" id="r_a6ec696b82be51382eb0a6f68e64de1eb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a6ec696b82be51382eb0a6f68e64de1eb">validateAlterTable</a> (const sql_parser::AlterTableStatement &amp;stmt)</td></tr>
+<tr class="separator:a6ec696b82be51382eb0a6f68e64de1eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaedc40f8f6efced5967060ba2eacfda4" id="r_aaedc40f8f6efced5967060ba2eacfda4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#aaedc40f8f6efced5967060ba2eacfda4">canAddColumn</a> (const std::string &amp;tableName, const std::string &amp;columnName) const</td></tr>
+<tr class="separator:aaedc40f8f6efced5967060ba2eacfda4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5538a1119abf0b19ed42aa2cbea0d7f" id="r_af5538a1119abf0b19ed42aa2cbea0d7f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#af5538a1119abf0b19ed42aa2cbea0d7f">canDropColumn</a> (const std::string &amp;tableName, const std::string &amp;columnName) const</td></tr>
+<tr class="separator:af5538a1119abf0b19ed42aa2cbea0d7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ac7bef8e83fcb945435dd27510dc98f" id="r_a2ac7bef8e83fcb945435dd27510dc98f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a2ac7bef8e83fcb945435dd27510dc98f">canModifyColumn</a> (const std::string &amp;tableName, const std::string &amp;columnName) const</td></tr>
+<tr class="separator:a2ac7bef8e83fcb945435dd27510dc98f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2f4f275f25ac6ca329940258fc4a862" id="r_ac2f4f275f25ac6ca329940258fc4a862"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ac2f4f275f25ac6ca329940258fc4a862">getColumnDependencies</a> (const std::string &amp;tableName, const std::string &amp;columnName) const</td></tr>
+<tr class="separator:ac2f4f275f25ac6ca329940258fc4a862"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e3dc8252431678536d711ac711b307d" id="r_a1e3dc8252431678536d711ac711b307d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a1e3dc8252431678536d711ac711b307d">hasColumnDependencies</a> (const std::string &amp;tableName, const std::string &amp;columnName) const</td></tr>
+<tr class="separator:a1e3dc8252431678536d711ac711b307d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab48503065f3eae6859b8e2684025551e" id="r_ab48503065f3eae6859b8e2684025551e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ab48503065f3eae6859b8e2684025551e">getAlterTableStatistics</a> () const</td></tr>
+<tr class="separator:ab48503065f3eae6859b8e2684025551e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:ade91c0c2a676929b1af484cbfc0179a9" id="r_ade91c0c2a676929b1af484cbfc0179a9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html">EnhancedAlterTableManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ade91c0c2a676929b1af484cbfc0179a9">getInstance</a> ()</td></tr>
+<tr class="separator:ade91c0c2a676929b1af484cbfc0179a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4335c3bcfc65e820addfba6c5a2ac2bc" id="r_a4335c3bcfc65e820addfba6c5a2ac2bc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html">EnhancedAlterTableManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a4335c3bcfc65e820addfba6c5a2ac2bc">getInstance</a> ()</td></tr>
+<tr class="separator:a4335c3bcfc65e820addfba6c5a2ac2bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:aa4146e8948cfe56e824dba537d2909d8" id="r_aa4146e8948cfe56e824dba537d2909d8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#aa4146e8948cfe56e824dba537d2909d8">EnhancedAlterTableManager</a> ()=default</td></tr>
+<tr class="separator:aa4146e8948cfe56e824dba537d2909d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19131c5c25f53666b91ee78120480815" id="r_a19131c5c25f53666b91ee78120480815"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a19131c5c25f53666b91ee78120480815">validateAlterOperation</a> (const std::string &amp;tableName, const <a class="el" href="classsqlcc_1_1sql__parser_1_1AlterTableAction.html">sql_parser::AlterTableAction</a> &amp;action) const</td></tr>
+<tr class="separator:a19131c5c25f53666b91ee78120480815"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af09b8b9072ddcec2187709d4eeeca43b" id="r_af09b8b9072ddcec2187709d4eeeca43b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#af09b8b9072ddcec2187709d4eeeca43b">checkColumnDependencies</a> (const std::string &amp;tableName, const std::string &amp;columnName) const</td></tr>
+<tr class="separator:af09b8b9072ddcec2187709d4eeeca43b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4146e8948cfe56e824dba537d2909d8" id="r_aa4146e8948cfe56e824dba537d2909d8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#aa4146e8948cfe56e824dba537d2909d8">EnhancedAlterTableManager</a> ()=default</td></tr>
+<tr class="separator:aa4146e8948cfe56e824dba537d2909d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a024ca94235ba62f47f7d43519818d0a4" id="r_a024ca94235ba62f47f7d43519818d0a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a024ca94235ba62f47f7d43519818d0a4">executeColumnAction</a> (const std::string &amp;tableName, const std::string &amp;actionType, const std::string &amp;columnName)</td></tr>
+<tr class="separator:a024ca94235ba62f47f7d43519818d0a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af698bee78726d40c370a9fe76568e097" id="r_af698bee78726d40c370a9fe76568e097"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#af698bee78726d40c370a9fe76568e097">executeConstraintAction</a> (const std::string &amp;tableName, const std::string &amp;actionType, const std::string &amp;constraintName)</td></tr>
+<tr class="separator:af698bee78726d40c370a9fe76568e097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada49dd35078edb0d6cc5778f0395819b" id="r_ada49dd35078edb0d6cc5778f0395819b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ada49dd35078edb0d6cc5778f0395819b">recordOperation</a> (const std::string &amp;tableName, const std::string &amp;operationType, const std::string &amp;details, bool success)</td></tr>
+<tr class="separator:ada49dd35078edb0d6cc5778f0395819b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a86e74119fec2ac98c25c95d8bbf74768" id="r_a86e74119fec2ac98c25c95d8bbf74768"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html">AlterOperation</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#a86e74119fec2ac98c25c95d8bbf74768">operation_history_</a></td></tr>
+<tr class="separator:a86e74119fec2ac98c25c95d8bbf74768"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad823f4efa7c4e360a7f92e38316e8128" id="r_ad823f4efa7c4e360a7f92e38316e8128"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html#ad823f4efa7c4e360a7f92e38316e8128">next_operation_id_</a> = 1</td></tr>
+<tr class="separator:ad823f4efa7c4e360a7f92e38316e8128"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>增强ALTER TABLE管理器</p>
+<p>Enhanced Alter Table Manager - 增强ALTER TABLE管理器 处理ALTER TABLE语句的高级功能，包括列操作、约束操作、表重命名等 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="aa4146e8948cfe56e824dba537d2909d8" name="aa4146e8948cfe56e824dba537d2909d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4146e8948cfe56e824dba537d2909d8">&#9670;&#160;</a></span>EnhancedAlterTableManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_executor::EnhancedAlterTableManager::EnhancedAlterTableManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa4146e8948cfe56e824dba537d2909d8" name="aa4146e8948cfe56e824dba537d2909d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4146e8948cfe56e824dba537d2909d8">&#9670;&#160;</a></span>EnhancedAlterTableManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_executor::EnhancedAlterTableManager::EnhancedAlterTableManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a438c66a4f5cf28035c1d9129548baf13" name="a438c66a4f5cf28035c1d9129548baf13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a438c66a4f5cf28035c1d9129548baf13">&#9670;&#160;</a></span>addColumn() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::addColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const sql_parser::AddColumnAction &amp;&#160;</td>
+          <td class="paramname"><em>action</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac499ba9ffa49ff0a666b22babfb0430e" name="ac499ba9ffa49ff0a666b22babfb0430e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac499ba9ffa49ff0a666b22babfb0430e">&#9670;&#160;</a></span>addColumn() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::addColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1ColumnDefinition.html">sql_parser::ColumnDefinition</a> &amp;&#160;</td>
+          <td class="paramname"><em>columnDef</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a15de652f0338c29d557a2cabcf6be4b3" name="a15de652f0338c29d557a2cabcf6be4b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15de652f0338c29d557a2cabcf6be4b3">&#9670;&#160;</a></span>addConstraint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::addConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const sql_parser::AddConstraintAction &amp;&#160;</td>
+          <td class="paramname"><em>action</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a4afd8727a6e10c7557bddbee867ff6" name="a7a4afd8727a6e10c7557bddbee867ff6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a4afd8727a6e10c7557bddbee867ff6">&#9670;&#160;</a></span>addConstraint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::addConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1TableConstraint.html">sql_parser::TableConstraint</a> &amp;&#160;</td>
+          <td class="paramname"><em>constraint</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae1f42c71e144d20f08b413f0510fa4d0" name="ae1f42c71e144d20f08b413f0510fa4d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1f42c71e144d20f08b413f0510fa4d0">&#9670;&#160;</a></span>alterColumn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::alterColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1ColumnDefinition.html">sql_parser::ColumnDefinition</a> &amp;&#160;</td>
+          <td class="paramname"><em>oldColumn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1ColumnDefinition.html">sql_parser::ColumnDefinition</a> &amp;&#160;</td>
+          <td class="paramname"><em>newColumn</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a509abc4962933da07bf52827c22f8fb3" name="a509abc4962933da07bf52827c22f8fb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a509abc4962933da07bf52827c22f8fb3">&#9670;&#160;</a></span>alterTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::alterTable </td>
+          <td>(</td>
+          <td class="paramtype">const sql_parser::AlterTableStatement &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaedc40f8f6efced5967060ba2eacfda4" name="aaedc40f8f6efced5967060ba2eacfda4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaedc40f8f6efced5967060ba2eacfda4">&#9670;&#160;</a></span>canAddColumn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::canAddColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>columnName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af5538a1119abf0b19ed42aa2cbea0d7f" name="af5538a1119abf0b19ed42aa2cbea0d7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5538a1119abf0b19ed42aa2cbea0d7f">&#9670;&#160;</a></span>canDropColumn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::canDropColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>columnName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ac7bef8e83fcb945435dd27510dc98f" name="a2ac7bef8e83fcb945435dd27510dc98f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ac7bef8e83fcb945435dd27510dc98f">&#9670;&#160;</a></span>canModifyColumn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::canModifyColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>columnName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af09b8b9072ddcec2187709d4eeeca43b" name="af09b8b9072ddcec2187709d4eeeca43b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af09b8b9072ddcec2187709d4eeeca43b">&#9670;&#160;</a></span>checkColumnDependencies()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::checkColumnDependencies </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>columnName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a070732412a583d7a0beae92f2a1fd483" name="a070732412a583d7a0beae92f2a1fd483"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a070732412a583d7a0beae92f2a1fd483">&#9670;&#160;</a></span>disableTrigger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::disableTrigger </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>triggerName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aba7012a8889904891011eefd94017f8c" name="aba7012a8889904891011eefd94017f8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba7012a8889904891011eefd94017f8c">&#9670;&#160;</a></span>dropColumn() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::dropColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const sql_parser::DropColumnAction &amp;&#160;</td>
+          <td class="paramname"><em>action</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac4256683b41b147fc3a67d097ac2ee1e" name="ac4256683b41b147fc3a67d097ac2ee1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4256683b41b147fc3a67d097ac2ee1e">&#9670;&#160;</a></span>dropColumn() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::dropColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>columnName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a75ded20a138a65593272497e4a30e7f6" name="a75ded20a138a65593272497e4a30e7f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75ded20a138a65593272497e4a30e7f6">&#9670;&#160;</a></span>dropConstraint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::dropConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const sql_parser::DropConstraintAction &amp;&#160;</td>
+          <td class="paramname"><em>action</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0584e49cc9779a6001a6892ba41e2c07" name="a0584e49cc9779a6001a6892ba41e2c07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0584e49cc9779a6001a6892ba41e2c07">&#9670;&#160;</a></span>dropConstraint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::dropConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraintName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af3fa8adb1c2bf600fce7749979a8bf5d" name="af3fa8adb1c2bf600fce7749979a8bf5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3fa8adb1c2bf600fce7749979a8bf5d">&#9670;&#160;</a></span>enableTrigger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::enableTrigger </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>triggerName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae23dc33e6e6ff3db5ae61c5f5e172970" name="ae23dc33e6e6ff3db5ae61c5f5e172970"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae23dc33e6e6ff3db5ae61c5f5e172970">&#9670;&#160;</a></span>executeAlterTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::executeAlterTable </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1EnhancedAlterTableStatement.html">sql_parser::EnhancedAlterTableStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a024ca94235ba62f47f7d43519818d0a4" name="a024ca94235ba62f47f7d43519818d0a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a024ca94235ba62f47f7d43519818d0a4">&#9670;&#160;</a></span>executeColumnAction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::executeColumnAction </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>actionType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>columnName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af698bee78726d40c370a9fe76568e097" name="af698bee78726d40c370a9fe76568e097"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af698bee78726d40c370a9fe76568e097">&#9670;&#160;</a></span>executeConstraintAction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::executeConstraintAction </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>actionType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraintName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab48503065f3eae6859b8e2684025551e" name="ab48503065f3eae6859b8e2684025551e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab48503065f3eae6859b8e2684025551e">&#9670;&#160;</a></span>getAlterTableStatistics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_executor::EnhancedAlterTableManager::getAlterTableStatistics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac2f4f275f25ac6ca329940258fc4a862" name="ac2f4f275f25ac6ca329940258fc4a862"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2f4f275f25ac6ca329940258fc4a862">&#9670;&#160;</a></span>getColumnDependencies()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; sqlcc::sql_executor::EnhancedAlterTableManager::getColumnDependencies </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>columnName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ade91c0c2a676929b1af484cbfc0179a9" name="ade91c0c2a676929b1af484cbfc0179a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade91c0c2a676929b1af484cbfc0179a9">&#9670;&#160;</a></span>getInstance() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html">EnhancedAlterTableManager</a> &amp; sqlcc::sql_executor::EnhancedAlterTableManager::getInstance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4335c3bcfc65e820addfba6c5a2ac2bc" name="a4335c3bcfc65e820addfba6c5a2ac2bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4335c3bcfc65e820addfba6c5a2ac2bc">&#9670;&#160;</a></span>getInstance() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager.html">EnhancedAlterTableManager</a> &amp; sqlcc::sql_executor::EnhancedAlterTableManager::getInstance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1e3dc8252431678536d711ac711b307d" name="a1e3dc8252431678536d711ac711b307d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e3dc8252431678536d711ac711b307d">&#9670;&#160;</a></span>hasColumnDependencies()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::hasColumnDependencies </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>columnName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1aab3f5393dbc1f6ff9902a8a231973d" name="a1aab3f5393dbc1f6ff9902a8a231973d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1aab3f5393dbc1f6ff9902a8a231973d">&#9670;&#160;</a></span>modifyColumn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::modifyColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const sql_parser::ModifyColumnAction &amp;&#160;</td>
+          <td class="paramname"><em>action</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ada49dd35078edb0d6cc5778f0395819b" name="ada49dd35078edb0d6cc5778f0395819b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada49dd35078edb0d6cc5778f0395819b">&#9670;&#160;</a></span>recordOperation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_executor::EnhancedAlterTableManager::recordOperation </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>operationType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>details</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>success</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae14ea36e7075cb96a34ea3314615b5b6" name="ae14ea36e7075cb96a34ea3314615b5b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae14ea36e7075cb96a34ea3314615b5b6">&#9670;&#160;</a></span>renameColumn() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::renameColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const sql_parser::RenameColumnAction &amp;&#160;</td>
+          <td class="paramname"><em>action</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a71ffe9ca3b79438fbea6a855223081c1" name="a71ffe9ca3b79438fbea6a855223081c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71ffe9ca3b79438fbea6a855223081c1">&#9670;&#160;</a></span>renameColumn() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::renameColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>oldName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>newName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a558838b1403def224a414d34209efbb5" name="a558838b1403def224a414d34209efbb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a558838b1403def224a414d34209efbb5">&#9670;&#160;</a></span>renameTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::renameTable </td>
+          <td>(</td>
+          <td class="paramtype">const sql_parser::RenameTableAction &amp;&#160;</td>
+          <td class="paramname"><em>action</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a19131c5c25f53666b91ee78120480815" name="a19131c5c25f53666b91ee78120480815"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19131c5c25f53666b91ee78120480815">&#9670;&#160;</a></span>validateAlterOperation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::validateAlterOperation </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1AlterTableAction.html">sql_parser::AlterTableAction</a> &amp;&#160;</td>
+          <td class="paramname"><em>action</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6ec696b82be51382eb0a6f68e64de1eb" name="a6ec696b82be51382eb0a6f68e64de1eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ec696b82be51382eb0a6f68e64de1eb">&#9670;&#160;</a></span>validateAlterTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_executor::EnhancedAlterTableManager::validateAlterTable </td>
+          <td>(</td>
+          <td class="paramtype">const sql_parser::AlterTableStatement &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ad823f4efa7c4e360a7f92e38316e8128" name="ad823f4efa7c4e360a7f92e38316e8128"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad823f4efa7c4e360a7f92e38316e8128">&#9670;&#160;</a></span>next_operation_id_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">long sqlcc::sql_executor::EnhancedAlterTableManager::next_operation_id_ = 1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a86e74119fec2ac98c25c95d8bbf74768" name="a86e74119fec2ac98c25c95d8bbf74768"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86e74119fec2ac98c25c95d8bbf74768">&#9670;&#160;</a></span>operation_history_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structsqlcc_1_1sql__executor_1_1EnhancedAlterTableManager_1_1AlterOperation.html">AlterOperation</a>&gt; sqlcc::sql_executor::EnhancedAlterTableManager::operation_history_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="advanced__sql92__executor_8cpp.html">advanced_sql92_executor.cpp</a></li>
+<li><a class="el" href="enhanced__alter__table__manager_8h_source.html">enhanced_alter_table_manager.h</a></li>
+<li><a class="el" href="enhanced__alter__table__manager_8cpp.html">enhanced_alter_table_manager.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

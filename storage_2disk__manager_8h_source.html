@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: disk_manager.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_452baf35e1d7639c9f2a5ece4ec85855.html">storage</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">storage/disk_manager.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="storage_2disk__manager_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;condition_variable&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;filesystem&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;fstream&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;queue&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;../page/page.h&quot;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;../utils/config_manager.h&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;../exception/exception.h&quot;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">struct </span>DiskIOStats {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>  std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1DiskIOStats.html#af0858835e44ede760ebb774cc077b1e6">total_reads</a>{0};       <span class="comment">// 总读取次数</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>  std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1DiskIOStats.html#af5506c7a3a0815b9fcd0a29df8a9d6fe">total_writes</a>{0};      <span class="comment">// 总写入次数</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>  std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1DiskIOStats.html#a62729efd568e8cf1da2d516680fca17a">total_syncs</a>{0};       <span class="comment">// 总同步次数</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1DiskIOStats.html#a6ec009f0fdcf92ef4bde0ee71ed08246">failed_reads</a>{0};      <span class="comment">// 读取失败次数</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>  std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1DiskIOStats.html#a955e43b62ee2726b55a7f680edb3d9ba">failed_writes</a>{0};     <span class="comment">// 写入失败次数</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>  std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1DiskIOStats.html#a3af563316cae4abd404b8b8b53e5f7f1">failed_syncs</a>{0};      <span class="comment">// 同步失败次数</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  std::chrono::microseconds <a class="code hl_variable" href="structsqlcc_1_1DiskIOStats.html#adce221baaa8c7b3d3d079ea796e3feea">total_read_time</a>{0};  <span class="comment">// 总读取时间</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  std::chrono::microseconds <a class="code hl_variable" href="structsqlcc_1_1DiskIOStats.html#aa688421c175cc362d75cc7f6668b65a9">total_write_time</a>{0}; <span class="comment">// 总写入时间</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>};</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="foldopen" id="foldopen00041" data-start="{" data-end="};">
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html">   41</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1DiskManager.html">DiskManager</a> {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  <a class="code hl_class" href="classsqlcc_1_1DiskManager.html">DiskManager</a>(<span class="keyword">const</span> std::string &amp;db_file, <a class="code hl_class" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  <a class="code hl_function" href="classsqlcc_1_1DiskManager.html#a07242cce7909e0899e6321cc0e5de3d1">~DiskManager</a>();</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1DiskManager.html#aa65011bfb8783d5808787795c8786827">WritePage</a>(int32_t page_id, <span class="keyword">const</span> <span class="keywordtype">char</span> *page_data);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1DiskManager.html#aee0ac0ad4df85f6522d355be6f47598b">ReadPage</a>(int32_t page_id, <span class="keywordtype">char</span> *page_data);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>  int32_t <a class="code hl_function" href="classsqlcc_1_1DiskManager.html#a2834723cc4c2c3017e62223c0660f9b0">AllocatePage</a>();</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1DiskManager.html#a9f1a72682c2a3a73e15cf9dcae9c213c">DeallocatePage</a>(int32_t page_id);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>  int32_t <a class="code hl_function" href="classsqlcc_1_1DiskManager.html#a2916dda0176dc70b3a0c5d858bcc3ca0">GetFileSize</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1DiskManager.html#a2586f2932109870afd979c3aae3a8705">BatchReadPages</a>(<span class="keyword">const</span> std::vector&lt;int32_t&gt; &amp;page_ids,</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                      std::vector&lt;char *&gt; &amp;data_buffers);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1DiskManager.html#a3b0ff8f3129729033d8d05e898a920ac">PrefetchPage</a>(int32_t page_id);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1DiskManager.html#a0457223d46ee0ce517c43baf08739fa6">BatchPrefetchPages</a>(<span class="keyword">const</span> std::vector&lt;int32_t&gt; &amp;page_ids);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1DiskManager.html#ad06bd75441034e45a6e920482d3eee7e">Sync</a>();</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1DiskManager.html#a940ba3cd6569255586b147bdf06f4e96">OnConfigChange</a>(<span class="keyword">const</span> std::string &amp;key, <span class="keyword">const</span> <a class="code hl_typedef" href="namespacesqlcc.html#ae2f4bc4eee37aaf01276a62a2a79dc0a">ConfigValue</a> &amp;value);</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>  <span class="comment">// I/O统计信息</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html#aba3bec07dcd5caa4d10cf0d5d80f86df">  138</a></span>  <a class="code hl_struct" href="structsqlcc_1_1DiskIOStats.html">DiskIOStats</a> <a class="code hl_variable" href="classsqlcc_1_1DiskManager.html#aba3bec07dcd5caa4d10cf0d5d80f86df">io_stats_</a>;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>  <span class="comment">// 数据库文件名</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html#a5b4daa01d6781ab1ec3315b362ef3241">  142</a></span>  std::string <a class="code hl_variable" href="classsqlcc_1_1DiskManager.html#a5b4daa01d6781ab1ec3315b362ef3241">db_file_name_</a>;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>  <span class="comment">// 文件流</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html#a3904a0d446e89146ec9bdbe2fdb893b6">  145</a></span>  std::fstream <a class="code hl_variable" href="classsqlcc_1_1DiskManager.html#a3904a0d446e89146ec9bdbe2fdb893b6">db_io_</a>;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span> </div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>  <span class="comment">// 配置管理器引用</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html#a625b91905c036a8d32e24af539fddb78">  148</a></span>  <a class="code hl_class" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;<a class="code hl_variable" href="classsqlcc_1_1DiskManager.html#a625b91905c036a8d32e24af539fddb78">config_manager_</a>;</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>  <span class="comment">// 文件大小</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html#a6dfc8774518a2276f14c3bfee998ea82">  151</a></span>  std::atomic&lt;size_t&gt; <a class="code hl_variable" href="classsqlcc_1_1DiskManager.html#a6dfc8774518a2276f14c3bfee998ea82">file_size_</a>;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>  <span class="comment">// 下一个可用的页面ID</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html#ae51f68a1fd203ac789c954f4138e7387">  154</a></span>  std::atomic&lt;int32_t&gt; <a class="code hl_variable" href="classsqlcc_1_1DiskManager.html#ae51f68a1fd203ac789c954f4138e7387">next_page_id_</a>;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>  <span class="comment">// 锁超时时间</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html#a0db69582adf4220d6f5316aeaf160174">  157</a></span>  <span class="keywordtype">int</span> <a class="code hl_variable" href="classsqlcc_1_1DiskManager.html#a0db69582adf4220d6f5316aeaf160174">lock_timeout_ms_</a>;</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>  <span class="comment">// I/O操作互斥锁</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html#acdafae6286d5488768cfc245cc6b86cc">  160</a></span>  <span class="keyword">mutable</span> std::recursive_timed_mutex <a class="code hl_variable" href="classsqlcc_1_1DiskManager.html#acdafae6286d5488768cfc245cc6b86cc">io_mutex_</a>;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>  <span class="comment">// 空闲页面列表</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html#afa0ab606c8e98c147fd850d8aacc2857">  163</a></span>  std::vector&lt;int32_t&gt; <a class="code hl_variable" href="classsqlcc_1_1DiskManager.html#afa0ab606c8e98c147fd850d8aacc2857">free_pages_</a>;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>  <span class="comment">// 模拟失败标志（用于测试）</span></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html#a20ca73b87d140c5ae1467ecab3ad44ac">  166</a></span>  <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1DiskManager.html#a20ca73b87d140c5ae1467ecab3ad44ac">simulate_seek_failure_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html#a760cab9cc3fad9ece8088a4602584242">  167</a></span>  <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1DiskManager.html#a760cab9cc3fad9ece8088a4602584242">simulate_read_failure_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html#abaf8d42136a572122ae499fd33a32c7b">  168</a></span>  <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1DiskManager.html#abaf8d42136a572122ae499fd33a32c7b">simulate_write_failure_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html#acdb34b10c14f3b3b0c742a22f64de79a">  169</a></span>  <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1DiskManager.html#acdb34b10c14f3b3b0c742a22f64de79a">simulate_flush_failure_</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>  <span class="comment">// 友元测试类</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="classsqlcc_1_1DiskManager.html#a34c40b40c26fccabc8c98aa4343497cb">  172</a></span>  <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_friend" href="classsqlcc_1_1DiskManager.html#a34c40b40c26fccabc8c98aa4343497cb">DiskManagerTest</a>;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>};</div>
+</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigManager_html"><div class="ttname"><a href="classsqlcc_1_1ConfigManager.html">sqlcc::ConfigManager</a></div><div class="ttdef"><b>Definition</b> config_manager.h:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html">sqlcc::DiskManager</a></div><div class="ttdoc">磁盘管理器类</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:41</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a0457223d46ee0ce517c43baf08739fa6"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a0457223d46ee0ce517c43baf08739fa6">sqlcc::DiskManager::BatchPrefetchPages</a></div><div class="ttdeci">bool BatchPrefetchPages(const std::vector&lt; int32_t &gt; &amp;page_ids)</div><div class="ttdoc">批量预读取页面</div><div class="ttdef"><b>Definition</b> disk_manager.cpp:598</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a07242cce7909e0899e6321cc0e5de3d1"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a07242cce7909e0899e6321cc0e5de3d1">sqlcc::DiskManager::~DiskManager</a></div><div class="ttdeci">~DiskManager()</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> disk_manager.cpp:94</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a0db69582adf4220d6f5316aeaf160174"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a0db69582adf4220d6f5316aeaf160174">sqlcc::DiskManager::lock_timeout_ms_</a></div><div class="ttdeci">int lock_timeout_ms_</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:157</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a20ca73b87d140c5ae1467ecab3ad44ac"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a20ca73b87d140c5ae1467ecab3ad44ac">sqlcc::DiskManager::simulate_seek_failure_</a></div><div class="ttdeci">bool simulate_seek_failure_</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:166</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a2586f2932109870afd979c3aae3a8705"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a2586f2932109870afd979c3aae3a8705">sqlcc::DiskManager::BatchReadPages</a></div><div class="ttdeci">bool BatchReadPages(const std::vector&lt; int32_t &gt; &amp;page_ids, std::vector&lt; char * &gt; &amp;data_buffers)</div><div class="ttdoc">批量读取页面</div><div class="ttdef"><b>Definition</b> disk_manager.cpp:473</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a2834723cc4c2c3017e62223c0660f9b0"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a2834723cc4c2c3017e62223c0660f9b0">sqlcc::DiskManager::AllocatePage</a></div><div class="ttdeci">int32_t AllocatePage()</div><div class="ttdoc">分配新页面</div><div class="ttdef"><b>Definition</b> disk_manager.cpp:383</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a2916dda0176dc70b3a0c5d858bcc3ca0"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a2916dda0176dc70b3a0c5d858bcc3ca0">sqlcc::DiskManager::GetFileSize</a></div><div class="ttdeci">int32_t GetFileSize() const</div><div class="ttdoc">获取文件大小</div><div class="ttdef"><b>Definition</b> disk_manager.cpp:457</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a34c40b40c26fccabc8c98aa4343497cb"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a34c40b40c26fccabc8c98aa4343497cb">sqlcc::DiskManager::DiskManagerTest</a></div><div class="ttdeci">friend class DiskManagerTest</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:172</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a3904a0d446e89146ec9bdbe2fdb893b6"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a3904a0d446e89146ec9bdbe2fdb893b6">sqlcc::DiskManager::db_io_</a></div><div class="ttdeci">std::fstream db_io_</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:145</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a3b0ff8f3129729033d8d05e898a920ac"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a3b0ff8f3129729033d8d05e898a920ac">sqlcc::DiskManager::PrefetchPage</a></div><div class="ttdeci">bool PrefetchPage(int32_t page_id)</div><div class="ttdoc">预读取页面</div><div class="ttdef"><b>Definition</b> disk_manager.cpp:556</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a5b4daa01d6781ab1ec3315b362ef3241"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a5b4daa01d6781ab1ec3315b362ef3241">sqlcc::DiskManager::db_file_name_</a></div><div class="ttdeci">std::string db_file_name_</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:142</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a625b91905c036a8d32e24af539fddb78"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a625b91905c036a8d32e24af539fddb78">sqlcc::DiskManager::config_manager_</a></div><div class="ttdeci">ConfigManager &amp; config_manager_</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:148</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a6dfc8774518a2276f14c3bfee998ea82"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a6dfc8774518a2276f14c3bfee998ea82">sqlcc::DiskManager::file_size_</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; file_size_</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:151</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a760cab9cc3fad9ece8088a4602584242"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a760cab9cc3fad9ece8088a4602584242">sqlcc::DiskManager::simulate_read_failure_</a></div><div class="ttdeci">bool simulate_read_failure_</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:167</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a940ba3cd6569255586b147bdf06f4e96"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a940ba3cd6569255586b147bdf06f4e96">sqlcc::DiskManager::OnConfigChange</a></div><div class="ttdeci">void OnConfigChange(const std::string &amp;key, const ConfigValue &amp;value)</div><div class="ttdoc">配置变更回调</div><div class="ttdef"><b>Definition</b> disk_manager.cpp:675</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_a9f1a72682c2a3a73e15cf9dcae9c213c"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#a9f1a72682c2a3a73e15cf9dcae9c213c">sqlcc::DiskManager::DeallocatePage</a></div><div class="ttdeci">bool DeallocatePage(int32_t page_id)</div><div class="ttdoc">释放页面</div><div class="ttdef"><b>Definition</b> disk_manager.cpp:420</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_aa65011bfb8783d5808787795c8786827"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#aa65011bfb8783d5808787795c8786827">sqlcc::DiskManager::WritePage</a></div><div class="ttdeci">bool WritePage(int32_t page_id, const char *page_data)</div><div class="ttdoc">写入页面数据到磁盘</div><div class="ttdef"><b>Definition</b> disk_manager.cpp:160</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_aba3bec07dcd5caa4d10cf0d5d80f86df"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#aba3bec07dcd5caa4d10cf0d5d80f86df">sqlcc::DiskManager::io_stats_</a></div><div class="ttdeci">DiskIOStats io_stats_</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:138</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_abaf8d42136a572122ae499fd33a32c7b"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#abaf8d42136a572122ae499fd33a32c7b">sqlcc::DiskManager::simulate_write_failure_</a></div><div class="ttdeci">bool simulate_write_failure_</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:168</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_acdafae6286d5488768cfc245cc6b86cc"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#acdafae6286d5488768cfc245cc6b86cc">sqlcc::DiskManager::io_mutex_</a></div><div class="ttdeci">std::recursive_timed_mutex io_mutex_</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:160</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_acdb34b10c14f3b3b0c742a22f64de79a"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#acdb34b10c14f3b3b0c742a22f64de79a">sqlcc::DiskManager::simulate_flush_failure_</a></div><div class="ttdeci">bool simulate_flush_failure_</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:169</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_ad06bd75441034e45a6e920482d3eee7e"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#ad06bd75441034e45a6e920482d3eee7e">sqlcc::DiskManager::Sync</a></div><div class="ttdeci">bool Sync()</div><div class="ttdoc">同步文件到磁盘</div><div class="ttdef"><b>Definition</b> disk_manager.cpp:686</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_ae51f68a1fd203ac789c954f4138e7387"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#ae51f68a1fd203ac789c954f4138e7387">sqlcc::DiskManager::next_page_id_</a></div><div class="ttdeci">std::atomic&lt; int32_t &gt; next_page_id_</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:154</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_aee0ac0ad4df85f6522d355be6f47598b"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#aee0ac0ad4df85f6522d355be6f47598b">sqlcc::DiskManager::ReadPage</a></div><div class="ttdeci">bool ReadPage(int32_t page_id, char *page_data)</div><div class="ttdoc">从磁盘读取页面数据</div><div class="ttdef"><b>Definition</b> disk_manager.cpp:280</div></div>
+<div class="ttc" id="aclasssqlcc_1_1DiskManager_html_afa0ab606c8e98c147fd850d8aacc2857"><div class="ttname"><a href="classsqlcc_1_1DiskManager.html#afa0ab606c8e98c147fd850d8aacc2857">sqlcc::DiskManager::free_pages_</a></div><div class="ttdeci">std::vector&lt; int32_t &gt; free_pages_</div><div class="ttdef"><b>Definition</b> storage/disk_manager.h:163</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="anamespacesqlcc_html_ae2f4bc4eee37aaf01276a62a2a79dc0a"><div class="ttname"><a href="namespacesqlcc.html#ae2f4bc4eee37aaf01276a62a2a79dc0a">sqlcc::ConfigValue</a></div><div class="ttdeci">std::variant&lt; bool, int, double, std::string &gt; ConfigValue</div><div class="ttdoc">配置值类型，支持多种数据类型 使用std::variant实现类型安全的配置值存储</div><div class="ttdef"><b>Definition</b> config_manager.h:14</div></div>
+<div class="ttc" id="astructsqlcc_1_1DiskIOStats_html"><div class="ttname"><a href="structsqlcc_1_1DiskIOStats.html">sqlcc::DiskIOStats</a></div><div class="ttdoc">磁盘I/O统计信息</div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:23</div></div>
+<div class="ttc" id="astructsqlcc_1_1DiskIOStats_html_a3af563316cae4abd404b8b8b53e5f7f1"><div class="ttname"><a href="structsqlcc_1_1DiskIOStats.html#a3af563316cae4abd404b8b8b53e5f7f1">sqlcc::DiskIOStats::failed_syncs</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; failed_syncs</div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:29</div></div>
+<div class="ttc" id="astructsqlcc_1_1DiskIOStats_html_a62729efd568e8cf1da2d516680fca17a"><div class="ttname"><a href="structsqlcc_1_1DiskIOStats.html#a62729efd568e8cf1da2d516680fca17a">sqlcc::DiskIOStats::total_syncs</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; total_syncs</div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:26</div></div>
+<div class="ttc" id="astructsqlcc_1_1DiskIOStats_html_a6ec009f0fdcf92ef4bde0ee71ed08246"><div class="ttname"><a href="structsqlcc_1_1DiskIOStats.html#a6ec009f0fdcf92ef4bde0ee71ed08246">sqlcc::DiskIOStats::failed_reads</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; failed_reads</div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:27</div></div>
+<div class="ttc" id="astructsqlcc_1_1DiskIOStats_html_a955e43b62ee2726b55a7f680edb3d9ba"><div class="ttname"><a href="structsqlcc_1_1DiskIOStats.html#a955e43b62ee2726b55a7f680edb3d9ba">sqlcc::DiskIOStats::failed_writes</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; failed_writes</div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:28</div></div>
+<div class="ttc" id="astructsqlcc_1_1DiskIOStats_html_aa688421c175cc362d75cc7f6668b65a9"><div class="ttname"><a href="structsqlcc_1_1DiskIOStats.html#aa688421c175cc362d75cc7f6668b65a9">sqlcc::DiskIOStats::total_write_time</a></div><div class="ttdeci">std::chrono::microseconds total_write_time</div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:31</div></div>
+<div class="ttc" id="astructsqlcc_1_1DiskIOStats_html_adce221baaa8c7b3d3d079ea796e3feea"><div class="ttname"><a href="structsqlcc_1_1DiskIOStats.html#adce221baaa8c7b3d3d079ea796e3feea">sqlcc::DiskIOStats::total_read_time</a></div><div class="ttdeci">std::chrono::microseconds total_read_time</div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:30</div></div>
+<div class="ttc" id="astructsqlcc_1_1DiskIOStats_html_af0858835e44ede760ebb774cc077b1e6"><div class="ttname"><a href="structsqlcc_1_1DiskIOStats.html#af0858835e44ede760ebb774cc077b1e6">sqlcc::DiskIOStats::total_reads</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; total_reads</div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:24</div></div>
+<div class="ttc" id="astructsqlcc_1_1DiskIOStats_html_af5506c7a3a0815b9fcd0a29df8a9d6fe"><div class="ttname"><a href="structsqlcc_1_1DiskIOStats.html#af5506c7a3a0815b9fcd0a29df8a9d6fe">sqlcc::DiskIOStats::total_writes</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; total_writes</div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:25</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

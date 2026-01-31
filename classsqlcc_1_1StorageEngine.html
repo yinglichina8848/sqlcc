@@ -1,0 +1,786 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::StorageEngine类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1StorageEngine-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::StorageEngine类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>存储引擎类，封装磁盘管理和缓冲池功能  
+ <a href="classsqlcc_1_1StorageEngine.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="storage__engine_8h_source.html">storage_engine.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::StorageEngine 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1StorageEngine__inherit__graph.png" border="0" usemap="#asqlcc_1_1StorageEngine_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1StorageEngine_inherit__map" id="asqlcc_1_1StorageEngine_inherit__map">
+<area shape="rect" title="存储引擎类，封装磁盘管理和缓冲池功能" alt="" coords="48,93,205,119"/>
+<area shape="rect" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html" title="StorageEngine Mock类，用于单元测试" alt="" coords="5,167,248,192"/>
+<area shape="poly" title=" " alt="" coords="129,132,129,167,124,167,124,132"/>
+<area shape="rect" title=" " alt="" coords="19,5,234,45"/>
+<area shape="poly" title=" " alt="" coords="129,59,129,93,124,93,124,59"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<div class="dynheader">
+sqlcc::StorageEngine 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1StorageEngine__coll__graph.png" border="0" usemap="#asqlcc_1_1StorageEngine_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1StorageEngine_coll__map" id="asqlcc_1_1StorageEngine_coll__map">
+<area shape="rect" title="存储引擎类，封装磁盘管理和缓冲池功能" alt="" coords="139,108,297,133"/>
+<area shape="rect" title=" " alt="" coords="5,5,220,45"/>
+<area shape="poly" title=" " alt="" coords="146,52,206,106,203,110,142,56"/>
+<area shape="rect" href="classsqlcc_1_1ConfigManager.html" title=" " alt="" coords="244,13,405,38"/>
+<area shape="poly" title=" " alt="" coords="303,49,233,110,229,106,300,45"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a934d217a25b0934533cc91e60d4f9432" id="r_a934d217a25b0934533cc91e60d4f9432"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a934d217a25b0934533cc91e60d4f9432">StorageEngine</a> (<a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager, const std::string &amp;db_path=&quot;./data&quot;)</td></tr>
+<tr class="memdesc:a934d217a25b0934533cc91e60d4f9432"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a934d217a25b0934533cc91e60d4f9432"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22d2df826e84aaf77b7c778decc6b429" id="r_a22d2df826e84aaf77b7c778decc6b429"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a22d2df826e84aaf77b7c778decc6b429">~StorageEngine</a> ()</td></tr>
+<tr class="memdesc:a22d2df826e84aaf77b7c778decc6b429"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a22d2df826e84aaf77b7c778decc6b429"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73feff1ef2fc3124b941233c09f0f166" id="r_a73feff1ef2fc3124b941233c09f0f166"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a73feff1ef2fc3124b941233c09f0f166">StorageEngine</a> (const <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &amp;)=delete</td></tr>
+<tr class="memdesc:a73feff1ef2fc3124b941233c09f0f166"><td class="mdescLeft">&#160;</td><td class="mdescRight">禁止拷贝构造  <br /></td></tr>
+<tr class="separator:a73feff1ef2fc3124b941233c09f0f166"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a319361a36d7585e07b2f64a181c03b4c" id="r_a319361a36d7585e07b2f64a181c03b4c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a319361a36d7585e07b2f64a181c03b4c">operator=</a> (const <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &amp;)=delete</td></tr>
+<tr class="memdesc:a319361a36d7585e07b2f64a181c03b4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">禁止赋值操作  <br /></td></tr>
+<tr class="separator:a319361a36d7585e07b2f64a181c03b4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa47445af65bd9aad1027e9139661580d" id="r_aa47445af65bd9aad1027e9139661580d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#aa47445af65bd9aad1027e9139661580d">InitializeIndexManager</a> ()</td></tr>
+<tr class="memdesc:aa47445af65bd9aad1027e9139661580d"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化索引管理器  <br /></td></tr>
+<tr class="separator:aa47445af65bd9aad1027e9139661580d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0105ac6ca2ae2ca50c3a287bf9b9feb" id="r_ab0105ac6ca2ae2ca50c3a287bf9b9feb"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#ab0105ac6ca2ae2ca50c3a287bf9b9feb">NewPage</a> (int32_t *page_id=nullptr)</td></tr>
+<tr class="memdesc:ab0105ac6ca2ae2ca50c3a287bf9b9feb"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建新页面  <br /></td></tr>
+<tr class="separator:ab0105ac6ca2ae2ca50c3a287bf9b9feb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5bb1c4d5b09fc46ac1e00e5c95bcd5a" id="r_ac5bb1c4d5b09fc46ac1e00e5c95bcd5a"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#ac5bb1c4d5b09fc46ac1e00e5c95bcd5a">FetchPage</a> (int32_t page_id)</td></tr>
+<tr class="memdesc:ac5bb1c4d5b09fc46ac1e00e5c95bcd5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取页面  <br /></td></tr>
+<tr class="separator:ac5bb1c4d5b09fc46ac1e00e5c95bcd5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a164e428bcdbcffa1f8faf41f8546daa6" id="r_a164e428bcdbcffa1f8faf41f8546daa6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a164e428bcdbcffa1f8faf41f8546daa6">UnpinPage</a> (int32_t page_id, bool is_dirty=false)</td></tr>
+<tr class="memdesc:a164e428bcdbcffa1f8faf41f8546daa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">取消固定页面  <br /></td></tr>
+<tr class="separator:a164e428bcdbcffa1f8faf41f8546daa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e7b43b887142db92d8ff6e9132cdba9" id="r_a6e7b43b887142db92d8ff6e9132cdba9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a6e7b43b887142db92d8ff6e9132cdba9">FlushPage</a> (int32_t page_id)</td></tr>
+<tr class="memdesc:a6e7b43b887142db92d8ff6e9132cdba9"><td class="mdescLeft">&#160;</td><td class="mdescRight">刷新页面到磁盘  <br /></td></tr>
+<tr class="separator:a6e7b43b887142db92d8ff6e9132cdba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef8175c1e47bae1bb19c3eae2b0a1e0a" id="r_aef8175c1e47bae1bb19c3eae2b0a1e0a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#aef8175c1e47bae1bb19c3eae2b0a1e0a">DeletePage</a> (int32_t page_id)</td></tr>
+<tr class="memdesc:aef8175c1e47bae1bb19c3eae2b0a1e0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">删除页面  <br /></td></tr>
+<tr class="separator:aef8175c1e47bae1bb19c3eae2b0a1e0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0908b475410a02b37c7edbc60346ae1" id="r_ac0908b475410a02b37c7edbc60346ae1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#ac0908b475410a02b37c7edbc60346ae1">FlushAllPages</a> ()</td></tr>
+<tr class="memdesc:ac0908b475410a02b37c7edbc60346ae1"><td class="mdescLeft">&#160;</td><td class="mdescRight">刷新所有页面到磁盘  <br /></td></tr>
+<tr class="separator:ac0908b475410a02b37c7edbc60346ae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a7d076904330e1f6c8a1dcbe8c72042" id="r_a5a7d076904330e1f6c8a1dcbe8c72042"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a5a7d076904330e1f6c8a1dcbe8c72042">GetStats</a> () const</td></tr>
+<tr class="memdesc:a5a7d076904330e1f6c8a1dcbe8c72042"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取数据库统计信息  <br /></td></tr>
+<tr class="separator:a5a7d076904330e1f6c8a1dcbe8c72042"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67abee3c4d94018dd2d310a158c833b7" id="r_a67abee3c4d94018dd2d310a158c833b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a67abee3c4d94018dd2d310a158c833b7">GetDiskManager</a> () const</td></tr>
+<tr class="memdesc:a67abee3c4d94018dd2d310a158c833b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取磁盘管理器  <br /></td></tr>
+<tr class="separator:a67abee3c4d94018dd2d310a158c833b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d18d10ddcc67ca2b065462b0b177b74" id="r_a2d18d10ddcc67ca2b065462b0b177b74"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html">BufferPoolSharded</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a2d18d10ddcc67ca2b065462b0b177b74">GetBufferPool</a> () const</td></tr>
+<tr class="separator:a2d18d10ddcc67ca2b065462b0b177b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab79aa451154c969a67ca83eccd89e037" id="r_ab79aa451154c969a67ca83eccd89e037"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#ab79aa451154c969a67ca83eccd89e037">GetConfigManager</a> () const</td></tr>
+<tr class="memdesc:ab79aa451154c969a67ca83eccd89e037"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取配置管理器  <br /></td></tr>
+<tr class="separator:ab79aa451154c969a67ca83eccd89e037"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0e8c43d126346b572518fe3c5e19cd2" id="r_aa0e8c43d126346b572518fe3c5e19cd2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#aa0e8c43d126346b572518fe3c5e19cd2">GetIndexManager</a> () const</td></tr>
+<tr class="memdesc:aa0e8c43d126346b572518fe3c5e19cd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取索引管理器  <br /></td></tr>
+<tr class="separator:aa0e8c43d126346b572518fe3c5e19cd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a1a895ec58a5b7f6c75504f24baa4a8d9" id="r_a1a895ec58a5b7f6c75504f24baa4a8d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a1a895ec58a5b7f6c75504f24baa4a8d9">config_manager_</a></td></tr>
+<tr class="memdesc:a1a895ec58a5b7f6c75504f24baa4a8d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">配置管理器引用  <br /></td></tr>
+<tr class="separator:a1a895ec58a5b7f6c75504f24baa4a8d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f1469afd62c99daf1575071eb00ea33" id="r_a8f1469afd62c99daf1575071eb00ea33"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a8f1469afd62c99daf1575071eb00ea33">disk_manager_</a></td></tr>
+<tr class="memdesc:a8f1469afd62c99daf1575071eb00ea33"><td class="mdescLeft">&#160;</td><td class="mdescRight">磁盘管理器  <br /></td></tr>
+<tr class="separator:a8f1469afd62c99daf1575071eb00ea33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad048fc05f1a6f2e98380ed428f9ef3ef" id="r_ad048fc05f1a6f2e98380ed428f9ef3ef"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#ad048fc05f1a6f2e98380ed428f9ef3ef">db_path_</a></td></tr>
+<tr class="memdesc:ad048fc05f1a6f2e98380ed428f9ef3ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">数据库路径  <br /></td></tr>
+<tr class="separator:ad048fc05f1a6f2e98380ed428f9ef3ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef4a7bd8a51a9f7d429576eaa12a2b56" id="r_aef4a7bd8a51a9f7d429576eaa12a2b56"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1BufferPoolSharded.html">BufferPoolSharded</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#aef4a7bd8a51a9f7d429576eaa12a2b56">buffer_pool_</a></td></tr>
+<tr class="memdesc:aef4a7bd8a51a9f7d429576eaa12a2b56"><td class="mdescLeft">&#160;</td><td class="mdescRight">缓冲池管理器  <br /></td></tr>
+<tr class="separator:aef4a7bd8a51a9f7d429576eaa12a2b56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a280a306c82d69c65b34ba760ce6be382" id="r_a280a306c82d69c65b34ba760ce6be382"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a280a306c82d69c65b34ba760ce6be382">index_manager_</a></td></tr>
+<tr class="memdesc:a280a306c82d69c65b34ba760ce6be382"><td class="mdescLeft">&#160;</td><td class="mdescRight">索引管理器  <br /></td></tr>
+<tr class="separator:a280a306c82d69c65b34ba760ce6be382"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>存储引擎类，封装磁盘管理和缓冲池功能 </p>
+<p>Why: 数据库系统需要一个统一的接口来管理数据的存储和访问，隐藏底层实现的复杂性 What: StorageEngine类作为存储子系统的顶层接口，封装了磁盘管理和缓冲池功能，提供页面的创建、读取、写入和删除操作 How: 通过组合DiskManager和BufferPool对象，为上层提供统一的数据访问接口</p>
+<p>Example: </p><div class="fragment"><div class="line"><a class="code hl_class" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> config_manager;</div>
+<div class="line"><a class="code hl_class" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> storage_engine(config_manager);</div>
+<div class="line"><a class="code hl_class" href="classsqlcc_1_1Page.html">Page</a>* page = storage_engine.NewPage();</div>
+<div class="line"><span class="comment">// ... use page ...</span></div>
+<div class="line">storage_engine.DeletePage(page-&gt;<a class="code hl_function" href="classsqlcc_1_1Page.html#ad5e9aa4bc6114d620d95f939d589daa3">GetPageId</a>());</div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigManager_html"><div class="ttname"><a href="classsqlcc_1_1ConfigManager.html">sqlcc::ConfigManager</a></div><div class="ttdef"><b>Definition</b> config_manager.h:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Page_html"><div class="ttname"><a href="classsqlcc_1_1Page.html">sqlcc::Page</a></div><div class="ttdoc">数据库页面类，表示一个8KB的定长页面</div><div class="ttdef"><b>Definition</b> page.h:22</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Page_html_ad5e9aa4bc6114d620d95f939d589daa3"><div class="ttname"><a href="classsqlcc_1_1Page.html#ad5e9aa4bc6114d620d95f939d589daa3">sqlcc::Page::GetPageId</a></div><div class="ttdeci">int32_t GetPageId() const</div><div class="ttdoc">获取页面ID</div><div class="ttdef"><b>Definition</b> page.h:60</div></div>
+<div class="ttc" id="aclasssqlcc_1_1StorageEngine_html"><div class="ttname"><a href="classsqlcc_1_1StorageEngine.html">sqlcc::StorageEngine</a></div><div class="ttdoc">存储引擎类，封装磁盘管理和缓冲池功能</div><div class="ttdef"><b>Definition</b> storage_engine.h:59</div></div>
+</div><!-- fragment --> </div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a934d217a25b0934533cc91e60d4f9432" name="a934d217a25b0934533cc91e60d4f9432"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a934d217a25b0934533cc91e60d4f9432">&#9670;&#160;</a></span>StorageEngine() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::StorageEngine::StorageEngine </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>config_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>db_path</em> = <code>&quot;./data&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config_manager</td><td>配置管理器引用 </td></tr>
+    <tr><td class="paramname">db_path</td><td>数据库路径，默认为"./data"</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Why: 需要初始化存储引擎，从配置管理器获取参数创建磁盘管理器和缓冲池实例 What: 构造函数接收配置管理器引用，从中获取配置参数初始化存储引擎的各个组件 How: 从配置管理器获取数据库文件路径和缓冲池大小，创建DiskManager和BufferPool对象 </p>
+
+</div>
+</div>
+<a id="a22d2df826e84aaf77b7c778decc6b429" name="a22d2df826e84aaf77b7c778decc6b429"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22d2df826e84aaf77b7c778decc6b429">&#9670;&#160;</a></span>~StorageEngine()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::StorageEngine::~StorageEngine </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+<p>Why: 需要释放存储引擎占用的资源，确保数据正确写入磁盘 What: 析构函数负责刷新所有脏页到磁盘，释放缓冲池和磁盘管理器资源 How: 调用FlushAllPages方法确保所有数据持久化，智能指针自动释放资源 </p>
+
+</div>
+</div>
+<a id="a73feff1ef2fc3124b941233c09f0f166" name="a73feff1ef2fc3124b941233c09f0f166"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73feff1ef2fc3124b941233c09f0f166">&#9670;&#160;</a></span>StorageEngine() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::StorageEngine::StorageEngine </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>禁止拷贝构造 </p>
+<p>Why: 存储引擎管理着重要的系统资源，不应该被随意复制 What: 删除拷贝构造函数，防止对象被意外复制 How: 使用= delete关键字显式删除拷贝构造函数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="aef8175c1e47bae1bb19c3eae2b0a1e0a" name="aef8175c1e47bae1bb19c3eae2b0a1e0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef8175c1e47bae1bb19c3eae2b0a1e0a">&#9670;&#160;</a></span>DeletePage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StorageEngine::DeletePage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>删除页面 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作是否成功</dd></dl>
+<p>Why: 当数据不再需要时，需要释放页面空间，例如删除记录或索引 What: DeletePage方法从缓冲池和磁盘中删除指定页面 How: 调用缓冲池的DeletePage方法，由缓冲池协调与磁盘管理器的交互 </p>
+
+</div>
+</div>
+<a id="ac5bb1c4d5b09fc46ac1e00e5c95bcd5a" name="ac5bb1c4d5b09fc46ac1e00e5c95bcd5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5bb1c4d5b09fc46ac1e00e5c95bcd5a">&#9670;&#160;</a></span>FetchPage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::StorageEngine::FetchPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取页面 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>页面智能指针，如果失败返回nullptr</dd></dl>
+<p>Why: 需要访问存储在磁盘上的页面数据，例如查询记录或更新数据 What: FetchPage方法根据页面ID获取页面对象，如果页面不在内存中则从磁盘加载 How: 通过缓冲池获取页面，如果页面不在内存中则通过磁盘管理器从磁盘加载 </p>
+
+</div>
+</div>
+<a id="ac0908b475410a02b37c7edbc60346ae1" name="ac0908b475410a02b37c7edbc60346ae1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0908b475410a02b37c7edbc60346ae1">&#9670;&#160;</a></span>FlushAllPages()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::StorageEngine::FlushAllPages </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>刷新所有页面到磁盘 </p>
+<p>Why: 在系统关闭或检查点时，需要将所有修改过的页面写入磁盘，保证数据持久性 What: FlushAllPages方法将缓冲池中所有脏页写入磁盘 How: 调用缓冲池的FlushAllPages方法，由缓冲池协调与磁盘管理器的交互 </p>
+
+</div>
+</div>
+<a id="a6e7b43b887142db92d8ff6e9132cdba9" name="a6e7b43b887142db92d8ff6e9132cdba9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e7b43b887142db92d8ff6e9132cdba9">&#9670;&#160;</a></span>FlushPage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StorageEngine::FlushPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>刷新页面到磁盘 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作是否成功</dd></dl>
+<p>Why: 需要将修改后的页面数据持久化到磁盘，保证数据的持久性和一致性 What: FlushPage方法将指定页面的数据写入磁盘文件 How: 调用缓冲池的FlushPage方法，由缓冲池协调与磁盘管理器的交互 </p>
+
+</div>
+</div>
+<a id="a2d18d10ddcc67ca2b065462b0b177b74" name="a2d18d10ddcc67ca2b065462b0b177b74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d18d10ddcc67ca2b065462b0b177b74">&#9670;&#160;</a></span>GetBufferPool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html">BufferPoolSharded</a> * sqlcc::StorageEngine::GetBufferPool </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>WHAT: GetBufferPool - 获取缓冲池组件访问接口</p>
+<p>提供对底层缓冲池的直接访问，用于需要精细控制的场景。 缓冲池负责内存中的页面缓存和管理。</p>
+<p>HOW: 智能指针访问</p><ul>
+<li>返回原始指针而不是智能指针（避免所有权转移）</li>
+<li>保证缓冲池对象的生命周期由StorageEngine管理</li>
+<li>调用方只获得访问权，不承担管理责任</li>
+</ul>
+<p>使用场景：</p><ul>
+<li>查询执行器需要直接操作页面</li>
+<li>索引管理器需要页面级别的控制</li>
+<li>事务管理器需要页面锁定功能</li>
+</ul>
+<dl class="section return"><dt>返回</dt><dd>缓冲池指针 </dd></dl>
+
+</div>
+</div>
+<a id="ab79aa451154c969a67ca83eccd89e037" name="ab79aa451154c969a67ca83eccd89e037"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab79aa451154c969a67ca83eccd89e037">&#9670;&#160;</a></span>GetConfigManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp; sqlcc::StorageEngine::GetConfigManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取配置管理器 </p>
+<dl class="section return"><dt>返回</dt><dd>配置管理器引用 </dd></dl>
+
+</div>
+</div>
+<a id="a67abee3c4d94018dd2d310a158c833b7" name="a67abee3c4d94018dd2d310a158c833b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67abee3c4d94018dd2d310a158c833b7">&#9670;&#160;</a></span>GetDiskManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> * sqlcc::StorageEngine::GetDiskManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取磁盘管理器 </p>
+<dl class="section return"><dt>返回</dt><dd>磁盘管理器指针 </dd></dl>
+
+</div>
+</div>
+<a id="aa0e8c43d126346b572518fe3c5e19cd2" name="aa0e8c43d126346b572518fe3c5e19cd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0e8c43d126346b572518fe3c5e19cd2">&#9670;&#160;</a></span>GetIndexManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a> * sqlcc::StorageEngine::GetIndexManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取索引管理器 </p>
+<dl class="section return"><dt>返回</dt><dd>索引管理器指针 </dd></dl>
+
+</div>
+</div>
+<a id="a5a7d076904330e1f6c8a1dcbe8c72042" name="a5a7d076904330e1f6c8a1dcbe8c72042"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a7d076904330e1f6c8a1dcbe8c72042">&#9670;&#160;</a></span>GetStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::StorageEngine::GetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取数据库统计信息 </p>
+<dl class="section return"><dt>返回</dt><dd>数据库统计信息字符串</dd></dl>
+<p>Why: 需要了解数据库的运行状态和性能指标，便于监控和优化 What: GetStats方法返回数据库的统计信息，包括页面数量、缓冲池状态等 How: 调用缓冲池的GetStats方法获取缓冲池统计信息，结合磁盘管理器的信息 </p>
+
+</div>
+</div>
+<a id="aa47445af65bd9aad1027e9139661580d" name="aa47445af65bd9aad1027e9139661580d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa47445af65bd9aad1027e9139661580d">&#9670;&#160;</a></span>InitializeIndexManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::StorageEngine::InitializeIndexManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>初始化索引管理器 </p>
+<p>Why: 索引管理器需要在对象完全构造后才能创建 What: 延迟初始化索引管理器，避免在构造函数中调用shared_from_this() How: 在首次访问索引管理器时调用此方法 </p>
+
+</div>
+</div>
+<a id="ab0105ac6ca2ae2ca50c3a287bf9b9feb" name="ab0105ac6ca2ae2ca50c3a287bf9b9feb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0105ac6ca2ae2ca50c3a287bf9b9feb">&#9670;&#160;</a></span>NewPage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt; sqlcc::StorageEngine::NewPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t *&#160;</td>
+          <td class="paramname"><em>page_id</em> = <code>nullptr</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>创建新页面 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>输出参数，用于返回分配的页面ID，可选参数默认为nullptr </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>页面智能指针，如果失败返回nullptr</dd></dl>
+<p>Why: 数据库需要新的存储空间来存储数据，例如插入新记录或创建索引 What: NewPage方法在数据库中分配一个新的页面，返回指向该页面的智能指针 How: 通过磁盘管理器分配新的页面ID，通过缓冲池创建页面对象，将页面标记为脏页 </p>
+
+</div>
+</div>
+<a id="a319361a36d7585e07b2f64a181c03b4c" name="a319361a36d7585e07b2f64a181c03b4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a319361a36d7585e07b2f64a181c03b4c">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &amp; sqlcc::StorageEngine::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>禁止赋值操作 </p>
+<p>Why: 存储引擎管理着重要的系统资源，不应该被随意赋值 What: 删除赋值操作符，防止对象被意外赋值 How: 使用= delete关键字显式删除赋值操作符 </p>
+
+</div>
+</div>
+<a id="a164e428bcdbcffa1f8faf41f8546daa6" name="a164e428bcdbcffa1f8faf41f8546daa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a164e428bcdbcffa1f8faf41f8546daa6">&#9670;&#160;</a></span>UnpinPage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StorageEngine::UnpinPage </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>is_dirty</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>取消固定页面 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
+    <tr><td class="paramname">is_dirty</td><td>是否标记为脏页，默认为false </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>操作是否成功</dd></dl>
+<p>Why: 当页面使用完毕后，需要通知缓冲池该页面可以被替换，同时标记页面是否被修改 What: UnpinPage方法减少页面的固定计数，如果页面被修改则标记为脏页 How: 调用缓冲池的UnpinPage方法，传递页面ID和脏页标记 </p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="aef4a7bd8a51a9f7d429576eaa12a2b56" name="aef4a7bd8a51a9f7d429576eaa12a2b56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef4a7bd8a51a9f7d429576eaa12a2b56">&#9670;&#160;</a></span>buffer_pool_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1BufferPoolSharded.html">BufferPoolSharded</a>&gt; sqlcc::StorageEngine::buffer_pool_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>缓冲池管理器 </p>
+
+</div>
+</div>
+<a id="a1a895ec58a5b7f6c75504f24baa4a8d9" name="a1a895ec58a5b7f6c75504f24baa4a8d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a895ec58a5b7f6c75504f24baa4a8d9">&#9670;&#160;</a></span>config_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a>&amp; sqlcc::StorageEngine::config_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>配置管理器引用 </p>
+
+</div>
+</div>
+<a id="ad048fc05f1a6f2e98380ed428f9ef3ef" name="ad048fc05f1a6f2e98380ed428f9ef3ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad048fc05f1a6f2e98380ed428f9ef3ef">&#9670;&#160;</a></span>db_path_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::StorageEngine::db_path_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>数据库路径 </p>
+
+</div>
+</div>
+<a id="a8f1469afd62c99daf1575071eb00ea33" name="a8f1469afd62c99daf1575071eb00ea33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f1469afd62c99daf1575071eb00ea33">&#9670;&#160;</a></span>disk_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a>&gt; sqlcc::StorageEngine::disk_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>磁盘管理器 </p>
+
+</div>
+</div>
+<a id="a280a306c82d69c65b34ba760ce6be382" name="a280a306c82d69c65b34ba760ce6be382"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a280a306c82d69c65b34ba760ce6be382">&#9670;&#160;</a></span>index_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a>&gt; sqlcc::StorageEngine::index_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>索引管理器 </p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage__engine_8h_source.html">storage_engine.h</a></li>
+<li><a class="el" href="api_2storage__engine_8cpp.html">api/storage_engine.cpp</a></li>
+<li><a class="el" href="storage__engine_8cpp.html">storage_engine.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

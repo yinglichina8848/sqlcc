@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: concurrency_control.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">concurrency_control.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="concurrency__control_8h_source.html">concurrency_control.h</a>&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+<code>#include &lt;unordered_set&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+concurrency_control.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="concurrency__control_8cpp__incl.png" border="0" usemap="#aconcurrency__control_8cpp" alt=""/></div>
+<map name="aconcurrency__control_8cpp" id="aconcurrency__control_8cpp">
+<area shape="rect" title=" " alt="" coords="677,5,857,31"/>
+<area shape="rect" href="concurrency__control_8h.html" title="SQLCC并发控制系统 &#45; MVCC与两阶段锁协议的完整实现" alt="" coords="393,79,559,104"/>
+<area shape="poly" title=" " alt="" coords="721,33,537,78,535,73,719,28"/>
+<area shape="rect" title=" " alt="" coords="751,152,815,177"/>
+<area shape="poly" title=" " alt="" coords="753,33,737,47,723,64,715,84,717,103,732,125,752,142,749,146,728,128,712,105,710,83,718,62,733,43,749,29"/>
+<area shape="rect" title=" " alt="" coords="727,79,807,104"/>
+<area shape="poly" title=" " alt="" coords="769,31,769,65,764,65,764,31"/>
+<area shape="rect" title=" " alt="" coords="831,79,916,104"/>
+<area shape="poly" title=" " alt="" coords="785,28,846,69,843,73,782,33"/>
+<area shape="rect" title=" " alt="" coords="940,79,1055,104"/>
+<area shape="poly" title=" " alt="" coords="805,28,948,72,946,77,803,33"/>
+<area shape="rect" title=" " alt="" coords="5,152,72,177"/>
+<area shape="poly" title=" " alt="" coords="393,106,253,125,86,155,85,149,253,120,393,100"/>
+<area shape="rect" title=" " alt="" coords="96,152,163,177"/>
+<area shape="poly" title=" " alt="" coords="414,107,177,154,176,149,413,101"/>
+<area shape="rect" title=" " alt="" coords="187,152,251,177"/>
+<area shape="poly" title=" " alt="" coords="435,107,265,153,264,148,434,101"/>
+<area shape="rect" title=" " alt="" coords="275,152,389,177"/>
+<area shape="poly" title=" " alt="" coords="454,106,369,148,367,143,452,102"/>
+<area shape="poly" title=" " alt="" coords="529,101,738,149,737,154,528,107"/>
+<area shape="rect" title=" " alt="" coords="414,152,538,177"/>
+<area shape="poly" title=" " alt="" coords="479,104,479,138,473,138,473,104"/>
+<area shape="rect" title=" " alt="" coords="562,152,625,177"/>
+<area shape="poly" title=" " alt="" coords="496,102,564,142,561,147,493,106"/>
+<area shape="rect" title=" " alt="" coords="649,152,727,177"/>
+<area shape="poly" title=" " alt="" coords="511,101,642,145,640,150,509,107"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么需要并发控制？</p>
+<p>数据库系统需要支持多事务并发执行，保证数据一致性和隔离性。 并发控制通过锁机制协调事务间的资源访问，避免数据竞争和不一致状态。 分层锁管理支持页面级和表级锁定，平衡细粒度控制和性能开销。 预取机制通过分析访问模式，提前加载数据减少I/O等待。</p>
+<p>设计目标：</p><ul>
+<li>并发性能：支持数千并发事务，锁冲突率&lt;5%</li>
+<li>响应时间：平均锁获取时间&lt;1ms</li>
+<li>可扩展性：支持动态锁数量调整</li>
+<li>死锁预防：智能检测和避免死锁情况</li>
+</ul>
+<p>WHAT: 这实现了什么功能？</p>
+<p>并发控制模块提供完整的锁管理和预取服务：</p><ul>
+<li>分层锁管理器：支持页面锁和表锁的层次化管理</li>
+<li>智能预取器：基于访问模式的预测性数据加载</li>
+<li>锁兼容性矩阵：定义不同锁类型间的兼容关系</li>
+<li>统计监控：详细的锁操作和性能指标收集</li>
+</ul>
+<p>核心组件：</p><ul>
+<li>HierarchicalLockManager: 分层锁管理器，支持页面和表锁</li>
+<li>Prefetcher: 智能预取器，分析访问模式进行预测加载</li>
+<li>LockCompatibilityMatrix: 锁兼容性矩阵，定义锁冲突规则</li>
+</ul>
+<p>HOW: 如何实现的？</p>
+<p>技术实现要点：</p><ol type="1">
+<li>分层锁设计：页面锁+表锁的层次化架构</li>
+<li>并发数据结构：读写锁保护共享状态</li>
+<li>预取算法：基于访问历史的模式识别和预测</li>
+<li>锁兼容性：矩阵式兼容性检查，O(1)时间复杂度</li>
+<li>异步预取：独立线程执行预取任务</li>
+<li>统计收集：原子操作保证多线程环境下的准确性</li>
+</ol>
+<p>性能优化：</p><ul>
+<li>锁分片：减少锁竞争，提高并发度</li>
+<li>批量操作：减少系统调用开销</li>
+<li>延迟初始化：按需创建锁状态</li>
+<li>缓存友好：优化内存访问模式</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>该实现专为SQLCC数据库优化，支持高并发场景 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>docs/design/storage_engine/concurrency_control_design.md </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

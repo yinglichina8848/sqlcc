@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: system_database_new.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c4da858a4a51ad367068831bac354363.html">sql_executor</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">system_database_new.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="system__database__new_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">// 前向声明</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">class </span>DatabaseManager;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">class </span>SystemSchemaManager;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">class </span>SystemDataInitializer;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">class </span>SystemPermissionManager;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">class </span>SystemMetadataManager;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">// 系统数据结构前向声明</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">struct </span>SysUser;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">struct </span>SysRole;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">struct </span>SysDatabase;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">struct </span>SysTable;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">struct </span>SysView;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">class </span>SystemDatabase {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SystemDatabase.html#a5de5001ff0a0fe81b57d42c8851adfe2">   43</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#a5de5001ff0a0fe81b57d42c8851adfe2">SystemDatabase</a>(std::shared_ptr&lt;DatabaseManager&gt; db_manager);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SystemDatabase.html#ab7d70061c11e3b1ef16be98ebcd77c0a">   48</a></span>    <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#ab7d70061c11e3b1ef16be98ebcd77c0a">~SystemDatabase</a>();</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SystemDatabase.html#adbdd5033942ba7bf349b2115c080c273">   54</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#adbdd5033942ba7bf349b2115c080c273">Initialize</a>();</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SystemDatabase.html#a57ebbc4777a5361c512c74a5c9e0c839">   60</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#a57ebbc4777a5361c512c74a5c9e0c839">IsInitialized</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    std::shared_ptr&lt;DatabaseManager&gt; <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#ae2c02168edd01bd8c812bcc078b44af5">GetDatabaseManager</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SystemDatabase.html#aa0d3a549ceef3dfc3f2b51eea1058b8b">   72</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#aa0d3a549ceef3dfc3f2b51eea1058b8b">GetLastError</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="comment">// 数据库操作</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#a1a1700aec7937ca64d911085943ff039">CreateDatabase</a>(<span class="keyword">const</span> std::string&amp; db_name, <span class="keyword">const</span> std::string&amp; owner = <span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::string&amp; description = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#a91ade971266e32fd2f3597cce36ffed3">DropDatabase</a>(<span class="keyword">const</span> std::string&amp; db_name);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="comment">// 用户操作</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#adb3d434382089adbdc76786a878de8bb">CreateUser</a>(<span class="keyword">const</span> std::string&amp; username, <span class="keyword">const</span> std::string&amp; password, <span class="keyword">const</span> std::string&amp; email = <span class="stringliteral">&quot;&quot;</span>, <span class="keyword">const</span> std::string&amp; role = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#ad4f94da0fbc07cd768f166f0be34caeb">DropUser</a>(<span class="keyword">const</span> std::string&amp; username);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#ad5c72bdd6c34c3333efbf20143a2e438">UpdateUser</a>(<span class="keyword">const</span> std::string&amp; username, <span class="keyword">const</span> std::string&amp; password, <span class="keyword">const</span> std::string&amp; email = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="comment">// 角色操作</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#aad0eb67d79c5c6c00ba7f9826a333928">CreateRole</a>(<span class="keyword">const</span> std::string&amp; role_name, <span class="keyword">const</span> std::string&amp; description = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#a25eb18314dd39dcde98defcee74fddaf">DropRole</a>(<span class="keyword">const</span> std::string&amp; role_name);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="comment">// 权限操作</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#a0c1d4429dba9933fcb90ca28c1c7b59f">GrantPrivilege</a>(<span class="keyword">const</span> std::string&amp; username, <span class="keyword">const</span> std::string&amp; object_type, <span class="keyword">const</span> std::string&amp; object_name, <span class="keyword">const</span> std::string&amp; privilege);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#af0c06cb7be55a7f8761f2a92191d74dd">RevokePrivilege</a>(<span class="keyword">const</span> std::string&amp; username, <span class="keyword">const</span> std::string&amp; object_type, <span class="keyword">const</span> std::string&amp; object_name, <span class="keyword">const</span> std::string&amp; privilege);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="comment">// 查询操作</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <a class="code hl_struct" href="structsqlcc_1_1SysUser.html">SysUser</a> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#a67a5c4a19562c365c0ded34d8aa6078c">GetUser</a>(<span class="keyword">const</span> std::string&amp; username);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <a class="code hl_struct" href="structsqlcc_1_1SysRole.html">SysRole</a> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#a84eacd91d00df5e0c53f651aafef45c6">GetRole</a>(<span class="keyword">const</span> std::string&amp; role_name);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <a class="code hl_struct" href="structsqlcc_1_1SysDatabase.html">SysDatabase</a> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#a0b26ec9823ca05eaf658750c0d4dba03">GetDatabase</a>(<span class="keyword">const</span> std::string&amp; db_name);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    std::vector&lt;SysUser&gt; <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#abf0ab658433f6cb94bbb7fce0d36423d">ListUsers</a>();</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    std::vector&lt;SysRole&gt; <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#aae5e09fa39830dd4492dc164326d6a89">ListRoles</a>();</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    std::vector&lt;SysDatabase&gt; <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#a5b520ce85425d1b2811417632c688897">ListDatabases</a>();</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    std::vector&lt;SysTable&gt; <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#a8b8ffe7fa7ed7c6b8dc0e536c1c73a0c">ListTables</a>(<span class="keyword">const</span> std::string&amp; db_name);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    std::vector&lt;SysView&gt; <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#ae41e54ca0538dcf5e5117a6af4561c0c">ListViews</a>(<span class="keyword">const</span> std::string&amp; db_name);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="comment">// 验证操作</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#aaaed5b1e240931a904dd4c81b75abb16">ValidateUser</a>(<span class="keyword">const</span> std::string&amp; username, <span class="keyword">const</span> std::string&amp; password);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#aa5ae34d637119652028dffe70340374c">HasPrivilege</a>(<span class="keyword">const</span> std::string&amp; username, <span class="keyword">const</span> std::string&amp; object_type, <span class="keyword">const</span> std::string&amp; object_name, <span class="keyword">const</span> std::string&amp; privilege);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="comment">// 获取管理器</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <a class="code hl_class" href="classsqlcc_1_1SystemSchemaManager.html">SystemSchemaManager</a>* <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#a06b9fca2b6be641c1015278f86e78ed6">GetSchemaManager</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <a class="code hl_class" href="classsqlcc_1_1SystemDataInitializer.html">SystemDataInitializer</a>* <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#a0f34461efeb12a50e7b718d242f6657c">GetDataInitializer</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <a class="code hl_class" href="classsqlcc_1_1SystemPermissionManager.html">SystemPermissionManager</a>* <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#ad8608f5f0b6b92204da29073ed864c7c">GetPermissionManager</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <a class="code hl_class" href="classsqlcc_1_1SystemMetadataManager.html">SystemMetadataManager</a>* <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#aff2bb682236d3a4e70504819a51027f3">GetMetadataManager</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="comment">// 私有成员变量</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    std::shared_ptr&lt;DatabaseManager&gt; <a class="code hl_variable" href="classsqlcc_1_1SystemDatabase.html#a84727377e5b3006700826375e10f123a">db_manager_</a>;                    <span class="comment">// 数据库管理器</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SystemDatabase.html#a19b0e8c7387c7f9eefeb84f62349c060">  115</a></span>    std::unique_ptr&lt;SystemSchemaManager&gt; <a class="code hl_variable" href="classsqlcc_1_1SystemDatabase.html#a19b0e8c7387c7f9eefeb84f62349c060">schema_manager_</a>;             <span class="comment">// 系统表管理器</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SystemDatabase.html#a6dc66824fcd2aec1dc36a50050d520a2">  116</a></span>    std::unique_ptr&lt;SystemDataInitializer&gt; <a class="code hl_variable" href="classsqlcc_1_1SystemDatabase.html#a6dc66824fcd2aec1dc36a50050d520a2">data_initializer_</a>;        <span class="comment">// 数据初始化器</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SystemDatabase.html#aee84d2b0f61254638d26f9c756247ac0">  117</a></span>    std::unique_ptr&lt;SystemPermissionManager&gt; <a class="code hl_variable" href="classsqlcc_1_1SystemDatabase.html#aee84d2b0f61254638d26f9c756247ac0">permission_manager_</a>;     <span class="comment">// 权限管理器</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SystemDatabase.html#a6700ef198d9ae75bbfe8271c1d0c9e25">  118</a></span>    std::unique_ptr&lt;SystemMetadataManager&gt; <a class="code hl_variable" href="classsqlcc_1_1SystemDatabase.html#a6700ef198d9ae75bbfe8271c1d0c9e25">metadata_manager_</a>;         <span class="comment">// 元数据管理器</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1SystemDatabase.html#a68246595edd96192893f4f34dc4563f3">is_initialized_</a>;                                            <span class="comment">// 是否已初始化</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    std::string <a class="code hl_variable" href="classsqlcc_1_1SystemDatabase.html#a01d7a23589f82e5b21b568dc81346c48">last_error_</a>;                                          <span class="comment">// 最后一次错误信息</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="comment">// 私有方法</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#a36718ab973224a334fec0b4dfa149a27">Exists</a>();                                                    <span class="comment">// 检查系统数据库是否存在</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    std::string <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#af543ac0a07401328effde001feef3805">GetCurrentTimeString</a>();                              <span class="comment">// 获取当前时间字符串</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    uint64_t <a class="code hl_function" href="classsqlcc_1_1SystemDatabase.html#adba73ed6a957a2f06a1735048fc50df6">GenerateId</a>();                                           <span class="comment">// 生成唯一ID</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>};</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="comment">// 系统数据库名称常量</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="namespacesqlcc.html#a8c69a51fa3297c01da41a972b11f6c7a">  130</a></span><span class="keyword">const</span> std::string <a class="code hl_variable" href="namespacesqlcc.html#a8c69a51fa3297c01da41a972b11f6c7a">SYSTEM_DB_NAME</a> = <span class="stringliteral">&quot;system&quot;</span>;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDataInitializer_html"><div class="ttname"><a href="classsqlcc_1_1SystemDataInitializer.html">sqlcc::SystemDataInitializer</a></div><div class="ttdoc">系统数据初始化器</div><div class="ttdef"><b>Definition</b> system_data_initializer.h:18</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a01d7a23589f82e5b21b568dc81346c48"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a01d7a23589f82e5b21b568dc81346c48">sqlcc::SystemDatabase::last_error_</a></div><div class="ttdeci">std::string last_error_</div><div class="ttdef"><b>Definition</b> core/system_database.h:138</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a06b9fca2b6be641c1015278f86e78ed6"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a06b9fca2b6be641c1015278f86e78ed6">sqlcc::SystemDatabase::GetSchemaManager</a></div><div class="ttdeci">SystemSchemaManager * GetSchemaManager() const</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:364</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a0b26ec9823ca05eaf658750c0d4dba03"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a0b26ec9823ca05eaf658750c0d4dba03">sqlcc::SystemDatabase::GetDatabase</a></div><div class="ttdeci">SysDatabase GetDatabase(const std::string &amp;db_name)</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:260</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a0c1d4429dba9933fcb90ca28c1c7b59f"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a0c1d4429dba9933fcb90ca28c1c7b59f">sqlcc::SystemDatabase::GrantPrivilege</a></div><div class="ttdeci">bool GrantPrivilege(const std::string &amp;username, const std::string &amp;object_type, const std::string &amp;object_name, const std::string &amp;privilege)</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:207</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a0f34461efeb12a50e7b718d242f6657c"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a0f34461efeb12a50e7b718d242f6657c">sqlcc::SystemDatabase::GetDataInitializer</a></div><div class="ttdeci">SystemDataInitializer * GetDataInitializer() const</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:368</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a19b0e8c7387c7f9eefeb84f62349c060"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a19b0e8c7387c7f9eefeb84f62349c060">sqlcc::SystemDatabase::schema_manager_</a></div><div class="ttdeci">std::unique_ptr&lt; SystemSchemaManager &gt; schema_manager_</div><div class="ttdef"><b>Definition</b> system_database_new.h:115</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a1a1700aec7937ca64d911085943ff039"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a1a1700aec7937ca64d911085943ff039">sqlcc::SystemDatabase::CreateDatabase</a></div><div class="ttdeci">bool CreateDatabase(const std::string &amp;db_name, const std::string &amp;owner=&quot;&quot;, const std::string &amp;description=&quot;&quot;)</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:81</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a25eb18314dd39dcde98defcee74fddaf"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a25eb18314dd39dcde98defcee74fddaf">sqlcc::SystemDatabase::DropRole</a></div><div class="ttdeci">bool DropRole(const std::string &amp;role_name)</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:191</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a36718ab973224a334fec0b4dfa149a27"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a36718ab973224a334fec0b4dfa149a27">sqlcc::SystemDatabase::Exists</a></div><div class="ttdeci">bool Exists()</div><div class="ttdef"><b>Definition</b> sql_executor/system_database.cpp:52</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a57ebbc4777a5361c512c74a5c9e0c839"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a57ebbc4777a5361c512c74a5c9e0c839">sqlcc::SystemDatabase::IsInitialized</a></div><div class="ttdeci">bool IsInitialized() const</div><div class="ttdoc">检查系统数据库是否已初始化</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a5b520ce85425d1b2811417632c688897"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a5b520ce85425d1b2811417632c688897">sqlcc::SystemDatabase::ListDatabases</a></div><div class="ttdeci">std::vector&lt; SysDatabase &gt; ListDatabases()</div><div class="ttdef"><b>Definition</b> sql_executor/system_database.cpp:666</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a5de5001ff0a0fe81b57d42c8851adfe2"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a5de5001ff0a0fe81b57d42c8851adfe2">sqlcc::SystemDatabase::SystemDatabase</a></div><div class="ttdeci">SystemDatabase(std::shared_ptr&lt; DatabaseManager &gt; db_manager)</div><div class="ttdoc">构造函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a6700ef198d9ae75bbfe8271c1d0c9e25"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a6700ef198d9ae75bbfe8271c1d0c9e25">sqlcc::SystemDatabase::metadata_manager_</a></div><div class="ttdeci">std::unique_ptr&lt; SystemMetadataManager &gt; metadata_manager_</div><div class="ttdef"><b>Definition</b> system_database_new.h:118</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a67a5c4a19562c365c0ded34d8aa6078c"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a67a5c4a19562c365c0ded34d8aa6078c">sqlcc::SystemDatabase::GetUser</a></div><div class="ttdeci">SysUser GetUser(const std::string &amp;username)</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:240</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a68246595edd96192893f4f34dc4563f3"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a68246595edd96192893f4f34dc4563f3">sqlcc::SystemDatabase::is_initialized_</a></div><div class="ttdeci">bool is_initialized_</div><div class="ttdef"><b>Definition</b> core/system_database.h:137</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a6dc66824fcd2aec1dc36a50050d520a2"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a6dc66824fcd2aec1dc36a50050d520a2">sqlcc::SystemDatabase::data_initializer_</a></div><div class="ttdeci">std::unique_ptr&lt; SystemDataInitializer &gt; data_initializer_</div><div class="ttdef"><b>Definition</b> system_database_new.h:116</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a84727377e5b3006700826375e10f123a"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a84727377e5b3006700826375e10f123a">sqlcc::SystemDatabase::db_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; DatabaseManager &gt; db_manager_</div><div class="ttdef"><b>Definition</b> core/system_database.h:136</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a84eacd91d00df5e0c53f651aafef45c6"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a84eacd91d00df5e0c53f651aafef45c6">sqlcc::SystemDatabase::GetRole</a></div><div class="ttdeci">SysRole GetRole(const std::string &amp;role_name)</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:250</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a8b8ffe7fa7ed7c6b8dc0e536c1c73a0c"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a8b8ffe7fa7ed7c6b8dc0e536c1c73a0c">sqlcc::SystemDatabase::ListTables</a></div><div class="ttdeci">std::vector&lt; SysTable &gt; ListTables(const std::string &amp;db_name)</div><div class="ttdef"><b>Definition</b> sql_executor/system_database.cpp:1026</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a91ade971266e32fd2f3597cce36ffed3"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a91ade971266e32fd2f3597cce36ffed3">sqlcc::SystemDatabase::DropDatabase</a></div><div class="ttdeci">bool DropDatabase(const std::string &amp;db_name)</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:102</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_aa0d3a549ceef3dfc3f2b51eea1058b8b"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#aa0d3a549ceef3dfc3f2b51eea1058b8b">sqlcc::SystemDatabase::GetLastError</a></div><div class="ttdeci">std::string GetLastError() const</div><div class="ttdoc">获取最后一次错误信息</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_aa5ae34d637119652028dffe70340374c"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#aa5ae34d637119652028dffe70340374c">sqlcc::SystemDatabase::HasPrivilege</a></div><div class="ttdeci">bool HasPrivilege(const std::string &amp;username, const std::string &amp;object_type, const std::string &amp;object_name, const std::string &amp;privilege)</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:352</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_aaaed5b1e240931a904dd4c81b75abb16"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#aaaed5b1e240931a904dd4c81b75abb16">sqlcc::SystemDatabase::ValidateUser</a></div><div class="ttdeci">bool ValidateUser(const std::string &amp;username, const std::string &amp;password)</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:335</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_aad0eb67d79c5c6c00ba7f9826a333928"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#aad0eb67d79c5c6c00ba7f9826a333928">sqlcc::SystemDatabase::CreateRole</a></div><div class="ttdeci">bool CreateRole(const std::string &amp;role_name, const std::string &amp;description=&quot;&quot;)</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:176</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_aae5e09fa39830dd4492dc164326d6a89"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#aae5e09fa39830dd4492dc164326d6a89">sqlcc::SystemDatabase::ListRoles</a></div><div class="ttdeci">std::vector&lt; SysRole &gt; ListRoles()</div><div class="ttdef"><b>Definition</b> sql_executor/system_database.cpp:913</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_ab7d70061c11e3b1ef16be98ebcd77c0a"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#ab7d70061c11e3b1ef16be98ebcd77c0a">sqlcc::SystemDatabase::~SystemDatabase</a></div><div class="ttdeci">~SystemDatabase()</div><div class="ttdoc">析构函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_abf0ab658433f6cb94bbb7fce0d36423d"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#abf0ab658433f6cb94bbb7fce0d36423d">sqlcc::SystemDatabase::ListUsers</a></div><div class="ttdeci">std::vector&lt; SysUser &gt; ListUsers()</div><div class="ttdef"><b>Definition</b> sql_executor/system_database.cpp:806</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_ad4f94da0fbc07cd768f166f0be34caeb"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#ad4f94da0fbc07cd768f166f0be34caeb">sqlcc::SystemDatabase::DropUser</a></div><div class="ttdeci">bool DropUser(const std::string &amp;username)</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:145</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_ad5c72bdd6c34c3333efbf20143a2e438"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#ad5c72bdd6c34c3333efbf20143a2e438">sqlcc::SystemDatabase::UpdateUser</a></div><div class="ttdeci">bool UpdateUser(const std::string &amp;username, const std::string &amp;password, const std::string &amp;email=&quot;&quot;)</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:160</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_ad8608f5f0b6b92204da29073ed864c7c"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#ad8608f5f0b6b92204da29073ed864c7c">sqlcc::SystemDatabase::GetPermissionManager</a></div><div class="ttdeci">SystemPermissionManager * GetPermissionManager() const</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:372</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_adb3d434382089adbdc76786a878de8bb"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#adb3d434382089adbdc76786a878de8bb">sqlcc::SystemDatabase::CreateUser</a></div><div class="ttdeci">bool CreateUser(const std::string &amp;username, const std::string &amp;password, const std::string &amp;email=&quot;&quot;, const std::string &amp;role=&quot;&quot;)</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:130</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_adba73ed6a957a2f06a1735048fc50df6"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#adba73ed6a957a2f06a1735048fc50df6">sqlcc::SystemDatabase::GenerateId</a></div><div class="ttdeci">uint64_t GenerateId()</div><div class="ttdef"><b>Definition</b> sql_executor/system_database.cpp:64</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_adbdd5033942ba7bf349b2115c080c273"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#adbdd5033942ba7bf349b2115c080c273">sqlcc::SystemDatabase::Initialize</a></div><div class="ttdeci">bool Initialize()</div><div class="ttdoc">初始化系统数据库</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_ae2c02168edd01bd8c812bcc078b44af5"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#ae2c02168edd01bd8c812bcc078b44af5">sqlcc::SystemDatabase::GetDatabaseManager</a></div><div class="ttdeci">std::shared_ptr&lt; DatabaseManager &gt; GetDatabaseManager()</div><div class="ttdoc">获取数据库管理器</div><div class="ttdef"><b>Definition</b> core/system_database.cpp:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_ae41e54ca0538dcf5e5117a6af4561c0c"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#ae41e54ca0538dcf5e5117a6af4561c0c">sqlcc::SystemDatabase::ListViews</a></div><div class="ttdeci">std::vector&lt; SysView &gt; ListViews(const std::string &amp;db_name)</div><div class="ttdef"><b>Definition</b> sql_executor/system_database.cpp:1421</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_aee84d2b0f61254638d26f9c756247ac0"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#aee84d2b0f61254638d26f9c756247ac0">sqlcc::SystemDatabase::permission_manager_</a></div><div class="ttdeci">std::unique_ptr&lt; SystemPermissionManager &gt; permission_manager_</div><div class="ttdef"><b>Definition</b> system_database_new.h:117</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_af0c06cb7be55a7f8761f2a92191d74dd"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#af0c06cb7be55a7f8761f2a92191d74dd">sqlcc::SystemDatabase::RevokePrivilege</a></div><div class="ttdeci">bool RevokePrivilege(const std::string &amp;username, const std::string &amp;object_type, const std::string &amp;object_name, const std::string &amp;privilege)</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:223</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_af543ac0a07401328effde001feef3805"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#af543ac0a07401328effde001feef3805">sqlcc::SystemDatabase::GetCurrentTimeString</a></div><div class="ttdeci">std::string GetCurrentTimeString()</div><div class="ttdef"><b>Definition</b> sql_executor/system_database.cpp:56</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_aff2bb682236d3a4e70504819a51027f3"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#aff2bb682236d3a4e70504819a51027f3">sqlcc::SystemDatabase::GetMetadataManager</a></div><div class="ttdeci">SystemMetadataManager * GetMetadataManager() const</div><div class="ttdef"><b>Definition</b> system_database_new.cpp:376</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemMetadataManager_html"><div class="ttname"><a href="classsqlcc_1_1SystemMetadataManager.html">sqlcc::SystemMetadataManager</a></div><div class="ttdoc">系统元数据管理器</div><div class="ttdef"><b>Definition</b> system_metadata_manager.h:29</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html">sqlcc::SystemPermissionManager</a></div><div class="ttdoc">系统权限管理器</div><div class="ttdef"><b>Definition</b> system_permission_manager.h:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemSchemaManager_html"><div class="ttname"><a href="classsqlcc_1_1SystemSchemaManager.html">sqlcc::SystemSchemaManager</a></div><div class="ttdoc">系统表结构管理器</div><div class="ttdef"><b>Definition</b> system_schema_manager.h:19</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a8c69a51fa3297c01da41a972b11f6c7a"><div class="ttname"><a href="namespacesqlcc.html#a8c69a51fa3297c01da41a972b11f6c7a">sqlcc::SYSTEM_DB_NAME</a></div><div class="ttdeci">const std::string SYSTEM_DB_NAME</div><div class="ttdef"><b>Definition</b> system_database_new.h:130</div></div>
+<div class="ttc" id="astructsqlcc_1_1SysDatabase_html"><div class="ttname"><a href="structsqlcc_1_1SysDatabase.html">sqlcc::SysDatabase</a></div><div class="ttdoc">系统数据库记录</div><div class="ttdef"><b>Definition</b> system_data_structures.h:12</div></div>
+<div class="ttc" id="astructsqlcc_1_1SysRole_html"><div class="ttname"><a href="structsqlcc_1_1SysRole.html">sqlcc::SysRole</a></div><div class="ttdoc">系统角色记录</div><div class="ttdef"><b>Definition</b> system_data_structures.h:36</div></div>
+<div class="ttc" id="astructsqlcc_1_1SysUser_html"><div class="ttname"><a href="structsqlcc_1_1SysUser.html">sqlcc::SysUser</a></div><div class="ttdoc">系统用户记录</div><div class="ttdef"><b>Definition</b> system_data_structures.h:23</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['g_5frunning_0',['g_running',['../isql__main_8cpp.html#acf1c5eb591219d4325e9988cb7ff85e1',1,'isql_main.cpp']]],
+  ['g_5fserver_1',['g_server',['../sqlcc__server_2server__main_8cpp.html#a6eda226b1aae508e433ba454d0cdb4bf',1,'g_server:&#160;server_main.cpp'],['../demo__server_8cpp.html#a596290fdf38db15f8fc7f3f98212f260',1,'g_server:&#160;demo_server.cpp'],['../network_2server__main_8cpp.html#a596290fdf38db15f8fc7f3f98212f260',1,'g_server:&#160;server_main.cpp']]],
+  ['get_5factive_5ftransactions_5fresult_5f_2',['get_active_transactions_result_',['../classsqlcc_1_1mocks_1_1TransactionManagerMock.html#ae9f2ceb4e99f79e223dee363dd2c5904',1,'sqlcc::mocks::TransactionManagerMock']]],
+  ['get_5fcomposite_5findex_5fname_5fresult_5f_3',['get_composite_index_name_result_',['../classsqlcc_1_1mocks_1_1IndexManagerMock.html#a8e3188b1e30d3a53cd741b2416502307',1,'sqlcc::mocks::IndexManagerMock']]],
+  ['get_5fcomposite_5findexed_5fcolumns_5fresult_5f_4',['get_composite_indexed_columns_result_',['../classsqlcc_1_1mocks_1_1IndexManagerMock.html#a1e417ea2f83567c10f9b72a3b978fdc0',1,'sqlcc::mocks::IndexManagerMock']]],
+  ['get_5findex_5fname_5fresult_5f_5',['get_index_name_result_',['../classsqlcc_1_1mocks_1_1IndexManagerMock.html#a49c8035a8815941a7cd360480f17f333',1,'sqlcc::mocks::IndexManagerMock']]],
+  ['get_5findex_5fresult_5f_6',['get_index_result_',['../classsqlcc_1_1mocks_1_1IndexManagerMock.html#a38aacf7bb7bf72ab06f3ac6f87fede17',1,'sqlcc::mocks::IndexManagerMock']]],
+  ['get_5findexed_5fcolumns_5fresult_5f_7',['get_indexed_columns_result_',['../classsqlcc_1_1mocks_1_1IndexManagerMock.html#abf010a83c1384ad8d799ea4d1ddc8c9a',1,'sqlcc::mocks::IndexManagerMock']]],
+  ['get_5ftable_5findexes_5fresult_5f_8',['get_table_indexes_result_',['../classsqlcc_1_1mocks_1_1IndexManagerMock.html#aec580170d025e23e5ea9c2d347214380',1,'sqlcc::mocks::IndexManagerMock']]],
+  ['get_5ftable_5fnames_5fresult_5f_9',['get_table_names_result_',['../classsqlcc_1_1mocks_1_1DatabaseManagerMock.html#a6ed780ea350ae0d3e2c193cae54a2aa9',1,'sqlcc::mocks::DatabaseManagerMock']]],
+  ['get_5ftable_5fschema_5fresult_5f_10',['get_table_schema_result_',['../classsqlcc_1_1mocks_1_1DatabaseManagerMock.html#a985cbd8e3ca2a1be673f9de5f9c3513a',1,'sqlcc::mocks::DatabaseManagerMock']]],
+  ['get_5ftransaction_5fstate_5fresult_5f_11',['get_transaction_state_result_',['../classsqlcc_1_1mocks_1_1TransactionManagerMock.html#aa23163bcc1e2681fa3d747364f6fe37a',1,'sqlcc::mocks::TransactionManagerMock']]],
+  ['granted_5fat_12',['granted_at',['../structsqlcc_1_1SysPrivilege.html#a26f865cc37ac5d7ae886bac0bcdac545',1,'sqlcc::SysPrivilege']]],
+  ['grantee_13',['grantee',['../structsqlcc_1_1SysPrivilege.html#a5bde3ced31a8deca86587ca058610aea',1,'sqlcc::SysPrivilege::grantee'],['../structsqlcc_1_1Permission.html#a35af011060e9b1be788bdf28434f7994',1,'sqlcc::Permission::grantee'],['../structsqlcc_1_1PermissionKey.html#af3f8237a3951f6aa793775f661988aed',1,'sqlcc::PermissionKey::grantee']]],
+  ['grantee_5f_14',['grantee_',['../classsqlcc_1_1sql__parser_1_1RevokeStatement.html#abcf0110aeca3fef0c215e2ff4abb8268',1,'sqlcc::sql_parser::RevokeStatement::grantee_'],['../classsqlcc_1_1DCLQueryPlan.html#a403258f6a9855070eb0718de3fee96bd',1,'sqlcc::DCLQueryPlan::grantee_'],['../classsqlcc_1_1sql__parser_1_1GrantStatement.html#a6f6cb3b845138052a2458a4c7af724b4',1,'sqlcc::sql_parser::GrantStatement::grantee_'],['../classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#a836af166f9be5d4840a5a25791aad181',1,'sqlcc::sql_parser::RevokeRoleStatement::grantee_'],['../classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#af4b05414f874dd0c86985a490db87a76',1,'sqlcc::sql_parser::GrantRoleStatement::grantee_']]],
+  ['grantor_15',['grantor',['../structsqlcc_1_1SysPrivilege.html#a2c8c049fb974c635db910b08dbe0ca75',1,'sqlcc::SysPrivilege']]],
+  ['grantor_5f_16',['grantor_',['../classsqlcc_1_1DCLQueryPlan.html#a5fd05f8a9619a71f16ded109cd953f8d',1,'sqlcc::DCLQueryPlan']]],
+  ['graph_5fmutex_5f_17',['graph_mutex_',['../classsqlcc_1_1AdvancedDeadlockDetector.html#a910d2e7e1839abe39e07b508dd61049c',1,'sqlcc::AdvancedDeadlockDetector::graph_mutex_'],['../classsqlcc_1_1DeadlockDetector.html#a1128c176f953a00e5c60ce5a7891a2af',1,'sqlcc::DeadlockDetector::graph_mutex_']]],
+  ['group_5fid_18',['group_id',['../structsqlcc_1_1ComprehensiveTaskExecutor_1_1TaskNode.html#a4a82bae97426328780b7ab8cebae0e60',1,'sqlcc::ComprehensiveTaskExecutor::TaskNode']]],
+  ['groupby_5f_19',['groupBy_',['../classsqlcc_1_1sql__parser_1_1SelectStatement.html#a2d793dacaf4f44e75ab53b856f5dd088',1,'sqlcc::sql_parser::SelectStatement']]]
+];

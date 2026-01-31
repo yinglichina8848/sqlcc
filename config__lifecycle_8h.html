@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: config_lifecycle.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_313caf1132e152dd9b58bea13a4052ca.html">utils</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#enum-members">枚举</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle"><div class="title">config_lifecycle.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Defines a robust, RAII-based lifecycle and access framework for managing system configuration.  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="config__snapshot_8h_source.html">config_snapshot.h</a>&quot;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;exception&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+config_lifecycle.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="config__lifecycle_8h__incl.png" border="0" usemap="#aconfig__lifecycle_8h" alt=""/></div>
+<map name="aconfig__lifecycle_8h" id="aconfig__lifecycle_8h">
+<area shape="rect" title="Defines a robust, RAII&#45;based lifecycle and access framework for managing system configuration." alt="" coords="580,5,715,31"/>
+<area shape="rect" href="config__snapshot_8h.html" title=" " alt="" coords="373,79,511,104"/>
+<area shape="poly" title=" " alt="" coords="615,33,489,77,487,72,613,28"/>
+<area shape="rect" title=" " alt="" coords="558,152,635,177"/>
+<area shape="poly" title=" " alt="" coords="646,32,608,140,603,138,641,30"/>
+<area shape="rect" title=" " alt="" coords="659,152,726,177"/>
+<area shape="poly" title=" " alt="" coords="654,30,687,138,682,140,648,32"/>
+<area shape="rect" title=" " alt="" coords="685,79,772,104"/>
+<area shape="poly" title=" " alt="" coords="662,29,707,68,703,72,659,33"/>
+<area shape="rect" title=" " alt="" coords="796,79,883,104"/>
+<area shape="poly" title=" " alt="" coords="679,28,796,71,794,76,677,33"/>
+<area shape="rect" title=" " alt="" coords="475,152,534,177"/>
+<area shape="poly" title=" " alt="" coords="454,103,487,140,483,143,450,106"/>
+<area shape="rect" title=" " alt="" coords="5,152,129,177"/>
+<area shape="poly" title=" " alt="" coords="382,107,142,152,141,147,381,101"/>
+<area shape="rect" title=" " alt="" coords="153,152,221,177"/>
+<area shape="poly" title=" " alt="" coords="402,107,236,153,234,148,400,101"/>
+<area shape="poly" title=" " alt="" coords="468,102,560,144,558,149,466,106"/>
+<area shape="poly" title=" " alt="" coords="483,101,647,148,645,153,482,107"/>
+<area shape="rect" title=" " alt="" coords="246,152,313,177"/>
+<area shape="poly" title=" " alt="" coords="417,106,320,149,317,144,415,102"/>
+<area shape="rect" title=" " alt="" coords="337,152,451,177"/>
+<area shape="poly" title=" " alt="" coords="436,106,412,142,407,139,432,103"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="config__lifecycle_8h__dep__incl.png" border="0" usemap="#aconfig__lifecycle_8hdep" alt=""/></div>
+<map name="aconfig__lifecycle_8hdep" id="aconfig__lifecycle_8hdep">
+<area shape="rect" title="Defines a robust, RAII&#45;based lifecycle and access framework for managing system configuration." alt="" coords="108,5,243,31"/>
+<area shape="rect" href="config__lifecycle_8cpp.html" title="RAII配置生命周期管理器实现文件" alt="" coords="5,79,156,104"/>
+<area shape="poly" title=" " alt="" coords="151,41,98,81,95,76,148,37"/>
+<area shape="rect" href="smart__config__manager_8h.html" title=" " alt="" coords="180,79,363,104"/>
+<area shape="poly" title=" " alt="" coords="203,37,257,76,254,81,200,41"/>
+<area shape="rect" href="smart__config__manager_8cpp.html" title="智能配置管理器实现文件 &#45; 集成内存安全和RAII模式" alt="" coords="173,152,370,177"/>
+<area shape="poly" title=" " alt="" coords="274,118,274,152,269,152,269,118"/>
+</map>
+</div>
+</div>
+<p><a href="config__lifecycle_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleException.html">sqlcc::ConfigLifecycleException</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom exception for errors related to the configuration lifecycle. Provides context about the state of the manager when the error occurred.  <a href="classsqlcc_1_1ConfigLifecycleException.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigLifecycleManager.html">sqlcc::ConfigLifecycleManager</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages the overall state and versioning of system configuration.  <a href="classsqlcc_1_1ConfigLifecycleManager.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigRAIIAccessor.html">sqlcc::ConfigRAIIAccessor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An RAII guard for safe, temporary, and consistent access to configuration.  <a href="classsqlcc_1_1ConfigRAIIAccessor.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SafeConfigAccessor.html">sqlcc::SafeConfigAccessor&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A template-based utility for type-safe configuration value access.  <a href="classsqlcc_1_1SafeConfigAccessor.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:a32e5fc9ecc4b6caf1f8975d443ef91fb" id="r_a32e5fc9ecc4b6caf1f8975d443ef91fb"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a32e5fc9ecc4b6caf1f8975d443ef91fb">sqlcc::ConfigLifecycleState</a> { <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a32e5fc9ecc4b6caf1f8975d443ef91fbadd652546039b18970b8dcf2cff824268">sqlcc::UNINITIALIZED</a>
+, <a class="el" href="namespacesqlcc.html#a32e5fc9ecc4b6caf1f8975d443ef91fba86bf8c89d85949f8f45cde2f73fce113">sqlcc::INITIALIZING</a>
+, <a class="el" href="namespacesqlcc.html#a32e5fc9ecc4b6caf1f8975d443ef91fba2baa69eafc7204f3bd8648eba580c489">sqlcc::READY</a>
+, <a class="el" href="namespacesqlcc.html#a32e5fc9ecc4b6caf1f8975d443ef91fbadbd2e9556e489478954a3af93b797244">sqlcc::UPDATING</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a32e5fc9ecc4b6caf1f8975d443ef91fba89e5325b1f9acbf5dde5c70b84bbdcb1">sqlcc::SHUTTING_DOWN</a>
+, <a class="el" href="namespacesqlcc.html#a32e5fc9ecc4b6caf1f8975d443ef91fbab9984206799a7f9fe4bd1b6c18db8112">sqlcc::SHUTDOWN</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a32e5fc9ecc4b6caf1f8975d443ef91fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the possible states of the configuration system. This enum enforces a strict state machine for configuration management.  <a href="namespacesqlcc.html#a32e5fc9ecc4b6caf1f8975d443ef91fb">更多...</a><br /></td></tr>
+<tr class="separator:a32e5fc9ecc4b6caf1f8975d443ef91fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:a1b20be39483740033120da0b75830316" id="r_a1b20be39483740033120da0b75830316"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a1b20be39483740033120da0b75830316">sqlcc::FormatConfigValue</a> (const <a class="el" href="namespacesqlcc.html#ae2f4bc4eee37aaf01276a62a2a79dc0a">ConfigValue</a> &amp;value)</td></tr>
+<tr class="memdesc:a1b20be39483740033120da0b75830316"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats a <code>ConfigValue</code> variant into a string representation.  <br /></td></tr>
+<tr class="separator:a1b20be39483740033120da0b75830316"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cf017b0c2c9386794a9ab7b7b5da9a9" id="r_a7cf017b0c2c9386794a9ab7b7b5da9a9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a7cf017b0c2c9386794a9ab7b7b5da9a9">sqlcc::ParseConfigValue</a> (const std::string &amp;str, <a class="el" href="namespacesqlcc.html#ae2f4bc4eee37aaf01276a62a2a79dc0a">ConfigValue</a> &amp;value)</td></tr>
+<tr class="memdesc:a7cf017b0c2c9386794a9ab7b7b5da9a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses a string into a <code>ConfigValue</code> variant. Tries to infer the most appropriate type (bool, int, double, or string).  <br /></td></tr>
+<tr class="separator:a7cf017b0c2c9386794a9ab7b7b5da9a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>Defines a robust, RAII-based lifecycle and access framework for managing system configuration. </p>
+<p>@WHY In a complex system like a database, configuration is not a simple, static entity. It needs to be:</p><ol type="1">
+<li><b>Dynamically Loaded &amp; Reloaded</b>: Configuration can change during runtime. The system must handle these changes gracefully without restarts.</li>
+<li><b>Snapshot &amp; Versioned</b>: To ensure consistency, different parts of the system operating on a single task must see the <em>same</em> configuration, even if it's being updated concurrently. Snapshots provide this stable view. Versioning allows for reliable rollback.</li>
+<li><b>Lifecycle-Aware</b>: Initialization, updates, and shutdown are distinct phases. The system must manage these states to prevent access to uninitialized or shut-down configuration.</li>
+<li><b>Exception-Safe</b>: Accessing configuration should not leave resources hanging or the system in an inconsistent state if an error occurs. The RAII (Resource Acquisition Is Initialization) pattern is perfect for this.</li>
+</ol>
+<p>This file provides the infrastructure to solve these problems.</p>
+<p>@WHAT This header defines three core components that work together:</p><ol type="1">
+<li>**<code>ConfigLifecycleManager</code>**: A central state machine that manages the overall lifecycle (initialization, readiness, shutdown) of the configuration system. It owns the <code>ConfigSnapshotManager</code> and orchestrates updates and rollbacks.</li>
+<li>**<code>ConfigRAIIAccessor</code>**: A lightweight RAII "guard" class. Its sole purpose is to acquire a <em>stable snapshot</em> of the configuration from the <code>ConfigLifecycleManager</code> upon creation and hold it for a short-lived scope. When the accessor goes out of scope, the snapshot reference is automatically released. This is the primary mechanism for safe, temporary access to configuration.</li>
+<li>**<code>SafeConfigAccessor</code>**: A template-based utility class that provides convenient, type-safe methods (<code>GetValue&lt;T&gt;</code>, <code>SetValue&lt;T&gt;</code>) for reading from or converting values for a <code>ConfigRAIIAccessor</code>. It handles the underlying <code>std::variant</code> conversions, simplifying data access for clients.</li>
+</ol>
+<p>@HOW The intended workflow for a client (e.g., a function executing a query) is:</p><ol type="1">
+<li>Create a <code>ConfigRAIIAccessor</code> instance on the stack, passing it a pointer to the global <code>ConfigLifecycleManager</code>. <code>cpp ConfigRAIIAccessor accessor(&amp;config_lifecycle_manager); </code></li>
+<li>The accessor's constructor obtains the <em>current</em>, valid configuration snapshot. This snapshot is immutable and will not change for the lifetime of the <code>accessor</code> object.</li>
+<li>Use the <code>SafeConfigAccessor</code> utility to read values in a type-safe manner. <code>cpp int timeout = SafeConfigAccessor&lt;int&gt;::GetValue(accessor, "query.timeout_ms", 1000); </code></li>
+<li>When the function exits, the <code>accessor</code> is destroyed, releasing its reference to the snapshot. This entire process is exception-safe.</li>
+</ol>
+<p>This design separates the high-level state management (<code>ConfigLifecycleManager</code>) from the low-level, safe access pattern (<code>ConfigRAIIAccessor</code>), providing both flexibility and security. </p>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

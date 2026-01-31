@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sql_executor.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">sql_executor.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="sql__executor_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ast__node_8h.html">sql_parser/ast/ast_node.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#ifndef SQLCC_SQL_EXECUTOR_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#define SQLCC_SQL_EXECUTOR_H</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="permission__validator_8h.html">permission_validator.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="core_2system__database_8h.html">core/system_database.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="core_2user__manager_8h.html">core/user_manager.h</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="core__database__manager_8h.html">core/core_database_manager.h</a>&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="parser_8h.html">sql_parser/parser.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="parser_8h.html">sql_parser/parser.h</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="unified__query__plan_8h.html">unified_query_plan.h</a>&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="view__manager_8h.html">view_manager.h</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="foldopen" id="foldopen00218" data-start="{" data-end="};">
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html">  218</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a> {</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>  <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a0b9656c5559451603a6b8a565289ace8">SqlExecutor</a>();</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>  <span class="comment">// 新增：接受DatabaseManager的构造函数，用于共享数据库实例</span></div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>  <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a0b9656c5559451603a6b8a565289ace8">SqlExecutor</a>(std::shared_ptr&lt;DatabaseManager&gt; db_manager);</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>  <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#ab2a47e58186e3d420d9b49f77e1068a5">~SqlExecutor</a>();</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span> </div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a06578db4906225b1614eaa7966f2ebc9">Execute</a>(<span class="keyword">const</span> std::string &amp;sql);</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span> </div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#a81cc11b8fdeed8659ad0c67fe8629a23">  264</a></span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a81cc11b8fdeed8659ad0c67fe8629a23">Execute</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Statement.html">sqlcc::sql_parser::Statement</a>* stmt);</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#ad55a9cba8dd92426ba1d6e15aaa88728">ExecuteFile</a>(<span class="keyword">const</span> std::string &amp;file_path);</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#af45a5a555e879f855a517234e0eea688">  278</a></span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#af45a5a555e879f855a517234e0eea688">validateStatement</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Statement.html">sqlcc::sql_parser::Statement</a>* stmt);</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#a6ef6e257cdec9d546649d9f8b61ba683">  285</a></span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a6ef6e257cdec9d546649d9f8b61ba683">requiresTransaction</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Statement.html">sqlcc::sql_parser::Statement</a>* stmt);</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span> </div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#ae3605e7e6eac722820a0aba676d6ef76">  294</a></span>  <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#ae3605e7e6eac722820a0aba676d6ef76">executeWithStorageEngine</a>(</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>      <span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Statement.html">sqlcc::sql_parser::Statement</a>* stmt,</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>      <a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a>&amp; context,</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>      <span class="keywordtype">size_t</span>&amp; pages_accessed);</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a8300db00c0c425227313f2b7679f4e0e">GetLastError</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span> </div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a3071ea4d714eabbad5bd4002b9caad78">GetExecutionStats</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span> </div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#add9d9686cadf2c45b9e7e53bd515e250">  312</a></span>  std::shared_ptr&lt;DatabaseManager&gt; <a class="code hl_variable" href="classsqlcc_1_1SqlExecutor.html#add9d9686cadf2c45b9e7e53bd515e250">db_manager_</a>;</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#a7ce36c8386020aab0cd4e6f0e38a4ac9">  313</a></span>  std::shared_ptr&lt;UserManager&gt; <a class="code hl_variable" href="classsqlcc_1_1SqlExecutor.html#a7ce36c8386020aab0cd4e6f0e38a4ac9">user_manager_</a>;</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#ae5ad999e309adc7f5053df59766a21bc">  314</a></span>  std::shared_ptr&lt;SystemDatabase&gt; <a class="code hl_variable" href="classsqlcc_1_1SqlExecutor.html#ae5ad999e309adc7f5053df59766a21bc">system_db_</a>;</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#ac69668f2ff15d2175a7364036fb782f6">  315</a></span>  std::unique_ptr&lt;ViewManager&gt; <a class="code hl_variable" href="classsqlcc_1_1SqlExecutor.html#ac69668f2ff15d2175a7364036fb782f6">view_manager_</a>;</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#ac24f1fe567de4d21757e1049f6649b50">  316</a></span>  std::unique_ptr&lt;PermissionValidator&gt; <a class="code hl_variable" href="classsqlcc_1_1SqlExecutor.html#ac24f1fe567de4d21757e1049f6649b50">permission_validator_</a>;</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#a129be1ecb5dee729cdf2cf642e6b4b90">  317</a></span>  std::shared_ptr&lt;StorageEngine&gt; <a class="code hl_variable" href="classsqlcc_1_1SqlExecutor.html#a129be1ecb5dee729cdf2cf642e6b4b90">storage_engine_</a>;</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#a877ab5304d8ff00f2412b3174601f467">  318</a></span>  std::shared_ptr&lt;TransactionManager&gt; <a class="code hl_variable" href="classsqlcc_1_1SqlExecutor.html#a877ab5304d8ff00f2412b3174601f467">transaction_manager_</a>;</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#ad24088af40d1bc3d89d0b9e3eb52e98c">  319</a></span>  std::string <a class="code hl_variable" href="classsqlcc_1_1SqlExecutor.html#ad24088af40d1bc3d89d0b9e3eb52e98c">last_error_</a>;</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#a9f00787aca82538439f972241b681c46">  320</a></span>  std::string <a class="code hl_variable" href="classsqlcc_1_1SqlExecutor.html#a9f00787aca82538439f972241b681c46">execution_stats_</a>;</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#a1c9255be6976b7e03c175e6d7c52a1b8">  321</a></span>  std::string <a class="code hl_variable" href="classsqlcc_1_1SqlExecutor.html#a1c9255be6976b7e03c175e6d7c52a1b8">current_user_</a>;</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#a868132a66bbede4be90595e17d10d2c2">  322</a></span>  std::string <a class="code hl_variable" href="classsqlcc_1_1SqlExecutor.html#a868132a66bbede4be90595e17d10d2c2">current_database_</a>;</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span> </div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>  <span class="comment">// 组件初始化</span></div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#ab9790ce1fcdd0e2770ec21e3e9cd407c">initializeComponents</a>();</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span> </div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a29d5aa030b07691ea6391acec3304655">SetError</a>(<span class="keyword">const</span> std::string &amp;error);</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span> </div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a2030034ebd1a61b07b9d46a181317932">ClearError</a>();</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span> </div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#ae552b396503b8958ecff220dea149f9b">InitializeSystemDatabase</a>();</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span> </div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>  std::unique_ptr&lt;sql_parser::Statement&gt; <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a3814a531f8fdf61f1a0700fb63f2311c">ParseSQL</a>(<span class="keyword">const</span> std::string &amp;sql);</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span> </div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>  std::unique_ptr&lt;UnifiedQueryPlan&gt;</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>  <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a9be76e1d13742b5f41c0861b377cdc79">CreateQueryPlan</a>(std::unique_ptr&lt;sql_parser::Statement&gt; stmt);</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span> </div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a799c86068a7accfa8597dda0bc92565f">InitializePermissionValidator</a>();</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span> </div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a49d885ded1e5d50d3dc411b973843e15">UpdateCurrentDatabase</a>(<span class="keyword">const</span> std::string &amp;sql);</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span> </div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a8a8aaae66db211ef48aa7c9a0172a78b">TrimString</a>(std::string &amp;str);</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span> </div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SqlExecutor.html#a93aeb68228eae9c0f6b6bf3ced53750b">  380</a></span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a93aeb68228eae9c0f6b6bf3ced53750b">ExecuteStatement</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span> </div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>  <span class="comment">// DDL语句处理方法</span></div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#ad09f10f1344ec110b6211ca20b8e5196">ExecuteCreateTable</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a05ea6467dca00efe191352d03024d917">ExecuteCreateDatabase</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a519875094dc9fccfe412d406c8b458d8">ExecuteDropTable</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a7b85207f25f6d2f3cc9ea55a70ad61d2">ExecuteDropDatabase</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a9fdb47aa83d62d9b813118d2a19a5732">ExecuteAlterTable</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a234b576bd11495bc9fed820ae606f0e0">ExecuteCreateIndex</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a14f6671203f300430c5bfc051623fe8a">ExecuteDropIndex</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span> </div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>  <span class="comment">// DML语句处理方法</span></div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a8c94ca6a5e5cb9b2336ec14d1cfd1892">ExecuteInsert</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a7605bb4cf965b5c2908f62a5a34d422c">ExecuteUpdate</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a550440367f0d0bef72c10a2299dbc2b5">ExecuteDelete</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span> </div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>  <span class="comment">// DQL语句处理方法</span></div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a501ebd964ab5cf74f59e4d2bcb863f37">ExecuteSelect</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span> </div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>  <span class="comment">// DCL语句处理方法</span></div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#aeb5206e8bb811cde1d6ad09e69b50313">ExecuteGrant</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#ad04313d0092134945c1d669d2a478cfb">ExecuteRevoke</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#ab41a1b10e9c6135f5e9890c0abdf57fb">ExecuteCreateUser</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>  std::string <a class="code hl_function" href="classsqlcc_1_1SqlExecutor.html#a2820b15fe705a8ba575ec524e7cb7afd">ExecuteDropUser</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>};</div>
+</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span> </div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span> </div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SQL_EXECUTOR_H</span></div>
+<div class="ttc" id="aast__node_8h_html"><div class="ttname"><a href="ast__node_8h.html">ast_node.h</a></div></div>
+<div class="ttc" id="aclasssqlcc_1_1ExecutionContext_html"><div class="ttname"><a href="classsqlcc_1_1ExecutionContext.html">sqlcc::ExecutionContext</a></div><div class="ttdef"><b>Definition</b> execution_context.h:162</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html">sqlcc::SqlExecutor</a></div><div class="ttdef"><b>Definition</b> sql_executor.h:218</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a05ea6467dca00efe191352d03024d917"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a05ea6467dca00efe191352d03024d917">sqlcc::SqlExecutor::ExecuteCreateDatabase</a></div><div class="ttdeci">std::string ExecuteCreateDatabase(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:201</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a06578db4906225b1614eaa7966f2ebc9"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a06578db4906225b1614eaa7966f2ebc9">sqlcc::SqlExecutor::Execute</a></div><div class="ttdeci">std::string Execute(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> core/sql_executor.cpp:22</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a0b9656c5559451603a6b8a565289ace8"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a0b9656c5559451603a6b8a565289ace8">sqlcc::SqlExecutor::SqlExecutor</a></div><div class="ttdeci">SqlExecutor()</div><div class="ttdef"><b>Definition</b> core/sql_executor.cpp:12</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a129be1ecb5dee729cdf2cf642e6b4b90"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a129be1ecb5dee729cdf2cf642e6b4b90">sqlcc::SqlExecutor::storage_engine_</a></div><div class="ttdeci">std::shared_ptr&lt; StorageEngine &gt; storage_engine_</div><div class="ttdef"><b>Definition</b> sql_executor.h:317</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a14f6671203f300430c5bfc051623fe8a"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a14f6671203f300430c5bfc051623fe8a">sqlcc::SqlExecutor::ExecuteDropIndex</a></div><div class="ttdeci">std::string ExecuteDropIndex(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:262</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a1c9255be6976b7e03c175e6d7c52a1b8"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a1c9255be6976b7e03c175e6d7c52a1b8">sqlcc::SqlExecutor::current_user_</a></div><div class="ttdeci">std::string current_user_</div><div class="ttdef"><b>Definition</b> sql_executor.h:321</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a2030034ebd1a61b07b9d46a181317932"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a2030034ebd1a61b07b9d46a181317932">sqlcc::SqlExecutor::ClearError</a></div><div class="ttdeci">void ClearError()</div><div class="ttdoc">清除错误信息</div><div class="ttdef"><b>Definition</b> core/sql_executor.cpp:63</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a234b576bd11495bc9fed820ae606f0e0"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a234b576bd11495bc9fed820ae606f0e0">sqlcc::SqlExecutor::ExecuteCreateIndex</a></div><div class="ttdeci">std::string ExecuteCreateIndex(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:249</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a2820b15fe705a8ba575ec524e7cb7afd"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a2820b15fe705a8ba575ec524e7cb7afd">sqlcc::SqlExecutor::ExecuteDropUser</a></div><div class="ttdeci">std::string ExecuteDropUser(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:366</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a29d5aa030b07691ea6391acec3304655"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a29d5aa030b07691ea6391acec3304655">sqlcc::SqlExecutor::SetError</a></div><div class="ttdeci">void SetError(const std::string &amp;error)</div><div class="ttdoc">设置错误信息</div><div class="ttdef"><b>Definition</b> core/sql_executor.cpp:59</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a3071ea4d714eabbad5bd4002b9caad78"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a3071ea4d714eabbad5bd4002b9caad78">sqlcc::SqlExecutor::GetExecutionStats</a></div><div class="ttdeci">std::string GetExecutionStats() const</div><div class="ttdoc">获取执行统计信息</div><div class="ttdef"><b>Definition</b> core/sql_executor.cpp:55</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a3814a531f8fdf61f1a0700fb63f2311c"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a3814a531f8fdf61f1a0700fb63f2311c">sqlcc::SqlExecutor::ParseSQL</a></div><div class="ttdeci">std::unique_ptr&lt; sql_parser::Statement &gt; ParseSQL(const std::string &amp;sql)</div><div class="ttdoc">解析SQL语句</div><div class="ttdef"><b>Definition</b> core/sql_executor.cpp:72</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a49d885ded1e5d50d3dc411b973843e15"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a49d885ded1e5d50d3dc411b973843e15">sqlcc::SqlExecutor::UpdateCurrentDatabase</a></div><div class="ttdeci">void UpdateCurrentDatabase(const std::string &amp;sql)</div><div class="ttdoc">更新当前数据库</div><div class="ttdef"><b>Definition</b> core/sql_executor.cpp:88</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a501ebd964ab5cf74f59e4d2bcb863f37"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a501ebd964ab5cf74f59e4d2bcb863f37">sqlcc::SqlExecutor::ExecuteSelect</a></div><div class="ttdeci">std::string ExecuteSelect(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:312</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a519875094dc9fccfe412d406c8b458d8"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a519875094dc9fccfe412d406c8b458d8">sqlcc::SqlExecutor::ExecuteDropTable</a></div><div class="ttdeci">std::string ExecuteDropTable(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:213</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a550440367f0d0bef72c10a2299dbc2b5"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a550440367f0d0bef72c10a2299dbc2b5">sqlcc::SqlExecutor::ExecuteDelete</a></div><div class="ttdeci">std::string ExecuteDelete(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:299</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a6ef6e257cdec9d546649d9f8b61ba683"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a6ef6e257cdec9d546649d9f8b61ba683">sqlcc::SqlExecutor::requiresTransaction</a></div><div class="ttdeci">bool requiresTransaction(const sqlcc::sql_parser::Statement *stmt)</div><div class="ttdoc">检查语句是否需要事务支持</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a7605bb4cf965b5c2908f62a5a34d422c"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a7605bb4cf965b5c2908f62a5a34d422c">sqlcc::SqlExecutor::ExecuteUpdate</a></div><div class="ttdeci">std::string ExecuteUpdate(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:287</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a799c86068a7accfa8597dda0bc92565f"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a799c86068a7accfa8597dda0bc92565f">sqlcc::SqlExecutor::InitializePermissionValidator</a></div><div class="ttdeci">bool InitializePermissionValidator()</div><div class="ttdoc">初始化权限验证器</div><div class="ttdef"><b>Definition</b> core/sql_executor.cpp:83</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a7b85207f25f6d2f3cc9ea55a70ad61d2"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a7b85207f25f6d2f3cc9ea55a70ad61d2">sqlcc::SqlExecutor::ExecuteDropDatabase</a></div><div class="ttdeci">std::string ExecuteDropDatabase(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:225</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a7ce36c8386020aab0cd4e6f0e38a4ac9"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a7ce36c8386020aab0cd4e6f0e38a4ac9">sqlcc::SqlExecutor::user_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; UserManager &gt; user_manager_</div><div class="ttdef"><b>Definition</b> sql_executor.h:313</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a81cc11b8fdeed8659ad0c67fe8629a23"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a81cc11b8fdeed8659ad0c67fe8629a23">sqlcc::SqlExecutor::Execute</a></div><div class="ttdeci">std::string Execute(const sqlcc::sql_parser::Statement *stmt)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a8300db00c0c425227313f2b7679f4e0e"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a8300db00c0c425227313f2b7679f4e0e">sqlcc::SqlExecutor::GetLastError</a></div><div class="ttdeci">std::string GetLastError() const</div><div class="ttdoc">获取最后一次执行的错误信息</div><div class="ttdef"><b>Definition</b> core/sql_executor.cpp:51</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a868132a66bbede4be90595e17d10d2c2"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a868132a66bbede4be90595e17d10d2c2">sqlcc::SqlExecutor::current_database_</a></div><div class="ttdeci">std::string current_database_</div><div class="ttdef"><b>Definition</b> sql_executor.h:322</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a877ab5304d8ff00f2412b3174601f467"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a877ab5304d8ff00f2412b3174601f467">sqlcc::SqlExecutor::transaction_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; TransactionManager &gt; transaction_manager_</div><div class="ttdef"><b>Definition</b> sql_executor.h:318</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a8a8aaae66db211ef48aa7c9a0172a78b"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a8a8aaae66db211ef48aa7c9a0172a78b">sqlcc::SqlExecutor::TrimString</a></div><div class="ttdeci">void TrimString(std::string &amp;str)</div><div class="ttdoc">去除字符串两端的空白字符</div><div class="ttdef"><b>Definition</b> core/sql_executor.cpp:105</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a8c94ca6a5e5cb9b2336ec14d1cfd1892"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a8c94ca6a5e5cb9b2336ec14d1cfd1892">sqlcc::SqlExecutor::ExecuteInsert</a></div><div class="ttdeci">std::string ExecuteInsert(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:275</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a93aeb68228eae9c0f6b6bf3ced53750b"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a93aeb68228eae9c0f6b6bf3ced53750b">sqlcc::SqlExecutor::ExecuteStatement</a></div><div class="ttdeci">std::string ExecuteStatement(const std::string &amp;sql)</div><div class="ttdoc">执行语句的主要逻辑</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a9be76e1d13742b5f41c0861b377cdc79"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a9be76e1d13742b5f41c0861b377cdc79">sqlcc::SqlExecutor::CreateQueryPlan</a></div><div class="ttdeci">std::unique_ptr&lt; UnifiedQueryPlan &gt; CreateQueryPlan(std::unique_ptr&lt; sql_parser::Statement &gt; stmt)</div><div class="ttdoc">创建统一查询计划</div><div class="ttdef"><b>Definition</b> core/sql_executor.cpp:78</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a9f00787aca82538439f972241b681c46"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a9f00787aca82538439f972241b681c46">sqlcc::SqlExecutor::execution_stats_</a></div><div class="ttdeci">std::string execution_stats_</div><div class="ttdef"><b>Definition</b> sql_executor.h:320</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_a9fdb47aa83d62d9b813118d2a19a5732"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#a9fdb47aa83d62d9b813118d2a19a5732">sqlcc::SqlExecutor::ExecuteAlterTable</a></div><div class="ttdeci">std::string ExecuteAlterTable(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:237</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_ab2a47e58186e3d420d9b49f77e1068a5"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#ab2a47e58186e3d420d9b49f77e1068a5">sqlcc::SqlExecutor::~SqlExecutor</a></div><div class="ttdeci">~SqlExecutor()</div><div class="ttdef"><b>Definition</b> sql_executor_stub.cpp:17</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_ab41a1b10e9c6135f5e9890c0abdf57fb"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#ab41a1b10e9c6135f5e9890c0abdf57fb">sqlcc::SqlExecutor::ExecuteCreateUser</a></div><div class="ttdeci">std::string ExecuteCreateUser(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:354</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_ab9790ce1fcdd0e2770ec21e3e9cd407c"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#ab9790ce1fcdd0e2770ec21e3e9cd407c">sqlcc::SqlExecutor::initializeComponents</a></div><div class="ttdeci">void initializeComponents()</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:94</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_ac24f1fe567de4d21757e1049f6649b50"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#ac24f1fe567de4d21757e1049f6649b50">sqlcc::SqlExecutor::permission_validator_</a></div><div class="ttdeci">std::unique_ptr&lt; PermissionValidator &gt; permission_validator_</div><div class="ttdef"><b>Definition</b> sql_executor.h:316</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_ac69668f2ff15d2175a7364036fb782f6"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#ac69668f2ff15d2175a7364036fb782f6">sqlcc::SqlExecutor::view_manager_</a></div><div class="ttdeci">std::unique_ptr&lt; ViewManager &gt; view_manager_</div><div class="ttdef"><b>Definition</b> sql_executor.h:315</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_ad04313d0092134945c1d669d2a478cfb"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#ad04313d0092134945c1d669d2a478cfb">sqlcc::SqlExecutor::ExecuteRevoke</a></div><div class="ttdeci">std::string ExecuteRevoke(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:340</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_ad09f10f1344ec110b6211ca20b8e5196"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#ad09f10f1344ec110b6211ca20b8e5196">sqlcc::SqlExecutor::ExecuteCreateTable</a></div><div class="ttdeci">std::string ExecuteCreateTable(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:187</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_ad24088af40d1bc3d89d0b9e3eb52e98c"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#ad24088af40d1bc3d89d0b9e3eb52e98c">sqlcc::SqlExecutor::last_error_</a></div><div class="ttdeci">std::string last_error_</div><div class="ttdef"><b>Definition</b> sql_executor.h:319</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_ad55a9cba8dd92426ba1d6e15aaa88728"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#ad55a9cba8dd92426ba1d6e15aaa88728">sqlcc::SqlExecutor::ExecuteFile</a></div><div class="ttdeci">std::string ExecuteFile(const std::string &amp;file_path)</div><div class="ttdoc">执行文件中的SQL语句</div><div class="ttdef"><b>Definition</b> core/sql_executor.cpp:37</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_add9d9686cadf2c45b9e7e53bd515e250"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#add9d9686cadf2c45b9e7e53bd515e250">sqlcc::SqlExecutor::db_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; DatabaseManager &gt; db_manager_</div><div class="ttdef"><b>Definition</b> sql_executor.h:312</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_ae3605e7e6eac722820a0aba676d6ef76"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#ae3605e7e6eac722820a0aba676d6ef76">sqlcc::SqlExecutor::executeWithStorageEngine</a></div><div class="ttdeci">ExecutionResult executeWithStorageEngine(const sqlcc::sql_parser::Statement *stmt, ExecutionContext &amp;context, size_t &amp;pages_accessed)</div><div class="ttdoc">与存储引擎集成的执行方法</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_ae552b396503b8958ecff220dea149f9b"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#ae552b396503b8958ecff220dea149f9b">sqlcc::SqlExecutor::InitializeSystemDatabase</a></div><div class="ttdeci">bool InitializeSystemDatabase()</div><div class="ttdoc">初始化系统数据库</div><div class="ttdef"><b>Definition</b> core/sql_executor.cpp:67</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_ae5ad999e309adc7f5053df59766a21bc"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#ae5ad999e309adc7f5053df59766a21bc">sqlcc::SqlExecutor::system_db_</a></div><div class="ttdeci">std::shared_ptr&lt; SystemDatabase &gt; system_db_</div><div class="ttdef"><b>Definition</b> sql_executor.h:314</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_aeb5206e8bb811cde1d6ad09e69b50313"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#aeb5206e8bb811cde1d6ad09e69b50313">sqlcc::SqlExecutor::ExecuteGrant</a></div><div class="ttdeci">std::string ExecuteGrant(const std::string &amp;sql)</div><div class="ttdef"><b>Definition</b> sql_executor/sql_executor.cpp:326</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SqlExecutor_html_af45a5a555e879f855a517234e0eea688"><div class="ttname"><a href="classsqlcc_1_1SqlExecutor.html#af45a5a555e879f855a517234e0eea688">sqlcc::SqlExecutor::validateStatement</a></div><div class="ttdeci">bool validateStatement(const sqlcc::sql_parser::Statement *stmt)</div><div class="ttdoc">验证语句的有效性</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Statement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Statement.html">sqlcc::sql_parser::Statement</a></div><div class="ttdef"><b>Definition</b> statement.h:11</div></div>
+<div class="ttc" id="acore_2system__database_8h_html"><div class="ttname"><a href="core_2system__database_8h.html">system_database.h</a></div></div>
+<div class="ttc" id="acore_2user__manager_8h_html"><div class="ttname"><a href="core_2user__manager_8h.html">user_manager.h</a></div></div>
+<div class="ttc" id="acore__database__manager_8h_html"><div class="ttname"><a href="core__database__manager_8h.html">core_database_manager.h</a></div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="aparser_8h_html"><div class="ttname"><a href="parser_8h.html">parser.h</a></div></div>
+<div class="ttc" id="apermission__validator_8h_html"><div class="ttname"><a href="permission__validator_8h.html">permission_validator.h</a></div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html">sqlcc::ExecutionResult</a></div><div class="ttdoc">执行结果结构体 用于表示SQL查询的执行结果</div><div class="ttdef"><b>Definition</b> execution_result.h:178</div></div>
+<div class="ttc" id="aunified__query__plan_8h_html"><div class="ttname"><a href="unified__query__plan_8h.html">unified_query_plan.h</a></div></div>
+<div class="ttc" id="aview__manager_8h_html"><div class="ttname"><a href="view__manager_8h.html">view_manager.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: trigger_parser.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">trigger_parser.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="trigger__parser_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SQLCC_SQL_PARSER_TRIGGER_PARSER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SQLCC_SQL_PARSER_TRIGGER_PARSER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html">   21</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html">TriggerParser</a> {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a03c1c0aa62e09254f6d90653eb5f614a">   26</a></span>    <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a03c1c0aa62e09254f6d90653eb5f614a">TriggerParser</a>();</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#aadce0d78269abb8ad8ec2a190d05bd32">   31</a></span>    <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#aadce0d78269abb8ad8ec2a190d05bd32">~TriggerParser</a>();</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a9a268a76c37f64d79cf01d416141aef5">   38</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a9a268a76c37f64d79cf01d416141aef5">ParseCreateTrigger</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#ae169f4a82d59dfc01d2764f31f902847">   45</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#ae169f4a82d59dfc01d2764f31f902847">ParseDropTrigger</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a8372ee84b202b13f3ca420d54a7ec1aa">   52</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a8372ee84b202b13f3ca420d54a7ec1aa">ParseAlterTrigger</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a2135458f7cfd2ca0984ce672c1d4c815">   59</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a2135458f7cfd2ca0984ce672c1d4c815">ParseTriggerName</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a85b26013dc4b9dca89ac90a4dcba1e09">   66</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a85b26013dc4b9dca89ac90a4dcba1e09">ParseTriggerType</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a5330505cbc4224bfc048f706b92a85df">   73</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a5330505cbc4224bfc048f706b92a85df">ParseTriggerEvent</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a2f9d435c6b823cbfe2456ca4048f1a09">   80</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a2f9d435c6b823cbfe2456ca4048f1a09">ParseTriggerTable</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#adccb16574cfcd6e445f21201c8c65d00">   87</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#adccb16574cfcd6e445f21201c8c65d00">ParseTriggerCondition</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a73f87f94074294d287dddb404d76c085">   94</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a73f87f94074294d287dddb404d76c085">ParseTriggerAction</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a83776b641c881ed18ab6e11c2accf08e">  101</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a83776b641c881ed18ab6e11c2accf08e">ValidateTriggerSyntax</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#aed0db02a673c45c66ebe1662387031c8">  107</a></span>    std::unordered_map&lt;std::string, std::string&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#aed0db02a673c45c66ebe1662387031c8">GetTriggerInfo</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a351918ddf81d8b23260fbc2a9b12ae16">  113</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a351918ddf81d8b23260fbc2a9b12ae16">GetErrorMessage</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a5a7b7e0596f78363a98660028c60200a">  119</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a5a7b7e0596f78363a98660028c60200a">HasError</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a1258d0728e55dd531d7f0d3d3424f817">  124</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a1258d0728e55dd531d7f0d3d3424f817">Reset</a>();</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a0d2efdf16fa63d5f43a358ca51a4cdfa">  131</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a0d2efdf16fa63d5f43a358ca51a4cdfa">ParseForEachRow</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a2ce9dd4cdf3cc2759b222015fea30c8c">  138</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a2ce9dd4cdf3cc2759b222015fea30c8c">ParseForEachStatement</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a4cef370c8cd49dfdad2f6276faf91eb9">  145</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a4cef370c8cd49dfdad2f6276faf91eb9">ParseWhenCondition</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span> </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a7c06f167e4f61e190bdf0ed6e420ae2c">  152</a></span>    std::unordered_map&lt;std::string, std::string&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a7c06f167e4f61e190bdf0ed6e420ae2c">ParseTriggerFunction</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a9293c44e5f91bfbc6ac4e528c28f5ab9">  155</a></span>    std::unordered_map&lt;std::string, std::string&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a9293c44e5f91bfbc6ac4e528c28f5ab9">trigger_info_</a>;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a6b4663dd7a76beaa1b45464412cba16a">  156</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a6b4663dd7a76beaa1b45464412cba16a">error_message_</a>;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a0a23e2fb53a634bd71ddfc5e2a6ad74e">  157</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a0a23e2fb53a634bd71ddfc5e2a6ad74e">has_error_</a>;</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    <span class="comment">// 私有辅助方法</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a2e5c21a79ef324437ac620cd5f19e1c9">  160</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a2e5c21a79ef324437ac620cd5f19e1c9">IsValidTriggerName</a>(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#abe479f48458c96a71f264870bdcba8a3">  161</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#abe479f48458c96a71f264870bdcba8a3">IsValidTableName</a>(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a9560518ac80f3b8eeaf49e1d280df611">  162</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a9560518ac80f3b8eeaf49e1d280df611">IsValidTriggerType</a>(<span class="keyword">const</span> std::string&amp; type);</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a62d2c79a4fbcb6d161d08c0185d222aa">  163</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a62d2c79a4fbcb6d161d08c0185d222aa">IsValidTriggerEvent</a>(<span class="keyword">const</span> std::string&amp; event);</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a6f4a89074b4177764f005420b505737c">  164</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a6f4a89074b4177764f005420b505737c">TrimQuotes</a>(<span class="keyword">const</span> std::string&amp; str);</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a28fa9edace5c68ffc406db27eca190d1">  165</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a28fa9edace5c68ffc406db27eca190d1">ExtractSubstring</a>(<span class="keyword">const</span> std::string&amp; sql, <span class="keyword">const</span> std::string&amp; start_keyword, <span class="keyword">const</span> std::string&amp; end_keyword = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a93db4dac4cdfe86d00b54ab83287f2bd">  166</a></span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a93db4dac4cdfe86d00b54ab83287f2bd">SplitByKeywords</a>(<span class="keyword">const</span> std::string&amp; sql, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; keywords);</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#aca3594c631b275b11cb2fbee3ca0bc8a">  167</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#aca3594c631b275b11cb2fbee3ca0bc8a">SetError</a>(<span class="keyword">const</span> std::string&amp; message);</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a8c7a217a3e0c286fbc5cfa847605c3bb">  168</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a8c7a217a3e0c286fbc5cfa847605c3bb">ParseTriggerDefinition</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a1b7e5394beaeb19cf7ac721621a90793">  169</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a1b7e5394beaeb19cf7ac721621a90793">ParseTriggerBody</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>};</div>
+</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SQL_PARSER_TRIGGER_PARSER_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html">sqlcc::sql_parser::TriggerParser</a></div><div class="ttdoc">触发器解析器</div><div class="ttdef"><b>Definition</b> trigger_parser.h:21</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a03c1c0aa62e09254f6d90653eb5f614a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a03c1c0aa62e09254f6d90653eb5f614a">sqlcc::sql_parser::TriggerParser::TriggerParser</a></div><div class="ttdeci">TriggerParser()</div><div class="ttdoc">构造函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a0a23e2fb53a634bd71ddfc5e2a6ad74e"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a0a23e2fb53a634bd71ddfc5e2a6ad74e">sqlcc::sql_parser::TriggerParser::has_error_</a></div><div class="ttdeci">bool has_error_</div><div class="ttdef"><b>Definition</b> trigger_parser.h:157</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a0d2efdf16fa63d5f43a358ca51a4cdfa"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a0d2efdf16fa63d5f43a358ca51a4cdfa">sqlcc::sql_parser::TriggerParser::ParseForEachRow</a></div><div class="ttdeci">bool ParseForEachRow(const std::string &amp;sql)</div><div class="ttdoc">解析FOR EACH ROW子句</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a1258d0728e55dd531d7f0d3d3424f817"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a1258d0728e55dd531d7f0d3d3424f817">sqlcc::sql_parser::TriggerParser::Reset</a></div><div class="ttdeci">void Reset()</div><div class="ttdoc">重置解析器状态</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a1b7e5394beaeb19cf7ac721621a90793"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a1b7e5394beaeb19cf7ac721621a90793">sqlcc::sql_parser::TriggerParser::ParseTriggerBody</a></div><div class="ttdeci">bool ParseTriggerBody(const std::string &amp;sql)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a2135458f7cfd2ca0984ce672c1d4c815"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a2135458f7cfd2ca0984ce672c1d4c815">sqlcc::sql_parser::TriggerParser::ParseTriggerName</a></div><div class="ttdeci">std::string ParseTriggerName(const std::string &amp;sql)</div><div class="ttdoc">解析触发器名称</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a28fa9edace5c68ffc406db27eca190d1"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a28fa9edace5c68ffc406db27eca190d1">sqlcc::sql_parser::TriggerParser::ExtractSubstring</a></div><div class="ttdeci">std::string ExtractSubstring(const std::string &amp;sql, const std::string &amp;start_keyword, const std::string &amp;end_keyword=&quot;&quot;)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a2ce9dd4cdf3cc2759b222015fea30c8c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a2ce9dd4cdf3cc2759b222015fea30c8c">sqlcc::sql_parser::TriggerParser::ParseForEachStatement</a></div><div class="ttdeci">bool ParseForEachStatement(const std::string &amp;sql)</div><div class="ttdoc">解析FOR EACH STATEMENT子句</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a2e5c21a79ef324437ac620cd5f19e1c9"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a2e5c21a79ef324437ac620cd5f19e1c9">sqlcc::sql_parser::TriggerParser::IsValidTriggerName</a></div><div class="ttdeci">bool IsValidTriggerName(const std::string &amp;name)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a2f9d435c6b823cbfe2456ca4048f1a09"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a2f9d435c6b823cbfe2456ca4048f1a09">sqlcc::sql_parser::TriggerParser::ParseTriggerTable</a></div><div class="ttdeci">std::string ParseTriggerTable(const std::string &amp;sql)</div><div class="ttdoc">解析触发器表名</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a351918ddf81d8b23260fbc2a9b12ae16"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a351918ddf81d8b23260fbc2a9b12ae16">sqlcc::sql_parser::TriggerParser::GetErrorMessage</a></div><div class="ttdeci">std::string GetErrorMessage() const</div><div class="ttdoc">获取解析错误信息</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a4cef370c8cd49dfdad2f6276faf91eb9"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a4cef370c8cd49dfdad2f6276faf91eb9">sqlcc::sql_parser::TriggerParser::ParseWhenCondition</a></div><div class="ttdeci">std::string ParseWhenCondition(const std::string &amp;sql)</div><div class="ttdoc">解析WHEN条件子句</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a5330505cbc4224bfc048f706b92a85df"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a5330505cbc4224bfc048f706b92a85df">sqlcc::sql_parser::TriggerParser::ParseTriggerEvent</a></div><div class="ttdeci">std::string ParseTriggerEvent(const std::string &amp;sql)</div><div class="ttdoc">解析触发器事件（INSERT/UPDATE/DELETE）</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a5a7b7e0596f78363a98660028c60200a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a5a7b7e0596f78363a98660028c60200a">sqlcc::sql_parser::TriggerParser::HasError</a></div><div class="ttdeci">bool HasError() const</div><div class="ttdoc">检查是否有解析错误</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a62d2c79a4fbcb6d161d08c0185d222aa"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a62d2c79a4fbcb6d161d08c0185d222aa">sqlcc::sql_parser::TriggerParser::IsValidTriggerEvent</a></div><div class="ttdeci">bool IsValidTriggerEvent(const std::string &amp;event)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a6b4663dd7a76beaa1b45464412cba16a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a6b4663dd7a76beaa1b45464412cba16a">sqlcc::sql_parser::TriggerParser::error_message_</a></div><div class="ttdeci">std::string error_message_</div><div class="ttdef"><b>Definition</b> trigger_parser.h:156</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a6f4a89074b4177764f005420b505737c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a6f4a89074b4177764f005420b505737c">sqlcc::sql_parser::TriggerParser::TrimQuotes</a></div><div class="ttdeci">std::string TrimQuotes(const std::string &amp;str)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a73f87f94074294d287dddb404d76c085"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a73f87f94074294d287dddb404d76c085">sqlcc::sql_parser::TriggerParser::ParseTriggerAction</a></div><div class="ttdeci">std::string ParseTriggerAction(const std::string &amp;sql)</div><div class="ttdoc">解析触发器动作</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a7c06f167e4f61e190bdf0ed6e420ae2c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a7c06f167e4f61e190bdf0ed6e420ae2c">sqlcc::sql_parser::TriggerParser::ParseTriggerFunction</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::string &gt; ParseTriggerFunction(const std::string &amp;sql)</div><div class="ttdoc">解析触发器函数调用</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a8372ee84b202b13f3ca420d54a7ec1aa"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a8372ee84b202b13f3ca420d54a7ec1aa">sqlcc::sql_parser::TriggerParser::ParseAlterTrigger</a></div><div class="ttdeci">bool ParseAlterTrigger(const std::string &amp;sql)</div><div class="ttdoc">解析ALTER TRIGGER语句</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a83776b641c881ed18ab6e11c2accf08e"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a83776b641c881ed18ab6e11c2accf08e">sqlcc::sql_parser::TriggerParser::ValidateTriggerSyntax</a></div><div class="ttdeci">bool ValidateTriggerSyntax(const std::string &amp;sql)</div><div class="ttdoc">验证触发器语法</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a85b26013dc4b9dca89ac90a4dcba1e09"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a85b26013dc4b9dca89ac90a4dcba1e09">sqlcc::sql_parser::TriggerParser::ParseTriggerType</a></div><div class="ttdeci">std::string ParseTriggerType(const std::string &amp;sql)</div><div class="ttdoc">解析触发器类型（BEFORE/AFTER）</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a8c7a217a3e0c286fbc5cfa847605c3bb"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a8c7a217a3e0c286fbc5cfa847605c3bb">sqlcc::sql_parser::TriggerParser::ParseTriggerDefinition</a></div><div class="ttdeci">bool ParseTriggerDefinition(const std::string &amp;sql)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a9293c44e5f91bfbc6ac4e528c28f5ab9"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a9293c44e5f91bfbc6ac4e528c28f5ab9">sqlcc::sql_parser::TriggerParser::trigger_info_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::string &gt; trigger_info_</div><div class="ttdef"><b>Definition</b> trigger_parser.h:155</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a93db4dac4cdfe86d00b54ab83287f2bd"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a93db4dac4cdfe86d00b54ab83287f2bd">sqlcc::sql_parser::TriggerParser::SplitByKeywords</a></div><div class="ttdeci">std::vector&lt; std::string &gt; SplitByKeywords(const std::string &amp;sql, const std::vector&lt; std::string &gt; &amp;keywords)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a9560518ac80f3b8eeaf49e1d280df611"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a9560518ac80f3b8eeaf49e1d280df611">sqlcc::sql_parser::TriggerParser::IsValidTriggerType</a></div><div class="ttdeci">bool IsValidTriggerType(const std::string &amp;type)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_a9a268a76c37f64d79cf01d416141aef5"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#a9a268a76c37f64d79cf01d416141aef5">sqlcc::sql_parser::TriggerParser::ParseCreateTrigger</a></div><div class="ttdeci">bool ParseCreateTrigger(const std::string &amp;sql)</div><div class="ttdoc">解析CREATE TRIGGER语句</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_aadce0d78269abb8ad8ec2a190d05bd32"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#aadce0d78269abb8ad8ec2a190d05bd32">sqlcc::sql_parser::TriggerParser::~TriggerParser</a></div><div class="ttdeci">~TriggerParser()</div><div class="ttdoc">析构函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_abe479f48458c96a71f264870bdcba8a3"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#abe479f48458c96a71f264870bdcba8a3">sqlcc::sql_parser::TriggerParser::IsValidTableName</a></div><div class="ttdeci">bool IsValidTableName(const std::string &amp;name)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_aca3594c631b275b11cb2fbee3ca0bc8a"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#aca3594c631b275b11cb2fbee3ca0bc8a">sqlcc::sql_parser::TriggerParser::SetError</a></div><div class="ttdeci">void SetError(const std::string &amp;message)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_adccb16574cfcd6e445f21201c8c65d00"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#adccb16574cfcd6e445f21201c8c65d00">sqlcc::sql_parser::TriggerParser::ParseTriggerCondition</a></div><div class="ttdeci">std::string ParseTriggerCondition(const std::string &amp;sql)</div><div class="ttdoc">解析触发器条件</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_ae169f4a82d59dfc01d2764f31f902847"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#ae169f4a82d59dfc01d2764f31f902847">sqlcc::sql_parser::TriggerParser::ParseDropTrigger</a></div><div class="ttdeci">bool ParseDropTrigger(const std::string &amp;sql)</div><div class="ttdoc">解析DROP TRIGGER语句</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TriggerParser_html_aed0db02a673c45c66ebe1662387031c8"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TriggerParser.html#aed0db02a673c45c66ebe1662387031c8">sqlcc::sql_parser::TriggerParser::GetTriggerInfo</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::string &gt; GetTriggerInfo() const</div><div class="ttdoc">获取解析后的触发器信息</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: logger.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_ffde1fbcaa8d6b0d34e29c3bddf7a801.html">logger</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">logger.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="logger_2logger_8h_source.html">logger.h</a>&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;iomanip&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+logger/logger.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="logger_2logger_8cpp__incl.png" border="0" usemap="#alogger_8cpp" alt=""/></div>
+<map name="alogger_8cpp" id="alogger_8cpp">
+<area shape="rect" title=" " alt="" coords="355,5,445,31"/>
+<area shape="rect" href="logger_2logger_8h.html" title="SQLCC分层日志系统 &#45; 异步写入与智能轮转架构" alt="" coords="191,79,265,104"/>
+<area shape="poly" title=" " alt="" coords="373,33,270,76,268,71,371,28"/>
+<area shape="rect" title=" " alt="" coords="5,152,83,177"/>
+<area shape="poly" title=" " alt="" coords="356,30,272,49,180,81,120,113,71,146,68,142,118,108,178,76,271,44,354,25"/>
+<area shape="rect" title=" " alt="" coords="278,152,351,177"/>
+<area shape="poly" title=" " alt="" coords="395,32,331,141,326,139,391,30"/>
+<area shape="rect" title=" " alt="" coords="376,152,440,177"/>
+<area shape="poly" title=" " alt="" coords="398,32,390,64,389,104,400,139,395,140,384,104,385,63,393,30"/>
+<area shape="rect" title=" " alt="" coords="399,79,479,104"/>
+<area shape="poly" title=" " alt="" coords="409,30,428,65,424,68,404,32"/>
+<area shape="rect" title=" " alt="" coords="503,79,569,104"/>
+<area shape="poly" title=" " alt="" coords="423,28,503,70,501,75,421,33"/>
+<area shape="rect" title=" " alt="" coords="593,79,668,104"/>
+<area shape="poly" title=" " alt="" coords="438,28,581,72,580,77,436,33"/>
+<area shape="rect" title=" " alt="" coords="692,79,767,104"/>
+<area shape="poly" title=" " alt="" coords="446,26,679,76,678,81,445,31"/>
+<area shape="rect" title=" " alt="" coords="195,152,253,177"/>
+<area shape="poly" title=" " alt="" coords="230,104,228,139,223,138,225,104"/>
+<area shape="poly" title=" " alt="" coords="199,107,88,149,86,144,197,102"/>
+<area shape="poly" title=" " alt="" coords="244,102,292,141,288,145,240,106"/>
+<area shape="rect" title=" " alt="" coords="107,152,171,177"/>
+<area shape="poly" title=" " alt="" coords="215,106,166,145,162,141,212,102"/>
+<area shape="poly" title=" " alt="" coords="258,102,367,144,365,149,256,107"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么需要日志系统？</p>
+<p>数据库系统运行在复杂的分布式环境中，日志系统是系统可观测性和故障排查的关键基础设施。没有日志系统，系统就无法记录运行状态、诊断问题、追踪性能瓶颈和保证系统可靠性。日志系统是数据库系统的心跳监控和故障诊断的核心，直接决定了系统的可维护性和稳定性。</p>
+<p>主要问题解决：</p><ol type="1">
+<li>系统状态监控：实时记录系统运行状态和关键操作</li>
+<li>故障诊断：提供详细的错误信息和调用栈追踪</li>
+<li>性能监控：记录慢查询、资源使用和性能指标</li>
+<li>安全审计：记录用户操作和系统安全事件</li>
+<li>调试支持：提供不同详细程度的日志级别</li>
+</ol>
+<p>日志系统失败的影响：</p><ul>
+<li>系统不可观测：无法了解系统运行状态和问题</li>
+<li>故障排查困难：缺少关键错误信息和上下文</li>
+<li>性能问题隐藏：无法识别性能瓶颈和资源浪费</li>
+<li>安全风险增加：无法追踪异常操作和入侵行为</li>
+</ul>
+<p>WHAT: 这实现了什么功能？</p>
+<p>日志系统提供完整的数据库系统日志管理功能：</p><ul>
+<li>多级别日志：DEBUG、INFO、WARN、ERROR四级日志控制</li>
+<li>线程安全：支持多线程并发日志记录</li>
+<li>双重输出：同时输出到控制台和日志文件</li>
+<li>格式化日志：标准化的时间戳和日志格式</li>
+<li>文件轮转：支持日志文件大小和时间轮转</li>
+<li>配置驱动：运行时配置日志级别和输出目标</li>
+<li>性能优化：异步日志和缓冲区优化</li>
+</ul>
+<p>核心组件：</p><ul>
+<li>Logger：日志系统主类，单例模式提供全局访问</li>
+<li>LogLevel：日志级别枚举，控制日志详细程度</li>
+<li>LogFormatter：日志格式化器，标准化日志输出格式</li>
+<li>LogWriter：日志写入器，支持文件和控制台输出</li>
+<li>LogBuffer：日志缓冲区，提高写入性能</li>
+</ul>
+<p>HOW: 如何实现的？</p>
+<p>技术实现要点：</p><ol type="1">
+<li>单例模式：使用C++11魔术静态变量保证线程安全</li>
+<li>互斥锁保护：std::mutex保证多线程安全</li>
+<li>高效格式化：std::ostringstream构建日志消息</li>
+<li>高精度时间戳：使用chrono库提供毫秒级时间戳</li>
+<li>智能文件管理：std::ofstream管理文件输出</li>
+<li>异常安全：完善的异常处理保证日志系统稳定</li>
+<li>零拷贝优化：move语义避免不必要的拷贝</li>
+</ol>
+<p>架构设计：</p><ul>
+<li>分层架构：接口层、格式化层、输出层清晰分离</li>
+<li>插件架构：支持不同类型的日志输出插件</li>
+<li>配置驱动：运行时可配置日志行为</li>
+<li>异步处理：后台线程处理日志写入</li>
+<li>缓冲机制：内存缓冲减少磁盘I/O频率</li>
+</ul>
+<p>性能优化：</p><ul>
+<li>早期过滤：根据日志级别快速过滤不需要的日志</li>
+<li>批量写入：合并多个日志消息减少系统调用</li>
+<li>内存池：预分配内存减少动态分配开销</li>
+<li>锁优化：细粒度锁减少锁竞争范围</li>
+<li>异步写入：非阻塞日志写入提高主线程性能</li>
+</ul>
+<p>C++20模块迁移准备：</p><ul>
+<li>模块接口分离：准备迁移到C++20模块系统</li>
+<li>头文件优化：最小化头文件依赖和编译时间</li>
+<li>内联优化：使用inline和constexpr优化编译时常量</li>
+<li>命名空间管理：清晰的命名空间组织和符号导出</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>该实现专为SQLCC数据库系统优化，支持高并发和C++20特性 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>include/utils/logger.h </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

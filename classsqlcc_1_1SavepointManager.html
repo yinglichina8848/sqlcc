@@ -1,0 +1,568 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::SavepointManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1SavepointManager.html">SavepointManager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1SavepointManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::SavepointManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>保存点管理器  
+ <a href="classsqlcc_1_1SavepointManager.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="savepoint__manager_8h_source.html">savepoint_manager.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a2bc31a55e84f8fcf9c83323d0cd79f70" id="r_a2bc31a55e84f8fcf9c83323d0cd79f70"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#a2bc31a55e84f8fcf9c83323d0cd79f70">createSavepoint</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, const std::string &amp;savepoint_name)</td></tr>
+<tr class="separator:a2bc31a55e84f8fcf9c83323d0cd79f70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23536a0e325fe23a20d3f7c3e4522114" id="r_a23536a0e325fe23a20d3f7c3e4522114"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#a23536a0e325fe23a20d3f7c3e4522114">releaseSavepoint</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, const std::string &amp;savepoint_name)</td></tr>
+<tr class="separator:a23536a0e325fe23a20d3f7c3e4522114"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70548595868997a79c0e12cf93337318" id="r_a70548595868997a79c0e12cf93337318"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#a70548595868997a79c0e12cf93337318">rollbackToSavepoint</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, const std::string &amp;savepoint_name)</td></tr>
+<tr class="separator:a70548595868997a79c0e12cf93337318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7343d960b6a2710eb43a5f0f459c02b3" id="r_a7343d960b6a2710eb43a5f0f459c02b3"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; const <a class="el" href="classsqlcc_1_1Savepoint.html">Savepoint</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#a7343d960b6a2710eb43a5f0f459c02b3">getSavepoint</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, const std::string &amp;savepoint_name) const</td></tr>
+<tr class="separator:a7343d960b6a2710eb43a5f0f459c02b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00cb142113fa3a80d430b324a9b81a02" id="r_a00cb142113fa3a80d430b324a9b81a02"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; const <a class="el" href="classsqlcc_1_1Savepoint.html">Savepoint</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#a00cb142113fa3a80d430b324a9b81a02">getTransactionSavepoints</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id) const</td></tr>
+<tr class="separator:a00cb142113fa3a80d430b324a9b81a02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63e768e3fd61566a128f0f9a5321d452" id="r_a63e768e3fd61566a128f0f9a5321d452"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#a63e768e3fd61566a128f0f9a5321d452">savepointExists</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, const std::string &amp;savepoint_name) const</td></tr>
+<tr class="separator:a63e768e3fd61566a128f0f9a5321d452"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75e3f0c2133f060950c23029a3011c71" id="r_a75e3f0c2133f060950c23029a3011c71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#a75e3f0c2133f060950c23029a3011c71">clearTransactionSavepoints</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id)</td></tr>
+<tr class="separator:a75e3f0c2133f060950c23029a3011c71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18f664ff856ba1d1d3eb0c2824fb9d67" id="r_a18f664ff856ba1d1d3eb0c2824fb9d67"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#a18f664ff856ba1d1d3eb0c2824fb9d67">getLastError</a> () const</td></tr>
+<tr class="separator:a18f664ff856ba1d1d3eb0c2824fb9d67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:aac37598b902538e035cd2d59504391a4" id="r_aac37598b902538e035cd2d59504391a4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1SavepointManager.html">SavepointManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#aac37598b902538e035cd2d59504391a4">getInstance</a> ()</td></tr>
+<tr class="separator:aac37598b902538e035cd2d59504391a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:abea6ddfb971ede4620663b34330cf59a" id="r_abea6ddfb971ede4620663b34330cf59a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#abea6ddfb971ede4620663b34330cf59a">SavepointManager</a> ()</td></tr>
+<tr class="separator:abea6ddfb971ede4620663b34330cf59a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a6846cce788b5a4bc9c956975acd108" id="r_a8a6846cce788b5a4bc9c956975acd108"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#a8a6846cce788b5a4bc9c956975acd108">~SavepointManager</a> ()</td></tr>
+<tr class="separator:a8a6846cce788b5a4bc9c956975acd108"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1977c9f5e4ac17360641bb85e434f36" id="r_af1977c9f5e4ac17360641bb85e434f36"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#af1977c9f5e4ac17360641bb85e434f36">SavepointManager</a> (const <a class="el" href="classsqlcc_1_1SavepointManager.html">SavepointManager</a> &amp;)=delete</td></tr>
+<tr class="separator:af1977c9f5e4ac17360641bb85e434f36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e57f81b3fa9c65d24f9273e627d6b6e" id="r_a5e57f81b3fa9c65d24f9273e627d6b6e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1SavepointManager.html">SavepointManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#a5e57f81b3fa9c65d24f9273e627d6b6e">operator=</a> (const <a class="el" href="classsqlcc_1_1SavepointManager.html">SavepointManager</a> &amp;)=delete</td></tr>
+<tr class="separator:a5e57f81b3fa9c65d24f9273e627d6b6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a5beee83075826677805e94a6f528018a" id="r_a5beee83075826677805e94a6f528018a"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>, std::vector&lt; std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1Savepoint.html">Savepoint</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#a5beee83075826677805e94a6f528018a">savepoints_</a></td></tr>
+<tr class="separator:a5beee83075826677805e94a6f528018a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a73614ad5b2a5f38275a67f4959a5ab" id="r_a1a73614ad5b2a5f38275a67f4959a5ab"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SavepointManager.html#a1a73614ad5b2a5f38275a67f4959a5ab">last_error_</a></td></tr>
+<tr class="separator:a1a73614ad5b2a5f38275a67f4959a5ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>保存点管理器 </p>
+<p>负责事务保存点的创建、管理和回滚操作 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="abea6ddfb971ede4620663b34330cf59a" name="abea6ddfb971ede4620663b34330cf59a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abea6ddfb971ede4620663b34330cf59a">&#9670;&#160;</a></span>SavepointManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::SavepointManager::SavepointManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8a6846cce788b5a4bc9c956975acd108" name="a8a6846cce788b5a4bc9c956975acd108"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a6846cce788b5a4bc9c956975acd108">&#9670;&#160;</a></span>~SavepointManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::SavepointManager::~SavepointManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af1977c9f5e4ac17360641bb85e434f36" name="af1977c9f5e4ac17360641bb85e434f36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1977c9f5e4ac17360641bb85e434f36">&#9670;&#160;</a></span>SavepointManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::SavepointManager::SavepointManager </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1SavepointManager.html">SavepointManager</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a75e3f0c2133f060950c23029a3011c71" name="a75e3f0c2133f060950c23029a3011c71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75e3f0c2133f060950c23029a3011c71">&#9670;&#160;</a></span>clearTransactionSavepoints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::SavepointManager::clearTransactionSavepoints </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>清理事务的所有保存点 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2bc31a55e84f8fcf9c83323d0cd79f70" name="a2bc31a55e84f8fcf9c83323d0cd79f70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bc31a55e84f8fcf9c83323d0cd79f70">&#9670;&#160;</a></span>createSavepoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::SavepointManager::createSavepoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>savepoint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>创建保存点 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">savepoint_name</td><td>保存点名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="aac37598b902538e035cd2d59504391a4" name="aac37598b902538e035cd2d59504391a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac37598b902538e035cd2d59504391a4">&#9670;&#160;</a></span>getInstance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1SavepointManager.html">SavepointManager</a> &amp; sqlcc::SavepointManager::getInstance </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a18f664ff856ba1d1d3eb0c2824fb9d67" name="a18f664ff856ba1d1d3eb0c2824fb9d67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18f664ff856ba1d1d3eb0c2824fb9d67">&#9670;&#160;</a></span>getLastError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::SavepointManager::getLastError </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>获取最后错误信息 </p>
+
+</div>
+</div>
+<a id="a7343d960b6a2710eb43a5f0f459c02b3" name="a7343d960b6a2710eb43a5f0f459c02b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7343d960b6a2710eb43a5f0f459c02b3">&#9670;&#160;</a></span>getSavepoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; const <a class="el" href="classsqlcc_1_1Savepoint.html">Savepoint</a> &gt; sqlcc::SavepointManager::getSavepoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>savepoint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>获取保存点信息 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">savepoint_name</td><td>保存点名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>保存点智能指针，如果不存在返回nullptr </dd></dl>
+
+</div>
+</div>
+<a id="a00cb142113fa3a80d430b324a9b81a02" name="a00cb142113fa3a80d430b324a9b81a02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00cb142113fa3a80d430b324a9b81a02">&#9670;&#160;</a></span>getTransactionSavepoints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt; const <a class="el" href="classsqlcc_1_1Savepoint.html">Savepoint</a> &gt; &gt; sqlcc::SavepointManager::getTransactionSavepoints </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>获取事务的所有保存点 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>保存点列表 </dd></dl>
+
+</div>
+</div>
+<a id="a5e57f81b3fa9c65d24f9273e627d6b6e" name="a5e57f81b3fa9c65d24f9273e627d6b6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e57f81b3fa9c65d24f9273e627d6b6e">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1SavepointManager.html">SavepointManager</a> &amp; sqlcc::SavepointManager::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1SavepointManager.html">SavepointManager</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a23536a0e325fe23a20d3f7c3e4522114" name="a23536a0e325fe23a20d3f7c3e4522114"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23536a0e325fe23a20d3f7c3e4522114">&#9670;&#160;</a></span>releaseSavepoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::SavepointManager::releaseSavepoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>savepoint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>释放保存点 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">savepoint_name</td><td>保存点名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a70548595868997a79c0e12cf93337318" name="a70548595868997a79c0e12cf93337318"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70548595868997a79c0e12cf93337318">&#9670;&#160;</a></span>rollbackToSavepoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::SavepointManager::rollbackToSavepoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>savepoint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>回滚到保存点 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">savepoint_name</td><td>保存点名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a63e768e3fd61566a128f0f9a5321d452" name="a63e768e3fd61566a128f0f9a5321d452"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63e768e3fd61566a128f0f9a5321d452">&#9670;&#160;</a></span>savepointExists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::SavepointManager::savepointExists </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>savepoint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>检查保存点是否存在 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">savepoint_name</td><td>保存点名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否存在 </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a1a73614ad5b2a5f38275a67f4959a5ab" name="a1a73614ad5b2a5f38275a67f4959a5ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a73614ad5b2a5f38275a67f4959a5ab">&#9670;&#160;</a></span>last_error_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::SavepointManager::last_error_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5beee83075826677805e94a6f528018a" name="a5beee83075826677805e94a6f528018a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5beee83075826677805e94a6f528018a">&#9670;&#160;</a></span>savepoints_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>, std::vector&lt;std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1Savepoint.html">Savepoint</a>&gt; &gt; &gt; sqlcc::SavepointManager::savepoints_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="savepoint__manager_8h_source.html">savepoint_manager.h</a></li>
+<li><a class="el" href="savepoint__manager_8cpp.html">savepoint_manager.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

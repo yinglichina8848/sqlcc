@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: wal_buffer.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">wal_buffer.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="wal__buffer_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;condition_variable&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;queue&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;../utils/config_manager.h&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment">// Forward declaration for WALWriter</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">class </span>WALWriter;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="foldopen" id="foldopen00023" data-start="{" data-end="};">
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html">   23</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1WALBuffer.html">WALBuffer</a> {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00028" data-start="{" data-end="};">
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html">   28</a></span>  <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html">WALBufferStats</a> {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a24ccba389c033bb84610e5d9a21de6b4">   29</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a24ccba389c033bb84610e5d9a21de6b4">total_logs</a>{0};          <span class="comment">// 总日志条数</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#ab254ff96517d702baf954198b4370817">   30</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#ab254ff96517d702baf954198b4370817">total_flushes</a>{0};       <span class="comment">// 总刷新次数</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a5e06a87ec7ac63c24e4e85200dc17daa">   31</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a5e06a87ec7ac63c24e4e85200dc17daa">buffer_hits</a>{0};         <span class="comment">// 缓冲区命中次数</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a988c43efe0f36fd708bd70176a08b5b0">   32</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a988c43efe0f36fd708bd70176a08b5b0">buffer_misses</a>{0};       <span class="comment">// 缓冲区未命中次数</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#ad9442bf1a18f1015daa18dc425712474">   33</a></span>    std::atomic&lt;size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#ad9442bf1a18f1015daa18dc425712474">current_buffer_size</a>{0}; <span class="comment">// 当前缓冲区大小</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a8110c4391b72e6a84e0eacde0b1ac31d">   34</a></span>    std::chrono::microseconds <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a8110c4391b72e6a84e0eacde0b1ac31d">avg_flush_time</a>{0}; <span class="comment">// 平均刷新时间</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="}">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a7036d91aef7da9aaeb23e2bb0e9eb24a">   36</a></span>    <span class="keywordtype">double</span> <a class="code hl_function" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a7036d91aef7da9aaeb23e2bb0e9eb24a">hit_ratio</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>      <span class="keywordtype">size_t</span> total = <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a5e06a87ec7ac63c24e4e85200dc17daa">buffer_hits</a>.load() + <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a988c43efe0f36fd708bd70176a08b5b0">buffer_misses</a>.load();</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>      <span class="keywordflow">return</span> total &gt; 0 ? <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a5e06a87ec7ac63c24e4e85200dc17daa">buffer_hits</a>.load()) / total : 0.0;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    }</div>
+</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  };</div>
+</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="foldopen" id="foldopen00045" data-start="{" data-end="};">
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html">   45</a></span>  <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html">WALRecord</a> {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a18b70423fe0e93982553bf4afae3f32f">   46</a></span>    uint64_t <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a18b70423fe0e93982553bf4afae3f32f">lsn</a>;           <span class="comment">// 日志序列号</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a680d7c751a79d4e6da92d95adda84fed">   47</a></span>    uint64_t <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a680d7c751a79d4e6da92d95adda84fed">transaction_id</a>; <span class="comment">// 事务ID</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a4f4543d9d2690470654ced0c27cc0e2b">   48</a></span>    std::string <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a4f4543d9d2690470654ced0c27cc0e2b">operation</a>;  <span class="comment">// 操作类型</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a99a5a46b83595d09f698b4ccf9b38213">   49</a></span>    std::string <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a99a5a46b83595d09f698b4ccf9b38213">data</a>;       <span class="comment">// 日志数据</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#af8a8ba6d3c056781a389ea8fda89e34d">   50</a></span>    std::chrono::steady_clock::time_point <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#af8a8ba6d3c056781a389ea8fda89e34d">timestamp</a>; <span class="comment">// 时间戳</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="foldopen" id="foldopen00052" data-start="{" data-end="}">
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#acf16bb833b2a36e7fb4b2a6b1dd0a510">   52</a></span>    <a class="code hl_function" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#acf16bb833b2a36e7fb4b2a6b1dd0a510">WALRecord</a>(uint64_t lsn_val, uint64_t tx_id, <span class="keyword">const</span> std::string&amp; op, <span class="keyword">const</span> std::string&amp; d)</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        : <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a18b70423fe0e93982553bf4afae3f32f">lsn</a>(lsn_val), <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a680d7c751a79d4e6da92d95adda84fed">transaction_id</a>(tx_id), <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a4f4543d9d2690470654ced0c27cc0e2b">operation</a>(op), <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a99a5a46b83595d09f698b4ccf9b38213">data</a>(d),</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>          <a class="code hl_variable" href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#af8a8ba6d3c056781a389ea8fda89e34d">timestamp</a>(std::chrono::steady_clock::now()) {}</div>
+</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  };</div>
+</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="keyword">explicit</span> <a class="code hl_class" href="classsqlcc_1_1WALBuffer.html">WALBuffer</a>(<a class="code hl_class" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a>&amp; config_manager, <span class="keywordtype">size_t</span> buffer_size = 64 * 1024 * 1024); <span class="comment">// 默认64MB</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  <a class="code hl_function" href="classsqlcc_1_1WALBuffer.html#a633b490c01dcf3a8ad25c96b075106fb">~WALBuffer</a>();</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1WALBuffer.html#a74d801308e9407c0def673de4a29706b">AddRecord</a>(std::unique_ptr&lt;WALRecord&gt; record);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1WALBuffer.html#a53b54aa42df37de4fa69844f73ce787a">Flush</a>();</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span> </div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1WALBuffer.html#acdde8593792f8eb296c5d95c7b912686">ForceFlush</a>();</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>  <span class="keyword">const</span> WALBufferStats&amp; <a class="code hl_function" href="classsqlcc_1_1WALBuffer.html#aac219afdb4c00abd4a0e2a56128f9d52">GetStats</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span> </div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1WALBuffer.html#ad3b0d6bf8d85881e4f70e5f3f262ecaa">ResetStats</a>();</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>  <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1WALBuffer.html#a025a798e182d450eec6116730bef4b4b">GetCurrentSize</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>  <span class="keywordtype">double</span> <a class="code hl_function" href="classsqlcc_1_1WALBuffer.html#af30c21e6faab0ecf06a1e8491b1d2d56">GetUtilization</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#a53cca9fea53e7841b77de340dd61d5e4">  250</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1WALBuffer.html#a53cca9fea53e7841b77de340dd61d5e4">SetWALWriter</a>(<a class="code hl_class" href="classsqlcc_1_1WALWriter.html">WALWriter</a>* wal_writer) { <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#a2607b07c09b34464328b5336a125a57c">wal_writer_</a> = wal_writer; }</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span> </div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1WALBuffer.html#a6ad16d5befd8fd27da5311edefe40a7a">Start</a>();</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1WALBuffer.html#a07b29aa3c887948fad25095eee5d3177">Stop</a>();</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span> </div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>  <span class="comment">// WAL写入器引用（需要在运行时设置）</span></div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#a2607b07c09b34464328b5336a125a57c">  264</a></span>  <a class="code hl_class" href="classsqlcc_1_1WALWriter.html">WALWriter</a>* <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#a2607b07c09b34464328b5336a125a57c">wal_writer_</a>;</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1WALBuffer.html#a85f8a05b086a6789d8a4381d195ba3e2">ShouldFlush</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1WALBuffer.html#ab645e1535de1c23bd6ebe81db8b5535c">BackgroundFlushWorker</a>();</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span> </div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>  <span class="comment">// 配置和状态</span></div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#a2d760bfa32990d5f78db4120074a411a">  277</a></span>  <a class="code hl_class" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a>&amp; <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#a2d760bfa32990d5f78db4120074a411a">config_manager_</a>;</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#a2ca3376d75e7458b1098a208888c0126">  278</a></span>  <span class="keyword">const</span> <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#a2ca3376d75e7458b1098a208888c0126">max_buffer_size_</a>;  <span class="comment">// 最大缓冲区大小</span></div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>  <span class="comment">// 缓冲区数据</span></div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#a5eb5b620289437990a7192a1c94cfbe1">  281</a></span>  std::vector&lt;std::unique_ptr&lt;WALRecord&gt;&gt; <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#a5eb5b620289437990a7192a1c94cfbe1">buffer_</a>;</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#a5a062d990d210827327d4fd0a6264382">  282</a></span>  <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#a5a062d990d210827327d4fd0a6264382">buffer_mutex_</a>;</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span> </div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>  <span class="comment">// 后台刷新线程</span></div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#ab8e5f68a66b462453c9232b92fa737be">  285</a></span>  std::thread <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#ab8e5f68a66b462453c9232b92fa737be">flush_thread_</a>;</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#a6b8265d2c01c422535d9270ee562a9e9">  286</a></span>  std::atomic&lt;bool&gt; <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#a6b8265d2c01c422535d9270ee562a9e9">running_</a>;</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#a21c4de611a6368b19958eb43b532e2b2">  287</a></span>  std::condition_variable <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#a21c4de611a6368b19958eb43b532e2b2">flush_cv_</a>;</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#a47176332ec31a0c7437dd94e0f2d9db4">  288</a></span>  <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#a47176332ec31a0c7437dd94e0f2d9db4">flush_mutex_</a>;</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span> </div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>  <span class="comment">// 统计信息</span></div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#aa418b05d78ad4f9b962059a75f90ed37">  291</a></span>  <span class="keyword">mutable</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#aa418b05d78ad4f9b962059a75f90ed37">stats_mutex_</a>;</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#ae644518623cb3a0d5be7edc033f1c388">  292</a></span>  <a class="code hl_struct" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html">WALBufferStats</a> <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#ae644518623cb3a0d5be7edc033f1c388">stats_</a>;</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span> </div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>  <span class="comment">// 配置参数</span></div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#a4f80bd886e870bc8f4356c553ca80286">  295</a></span>  std::chrono::milliseconds <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#a4f80bd886e870bc8f4356c553ca80286">flush_interval_</a>;  <span class="comment">// 刷新间隔</span></div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#a51b0a260a1659544378367b0814146c0">  296</a></span>  <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#a51b0a260a1659544378367b0814146c0">flush_threshold_</a>;                    <span class="comment">// 刷新阈值（百分比）</span></div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#ab1847a13ee7b1e4e0a69d1a6bd6e3402">  297</a></span>  <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#ab1847a13ee7b1e4e0a69d1a6bd6e3402">max_records_per_flush_</a>;             <span class="comment">// 每次刷新最大记录数</span></div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>  <span class="comment">// LSN管理</span></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WALBuffer.html#aa3daaa87b7dc6698af2a3fa0c60d058b">  300</a></span>  std::atomic&lt;uint64_t&gt; <a class="code hl_variable" href="classsqlcc_1_1WALBuffer.html#aa3daaa87b7dc6698af2a3fa0c60d058b">next_lsn_</a>;           <span class="comment">// 下一个LSN</span></div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>};</div>
+</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span> </div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigManager_html"><div class="ttname"><a href="classsqlcc_1_1ConfigManager.html">sqlcc::ConfigManager</a></div><div class="ttdef"><b>Definition</b> config_manager.h:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html">sqlcc::WALBuffer</a></div><div class="ttdoc">WAL缓冲区类</div><div class="ttdef"><b>Definition</b> wal_buffer.h:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a025a798e182d450eec6116730bef4b4b"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a025a798e182d450eec6116730bef4b4b">sqlcc::WALBuffer::GetCurrentSize</a></div><div class="ttdeci">size_t GetCurrentSize() const</div><div class="ttdoc">获取当前缓冲区大小</div><div class="ttdef"><b>Definition</b> wal_buffer.cpp:179</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a07b29aa3c887948fad25095eee5d3177"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a07b29aa3c887948fad25095eee5d3177">sqlcc::WALBuffer::Stop</a></div><div class="ttdeci">void Stop()</div><div class="ttdoc">停止后台刷新线程</div><div class="ttdef"><b>Definition</b> wal_buffer.cpp:54</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a21c4de611a6368b19958eb43b532e2b2"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a21c4de611a6368b19958eb43b532e2b2">sqlcc::WALBuffer::flush_cv_</a></div><div class="ttdeci">std::condition_variable flush_cv_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:287</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a2607b07c09b34464328b5336a125a57c"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a2607b07c09b34464328b5336a125a57c">sqlcc::WALBuffer::wal_writer_</a></div><div class="ttdeci">WALWriter * wal_writer_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:264</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a2ca3376d75e7458b1098a208888c0126"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a2ca3376d75e7458b1098a208888c0126">sqlcc::WALBuffer::max_buffer_size_</a></div><div class="ttdeci">const size_t max_buffer_size_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:278</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a2d760bfa32990d5f78db4120074a411a"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a2d760bfa32990d5f78db4120074a411a">sqlcc::WALBuffer::config_manager_</a></div><div class="ttdeci">ConfigManager &amp; config_manager_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:277</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a47176332ec31a0c7437dd94e0f2d9db4"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a47176332ec31a0c7437dd94e0f2d9db4">sqlcc::WALBuffer::flush_mutex_</a></div><div class="ttdeci">std::mutex flush_mutex_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:288</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a4f80bd886e870bc8f4356c553ca80286"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a4f80bd886e870bc8f4356c553ca80286">sqlcc::WALBuffer::flush_interval_</a></div><div class="ttdeci">std::chrono::milliseconds flush_interval_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:295</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a51b0a260a1659544378367b0814146c0"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a51b0a260a1659544378367b0814146c0">sqlcc::WALBuffer::flush_threshold_</a></div><div class="ttdeci">size_t flush_threshold_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:296</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a53b54aa42df37de4fa69844f73ce787a"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a53b54aa42df37de4fa69844f73ce787a">sqlcc::WALBuffer::Flush</a></div><div class="ttdeci">bool Flush()</div><div class="ttdef"><b>Definition</b> wal_buffer.cpp:107</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a53cca9fea53e7841b77de340dd61d5e4"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a53cca9fea53e7841b77de340dd61d5e4">sqlcc::WALBuffer::SetWALWriter</a></div><div class="ttdeci">void SetWALWriter(WALWriter *wal_writer)</div><div class="ttdoc">设置WAL写入器</div><div class="ttdef"><b>Definition</b> wal_buffer.h:250</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a5a062d990d210827327d4fd0a6264382"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a5a062d990d210827327d4fd0a6264382">sqlcc::WALBuffer::buffer_mutex_</a></div><div class="ttdeci">std::mutex buffer_mutex_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:282</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a5eb5b620289437990a7192a1c94cfbe1"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a5eb5b620289437990a7192a1c94cfbe1">sqlcc::WALBuffer::buffer_</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; WALRecord &gt; &gt; buffer_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:281</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a633b490c01dcf3a8ad25c96b075106fb"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a633b490c01dcf3a8ad25c96b075106fb">sqlcc::WALBuffer::~WALBuffer</a></div><div class="ttdeci">~WALBuffer()</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> wal_buffer.cpp:37</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a6ad16d5befd8fd27da5311edefe40a7a"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a6ad16d5befd8fd27da5311edefe40a7a">sqlcc::WALBuffer::Start</a></div><div class="ttdeci">void Start()</div><div class="ttdoc">启动后台刷新线程</div><div class="ttdef"><b>Definition</b> wal_buffer.cpp:45</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a6b8265d2c01c422535d9270ee562a9e9"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a6b8265d2c01c422535d9270ee562a9e9">sqlcc::WALBuffer::running_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; running_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:286</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a74d801308e9407c0def673de4a29706b"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a74d801308e9407c0def673de4a29706b">sqlcc::WALBuffer::AddRecord</a></div><div class="ttdeci">bool AddRecord(std::unique_ptr&lt; WALRecord &gt; record)</div><div class="ttdoc">添加WAL记录到缓冲区</div><div class="ttdef"><b>Definition</b> wal_buffer.cpp:70</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_a85f8a05b086a6789d8a4381d195ba3e2"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#a85f8a05b086a6789d8a4381d195ba3e2">sqlcc::WALBuffer::ShouldFlush</a></div><div class="ttdeci">bool ShouldFlush() const</div><div class="ttdoc">检查是否需要刷新</div><div class="ttdef"><b>Definition</b> wal_buffer.cpp:187</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_aa3daaa87b7dc6698af2a3fa0c60d058b"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#aa3daaa87b7dc6698af2a3fa0c60d058b">sqlcc::WALBuffer::next_lsn_</a></div><div class="ttdeci">std::atomic&lt; uint64_t &gt; next_lsn_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:300</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_aa418b05d78ad4f9b962059a75f90ed37"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#aa418b05d78ad4f9b962059a75f90ed37">sqlcc::WALBuffer::stats_mutex_</a></div><div class="ttdeci">std::mutex stats_mutex_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:291</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_aac219afdb4c00abd4a0e2a56128f9d52"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#aac219afdb4c00abd4a0e2a56128f9d52">sqlcc::WALBuffer::GetStats</a></div><div class="ttdeci">const WALBufferStats &amp; GetStats() const</div><div class="ttdoc">获取缓冲区统计信息</div><div class="ttdef"><b>Definition</b> wal_buffer.cpp:165</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_ab1847a13ee7b1e4e0a69d1a6bd6e3402"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#ab1847a13ee7b1e4e0a69d1a6bd6e3402">sqlcc::WALBuffer::max_records_per_flush_</a></div><div class="ttdeci">size_t max_records_per_flush_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:297</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_ab645e1535de1c23bd6ebe81db8b5535c"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#ab645e1535de1c23bd6ebe81db8b5535c">sqlcc::WALBuffer::BackgroundFlushWorker</a></div><div class="ttdeci">void BackgroundFlushWorker()</div><div class="ttdoc">后台刷新线程函数</div><div class="ttdef"><b>Definition</b> wal_buffer.cpp:209</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_ab8e5f68a66b462453c9232b92fa737be"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#ab8e5f68a66b462453c9232b92fa737be">sqlcc::WALBuffer::flush_thread_</a></div><div class="ttdeci">std::thread flush_thread_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:285</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_acdde8593792f8eb296c5d95c7b912686"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#acdde8593792f8eb296c5d95c7b912686">sqlcc::WALBuffer::ForceFlush</a></div><div class="ttdeci">bool ForceFlush()</div><div class="ttdoc">强制刷新缓冲区</div><div class="ttdef"><b>Definition</b> wal_buffer.cpp:161</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_ad3b0d6bf8d85881e4f70e5f3f262ecaa"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#ad3b0d6bf8d85881e4f70e5f3f262ecaa">sqlcc::WALBuffer::ResetStats</a></div><div class="ttdeci">void ResetStats()</div><div class="ttdoc">重置统计信息</div><div class="ttdef"><b>Definition</b> wal_buffer.cpp:169</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_ae644518623cb3a0d5be7edc033f1c388"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#ae644518623cb3a0d5be7edc033f1c388">sqlcc::WALBuffer::stats_</a></div><div class="ttdeci">WALBufferStats stats_</div><div class="ttdef"><b>Definition</b> wal_buffer.h:292</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALBuffer_html_af30c21e6faab0ecf06a1e8491b1d2d56"><div class="ttname"><a href="classsqlcc_1_1WALBuffer.html#af30c21e6faab0ecf06a1e8491b1d2d56">sqlcc::WALBuffer::GetUtilization</a></div><div class="ttdeci">double GetUtilization() const</div><div class="ttdoc">获取缓冲区使用率</div><div class="ttdef"><b>Definition</b> wal_buffer.cpp:183</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WALWriter_html"><div class="ttname"><a href="classsqlcc_1_1WALWriter.html">sqlcc::WALWriter</a></div><div class="ttdoc">SQLCC WAL预写日志写入器 - 数据库ACID持久性保障的核心组件</div><div class="ttdef"><b>Definition</b> wal_writer.h:200</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALBufferStats_html"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html">sqlcc::WALBuffer::WALBufferStats</a></div><div class="ttdoc">WAL缓冲区统计信息</div><div class="ttdef"><b>Definition</b> wal_buffer.h:28</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALBufferStats_html_a24ccba389c033bb84610e5d9a21de6b4"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a24ccba389c033bb84610e5d9a21de6b4">sqlcc::WALBuffer::WALBufferStats::total_logs</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; total_logs</div><div class="ttdef"><b>Definition</b> wal_buffer.h:29</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALBufferStats_html_a5e06a87ec7ac63c24e4e85200dc17daa"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a5e06a87ec7ac63c24e4e85200dc17daa">sqlcc::WALBuffer::WALBufferStats::buffer_hits</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; buffer_hits</div><div class="ttdef"><b>Definition</b> wal_buffer.h:31</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALBufferStats_html_a7036d91aef7da9aaeb23e2bb0e9eb24a"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a7036d91aef7da9aaeb23e2bb0e9eb24a">sqlcc::WALBuffer::WALBufferStats::hit_ratio</a></div><div class="ttdeci">double hit_ratio() const</div><div class="ttdef"><b>Definition</b> wal_buffer.h:36</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALBufferStats_html_a8110c4391b72e6a84e0eacde0b1ac31d"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a8110c4391b72e6a84e0eacde0b1ac31d">sqlcc::WALBuffer::WALBufferStats::avg_flush_time</a></div><div class="ttdeci">std::chrono::microseconds avg_flush_time</div><div class="ttdef"><b>Definition</b> wal_buffer.h:34</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALBufferStats_html_a988c43efe0f36fd708bd70176a08b5b0"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#a988c43efe0f36fd708bd70176a08b5b0">sqlcc::WALBuffer::WALBufferStats::buffer_misses</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; buffer_misses</div><div class="ttdef"><b>Definition</b> wal_buffer.h:32</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALBufferStats_html_ab254ff96517d702baf954198b4370817"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#ab254ff96517d702baf954198b4370817">sqlcc::WALBuffer::WALBufferStats::total_flushes</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; total_flushes</div><div class="ttdef"><b>Definition</b> wal_buffer.h:30</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALBufferStats_html_ad9442bf1a18f1015daa18dc425712474"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html#ad9442bf1a18f1015daa18dc425712474">sqlcc::WALBuffer::WALBufferStats::current_buffer_size</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; current_buffer_size</div><div class="ttdef"><b>Definition</b> wal_buffer.h:33</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALRecord_html"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALRecord.html">sqlcc::WALBuffer::WALRecord</a></div><div class="ttdoc">日志记录结构</div><div class="ttdef"><b>Definition</b> wal_buffer.h:45</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALRecord_html_a18b70423fe0e93982553bf4afae3f32f"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a18b70423fe0e93982553bf4afae3f32f">sqlcc::WALBuffer::WALRecord::lsn</a></div><div class="ttdeci">uint64_t lsn</div><div class="ttdef"><b>Definition</b> wal_buffer.h:46</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALRecord_html_a4f4543d9d2690470654ced0c27cc0e2b"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a4f4543d9d2690470654ced0c27cc0e2b">sqlcc::WALBuffer::WALRecord::operation</a></div><div class="ttdeci">std::string operation</div><div class="ttdef"><b>Definition</b> wal_buffer.h:48</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALRecord_html_a680d7c751a79d4e6da92d95adda84fed"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a680d7c751a79d4e6da92d95adda84fed">sqlcc::WALBuffer::WALRecord::transaction_id</a></div><div class="ttdeci">uint64_t transaction_id</div><div class="ttdef"><b>Definition</b> wal_buffer.h:47</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALRecord_html_a99a5a46b83595d09f698b4ccf9b38213"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#a99a5a46b83595d09f698b4ccf9b38213">sqlcc::WALBuffer::WALRecord::data</a></div><div class="ttdeci">std::string data</div><div class="ttdef"><b>Definition</b> wal_buffer.h:49</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALRecord_html_acf16bb833b2a36e7fb4b2a6b1dd0a510"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#acf16bb833b2a36e7fb4b2a6b1dd0a510">sqlcc::WALBuffer::WALRecord::WALRecord</a></div><div class="ttdeci">WALRecord(uint64_t lsn_val, uint64_t tx_id, const std::string &amp;op, const std::string &amp;d)</div><div class="ttdef"><b>Definition</b> wal_buffer.h:52</div></div>
+<div class="ttc" id="astructsqlcc_1_1WALBuffer_1_1WALRecord_html_af8a8ba6d3c056781a389ea8fda89e34d"><div class="ttname"><a href="structsqlcc_1_1WALBuffer_1_1WALRecord.html#af8a8ba6d3c056781a389ea8fda89e34d">sqlcc::WALBuffer::WALRecord::timestamp</a></div><div class="ttdeci">std::chrono::steady_clock::time_point timestamp</div><div class="ttdef"><b>Definition</b> wal_buffer.h:50</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,1656 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::DatabaseManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1DatabaseManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::DatabaseManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="core__database__manager_8h_source.html">core_database_manager.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::DatabaseManager 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1DatabaseManager__inherit__graph.png" border="0" usemap="#asqlcc_1_1DatabaseManager_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1DatabaseManager_inherit__map" id="asqlcc_1_1DatabaseManager_inherit__map">
+<area shape="rect" title=" " alt="" coords="48,5,231,31"/>
+<area shape="rect" href="classsqlcc_1_1mocks_1_1DatabaseManagerMock.html" title="DatabaseManager Mock类，用于单元测试" alt="" coords="5,79,273,104"/>
+<area shape="poly" title=" " alt="" coords="142,44,142,79,137,79,137,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a251790ac471009e0ccbdfd2531ab9060" id="r_a251790ac471009e0ccbdfd2531ab9060"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a251790ac471009e0ccbdfd2531ab9060">DatabaseManager</a> (const std::string &amp;db_path, size_t buffer_pool_size=1024 *1024 *100, size_t shard_count=4, size_t stripe_count=8)</td></tr>
+<tr class="memdesc:a251790ac471009e0ccbdfd2531ab9060"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a251790ac471009e0ccbdfd2531ab9060"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad71c0200acf4fb3395e258e71fd216cf" id="r_ad71c0200acf4fb3395e258e71fd216cf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#ad71c0200acf4fb3395e258e71fd216cf">~DatabaseManager</a> ()</td></tr>
+<tr class="memdesc:ad71c0200acf4fb3395e258e71fd216cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:ad71c0200acf4fb3395e258e71fd216cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ec4380b42c2577a09639577e5204218" id="r_a0ec4380b42c2577a09639577e5204218"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a0ec4380b42c2577a09639577e5204218">CreateDatabase</a> (const std::string &amp;db_name)</td></tr>
+<tr class="separator:a0ec4380b42c2577a09639577e5204218"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad499132826140aef600b2f8c934c5b2c" id="r_ad499132826140aef600b2f8c934c5b2c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#ad499132826140aef600b2f8c934c5b2c">DropDatabase</a> (const std::string &amp;db_name)</td></tr>
+<tr class="separator:ad499132826140aef600b2f8c934c5b2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9840a9c25c73971fa403ad443fb650ca" id="r_a9840a9c25c73971fa403ad443fb650ca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a9840a9c25c73971fa403ad443fb650ca">UseDatabase</a> (const std::string &amp;db_name)</td></tr>
+<tr class="separator:a9840a9c25c73971fa403ad443fb650ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8c2fd59f7ea8e1e8d63c8a6db8022c6" id="r_aa8c2fd59f7ea8e1e8d63c8a6db8022c6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#aa8c2fd59f7ea8e1e8d63c8a6db8022c6">ListDatabases</a> ()</td></tr>
+<tr class="separator:aa8c2fd59f7ea8e1e8d63c8a6db8022c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1861f00c92a43ccd5d222a703fbf7134" id="r_a1861f00c92a43ccd5d222a703fbf7134"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a1861f00c92a43ccd5d222a703fbf7134">DatabaseExists</a> (const std::string &amp;db_name)</td></tr>
+<tr class="separator:a1861f00c92a43ccd5d222a703fbf7134"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a864880337378cfe98a16f820f165dc80" id="r_a864880337378cfe98a16f820f165dc80"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a864880337378cfe98a16f820f165dc80">GetCurrentDatabase</a> () const</td></tr>
+<tr class="separator:a864880337378cfe98a16f820f165dc80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab838123bad60786d574065b108234a5b" id="r_ab838123bad60786d574065b108234a5b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#ab838123bad60786d574065b108234a5b">CreateTable</a> (const std::string &amp;db_name, const std::string &amp;table_name, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;columns)</td></tr>
+<tr class="separator:ab838123bad60786d574065b108234a5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fa3be78bf3f10b83475c6be47c7ce10" id="r_a9fa3be78bf3f10b83475c6be47c7ce10"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a9fa3be78bf3f10b83475c6be47c7ce10">CreateTable</a> (const std::string &amp;table_name, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;columns)</td></tr>
+<tr class="separator:a9fa3be78bf3f10b83475c6be47c7ce10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e6f7dc2864476eec87a423f4dd5d392" id="r_a9e6f7dc2864476eec87a423f4dd5d392"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a9e6f7dc2864476eec87a423f4dd5d392">DropTable</a> (const std::string &amp;table_name)</td></tr>
+<tr class="separator:a9e6f7dc2864476eec87a423f4dd5d392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f7d9a6903accf20ee7755f87068e69a" id="r_a8f7d9a6903accf20ee7755f87068e69a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a8f7d9a6903accf20ee7755f87068e69a">TableExists</a> (const std::string &amp;table_name)</td></tr>
+<tr class="separator:a8f7d9a6903accf20ee7755f87068e69a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6571f945e94a0447f49c6aca1bb65d79" id="r_a6571f945e94a0447f49c6aca1bb65d79"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a6571f945e94a0447f49c6aca1bb65d79">ListTables</a> ()</td></tr>
+<tr class="separator:a6571f945e94a0447f49c6aca1bb65d79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add924e28d79f34515c5afa9af38979a0" id="r_add924e28d79f34515c5afa9af38979a0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#add924e28d79f34515c5afa9af38979a0">CreateIndex</a> (const std::string &amp;index_name, const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;columns, bool unique=false, const std::string &amp;condition=&quot;&quot;)</td></tr>
+<tr class="separator:add924e28d79f34515c5afa9af38979a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fcf2469dfbb313ff98b75cfd71d59cd" id="r_a9fcf2469dfbb313ff98b75cfd71d59cd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a9fcf2469dfbb313ff98b75cfd71d59cd">DropIndex</a> (const std::string &amp;index_name)</td></tr>
+<tr class="separator:a9fcf2469dfbb313ff98b75cfd71d59cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f2680f42f18afca0119549ee8054e7b" id="r_a7f2680f42f18afca0119549ee8054e7b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a7f2680f42f18afca0119549ee8054e7b">CreateView</a> (const std::string &amp;view_name, const std::string &amp;query, bool with_check_option=false)</td></tr>
+<tr class="separator:a7f2680f42f18afca0119549ee8054e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c0ee6c4fdb47f2a1dfd2a76a45730f3" id="r_a5c0ee6c4fdb47f2a1dfd2a76a45730f3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a5c0ee6c4fdb47f2a1dfd2a76a45730f3">DropView</a> (const std::string &amp;view_name)</td></tr>
+<tr class="separator:a5c0ee6c4fdb47f2a1dfd2a76a45730f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd3f9eb932670777150318c50e63582c" id="r_abd3f9eb932670777150318c50e63582c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#abd3f9eb932670777150318c50e63582c">AlterTableAddColumn</a> (const std::string &amp;table_name, const std::string &amp;column_name, const std::string &amp;column_type, const std::string &amp;constraints=&quot;&quot;)</td></tr>
+<tr class="separator:abd3f9eb932670777150318c50e63582c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cd68b8e5dd5c4b68aa7eb04647be61e" id="r_a6cd68b8e5dd5c4b68aa7eb04647be61e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a6cd68b8e5dd5c4b68aa7eb04647be61e">AlterTableDropColumn</a> (const std::string &amp;table_name, const std::string &amp;column_name)</td></tr>
+<tr class="separator:a6cd68b8e5dd5c4b68aa7eb04647be61e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af21a17817e57aba5026c0da7545d1f67" id="r_af21a17817e57aba5026c0da7545d1f67"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#af21a17817e57aba5026c0da7545d1f67">AlterTableModifyColumn</a> (const std::string &amp;table_name, const std::string &amp;column_name, const std::string &amp;new_type)</td></tr>
+<tr class="separator:af21a17817e57aba5026c0da7545d1f67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf7e490a677bceb32ac037b0c5436430" id="r_acf7e490a677bceb32ac037b0c5436430"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#acf7e490a677bceb32ac037b0c5436430">AlterTableRenameColumn</a> (const std::string &amp;table_name, const std::string &amp;old_name, const std::string &amp;new_name)</td></tr>
+<tr class="separator:acf7e490a677bceb32ac037b0c5436430"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c59c092dcfd5aa3ba9a36657b55f4d7" id="r_a4c59c092dcfd5aa3ba9a36657b55f4d7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a4c59c092dcfd5aa3ba9a36657b55f4d7">AddConstraint</a> (const std::string &amp;table_name, const std::string &amp;constraint_name, const std::string &amp;constraint_type, const std::vector&lt; std::string &gt; &amp;columns, const std::string &amp;expression=&quot;&quot;)</td></tr>
+<tr class="separator:a4c59c092dcfd5aa3ba9a36657b55f4d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4cdf29c947eaa7813736c6c16c744af" id="r_ac4cdf29c947eaa7813736c6c16c744af"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#ac4cdf29c947eaa7813736c6c16c744af">InsertRecord</a> (const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;values)</td></tr>
+<tr class="separator:ac4cdf29c947eaa7813736c6c16c744af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0aefd8dc09e8454a9f3b9d19ba8f5907" id="r_a0aefd8dc09e8454a9f3b9d19ba8f5907"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a0aefd8dc09e8454a9f3b9d19ba8f5907">UpdateRecords</a> (const std::string &amp;table_name, const std::map&lt; std::string, std::string &gt; &amp;updates, const std::string &amp;condition=&quot;&quot;)</td></tr>
+<tr class="separator:a0aefd8dc09e8454a9f3b9d19ba8f5907"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fac608c1329d1a741a50ce5ec3cfc18" id="r_a2fac608c1329d1a741a50ce5ec3cfc18"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a2fac608c1329d1a741a50ce5ec3cfc18">DeleteRecords</a> (const std::string &amp;table_name, const std::string &amp;condition=&quot;&quot;)</td></tr>
+<tr class="separator:a2fac608c1329d1a741a50ce5ec3cfc18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64c7916e6f69bceb5b22ca458dbd1782" id="r_a64c7916e6f69bceb5b22ca458dbd1782"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a64c7916e6f69bceb5b22ca458dbd1782">BeginTransaction</a> (<a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a> isolation_level=<a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5a51dd037c6fc783bfbbb79a401342750b">IsolationLevel::READ_COMMITTED</a>)</td></tr>
+<tr class="separator:a64c7916e6f69bceb5b22ca458dbd1782"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbe0f8d927af6bebfb17ec0ccf90cc9e" id="r_acbe0f8d927af6bebfb17ec0ccf90cc9e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#acbe0f8d927af6bebfb17ec0ccf90cc9e">CommitTransaction</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id)</td></tr>
+<tr class="separator:acbe0f8d927af6bebfb17ec0ccf90cc9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23266eb3e148cf3b272626257f72efcd" id="r_a23266eb3e148cf3b272626257f72efcd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a23266eb3e148cf3b272626257f72efcd">RollbackTransaction</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id)</td></tr>
+<tr class="separator:a23266eb3e148cf3b272626257f72efcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfab353651c6a5b4040de2f77a6e41e6" id="r_acfab353651c6a5b4040de2f77a6e41e6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#acfab353651c6a5b4040de2f77a6e41e6">ReadPage</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, int32_t page_id, <a class="el" href="classsqlcc_1_1Page.html">Page</a> **page)</td></tr>
+<tr class="separator:acfab353651c6a5b4040de2f77a6e41e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93f0ad828c30a89f936a3cf439a3bc46" id="r_a93f0ad828c30a89f936a3cf439a3bc46"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a93f0ad828c30a89f936a3cf439a3bc46">WritePage</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, int32_t page_id, <a class="el" href="classsqlcc_1_1Page.html">Page</a> *page)</td></tr>
+<tr class="separator:a93f0ad828c30a89f936a3cf439a3bc46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a839c05e3e16c188f8cba752158a3635e" id="r_a839c05e3e16c188f8cba752158a3635e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a839c05e3e16c188f8cba752158a3635e">LockKey</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, const std::string &amp;key)</td></tr>
+<tr class="separator:a839c05e3e16c188f8cba752158a3635e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad902ff437c4eb9783bacd9f11a2ad755" id="r_ad902ff437c4eb9783bacd9f11a2ad755"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#ad902ff437c4eb9783bacd9f11a2ad755">UnlockKey</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, const std::string &amp;key)</td></tr>
+<tr class="separator:ad902ff437c4eb9783bacd9f11a2ad755"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c5fcd49a53f31a52d97408d442559a4" id="r_a5c5fcd49a53f31a52d97408d442559a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a5c5fcd49a53f31a52d97408d442559a4">FlushAllPages</a> ()</td></tr>
+<tr class="separator:a5c5fcd49a53f31a52d97408d442559a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc2fc7c0cdfe994d5201dc7239647eee" id="r_abc2fc7c0cdfe994d5201dc7239647eee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#abc2fc7c0cdfe994d5201dc7239647eee">Close</a> ()</td></tr>
+<tr class="separator:abc2fc7c0cdfe994d5201dc7239647eee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40aa9933e0dd5a8227cdf09a9c5bd18f" id="r_a40aa9933e0dd5a8227cdf09a9c5bd18f"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1TableMetadata.html">TableMetadata</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a40aa9933e0dd5a8227cdf09a9c5bd18f">GetTableMetadata</a> (const std::string &amp;table_name)</td></tr>
+<tr class="separator:a40aa9933e0dd5a8227cdf09a9c5bd18f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acde4579d3318de54d7751349cf391aa1" id="r_acde4579d3318de54d7751349cf391aa1"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#acde4579d3318de54d7751349cf391aa1">GetIndexManager</a> ()</td></tr>
+<tr class="separator:acde4579d3318de54d7751349cf391aa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a290990af908b7501a4af938659192db0" id="r_a290990af908b7501a4af938659192db0"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a290990af908b7501a4af938659192db0">GetStorageEngine</a> ()</td></tr>
+<tr class="separator:a290990af908b7501a4af938659192db0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a79aad669cf6c7621a28279ad1b4d19" id="r_a9a79aad669cf6c7621a28279ad1b4d19"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a9a79aad669cf6c7621a28279ad1b4d19">GetConfig</a> ()</td></tr>
+<tr class="separator:a9a79aad669cf6c7621a28279ad1b4d19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1c04b137a86b588d325eeeab640e372" id="r_ae1c04b137a86b588d325eeeab640e372"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#ae1c04b137a86b588d325eeeab640e372">Initialize</a> ()</td></tr>
+<tr class="separator:ae1c04b137a86b588d325eeeab640e372"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73a5e1be94ebbf1597197921b90d849a" id="r_a73a5e1be94ebbf1597197921b90d849a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a73a5e1be94ebbf1597197921b90d849a">IsInitialized</a> () const</td></tr>
+<tr class="separator:a73a5e1be94ebbf1597197921b90d849a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7464528da8948f61d9f2b76acc8dcfa" id="r_aa7464528da8948f61d9f2b76acc8dcfa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#aa7464528da8948f61d9f2b76acc8dcfa">Execute</a> (const std::string &amp;sql)</td></tr>
+<tr class="separator:aa7464528da8948f61d9f2b76acc8dcfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a67c33aebf6efbb33999d4c0f8db57c" id="r_a8a67c33aebf6efbb33999d4c0f8db57c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a8a67c33aebf6efbb33999d4c0f8db57c">GetTableNames</a> ()</td></tr>
+<tr class="separator:a8a67c33aebf6efbb33999d4c0f8db57c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30fd989e940c948a9b9e776c08e89f60" id="r_a30fd989e940c948a9b9e776c08e89f60"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a30fd989e940c948a9b9e776c08e89f60">GetTableSchema</a> (const std::string &amp;table_name)</td></tr>
+<tr class="separator:a30fd989e940c948a9b9e776c08e89f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:ad87a72072bea8c93ac93a76eacd9ee21" id="r_ad87a72072bea8c93ac93a76eacd9ee21"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#ad87a72072bea8c93ac93a76eacd9ee21">LoadTables</a> (const std::string &amp;db_name)</td></tr>
+<tr class="separator:ad87a72072bea8c93ac93a76eacd9ee21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe934c5becc77f7c18878e0212049fef" id="r_abe934c5becc77f7c18878e0212049fef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#abe934c5becc77f7c18878e0212049fef">DatabaseManager</a> (const <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &amp;)=delete</td></tr>
+<tr class="separator:abe934c5becc77f7c18878e0212049fef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a662a5710fde765aec46dd08115f844ad" id="r_a662a5710fde765aec46dd08115f844ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a662a5710fde765aec46dd08115f844ad">operator=</a> (const <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &amp;)=delete</td></tr>
+<tr class="separator:a662a5710fde765aec46dd08115f844ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a68b4f362273195cb5660efd3915ac83a" id="r_a68b4f362273195cb5660efd3915ac83a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a68b4f362273195cb5660efd3915ac83a">db_path_</a></td></tr>
+<tr class="separator:a68b4f362273195cb5660efd3915ac83a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6ed40dd5efb6b23ee7c24b6290ddb90" id="r_ad6ed40dd5efb6b23ee7c24b6290ddb90"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#ad6ed40dd5efb6b23ee7c24b6290ddb90">current_database_</a></td></tr>
+<tr class="separator:ad6ed40dd5efb6b23ee7c24b6290ddb90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05205b9dd42c1a32cfd76cd014788c16" id="r_a05205b9dd42c1a32cfd76cd014788c16"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a05205b9dd42c1a32cfd76cd014788c16">is_closed_</a></td></tr>
+<tr class="separator:a05205b9dd42c1a32cfd76cd014788c16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb7456e70305fd0b0ef415b700b1dc80" id="r_aeb7456e70305fd0b0ef415b700b1dc80"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#aeb7456e70305fd0b0ef415b700b1dc80">config_manager_</a></td></tr>
+<tr class="separator:aeb7456e70305fd0b0ef415b700b1dc80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1111395bf9f1fe0174a2c71caca035b" id="r_af1111395bf9f1fe0174a2c71caca035b"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#af1111395bf9f1fe0174a2c71caca035b">storage_engine_</a></td></tr>
+<tr class="separator:af1111395bf9f1fe0174a2c71caca035b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bb9472c20ea57a1356bb1bc7e88fdd2" id="r_a0bb9472c20ea57a1356bb1bc7e88fdd2"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; BufferPool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a0bb9472c20ea57a1356bb1bc7e88fdd2">buffer_pool_</a></td></tr>
+<tr class="separator:a0bb9472c20ea57a1356bb1bc7e88fdd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24c25aaf0f4ed588fe83166bd1e92016" id="r_a24c25aaf0f4ed588fe83166bd1e92016"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a24c25aaf0f4ed588fe83166bd1e92016">txn_manager_</a></td></tr>
+<tr class="separator:a24c25aaf0f4ed588fe83166bd1e92016"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fd934d2dce7b21c4c8eaffa898e7b75" id="r_a6fd934d2dce7b21c4c8eaffa898e7b75"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a6fd934d2dce7b21c4c8eaffa898e7b75">index_manager_</a></td></tr>
+<tr class="separator:a6fd934d2dce7b21c4c8eaffa898e7b75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a791b02f00222ada7e3ada779d5e1a2d8" id="r_a791b02f00222ada7e3ada779d5e1a2d8"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseFileManager.html">DatabaseFileManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a791b02f00222ada7e3ada779d5e1a2d8">db_file_manager_</a></td></tr>
+<tr class="separator:a791b02f00222ada7e3ada779d5e1a2d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad197cf7895bc1050437a54ff5fe9fc4b" id="r_ad197cf7895bc1050437a54ff5fe9fc4b"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#ad197cf7895bc1050437a54ff5fe9fc4b">database_tables_</a></td></tr>
+<tr class="separator:ad197cf7895bc1050437a54ff5fe9fc4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40c8d597e2b2e222b4493ec14a40fd9a" id="r_a40c8d597e2b2e222b4493ec14a40fd9a"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::shared_ptr&lt; TableStorage &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a40c8d597e2b2e222b4493ec14a40fd9a">table_storages_</a></td></tr>
+<tr class="separator:a40c8d597e2b2e222b4493ec14a40fd9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4ca3f0b2ba97528ec2c859b74e76e08" id="r_ac4ca3f0b2ba97528ec2c859b74e76e08"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#ac4ca3f0b2ba97528ec2c859b74e76e08">mutex_</a></td></tr>
+<tr class="separator:ac4ca3f0b2ba97528ec2c859b74e76e08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么需要核心数据库管理器？</p>
+<p>数据库系统需要统一的入口来管理所有数据库操作：</p><ul>
+<li>数据库生命周期：创建、删除、使用数据库</li>
+<li>表操作：表的创建、删除、查询操作</li>
+<li>事务控制：事务的开始、提交、回滚</li>
+<li>并发访问：多事务的并发执行控制</li>
+<li>资源协调：存储引擎、缓冲池等组件协调</li>
+</ul>
+<p>🏗️ 设计模式：外观模式(Facade Pattern)</p><ul>
+<li>统一数据库操作接口</li>
+<li>隐藏底层组件复杂性</li>
+<li>简化客户端使用</li>
+</ul>
+<p>WHAT: 核心数据库管理器 - 数据库系统的统一管理接口</p>
+<p>核心功能：</p><ul>
+<li>数据库管理：创建、删除、使用数据库</li>
+<li>表操作：表的CRUD操作</li>
+<li>事务管理：事务生命周期控制</li>
+<li>并发控制：锁管理和隔离级别</li>
+<li>资源管理：存储和缓冲区管理</li>
+</ul>
+<p>HOW: 实现机制</p><ul>
+<li>组件协调：管理各个底层组件的生命周期</li>
+<li>线程安全：使用互斥锁保护共享状态</li>
+<li>资源管理：智能指针管理组件生命周期</li>
+<li>错误处理：统一的错误处理和状态管理 </li>
+</ul>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a251790ac471009e0ccbdfd2531ab9060" name="a251790ac471009e0ccbdfd2531ab9060"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a251790ac471009e0ccbdfd2531ab9060">&#9670;&#160;</a></span>DatabaseManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::DatabaseManager::DatabaseManager </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>db_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>buffer_pool_size</em> = <code>1024&#160;*&#160;1024&#160;*&#160;100</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>shard_count</em> = <code>4</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>stripe_count</em> = <code>8</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">db_path</td><td>数据库存储路径 </td></tr>
+    <tr><td class="paramname">buffer_pool_size</td><td>缓冲池大小 </td></tr>
+    <tr><td class="paramname">shard_count</td><td>分片数量 </td></tr>
+    <tr><td class="paramname">stripe_count</td><td>条带数量 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad71c0200acf4fb3395e258e71fd216cf" name="ad71c0200acf4fb3395e258e71fd216cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad71c0200acf4fb3395e258e71fd216cf">&#9670;&#160;</a></span>~DatabaseManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::DatabaseManager::~DatabaseManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<a id="abe934c5becc77f7c18878e0212049fef" name="abe934c5becc77f7c18878e0212049fef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe934c5becc77f7c18878e0212049fef">&#9670;&#160;</a></span>DatabaseManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::DatabaseManager::DatabaseManager </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a4c59c092dcfd5aa3ba9a36657b55f4d7" name="a4c59c092dcfd5aa3ba9a36657b55f4d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c59c092dcfd5aa3ba9a36657b55f4d7">&#9670;&#160;</a></span>AddConstraint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::AddConstraint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraint_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraint_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>columns</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expression</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abd3f9eb932670777150318c50e63582c" name="abd3f9eb932670777150318c50e63582c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd3f9eb932670777150318c50e63582c">&#9670;&#160;</a></span>AlterTableAddColumn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::AlterTableAddColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>column_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>column_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraints</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6cd68b8e5dd5c4b68aa7eb04647be61e" name="a6cd68b8e5dd5c4b68aa7eb04647be61e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cd68b8e5dd5c4b68aa7eb04647be61e">&#9670;&#160;</a></span>AlterTableDropColumn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::AlterTableDropColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>column_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af21a17817e57aba5026c0da7545d1f67" name="af21a17817e57aba5026c0da7545d1f67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af21a17817e57aba5026c0da7545d1f67">&#9670;&#160;</a></span>AlterTableModifyColumn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::AlterTableModifyColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>column_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>new_type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acf7e490a677bceb32ac037b0c5436430" name="acf7e490a677bceb32ac037b0c5436430"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf7e490a677bceb32ac037b0c5436430">&#9670;&#160;</a></span>AlterTableRenameColumn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::AlterTableRenameColumn </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>old_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>new_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a64c7916e6f69bceb5b22ca458dbd1782" name="a64c7916e6f69bceb5b22ca458dbd1782"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64c7916e6f69bceb5b22ca458dbd1782">&#9670;&#160;</a></span>BeginTransaction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> sqlcc::DatabaseManager::BeginTransaction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a>&#160;</td>
+          <td class="paramname"><em>isolation_level</em> = <code><a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5a51dd037c6fc783bfbbb79a401342750b">IsolationLevel::READ_COMMITTED</a></code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abc2fc7c0cdfe994d5201dc7239647eee" name="abc2fc7c0cdfe994d5201dc7239647eee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc2fc7c0cdfe994d5201dc7239647eee">&#9670;&#160;</a></span>Close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::Close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acbe0f8d927af6bebfb17ec0ccf90cc9e" name="acbe0f8d927af6bebfb17ec0ccf90cc9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbe0f8d927af6bebfb17ec0ccf90cc9e">&#9670;&#160;</a></span>CommitTransaction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::CommitTransaction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0ec4380b42c2577a09639577e5204218" name="a0ec4380b42c2577a09639577e5204218"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ec4380b42c2577a09639577e5204218">&#9670;&#160;</a></span>CreateDatabase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::CreateDatabase </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>db_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="add924e28d79f34515c5afa9af38979a0" name="add924e28d79f34515c5afa9af38979a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add924e28d79f34515c5afa9af38979a0">&#9670;&#160;</a></span>CreateIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::CreateIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>columns</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>unique</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>condition</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab838123bad60786d574065b108234a5b" name="ab838123bad60786d574065b108234a5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab838123bad60786d574065b108234a5b">&#9670;&#160;</a></span>CreateTable() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::CreateTable </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>db_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>columns</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9fa3be78bf3f10b83475c6be47c7ce10" name="a9fa3be78bf3f10b83475c6be47c7ce10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fa3be78bf3f10b83475c6be47c7ce10">&#9670;&#160;</a></span>CreateTable() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::CreateTable </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>columns</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7f2680f42f18afca0119549ee8054e7b" name="a7f2680f42f18afca0119549ee8054e7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f2680f42f18afca0119549ee8054e7b">&#9670;&#160;</a></span>CreateView()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::CreateView </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>view_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>query</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>with_check_option</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1861f00c92a43ccd5d222a703fbf7134" name="a1861f00c92a43ccd5d222a703fbf7134"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1861f00c92a43ccd5d222a703fbf7134">&#9670;&#160;</a></span>DatabaseExists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::DatabaseExists </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>db_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2fac608c1329d1a741a50ce5ec3cfc18" name="a2fac608c1329d1a741a50ce5ec3cfc18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fac608c1329d1a741a50ce5ec3cfc18">&#9670;&#160;</a></span>DeleteRecords()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::DeleteRecords </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>condition</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad499132826140aef600b2f8c934c5b2c" name="ad499132826140aef600b2f8c934c5b2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad499132826140aef600b2f8c934c5b2c">&#9670;&#160;</a></span>DropDatabase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::DropDatabase </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>db_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9fcf2469dfbb313ff98b75cfd71d59cd" name="a9fcf2469dfbb313ff98b75cfd71d59cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fcf2469dfbb313ff98b75cfd71d59cd">&#9670;&#160;</a></span>DropIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::DropIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9e6f7dc2864476eec87a423f4dd5d392" name="a9e6f7dc2864476eec87a423f4dd5d392"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e6f7dc2864476eec87a423f4dd5d392">&#9670;&#160;</a></span>DropTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::DropTable </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5c0ee6c4fdb47f2a1dfd2a76a45730f3" name="a5c0ee6c4fdb47f2a1dfd2a76a45730f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c0ee6c4fdb47f2a1dfd2a76a45730f3">&#9670;&#160;</a></span>DropView()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::DropView </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>view_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa7464528da8948f61d9f2b76acc8dcfa" name="aa7464528da8948f61d9f2b76acc8dcfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7464528da8948f61d9f2b76acc8dcfa">&#9670;&#160;</a></span>Execute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::Execute </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>sql</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5c5fcd49a53f31a52d97408d442559a4" name="a5c5fcd49a53f31a52d97408d442559a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c5fcd49a53f31a52d97408d442559a4">&#9670;&#160;</a></span>FlushAllPages()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::FlushAllPages </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9a79aad669cf6c7621a28279ad1b4d19" name="a9a79aad669cf6c7621a28279ad1b4d19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a79aad669cf6c7621a28279ad1b4d19">&#9670;&#160;</a></span>GetConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &gt; sqlcc::DatabaseManager::GetConfig </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a864880337378cfe98a16f820f165dc80" name="a864880337378cfe98a16f820f165dc80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a864880337378cfe98a16f820f165dc80">&#9670;&#160;</a></span>GetCurrentDatabase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::DatabaseManager::GetCurrentDatabase </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acde4579d3318de54d7751349cf391aa1" name="acde4579d3318de54d7751349cf391aa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acde4579d3318de54d7751349cf391aa1">&#9670;&#160;</a></span>GetIndexManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a> &gt; sqlcc::DatabaseManager::GetIndexManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a290990af908b7501a4af938659192db0" name="a290990af908b7501a4af938659192db0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a290990af908b7501a4af938659192db0">&#9670;&#160;</a></span>GetStorageEngine()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1StorageEngine.html">sqlcc::StorageEngine</a> &gt; sqlcc::DatabaseManager::GetStorageEngine </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a40aa9933e0dd5a8227cdf09a9c5bd18f" name="a40aa9933e0dd5a8227cdf09a9c5bd18f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40aa9933e0dd5a8227cdf09a9c5bd18f">&#9670;&#160;</a></span>GetTableMetadata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1TableMetadata.html">TableMetadata</a> &gt; sqlcc::DatabaseManager::GetTableMetadata </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8a67c33aebf6efbb33999d4c0f8db57c" name="a8a67c33aebf6efbb33999d4c0f8db57c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a67c33aebf6efbb33999d4c0f8db57c">&#9670;&#160;</a></span>GetTableNames()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; sqlcc::DatabaseManager::GetTableNames </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a30fd989e940c948a9b9e776c08e89f60" name="a30fd989e940c948a9b9e776c08e89f60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30fd989e940c948a9b9e776c08e89f60">&#9670;&#160;</a></span>GetTableSchema()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::DatabaseManager::GetTableSchema </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae1c04b137a86b588d325eeeab640e372" name="ae1c04b137a86b588d325eeeab640e372"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1c04b137a86b588d325eeeab640e372">&#9670;&#160;</a></span>Initialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::Initialize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac4cdf29c947eaa7813736c6c16c744af" name="ac4cdf29c947eaa7813736c6c16c744af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4cdf29c947eaa7813736c6c16c744af">&#9670;&#160;</a></span>InsertRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::InsertRecord </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a73a5e1be94ebbf1597197921b90d849a" name="a73a5e1be94ebbf1597197921b90d849a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73a5e1be94ebbf1597197921b90d849a">&#9670;&#160;</a></span>IsInitialized()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::IsInitialized </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa8c2fd59f7ea8e1e8d63c8a6db8022c6" name="aa8c2fd59f7ea8e1e8d63c8a6db8022c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8c2fd59f7ea8e1e8d63c8a6db8022c6">&#9670;&#160;</a></span>ListDatabases()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; sqlcc::DatabaseManager::ListDatabases </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6571f945e94a0447f49c6aca1bb65d79" name="a6571f945e94a0447f49c6aca1bb65d79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6571f945e94a0447f49c6aca1bb65d79">&#9670;&#160;</a></span>ListTables()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; sqlcc::DatabaseManager::ListTables </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad87a72072bea8c93ac93a76eacd9ee21" name="ad87a72072bea8c93ac93a76eacd9ee21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad87a72072bea8c93ac93a76eacd9ee21">&#9670;&#160;</a></span>LoadTables()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::LoadTables </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>db_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a839c05e3e16c188f8cba752158a3635e" name="a839c05e3e16c188f8cba752158a3635e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a839c05e3e16c188f8cba752158a3635e">&#9670;&#160;</a></span>LockKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::LockKey </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a662a5710fde765aec46dd08115f844ad" name="a662a5710fde765aec46dd08115f844ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a662a5710fde765aec46dd08115f844ad">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &amp; sqlcc::DatabaseManager::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acfab353651c6a5b4040de2f77a6e41e6" name="acfab353651c6a5b4040de2f77a6e41e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfab353651c6a5b4040de2f77a6e41e6">&#9670;&#160;</a></span>ReadPage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::ReadPage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1Page.html">Page</a> **&#160;</td>
+          <td class="paramname"><em>page</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a23266eb3e148cf3b272626257f72efcd" name="a23266eb3e148cf3b272626257f72efcd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23266eb3e148cf3b272626257f72efcd">&#9670;&#160;</a></span>RollbackTransaction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::RollbackTransaction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8f7d9a6903accf20ee7755f87068e69a" name="a8f7d9a6903accf20ee7755f87068e69a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f7d9a6903accf20ee7755f87068e69a">&#9670;&#160;</a></span>TableExists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::TableExists </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad902ff437c4eb9783bacd9f11a2ad755" name="ad902ff437c4eb9783bacd9f11a2ad755"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad902ff437c4eb9783bacd9f11a2ad755">&#9670;&#160;</a></span>UnlockKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::UnlockKey </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0aefd8dc09e8454a9f3b9d19ba8f5907" name="a0aefd8dc09e8454a9f3b9d19ba8f5907"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0aefd8dc09e8454a9f3b9d19ba8f5907">&#9670;&#160;</a></span>UpdateRecords()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::UpdateRecords </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::map&lt; std::string, std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>updates</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>condition</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9840a9c25c73971fa403ad443fb650ca" name="a9840a9c25c73971fa403ad443fb650ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9840a9c25c73971fa403ad443fb650ca">&#9670;&#160;</a></span>UseDatabase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::UseDatabase </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>db_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a93f0ad828c30a89f936a3cf439a3bc46" name="a93f0ad828c30a89f936a3cf439a3bc46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93f0ad828c30a89f936a3cf439a3bc46">&#9670;&#160;</a></span>WritePage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::WritePage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>page_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1Page.html">Page</a> *&#160;</td>
+          <td class="paramname"><em>page</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a0bb9472c20ea57a1356bb1bc7e88fdd2" name="a0bb9472c20ea57a1356bb1bc7e88fdd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bb9472c20ea57a1356bb1bc7e88fdd2">&#9670;&#160;</a></span>buffer_pool_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;BufferPool&gt; sqlcc::DatabaseManager::buffer_pool_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeb7456e70305fd0b0ef415b700b1dc80" name="aeb7456e70305fd0b0ef415b700b1dc80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb7456e70305fd0b0ef415b700b1dc80">&#9670;&#160;</a></span>config_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a>&gt; sqlcc::DatabaseManager::config_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad6ed40dd5efb6b23ee7c24b6290ddb90" name="ad6ed40dd5efb6b23ee7c24b6290ddb90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6ed40dd5efb6b23ee7c24b6290ddb90">&#9670;&#160;</a></span>current_database_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::DatabaseManager::current_database_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad197cf7895bc1050437a54ff5fe9fc4b" name="ad197cf7895bc1050437a54ff5fe9fc4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad197cf7895bc1050437a54ff5fe9fc4b">&#9670;&#160;</a></span>database_tables_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; sqlcc::DatabaseManager::database_tables_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a791b02f00222ada7e3ada779d5e1a2d8" name="a791b02f00222ada7e3ada779d5e1a2d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a791b02f00222ada7e3ada779d5e1a2d8">&#9670;&#160;</a></span>db_file_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1DatabaseFileManager.html">DatabaseFileManager</a>&gt; sqlcc::DatabaseManager::db_file_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a68b4f362273195cb5660efd3915ac83a" name="a68b4f362273195cb5660efd3915ac83a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68b4f362273195cb5660efd3915ac83a">&#9670;&#160;</a></span>db_path_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::DatabaseManager::db_path_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6fd934d2dce7b21c4c8eaffa898e7b75" name="a6fd934d2dce7b21c4c8eaffa898e7b75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fd934d2dce7b21c4c8eaffa898e7b75">&#9670;&#160;</a></span>index_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1IndexManager.html">IndexManager</a>&gt; sqlcc::DatabaseManager::index_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a05205b9dd42c1a32cfd76cd014788c16" name="a05205b9dd42c1a32cfd76cd014788c16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05205b9dd42c1a32cfd76cd014788c16">&#9670;&#160;</a></span>is_closed_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::DatabaseManager::is_closed_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac4ca3f0b2ba97528ec2c859b74e76e08" name="ac4ca3f0b2ba97528ec2c859b74e76e08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4ca3f0b2ba97528ec2c859b74e76e08">&#9670;&#160;</a></span>mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::DatabaseManager::mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af1111395bf9f1fe0174a2c71caca035b" name="af1111395bf9f1fe0174a2c71caca035b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1111395bf9f1fe0174a2c71caca035b">&#9670;&#160;</a></span>storage_engine_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a>&gt; sqlcc::DatabaseManager::storage_engine_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a40c8d597e2b2e222b4493ec14a40fd9a" name="a40c8d597e2b2e222b4493ec14a40fd9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40c8d597e2b2e222b4493ec14a40fd9a">&#9670;&#160;</a></span>table_storages_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, std::shared_ptr&lt;TableStorage&gt; &gt; &gt; sqlcc::DatabaseManager::table_storages_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a24c25aaf0f4ed588fe83166bd1e92016" name="a24c25aaf0f4ed588fe83166bd1e92016"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24c25aaf0f4ed588fe83166bd1e92016">&#9670;&#160;</a></span>txn_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a>&gt; sqlcc::DatabaseManager::txn_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="core__database__manager_8h_source.html">core_database_manager.h</a></li>
+<li><a class="el" href="core__database__manager_8cpp.html">core_database_manager.cpp</a></li>
+<li><a class="el" href="database__manager_8cpp.html">database_manager.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

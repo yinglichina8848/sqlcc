@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: smart_index_factory.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li><li class="navelem"><a class="el" href="dir_7828a994a5a50c4d41d5d76b47dc2e26.html">index_manager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">smart_index_factory.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="smart__index__factory_8h_source.html">smart_index_factory.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="enhanced__index__manager_8h_source.html">enhanced_index_manager.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="storage__engine_2b__plus__tree_8h_source.html">../b_plus_tree.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="logger_2logger_8h_source.html">../../logger/logger.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+smart_index_factory.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="smart__index__factory_8cpp__incl.png" border="0" usemap="#asmart__index__factory_8cpp" alt=""/></div>
+<map name="asmart__index__factory_8cpp" id="asmart__index__factory_8cpp">
+<area shape="rect" title=" " alt="" coords="452,5,633,31"/>
+<area shape="rect" href="smart__index__factory_8h.html" title=" " alt="" coords="394,152,561,177"/>
+<area shape="poly" title=" " alt="" coords="540,32,491,141,486,138,535,30"/>
+<area shape="rect" href="enhanced__index__manager_8h.html" title=" " alt="" coords="585,152,789,177"/>
+<area shape="poly" title=" " alt="" coords="556,29,667,140,663,144,553,33"/>
+<area shape="rect" href="storage__engine_2b__plus__tree_8h.html" title=" " alt="" coords="255,79,377,104"/>
+<area shape="poly" title=" " alt="" coords="507,33,367,77,365,72,505,28"/>
+<area shape="rect" href="logger_2logger_8h.html" title="SQLCC分层日志系统 &#45; 异步写入与智能轮转架构" alt="" coords="865,152,1007,177"/>
+<area shape="poly" title=" " alt="" coords="575,28,893,145,891,150,573,33"/>
+<area shape="rect" title=" " alt="" coords="648,225,725,251"/>
+<area shape="poly" title=" " alt="" coords="512,175,640,218,639,223,510,180"/>
+<area shape="rect" title=" " alt="" coords="448,225,507,251"/>
+<area shape="poly" title=" " alt="" coords="480,178,480,212,475,212,475,178"/>
+<area shape="rect" title=" " alt="" coords="286,225,349,251"/>
+<area shape="poly" title=" " alt="" coords="453,180,357,222,355,217,451,175"/>
+<area shape="poly" title=" " alt="" coords="689,178,689,212,684,212,684,178"/>
+<area shape="poly" title=" " alt="" coords="654,180,521,225,519,220,652,175"/>
+<area shape="poly" title=" " alt="" coords="628,180,362,231,361,226,627,175"/>
+<area shape="poly" title=" " alt="" coords="377,93,626,112,741,128,781,138,803,150,810,162,811,173,797,193,771,210,740,223,738,218,768,205,793,189,805,172,805,163,799,154,779,143,740,134,625,117,377,98"/>
+<area shape="poly" title=" " alt="" coords="325,103,349,137,383,175,413,198,444,217,441,221,410,203,380,179,345,140,321,106"/>
+<area shape="poly" title=" " alt="" coords="255,95,172,98,89,110,57,121,37,135,32,143,31,152,34,163,42,175,73,189,134,204,272,227,272,233,133,209,71,194,38,179,29,165,26,153,27,142,33,131,55,116,88,105,171,93,255,89"/>
+<area shape="rect" title=" " alt="" coords="231,152,318,177"/>
+<area shape="poly" title=" " alt="" coords="311,106,291,141,286,139,307,103"/>
+<area shape="rect" href="storage__engine_2b__plus__tree__nodes_8h.html" title=" " alt="" coords="52,152,207,177"/>
+<area shape="poly" title=" " alt="" coords="287,107,173,149,172,145,285,102"/>
+<area shape="poly" title=" " alt="" coords="207,173,219,175,635,227,634,233,218,180,206,178"/>
+<area shape="poly" title=" " alt="" coords="186,175,435,225,434,231,185,180"/>
+<area shape="poly" title=" " alt="" coords="160,175,275,218,273,223,159,180"/>
+<area shape="rect" href="page_8h.html" title=" " alt="" coords="72,225,187,251"/>
+<area shape="poly" title=" " alt="" coords="132,178,132,212,127,212,127,178"/>
+<area shape="rect" title=" " alt="" coords="5,299,72,324"/>
+<area shape="poly" title=" " alt="" coords="116,253,66,292,63,288,113,249"/>
+<area shape="rect" title=" " alt="" coords="96,299,163,324"/>
+<area shape="poly" title=" " alt="" coords="132,251,132,285,127,285,127,251"/>
+<area shape="rect" title=" " alt="" coords="187,299,240,324"/>
+<area shape="poly" title=" " alt="" coords="145,249,191,287,187,292,141,253"/>
+<area shape="poly" title=" " alt="" coords="897,180,739,225,738,219,895,175"/>
+<area shape="poly" title=" " alt="" coords="865,180,521,233,520,227,864,174"/>
+<area shape="rect" title=" " alt="" coords="993,225,1066,251"/>
+<area shape="poly" title=" " alt="" coords="953,175,1005,215,1002,219,949,179"/>
+<area shape="rect" title=" " alt="" coords="816,225,880,251"/>
+<area shape="poly" title=" " alt="" coords="924,179,875,219,871,214,920,175"/>
+<area shape="rect" title=" " alt="" coords="904,225,968,251"/>
+<area shape="poly" title=" " alt="" coords="939,178,939,212,933,212,933,178"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1storage__engine" id="r_namespacesqlcc_1_1storage__engine"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1storage__engine.html">sqlcc::storage_engine</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacesqlcc_1_1storage__engine_1_1index__manager" id="r_namespacesqlcc_1_1storage__engine_1_1index__manager"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1storage__engine_1_1index__manager.html">sqlcc::storage_engine::index_manager</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

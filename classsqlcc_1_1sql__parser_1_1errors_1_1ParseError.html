@@ -1,0 +1,638 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::errors::ParseError类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1errors.html">errors</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html">ParseError</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::errors::ParseError类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>解析错误类  
+ <a href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="error__core_8h_source.html">error_core.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::sql_parser::errors::ParseError 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError__coll__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1errors_1_1ParseError_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1sql__parser_1_1errors_1_1ParseError_coll__map" id="asqlcc_1_1sql__parser_1_1errors_1_1ParseError_coll__map">
+<area shape="rect" title="解析错误类" alt="" coords="11,108,149,148"/>
+<area shape="rect" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html" title="Source location information for AST nodes" alt="" coords="5,5,155,45"/>
+<area shape="poly" title=" " alt="" coords="83,59,83,108,77,108,77,59"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a24f365a780324772f5d0273db98fc7b1" id="r_a24f365a780324772f5d0273db98fc7b1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#a24f365a780324772f5d0273db98fc7b1">ParseError</a> (<a class="el" href="namespacesqlcc_1_1sql__parser_1_1errors.html#a1a60c5b1924bdfdcddfd65d259b34bdb">ErrorType</a> type, <a class="el" href="namespacesqlcc_1_1sql__parser_1_1errors.html#af3a9eb0965683399f6281296e4a4f7bf">Severity</a> severity, const std::string &amp;message, const <a class="el" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">ast::SourceLocation</a> &amp;location)</td></tr>
+<tr class="memdesc:a24f365a780324772f5d0273db98fc7b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a24f365a780324772f5d0273db98fc7b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c34f08b84441c37ddc59bf641beef37" id="r_a0c34f08b84441c37ddc59bf641beef37"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#a0c34f08b84441c37ddc59bf641beef37">~ParseError</a> ()=default</td></tr>
+<tr class="memdesc:a0c34f08b84441c37ddc59bf641beef37"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a0c34f08b84441c37ddc59bf641beef37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a670d56f40b725e82ff29f066d27ea3e3" id="r_a670d56f40b725e82ff29f066d27ea3e3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1errors.html#a1a60c5b1924bdfdcddfd65d259b34bdb">ErrorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#a670d56f40b725e82ff29f066d27ea3e3">getType</a> () const</td></tr>
+<tr class="memdesc:a670d56f40b725e82ff29f066d27ea3e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取错误类型  <br /></td></tr>
+<tr class="separator:a670d56f40b725e82ff29f066d27ea3e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0ea0839d2bfdeec4758abacaf59d95c" id="r_ad0ea0839d2bfdeec4758abacaf59d95c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1errors.html#af3a9eb0965683399f6281296e4a4f7bf">Severity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#ad0ea0839d2bfdeec4758abacaf59d95c">getSeverity</a> () const</td></tr>
+<tr class="memdesc:ad0ea0839d2bfdeec4758abacaf59d95c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取错误严重程度  <br /></td></tr>
+<tr class="separator:ad0ea0839d2bfdeec4758abacaf59d95c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a354cbdbc834d71f04c596493e47a15c8" id="r_a354cbdbc834d71f04c596493e47a15c8"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#a354cbdbc834d71f04c596493e47a15c8">getMessage</a> () const</td></tr>
+<tr class="memdesc:a354cbdbc834d71f04c596493e47a15c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取错误消息  <br /></td></tr>
+<tr class="separator:a354cbdbc834d71f04c596493e47a15c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33c853ca388b15851738be5baf1cf81a" id="r_a33c853ca388b15851738be5baf1cf81a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">ast::SourceLocation</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#a33c853ca388b15851738be5baf1cf81a">getLocation</a> () const</td></tr>
+<tr class="memdesc:a33c853ca388b15851738be5baf1cf81a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取错误位置  <br /></td></tr>
+<tr class="separator:a33c853ca388b15851738be5baf1cf81a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad224950e88aa627943ee1bb93ff95e28" id="r_ad224950e88aa627943ee1bb93ff95e28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#ad224950e88aa627943ee1bb93ff95e28">setSuggestion</a> (const std::string &amp;suggestion)</td></tr>
+<tr class="memdesc:ad224950e88aa627943ee1bb93ff95e28"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置建议修复方案  <br /></td></tr>
+<tr class="separator:ad224950e88aa627943ee1bb93ff95e28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a754db22f29e2aff0a3cf73d7112215db" id="r_a754db22f29e2aff0a3cf73d7112215db"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#a754db22f29e2aff0a3cf73d7112215db">getSuggestion</a> () const</td></tr>
+<tr class="memdesc:a754db22f29e2aff0a3cf73d7112215db"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取建议修复方案  <br /></td></tr>
+<tr class="separator:a754db22f29e2aff0a3cf73d7112215db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a595c65b0ed17142827a040af05fe54cb" id="r_a595c65b0ed17142827a040af05fe54cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#a595c65b0ed17142827a040af05fe54cb">setContext</a> (const std::string &amp;context)</td></tr>
+<tr class="memdesc:a595c65b0ed17142827a040af05fe54cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置上下文信息  <br /></td></tr>
+<tr class="separator:a595c65b0ed17142827a040af05fe54cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dee88742610ffc938dc39ab93a793b0" id="r_a4dee88742610ffc938dc39ab93a793b0"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#a4dee88742610ffc938dc39ab93a793b0">getContext</a> () const</td></tr>
+<tr class="memdesc:a4dee88742610ffc938dc39ab93a793b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取上下文信息  <br /></td></tr>
+<tr class="separator:a4dee88742610ffc938dc39ab93a793b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa71240b1b044f09aea3c3d8ba32a7d94" id="r_aa71240b1b044f09aea3c3d8ba32a7d94"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#aa71240b1b044f09aea3c3d8ba32a7d94">toString</a> () const</td></tr>
+<tr class="memdesc:aa71240b1b044f09aea3c3d8ba32a7d94"><td class="mdescLeft">&#160;</td><td class="mdescRight">转换为字符串表示  <br /></td></tr>
+<tr class="separator:aa71240b1b044f09aea3c3d8ba32a7d94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab34628dd26f6f40cd4df0620543ced65" id="r_ab34628dd26f6f40cd4df0620543ced65"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#ab34628dd26f6f40cd4df0620543ced65">toJson</a> () const</td></tr>
+<tr class="memdesc:ab34628dd26f6f40cd4df0620543ced65"><td class="mdescLeft">&#160;</td><td class="mdescRight">转换为JSON表示  <br /></td></tr>
+<tr class="separator:ab34628dd26f6f40cd4df0620543ced65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd5d9780b4e778d8e2e11d4de620f5c9" id="r_afd5d9780b4e778d8e2e11d4de620f5c9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#afd5d9780b4e778d8e2e11d4de620f5c9">isFatal</a> () const</td></tr>
+<tr class="memdesc:afd5d9780b4e778d8e2e11d4de620f5c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否为致命错误  <br /></td></tr>
+<tr class="separator:afd5d9780b4e778d8e2e11d4de620f5c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5adc3c4ccc78b00e4d5ec9c65a402ee0" id="r_a5adc3c4ccc78b00e4d5ec9c65a402ee0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#a5adc3c4ccc78b00e4d5ec9c65a402ee0">isWarning</a> () const</td></tr>
+<tr class="memdesc:a5adc3c4ccc78b00e4d5ec9c65a402ee0"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否为警告  <br /></td></tr>
+<tr class="separator:a5adc3c4ccc78b00e4d5ec9c65a402ee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a4272f3c562cc3f29d5ceea0c518f6019" id="r_a4272f3c562cc3f29d5ceea0c518f6019"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1errors.html#a1a60c5b1924bdfdcddfd65d259b34bdb">ErrorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#a4272f3c562cc3f29d5ceea0c518f6019">type_</a></td></tr>
+<tr class="separator:a4272f3c562cc3f29d5ceea0c518f6019"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0691c48b6a4f7afe73d67c8741bc92f6" id="r_a0691c48b6a4f7afe73d67c8741bc92f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1errors.html#af3a9eb0965683399f6281296e4a4f7bf">Severity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#a0691c48b6a4f7afe73d67c8741bc92f6">severity_</a></td></tr>
+<tr class="separator:a0691c48b6a4f7afe73d67c8741bc92f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a5b9e282b9f55dd42128b96b145eabb" id="r_a7a5b9e282b9f55dd42128b96b145eabb"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#a7a5b9e282b9f55dd42128b96b145eabb">message_</a></td></tr>
+<tr class="separator:a7a5b9e282b9f55dd42128b96b145eabb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2d922c06205022c6c9a29bc280aadce" id="r_ad2d922c06205022c6c9a29bc280aadce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">ast::SourceLocation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#ad2d922c06205022c6c9a29bc280aadce">location_</a></td></tr>
+<tr class="separator:ad2d922c06205022c6c9a29bc280aadce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98f7e5a40793fd254cb4a479e9ce1568" id="r_a98f7e5a40793fd254cb4a479e9ce1568"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#a98f7e5a40793fd254cb4a479e9ce1568">suggestion_</a></td></tr>
+<tr class="separator:a98f7e5a40793fd254cb4a479e9ce1568"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a728f0cbf84292003db55238aaa0814" id="r_a9a728f0cbf84292003db55238aaa0814"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1errors_1_1ParseError.html#a9a728f0cbf84292003db55238aaa0814">context_</a></td></tr>
+<tr class="separator:a9a728f0cbf84292003db55238aaa0814"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>解析错误类 </p>
+<p>表示在SQL解析过程中发生的各种错误信息 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a24f365a780324772f5d0273db98fc7b1" name="a24f365a780324772f5d0273db98fc7b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24f365a780324772f5d0273db98fc7b1">&#9670;&#160;</a></span>ParseError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::errors::ParseError::ParseError </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1errors.html#a1a60c5b1924bdfdcddfd65d259b34bdb">ErrorType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1errors.html#af3a9eb0965683399f6281296e4a4f7bf">Severity</a>&#160;</td>
+          <td class="paramname"><em>severity</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">ast::SourceLocation</a> &amp;&#160;</td>
+          <td class="paramname"><em>location</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>错误类型 </td></tr>
+    <tr><td class="paramname">severity</td><td>错误严重程度 </td></tr>
+    <tr><td class="paramname">message</td><td>错误消息 </td></tr>
+    <tr><td class="paramname">location</td><td>错误位置 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0c34f08b84441c37ddc59bf641beef37" name="a0c34f08b84441c37ddc59bf641beef37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c34f08b84441c37ddc59bf641beef37">&#9670;&#160;</a></span>~ParseError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::errors::ParseError::~ParseError </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a4dee88742610ffc938dc39ab93a793b0" name="a4dee88742610ffc938dc39ab93a793b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dee88742610ffc938dc39ab93a793b0">&#9670;&#160;</a></span>getContext()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::errors::ParseError::getContext </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取上下文信息 </p>
+<dl class="section return"><dt>返回</dt><dd>上下文信息 </dd></dl>
+
+</div>
+</div>
+<a id="a33c853ca388b15851738be5baf1cf81a" name="a33c853ca388b15851738be5baf1cf81a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33c853ca388b15851738be5baf1cf81a">&#9670;&#160;</a></span>getLocation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">ast::SourceLocation</a> &amp; sqlcc::sql_parser::errors::ParseError::getLocation </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取错误位置 </p>
+<dl class="section return"><dt>返回</dt><dd>错误位置 </dd></dl>
+
+</div>
+</div>
+<a id="a354cbdbc834d71f04c596493e47a15c8" name="a354cbdbc834d71f04c596493e47a15c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a354cbdbc834d71f04c596493e47a15c8">&#9670;&#160;</a></span>getMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::errors::ParseError::getMessage </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取错误消息 </p>
+<dl class="section return"><dt>返回</dt><dd>错误消息 </dd></dl>
+
+</div>
+</div>
+<a id="ad0ea0839d2bfdeec4758abacaf59d95c" name="ad0ea0839d2bfdeec4758abacaf59d95c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0ea0839d2bfdeec4758abacaf59d95c">&#9670;&#160;</a></span>getSeverity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1errors.html#af3a9eb0965683399f6281296e4a4f7bf">Severity</a> sqlcc::sql_parser::errors::ParseError::getSeverity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取错误严重程度 </p>
+<dl class="section return"><dt>返回</dt><dd>错误严重程度 </dd></dl>
+
+</div>
+</div>
+<a id="a754db22f29e2aff0a3cf73d7112215db" name="a754db22f29e2aff0a3cf73d7112215db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a754db22f29e2aff0a3cf73d7112215db">&#9670;&#160;</a></span>getSuggestion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::errors::ParseError::getSuggestion </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取建议修复方案 </p>
+<dl class="section return"><dt>返回</dt><dd>建议修复方案 </dd></dl>
+
+</div>
+</div>
+<a id="a670d56f40b725e82ff29f066d27ea3e3" name="a670d56f40b725e82ff29f066d27ea3e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a670d56f40b725e82ff29f066d27ea3e3">&#9670;&#160;</a></span>getType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1errors.html#a1a60c5b1924bdfdcddfd65d259b34bdb">ErrorType</a> sqlcc::sql_parser::errors::ParseError::getType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取错误类型 </p>
+<dl class="section return"><dt>返回</dt><dd>错误类型 </dd></dl>
+
+</div>
+</div>
+<a id="afd5d9780b4e778d8e2e11d4de620f5c9" name="afd5d9780b4e778d8e2e11d4de620f5c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd5d9780b4e778d8e2e11d4de620f5c9">&#9670;&#160;</a></span>isFatal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::errors::ParseError::isFatal </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查是否为致命错误 </p>
+<dl class="section return"><dt>返回</dt><dd>如果是致命错误返回true </dd></dl>
+
+</div>
+</div>
+<a id="a5adc3c4ccc78b00e4d5ec9c65a402ee0" name="a5adc3c4ccc78b00e4d5ec9c65a402ee0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5adc3c4ccc78b00e4d5ec9c65a402ee0">&#9670;&#160;</a></span>isWarning()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::errors::ParseError::isWarning </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查是否为警告 </p>
+<dl class="section return"><dt>返回</dt><dd>如果是警告返回true </dd></dl>
+
+</div>
+</div>
+<a id="a595c65b0ed17142827a040af05fe54cb" name="a595c65b0ed17142827a040af05fe54cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a595c65b0ed17142827a040af05fe54cb">&#9670;&#160;</a></span>setContext()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::errors::ParseError::setContext </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>context</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置上下文信息 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>上下文信息 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad224950e88aa627943ee1bb93ff95e28" name="ad224950e88aa627943ee1bb93ff95e28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad224950e88aa627943ee1bb93ff95e28">&#9670;&#160;</a></span>setSuggestion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::errors::ParseError::setSuggestion </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>suggestion</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置建议修复方案 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">suggestion</td><td>建议修复方案 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab34628dd26f6f40cd4df0620543ced65" name="ab34628dd26f6f40cd4df0620543ced65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab34628dd26f6f40cd4df0620543ced65">&#9670;&#160;</a></span>toJson()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::errors::ParseError::toJson </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>转换为JSON表示 </p>
+<dl class="section return"><dt>返回</dt><dd>JSON字符串 </dd></dl>
+
+</div>
+</div>
+<a id="aa71240b1b044f09aea3c3d8ba32a7d94" name="aa71240b1b044f09aea3c3d8ba32a7d94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa71240b1b044f09aea3c3d8ba32a7d94">&#9670;&#160;</a></span>toString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::errors::ParseError::toString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>转换为字符串表示 </p>
+<dl class="section return"><dt>返回</dt><dd>字符串表示 </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a9a728f0cbf84292003db55238aaa0814" name="a9a728f0cbf84292003db55238aaa0814"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a728f0cbf84292003db55238aaa0814">&#9670;&#160;</a></span>context_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::errors::ParseError::context_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad2d922c06205022c6c9a29bc280aadce" name="ad2d922c06205022c6c9a29bc280aadce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2d922c06205022c6c9a29bc280aadce">&#9670;&#160;</a></span>location_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html">ast::SourceLocation</a> sqlcc::sql_parser::errors::ParseError::location_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a5b9e282b9f55dd42128b96b145eabb" name="a7a5b9e282b9f55dd42128b96b145eabb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a5b9e282b9f55dd42128b96b145eabb">&#9670;&#160;</a></span>message_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::errors::ParseError::message_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0691c48b6a4f7afe73d67c8741bc92f6" name="a0691c48b6a4f7afe73d67c8741bc92f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0691c48b6a4f7afe73d67c8741bc92f6">&#9670;&#160;</a></span>severity_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1errors.html#af3a9eb0965683399f6281296e4a4f7bf">Severity</a> sqlcc::sql_parser::errors::ParseError::severity_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a98f7e5a40793fd254cb4a479e9ce1568" name="a98f7e5a40793fd254cb4a479e9ce1568"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98f7e5a40793fd254cb4a479e9ce1568">&#9670;&#160;</a></span>suggestion_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::errors::ParseError::suggestion_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4272f3c562cc3f29d5ceea0c518f6019" name="a4272f3c562cc3f29d5ceea0c518f6019"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4272f3c562cc3f29d5ceea0c518f6019">&#9670;&#160;</a></span>type_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc_1_1sql__parser_1_1errors.html#a1a60c5b1924bdfdcddfd65d259b34bdb">ErrorType</a> sqlcc::sql_parser::errors::ParseError::type_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="error__core_8h_source.html">error_core.h</a></li>
+<li><a class="el" href="error__core_8cpp.html">error_core.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

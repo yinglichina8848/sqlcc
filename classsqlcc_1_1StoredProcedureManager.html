@@ -1,0 +1,1060 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::StoredProcedureManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html">StoredProcedureManager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1StoredProcedureManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::StoredProcedureManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>存储过程和触发器管理器  
+ <a href="classsqlcc_1_1StoredProcedureManager.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="stored__procedure__manager_8h_source.html">stored_procedure_manager.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::StoredProcedureManager 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1StoredProcedureManager__coll__graph.png" border="0" usemap="#asqlcc_1_1StoredProcedureManager_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1StoredProcedureManager_coll__map" id="asqlcc_1_1StoredProcedureManager_coll__map">
+<area shape="rect" title="存储过程和触发器管理器" alt="" coords="417,55,644,80"/>
+<area shape="rect" href="classsqlcc_1_1ConfigManager.html" title=" " alt="" coords="38,5,199,31"/>
+<area shape="poly" title=" " alt="" coords="213,24,394,45,447,52,446,57,393,50,213,30"/>
+<area shape="rect" href="classsqlcc_1_1DatabaseManager.html" title=" " alt="" coords="27,55,210,80"/>
+<area shape="poly" title=" " alt="" coords="224,65,417,65,417,70,224,70"/>
+<area shape="rect" href="structsqlcc_1_1StoredProcedureManager_1_1SPMStats.html" title="统计信息" alt="" coords="5,105,232,145"/>
+<area shape="poly" title=" " alt="" coords="246,105,393,85,444,77,444,83,394,90,246,110"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1StoredProcedureManager_1_1SPMStats.html">SPMStats</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">统计信息  <a href="structsqlcc_1_1StoredProcedureManager_1_1SPMStats.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a4423a17c08fdc1088481d43835070587" id="r_a4423a17c08fdc1088481d43835070587"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a4423a17c08fdc1088481d43835070587">StoredProcedureManager</a> (<a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager, <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &amp;database_manager)</td></tr>
+<tr class="memdesc:a4423a17c08fdc1088481d43835070587"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a4423a17c08fdc1088481d43835070587"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06b5df90f9d67425f4c683271ffde53a" id="r_a06b5df90f9d67425f4c683271ffde53a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a06b5df90f9d67425f4c683271ffde53a">~StoredProcedureManager</a> ()</td></tr>
+<tr class="memdesc:a06b5df90f9d67425f4c683271ffde53a"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a06b5df90f9d67425f4c683271ffde53a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c26f1eb8bffd5092dc9847ef79c5f17" id="r_a5c26f1eb8bffd5092dc9847ef79c5f17"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a5c26f1eb8bffd5092dc9847ef79c5f17">CreateProcedure</a> (const <a class="el" href="structsqlcc_1_1StoredProcedure.html">StoredProcedure</a> &amp;procedure)</td></tr>
+<tr class="memdesc:a5c26f1eb8bffd5092dc9847ef79c5f17"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建存储过程  <br /></td></tr>
+<tr class="separator:a5c26f1eb8bffd5092dc9847ef79c5f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8822cd6407b0cd3ab2b047b8d1b87620" id="r_a8822cd6407b0cd3ab2b047b8d1b87620"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a8822cd6407b0cd3ab2b047b8d1b87620">DropProcedure</a> (const std::string &amp;schema, const std::string &amp;name)</td></tr>
+<tr class="memdesc:a8822cd6407b0cd3ab2b047b8d1b87620"><td class="mdescLeft">&#160;</td><td class="mdescRight">删除存储过程  <br /></td></tr>
+<tr class="separator:a8822cd6407b0cd3ab2b047b8d1b87620"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaf07f7b21a7a06a9e41b6c7ea1a7cb6" id="r_aaaf07f7b21a7a06a9e41b6c7ea1a7cb6"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1StoredProcedure.html">StoredProcedure</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#aaaf07f7b21a7a06a9e41b6c7ea1a7cb6">GetProcedure</a> (const std::string &amp;schema, const std::string &amp;name)</td></tr>
+<tr class="memdesc:aaaf07f7b21a7a06a9e41b6c7ea1a7cb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取存储过程定义  <br /></td></tr>
+<tr class="separator:aaaf07f7b21a7a06a9e41b6c7ea1a7cb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a718e709532072c2e056ddcf45aceb264" id="r_a718e709532072c2e056ddcf45aceb264"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a718e709532072c2e056ddcf45aceb264">ExecuteProcedure</a> (const std::string &amp;schema, const std::string &amp;name, const std::unordered_map&lt; std::string, std::string &gt; &amp;parameters, <a class="el" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a> &amp;executor)</td></tr>
+<tr class="memdesc:a718e709532072c2e056ddcf45aceb264"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行存储过程  <br /></td></tr>
+<tr class="separator:a718e709532072c2e056ddcf45aceb264"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c3425db023daf5c4a95d7c0e22294d2" id="r_a2c3425db023daf5c4a95d7c0e22294d2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a2c3425db023daf5c4a95d7c0e22294d2">CreateTrigger</a> (const <a class="el" href="structsqlcc_1_1Trigger.html">Trigger</a> &amp;trigger)</td></tr>
+<tr class="memdesc:a2c3425db023daf5c4a95d7c0e22294d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建触发器  <br /></td></tr>
+<tr class="separator:a2c3425db023daf5c4a95d7c0e22294d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f0ac28402765ae1d24e9bf5c078940f" id="r_a8f0ac28402765ae1d24e9bf5c078940f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a8f0ac28402765ae1d24e9bf5c078940f">DropTrigger</a> (const std::string &amp;schema, const std::string &amp;name)</td></tr>
+<tr class="memdesc:a8f0ac28402765ae1d24e9bf5c078940f"><td class="mdescLeft">&#160;</td><td class="mdescRight">删除触发器  <br /></td></tr>
+<tr class="separator:a8f0ac28402765ae1d24e9bf5c078940f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add281d0f8e562948610c46acef41b57c" id="r_add281d0f8e562948610c46acef41b57c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#add281d0f8e562948610c46acef41b57c">SetTriggerEnabled</a> (const std::string &amp;schema, const std::string &amp;name, bool enabled)</td></tr>
+<tr class="memdesc:add281d0f8e562948610c46acef41b57c"><td class="mdescLeft">&#160;</td><td class="mdescRight">启用/禁用触发器  <br /></td></tr>
+<tr class="separator:add281d0f8e562948610c46acef41b57c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3aca95d67d27bd3a6b971a5c16b80e0" id="r_aa3aca95d67d27bd3a6b971a5c16b80e0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#aa3aca95d67d27bd3a6b971a5c16b80e0">ExecuteTrigger</a> (const <a class="el" href="structsqlcc_1_1Trigger.html">Trigger</a> &amp;trigger, const std::string &amp;event_type, const std::vector&lt; std::string &gt; &amp;old_row, const std::vector&lt; std::string &gt; &amp;new_row, <a class="el" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a> &amp;executor)</td></tr>
+<tr class="memdesc:aa3aca95d67d27bd3a6b971a5c16b80e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行触发器  <br /></td></tr>
+<tr class="separator:aa3aca95d67d27bd3a6b971a5c16b80e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70afa59818e318d6523974ba90079e5e" id="r_a70afa59818e318d6523974ba90079e5e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1Trigger.html">Trigger</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a70afa59818e318d6523974ba90079e5e">GetTriggersForTable</a> (const std::string &amp;table_name, const std::string &amp;event_type)</td></tr>
+<tr class="memdesc:a70afa59818e318d6523974ba90079e5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取指定表的触发器  <br /></td></tr>
+<tr class="separator:a70afa59818e318d6523974ba90079e5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a8af10500a61dd6982b190cf5e64b9c" id="r_a3a8af10500a61dd6982b190cf5e64b9c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1StoredProcedureManager_1_1SPMStats.html">SPMStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a3a8af10500a61dd6982b190cf5e64b9c">GetStats</a> () const</td></tr>
+<tr class="memdesc:a3a8af10500a61dd6982b190cf5e64b9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取统计信息  <br /></td></tr>
+<tr class="separator:a3a8af10500a61dd6982b190cf5e64b9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24de2d959d847e5f3454e961dde52f85" id="r_a24de2d959d847e5f3454e961dde52f85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a24de2d959d847e5f3454e961dde52f85">ResetStats</a> ()</td></tr>
+<tr class="memdesc:a24de2d959d847e5f3454e961dde52f85"><td class="mdescLeft">&#160;</td><td class="mdescRight">重置统计信息  <br /></td></tr>
+<tr class="separator:a24de2d959d847e5f3454e961dde52f85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a222a896a38479a46213096570474141b" id="r_a222a896a38479a46213096570474141b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1StoredProcedure.html">StoredProcedure</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a222a896a38479a46213096570474141b">ListProcedures</a> (const std::string &amp;schema=&quot;&quot;)</td></tr>
+<tr class="memdesc:a222a896a38479a46213096570474141b"><td class="mdescLeft">&#160;</td><td class="mdescRight">列出所有存储过程  <br /></td></tr>
+<tr class="separator:a222a896a38479a46213096570474141b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1efe4dbc03d115d5a9b69aa125e56998" id="r_a1efe4dbc03d115d5a9b69aa125e56998"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1Trigger.html">Trigger</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a1efe4dbc03d115d5a9b69aa125e56998">ListTriggers</a> (const std::string &amp;schema=&quot;&quot;)</td></tr>
+<tr class="memdesc:a1efe4dbc03d115d5a9b69aa125e56998"><td class="mdescLeft">&#160;</td><td class="mdescRight">列出所有触发器  <br /></td></tr>
+<tr class="separator:a1efe4dbc03d115d5a9b69aa125e56998"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a59d115f4d9a299556136f826c0e847ea" id="r_a59d115f4d9a299556136f826c0e847ea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a59d115f4d9a299556136f826c0e847ea">ValidateProcedure</a> (const <a class="el" href="structsqlcc_1_1StoredProcedure.html">StoredProcedure</a> &amp;procedure)</td></tr>
+<tr class="memdesc:a59d115f4d9a299556136f826c0e847ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">验证存储过程定义  <br /></td></tr>
+<tr class="separator:a59d115f4d9a299556136f826c0e847ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08aaa930dc9e04696cda49645a061983" id="r_a08aaa930dc9e04696cda49645a061983"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a08aaa930dc9e04696cda49645a061983">ValidateTrigger</a> (const <a class="el" href="structsqlcc_1_1Trigger.html">Trigger</a> &amp;trigger)</td></tr>
+<tr class="memdesc:a08aaa930dc9e04696cda49645a061983"><td class="mdescLeft">&#160;</td><td class="mdescRight">验证触发器定义  <br /></td></tr>
+<tr class="separator:a08aaa930dc9e04696cda49645a061983"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae60c267b5273bf2215ae3a11ab5c0797" id="r_ae60c267b5273bf2215ae3a11ab5c0797"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1ProcedureParameter.html">ProcedureParameter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#ae60c267b5273bf2215ae3a11ab5c0797">ParseProcedureParameters</a> (const std::string &amp;param_str)</td></tr>
+<tr class="memdesc:ae60c267b5273bf2215ae3a11ab5c0797"><td class="mdescLeft">&#160;</td><td class="mdescRight">解析存储过程参数  <br /></td></tr>
+<tr class="separator:ae60c267b5273bf2215ae3a11ab5c0797"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4212efb7f1713a684f95b702c4286f14" id="r_a4212efb7f1713a684f95b702c4286f14"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a4212efb7f1713a684f95b702c4286f14">CompileProcedure</a> (<a class="el" href="structsqlcc_1_1StoredProcedure.html">StoredProcedure</a> &amp;procedure)</td></tr>
+<tr class="memdesc:a4212efb7f1713a684f95b702c4286f14"><td class="mdescLeft">&#160;</td><td class="mdescRight">编译存储过程体  <br /></td></tr>
+<tr class="separator:a4212efb7f1713a684f95b702c4286f14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a3027b599872d7093345295d0191d0fd4" id="r_a3027b599872d7093345295d0191d0fd4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a3027b599872d7093345295d0191d0fd4">config_manager_</a></td></tr>
+<tr class="separator:a3027b599872d7093345295d0191d0fd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcb548f73009fcdc9fcebdcf9befbb57" id="r_adcb548f73009fcdc9fcebdcf9befbb57"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#adcb548f73009fcdc9fcebdcf9befbb57">database_manager_</a></td></tr>
+<tr class="separator:adcb548f73009fcdc9fcebdcf9befbb57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b1f42bff64955809ff3d1b48b2d289a" id="r_a8b1f42bff64955809ff3d1b48b2d289a"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1StoredProcedure.html">StoredProcedure</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a8b1f42bff64955809ff3d1b48b2d289a">procedures_</a></td></tr>
+<tr class="separator:a8b1f42bff64955809ff3d1b48b2d289a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f3c9c8a9fdb6b50c749ef8902b2a0fc" id="r_a0f3c9c8a9fdb6b50c749ef8902b2a0fc"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1Trigger.html">Trigger</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a0f3c9c8a9fdb6b50c749ef8902b2a0fc">triggers_</a></td></tr>
+<tr class="separator:a0f3c9c8a9fdb6b50c749ef8902b2a0fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6820fb2583d497c4b886e5053e2a9cf" id="r_ad6820fb2583d497c4b886e5053e2a9cf"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::vector&lt; std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1Trigger.html">Trigger</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#ad6820fb2583d497c4b886e5053e2a9cf">table_triggers_</a></td></tr>
+<tr class="separator:ad6820fb2583d497c4b886e5053e2a9cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc89c685624e111ef391a9646437d153" id="r_acc89c685624e111ef391a9646437d153"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#acc89c685624e111ef391a9646437d153">procedures_mutex_</a></td></tr>
+<tr class="separator:acc89c685624e111ef391a9646437d153"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5c3419c93a2846eebab8f169876cfd7" id="r_ab5c3419c93a2846eebab8f169876cfd7"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#ab5c3419c93a2846eebab8f169876cfd7">triggers_mutex_</a></td></tr>
+<tr class="separator:ab5c3419c93a2846eebab8f169876cfd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3201b8716987c65c50151837cdee9800" id="r_a3201b8716987c65c50151837cdee9800"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a3201b8716987c65c50151837cdee9800">stats_mutex_</a></td></tr>
+<tr class="separator:a3201b8716987c65c50151837cdee9800"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b2f4a391adc22eb19175b9234e08b1a" id="r_a0b2f4a391adc22eb19175b9234e08b1a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1StoredProcedureManager_1_1SPMStats.html">SPMStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StoredProcedureManager.html#a0b2f4a391adc22eb19175b9234e08b1a">stats_</a></td></tr>
+<tr class="separator:a0b2f4a391adc22eb19175b9234e08b1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>存储过程和触发器管理器 </p>
+<p>负责存储过程和触发器的创建、修改、删除和执行 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a4423a17c08fdc1088481d43835070587" name="a4423a17c08fdc1088481d43835070587"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4423a17c08fdc1088481d43835070587">&#9670;&#160;</a></span>StoredProcedureManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::StoredProcedureManager::StoredProcedureManager </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>config_manager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &amp;&#160;</td>
+          <td class="paramname"><em>database_manager</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config_manager</td><td>配置管理器引用 </td></tr>
+    <tr><td class="paramname">database_manager</td><td>数据库管理器引用 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a06b5df90f9d67425f4c683271ffde53a" name="a06b5df90f9d67425f4c683271ffde53a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06b5df90f9d67425f4c683271ffde53a">&#9670;&#160;</a></span>~StoredProcedureManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::StoredProcedureManager::~StoredProcedureManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a4212efb7f1713a684f95b702c4286f14" name="a4212efb7f1713a684f95b702c4286f14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4212efb7f1713a684f95b702c4286f14">&#9670;&#160;</a></span>CompileProcedure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StoredProcedureManager::CompileProcedure </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsqlcc_1_1StoredProcedure.html">StoredProcedure</a> &amp;&#160;</td>
+          <td class="paramname"><em>procedure</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>编译存储过程体 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">procedure</td><td>存储过程定义 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>编译后的执行计划 </dd></dl>
+
+</div>
+</div>
+<a id="a5c26f1eb8bffd5092dc9847ef79c5f17" name="a5c26f1eb8bffd5092dc9847ef79c5f17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c26f1eb8bffd5092dc9847ef79c5f17">&#9670;&#160;</a></span>CreateProcedure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StoredProcedureManager::CreateProcedure </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1StoredProcedure.html">StoredProcedure</a> &amp;&#160;</td>
+          <td class="paramname"><em>procedure</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>创建存储过程 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">procedure</td><td>存储过程定义 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a2c3425db023daf5c4a95d7c0e22294d2" name="a2c3425db023daf5c4a95d7c0e22294d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c3425db023daf5c4a95d7c0e22294d2">&#9670;&#160;</a></span>CreateTrigger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StoredProcedureManager::CreateTrigger </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1Trigger.html">Trigger</a> &amp;&#160;</td>
+          <td class="paramname"><em>trigger</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>创建触发器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trigger</td><td>触发器定义 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a8822cd6407b0cd3ab2b047b8d1b87620" name="a8822cd6407b0cd3ab2b047b8d1b87620"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8822cd6407b0cd3ab2b047b8d1b87620">&#9670;&#160;</a></span>DropProcedure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StoredProcedureManager::DropProcedure </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>schema</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>删除存储过程 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">schema</td><td>模式名 </td></tr>
+    <tr><td class="paramname">name</td><td>过程名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a8f0ac28402765ae1d24e9bf5c078940f" name="a8f0ac28402765ae1d24e9bf5c078940f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f0ac28402765ae1d24e9bf5c078940f">&#9670;&#160;</a></span>DropTrigger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StoredProcedureManager::DropTrigger </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>schema</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>删除触发器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">schema</td><td>模式名 </td></tr>
+    <tr><td class="paramname">name</td><td>触发器名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a718e709532072c2e056ddcf45aceb264" name="a718e709532072c2e056ddcf45aceb264"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a718e709532072c2e056ddcf45aceb264">&#9670;&#160;</a></span>ExecuteProcedure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::vector&lt; std::string &gt; &gt; sqlcc::StoredProcedureManager::ExecuteProcedure </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>schema</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::unordered_map&lt; std::string, std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>parameters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a> &amp;&#160;</td>
+          <td class="paramname"><em>executor</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>执行存储过程 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">schema</td><td>模式名 </td></tr>
+    <tr><td class="paramname">name</td><td>过程名 </td></tr>
+    <tr><td class="paramname">parameters</td><td>参数值 </td></tr>
+    <tr><td class="paramname">executor</td><td>SQL执行器 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>执行结果 </dd></dl>
+
+</div>
+</div>
+<a id="aa3aca95d67d27bd3a6b971a5c16b80e0" name="aa3aca95d67d27bd3a6b971a5c16b80e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3aca95d67d27bd3a6b971a5c16b80e0">&#9670;&#160;</a></span>ExecuteTrigger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StoredProcedureManager::ExecuteTrigger </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1Trigger.html">Trigger</a> &amp;&#160;</td>
+          <td class="paramname"><em>trigger</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>event_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>old_row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>new_row</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a> &amp;&#160;</td>
+          <td class="paramname"><em>executor</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>执行触发器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trigger</td><td>触发器定义 </td></tr>
+    <tr><td class="paramname">event_type</td><td>事件类型 </td></tr>
+    <tr><td class="paramname">old_row</td><td>旧行数据（用于UPDATE和DELETE） </td></tr>
+    <tr><td class="paramname">new_row</td><td>新行数据（用于INSERT和UPDATE） </td></tr>
+    <tr><td class="paramname">executor</td><td>SQL执行器 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="aaaf07f7b21a7a06a9e41b6c7ea1a7cb6" name="aaaf07f7b21a7a06a9e41b6c7ea1a7cb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaf07f7b21a7a06a9e41b6c7ea1a7cb6">&#9670;&#160;</a></span>GetProcedure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1StoredProcedure.html">StoredProcedure</a> &gt; sqlcc::StoredProcedureManager::GetProcedure </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>schema</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取存储过程定义 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">schema</td><td>模式名 </td></tr>
+    <tr><td class="paramname">name</td><td>过程名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>存储过程定义，如果不存在返回nullptr </dd></dl>
+
+</div>
+</div>
+<a id="a3a8af10500a61dd6982b190cf5e64b9c" name="a3a8af10500a61dd6982b190cf5e64b9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a8af10500a61dd6982b190cf5e64b9c">&#9670;&#160;</a></span>GetStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1StoredProcedureManager_1_1SPMStats.html">SPMStats</a> sqlcc::StoredProcedureManager::GetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取统计信息 </p>
+<dl class="section return"><dt>返回</dt><dd>统计信息 </dd></dl>
+
+</div>
+</div>
+<a id="a70afa59818e318d6523974ba90079e5e" name="a70afa59818e318d6523974ba90079e5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70afa59818e318d6523974ba90079e5e">&#9670;&#160;</a></span>GetTriggersForTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1Trigger.html">Trigger</a> &gt; &gt; sqlcc::StoredProcedureManager::GetTriggersForTable </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>event_type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取指定表的触发器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">table_name</td><td>表名 </td></tr>
+    <tr><td class="paramname">event_type</td><td>事件类型 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>触发器列表 </dd></dl>
+
+</div>
+</div>
+<a id="a222a896a38479a46213096570474141b" name="a222a896a38479a46213096570474141b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a222a896a38479a46213096570474141b">&#9670;&#160;</a></span>ListProcedures()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1StoredProcedure.html">StoredProcedure</a> &gt; &gt; sqlcc::StoredProcedureManager::ListProcedures </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>schema</em> = <code>&quot;&quot;</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>列出所有存储过程 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">schema</td><td>模式名（可选） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>存储过程列表 </dd></dl>
+
+</div>
+</div>
+<a id="a1efe4dbc03d115d5a9b69aa125e56998" name="a1efe4dbc03d115d5a9b69aa125e56998"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1efe4dbc03d115d5a9b69aa125e56998">&#9670;&#160;</a></span>ListTriggers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1Trigger.html">Trigger</a> &gt; &gt; sqlcc::StoredProcedureManager::ListTriggers </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>schema</em> = <code>&quot;&quot;</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>列出所有触发器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">schema</td><td>模式名（可选） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>触发器列表 </dd></dl>
+
+</div>
+</div>
+<a id="ae60c267b5273bf2215ae3a11ab5c0797" name="ae60c267b5273bf2215ae3a11ab5c0797"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae60c267b5273bf2215ae3a11ab5c0797">&#9670;&#160;</a></span>ParseProcedureParameters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1ProcedureParameter.html">ProcedureParameter</a> &gt; sqlcc::StoredProcedureManager::ParseProcedureParameters </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>param_str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>解析存储过程参数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">param_str</td><td>参数字符串 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>参数列表 </dd></dl>
+
+</div>
+</div>
+<a id="a24de2d959d847e5f3454e961dde52f85" name="a24de2d959d847e5f3454e961dde52f85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24de2d959d847e5f3454e961dde52f85">&#9670;&#160;</a></span>ResetStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::StoredProcedureManager::ResetStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>重置统计信息 </p>
+
+</div>
+</div>
+<a id="add281d0f8e562948610c46acef41b57c" name="add281d0f8e562948610c46acef41b57c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add281d0f8e562948610c46acef41b57c">&#9670;&#160;</a></span>SetTriggerEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StoredProcedureManager::SetTriggerEnabled </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>schema</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>启用/禁用触发器 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">schema</td><td>模式名 </td></tr>
+    <tr><td class="paramname">name</td><td>触发器名 </td></tr>
+    <tr><td class="paramname">enabled</td><td>是否启用 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+</div>
+</div>
+<a id="a59d115f4d9a299556136f826c0e847ea" name="a59d115f4d9a299556136f826c0e847ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59d115f4d9a299556136f826c0e847ea">&#9670;&#160;</a></span>ValidateProcedure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StoredProcedureManager::ValidateProcedure </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1StoredProcedure.html">StoredProcedure</a> &amp;&#160;</td>
+          <td class="paramname"><em>procedure</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>验证存储过程定义 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">procedure</td><td>存储过程定义 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否有效 </dd></dl>
+
+</div>
+</div>
+<a id="a08aaa930dc9e04696cda49645a061983" name="a08aaa930dc9e04696cda49645a061983"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08aaa930dc9e04696cda49645a061983">&#9670;&#160;</a></span>ValidateTrigger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::StoredProcedureManager::ValidateTrigger </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1Trigger.html">Trigger</a> &amp;&#160;</td>
+          <td class="paramname"><em>trigger</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>验证触发器定义 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trigger</td><td>触发器定义 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否有效 </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a3027b599872d7093345295d0191d0fd4" name="a3027b599872d7093345295d0191d0fd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3027b599872d7093345295d0191d0fd4">&#9670;&#160;</a></span>config_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a>&amp; sqlcc::StoredProcedureManager::config_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adcb548f73009fcdc9fcebdcf9befbb57" name="adcb548f73009fcdc9fcebdcf9befbb57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcb548f73009fcdc9fcebdcf9befbb57">&#9670;&#160;</a></span>database_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a>&amp; sqlcc::StoredProcedureManager::database_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8b1f42bff64955809ff3d1b48b2d289a" name="a8b1f42bff64955809ff3d1b48b2d289a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b1f42bff64955809ff3d1b48b2d289a">&#9670;&#160;</a></span>procedures_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, std::shared_ptr&lt;<a class="el" href="structsqlcc_1_1StoredProcedure.html">StoredProcedure</a>&gt; &gt; sqlcc::StoredProcedureManager::procedures_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acc89c685624e111ef391a9646437d153" name="acc89c685624e111ef391a9646437d153"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc89c685624e111ef391a9646437d153">&#9670;&#160;</a></span>procedures_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::StoredProcedureManager::procedures_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0b2f4a391adc22eb19175b9234e08b1a" name="a0b2f4a391adc22eb19175b9234e08b1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b2f4a391adc22eb19175b9234e08b1a">&#9670;&#160;</a></span>stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1StoredProcedureManager_1_1SPMStats.html">SPMStats</a> sqlcc::StoredProcedureManager::stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3201b8716987c65c50151837cdee9800" name="a3201b8716987c65c50151837cdee9800"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3201b8716987c65c50151837cdee9800">&#9670;&#160;</a></span>stats_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::StoredProcedureManager::stats_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad6820fb2583d497c4b886e5053e2a9cf" name="ad6820fb2583d497c4b886e5053e2a9cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6820fb2583d497c4b886e5053e2a9cf">&#9670;&#160;</a></span>table_triggers_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, std::vector&lt;std::shared_ptr&lt;<a class="el" href="structsqlcc_1_1Trigger.html">Trigger</a>&gt; &gt; &gt; sqlcc::StoredProcedureManager::table_triggers_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0f3c9c8a9fdb6b50c749ef8902b2a0fc" name="a0f3c9c8a9fdb6b50c749ef8902b2a0fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f3c9c8a9fdb6b50c749ef8902b2a0fc">&#9670;&#160;</a></span>triggers_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, std::shared_ptr&lt;<a class="el" href="structsqlcc_1_1Trigger.html">Trigger</a>&gt; &gt; sqlcc::StoredProcedureManager::triggers_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab5c3419c93a2846eebab8f169876cfd7" name="ab5c3419c93a2846eebab8f169876cfd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5c3419c93a2846eebab8f169876cfd7">&#9670;&#160;</a></span>triggers_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::StoredProcedureManager::triggers_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="stored__procedure__manager_8h_source.html">stored_procedure_manager.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

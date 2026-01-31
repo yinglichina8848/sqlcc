@@ -1,0 +1,1485 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::Json类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1Json.html">Json</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1Json-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::Json类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>JSON数据类型  
+ <a href="classsqlcc_1_1Json.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="json_8h_source.html">json.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a78933ee6e45242303f974299fd6f7b7d" id="r_a78933ee6e45242303f974299fd6f7b7d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a78933ee6e45242303f974299fd6f7b7d">Type</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1Json.html#a78933ee6e45242303f974299fd6f7b7dabce6132c2e4f8c9bbca71d11062f375a">NULL_VALUE</a>
+, <a class="el" href="classsqlcc_1_1Json.html#a78933ee6e45242303f974299fd6f7b7dae660d03e258b4bf5f143f6d9239967ad">BOOLEAN</a>
+, <a class="el" href="classsqlcc_1_1Json.html#a78933ee6e45242303f974299fd6f7b7daefdaa07603e1b7739e594543ef2192f0">NUMBER</a>
+, <a class="el" href="classsqlcc_1_1Json.html#a78933ee6e45242303f974299fd6f7b7daf68b1218e1b169ccc5b7eb9bfb13afe5">STRING</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1Json.html#a78933ee6e45242303f974299fd6f7b7da7d9481108b1bcf5481489914c7fe3ab5">ARRAY</a>
+, <a class="el" href="classsqlcc_1_1Json.html#a78933ee6e45242303f974299fd6f7b7dacdb9195e3f6f2a24141b7abea40d1c2b">OBJECT</a>
+<br />
+ }</td></tr>
+<tr class="separator:a78933ee6e45242303f974299fd6f7b7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:ad591cb2ed6f10a93a613f7e18a30ca71" id="r_ad591cb2ed6f10a93a613f7e18a30ca71"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#ad591cb2ed6f10a93a613f7e18a30ca71">Json</a> ()</td></tr>
+<tr class="separator:ad591cb2ed6f10a93a613f7e18a30ca71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ce87e7e8ddab9061df744d39cbbf554" id="r_a6ce87e7e8ddab9061df744d39cbbf554"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a6ce87e7e8ddab9061df744d39cbbf554">Json</a> (std::nullptr_t)</td></tr>
+<tr class="separator:a6ce87e7e8ddab9061df744d39cbbf554"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3748e8a3611e0cb29eaac46d2eb9978c" id="r_a3748e8a3611e0cb29eaac46d2eb9978c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a3748e8a3611e0cb29eaac46d2eb9978c">Json</a> (bool value)</td></tr>
+<tr class="separator:a3748e8a3611e0cb29eaac46d2eb9978c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a723e2809aff8b2e4434aa742e584766d" id="r_a723e2809aff8b2e4434aa742e584766d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a723e2809aff8b2e4434aa742e584766d">Json</a> (int value)</td></tr>
+<tr class="separator:a723e2809aff8b2e4434aa742e584766d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a012f93be9ef3b6276a261247291dd535" id="r_a012f93be9ef3b6276a261247291dd535"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a012f93be9ef3b6276a261247291dd535">Json</a> (int64_t value)</td></tr>
+<tr class="separator:a012f93be9ef3b6276a261247291dd535"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a149ac71d94cb0b23f3c5658df8d26e81" id="r_a149ac71d94cb0b23f3c5658df8d26e81"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a149ac71d94cb0b23f3c5658df8d26e81">Json</a> (double value)</td></tr>
+<tr class="separator:a149ac71d94cb0b23f3c5658df8d26e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58b611f487e54d546e8d0850d357ed15" id="r_a58b611f487e54d546e8d0850d357ed15"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a58b611f487e54d546e8d0850d357ed15">Json</a> (const std::string &amp;value)</td></tr>
+<tr class="separator:a58b611f487e54d546e8d0850d357ed15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3b309a2c2eff42c005c79bf7de08dbe" id="r_af3b309a2c2eff42c005c79bf7de08dbe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#af3b309a2c2eff42c005c79bf7de08dbe">Json</a> (const char *value)</td></tr>
+<tr class="separator:af3b309a2c2eff42c005c79bf7de08dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44af34ed39e8ac5d72adb4407ed33164" id="r_a44af34ed39e8ac5d72adb4407ed33164"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a44af34ed39e8ac5d72adb4407ed33164">Json</a> (const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;other)</td></tr>
+<tr class="separator:a44af34ed39e8ac5d72adb4407ed33164"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92db97fb902b125eaa69dbf3c11e450e" id="r_a92db97fb902b125eaa69dbf3c11e450e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a92db97fb902b125eaa69dbf3c11e450e">Json</a> (<a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:a92db97fb902b125eaa69dbf3c11e450e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb6fe0025e3f8d49d18d42a6706850ea" id="r_aeb6fe0025e3f8d49d18d42a6706850ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#aeb6fe0025e3f8d49d18d42a6706850ea">~Json</a> ()</td></tr>
+<tr class="separator:aeb6fe0025e3f8d49d18d42a6706850ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a412054c1999ac881d568333a011dc39f" id="r_a412054c1999ac881d568333a011dc39f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a412054c1999ac881d568333a011dc39f">operator=</a> (const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;other)</td></tr>
+<tr class="separator:a412054c1999ac881d568333a011dc39f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6970fc99ab3f3527bc46bd78a30587c9" id="r_a6970fc99ab3f3527bc46bd78a30587c9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a6970fc99ab3f3527bc46bd78a30587c9">operator=</a> (<a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:a6970fc99ab3f3527bc46bd78a30587c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a626a814de15418e36df67da5181a0e6d" id="r_a626a814de15418e36df67da5181a0e6d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a626a814de15418e36df67da5181a0e6d">operator=</a> (std::nullptr_t)</td></tr>
+<tr class="separator:a626a814de15418e36df67da5181a0e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a81d4cbbbd15f3ae44916249b5c858d" id="r_a7a81d4cbbbd15f3ae44916249b5c858d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a7a81d4cbbbd15f3ae44916249b5c858d">operator=</a> (bool value)</td></tr>
+<tr class="separator:a7a81d4cbbbd15f3ae44916249b5c858d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fbc2ecb2c508b73990902698a77fb40" id="r_a3fbc2ecb2c508b73990902698a77fb40"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a3fbc2ecb2c508b73990902698a77fb40">operator=</a> (int value)</td></tr>
+<tr class="separator:a3fbc2ecb2c508b73990902698a77fb40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2ea313d2207334f8457f97132f37ee7" id="r_ac2ea313d2207334f8457f97132f37ee7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#ac2ea313d2207334f8457f97132f37ee7">operator=</a> (int64_t value)</td></tr>
+<tr class="separator:ac2ea313d2207334f8457f97132f37ee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94ee9c51218c5c00abe665edb07a583b" id="r_a94ee9c51218c5c00abe665edb07a583b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a94ee9c51218c5c00abe665edb07a583b">operator=</a> (double value)</td></tr>
+<tr class="separator:a94ee9c51218c5c00abe665edb07a583b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d0faa2f16197a9b4103672d5ee682cc" id="r_a4d0faa2f16197a9b4103672d5ee682cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a4d0faa2f16197a9b4103672d5ee682cc">operator=</a> (const std::string &amp;value)</td></tr>
+<tr class="separator:a4d0faa2f16197a9b4103672d5ee682cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41b166c839ee9cd72cf4d7350b5647c4" id="r_a41b166c839ee9cd72cf4d7350b5647c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a41b166c839ee9cd72cf4d7350b5647c4">operator=</a> (const char *value)</td></tr>
+<tr class="separator:a41b166c839ee9cd72cf4d7350b5647c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad78168fa67ab6aa3df7c84b44d7b55d9" id="r_ad78168fa67ab6aa3df7c84b44d7b55d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html#a78933ee6e45242303f974299fd6f7b7d">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#ad78168fa67ab6aa3df7c84b44d7b55d9">type</a> () const</td></tr>
+<tr class="separator:ad78168fa67ab6aa3df7c84b44d7b55d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a533c3a3b4cd889c127f939c63680389f" id="r_a533c3a3b4cd889c127f939c63680389f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a533c3a3b4cd889c127f939c63680389f">is_null</a> () const</td></tr>
+<tr class="separator:a533c3a3b4cd889c127f939c63680389f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba2e796ab8c02bd6d56f6bc0d8a1c84a" id="r_aba2e796ab8c02bd6d56f6bc0d8a1c84a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#aba2e796ab8c02bd6d56f6bc0d8a1c84a">is_boolean</a> () const</td></tr>
+<tr class="separator:aba2e796ab8c02bd6d56f6bc0d8a1c84a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4105574e9e493e949a512363227700a" id="r_ae4105574e9e493e949a512363227700a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#ae4105574e9e493e949a512363227700a">is_number</a> () const</td></tr>
+<tr class="separator:ae4105574e9e493e949a512363227700a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab83abeb6aa41fa0712d9406e7739992d" id="r_ab83abeb6aa41fa0712d9406e7739992d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#ab83abeb6aa41fa0712d9406e7739992d">is_string</a> () const</td></tr>
+<tr class="separator:ab83abeb6aa41fa0712d9406e7739992d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6b2fcaf18a8b767d4110b9a4f793526" id="r_af6b2fcaf18a8b767d4110b9a4f793526"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#af6b2fcaf18a8b767d4110b9a4f793526">is_array</a> () const</td></tr>
+<tr class="separator:af6b2fcaf18a8b767d4110b9a4f793526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7baf0ace9227ec3ee8e0ee865eb5cc7" id="r_ac7baf0ace9227ec3ee8e0ee865eb5cc7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#ac7baf0ace9227ec3ee8e0ee865eb5cc7">is_object</a> () const</td></tr>
+<tr class="separator:ac7baf0ace9227ec3ee8e0ee865eb5cc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37bc238ccb7e94c297aa3da559e699ff" id="r_a37bc238ccb7e94c297aa3da559e699ff"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a37bc238ccb7e94c297aa3da559e699ff">as_bool</a> () const</td></tr>
+<tr class="separator:a37bc238ccb7e94c297aa3da559e699ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c29f4e4a0fd27f6aacf7f11fbb0e074" id="r_a0c29f4e4a0fd27f6aacf7f11fbb0e074"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a0c29f4e4a0fd27f6aacf7f11fbb0e074">as_int</a> () const</td></tr>
+<tr class="separator:a0c29f4e4a0fd27f6aacf7f11fbb0e074"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4849aa65c772c8cf09f831a41eae2dad" id="r_a4849aa65c772c8cf09f831a41eae2dad"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a4849aa65c772c8cf09f831a41eae2dad">as_int64</a> () const</td></tr>
+<tr class="separator:a4849aa65c772c8cf09f831a41eae2dad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a054169b95ba899df2d3b75a9f79aa72a" id="r_a054169b95ba899df2d3b75a9f79aa72a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a054169b95ba899df2d3b75a9f79aa72a">as_double</a> () const</td></tr>
+<tr class="separator:a054169b95ba899df2d3b75a9f79aa72a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66d002b67864f8d11de08de7a80129d0" id="r_a66d002b67864f8d11de08de7a80129d0"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a66d002b67864f8d11de08de7a80129d0">as_string</a> () const</td></tr>
+<tr class="separator:a66d002b67864f8d11de08de7a80129d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e5695ec882bb699f31c05c0c8e196d6" id="r_a2e5695ec882bb699f31c05c0c8e196d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a2e5695ec882bb699f31c05c0c8e196d6">set_null</a> ()</td></tr>
+<tr class="separator:a2e5695ec882bb699f31c05c0c8e196d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a851673b93026a907134db94c28c38f9c" id="r_a851673b93026a907134db94c28c38f9c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a851673b93026a907134db94c28c38f9c">set_bool</a> (bool value)</td></tr>
+<tr class="separator:a851673b93026a907134db94c28c38f9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae08f90fc74eb17be887c1ef05ea63178" id="r_ae08f90fc74eb17be887c1ef05ea63178"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#ae08f90fc74eb17be887c1ef05ea63178">set_int</a> (int value)</td></tr>
+<tr class="separator:ae08f90fc74eb17be887c1ef05ea63178"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4528c91d6ef46c2ef6c69c601ad80647" id="r_a4528c91d6ef46c2ef6c69c601ad80647"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a4528c91d6ef46c2ef6c69c601ad80647">set_int64</a> (int64_t value)</td></tr>
+<tr class="separator:a4528c91d6ef46c2ef6c69c601ad80647"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b5975554dfac3eae5a119550d699863" id="r_a6b5975554dfac3eae5a119550d699863"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a6b5975554dfac3eae5a119550d699863">set_double</a> (double value)</td></tr>
+<tr class="separator:a6b5975554dfac3eae5a119550d699863"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ff43da30c0a3c5f4ee2b3a6527bda94" id="r_a5ff43da30c0a3c5f4ee2b3a6527bda94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a5ff43da30c0a3c5f4ee2b3a6527bda94">set_string</a> (const std::string &amp;value)</td></tr>
+<tr class="separator:a5ff43da30c0a3c5f4ee2b3a6527bda94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1e27da1716e74212a72a46a9d3c87a3" id="r_ad1e27da1716e74212a72a46a9d3c87a3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#ad1e27da1716e74212a72a46a9d3c87a3">size</a> () const</td></tr>
+<tr class="separator:ad1e27da1716e74212a72a46a9d3c87a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed78af8679de7692a3e0272078e8d68a" id="r_aed78af8679de7692a3e0272078e8d68a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#aed78af8679de7692a3e0272078e8d68a">clear</a> ()</td></tr>
+<tr class="separator:aed78af8679de7692a3e0272078e8d68a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29ac559d3a003301401b7c11d2518172" id="r_a29ac559d3a003301401b7c11d2518172"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a29ac559d3a003301401b7c11d2518172">operator[]</a> (size_t index)</td></tr>
+<tr class="separator:a29ac559d3a003301401b7c11d2518172"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93963430163d5afd783d664e8e6f5801" id="r_a93963430163d5afd783d664e8e6f5801"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a93963430163d5afd783d664e8e6f5801">operator[]</a> (size_t index) const</td></tr>
+<tr class="separator:a93963430163d5afd783d664e8e6f5801"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa16f09f92ec50178ced274f754682b0b" id="r_aa16f09f92ec50178ced274f754682b0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#aa16f09f92ec50178ced274f754682b0b">push_back</a> (const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;value)</td></tr>
+<tr class="separator:aa16f09f92ec50178ced274f754682b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac44d46add9d79f375cc10206325ff0d0" id="r_ac44d46add9d79f375cc10206325ff0d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#ac44d46add9d79f375cc10206325ff0d0">pop_back</a> ()</td></tr>
+<tr class="separator:ac44d46add9d79f375cc10206325ff0d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ca0bd5ffea6b48eddb9fcfc881f40d8" id="r_a6ca0bd5ffea6b48eddb9fcfc881f40d8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a6ca0bd5ffea6b48eddb9fcfc881f40d8">back</a> ()</td></tr>
+<tr class="separator:a6ca0bd5ffea6b48eddb9fcfc881f40d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abee12bc441e2454867795e35a02154ca" id="r_abee12bc441e2454867795e35a02154ca"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#abee12bc441e2454867795e35a02154ca">back</a> () const</td></tr>
+<tr class="separator:abee12bc441e2454867795e35a02154ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a829ef1ee97a5ebefc303b0da73894ba7" id="r_a829ef1ee97a5ebefc303b0da73894ba7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a829ef1ee97a5ebefc303b0da73894ba7">operator[]</a> (const std::string &amp;key)</td></tr>
+<tr class="separator:a829ef1ee97a5ebefc303b0da73894ba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6589651374cf7559ffb394c20580564" id="r_ae6589651374cf7559ffb394c20580564"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#ae6589651374cf7559ffb394c20580564">operator[]</a> (const std::string &amp;key) const</td></tr>
+<tr class="separator:ae6589651374cf7559ffb394c20580564"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b1eff3a03530e34fd15fce08cc4afd3" id="r_a3b1eff3a03530e34fd15fce08cc4afd3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a3b1eff3a03530e34fd15fce08cc4afd3">contains</a> (const std::string &amp;key) const</td></tr>
+<tr class="separator:a3b1eff3a03530e34fd15fce08cc4afd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7df3822d1ade5057368e62b96a68a003" id="r_a7df3822d1ade5057368e62b96a68a003"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a7df3822d1ade5057368e62b96a68a003">erase</a> (const std::string &amp;key)</td></tr>
+<tr class="separator:a7df3822d1ade5057368e62b96a68a003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef025354a2cd071370e97504a7c74895" id="r_aef025354a2cd071370e97504a7c74895"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#aef025354a2cd071370e97504a7c74895">keys</a> () const</td></tr>
+<tr class="separator:aef025354a2cd071370e97504a7c74895"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dd8980b550b0c27f2715f3966a0c0ef" id="r_a5dd8980b550b0c27f2715f3966a0c0ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a5dd8980b550b0c27f2715f3966a0c0ef">path</a> (const std::string &amp;json_path) const</td></tr>
+<tr class="separator:a5dd8980b550b0c27f2715f3966a0c0ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6288b853b17f668772e01015cc0cf3bb" id="r_a6288b853b17f668772e01015cc0cf3bb"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classsqlcc_1_1Json.html">Json</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a6288b853b17f668772e01015cc0cf3bb">find</a> (const std::string &amp;json_path) const</td></tr>
+<tr class="separator:a6288b853b17f668772e01015cc0cf3bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad64ac4970d7e1497dd7be729c47c5266" id="r_ad64ac4970d7e1497dd7be729c47c5266"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#ad64ac4970d7e1497dd7be729c47c5266">to_string</a> () const</td></tr>
+<tr class="separator:ad64ac4970d7e1497dd7be729c47c5266"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a073825a63f37d2773b8877d820adb632" id="r_a073825a63f37d2773b8877d820adb632"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a073825a63f37d2773b8877d820adb632">to_string</a> (int indent) const</td></tr>
+<tr class="separator:a073825a63f37d2773b8877d820adb632"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ed6346949c832465faa48178b20d951" id="r_a5ed6346949c832465faa48178b20d951"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a5ed6346949c832465faa48178b20d951">to_file</a> (const std::string &amp;filename) const</td></tr>
+<tr class="separator:a5ed6346949c832465faa48178b20d951"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32dfe4fb1d1fcf375c9bbd420addf619" id="r_a32dfe4fb1d1fcf375c9bbd420addf619"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a32dfe4fb1d1fcf375c9bbd420addf619">operator==</a> (const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;other) const</td></tr>
+<tr class="separator:a32dfe4fb1d1fcf375c9bbd420addf619"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15bb467220302ec51a7e4adda900dd81" id="r_a15bb467220302ec51a7e4adda900dd81"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a15bb467220302ec51a7e4adda900dd81">operator!=</a> (const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;other) const</td></tr>
+<tr class="separator:a15bb467220302ec51a7e4adda900dd81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5607da6b63de42ea97b7d8143b708e77" id="r_a5607da6b63de42ea97b7d8143b708e77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a5607da6b63de42ea97b7d8143b708e77">merge</a> (const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;other)</td></tr>
+<tr class="separator:a5607da6b63de42ea97b7d8143b708e77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95187ea987f37d2452c757a39957f73d" id="r_a95187ea987f37d2452c757a39957f73d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a95187ea987f37d2452c757a39957f73d">ensure_array</a> ()</td></tr>
+<tr class="separator:a95187ea987f37d2452c757a39957f73d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15bd6b12dfe8dfe4ba7c8868f4ab7ba1" id="r_a15bd6b12dfe8dfe4ba7c8868f4ab7ba1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a15bd6b12dfe8dfe4ba7c8868f4ab7ba1">ensure_object</a> ()</td></tr>
+<tr class="separator:a15bd6b12dfe8dfe4ba7c8868f4ab7ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:aefa76c7c366d555dea24ffea8bd55390" id="r_aefa76c7c366d555dea24ffea8bd55390"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1Json.html">Json</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#aefa76c7c366d555dea24ffea8bd55390">parse</a> (const std::string &amp;json_str)</td></tr>
+<tr class="separator:aefa76c7c366d555dea24ffea8bd55390"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4b68c3afe801faec8afb9368670ed60" id="r_aa4b68c3afe801faec8afb9368670ed60"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classsqlcc_1_1Json.html">Json</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#aa4b68c3afe801faec8afb9368670ed60">from_file</a> (const std::string &amp;filename)</td></tr>
+<tr class="separator:aa4b68c3afe801faec8afb9368670ed60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a1af7c8bc57253fc860c4afeeb7c948be" id="r_a1af7c8bc57253fc860c4afeeb7c948be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#a1af7c8bc57253fc860c4afeeb7c948be">throw_type_error</a> (const std::string &amp;expected_type) const</td></tr>
+<tr class="separator:a1af7c8bc57253fc860c4afeeb7c948be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:ae6835eebceb9431eedae26b7d4ba2d11" id="r_ae6835eebceb9431eedae26b7d4ba2d11"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1JsonValue.html">JsonValue</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Json.html#ae6835eebceb9431eedae26b7d4ba2d11">value_</a></td></tr>
+<tr class="separator:ae6835eebceb9431eedae26b7d4ba2d11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>JSON数据类型 </p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a78933ee6e45242303f974299fd6f7b7d" name="a78933ee6e45242303f974299fd6f7b7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78933ee6e45242303f974299fd6f7b7d">&#9670;&#160;</a></span>Type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1Json.html#a78933ee6e45242303f974299fd6f7b7d">sqlcc::Json::Type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a78933ee6e45242303f974299fd6f7b7dabce6132c2e4f8c9bbca71d11062f375a" name="a78933ee6e45242303f974299fd6f7b7dabce6132c2e4f8c9bbca71d11062f375a"></a>NULL_VALUE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a78933ee6e45242303f974299fd6f7b7dae660d03e258b4bf5f143f6d9239967ad" name="a78933ee6e45242303f974299fd6f7b7dae660d03e258b4bf5f143f6d9239967ad"></a>BOOLEAN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a78933ee6e45242303f974299fd6f7b7daefdaa07603e1b7739e594543ef2192f0" name="a78933ee6e45242303f974299fd6f7b7daefdaa07603e1b7739e594543ef2192f0"></a>NUMBER&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a78933ee6e45242303f974299fd6f7b7daf68b1218e1b169ccc5b7eb9bfb13afe5" name="a78933ee6e45242303f974299fd6f7b7daf68b1218e1b169ccc5b7eb9bfb13afe5"></a>STRING&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a78933ee6e45242303f974299fd6f7b7da7d9481108b1bcf5481489914c7fe3ab5" name="a78933ee6e45242303f974299fd6f7b7da7d9481108b1bcf5481489914c7fe3ab5"></a>ARRAY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a78933ee6e45242303f974299fd6f7b7dacdb9195e3f6f2a24141b7abea40d1c2b" name="a78933ee6e45242303f974299fd6f7b7dacdb9195e3f6f2a24141b7abea40d1c2b"></a>OBJECT&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="ad591cb2ed6f10a93a613f7e18a30ca71" name="ad591cb2ed6f10a93a613f7e18a30ca71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad591cb2ed6f10a93a613f7e18a30ca71">&#9670;&#160;</a></span>Json() <span class="overload">[1/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Json::Json </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6ce87e7e8ddab9061df744d39cbbf554" name="a6ce87e7e8ddab9061df744d39cbbf554"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ce87e7e8ddab9061df744d39cbbf554">&#9670;&#160;</a></span>Json() <span class="overload">[2/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Json::Json </td>
+          <td>(</td>
+          <td class="paramtype">std::nullptr_t&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3748e8a3611e0cb29eaac46d2eb9978c" name="a3748e8a3611e0cb29eaac46d2eb9978c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3748e8a3611e0cb29eaac46d2eb9978c">&#9670;&#160;</a></span>Json() <span class="overload">[3/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Json::Json </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a723e2809aff8b2e4434aa742e584766d" name="a723e2809aff8b2e4434aa742e584766d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a723e2809aff8b2e4434aa742e584766d">&#9670;&#160;</a></span>Json() <span class="overload">[4/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Json::Json </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a012f93be9ef3b6276a261247291dd535" name="a012f93be9ef3b6276a261247291dd535"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a012f93be9ef3b6276a261247291dd535">&#9670;&#160;</a></span>Json() <span class="overload">[5/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Json::Json </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a149ac71d94cb0b23f3c5658df8d26e81" name="a149ac71d94cb0b23f3c5658df8d26e81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a149ac71d94cb0b23f3c5658df8d26e81">&#9670;&#160;</a></span>Json() <span class="overload">[6/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Json::Json </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a58b611f487e54d546e8d0850d357ed15" name="a58b611f487e54d546e8d0850d357ed15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58b611f487e54d546e8d0850d357ed15">&#9670;&#160;</a></span>Json() <span class="overload">[7/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Json::Json </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af3b309a2c2eff42c005c79bf7de08dbe" name="af3b309a2c2eff42c005c79bf7de08dbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3b309a2c2eff42c005c79bf7de08dbe">&#9670;&#160;</a></span>Json() <span class="overload">[8/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Json::Json </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a44af34ed39e8ac5d72adb4407ed33164" name="a44af34ed39e8ac5d72adb4407ed33164"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44af34ed39e8ac5d72adb4407ed33164">&#9670;&#160;</a></span>Json() <span class="overload">[9/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Json::Json </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a92db97fb902b125eaa69dbf3c11e450e" name="a92db97fb902b125eaa69dbf3c11e450e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92db97fb902b125eaa69dbf3c11e450e">&#9670;&#160;</a></span>Json() <span class="overload">[10/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Json::Json </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeb6fe0025e3f8d49d18d42a6706850ea" name="aeb6fe0025e3f8d49d18d42a6706850ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb6fe0025e3f8d49d18d42a6706850ea">&#9670;&#160;</a></span>~Json()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::Json::~Json </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a37bc238ccb7e94c297aa3da559e699ff" name="a37bc238ccb7e94c297aa3da559e699ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37bc238ccb7e94c297aa3da559e699ff">&#9670;&#160;</a></span>as_bool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Json::as_bool </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a054169b95ba899df2d3b75a9f79aa72a" name="a054169b95ba899df2d3b75a9f79aa72a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a054169b95ba899df2d3b75a9f79aa72a">&#9670;&#160;</a></span>as_double()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double sqlcc::Json::as_double </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0c29f4e4a0fd27f6aacf7f11fbb0e074" name="a0c29f4e4a0fd27f6aacf7f11fbb0e074"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c29f4e4a0fd27f6aacf7f11fbb0e074">&#9670;&#160;</a></span>as_int()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sqlcc::Json::as_int </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4849aa65c772c8cf09f831a41eae2dad" name="a4849aa65c772c8cf09f831a41eae2dad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4849aa65c772c8cf09f831a41eae2dad">&#9670;&#160;</a></span>as_int64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t sqlcc::Json::as_int64 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a66d002b67864f8d11de08de7a80129d0" name="a66d002b67864f8d11de08de7a80129d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66d002b67864f8d11de08de7a80129d0">&#9670;&#160;</a></span>as_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::Json::as_string </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6ca0bd5ffea6b48eddb9fcfc881f40d8" name="a6ca0bd5ffea6b48eddb9fcfc881f40d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ca0bd5ffea6b48eddb9fcfc881f40d8">&#9670;&#160;</a></span>back() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::back </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abee12bc441e2454867795e35a02154ca" name="abee12bc441e2454867795e35a02154ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abee12bc441e2454867795e35a02154ca">&#9670;&#160;</a></span>back() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::back </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed78af8679de7692a3e0272078e8d68a" name="aed78af8679de7692a3e0272078e8d68a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed78af8679de7692a3e0272078e8d68a">&#9670;&#160;</a></span>clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Json::clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3b1eff3a03530e34fd15fce08cc4afd3" name="a3b1eff3a03530e34fd15fce08cc4afd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b1eff3a03530e34fd15fce08cc4afd3">&#9670;&#160;</a></span>contains()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Json::contains </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a95187ea987f37d2452c757a39957f73d" name="a95187ea987f37d2452c757a39957f73d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95187ea987f37d2452c757a39957f73d">&#9670;&#160;</a></span>ensure_array()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Json::ensure_array </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a15bd6b12dfe8dfe4ba7c8868f4ab7ba1" name="a15bd6b12dfe8dfe4ba7c8868f4ab7ba1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15bd6b12dfe8dfe4ba7c8868f4ab7ba1">&#9670;&#160;</a></span>ensure_object()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Json::ensure_object </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7df3822d1ade5057368e62b96a68a003" name="a7df3822d1ade5057368e62b96a68a003"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7df3822d1ade5057368e62b96a68a003">&#9670;&#160;</a></span>erase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Json::erase </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6288b853b17f668772e01015cc0cf3bb" name="a6288b853b17f668772e01015cc0cf3bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6288b853b17f668772e01015cc0cf3bb">&#9670;&#160;</a></span>find()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="classsqlcc_1_1Json.html">Json</a> &gt; sqlcc::Json::find </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>json_path</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa4b68c3afe801faec8afb9368670ed60" name="aa4b68c3afe801faec8afb9368670ed60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4b68c3afe801faec8afb9368670ed60">&#9670;&#160;</a></span>from_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> sqlcc::Json::from_file </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af6b2fcaf18a8b767d4110b9a4f793526" name="af6b2fcaf18a8b767d4110b9a4f793526"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6b2fcaf18a8b767d4110b9a4f793526">&#9670;&#160;</a></span>is_array()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Json::is_array </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aba2e796ab8c02bd6d56f6bc0d8a1c84a" name="aba2e796ab8c02bd6d56f6bc0d8a1c84a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba2e796ab8c02bd6d56f6bc0d8a1c84a">&#9670;&#160;</a></span>is_boolean()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Json::is_boolean </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a533c3a3b4cd889c127f939c63680389f" name="a533c3a3b4cd889c127f939c63680389f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a533c3a3b4cd889c127f939c63680389f">&#9670;&#160;</a></span>is_null()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Json::is_null </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae4105574e9e493e949a512363227700a" name="ae4105574e9e493e949a512363227700a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4105574e9e493e949a512363227700a">&#9670;&#160;</a></span>is_number()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Json::is_number </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac7baf0ace9227ec3ee8e0ee865eb5cc7" name="ac7baf0ace9227ec3ee8e0ee865eb5cc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7baf0ace9227ec3ee8e0ee865eb5cc7">&#9670;&#160;</a></span>is_object()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Json::is_object </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab83abeb6aa41fa0712d9406e7739992d" name="ab83abeb6aa41fa0712d9406e7739992d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab83abeb6aa41fa0712d9406e7739992d">&#9670;&#160;</a></span>is_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Json::is_string </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aef025354a2cd071370e97504a7c74895" name="aef025354a2cd071370e97504a7c74895"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef025354a2cd071370e97504a7c74895">&#9670;&#160;</a></span>keys()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; sqlcc::Json::keys </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5607da6b63de42ea97b7d8143b708e77" name="a5607da6b63de42ea97b7d8143b708e77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5607da6b63de42ea97b7d8143b708e77">&#9670;&#160;</a></span>merge()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::merge </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a15bb467220302ec51a7e4adda900dd81" name="a15bb467220302ec51a7e4adda900dd81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15bb467220302ec51a7e4adda900dd81">&#9670;&#160;</a></span>operator!=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Json::operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a81d4cbbbd15f3ae44916249b5c858d" name="a7a81d4cbbbd15f3ae44916249b5c858d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a81d4cbbbd15f3ae44916249b5c858d">&#9670;&#160;</a></span>operator=() <span class="overload">[1/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::operator= </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a41b166c839ee9cd72cf4d7350b5647c4" name="a41b166c839ee9cd72cf4d7350b5647c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41b166c839ee9cd72cf4d7350b5647c4">&#9670;&#160;</a></span>operator=() <span class="overload">[2/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a412054c1999ac881d568333a011dc39f" name="a412054c1999ac881d568333a011dc39f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a412054c1999ac881d568333a011dc39f">&#9670;&#160;</a></span>operator=() <span class="overload">[3/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4d0faa2f16197a9b4103672d5ee682cc" name="a4d0faa2f16197a9b4103672d5ee682cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d0faa2f16197a9b4103672d5ee682cc">&#9670;&#160;</a></span>operator=() <span class="overload">[4/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a94ee9c51218c5c00abe665edb07a583b" name="a94ee9c51218c5c00abe665edb07a583b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94ee9c51218c5c00abe665edb07a583b">&#9670;&#160;</a></span>operator=() <span class="overload">[5/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::operator= </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3fbc2ecb2c508b73990902698a77fb40" name="a3fbc2ecb2c508b73990902698a77fb40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fbc2ecb2c508b73990902698a77fb40">&#9670;&#160;</a></span>operator=() <span class="overload">[6/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::operator= </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac2ea313d2207334f8457f97132f37ee7" name="ac2ea313d2207334f8457f97132f37ee7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2ea313d2207334f8457f97132f37ee7">&#9670;&#160;</a></span>operator=() <span class="overload">[7/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::operator= </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6970fc99ab3f3527bc46bd78a30587c9" name="a6970fc99ab3f3527bc46bd78a30587c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6970fc99ab3f3527bc46bd78a30587c9">&#9670;&#160;</a></span>operator=() <span class="overload">[8/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a626a814de15418e36df67da5181a0e6d" name="a626a814de15418e36df67da5181a0e6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a626a814de15418e36df67da5181a0e6d">&#9670;&#160;</a></span>operator=() <span class="overload">[9/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::operator= </td>
+          <td>(</td>
+          <td class="paramtype">std::nullptr_t&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a32dfe4fb1d1fcf375c9bbd420addf619" name="a32dfe4fb1d1fcf375c9bbd420addf619"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32dfe4fb1d1fcf375c9bbd420addf619">&#9670;&#160;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Json::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a829ef1ee97a5ebefc303b0da73894ba7" name="a829ef1ee97a5ebefc303b0da73894ba7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a829ef1ee97a5ebefc303b0da73894ba7">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae6589651374cf7559ffb394c20580564" name="ae6589651374cf7559ffb394c20580564"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6589651374cf7559ffb394c20580564">&#9670;&#160;</a></span>operator[]() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a29ac559d3a003301401b7c11d2518172" name="a29ac559d3a003301401b7c11d2518172"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29ac559d3a003301401b7c11d2518172">&#9670;&#160;</a></span>operator[]() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a93963430163d5afd783d664e8e6f5801" name="a93963430163d5afd783d664e8e6f5801"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93963430163d5afd783d664e8e6f5801">&#9670;&#160;</a></span>operator[]() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp; sqlcc::Json::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aefa76c7c366d555dea24ffea8bd55390" name="aefa76c7c366d555dea24ffea8bd55390"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefa76c7c366d555dea24ffea8bd55390">&#9670;&#160;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> sqlcc::Json::parse </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>json_str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5dd8980b550b0c27f2715f3966a0c0ef" name="a5dd8980b550b0c27f2715f3966a0c0ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dd8980b550b0c27f2715f3966a0c0ef">&#9670;&#160;</a></span>path()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html">Json</a> sqlcc::Json::path </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>json_path</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac44d46add9d79f375cc10206325ff0d0" name="ac44d46add9d79f375cc10206325ff0d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac44d46add9d79f375cc10206325ff0d0">&#9670;&#160;</a></span>pop_back()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Json::pop_back </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa16f09f92ec50178ced274f754682b0b" name="aa16f09f92ec50178ced274f754682b0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa16f09f92ec50178ced274f754682b0b">&#9670;&#160;</a></span>push_back()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Json::push_back </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1Json.html">Json</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a851673b93026a907134db94c28c38f9c" name="a851673b93026a907134db94c28c38f9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a851673b93026a907134db94c28c38f9c">&#9670;&#160;</a></span>set_bool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Json::set_bool </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6b5975554dfac3eae5a119550d699863" name="a6b5975554dfac3eae5a119550d699863"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b5975554dfac3eae5a119550d699863">&#9670;&#160;</a></span>set_double()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Json::set_double </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae08f90fc74eb17be887c1ef05ea63178" name="ae08f90fc74eb17be887c1ef05ea63178"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae08f90fc74eb17be887c1ef05ea63178">&#9670;&#160;</a></span>set_int()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Json::set_int </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4528c91d6ef46c2ef6c69c601ad80647" name="a4528c91d6ef46c2ef6c69c601ad80647"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4528c91d6ef46c2ef6c69c601ad80647">&#9670;&#160;</a></span>set_int64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Json::set_int64 </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2e5695ec882bb699f31c05c0c8e196d6" name="a2e5695ec882bb699f31c05c0c8e196d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e5695ec882bb699f31c05c0c8e196d6">&#9670;&#160;</a></span>set_null()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Json::set_null </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5ff43da30c0a3c5f4ee2b3a6527bda94" name="a5ff43da30c0a3c5f4ee2b3a6527bda94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ff43da30c0a3c5f4ee2b3a6527bda94">&#9670;&#160;</a></span>set_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Json::set_string </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad1e27da1716e74212a72a46a9d3c87a3" name="ad1e27da1716e74212a72a46a9d3c87a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1e27da1716e74212a72a46a9d3c87a3">&#9670;&#160;</a></span>size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::Json::size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1af7c8bc57253fc860c4afeeb7c948be" name="a1af7c8bc57253fc860c4afeeb7c948be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1af7c8bc57253fc860c4afeeb7c948be">&#9670;&#160;</a></span>throw_type_error()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::Json::throw_type_error </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>expected_type</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5ed6346949c832465faa48178b20d951" name="a5ed6346949c832465faa48178b20d951"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ed6346949c832465faa48178b20d951">&#9670;&#160;</a></span>to_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::Json::to_file </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad64ac4970d7e1497dd7be729c47c5266" name="ad64ac4970d7e1497dd7be729c47c5266"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad64ac4970d7e1497dd7be729c47c5266">&#9670;&#160;</a></span>to_string() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::Json::to_string </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a073825a63f37d2773b8877d820adb632" name="a073825a63f37d2773b8877d820adb632"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a073825a63f37d2773b8877d820adb632">&#9670;&#160;</a></span>to_string() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::Json::to_string </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>indent</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad78168fa67ab6aa3df7c84b44d7b55d9" name="ad78168fa67ab6aa3df7c84b44d7b55d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad78168fa67ab6aa3df7c84b44d7b55d9">&#9670;&#160;</a></span>type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1Json.html#a78933ee6e45242303f974299fd6f7b7d">Json::Type</a> sqlcc::Json::type </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ae6835eebceb9431eedae26b7d4ba2d11" name="ae6835eebceb9431eedae26b7d4ba2d11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6835eebceb9431eedae26b7d4ba2d11">&#9670;&#160;</a></span>value_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1JsonValue.html">JsonValue</a>&gt; sqlcc::Json::value_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="json_8h_source.html">json.h</a></li>
+<li><a class="el" href="json_8cpp.html">json.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

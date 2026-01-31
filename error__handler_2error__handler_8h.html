@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: error_handler.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4f407c6a4ff5e3384b2e9fcb89f8bf79.html">error_handler</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#define-members">宏定义</a> &#124;
+<a href="#enum-members">枚举</a>  </div>
+  <div class="headertitle"><div class="title">error_handler.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;string&gt;</code><br />
+<code>#include &lt;map&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+error_handler/error_handler.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="error__handler_2error__handler_8h__incl.png" border="0" usemap="#aerror__handler_8h" alt=""/></div>
+<map name="aerror__handler_8h" id="aerror__handler_8h">
+<area shape="rect" title=" " alt="" coords="141,5,261,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,64,104"/>
+<area shape="poly" title=" " alt="" coords="176,33,75,76,73,71,174,28"/>
+<area shape="rect" title=" " alt="" coords="88,79,139,104"/>
+<area shape="poly" title=" " alt="" coords="189,33,140,72,137,68,186,29"/>
+<area shape="rect" title=" " alt="" coords="163,79,240,104"/>
+<area shape="poly" title=" " alt="" coords="204,31,204,65,199,65,199,31"/>
+<area shape="rect" title=" " alt="" coords="264,79,339,104"/>
+<area shape="poly" title=" " alt="" coords="219,29,275,68,272,73,216,33"/>
+<area shape="rect" title=" " alt="" coords="363,79,450,104"/>
+<area shape="poly" title=" " alt="" coords="235,28,361,72,360,77,233,33"/>
+</map>
+</div>
+</div>
+<p><a href="error__handler_2error__handler_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1ErrorInfo.html">sqlcc::ErrorInfo</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ErrorHandler.html">sqlcc::ErrorHandler</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">统一错误处理器  <a href="classsqlcc_1_1ErrorHandler.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:a03ecabef6c3ac6bfba750bda8ea7ba69" id="r_a03ecabef6c3ac6bfba750bda8ea7ba69"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="error__handler_2error__handler_8h.html#a03ecabef6c3ac6bfba750bda8ea7ba69">SQLCC_ERROR</a>(code,  level,  message,  details,  module)&#160;&#160;&#160;    ErrorHandler::getInstance().createError(code, level, message, details, module)</td></tr>
+<tr class="memdesc:a03ecabef6c3ac6bfba750bda8ea7ba69"><td class="mdescLeft">&#160;</td><td class="mdescRight">错误处理辅助宏  <br /></td></tr>
+<tr class="separator:a03ecabef6c3ac6bfba750bda8ea7ba69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca7b58d18e6fcf14a1348deba4c87cc6" id="r_aca7b58d18e6fcf14a1348deba4c87cc6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="error__handler_2error__handler_8h.html#aca7b58d18e6fcf14a1348deba4c87cc6">SQLCC_SYNTAX_ERROR</a>(details,  module)&#160;&#160;&#160;    ErrorHandler::getInstance().createSQLSyntaxError(details, module)</td></tr>
+<tr class="separator:aca7b58d18e6fcf14a1348deba4c87cc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ff14e41564132fb655b62473851833f" id="r_a7ff14e41564132fb655b62473851833f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="error__handler_2error__handler_8h.html#a7ff14e41564132fb655b62473851833f">SQLCC_DATABASE_NOT_FOUND</a>(db_name,  module)&#160;&#160;&#160;    ErrorHandler::getInstance().createDatabaseNotFoundError(db_name, module)</td></tr>
+<tr class="separator:a7ff14e41564132fb655b62473851833f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa74e61a565211f2805b630e783b69c69" id="r_aa74e61a565211f2805b630e783b69c69"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="error__handler_2error__handler_8h.html#aa74e61a565211f2805b630e783b69c69">SQLCC_TABLE_NOT_FOUND</a>(table_name,  module)&#160;&#160;&#160;    ErrorHandler::getInstance().createTableNotFoundError(table_name, module)</td></tr>
+<tr class="separator:aa74e61a565211f2805b630e783b69c69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a540c3f801fdeeb165d487f9a2e808386" id="r_a540c3f801fdeeb165d487f9a2e808386"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="error__handler_2error__handler_8h.html#a540c3f801fdeeb165d487f9a2e808386">SQLCC_PERMISSION_DENIED</a>(operation,  resource,  module)&#160;&#160;&#160;    ErrorHandler::getInstance().createPermissionDeniedError(operation, resource, module)</td></tr>
+<tr class="separator:a540c3f801fdeeb165d487f9a2e808386"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc9e5f97c5b52b5777a5b9bd0bd24c9e" id="r_afc9e5f97c5b52b5777a5b9bd0bd24c9e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="error__handler_2error__handler_8h.html#afc9e5f97c5b52b5777a5b9bd0bd24c9e">SQLCC_CONSTRAINT_VIOLATION</a>(constraint_type,  details,  module)&#160;&#160;&#160;    ErrorHandler::getInstance().createConstraintViolationError(constraint_type, details, module)</td></tr>
+<tr class="separator:afc9e5f97c5b52b5777a5b9bd0bd24c9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:a8ecc411d1876eec8559fbcfa78292bd2" id="r_a8ecc411d1876eec8559fbcfa78292bd2"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2">sqlcc::ErrorLevel</a> { <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2a551b723eafd6a31d444fcb2f5920fbd3">sqlcc::INFO</a>
+, <a class="el" href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2a059e9861e0400dfbe05c98a841f3f96b">sqlcc::WARNING</a>
+, <a class="el" href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2abb1ca97ec761fc37101737ba0aa2e7c5">sqlcc::ERROR</a>
+, <a class="el" href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2a19da7170bea36556dde582519795f3fc">sqlcc::FATAL</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2a551b723eafd6a31d444fcb2f5920fbd3">sqlcc::INFO</a>
+, <a class="el" href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2a059e9861e0400dfbe05c98a841f3f96b">sqlcc::WARNING</a>
+, <a class="el" href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2abb1ca97ec761fc37101737ba0aa2e7c5">sqlcc::ERROR</a>
+, <a class="el" href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2a19da7170bea36556dde582519795f3fc">sqlcc::FATAL</a>
+<br />
+ }</td></tr>
+<tr class="separator:a8ecc411d1876eec8559fbcfa78292bd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46f586b1b700479210f06ad72d88d1ed" id="r_a46f586b1b700479210f06ad72d88d1ed"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1ed">sqlcc::ErrorCode</a> { <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edad0749aaba8b833466dfcbb0428e4f89c">sqlcc::SUCCESS</a> = 0
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda9a10f345b0f755d461a8673a5e9ef6b4">sqlcc::UNKNOWN_ERROR</a> = 1000
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edafeb1a30cb74c35aaf4ea067736109e30">sqlcc::INVALID_PARAMETER</a> = 1001
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edad9b34187ffdac9293ab025c3742f38b4">sqlcc::RESOURCE_NOT_FOUND</a> = 1002
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda255df50c140519133f1489ab44a389d9">sqlcc::PERMISSION_DENIED</a> = 1003
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edac21578af43801c9a13f39e104b75b1a9">sqlcc::SQL_SYNTAX_ERROR</a> = 2000
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda2aaf536202fb6b3fcf75d393384d42dd">sqlcc::SQL_SEMANTIC_ERROR</a> = 2001
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda978d3132784b6a6c5fb514defcd01d3f">sqlcc::SQL_TYPE_MISMATCH</a> = 2002
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edaa85500c838e46a35716265bf6c99037d">sqlcc::DATABASE_NOT_EXIST</a> = 3000
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda996872f6eadaca39fce49a5e505fbc4a">sqlcc::DATABASE_ALREADY_EXISTS</a> = 3001
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edaf7606deeef0689594361b526e71a2757">sqlcc::TABLE_NOT_EXIST</a> = 3002
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda8a29ec9be4ab787ecb4c28b8ffda7850">sqlcc::TABLE_ALREADY_EXISTS</a> = 3003
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda95d66c0f5d1b832f1efa6134452ab574">sqlcc::COLUMN_NOT_EXIST</a> = 3004
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda556b7cb3f5b048b70fb4224456cd6365">sqlcc::COLUMN_ALREADY_EXISTS</a> = 3005
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda1d67a525f6cada988939ffdd393cae45">sqlcc::CONSTRAINT_VIOLATION</a> = 4000
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda9cd5def5e93269fd7c1a1fb555571117">sqlcc::NOT_NULL_VIOLATION</a> = 4001
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edaf99c72df347381507d1e5c1e99f72304">sqlcc::UNIQUE_VIOLATION</a> = 4002
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda72479803a68bd7d7297551a17c29d125">sqlcc::PRIMARY_KEY_VIOLATION</a> = 4003
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda6198483dc3f2a0913781b62ad1727917">sqlcc::FOREIGN_KEY_VIOLATION</a> = 4004
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edae8f03c9e2a53c848097ea2c2608b7632">sqlcc::TRANSACTION_ERROR</a> = 5000
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edab37bc6155c9d406aee6c808119824bea">sqlcc::DEADLOCK_DETECTED</a> = 5001
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda09fd3a69f021f728d2fe7814ca4fe599">sqlcc::CONCURRENCY_CONFLICT</a> = 5002
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edae9b39c88f4cb30e93d788b910e090576">sqlcc::SYSTEM_ERROR</a> = 6000
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda4bf6d054feb196d60c87437f75684bde">sqlcc::MEMORY_ALLOCATION_FAILED</a> = 6001
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda5063f0e55d613826e56a5df6b56d4fdf">sqlcc::DISK_IO_ERROR</a> = 6002
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda547ba52b62f9302ee1b6950111c36f9f">sqlcc::NETWORK_ERROR</a> = 6003
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edad0749aaba8b833466dfcbb0428e4f89c">sqlcc::SUCCESS</a> = 0
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda9a10f345b0f755d461a8673a5e9ef6b4">sqlcc::UNKNOWN_ERROR</a> = 1000
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edafeb1a30cb74c35aaf4ea067736109e30">sqlcc::INVALID_PARAMETER</a> = 1001
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edad9b34187ffdac9293ab025c3742f38b4">sqlcc::RESOURCE_NOT_FOUND</a> = 1002
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda255df50c140519133f1489ab44a389d9">sqlcc::PERMISSION_DENIED</a> = 1003
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edac21578af43801c9a13f39e104b75b1a9">sqlcc::SQL_SYNTAX_ERROR</a> = 2000
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda2aaf536202fb6b3fcf75d393384d42dd">sqlcc::SQL_SEMANTIC_ERROR</a> = 2001
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda978d3132784b6a6c5fb514defcd01d3f">sqlcc::SQL_TYPE_MISMATCH</a> = 2002
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edaa85500c838e46a35716265bf6c99037d">sqlcc::DATABASE_NOT_EXIST</a> = 3000
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda996872f6eadaca39fce49a5e505fbc4a">sqlcc::DATABASE_ALREADY_EXISTS</a> = 3001
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edaf7606deeef0689594361b526e71a2757">sqlcc::TABLE_NOT_EXIST</a> = 3002
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda8a29ec9be4ab787ecb4c28b8ffda7850">sqlcc::TABLE_ALREADY_EXISTS</a> = 3003
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda95d66c0f5d1b832f1efa6134452ab574">sqlcc::COLUMN_NOT_EXIST</a> = 3004
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda556b7cb3f5b048b70fb4224456cd6365">sqlcc::COLUMN_ALREADY_EXISTS</a> = 3005
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda1d67a525f6cada988939ffdd393cae45">sqlcc::CONSTRAINT_VIOLATION</a> = 4000
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda9cd5def5e93269fd7c1a1fb555571117">sqlcc::NOT_NULL_VIOLATION</a> = 4001
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edaf99c72df347381507d1e5c1e99f72304">sqlcc::UNIQUE_VIOLATION</a> = 4002
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda72479803a68bd7d7297551a17c29d125">sqlcc::PRIMARY_KEY_VIOLATION</a> = 4003
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda6198483dc3f2a0913781b62ad1727917">sqlcc::FOREIGN_KEY_VIOLATION</a> = 4004
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edae8f03c9e2a53c848097ea2c2608b7632">sqlcc::TRANSACTION_ERROR</a> = 5000
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edab37bc6155c9d406aee6c808119824bea">sqlcc::DEADLOCK_DETECTED</a> = 5001
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda09fd3a69f021f728d2fe7814ca4fe599">sqlcc::CONCURRENCY_CONFLICT</a> = 5002
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edae9b39c88f4cb30e93d788b910e090576">sqlcc::SYSTEM_ERROR</a> = 6000
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda4bf6d054feb196d60c87437f75684bde">sqlcc::MEMORY_ALLOCATION_FAILED</a> = 6001
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda5063f0e55d613826e56a5df6b56d4fdf">sqlcc::DISK_IO_ERROR</a> = 6002
+, <a class="el" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1eda547ba52b62f9302ee1b6950111c36f9f">sqlcc::NETWORK_ERROR</a> = 6003
+<br />
+ }</td></tr>
+<tr class="separator:a46f586b1b700479210f06ad72d88d1ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="afc9e5f97c5b52b5777a5b9bd0bd24c9e" name="afc9e5f97c5b52b5777a5b9bd0bd24c9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc9e5f97c5b52b5777a5b9bd0bd24c9e">&#9670;&#160;</a></span>SQLCC_CONSTRAINT_VIOLATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SQLCC_CONSTRAINT_VIOLATION</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">constraint_type, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">details, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">module&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;    ErrorHandler::getInstance().createConstraintViolationError(constraint_type, details, module)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7ff14e41564132fb655b62473851833f" name="a7ff14e41564132fb655b62473851833f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ff14e41564132fb655b62473851833f">&#9670;&#160;</a></span>SQLCC_DATABASE_NOT_FOUND</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SQLCC_DATABASE_NOT_FOUND</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">db_name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">module&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;    ErrorHandler::getInstance().createDatabaseNotFoundError(db_name, module)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a03ecabef6c3ac6bfba750bda8ea7ba69" name="a03ecabef6c3ac6bfba750bda8ea7ba69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03ecabef6c3ac6bfba750bda8ea7ba69">&#9670;&#160;</a></span>SQLCC_ERROR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SQLCC_ERROR</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">code, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">level, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">message, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">details, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">module&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;    ErrorHandler::getInstance().createError(code, level, message, details, module)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>错误处理辅助宏 </p>
+
+</div>
+</div>
+<a id="a540c3f801fdeeb165d487f9a2e808386" name="a540c3f801fdeeb165d487f9a2e808386"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a540c3f801fdeeb165d487f9a2e808386">&#9670;&#160;</a></span>SQLCC_PERMISSION_DENIED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SQLCC_PERMISSION_DENIED</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">operation, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">resource, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">module&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;    ErrorHandler::getInstance().createPermissionDeniedError(operation, resource, module)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aca7b58d18e6fcf14a1348deba4c87cc6" name="aca7b58d18e6fcf14a1348deba4c87cc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca7b58d18e6fcf14a1348deba4c87cc6">&#9670;&#160;</a></span>SQLCC_SYNTAX_ERROR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SQLCC_SYNTAX_ERROR</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">details, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">module&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;    ErrorHandler::getInstance().createSQLSyntaxError(details, module)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa74e61a565211f2805b630e783b69c69" name="aa74e61a565211f2805b630e783b69c69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa74e61a565211f2805b630e783b69c69">&#9670;&#160;</a></span>SQLCC_TABLE_NOT_FOUND</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SQLCC_TABLE_NOT_FOUND</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">table_name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">module&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;    ErrorHandler::getInstance().createTableNotFoundError(table_name, module)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: logger_module.cppm 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_ffde1fbcaa8d6b0d34e29c3bddf7a801.html">logger</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#enum-members">枚举</a>  </div>
+  <div class="headertitle"><div class="title">logger_module.cppm 文件参考<div class="ingroups">模块 <a class="el" href="module_sqlcc_8utils_8logger.html">sqlcc.utils.logger</a></div></div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>import &lt;string&gt;;</code><br />
+<code>import &lt;memory&gt;;</code><br />
+<code>import &lt;vector&gt;;</code><br />
+<code>import &lt;unordered_map&gt;;</code><br />
+<code>import &lt;mutex&gt;;</code><br />
+<code>import &lt;chrono&gt;;</code><br />
+<code>import &lt;iomanip&gt;;</code><br />
+<code>import &lt;sstream&gt;;</code><br />
+<code>import &lt;iostream&gt;;</code><br />
+<code>import &lt;fstream&gt;;</code><br />
+</div><div class="textblock"><div class="dynheader">
+logger_module.cppm 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="logger__module_8cppm__incl.png" border="0" usemap="#alogger__module_8cppm" alt=""/></div>
+<map name="alogger__module_8cppm" id="alogger__module_8cppm">
+<area shape="rect" title=" " alt="" coords="422,5,581,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,64,104"/>
+<area shape="poly" title=" " alt="" coords="422,30,267,49,78,81,77,76,266,44,421,25"/>
+<area shape="rect" title=" " alt="" coords="88,79,165,104"/>
+<area shape="poly" title=" " alt="" coords="435,33,179,81,178,76,434,28"/>
+<area shape="rect" title=" " alt="" coords="190,79,253,104"/>
+<area shape="poly" title=" " alt="" coords="456,33,267,81,265,76,454,28"/>
+<area shape="rect" title=" " alt="" coords="277,79,401,104"/>
+<area shape="poly" title=" " alt="" coords="476,33,379,75,377,71,474,28"/>
+<area shape="rect" title=" " alt="" coords="425,79,489,104"/>
+<area shape="poly" title=" " alt="" coords="496,32,474,68,469,66,492,30"/>
+<area shape="rect" title=" " alt="" coords="513,79,580,104"/>
+<area shape="poly" title=" " alt="" coords="511,30,534,66,530,69,507,32"/>
+<area shape="rect" title=" " alt="" coords="604,79,679,104"/>
+<area shape="poly" title=" " alt="" coords="525,28,608,70,605,75,523,33"/>
+<area shape="rect" title=" " alt="" coords="703,79,777,104"/>
+<area shape="poly" title=" " alt="" coords="540,28,690,72,689,78,539,33"/>
+<area shape="rect" title=" " alt="" coords="801,79,881,104"/>
+<area shape="poly" title=" " alt="" coords="558,28,788,76,787,81,557,33"/>
+<area shape="rect" title=" " alt="" coords="906,79,979,104"/>
+<area shape="poly" title=" " alt="" coords="581,27,722,47,893,76,892,81,721,52,580,32"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Logger.html">sqlcc::Logger</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thread-safe singleton logger class  <a href="classsqlcc_1_1Logger.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:a0c5dde84a24b6c109800b05b81ad12f3" id="r_a0c5dde84a24b6c109800b05b81ad12f3"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3">sqlcc::LogLevel</a> { <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3adc30ec20708ef7b0f641ef78b7880a15">sqlcc::DEBUG</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a551b723eafd6a31d444fcb2f5920fbd3">sqlcc::INFO</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a32bd8a1db2275458673903bdb84cb277">sqlcc::WARN</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3abb1ca97ec761fc37101737ba0aa2e7c5">sqlcc::ERROR</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3adc30ec20708ef7b0f641ef78b7880a15">sqlcc::DEBUG</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a551b723eafd6a31d444fcb2f5920fbd3">sqlcc::INFO</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a32bd8a1db2275458673903bdb84cb277">sqlcc::WARN</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3abb1ca97ec761fc37101737ba0aa2e7c5">sqlcc::ERROR</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3adc30ec20708ef7b0f641ef78b7880a15">sqlcc::DEBUG</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a551b723eafd6a31d444fcb2f5920fbd3">sqlcc::INFO</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a32bd8a1db2275458673903bdb84cb277">sqlcc::WARN</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3abb1ca97ec761fc37101737ba0aa2e7c5">sqlcc::ERROR</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a0c5dde84a24b6c109800b05b81ad12f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log level enumeration for message classification  <a href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3">更多...</a><br /></td></tr>
+<tr class="separator:a0c5dde84a24b6c109800b05b81ad12f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

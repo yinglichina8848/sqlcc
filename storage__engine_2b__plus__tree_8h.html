@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: b_plus_tree.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">b_plus_tree.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
+<code>#include &quot;<a class="el" href="storage__engine_2b__plus__tree__nodes_8h_source.html">b_plus_tree_nodes.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+storage_engine/b_plus_tree.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="storage__engine_2b__plus__tree_8h__incl.png" border="0" usemap="#ab__plus__tree_8h" alt=""/></div>
+<map name="ab__plus__tree_8h" id="ab__plus__tree_8h">
+<area shape="rect" title=" " alt="" coords="191,5,300,31"/>
+<area shape="rect" title=" " alt="" coords="5,152,83,177"/>
+<area shape="poly" title=" " alt="" coords="223,33,184,54,142,81,101,113,67,144,64,140,98,109,138,76,181,49,221,28"/>
+<area shape="rect" title=" " alt="" coords="107,152,165,177"/>
+<area shape="poly" title=" " alt="" coords="219,33,187,52,158,80,145,109,140,139,134,138,140,108,154,77,183,48,216,29"/>
+<area shape="rect" title=" " alt="" coords="329,152,391,177"/>
+<area shape="poly" title=" " alt="" coords="273,28,306,48,337,77,352,107,360,138,355,139,347,109,333,80,303,52,270,33"/>
+<area shape="rect" title=" " alt="" coords="398,79,485,104"/>
+<area shape="poly" title=" " alt="" coords="278,28,397,71,396,76,276,33"/>
+<area shape="rect" href="storage__engine_2b__plus__tree__nodes_8h.html" title=" " alt="" coords="168,79,323,104"/>
+<area shape="poly" title=" " alt="" coords="248,31,248,65,243,65,243,31"/>
+<area shape="poly" title=" " alt="" coords="214,107,90,150,89,145,212,102"/>
+<area shape="poly" title=" " alt="" coords="229,106,167,147,164,142,226,102"/>
+<area shape="poly" title=" " alt="" coords="265,102,331,142,328,147,262,106"/>
+<area shape="rect" href="page_8h.html" title=" " alt="" coords="189,152,304,177"/>
+<area shape="poly" title=" " alt="" coords="248,104,249,138,244,139,243,104"/>
+<area shape="rect" title=" " alt="" coords="123,225,189,251"/>
+<area shape="poly" title=" " alt="" coords="234,179,183,219,180,214,230,175"/>
+<area shape="rect" title=" " alt="" coords="213,225,280,251"/>
+<area shape="poly" title=" " alt="" coords="249,178,249,212,244,212,244,178"/>
+<area shape="rect" title=" " alt="" coords="304,225,357,251"/>
+<area shape="poly" title=" " alt="" coords="262,175,308,214,305,218,258,179"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="storage__engine_2b__plus__tree_8h__dep__incl.png" border="0" usemap="#ab__plus__tree_8hdep" alt=""/></div>
+<map name="ab__plus__tree_8hdep" id="ab__plus__tree_8hdep">
+<area shape="rect" title=" " alt="" coords="1353,5,1463,31"/>
+<area shape="rect" href="b__plus__tree_8cpp.html" title=" " alt="" coords="413,86,537,111"/>
+<area shape="poly" title=" " alt="" coords="1339,23,1195,26,999,36,775,53,550,81,515,89,514,83,549,76,775,48,999,30,1195,21,1339,17"/>
+<area shape="rect" href="enhanced__index__manager_8cpp.html" title=" " alt="" coords="561,86,780,111"/>
+<area shape="poly" title=" " alt="" coords="1340,27,1098,48,792,81,740,89,739,83,792,76,1097,43,1339,22"/>
+<area shape="rect" href="execution_2execution__engine_8h.html" title="SQLCC执行引擎 &#45; SQL语句解释和执行的核心组件" alt="" coords="805,86,953,111"/>
+<area shape="poly" title=" " alt="" coords="1340,29,1169,50,964,81,928,89,927,83,964,76,1168,45,1339,24"/>
+<area shape="rect" href="execution__engine_8h.html" title="SQLCC执行引擎 &#45; SQL语句解释和执行的核心组件" alt="" coords="977,86,1125,111"/>
+<area shape="poly" title=" " alt="" coords="1343,36,1103,89,1102,83,1342,31"/>
+<area shape="rect" href="index__manager_8cpp.html" title=" " alt="" coords="1149,86,1299,111"/>
+<area shape="poly" title=" " alt="" coords="1370,38,1252,88,1250,84,1368,33"/>
+<area shape="rect" href="index__manager__smart__ptr__enhancement_8cpp.html" title="索引管理智能指针化深度改进 &#45; 索引对象生命周期管理优化" alt="" coords="1323,79,1493,119"/>
+<area shape="poly" title=" " alt="" coords="1411,44,1411,79,1405,79,1405,44"/>
+<area shape="rect" href="partition__manager_8cpp.html" title=" " alt="" coords="1517,86,1685,111"/>
+<area shape="poly" title=" " alt="" coords="1450,33,1574,84,1572,88,1448,38"/>
+<area shape="rect" href="smart__index__factory_8cpp.html" title=" " alt="" coords="1709,86,1891,111"/>
+<area shape="poly" title=" " alt="" coords="1477,30,1743,83,1742,89,1475,35"/>
+<area shape="rect" href="smart__ptr__lifetime__manager_8cpp.html" title=" " alt="" coords="1915,79,2058,119"/>
+<area shape="poly" title=" " alt="" coords="1477,23,1669,43,1903,76,1916,78,1915,84,1902,81,1668,48,1476,28"/>
+<area shape="rect" href="table__storage__complete_8cpp.html" title=" " alt="" coords="2082,86,2289,111"/>
+<area shape="poly" title=" " alt="" coords="1477,21,1738,41,2071,76,2121,83,2120,89,2070,81,1737,47,1476,26"/>
+<area shape="rect" href="transactional__index__manager_8cpp.html" title=" " alt="" coords="2313,79,2463,119"/>
+<area shape="poly" title=" " alt="" coords="1477,18,1626,22,1831,32,2065,49,2302,76,2313,78,2312,83,2301,81,2064,55,1831,37,1626,28,1477,23"/>
+<area shape="rect" href="execution_2unified__executor_8cpp.html" title="Implements the UnifiedExecutor, the core dispatcher for the SQL execution engine." alt="" coords="748,240,903,265"/>
+<area shape="poly" title=" " alt="" coords="845,121,818,141,798,168,795,186,799,205,818,238,813,241,794,207,790,186,794,166,815,137,841,116"/>
+<area shape="rect" href="unified__executor_8h.html" title="Defines the core SQL execution framework using the Strategy design pattern." alt="" coords="809,167,949,192"/>
+<area shape="poly" title=" " alt="" coords="881,125,881,166,876,166,876,125"/>
+<area shape="poly" title=" " alt="" coords="864,205,836,241,832,238,860,201"/>
+<area shape="rect" href="dcl__executor_8cpp.html" title=" " alt="" coords="973,167,1104,192"/>
+<area shape="poly" title=" " alt="" coords="1049,126,1043,167,1038,166,1044,125"/>
+<area shape="rect" href="execution__engine_8cpp.html" title=" " alt="" coords="1128,167,1291,192"/>
+<area shape="poly" title=" " alt="" coords="1087,115,1187,164,1185,169,1085,120"/>
+<area shape="rect" href="unified__query__plan_8h.html" title=" " alt="" coords="1315,167,1472,192"/>
+<area shape="poly" title=" " alt="" coords="1114,112,1344,164,1343,169,1113,117"/>
+<area shape="rect" href="sql__executor_8h.html" title=" " alt="" coords="1267,240,1381,265"/>
+<area shape="poly" title=" " alt="" coords="1374,204,1337,242,1333,238,1371,200"/>
+<area shape="rect" href="sql__executor_2sql__executor_8h.html" title=" " alt="" coords="1405,240,1520,265"/>
+<area shape="poly" title=" " alt="" coords="1416,200,1453,238,1450,242,1412,204"/>
+<area shape="rect" href="sql__executor_2unified__query__plan_8cpp.html" title=" " alt="" coords="1545,240,1717,265"/>
+<area shape="poly" title=" " alt="" coords="1445,193,1593,237,1591,242,1444,198"/>
+<area shape="rect" href="unified__query__plan_8cpp.html" title=" " alt="" coords="1070,240,1242,265"/>
+<area shape="poly" title=" " alt="" coords="1343,198,1195,242,1194,237,1341,193"/>
+<area shape="rect" href="advanced__sql92__executor_8cpp.html" title=" " alt="" coords="5,313,221,339"/>
+<area shape="poly" title=" " alt="" coords="1254,268,1254,268,969,291,747,298,525,302,240,316,222,317,221,312,240,311,525,297,747,293,969,285,1253,263,1253,263"/>
+<area shape="rect" href="connection__handler_8cpp.html" title=" " alt="" coords="119,387,294,412"/>
+<area shape="poly" title=" " alt="" coords="1254,268,1254,268,1070,274,765,279,462,291,350,301,310,308,285,316,262,331,242,351,215,388,211,385,238,347,259,327,283,311,309,303,349,296,461,285,765,274,1070,268,1253,263,1253,263"/>
+<area shape="rect" href="connection__handler_8h.html" title=" " alt="" coords="296,313,456,339"/>
+<area shape="poly" title=" " alt="" coords="1254,268,1254,268,1035,287,864,295,694,301,475,316,456,318,456,312,474,311,693,296,864,290,1035,282,1253,263,1253,263"/>
+<area shape="rect" href="server__network__manager_8h.html" title=" " alt="" coords="419,387,618,412"/>
+<area shape="poly" title=" " alt="" coords="1254,268,1254,268,1112,271,877,273,754,277,646,285,564,297,536,305,521,315,512,331,510,350,517,386,512,387,505,351,507,330,517,312,534,301,562,292,645,279,754,272,876,268,1112,266,1253,263,1253,263"/>
+<area shape="rect" href="isql__main_8cpp.html" title=" " alt="" coords="531,313,643,339"/>
+<area shape="poly" title=" " alt="" coords="1254,268,1254,268,1085,284,954,292,823,299,655,316,643,318,643,312,654,311,822,294,954,286,1085,279,1253,263,1253,263"/>
+<area shape="rect" href="load__data__executor_8h.html" title=" " alt="" coords="667,313,827,339"/>
+<area shape="poly" title=" " alt="" coords="1254,268,1254,268,1046,293,839,316,827,317,827,312,838,311,1046,288,1253,263,1253,263"/>
+<area shape="rect" href="network__server_8cpp.html" title=" " alt="" coords="851,313,1000,339"/>
+<area shape="poly" title=" " alt="" coords="1253,269,990,316,989,311,1253,264"/>
+<area shape="rect" href="procedure__trigger__executor_8h.html" title=" " alt="" coords="1024,313,1235,339"/>
+<area shape="poly" title=" " alt="" coords="1281,272,1162,316,1160,311,1279,267"/>
+<area shape="rect" href="network_2server__main_8cpp.html" title=" " alt="" coords="1259,313,1389,339"/>
+<area shape="poly" title=" " alt="" coords="1327,279,1327,313,1321,313,1321,279"/>
+<area shape="rect" href="sqlcc__server_2server__main_8cpp.html" title=" " alt="" coords="1413,313,1544,339"/>
+<area shape="poly" title=" " alt="" coords="1362,269,1454,311,1452,316,1360,273"/>
+<area shape="rect" href="set__operation__executor_8cpp.html" title=" " alt="" coords="1627,387,1827,412"/>
+<area shape="poly" title=" " alt="" coords="1395,263,1489,266,1599,268,1653,272,1701,279,1741,292,1769,312,1774,321,1776,332,1770,353,1756,372,1742,388,1738,385,1752,369,1765,351,1771,331,1769,323,1765,315,1739,297,1700,285,1652,277,1599,273,1489,271,1395,268"/>
+<area shape="rect" href="set__operation__executor_8h.html" title=" " alt="" coords="1569,313,1754,339"/>
+<area shape="poly" title=" " alt="" coords="1392,266,1607,311,1606,316,1391,271"/>
+<area shape="rect" href="sql__executor_2sql__executor_8cpp.html" title=" " alt="" coords="1829,313,1960,339"/>
+<area shape="poly" title=" " alt="" coords="1395,263,1605,288,1811,311,1829,313,1829,318,1810,316,1604,293,1395,268"/>
+<area shape="rect" href="sql__executor__stub_8cpp.html" title="SQL执行器存根 &#45; 仅用于链接演示程序" alt="" coords="1985,313,2151,339"/>
+<area shape="poly" title=" " alt="" coords="1395,263,1558,280,1685,289,1812,297,1972,311,1985,312,1984,317,1972,316,1811,302,1685,294,1558,285,1395,268"/>
+<area shape="rect" href="sql__trigger__executor_8cpp.html" title=" " alt="" coords="2175,313,2355,339"/>
+<area shape="poly" title=" " alt="" coords="1395,263,1612,282,1781,290,1950,296,2164,311,2176,312,2175,317,2164,316,1949,301,1781,295,1612,287,1395,268"/>
+<area shape="rect" href="subquery__executor_8cpp.html" title=" " alt="" coords="2380,313,2551,339"/>
+<area shape="poly" title=" " alt="" coords="1395,263,1543,276,1669,284,1883,290,2096,295,2368,311,2380,312,2380,317,2368,316,2096,300,1883,296,1669,290,1543,282,1395,268"/>
+<area shape="rect" href="sql__executor_2system__database_8cpp.html" title=" " alt="" coords="2575,313,2739,339"/>
+<area shape="poly" title=" " alt="" coords="1395,263,1573,278,1724,286,1980,291,2236,293,2386,299,2563,311,2576,312,2575,317,2562,316,2386,304,2236,298,1980,296,1724,292,1573,283,1395,268"/>
+<area shape="poly" title=" " alt="" coords="337,346,235,389,233,384,335,342"/>
+<area shape="rect" href="network_8cpp.html" title=" " alt="" coords="282,460,385,485"/>
+<area shape="poly" title=" " alt="" coords="371,353,339,461,334,459,366,352"/>
+<area shape="rect" href="server__network__manager_8cpp.html" title=" " alt="" coords="410,460,625,485"/>
+<area shape="poly" title=" " alt="" coords="383,352,392,382,409,410,425,426,444,439,483,457,480,462,441,443,422,430,405,414,387,384,378,353"/>
+<area shape="poly" title=" " alt="" coords="412,342,497,384,494,389,410,347"/>
+<area shape="poly" title=" " alt="" coords="477,419,365,462,363,457,475,414"/>
+<area shape="poly" title=" " alt="" coords="521,426,520,460,515,460,516,426"/>
+<area shape="rect" href="load__data__executor_8cpp.html" title=" " alt="" coords="654,387,829,412"/>
+<area shape="poly" title=" " alt="" coords="747,353,745,387,740,386,742,352"/>
+<area shape="rect" href="procedure__trigger__executor_8cpp.html" title=" " alt="" coords="853,387,1080,412"/>
+<area shape="poly" title=" " alt="" coords="1092,347,994,389,992,384,1090,342"/>
+<area shape="rect" href="procedure__trigger__task_8cpp.html" title=" " alt="" coords="1161,460,1359,485"/>
+<area shape="poly" title=" " alt="" coords="1238,341,1274,358,1302,385,1308,406,1302,427,1289,446,1275,461,1271,458,1285,443,1297,425,1303,406,1298,388,1271,362,1236,345"/>
+<area shape="rect" href="procedure__trigger__task_8h.html" title=" " alt="" coords="1104,387,1288,412"/>
+<area shape="poly" title=" " alt="" coords="1152,347,1187,385,1183,388,1148,351"/>
+<area shape="poly" title=" " alt="" coords="1218,421,1252,458,1248,462,1214,424"/>
+<area shape="poly" title=" " alt="" coords="1683,347,1718,385,1714,388,1679,351"/>
+</map>
+</div>
+</div>
+<p><a href="storage__engine_2b__plus__tree_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">sqlcc::BPlusTreeIndex</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">B+树索引类  <a href="classsqlcc_1_1BPlusTreeIndex.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

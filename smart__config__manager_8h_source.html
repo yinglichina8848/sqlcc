@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: smart_config_manager.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_313caf1132e152dd9b58bea13a4052ca.html">utils</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">smart_config_manager.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="smart__config__manager_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span><span class="preprocessor">#ifndef SQLCC_SMART_CONFIG_MANAGER_H_</span></div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="preprocessor">#define SQLCC_SMART_CONFIG_MANAGER_H_</span></div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span><span class="preprocessor">#include &quot;<a class="code" href="config__snapshot_8h.html">config_snapshot.h</a>&quot;</span></div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span><span class="preprocessor">#include &quot;<a class="code" href="config__lifecycle_8h.html">config_lifecycle.h</a>&quot;</span></div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span><span class="preprocessor">#include &lt;shared_mutex&gt;</span></div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span><span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span><span class="preprocessor">#include &lt;future&gt;</span></div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
+<div class="foldopen" id="foldopen00279" data-start="{" data-end="};">
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html">  279</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1SmartConfigManager.html">SmartConfigManager</a> {</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    <span class="comment">// 单例实例（指针管理）</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#aa82e53eea852472b1c3732744fc68698">  282</a></span>    <span class="keyword">static</span> <a class="code hl_class" href="classsqlcc_1_1SmartConfigManager.html">SmartConfigManager</a>* <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#aa82e53eea852472b1c3732744fc68698">instance_</a>;</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#a080565973592729efb787ec719bf8de8">  283</a></span>    <span class="keyword">static</span> std::mutex <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#a080565973592729efb787ec719bf8de8">instance_mutex_</a>;</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    </div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    <span class="comment">// 核心组件（智能指针管理）</span></div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#af1280f8d61bc0ce3e3653186a28ea32c">  286</a></span>    std::unique_ptr&lt;ConfigLifecycleManager&gt; <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#af1280f8d61bc0ce3e3653186a28ea32c">lifecycle_manager_</a>;</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#a22a8debee7d3ba0b862f74748e70c012">  287</a></span>    std::unique_ptr&lt;ConfigSnapshotManager&gt; <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#a22a8debee7d3ba0b862f74748e70c012">snapshot_manager_</a>;</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    </div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    <span class="comment">// 配置状态</span></div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#aca38795b34616c6eec5dc690f248cd1b">  290</a></span>    std::atomic&lt;bool&gt; <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#aca38795b34616c6eec5dc690f248cd1b">initialized_</a>{<span class="keyword">false</span>};</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#ab2536e123e00cd8d05e9967d8ffe7e08">  291</a></span>    std::atomic&lt;bool&gt; <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#ab2536e123e00cd8d05e9967d8ffe7e08">shutdown_requested_</a>{<span class="keyword">false</span>};</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#a3b3fdb6c55779922178638639bcd861d">  292</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#a3b3fdb6c55779922178638639bcd861d">config_file_path_</a>;</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    </div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    <span class="comment">// 热更新支持</span></div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#ac86c23706dc18dacfeec7227f585def3">  295</a></span>    std::unique_ptr&lt;std::thread&gt; <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#ac86c23706dc18dacfeec7227f585def3">hot_reload_thread_</a>;</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#afe747236d9a9cd212000dc3c5f1a28c2">  296</a></span>    std::atomic&lt;bool&gt; <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#afe747236d9a9cd212000dc3c5f1a28c2">hot_reload_enabled_</a>{<span class="keyword">false</span>};</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#a31349b1bc1a40773079dcf7d16b69240">  297</a></span>    std::chrono::milliseconds <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#a31349b1bc1a40773079dcf7d16b69240">hot_reload_interval_</a>{5000};  <span class="comment">// 5秒检查间隔</span></div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    </div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    <span class="comment">// 性能监控</span></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#afded2466f3514eb9ce40ff8d51573197">  300</a></span>    <span class="keyword">mutable</span> std::atomic&lt;size_t&gt; <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#afded2466f3514eb9ce40ff8d51573197">config_reads_</a>{0};</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#a84beeb007a09531aaf98c4d342c222d1">  301</a></span>    <span class="keyword">mutable</span> std::atomic&lt;size_t&gt; <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#a84beeb007a09531aaf98c4d342c222d1">config_writes_</a>{0};</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#ab64630c9b10369ffd5e2cfcadeeb6fb4">  302</a></span>    <span class="keyword">mutable</span> std::atomic&lt;size_t&gt; <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#ab64630c9b10369ffd5e2cfcadeeb6fb4">config_errors_</a>{0};</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>    </div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    <span class="comment">// 加密支持（预留接口）</span></div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#a09a561e3451df15acfea954d33d1a56c">  305</a></span>    std::unique_ptr&lt;std::string&gt; <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#a09a561e3451df15acfea954d33d1a56c">encryption_key_</a>;  <span class="comment">// 使用unique_ptr管理可选资源</span></div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span> </div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00312" data-start="{" data-end="}">
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#a5a3845c6064334fb8e40bb8fcfe2ca94">  312</a></span>    <span class="keyword">static</span> <a class="code hl_class" href="classsqlcc_1_1SmartConfigManager.html">SmartConfigManager</a>* <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a5a3845c6064334fb8e40bb8fcfe2ca94">GetInstance</a>() {</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>        std::lock_guard&lt;std::mutex&gt; lock(<a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#a080565973592729efb787ec719bf8de8">instance_mutex_</a>);</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span> </div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#aa82e53eea852472b1c3732744fc68698">instance_</a>) {</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>            <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#aa82e53eea852472b1c3732744fc68698">instance_</a> = <span class="keyword">new</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a1137de2885692ad1253b779bc3e94243">SmartConfigManager</a>();</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>        }</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span> </div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#aa82e53eea852472b1c3732744fc68698">instance_</a>;</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>    }</div>
+</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span> </div>
+<div class="foldopen" id="foldopen00325" data-start="{" data-end="}">
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#a91797467f3e6ed5b4fbe173a05dd1beb">  325</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a91797467f3e6ed5b4fbe173a05dd1beb">DestroyInstance</a>() {</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>        std::lock_guard&lt;std::mutex&gt; lock(<a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#a080565973592729efb787ec719bf8de8">instance_mutex_</a>);</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span> </div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#aa82e53eea852472b1c3732744fc68698">instance_</a>) {</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>            <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#aa82e53eea852472b1c3732744fc68698">instance_</a>-&gt;<a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a66cdd64c432fcd948b2d9b6f4f5c7f09">Shutdown</a>();</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>            <span class="keyword">delete</span> <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#aa82e53eea852472b1c3732744fc68698">instance_</a>;</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>            <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#aa82e53eea852472b1c3732744fc68698">instance_</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>        }</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>    }</div>
+</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span> </div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#abc73fe182a0a707d1cedd02c06841fcf">Initialize</a>(<span class="keyword">const</span> std::string&amp; config_file_path = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span> </div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a66cdd64c432fcd948b2d9b6f4f5c7f09">Shutdown</a>();</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span> </div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>    T <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#aebb4aebfa43065a064eb883236d56d8c">GetConfig</a>(<span class="keyword">const</span> std::string&amp; key, <span class="keyword">const</span> T&amp; default_value = T{}) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span> </div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    std::string <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a51f740d06209810c2548f78cbf6e9ae7">GetStringConfig</a>(<span class="keyword">const</span> std::string&amp; key, <span class="keyword">const</span> std::string&amp; default_value = <span class="stringliteral">&quot;&quot;</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span> </div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a5133f6da9f417c64fcb12ef5e94e4fa7">GetIntConfig</a>(<span class="keyword">const</span> std::string&amp; key, <span class="keywordtype">int</span> default_value = 0) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span> </div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a584596f142c26128320ccf4ec77f208e">GetBoolConfig</a>(<span class="keyword">const</span> std::string&amp; key, <span class="keywordtype">bool</span> default_value = <span class="keyword">false</span>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span> </div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>    <span class="keywordtype">double</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a1cc274d9a8a35695b080b452cac32ef2">GetDoubleConfig</a>(<span class="keyword">const</span> std::string&amp; key, <span class="keywordtype">double</span> default_value = 0.0) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span> </div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00396" data-start="{" data-end="}">
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#ac0ed91855a5afdab77ebdf331699adec">  396</a></span>    std::future&lt;bool&gt; <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#ac0ed91855a5afdab77ebdf331699adec">UpdateConfigAsync</a>(<span class="keyword">const</span> std::string&amp; key, <span class="keyword">const</span> T&amp; value) {</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>        <span class="keywordflow">return</span> std::async(std::launch::async, [<span class="keyword">this</span>, key, value]() {</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#aa22f76f50646bd21fb6aac0075a5b127">UpdateConfig</a>(key, value);</div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>        });</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>    }</div>
+</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span> </div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>    std::future&lt;bool&gt; <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#ac184e238a89b3eb053dd647029ebb281">BatchUpdateConfigsAsync</a>(<span class="keyword">const</span> std::unordered_map&lt;std::string, ConfigValue&gt;&amp; configs);</div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span> </div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a255641df072bde0fdb4c23c2ceaf7ea2">EnableHotReload</a>(std::chrono::milliseconds check_interval = std::chrono::milliseconds(5000));</div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span> </div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#abba985e61f20ff7e0ebe6fe6e4e7053e">StopHotReload</a>();</div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span> </div>
+<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>    std::string <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#ac3d15532c245f348bbd986551d2b6187">GetCurrentVersionId</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span> </div>
+<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>    std::string <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a18d71ac654ddf35ed0f1da6d4ff8cb82">GetStatistics</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span> </div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a05a4271c71688c10097302a625d6bb79">SetEncryptionKey</a>(<span class="keyword">const</span> std::string&amp; key);</div>
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span> </div>
+<div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>    std::string <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a06e2a656e856ff3e68d6e0a58931df37">GetEncryptionKey</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span> </div>
+<div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00450" name="l00450"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#a1137de2885692ad1253b779bc3e94243">  450</a></span>    <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a1137de2885692ad1253b779bc3e94243">SmartConfigManager</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span> </div>
+<div class="foldopen" id="foldopen00455" data-start="{" data-end="}">
+<div class="line"><a id="l00455" name="l00455"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SmartConfigManager.html#a5f47bf3c74fac605dc53ab0bef328f30">  455</a></span>    <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a5f47bf3c74fac605dc53ab0bef328f30">~SmartConfigManager</a>() {</div>
+<div class="line"><a id="l00456" name="l00456"></a><span class="lineno">  456</span>        <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a66cdd64c432fcd948b2d9b6f4f5c7f09">Shutdown</a>();</div>
+<div class="line"><a id="l00457" name="l00457"></a><span class="lineno">  457</span>    }</div>
+</div>
+<div class="line"><a id="l00458" name="l00458"></a><span class="lineno">  458</span> </div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a0f4c97ac6ab0654978b63fb2f79a5a58">LoadConfiguration</a>(<span class="keyword">const</span> std::string&amp; file_path);</div>
+<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span> </div>
+<div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00473" name="l00473"></a><span class="lineno">  473</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#aa22f76f50646bd21fb6aac0075a5b127">UpdateConfig</a>(<span class="keyword">const</span> std::string&amp; key, <span class="keyword">const</span> T&amp; value);</div>
+<div class="line"><a id="l00474" name="l00474"></a><span class="lineno">  474</span> </div>
+<div class="line"><a id="l00480" name="l00480"></a><span class="lineno">  480</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a6e6b5f89f7cd32eb7a1b4ab749bc6be0">BatchUpdateConfigs</a>(<span class="keyword">const</span> std::unordered_map&lt;std::string, ConfigValue&gt;&amp; configs);</div>
+<div class="line"><a id="l00481" name="l00481"></a><span class="lineno">  481</span> </div>
+<div class="line"><a id="l00485" name="l00485"></a><span class="lineno">  485</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#ac303150d47a6a3c290822590584dbaa6">HotReloadWorker</a>();</div>
+<div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span> </div>
+<div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a99befce7c0488028749994858c942434">OnInitialize</a>();</div>
+<div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span> </div>
+<div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#a46f1a9b41ac8d6e7e4e8c1a4901ab599">OnShutdown</a>();</div>
+<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span> </div>
+<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1SmartConfigManager.html#aee7ea4d636ba676cde1b190df2d2f2af">OnConfigChange</a>(<span class="keyword">const</span> std::string&amp; version_id);</div>
+<div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span>};</div>
+</div>
+<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span> </div>
+<div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span><span class="comment">// 静态成员定义</span></div>
+<div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span>SmartConfigManager* <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#aa82e53eea852472b1c3732744fc68698">SmartConfigManager::instance_</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00506" name="l00506"></a><span class="lineno">  506</span>std::mutex <a class="code hl_variable" href="classsqlcc_1_1SmartConfigManager.html#a080565973592729efb787ec719bf8de8">SmartConfigManager::instance_mutex_</a>;</div>
+<div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span> </div>
+<div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span>}  <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span> </div>
+<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span><span class="preprocessor">#endif  </span><span class="comment">// SQLCC_SMART_CONFIG_MANAGER_H_</span></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html">sqlcc::SmartConfigManager</a></div><div class="ttdoc">智能配置管理器</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:279</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a05a4271c71688c10097302a625d6bb79"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a05a4271c71688c10097302a625d6bb79">sqlcc::SmartConfigManager::SetEncryptionKey</a></div><div class="ttdeci">void SetEncryptionKey(const std::string &amp;key)</div><div class="ttdoc">设置加密密钥</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:216</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a06e2a656e856ff3e68d6e0a58931df37"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a06e2a656e856ff3e68d6e0a58931df37">sqlcc::SmartConfigManager::GetEncryptionKey</a></div><div class="ttdeci">std::string GetEncryptionKey() const</div><div class="ttdoc">获取加密密钥</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:220</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a080565973592729efb787ec719bf8de8"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a080565973592729efb787ec719bf8de8">sqlcc::SmartConfigManager::instance_mutex_</a></div><div class="ttdeci">static std::mutex instance_mutex_</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:283</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a09a561e3451df15acfea954d33d1a56c"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a09a561e3451df15acfea954d33d1a56c">sqlcc::SmartConfigManager::encryption_key_</a></div><div class="ttdeci">std::unique_ptr&lt; std::string &gt; encryption_key_</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:305</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a0f4c97ac6ab0654978b63fb2f79a5a58"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a0f4c97ac6ab0654978b63fb2f79a5a58">sqlcc::SmartConfigManager::LoadConfiguration</a></div><div class="ttdeci">bool LoadConfiguration(const std::string &amp;file_path)</div><div class="ttdoc">加载配置文件</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:226</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a1137de2885692ad1253b779bc3e94243"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a1137de2885692ad1253b779bc3e94243">sqlcc::SmartConfigManager::SmartConfigManager</a></div><div class="ttdeci">SmartConfigManager()=default</div><div class="ttdoc">构造函数（私有，单例模式）</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a18d71ac654ddf35ed0f1da6d4ff8cb82"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a18d71ac654ddf35ed0f1da6d4ff8cb82">sqlcc::SmartConfigManager::GetStatistics</a></div><div class="ttdeci">std::string GetStatistics() const</div><div class="ttdoc">获取统计信息</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:197</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a1cc274d9a8a35695b080b452cac32ef2"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a1cc274d9a8a35695b080b452cac32ef2">sqlcc::SmartConfigManager::GetDoubleConfig</a></div><div class="ttdeci">double GetDoubleConfig(const std::string &amp;key, double default_value=0.0) const</div><div class="ttdoc">获取双精度配置（专用重载）</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:131</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a22a8debee7d3ba0b862f74748e70c012"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a22a8debee7d3ba0b862f74748e70c012">sqlcc::SmartConfigManager::snapshot_manager_</a></div><div class="ttdeci">std::unique_ptr&lt; ConfigSnapshotManager &gt; snapshot_manager_</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:287</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a255641df072bde0fdb4c23c2ceaf7ea2"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a255641df072bde0fdb4c23c2ceaf7ea2">sqlcc::SmartConfigManager::EnableHotReload</a></div><div class="ttdeci">bool EnableHotReload(std::chrono::milliseconds check_interval=std::chrono::milliseconds(5000))</div><div class="ttdoc">启用热更新</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:143</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a31349b1bc1a40773079dcf7d16b69240"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a31349b1bc1a40773079dcf7d16b69240">sqlcc::SmartConfigManager::hot_reload_interval_</a></div><div class="ttdeci">std::chrono::milliseconds hot_reload_interval_</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:297</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a3b3fdb6c55779922178638639bcd861d"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a3b3fdb6c55779922178638639bcd861d">sqlcc::SmartConfigManager::config_file_path_</a></div><div class="ttdeci">std::string config_file_path_</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:292</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a46f1a9b41ac8d6e7e4e8c1a4901ab599"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a46f1a9b41ac8d6e7e4e8c1a4901ab599">sqlcc::SmartConfigManager::OnShutdown</a></div><div class="ttdeci">void OnShutdown()</div><div class="ttdoc">关闭回调</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:357</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a5133f6da9f417c64fcb12ef5e94e4fa7"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a5133f6da9f417c64fcb12ef5e94e4fa7">sqlcc::SmartConfigManager::GetIntConfig</a></div><div class="ttdeci">int GetIntConfig(const std::string &amp;key, int default_value=0) const</div><div class="ttdoc">获取整数配置（专用重载）</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:123</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a51f740d06209810c2548f78cbf6e9ae7"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a51f740d06209810c2548f78cbf6e9ae7">sqlcc::SmartConfigManager::GetStringConfig</a></div><div class="ttdeci">std::string GetStringConfig(const std::string &amp;key, const std::string &amp;default_value=&quot;&quot;) const</div><div class="ttdoc">获取字符串配置（专用重载）</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:119</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a584596f142c26128320ccf4ec77f208e"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a584596f142c26128320ccf4ec77f208e">sqlcc::SmartConfigManager::GetBoolConfig</a></div><div class="ttdeci">bool GetBoolConfig(const std::string &amp;key, bool default_value=false) const</div><div class="ttdoc">获取布尔配置（专用重载）</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:127</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a5a3845c6064334fb8e40bb8fcfe2ca94"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a5a3845c6064334fb8e40bb8fcfe2ca94">sqlcc::SmartConfigManager::GetInstance</a></div><div class="ttdeci">static SmartConfigManager * GetInstance()</div><div class="ttdoc">获取单例实例（线程安全）</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:312</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a5f47bf3c74fac605dc53ab0bef328f30"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a5f47bf3c74fac605dc53ab0bef328f30">sqlcc::SmartConfigManager::~SmartConfigManager</a></div><div class="ttdeci">~SmartConfigManager()</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:455</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a66cdd64c432fcd948b2d9b6f4f5c7f09"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a66cdd64c432fcd948b2d9b6f4f5c7f09">sqlcc::SmartConfigManager::Shutdown</a></div><div class="ttdeci">bool Shutdown()</div><div class="ttdoc">关闭配置管理器</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:68</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a6e6b5f89f7cd32eb7a1b4ab749bc6be0"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a6e6b5f89f7cd32eb7a1b4ab749bc6be0">sqlcc::SmartConfigManager::BatchUpdateConfigs</a></div><div class="ttdeci">bool BatchUpdateConfigs(const std::unordered_map&lt; std::string, ConfigValue &gt; &amp;configs)</div><div class="ttdoc">批量更新配置</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:295</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a84beeb007a09531aaf98c4d342c222d1"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a84beeb007a09531aaf98c4d342c222d1">sqlcc::SmartConfigManager::config_writes_</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; config_writes_</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:301</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a91797467f3e6ed5b4fbe173a05dd1beb"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a91797467f3e6ed5b4fbe173a05dd1beb">sqlcc::SmartConfigManager::DestroyInstance</a></div><div class="ttdeci">static void DestroyInstance()</div><div class="ttdoc">销毁单例实例</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:325</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_a99befce7c0488028749994858c942434"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#a99befce7c0488028749994858c942434">sqlcc::SmartConfigManager::OnInitialize</a></div><div class="ttdeci">void OnInitialize()</div><div class="ttdoc">初始化回调</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:353</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_aa22f76f50646bd21fb6aac0075a5b127"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#aa22f76f50646bd21fb6aac0075a5b127">sqlcc::SmartConfigManager::UpdateConfig</a></div><div class="ttdeci">bool UpdateConfig(const std::string &amp;key, const T &amp;value)</div><div class="ttdoc">更新配置</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:252</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_aa82e53eea852472b1c3732744fc68698"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#aa82e53eea852472b1c3732744fc68698">sqlcc::SmartConfigManager::instance_</a></div><div class="ttdeci">static SmartConfigManager * instance_</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:282</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_ab2536e123e00cd8d05e9967d8ffe7e08"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#ab2536e123e00cd8d05e9967d8ffe7e08">sqlcc::SmartConfigManager::shutdown_requested_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; shutdown_requested_</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:291</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_ab64630c9b10369ffd5e2cfcadeeb6fb4"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#ab64630c9b10369ffd5e2cfcadeeb6fb4">sqlcc::SmartConfigManager::config_errors_</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; config_errors_</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:302</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_abba985e61f20ff7e0ebe6fe6e4e7053e"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#abba985e61f20ff7e0ebe6fe6e4e7053e">sqlcc::SmartConfigManager::StopHotReload</a></div><div class="ttdeci">bool StopHotReload()</div><div class="ttdoc">停止热更新</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:165</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_abc73fe182a0a707d1cedd02c06841fcf"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#abc73fe182a0a707d1cedd02c06841fcf">sqlcc::SmartConfigManager::Initialize</a></div><div class="ttdeci">bool Initialize(const std::string &amp;config_file_path=&quot;&quot;)</div><div class="ttdoc">初始化配置管理器</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:19</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_ac0ed91855a5afdab77ebdf331699adec"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#ac0ed91855a5afdab77ebdf331699adec">sqlcc::SmartConfigManager::UpdateConfigAsync</a></div><div class="ttdeci">std::future&lt; bool &gt; UpdateConfigAsync(const std::string &amp;key, const T &amp;value)</div><div class="ttdoc">更新配置（异步）</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:396</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_ac184e238a89b3eb053dd647029ebb281"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#ac184e238a89b3eb053dd647029ebb281">sqlcc::SmartConfigManager::BatchUpdateConfigsAsync</a></div><div class="ttdeci">std::future&lt; bool &gt; BatchUpdateConfigsAsync(const std::unordered_map&lt; std::string, ConfigValue &gt; &amp;configs)</div><div class="ttdoc">批量更新配置（异步）</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:135</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_ac303150d47a6a3c290822590584dbaa6"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#ac303150d47a6a3c290822590584dbaa6">sqlcc::SmartConfigManager::HotReloadWorker</a></div><div class="ttdeci">void HotReloadWorker()</div><div class="ttdoc">热更新工作线程</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:338</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_ac3d15532c245f348bbd986551d2b6187"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#ac3d15532c245f348bbd986551d2b6187">sqlcc::SmartConfigManager::GetCurrentVersionId</a></div><div class="ttdeci">std::string GetCurrentVersionId() const</div><div class="ttdoc">获取当前版本ID</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:184</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_ac86c23706dc18dacfeec7227f585def3"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#ac86c23706dc18dacfeec7227f585def3">sqlcc::SmartConfigManager::hot_reload_thread_</a></div><div class="ttdeci">std::unique_ptr&lt; std::thread &gt; hot_reload_thread_</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:295</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_aca38795b34616c6eec5dc690f248cd1b"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#aca38795b34616c6eec5dc690f248cd1b">sqlcc::SmartConfigManager::initialized_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; initialized_</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:290</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_aebb4aebfa43065a064eb883236d56d8c"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#aebb4aebfa43065a064eb883236d56d8c">sqlcc::SmartConfigManager::GetConfig</a></div><div class="ttdeci">T GetConfig(const std::string &amp;key, const T &amp;default_value=T{}) const</div><div class="ttdoc">获取配置值（异常安全）</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:100</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_aee7ea4d636ba676cde1b190df2d2f2af"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#aee7ea4d636ba676cde1b190df2d2f2af">sqlcc::SmartConfigManager::OnConfigChange</a></div><div class="ttdeci">void OnConfigChange(const std::string &amp;version_id)</div><div class="ttdoc">配置变更回调</div><div class="ttdef"><b>Definition</b> smart_config_manager.cpp:361</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_af1280f8d61bc0ce3e3653186a28ea32c"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#af1280f8d61bc0ce3e3653186a28ea32c">sqlcc::SmartConfigManager::lifecycle_manager_</a></div><div class="ttdeci">std::unique_ptr&lt; ConfigLifecycleManager &gt; lifecycle_manager_</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:286</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_afded2466f3514eb9ce40ff8d51573197"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#afded2466f3514eb9ce40ff8d51573197">sqlcc::SmartConfigManager::config_reads_</a></div><div class="ttdeci">std::atomic&lt; size_t &gt; config_reads_</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:300</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SmartConfigManager_html_afe747236d9a9cd212000dc3c5f1a28c2"><div class="ttname"><a href="classsqlcc_1_1SmartConfigManager.html#afe747236d9a9cd212000dc3c5f1a28c2">sqlcc::SmartConfigManager::hot_reload_enabled_</a></div><div class="ttdeci">std::atomic&lt; bool &gt; hot_reload_enabled_</div><div class="ttdef"><b>Definition</b> smart_config_manager.h:296</div></div>
+<div class="ttc" id="aconfig__lifecycle_8h_html"><div class="ttname"><a href="config__lifecycle_8h.html">config_lifecycle.h</a></div><div class="ttdoc">Defines a robust, RAII-based lifecycle and access framework for managing system configuration.</div></div>
+<div class="ttc" id="aconfig__snapshot_8h_html"><div class="ttname"><a href="config__snapshot_8h.html">config_snapshot.h</a></div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

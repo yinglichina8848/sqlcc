@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: server_network_manager.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_fc4c7f03e1a69a98c370fae55a743828.html">network</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">server_network_manager.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="server__network__manager_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span> </div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span><span class="preprocessor">#ifdef __linux__</span></div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span><span class="preprocessor">#include &lt;openssl/ssl.h&gt;</span></div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span><span class="preprocessor">#include &lt;arpa/inet.h&gt;</span></div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span> </div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="preprocessor">#include &quot;../sql_executor.h&quot;</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span><span class="preprocessor">#include &quot;<a class="code" href="file__descriptor_8h.html">utils/file_descriptor.h</a>&quot;</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="preprocessor">#include &quot;<a class="code" href="thread__pool_8h.html">utils/thread_pool.h</a>&quot;</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="preprocessor">#include &quot;<a class="code" href="session_8h.html">network/session.h</a>&quot;</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="preprocessor">#include &quot;<a class="code" href="session__manager_8h.html">network/session_manager.h</a>&quot;</span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span><span class="preprocessor">#include &quot;<a class="code" href="connection__handler_8h.html">network/connection_handler.h</a>&quot;</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc_1_1network.html">network</a> {</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
+<div class="foldopen" id="foldopen00252" data-start="{" data-end="};">
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ServerNetworkManager.html">  252</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1network_1_1ServerNetworkManager.html">ServerNetworkManager</a> {</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    <a class="code hl_class" href="classsqlcc_1_1network_1_1ServerNetworkManager.html">ServerNetworkManager</a>(<span class="keywordtype">int</span> port, <span class="keywordtype">int</span> max_connections, <span class="keywordtype">int</span> thread_pool_size = 4);</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span> </div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>    <a class="code hl_function" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a3dde1815db4609f3f9440ee375f8ef2a">~ServerNetworkManager</a>();</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span> </div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a9621e23932644efd77436c1f00b27086">Start</a>();</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a3bf46813ce9eb773f220320bc89975d2">Stop</a>();</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span> </div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#ac896c6e2ee5c03a50ceac060b3d39f0f">ProcessEvents</a>();</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span> </div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a80105496d05cd1cf870d1356e7717eb4">SetSqlExecutor</a>(std::shared_ptr&lt;sqlcc::SqlExecutor&gt; sql_executor);</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span> </div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#adf8a1b75e2219acec165811822d30322">EnableTLS</a>(<span class="keywordtype">bool</span> enabled);</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span> </div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span><span class="preprocessor">#ifdef __linux__</span></div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>    <span class="keywordtype">bool</span> ConfigureTLSServer(<span class="keyword">const</span> std::string&amp; cert_path,</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>                           <span class="keyword">const</span> std::string&amp; key_path,</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>                           <span class="keyword">const</span> std::string&amp; ca_cert_path = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span> </div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#aee6f2d730c7a9a25d358c146098e81ad">AcceptConnection</a>();</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span> </div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a9b68b4a5ca4f76a5d50def0bbbec1c9b">  314</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a9b68b4a5ca4f76a5d50def0bbbec1c9b">port_</a>;                                         </div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a0d4f0cd881a080a2b79e65ad71b409d0">  315</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a0d4f0cd881a080a2b79e65ad71b409d0">max_connections_</a>;                              </div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#acdcfae58bea333a213b8e442307c4ce7">  316</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#acdcfae58bea333a213b8e442307c4ce7">running_</a>;                                     </div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a046919063d9103dea2ce260dc8fc54d4">  317</a></span>    std::shared_ptr&lt;SessionManager&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a046919063d9103dea2ce260dc8fc54d4">session_manager_</a>;  </div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#ade35c1c4cb77d39afd7c2d70d9503e4b">  318</a></span>    std::shared_ptr&lt;sqlcc::SqlExecutor&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#ade35c1c4cb77d39afd7c2d70d9503e4b">sql_executor_</a>; </div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a57eac96e5de6ee2dc97b5eadf7f3275d">  319</a></span>    std::shared_ptr&lt;sqlcc::UserManager&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a57eac96e5de6ee2dc97b5eadf7f3275d">user_manager_</a>; </div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a8eece050bd3fa3fb433bfd8bf3ad5dce">  320</a></span>    <a class="code hl_class" href="classsqlcc_1_1utils_1_1ThreadPool.html">sqlcc::utils::ThreadPool</a> <a class="code hl_variable" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a8eece050bd3fa3fb433bfd8bf3ad5dce">thread_pool_</a>;             </div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span> </div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>    <span class="comment">// Linux specific members</span></div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span><span class="preprocessor">#ifdef __linux__</span></div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>    <a class="code hl_class" href="classsqlcc_1_1FileDescriptor.html">sqlcc::FileDescriptor</a> listen_fd_;                  </div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>    <a class="code hl_class" href="classsqlcc_1_1FileDescriptor.html">sqlcc::FileDescriptor</a> epoll_fd_;                   </div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    <span class="keywordtype">bool</span> tls_enabled_;                                 </div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    <span class="keyword">struct </span>ssl_ctx_st* ssl_ctx_;                       </div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span> </div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>    <span class="comment">// Connection management</span></div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a97c4d9b013e9abf7bb22f9f3da7b35fe">  331</a></span>    std::unordered_map&lt;int, std::unique_ptr&lt;ConnectionHandler&gt;&gt; <a class="code hl_variable" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a97c4d9b013e9abf7bb22f9f3da7b35fe">connections_</a>;  </div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno"><a class="line" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a6cf0f3dea476683d12b9ca60a51f89b3">  332</a></span>    std::mutex <a class="code hl_variable" href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a6cf0f3dea476683d12b9ca60a51f89b3">connections_mutex_</a>;                      </div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>};</div>
+</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span> </div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>} <span class="comment">// namespace network</span></div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1FileDescriptor_html"><div class="ttname"><a href="classsqlcc_1_1FileDescriptor.html">sqlcc::FileDescriptor</a></div><div class="ttdoc">RAII wrapper for file descriptors</div><div class="ttdef"><b>Definition</b> file_descriptor.h:14</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html">sqlcc::network::ServerNetworkManager</a></div><div class="ttdoc">服务端网络管理器类</div><div class="ttdef"><b>Definition</b> server_network_manager.h:252</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_a046919063d9103dea2ce260dc8fc54d4"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a046919063d9103dea2ce260dc8fc54d4">sqlcc::network::ServerNetworkManager::session_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; SessionManager &gt; session_manager_</div><div class="ttdoc">会话管理器</div><div class="ttdef"><b>Definition</b> server_network_manager.h:317</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_a0d4f0cd881a080a2b79e65ad71b409d0"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a0d4f0cd881a080a2b79e65ad71b409d0">sqlcc::network::ServerNetworkManager::max_connections_</a></div><div class="ttdeci">int max_connections_</div><div class="ttdoc">最大连接数</div><div class="ttdef"><b>Definition</b> server_network_manager.h:315</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_a3bf46813ce9eb773f220320bc89975d2"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a3bf46813ce9eb773f220320bc89975d2">sqlcc::network::ServerNetworkManager::Stop</a></div><div class="ttdeci">void Stop()</div><div class="ttdoc">停止服务器</div><div class="ttdef"><b>Definition</b> network.cpp:274</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_a3dde1815db4609f3f9440ee375f8ef2a"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a3dde1815db4609f3f9440ee375f8ef2a">sqlcc::network::ServerNetworkManager::~ServerNetworkManager</a></div><div class="ttdeci">~ServerNetworkManager()</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> network.cpp:217</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_a57eac96e5de6ee2dc97b5eadf7f3275d"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a57eac96e5de6ee2dc97b5eadf7f3275d">sqlcc::network::ServerNetworkManager::user_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; sqlcc::UserManager &gt; user_manager_</div><div class="ttdoc">用户管理器</div><div class="ttdef"><b>Definition</b> server_network_manager.h:319</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_a6cf0f3dea476683d12b9ca60a51f89b3"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a6cf0f3dea476683d12b9ca60a51f89b3">sqlcc::network::ServerNetworkManager::connections_mutex_</a></div><div class="ttdeci">std::mutex connections_mutex_</div><div class="ttdoc">连接映射互斥锁</div><div class="ttdef"><b>Definition</b> server_network_manager.h:332</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_a80105496d05cd1cf870d1356e7717eb4"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a80105496d05cd1cf870d1356e7717eb4">sqlcc::network::ServerNetworkManager::SetSqlExecutor</a></div><div class="ttdeci">void SetSqlExecutor(std::shared_ptr&lt; sqlcc::SqlExecutor &gt; sql_executor)</div><div class="ttdoc">设置SQL执行器</div><div class="ttdef"><b>Definition</b> network.cpp:348</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_a8eece050bd3fa3fb433bfd8bf3ad5dce"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a8eece050bd3fa3fb433bfd8bf3ad5dce">sqlcc::network::ServerNetworkManager::thread_pool_</a></div><div class="ttdeci">sqlcc::utils::ThreadPool thread_pool_</div><div class="ttdoc">线程池</div><div class="ttdef"><b>Definition</b> server_network_manager.h:320</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_a9621e23932644efd77436c1f00b27086"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a9621e23932644efd77436c1f00b27086">sqlcc::network::ServerNetworkManager::Start</a></div><div class="ttdeci">bool Start()</div><div class="ttdoc">启动服务器</div><div class="ttdef"><b>Definition</b> network.cpp:221</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_a97c4d9b013e9abf7bb22f9f3da7b35fe"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a97c4d9b013e9abf7bb22f9f3da7b35fe">sqlcc::network::ServerNetworkManager::connections_</a></div><div class="ttdeci">std::unordered_map&lt; int, std::unique_ptr&lt; ConnectionHandler &gt; &gt; connections_</div><div class="ttdoc">连接处理器映射</div><div class="ttdef"><b>Definition</b> server_network_manager.h:331</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_a9b68b4a5ca4f76a5d50def0bbbec1c9b"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#a9b68b4a5ca4f76a5d50def0bbbec1c9b">sqlcc::network::ServerNetworkManager::port_</a></div><div class="ttdeci">int port_</div><div class="ttdoc">监听端口</div><div class="ttdef"><b>Definition</b> server_network_manager.h:314</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_ac896c6e2ee5c03a50ceac060b3d39f0f"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#ac896c6e2ee5c03a50ceac060b3d39f0f">sqlcc::network::ServerNetworkManager::ProcessEvents</a></div><div class="ttdeci">void ProcessEvents()</div><div class="ttdoc">处理网络事件</div><div class="ttdef"><b>Definition</b> network.cpp:285</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_acdcfae58bea333a213b8e442307c4ce7"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#acdcfae58bea333a213b8e442307c4ce7">sqlcc::network::ServerNetworkManager::running_</a></div><div class="ttdeci">bool running_</div><div class="ttdoc">运行状态</div><div class="ttdef"><b>Definition</b> server_network_manager.h:316</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_ade35c1c4cb77d39afd7c2d70d9503e4b"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#ade35c1c4cb77d39afd7c2d70d9503e4b">sqlcc::network::ServerNetworkManager::sql_executor_</a></div><div class="ttdeci">std::shared_ptr&lt; sqlcc::SqlExecutor &gt; sql_executor_</div><div class="ttdoc">SQL执行器</div><div class="ttdef"><b>Definition</b> server_network_manager.h:318</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_adf8a1b75e2219acec165811822d30322"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#adf8a1b75e2219acec165811822d30322">sqlcc::network::ServerNetworkManager::EnableTLS</a></div><div class="ttdeci">void EnableTLS(bool enabled)</div><div class="ttdoc">启用TLS</div><div class="ttdef"><b>Definition</b> server_network_manager.cpp:257</div></div>
+<div class="ttc" id="aclasssqlcc_1_1network_1_1ServerNetworkManager_html_aee6f2d730c7a9a25d358c146098e81ad"><div class="ttname"><a href="classsqlcc_1_1network_1_1ServerNetworkManager.html#aee6f2d730c7a9a25d358c146098e81ad">sqlcc::network::ServerNetworkManager::AcceptConnection</a></div><div class="ttdeci">void AcceptConnection()</div><div class="ttdoc">配置TLS服务端证书</div><div class="ttdef"><b>Definition</b> network.cpp:309</div></div>
+<div class="ttc" id="aclasssqlcc_1_1utils_1_1ThreadPool_html"><div class="ttname"><a href="classsqlcc_1_1utils_1_1ThreadPool.html">sqlcc::utils::ThreadPool</a></div><div class="ttdoc">线程池实现 - 支持任务提交和异步执行</div><div class="ttdef"><b>Definition</b> thread_pool.h:27</div></div>
+<div class="ttc" id="aconnection__handler_8h_html"><div class="ttname"><a href="connection__handler_8h.html">connection_handler.h</a></div></div>
+<div class="ttc" id="afile__descriptor_8h_html"><div class="ttname"><a href="file__descriptor_8h.html">file_descriptor.h</a></div></div>
+<div class="ttc" id="anamespacesqlcc_1_1network_html"><div class="ttname"><a href="namespacesqlcc_1_1network.html">sqlcc::network</a></div><div class="ttdef"><b>Definition</b> client_main.cpp:286</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="asession_8h_html"><div class="ttname"><a href="session_8h.html">session.h</a></div></div>
+<div class="ttc" id="asession__manager_8h_html"><div class="ttname"><a href="session__manager_8h.html">session_manager.h</a></div></div>
+<div class="ttc" id="athread__pool_8h_html"><div class="ttname"><a href="thread__pool_8h.html">thread_pool.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::JoinClause类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html">JoinClause</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1JoinClause-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::JoinClause类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="ast__dml__nodes_8h_source.html">ast_dml_nodes.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a7b3282e5d0a0c7cba7916418be7bb8d1" id="r_a7b3282e5d0a0c7cba7916418be7bb8d1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1">JoinType</a> { <a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1a0ae259ab73a29fcc86fabe6b61cac7af">INNER_JOIN</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1a044a2c8cfd83bd888c9aeae4dd4d3f6d">LEFT_JOIN</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1a5cc2b647d686494a5e301acc03327374">RIGHT_JOIN</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1a2a98cc74ce0cdddc86a08c3a8548866e">FULL_JOIN</a>
+ }</td></tr>
+<tr class="separator:a7b3282e5d0a0c7cba7916418be7bb8d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a7d70197df2f6e84f0517939768a7cb94" id="r_a7d70197df2f6e84f0517939768a7cb94"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7d70197df2f6e84f0517939768a7cb94">JoinClause</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1">JoinType</a> type, const std::string &amp;tableName, std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt; condition=nullptr)</td></tr>
+<tr class="separator:a7d70197df2f6e84f0517939768a7cb94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab79e51d38bc70e5b0b5f1e71fa4702f0" id="r_ab79e51d38bc70e5b0b5f1e71fa4702f0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#ab79e51d38bc70e5b0b5f1e71fa4702f0">~JoinClause</a> ()</td></tr>
+<tr class="separator:ab79e51d38bc70e5b0b5f1e71fa4702f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a965da451f70bdeb4c4da3b11d1b77c20" id="r_a965da451f70bdeb4c4da3b11d1b77c20"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a965da451f70bdeb4c4da3b11d1b77c20">getTableName</a> () const</td></tr>
+<tr class="separator:a965da451f70bdeb4c4da3b11d1b77c20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37531fb837b2aec642f2dee7b693b137" id="r_a37531fb837b2aec642f2dee7b693b137"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1">JoinType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a37531fb837b2aec642f2dee7b693b137">getType</a> () const</td></tr>
+<tr class="separator:a37531fb837b2aec642f2dee7b693b137"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3298af274c03dd8d15a989576a818849" id="r_a3298af274c03dd8d15a989576a818849"><td class="memItemLeft" align="right" valign="top">const std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a3298af274c03dd8d15a989576a818849">getCondition</a> () const</td></tr>
+<tr class="separator:a3298af274c03dd8d15a989576a818849"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab85176000f5d72ddb23f860becd3b288" id="r_ab85176000f5d72ddb23f860becd3b288"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#ab85176000f5d72ddb23f860becd3b288">setTableName</a> (const std::string &amp;name)</td></tr>
+<tr class="separator:ab85176000f5d72ddb23f860becd3b288"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a444bce535faa30567646d573d336bcea" id="r_a444bce535faa30567646d573d336bcea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a444bce535faa30567646d573d336bcea">setType</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1">JoinType</a> type)</td></tr>
+<tr class="separator:a444bce535faa30567646d573d336bcea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3e78afb88ece19d632e3b0e6a4a04a4" id="r_aa3e78afb88ece19d632e3b0e6a4a04a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#aa3e78afb88ece19d632e3b0e6a4a04a4">setCondition</a> (std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt; condition)</td></tr>
+<tr class="separator:aa3e78afb88ece19d632e3b0e6a4a04a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:ad1ae9d767ebca861ffd271a3fdfc179e" id="r_ad1ae9d767ebca861ffd271a3fdfc179e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#ad1ae9d767ebca861ffd271a3fdfc179e">tableName_</a></td></tr>
+<tr class="separator:ad1ae9d767ebca861ffd271a3fdfc179e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac84ef65e6124758cc39a856b2fc03a2" id="r_aac84ef65e6124758cc39a856b2fc03a2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1">JoinType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#aac84ef65e6124758cc39a856b2fc03a2">type_</a></td></tr>
+<tr class="separator:aac84ef65e6124758cc39a856b2fc03a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd001899598633e1d063fb53fc8176e7" id="r_afd001899598633e1d063fb53fc8176e7"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#afd001899598633e1d063fb53fc8176e7">condition_</a></td></tr>
+<tr class="separator:afd001899598633e1d063fb53fc8176e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a7b3282e5d0a0c7cba7916418be7bb8d1" name="a7b3282e5d0a0c7cba7916418be7bb8d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b3282e5d0a0c7cba7916418be7bb8d1">&#9670;&#160;</a></span>JoinType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1">sqlcc::sql_parser::JoinClause::JoinType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a7b3282e5d0a0c7cba7916418be7bb8d1a0ae259ab73a29fcc86fabe6b61cac7af" name="a7b3282e5d0a0c7cba7916418be7bb8d1a0ae259ab73a29fcc86fabe6b61cac7af"></a>INNER_JOIN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7b3282e5d0a0c7cba7916418be7bb8d1a044a2c8cfd83bd888c9aeae4dd4d3f6d" name="a7b3282e5d0a0c7cba7916418be7bb8d1a044a2c8cfd83bd888c9aeae4dd4d3f6d"></a>LEFT_JOIN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7b3282e5d0a0c7cba7916418be7bb8d1a5cc2b647d686494a5e301acc03327374" name="a7b3282e5d0a0c7cba7916418be7bb8d1a5cc2b647d686494a5e301acc03327374"></a>RIGHT_JOIN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7b3282e5d0a0c7cba7916418be7bb8d1a2a98cc74ce0cdddc86a08c3a8548866e" name="a7b3282e5d0a0c7cba7916418be7bb8d1a2a98cc74ce0cdddc86a08c3a8548866e"></a>FULL_JOIN&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a7d70197df2f6e84f0517939768a7cb94" name="a7d70197df2f6e84f0517939768a7cb94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d70197df2f6e84f0517939768a7cb94">&#9670;&#160;</a></span>JoinClause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::JoinClause::JoinClause </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1">JoinType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td>
+          <td class="paramname"><em>condition</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab79e51d38bc70e5b0b5f1e71fa4702f0" name="ab79e51d38bc70e5b0b5f1e71fa4702f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab79e51d38bc70e5b0b5f1e71fa4702f0">&#9670;&#160;</a></span>~JoinClause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::JoinClause::~JoinClause </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a3298af274c03dd8d15a989576a818849" name="a3298af274c03dd8d15a989576a818849"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3298af274c03dd8d15a989576a818849">&#9670;&#160;</a></span>getCondition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> * sqlcc::sql_parser::JoinClause::getCondition </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a965da451f70bdeb4c4da3b11d1b77c20" name="a965da451f70bdeb4c4da3b11d1b77c20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a965da451f70bdeb4c4da3b11d1b77c20">&#9670;&#160;</a></span>getTableName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::sql_parser::JoinClause::getTableName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a37531fb837b2aec642f2dee7b693b137" name="a37531fb837b2aec642f2dee7b693b137"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37531fb837b2aec642f2dee7b693b137">&#9670;&#160;</a></span>getType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1">JoinType</a> sqlcc::sql_parser::JoinClause::getType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa3e78afb88ece19d632e3b0e6a4a04a4" name="aa3e78afb88ece19d632e3b0e6a4a04a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3e78afb88ece19d632e3b0e6a4a04a4">&#9670;&#160;</a></span>setCondition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::JoinClause::setCondition </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a> &gt;&#160;</td>
+          <td class="paramname"><em>condition</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab85176000f5d72ddb23f860becd3b288" name="ab85176000f5d72ddb23f860becd3b288"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab85176000f5d72ddb23f860becd3b288">&#9670;&#160;</a></span>setTableName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::JoinClause::setTableName </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a444bce535faa30567646d573d336bcea" name="a444bce535faa30567646d573d336bcea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a444bce535faa30567646d573d336bcea">&#9670;&#160;</a></span>setType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::JoinClause::setType </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1">JoinType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="afd001899598633e1d063fb53fc8176e7" name="afd001899598633e1d063fb53fc8176e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd001899598633e1d063fb53fc8176e7">&#9670;&#160;</a></span>condition_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="expression_8h.html#a18d4fe56318ea6069f002a3457be02a1">Expression</a>&gt; sqlcc::sql_parser::JoinClause::condition_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad1ae9d767ebca861ffd271a3fdfc179e" name="ad1ae9d767ebca861ffd271a3fdfc179e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1ae9d767ebca861ffd271a3fdfc179e">&#9670;&#160;</a></span>tableName_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::JoinClause::tableName_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aac84ef65e6124758cc39a856b2fc03a2" name="aac84ef65e6124758cc39a856b2fc03a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac84ef65e6124758cc39a856b2fc03a2">&#9670;&#160;</a></span>type_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1">JoinType</a> sqlcc::sql_parser::JoinClause::type_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="ast__dml__nodes_8h_source.html">ast_dml_nodes.h</a></li>
+<li><a class="el" href="ast__nodes_8cpp.html">ast_nodes.cpp</a></li>
+<li><a class="el" href="ast__dml__nodes_8cpp.html">ast_dml_nodes.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: logger.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_313caf1132e152dd9b58bea13a4052ca.html">utils</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#define-members">宏定义</a> &#124;
+<a href="#enum-members">枚举</a>  </div>
+  <div class="headertitle"><div class="title">logger.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>SQLCC分层日志系统 - 异步写入与智能轮转架构  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &lt;string&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;iosfwd&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+utils/logger.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="utils_2logger_8h__incl.png" border="0" usemap="#alogger_8h" alt=""/></div>
+<map name="alogger_8h" id="alogger_8h">
+<area shape="rect" title="SQLCC分层日志系统 &#45; 异步写入与智能轮转架构" alt="" coords="189,5,264,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,64,104"/>
+<area shape="poly" title=" " alt="" coords="197,33,78,77,76,72,195,28"/>
+<area shape="rect" title=" " alt="" coords="88,79,165,104"/>
+<area shape="poly" title=" " alt="" coords="212,33,156,73,153,68,209,29"/>
+<area shape="rect" title=" " alt="" coords="190,79,263,104"/>
+<area shape="poly" title=" " alt="" coords="229,31,229,65,224,65,224,31"/>
+<area shape="rect" title=" " alt="" coords="288,79,352,104"/>
+<area shape="poly" title=" " alt="" coords="243,29,296,68,292,72,240,33"/>
+<area shape="rect" title=" " alt="" coords="376,79,440,104"/>
+<area shape="poly" title=" " alt="" coords="257,28,367,71,365,76,255,33"/>
+</map>
+</div>
+</div>
+<p><a href="utils_2logger_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Logger.html">sqlcc::Logger</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thread-safe singleton logger class  <a href="classsqlcc_1_1Logger.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:a5d17d04fdaf11402dfac92b0837228d0" id="r_a5d17d04fdaf11402dfac92b0837228d0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_2logger_8h.html#a5d17d04fdaf11402dfac92b0837228d0">SQLCC_LOGGER</a>&#160;&#160;&#160;<a class="el" href="classsqlcc_1_1Logger.html#ae0fd4cc7f4832745bcf21cbf02d48991">::sqlcc::Logger::GetInstance</a>()</td></tr>
+<tr class="separator:a5d17d04fdaf11402dfac92b0837228d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a745e4cf15e366f591854e16f189a8ccc" id="r_a745e4cf15e366f591854e16f189a8ccc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_2logger_8h.html#a745e4cf15e366f591854e16f189a8ccc">SQLCC_LOG_DEBUG</a>(msg)&#160;&#160;&#160;SQLCC_LOGGER.Debug(msg)</td></tr>
+<tr class="separator:a745e4cf15e366f591854e16f189a8ccc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51a9494ff02cefe77ed341798f825fdf" id="r_a51a9494ff02cefe77ed341798f825fdf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_2logger_8h.html#a51a9494ff02cefe77ed341798f825fdf">SQLCC_LOG_INFO</a>(msg)&#160;&#160;&#160;SQLCC_LOGGER.Info(msg)</td></tr>
+<tr class="separator:a51a9494ff02cefe77ed341798f825fdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6288fa1e809caec231f7ba41f7f9b6e2" id="r_a6288fa1e809caec231f7ba41f7f9b6e2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_2logger_8h.html#a6288fa1e809caec231f7ba41f7f9b6e2">SQLCC_LOG_WARN</a>(msg)&#160;&#160;&#160;SQLCC_LOGGER.Warn(msg)</td></tr>
+<tr class="separator:a6288fa1e809caec231f7ba41f7f9b6e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84e665e7d7b3157724d71a7c46644680" id="r_a84e665e7d7b3157724d71a7c46644680"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="utils_2logger_8h.html#a84e665e7d7b3157724d71a7c46644680">SQLCC_LOG_ERROR</a>(msg)&#160;&#160;&#160;SQLCC_LOGGER.Error(msg)</td></tr>
+<tr class="separator:a84e665e7d7b3157724d71a7c46644680"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:a0c5dde84a24b6c109800b05b81ad12f3" id="r_a0c5dde84a24b6c109800b05b81ad12f3"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3">sqlcc::LogLevel</a> { <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3adc30ec20708ef7b0f641ef78b7880a15">sqlcc::DEBUG</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a551b723eafd6a31d444fcb2f5920fbd3">sqlcc::INFO</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a32bd8a1db2275458673903bdb84cb277">sqlcc::WARN</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3abb1ca97ec761fc37101737ba0aa2e7c5">sqlcc::ERROR</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3adc30ec20708ef7b0f641ef78b7880a15">sqlcc::DEBUG</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a551b723eafd6a31d444fcb2f5920fbd3">sqlcc::INFO</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a32bd8a1db2275458673903bdb84cb277">sqlcc::WARN</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3abb1ca97ec761fc37101737ba0aa2e7c5">sqlcc::ERROR</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3adc30ec20708ef7b0f641ef78b7880a15">sqlcc::DEBUG</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a551b723eafd6a31d444fcb2f5920fbd3">sqlcc::INFO</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3a32bd8a1db2275458673903bdb84cb277">sqlcc::WARN</a>
+, <a class="el" href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3abb1ca97ec761fc37101737ba0aa2e7c5">sqlcc::ERROR</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a0c5dde84a24b6c109800b05b81ad12f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log level enumeration for message classification Optimized for switch statement performance and future constexpr usage  <a href="namespacesqlcc.html#a0c5dde84a24b6c109800b05b81ad12f3">更多...</a><br /></td></tr>
+<tr class="separator:a0c5dde84a24b6c109800b05b81ad12f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>SQLCC分层日志系统 - 异步写入与智能轮转架构 </p>
+<p>日志系统是数据库系统的"眼睛"，负责记录系统运行状态、调试信息和错误追踪。 本文件实现了完整的分层日志架构，支持异步写入、日志轮转和性能监控。</p>
+<p>📚 配套教材参考：</p><ul>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#第十二章系统监控与日志">第12章：系统监控与日志</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#121-分层日志设计原则">12.1 分层日志设计原则</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#122-异步日志写入优化">12.2 异步日志写入优化</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#123-日志轮转与归档策略">12.3 日志轮转与归档策略</a></li>
+</ul>
+<p>WHY层 - 设计意图： 日志系统是系统可观测性的基础，直接影响故障排查效率和系统维护成本。 通过精心设计的日志分层和异步写入机制，实现高性能日志记录的同时保证数据完整性， 为企业级数据库应用提供可靠的日志基础设施。</p>
+<p>WHAT层 - 功能说明：</p><ul>
+<li>分层日志设计：DEBUG/INFO/WARN/ERROR多级别日志分类</li>
+<li>异步写入实现：后台线程处理日志写入，避免阻塞主业务</li>
+<li>日志轮转策略：基于大小和时间的智能日志轮转和归档</li>
+<li>双模态支持：C++20模块模式和传统头文件模式的兼容性</li>
+<li>线程安全保证：多线程环境下的日志记录安全性</li>
+</ul>
+<p>HOW层 - 实现机制：</p><ul>
+<li>单例模式：全局唯一的日志实例，保证日志输出的统一性</li>
+<li>队列缓冲：生产者-消费者模式解耦日志生成和写入</li>
+<li>条件变量：线程间高效通信和同步</li>
+<li>RAII资源管理：智能指针保证资源自动释放</li>
+<li>条件编译：支持传统和模块两种编译模式</li>
+</ul>
+<p>分层日志设计详解： 严格的日志分层确保不同级别的信息被正确分类和处理： ERROR → WARN → INFO → DEBUG（从高到低优先级） 运行时可动态调整日志级别，支持生产环境精简日志输出。</p>
+<p>异步写入实现详解：</p><ul>
+<li>**队列缓冲**：日志消息先写入内存队列，不阻塞业务线程</li>
+<li>**后台线程**：专用线程负责将队列中的日志写入磁盘</li>
+<li>**批处理优化**：多个日志消息批量写入，减少系统调用次数</li>
+<li>**异常安全**：写入失败时不影响主业务线程的正常运行</li>
+<li>**流量控制**：队列满载时自动丢弃低优先级日志</li>
+</ul>
+<p>日志轮转策略详解：</p><ul>
+<li>**大小触发**：日志文件超过设定大小时自动轮转</li>
+<li>**时间触发**：按日、周、月等时间周期轮转日志文件</li>
+<li>**压缩归档**：历史日志文件的自动压缩和归档存储</li>
+<li>**清理策略**：过期日志文件的自动清理和删除</li>
+<li>**无缝切换**：日志轮转过程中不丢失任何日志记录</li>
+</ul>
+<p>性能优化考虑：</p><ul>
+<li>**零拷贝设计**：日志字符串的移动语义减少拷贝开销</li>
+<li>**格式化延迟**：日志格式化延迟到写入时执行</li>
+<li>**内存池复用**：日志对象的池化复用减少分配开销</li>
+<li>**锁竞争最小化**：细粒度锁和无锁队列优化并发性能</li>
+<li>**CPU亲和性**：日志线程绑定到特定CPU核心避免缓存抖动</li>
+</ul>
+<p>可靠性保障：</p><ul>
+<li>**数据完整性**：日志消息的原子性写入保证</li>
+<li>**故障恢复**：系统重启后自动恢复未写入的日志</li>
+<li>**磁盘空间监控**：防止日志文件耗尽磁盘空间</li>
+<li>**异常处理**：完善的错误处理和降级策略</li>
+<li>**监控告警**：日志系统的运行状态实时监控</li>
+</ul>
+<p>扩展性设计：</p><ul>
+<li>**多目标输出**：支持文件、控制台、网络等多种输出目标</li>
+<li>**自定义格式器**：可插拔的日志格式化和过滤器</li>
+<li>**分布式日志**：集群环境下的统一日志收集和分析</li>
+<li>**结构化日志**：JSON格式的结构化日志支持</li>
+<li>**实时流处理**：日志流的实时分析和告警</li>
+</ul>
+<p>双模态支持详解：</p><ul>
+<li>**传统模式**：兼容现有代码，使用#include预处理指令</li>
+<li>**模块模式**：现代C++20，使用import语句减少编译依赖</li>
+<li>**条件编译**：运行时自动选择合适的编译模式</li>
+<li>**渐进迁移**：支持从传统模式到模块模式的平滑迁移</li>
+<li>**向后兼容**：保证现有代码的正常编译和运行</li>
+</ul>
+<p>日志级别分层策略： </p><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">级别   </th><th class="markdownTableHeadNone">描述   </th><th class="markdownTableHeadNone">适用场景   </th><th class="markdownTableHeadNone">性能影响    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">ERROR   </td><td class="markdownTableBodyNone">系统错误   </td><td class="markdownTableBodyNone">异常处理   </td><td class="markdownTableBodyNone">最低    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">WARN   </td><td class="markdownTableBodyNone">警告信息   </td><td class="markdownTableBodyNone">潜在问题   </td><td class="markdownTableBodyNone">低    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">INFO   </td><td class="markdownTableBodyNone">一般信息   </td><td class="markdownTableBodyNone">重要事件   </td><td class="markdownTableBodyNone">中    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">DEBUG   </td><td class="markdownTableBodyNone">调试信息   </td><td class="markdownTableBodyNone">开发调试   </td><td class="markdownTableBodyNone">高   </td></tr>
+</table>
+<p>异步写入架构：</p><ol type="1">
+<li>**业务线程**：快速写入日志到内存队列</li>
+<li>**队列缓冲**：环形缓冲区存储待写入日志</li>
+<li>**写入线程**：后台批量处理日志写入</li>
+<li>**异常处理**：写入失败时的降级处理</li>
+<li>**性能监控**：实时监控写入性能指标</li>
+</ol>
+<p>日志轮转算法：</p><ul>
+<li>**预分配策略**：提前创建新的日志文件避免切换延迟</li>
+<li>**原子重命名**：使用系统调用保证文件切换的原子性</li>
+<li>**信号通知**：日志轮转事件的异步通知机制</li>
+<li>**压缩优化**：日志文件的实时压缩减少存储占用</li>
+<li>**清理定时器**：定期清理过期日志文件的后台任务</li>
+</ul>
+<dl class="section author"><dt>作者</dt><dd>SQLCC技术委员会 </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>1.2.6 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2025-12-24 </dd></dl>
+</div><h2 class="groupheader">宏定义说明</h2>
+<a id="a745e4cf15e366f591854e16f189a8ccc" name="a745e4cf15e366f591854e16f189a8ccc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a745e4cf15e366f591854e16f189a8ccc">&#9670;&#160;</a></span>SQLCC_LOG_DEBUG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SQLCC_LOG_DEBUG</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">msg</td><td>)</td>
+          <td>&#160;&#160;&#160;SQLCC_LOGGER.Debug(msg)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a84e665e7d7b3157724d71a7c46644680" name="a84e665e7d7b3157724d71a7c46644680"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84e665e7d7b3157724d71a7c46644680">&#9670;&#160;</a></span>SQLCC_LOG_ERROR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SQLCC_LOG_ERROR</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">msg</td><td>)</td>
+          <td>&#160;&#160;&#160;SQLCC_LOGGER.Error(msg)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a51a9494ff02cefe77ed341798f825fdf" name="a51a9494ff02cefe77ed341798f825fdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51a9494ff02cefe77ed341798f825fdf">&#9670;&#160;</a></span>SQLCC_LOG_INFO</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SQLCC_LOG_INFO</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">msg</td><td>)</td>
+          <td>&#160;&#160;&#160;SQLCC_LOGGER.Info(msg)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6288fa1e809caec231f7ba41f7f9b6e2" name="a6288fa1e809caec231f7ba41f7f9b6e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6288fa1e809caec231f7ba41f7f9b6e2">&#9670;&#160;</a></span>SQLCC_LOG_WARN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SQLCC_LOG_WARN</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">msg</td><td>)</td>
+          <td>&#160;&#160;&#160;SQLCC_LOGGER.Warn(msg)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5d17d04fdaf11402dfac92b0837228d0" name="a5d17d04fdaf11402dfac92b0837228d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d17d04fdaf11402dfac92b0837228d0">&#9670;&#160;</a></span>SQLCC_LOGGER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SQLCC_LOGGER&#160;&#160;&#160;<a class="el" href="classsqlcc_1_1Logger.html#ae0fd4cc7f4832745bcf21cbf02d48991">::sqlcc::Logger::GetInstance</a>()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

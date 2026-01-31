@@ -1,0 +1,480 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::AuditEntry类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1AuditEntry.html">AuditEntry</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1AuditEntry-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::AuditEntry类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Represents a single audit log entry  
+ <a href="classsqlcc_1_1AuditEntry.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="audit__trail_8h_source.html">audit_trail.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a080c60505cbfc2c3646295d8c358ffd9" id="r_a080c60505cbfc2c3646295d8c358ffd9"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEventType</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a4976d7ca80f2cb54c1c7d5c87fb0c7ef">LOGIN</a>
+, <a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a6b4ea69e17243db95f7b46c384d40370">LOGOUT</a>
+, <a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a5d1994d8701e82ea3ae1c4f9b5d64dbf">QUERY_EXECUTION</a>
+, <a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a4bd47d35bee2547c54843bb0d3e7c6d4">TABLE_MODIFICATION</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a5b29f8edbe95ef9d3198b771b601833e">USER_MANAGEMENT</a>
+, <a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a4f38f21abc027f222f132e4c7d43d3ef">SECURITY_CHANGE</a>
+, <a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9ad5e1d0a8706fe8892fdc1d9bc42f2ce8">SYSTEM_CONFIG_CHANGE</a>
+, <a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a25a2fc6debec92afe0ba791c37b0d117">BACKUP_OPERATION</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9ae8bdac85425007281563a053ccc3fb44">RESTORE_OPERATION</a>
+, <a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a696b031073e74bf2cb98e5ef201d4aa3">UNKNOWN</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a080c60505cbfc2c3646295d8c358ffd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types of audit events  <a href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">更多...</a><br /></td></tr>
+<tr class="separator:a080c60505cbfc2c3646295d8c358ffd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a360a63e958b6f7c4b420522c02111ead" id="r_a360a63e958b6f7c4b420522c02111ead"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AuditEntry.html#a360a63e958b6f7c4b420522c02111ead">AuditEntry</a> (<a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEventType</a> event_type, const std::string &amp;user_name, const std::string &amp;action, const std::string &amp;details=&quot;&quot;)</td></tr>
+<tr class="memdesc:a360a63e958b6f7c4b420522c02111ead"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for audit entry  <br /></td></tr>
+<tr class="separator:a360a63e958b6f7c4b420522c02111ead"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76b27d2678adccdd575d9093d0f5f3bb" id="r_a76b27d2678adccdd575d9093d0f5f3bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEventType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AuditEntry.html#a76b27d2678adccdd575d9093d0f5f3bb">get_event_type</a> () const</td></tr>
+<tr class="separator:a76b27d2678adccdd575d9093d0f5f3bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae90024edb1447f8d4d7ac41944107229" id="r_ae90024edb1447f8d4d7ac41944107229"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AuditEntry.html#ae90024edb1447f8d4d7ac41944107229">get_user_name</a> () const</td></tr>
+<tr class="separator:ae90024edb1447f8d4d7ac41944107229"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d283bb49ae2c43d1a1dd47f3d1b8633" id="r_a1d283bb49ae2c43d1a1dd47f3d1b8633"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AuditEntry.html#a1d283bb49ae2c43d1a1dd47f3d1b8633">get_action</a> () const</td></tr>
+<tr class="separator:a1d283bb49ae2c43d1a1dd47f3d1b8633"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c5254f4d6f7c121cd1b1c243d4dc891" id="r_a1c5254f4d6f7c121cd1b1c243d4dc891"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AuditEntry.html#a1c5254f4d6f7c121cd1b1c243d4dc891">get_details</a> () const</td></tr>
+<tr class="separator:a1c5254f4d6f7c121cd1b1c243d4dc891"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd5ba9b8efd7606d8586e079f1dbfe40" id="r_afd5ba9b8efd7606d8586e079f1dbfe40"><td class="memItemLeft" align="right" valign="top">std::chrono::system_clock::time_point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AuditEntry.html#afd5ba9b8efd7606d8586e079f1dbfe40">get_timestamp</a> () const</td></tr>
+<tr class="separator:afd5ba9b8efd7606d8586e079f1dbfe40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:abf0125c389c0338c2df2a8e2f3ff5120" id="r_abf0125c389c0338c2df2a8e2f3ff5120"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AuditEntry.html#abf0125c389c0338c2df2a8e2f3ff5120">event_type_to_string</a> (<a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEventType</a> type)</td></tr>
+<tr class="memdesc:abf0125c389c0338c2df2a8e2f3ff5120"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert audit event type to string  <br /></td></tr>
+<tr class="separator:abf0125c389c0338c2df2a8e2f3ff5120"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:afdf57219e0247610d84720a486030f9e" id="r_afdf57219e0247610d84720a486030f9e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEventType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AuditEntry.html#afdf57219e0247610d84720a486030f9e">event_type_</a></td></tr>
+<tr class="separator:afdf57219e0247610d84720a486030f9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f5dd7db82228750d7c3f61e5f635892" id="r_a5f5dd7db82228750d7c3f61e5f635892"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AuditEntry.html#a5f5dd7db82228750d7c3f61e5f635892">user_name_</a></td></tr>
+<tr class="separator:a5f5dd7db82228750d7c3f61e5f635892"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef0a0c2d6d9cba86ea64a40d32fbe19c" id="r_aef0a0c2d6d9cba86ea64a40d32fbe19c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AuditEntry.html#aef0a0c2d6d9cba86ea64a40d32fbe19c">action_</a></td></tr>
+<tr class="separator:aef0a0c2d6d9cba86ea64a40d32fbe19c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a073905fe66f914bbedbb80c154c46372" id="r_a073905fe66f914bbedbb80c154c46372"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AuditEntry.html#a073905fe66f914bbedbb80c154c46372">details_</a></td></tr>
+<tr class="separator:a073905fe66f914bbedbb80c154c46372"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac948027438a32058a9de0f4f7a92b8c5" id="r_ac948027438a32058a9de0f4f7a92b8c5"><td class="memItemLeft" align="right" valign="top">std::chrono::system_clock::time_point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AuditEntry.html#ac948027438a32058a9de0f4f7a92b8c5">timestamp_</a></td></tr>
+<tr class="separator:ac948027438a32058a9de0f4f7a92b8c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>Represents a single audit log entry </p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a080c60505cbfc2c3646295d8c358ffd9" name="a080c60505cbfc2c3646295d8c358ffd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a080c60505cbfc2c3646295d8c358ffd9">&#9670;&#160;</a></span>AuditEventType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">sqlcc::AuditEntry::AuditEventType</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Types of audit events </p>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a080c60505cbfc2c3646295d8c358ffd9a4976d7ca80f2cb54c1c7d5c87fb0c7ef" name="a080c60505cbfc2c3646295d8c358ffd9a4976d7ca80f2cb54c1c7d5c87fb0c7ef"></a>LOGIN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a080c60505cbfc2c3646295d8c358ffd9a6b4ea69e17243db95f7b46c384d40370" name="a080c60505cbfc2c3646295d8c358ffd9a6b4ea69e17243db95f7b46c384d40370"></a>LOGOUT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a080c60505cbfc2c3646295d8c358ffd9a5d1994d8701e82ea3ae1c4f9b5d64dbf" name="a080c60505cbfc2c3646295d8c358ffd9a5d1994d8701e82ea3ae1c4f9b5d64dbf"></a>QUERY_EXECUTION&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a080c60505cbfc2c3646295d8c358ffd9a4bd47d35bee2547c54843bb0d3e7c6d4" name="a080c60505cbfc2c3646295d8c358ffd9a4bd47d35bee2547c54843bb0d3e7c6d4"></a>TABLE_MODIFICATION&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a080c60505cbfc2c3646295d8c358ffd9a5b29f8edbe95ef9d3198b771b601833e" name="a080c60505cbfc2c3646295d8c358ffd9a5b29f8edbe95ef9d3198b771b601833e"></a>USER_MANAGEMENT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a080c60505cbfc2c3646295d8c358ffd9a4f38f21abc027f222f132e4c7d43d3ef" name="a080c60505cbfc2c3646295d8c358ffd9a4f38f21abc027f222f132e4c7d43d3ef"></a>SECURITY_CHANGE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a080c60505cbfc2c3646295d8c358ffd9ad5e1d0a8706fe8892fdc1d9bc42f2ce8" name="a080c60505cbfc2c3646295d8c358ffd9ad5e1d0a8706fe8892fdc1d9bc42f2ce8"></a>SYSTEM_CONFIG_CHANGE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a080c60505cbfc2c3646295d8c358ffd9a25a2fc6debec92afe0ba791c37b0d117" name="a080c60505cbfc2c3646295d8c358ffd9a25a2fc6debec92afe0ba791c37b0d117"></a>BACKUP_OPERATION&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a080c60505cbfc2c3646295d8c358ffd9ae8bdac85425007281563a053ccc3fb44" name="a080c60505cbfc2c3646295d8c358ffd9ae8bdac85425007281563a053ccc3fb44"></a>RESTORE_OPERATION&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a080c60505cbfc2c3646295d8c358ffd9a696b031073e74bf2cb98e5ef201d4aa3" name="a080c60505cbfc2c3646295d8c358ffd9a696b031073e74bf2cb98e5ef201d4aa3"></a>UNKNOWN&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a360a63e958b6f7c4b420522c02111ead" name="a360a63e958b6f7c4b420522c02111ead"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a360a63e958b6f7c4b420522c02111ead">&#9670;&#160;</a></span>AuditEntry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::AuditEntry::AuditEntry </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEventType</a>&#160;</td>
+          <td class="paramname"><em>event_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>user_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>action</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>details</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor for audit entry </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event_type</td><td>Type of audit event </td></tr>
+    <tr><td class="paramname">user_name</td><td>Name of the user performing the action </td></tr>
+    <tr><td class="paramname">action</td><td>Description of the action </td></tr>
+    <tr><td class="paramname">details</td><td>Additional details about the action </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="abf0125c389c0338c2df2a8e2f3ff5120" name="abf0125c389c0338c2df2a8e2f3ff5120"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf0125c389c0338c2df2a8e2f3ff5120">&#9670;&#160;</a></span>event_type_to_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::AuditEntry::event_type_to_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEventType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert audit event type to string </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>Audit event type </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>String representation </dd></dl>
+
+</div>
+</div>
+<a id="a1d283bb49ae2c43d1a1dd47f3d1b8633" name="a1d283bb49ae2c43d1a1dd47f3d1b8633"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d283bb49ae2c43d1a1dd47f3d1b8633">&#9670;&#160;</a></span>get_action()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::AuditEntry::get_action </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1c5254f4d6f7c121cd1b1c243d4dc891" name="a1c5254f4d6f7c121cd1b1c243d4dc891"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c5254f4d6f7c121cd1b1c243d4dc891">&#9670;&#160;</a></span>get_details()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::AuditEntry::get_details </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76b27d2678adccdd575d9093d0f5f3bb" name="a76b27d2678adccdd575d9093d0f5f3bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76b27d2678adccdd575d9093d0f5f3bb">&#9670;&#160;</a></span>get_event_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEntry::AuditEventType</a> sqlcc::AuditEntry::get_event_type </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afd5ba9b8efd7606d8586e079f1dbfe40" name="afd5ba9b8efd7606d8586e079f1dbfe40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd5ba9b8efd7606d8586e079f1dbfe40">&#9670;&#160;</a></span>get_timestamp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::system_clock::time_point sqlcc::AuditEntry::get_timestamp </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae90024edb1447f8d4d7ac41944107229" name="ae90024edb1447f8d4d7ac41944107229"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae90024edb1447f8d4d7ac41944107229">&#9670;&#160;</a></span>get_user_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; sqlcc::AuditEntry::get_user_name </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="aef0a0c2d6d9cba86ea64a40d32fbe19c" name="aef0a0c2d6d9cba86ea64a40d32fbe19c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef0a0c2d6d9cba86ea64a40d32fbe19c">&#9670;&#160;</a></span>action_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::AuditEntry::action_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a073905fe66f914bbedbb80c154c46372" name="a073905fe66f914bbedbb80c154c46372"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a073905fe66f914bbedbb80c154c46372">&#9670;&#160;</a></span>details_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::AuditEntry::details_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afdf57219e0247610d84720a486030f9e" name="afdf57219e0247610d84720a486030f9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdf57219e0247610d84720a486030f9e">&#9670;&#160;</a></span>event_type_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9">AuditEventType</a> sqlcc::AuditEntry::event_type_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac948027438a32058a9de0f4f7a92b8c5" name="ac948027438a32058a9de0f4f7a92b8c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac948027438a32058a9de0f4f7a92b8c5">&#9670;&#160;</a></span>timestamp_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::system_clock::time_point sqlcc::AuditEntry::timestamp_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5f5dd7db82228750d7c3f61e5f635892" name="a5f5dd7db82228750d7c3f61e5f635892"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f5dd7db82228750d7c3f61e5f635892">&#9670;&#160;</a></span>user_name_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::AuditEntry::user_name_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="audit__trail_8h_source.html">audit_trail.h</a></li>
+<li><a class="el" href="audit__trail_8cpp.html">audit_trail.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

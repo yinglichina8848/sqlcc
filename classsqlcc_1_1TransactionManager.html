@@ -1,0 +1,1373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::TransactionManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-attribs">Public 属性</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1TransactionManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::TransactionManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>事务管理器类 - SQLCC数据库系统的ACID属性实现核心  
+ <a href="classsqlcc_1_1TransactionManager.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="transaction__manager_8h_source.html">transaction_manager.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::TransactionManager 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1TransactionManager__inherit__graph.png" border="0" usemap="#asqlcc_1_1TransactionManager_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1TransactionManager_inherit__map" id="asqlcc_1_1TransactionManager_inherit__map">
+<area shape="rect" title="事务管理器类 &#45; SQLCC数据库系统的ACID属性实现核心" alt="" coords="5,5,200,31"/>
+<area shape="rect" href="classsqlcc_1_1mocks_1_1TransactionManagerMock.html" title="TransactionManager Mock类，用于单元测试" alt="" coords="9,79,197,119"/>
+<area shape="poly" title=" " alt="" coords="105,44,105,79,100,79,100,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1TransactionManager_1_1TransactionStats.html">TransactionStats</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:abe5b7bffd6a7e7c7fbfb40e8c85347be" id="r_abe5b7bffd6a7e7c7fbfb40e8c85347be"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#abe5b7bffd6a7e7c7fbfb40e8c85347be">TransactionManager</a> ()</td></tr>
+<tr class="memdesc:abe5b7bffd6a7e7c7fbfb40e8c85347be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs the <a class="el" href="classsqlcc_1_1TransactionManager.html" title="事务管理器类 - SQLCC数据库系统的ACID属性实现核心">TransactionManager</a>. Initializes the next available transaction ID.  <br /></td></tr>
+<tr class="separator:abe5b7bffd6a7e7c7fbfb40e8c85347be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bc444d66f238d3722c05806e4608693" id="r_a6bc444d66f238d3722c05806e4608693"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a6bc444d66f238d3722c05806e4608693">~TransactionManager</a> ()</td></tr>
+<tr class="memdesc:a6bc444d66f238d3722c05806e4608693"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the <a class="el" href="classsqlcc_1_1TransactionManager.html" title="事务管理器类 - SQLCC数据库系统的ACID属性实现核心">TransactionManager</a>. Cleans up any resources if necessary (e.g., stopping background threads).  <br /></td></tr>
+<tr class="separator:a6bc444d66f238d3722c05806e4608693"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05db25198754abcea8b19c81ae54fe99" id="r_a05db25198754abcea8b19c81ae54fe99"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a05db25198754abcea8b19c81ae54fe99">begin_transaction</a> (<a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a> isolation_level=<a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5a51dd037c6fc783bfbbb79a401342750b">IsolationLevel::READ_COMMITTED</a>)</td></tr>
+<tr class="memdesc:a05db25198754abcea8b19c81ae54fe99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initiates a new transaction with the specified isolation level.  <br /></td></tr>
+<tr class="separator:a05db25198754abcea8b19c81ae54fe99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb51a287c89b54b34e9d4fe00c74ddf4" id="r_adb51a287c89b54b34e9d4fe00c74ddf4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#adb51a287c89b54b34e9d4fe00c74ddf4">commit_transaction</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id)</td></tr>
+<tr class="memdesc:adb51a287c89b54b34e9d4fe00c74ddf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Commits an active transaction, making its changes permanent.  <br /></td></tr>
+<tr class="separator:adb51a287c89b54b34e9d4fe00c74ddf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e48b65d6115edc02d54f1fb347c0b85" id="r_a8e48b65d6115edc02d54f1fb347c0b85"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a8e48b65d6115edc02d54f1fb347c0b85">rollback_transaction</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id)</td></tr>
+<tr class="memdesc:a8e48b65d6115edc02d54f1fb347c0b85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rolls back an active transaction, undoing all its changes.  <br /></td></tr>
+<tr class="separator:a8e48b65d6115edc02d54f1fb347c0b85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaee8cf0eae471aa90e64771f3ffac14" id="r_aeaee8cf0eae471aa90e64771f3ffac14"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#aeaee8cf0eae471aa90e64771f3ffac14">create_savepoint</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, const std::string &amp;savepoint_name)</td></tr>
+<tr class="memdesc:aeaee8cf0eae471aa90e64771f3ffac14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new savepoint within an active transaction. Savepoints allow for partial rollbacks within a transaction.  <br /></td></tr>
+<tr class="separator:aeaee8cf0eae471aa90e64771f3ffac14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43b84f7a79a083d913fc6f317eb18bf8" id="r_a43b84f7a79a083d913fc6f317eb18bf8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a43b84f7a79a083d913fc6f317eb18bf8">rollback_to_savepoint</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, const std::string &amp;savepoint_name)</td></tr>
+<tr class="memdesc:a43b84f7a79a083d913fc6f317eb18bf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rolls back an active transaction to a specified savepoint. Undoes changes made since the savepoint was created.  <br /></td></tr>
+<tr class="separator:a43b84f7a79a083d913fc6f317eb18bf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12af6a39399459fb75cce36a1225e543" id="r_a12af6a39399459fb75cce36a1225e543"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a12af6a39399459fb75cce36a1225e543">acquire_lock</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, const std::string &amp;resource, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> lock_type, bool wait=true)</td></tr>
+<tr class="memdesc:a12af6a39399459fb75cce36a1225e543"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to acquire a lock on a specified resource for a transaction. This is a simplified implementation of a lock manager.  <br /></td></tr>
+<tr class="separator:a12af6a39399459fb75cce36a1225e543"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5722ea156091c14f0af60b4255ec2f60" id="r_a5722ea156091c14f0af60b4255ec2f60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a5722ea156091c14f0af60b4255ec2f60">release_lock</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, const std::string &amp;resource)</td></tr>
+<tr class="memdesc:a5722ea156091c14f0af60b4255ec2f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases a specific lock held by a transaction on a resource.  <br /></td></tr>
+<tr class="separator:a5722ea156091c14f0af60b4255ec2f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a114b0ffdffafdd6be011d43e096a5521" id="r_a114b0ffdffafdd6be011d43e096a5521"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a114b0ffdffafdd6be011d43e096a5521">detect_deadlock</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id)</td></tr>
+<tr class="memdesc:a114b0ffdffafdd6be011d43e096a5521"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detects deadlocks in the system using a wait-for graph.  <br /></td></tr>
+<tr class="separator:a114b0ffdffafdd6be011d43e096a5521"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cff6d1da8adc701ea6893ac138fc823" id="r_a7cff6d1da8adc701ea6893ac138fc823"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a0c57d89a2dad7e9c0f7a8a52f9788835">TransactionState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a7cff6d1da8adc701ea6893ac138fc823">get_transaction_state</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id) const</td></tr>
+<tr class="memdesc:a7cff6d1da8adc701ea6893ac138fc823"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the current state of a specified transaction.  <br /></td></tr>
+<tr class="separator:a7cff6d1da8adc701ea6893ac138fc823"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e9a167ce9c6eef35d53dd37acd4220e" id="r_a2e9a167ce9c6eef35d53dd37acd4220e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a2e9a167ce9c6eef35d53dd37acd4220e">get_active_transactions</a> () const</td></tr>
+<tr class="memdesc:a2e9a167ce9c6eef35d53dd37acd4220e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a list of all currently active transaction IDs.  <br /></td></tr>
+<tr class="separator:a2e9a167ce9c6eef35d53dd37acd4220e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6643e0b9e287c5de529a1eef437c4567" id="r_a6643e0b9e287c5de529a1eef437c4567"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a6643e0b9e287c5de529a1eef437c4567">log_operation</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, const <a class="el" href="structsqlcc_1_1LogEntry.html">LogEntry</a> &amp;entry)</td></tr>
+<tr class="memdesc:a6643e0b9e287c5de529a1eef437c4567"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logs an operation performed by a transaction into its private undo log.  <br /></td></tr>
+<tr class="separator:a6643e0b9e287c5de529a1eef437c4567"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbe345c0242744f4192b0a69cc30875c" id="r_adbe345c0242744f4192b0a69cc30875c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#adbe345c0242744f4192b0a69cc30875c">next_transaction_id</a> ()</td></tr>
+<tr class="memdesc:adbe345c0242744f4192b0a69cc30875c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates and returns a new unique transaction ID. Uses an atomic operation to ensure thread-safe, sequential ID generation.  <br /></td></tr>
+<tr class="separator:adbe345c0242744f4192b0a69cc30875c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fb9a3a44b0ffda46389ec26892bbbc9" id="r_a4fb9a3a44b0ffda46389ec26892bbbc9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a4fb9a3a44b0ffda46389ec26892bbbc9">begin_nested_transaction</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> parent_txn_id)</td></tr>
+<tr class="memdesc:a4fb9a3a44b0ffda46389ec26892bbbc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Begins a new nested transaction within an existing parent transaction.  <br /></td></tr>
+<tr class="separator:a4fb9a3a44b0ffda46389ec26892bbbc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a785e2fd8e3c47908995fa4fc183c84b1" id="r_a785e2fd8e3c47908995fa4fc183c84b1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a785e2fd8e3c47908995fa4fc183c84b1">commit_nested_transaction</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> nested_txn_id)</td></tr>
+<tr class="memdesc:a785e2fd8e3c47908995fa4fc183c84b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Commits a nested transaction.  <br /></td></tr>
+<tr class="separator:a785e2fd8e3c47908995fa4fc183c84b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e402c5ed6ec37dae7533c69ae128fcf" id="r_a5e402c5ed6ec37dae7533c69ae128fcf"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a5e402c5ed6ec37dae7533c69ae128fcf">check_and_handle_timeouts</a> ()</td></tr>
+<tr class="memdesc:a5e402c5ed6ec37dae7533c69ae128fcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Periodically checks for and handles timed-out active transactions.  <br /></td></tr>
+<tr class="separator:a5e402c5ed6ec37dae7533c69ae128fcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d96a51dcb7905030c1ae6dbe7632e57" id="r_a8d96a51dcb7905030c1ae6dbe7632e57"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a8d96a51dcb7905030c1ae6dbe7632e57">set_transaction_timeout</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, std::chrono::milliseconds timeout_ms)</td></tr>
+<tr class="memdesc:a8d96a51dcb7905030c1ae6dbe7632e57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets or updates the timeout duration for an active transaction.  <br /></td></tr>
+<tr class="separator:a8d96a51dcb7905030c1ae6dbe7632e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93522d3a77a8c03cd47c15b8bb8a8929" id="r_a93522d3a77a8c03cd47c15b8bb8a8929"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1TransactionManager_1_1TransactionStats.html">TransactionStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a93522d3a77a8c03cd47c15b8bb8a8929">get_transaction_stats</a> () const</td></tr>
+<tr class="memdesc:a93522d3a77a8c03cd47c15b8bb8a8929"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves current statistics about transactions managed by the system.  <br /></td></tr>
+<tr class="separator:a93522d3a77a8c03cd47c15b8bb8a8929"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace73bda0d6f143120ee2778617fdb511" id="r_ace73bda0d6f143120ee2778617fdb511"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#ace73bda0d6f143120ee2778617fdb511">set_transaction_isolation_level</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, <a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a> level)</td></tr>
+<tr class="memdesc:ace73bda0d6f143120ee2778617fdb511"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the isolation level for an active transaction.  <br /></td></tr>
+<tr class="separator:ace73bda0d6f143120ee2778617fdb511"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a66af76280faae7e55c1048b7f18bb2" id="r_a4a66af76280faae7e55c1048b7f18bb2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a4a66af76280faae7e55c1048b7f18bb2">get_transaction_isolation_level</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id) const</td></tr>
+<tr class="memdesc:a4a66af76280faae7e55c1048b7f18bb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the isolation level of a specified transaction.  <br /></td></tr>
+<tr class="separator:a4a66af76280faae7e55c1048b7f18bb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a730d665f253c6f4eb2d12b1df80bb5f2" id="r_a730d665f253c6f4eb2d12b1df80bb5f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a730d665f253c6f4eb2d12b1df80bb5f2">check_isolation_constraints</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, const std::string &amp;operation, const std::string &amp;resource)</td></tr>
+<tr class="memdesc:a730d665f253c6f4eb2d12b1df80bb5f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a specific operation on a resource is allowed given the transaction's isolation level.  <br /></td></tr>
+<tr class="separator:a730d665f253c6f4eb2d12b1df80bb5f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public 属性</h2></td></tr>
+<tr class="memitem:a93be6a5d950cafd7fd39c9002ecf2baf" id="r_a93be6a5d950cafd7fd39c9002ecf2baf"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>, <a class="el" href="structsqlcc_1_1NestedTransaction.html">NestedTransaction</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a93be6a5d950cafd7fd39c9002ecf2baf">nested_transactions_</a></td></tr>
+<tr class="separator:a93be6a5d950cafd7fd39c9002ecf2baf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a0eeba8f70cb8d913416e0adb30f9e158" id="r_a0eeba8f70cb8d913416e0adb30f9e158"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a0eeba8f70cb8d913416e0adb30f9e158">cleanup_completed_transactions</a> ()</td></tr>
+<tr class="separator:a0eeba8f70cb8d913416e0adb30f9e158"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8f7c1c8eda3a8c963142b86013cf6da" id="r_aa8f7c1c8eda3a8c963142b86013cf6da"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#aa8f7c1c8eda3a8c963142b86013cf6da">can_acquire_lock</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id, const std::string &amp;resource, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> lock_type) const</td></tr>
+<tr class="separator:aa8f7c1c8eda3a8c963142b86013cf6da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a755e6bebb4b804b97acd85542ad401e3" id="r_a755e6bebb4b804b97acd85542ad401e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a755e6bebb4b804b97acd85542ad401e3">release_all_locks</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id)</td></tr>
+<tr class="memdesc:a755e6bebb4b804b97acd85542ad401e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public interface to release all locks held by a transaction.  <br /></td></tr>
+<tr class="separator:a755e6bebb4b804b97acd85542ad401e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a492ff389527343a8fc34c0231e95f3da" id="r_a492ff389527343a8fc34c0231e95f3da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a492ff389527343a8fc34c0231e95f3da">release_all_locks_internal</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id)</td></tr>
+<tr class="memdesc:a492ff389527343a8fc34c0231e95f3da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal helper function to release all locks held by a specific transaction.  <br /></td></tr>
+<tr class="separator:a492ff389527343a8fc34c0231e95f3da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aba87f1b666716f0f834cd6f1bf47b80c" id="r_aba87f1b666716f0f834cd6f1bf47b80c"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>, std::unordered_set&lt; <a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#aba87f1b666716f0f834cd6f1bf47b80c">wait_graph_</a></td></tr>
+<tr class="separator:aba87f1b666716f0f834cd6f1bf47b80c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ea57a41359c8c6c13acdcfc5b99b323" id="r_a2ea57a41359c8c6c13acdcfc5b99b323"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::vector&lt; <a class="el" href="structsqlcc_1_1LockEntry.html">LockEntry</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a2ea57a41359c8c6c13acdcfc5b99b323">lock_table_</a></td></tr>
+<tr class="separator:a2ea57a41359c8c6c13acdcfc5b99b323"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab35bd4768f3c8a11b90beed16ff30767" id="r_ab35bd4768f3c8a11b90beed16ff30767"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>, <a class="el" href="classsqlcc_1_1Transaction.html">Transaction</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#ab35bd4768f3c8a11b90beed16ff30767">transactions_</a></td></tr>
+<tr class="separator:ab35bd4768f3c8a11b90beed16ff30767"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64693b580dd5d678b4116fdfe05dd618" id="r_a64693b580dd5d678b4116fdfe05dd618"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; <a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a64693b580dd5d678b4116fdfe05dd618">next_txn_id_</a></td></tr>
+<tr class="separator:a64693b580dd5d678b4116fdfe05dd618"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a118d97323ed72d94df69496bf06407a8" id="r_a118d97323ed72d94df69496bf06407a8"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a118d97323ed72d94df69496bf06407a8">mutex_</a></td></tr>
+<tr class="separator:a118d97323ed72d94df69496bf06407a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>事务管理器类 - SQLCC数据库系统的ACID属性实现核心 </p>
+<p>WHY层 - 设计意图： TransactionManager是数据库系统的"心脏"，负责协调所有并发事务，确保数据 的一致性和完整性。通过精心设计的锁协议、日志机制和恢复策略，实现企业级 数据库系统的四大ACID属性，为应用提供可靠的数据服务基础。</p>
+<p>WHAT层 - 核心功能：</p><ul>
+<li>事务生命周期：创建、提交、回滚事务的完整管理</li>
+<li>并发控制：基于锁的并发访问控制和死锁检测</li>
+<li>隔离级别：支持多种SQL标准隔离级别的实现</li>
+<li>保存点：嵌套事务的回滚点管理</li>
+<li>故障恢复：基于日志的事务持久性保证</li>
+</ul>
+<p>HOW层 - 架构设计：</p><ul>
+<li>锁管理器：维护锁表和等待队列</li>
+<li>日志系统：记录事务的所有操作历史</li>
+<li>死锁检测器：实时监控和预防死锁发生</li>
+<li>隔离控制器：根据隔离级别控制事务可见性</li>
+<li>恢复管理器：系统故障后的数据恢复</li>
+</ul>
+<p>ACID属性实现策略：</p>
+<ol type="1">
+<li>**原子性（Atomicity）**：<ul>
+<li>机制：undo日志记录事务的所有修改</li>
+<li>提交时：释放所有锁，标记事务完成</li>
+<li>回滚时：根据undo日志逆序撤销所有修改</li>
+<li>保证：要么全部成功，要么全部失败</li>
+</ul>
+</li>
+<li>**一致性（Consistency）**：<ul>
+<li>机制：锁协议确保事务串行化执行</li>
+<li>约束：完整性约束检查和业务规则验证</li>
+<li>隔离：不同隔离级别的一致性保证</li>
+<li>保证：事务将数据库从一个一致状态转换到另一个</li>
+</ul>
+</li>
+<li>**隔离性（Isolation）**：<ul>
+<li>机制：锁和多版本并发控制（MVCC）</li>
+<li>级别：READ UNCOMMITTED到SERIALIZABLE</li>
+<li>冲突：读-写、写-读、写-写冲突的处理</li>
+<li>保证：事务间的相互隔离，避免干扰</li>
+</ul>
+</li>
+<li>**持久性（Durability）**：<ul>
+<li>机制：预写日志（WAL）和检查点</li>
+<li>策略：日志先行，数据后写</li>
+<li>恢复：系统故障后的自动恢复</li>
+<li>保证：已提交事务的结果永久保存</li>
+</ul>
+</li>
+</ol>
+<p>性能优化策略：</p><ul>
+<li>**锁优化**：最小化锁的持有时间和粒度</li>
+<li>**日志优化**：批量写入和日志压缩</li>
+<li>**并发优化**：减少锁竞争和死锁发生</li>
+<li>**缓存优化**：事务级缓存和预取策略</li>
+</ul>
+<p>扩展性考虑：</p><ul>
+<li>**分布式事务**：跨节点事务的协调机制</li>
+<li>**长事务处理**：补偿事务和SAGA模式支持</li>
+<li>**实时事务**：低延迟高可用性保障</li>
+<li>**混合负载**：OLTP和OLAP的混合优化</li>
+</ul>
+<p>监控和诊断：</p><ul>
+<li>**性能指标**：事务吞吐量、响应时间、冲突率</li>
+<li>**健康检查**：死锁检测、锁表大小、日志积压</li>
+<li>**故障诊断**：事务状态追踪、错误日志分析</li>
+<li>**容量规划**：基于负载模式的资源配置建议</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>事务管理器是数据库系统的核心组件，直接影响系统的并发性能和数据一致性 </dd>
+<dd>
+实现了严格的两阶段锁协议，确保事务的串行化执行 </dd>
+<dd>
+支持完整的SQL事务语法，包括保存点和嵌套事务 </dd>
+<dd>
+通过日志机制保证事务的原子性和持久性</dd></dl>
+<dl class="section see"><dt>参见</dt><dd><a class="el" href="structsqlcc_1_1LogEntry.html" title="操作日志条目 - 多版本并发控制（MVCC）的核心数据结构">LogEntry</a> 操作日志条目的定义 </dd>
+<dd>
+<a class="el" href="classsqlcc_1_1Transaction.html" title="事务信息结构体 - 事务元数据的完整描述">Transaction</a> 事务信息结构体的定义 </dd>
+<dd>
+<a class="el" href="structsqlcc_1_1LockEntry.html" title="锁信息结构体 - 锁表条目的完整描述">LockEntry</a> 锁信息结构体的定义 </dd></dl>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="abe5b7bffd6a7e7c7fbfb40e8c85347be" name="abe5b7bffd6a7e7c7fbfb40e8c85347be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe5b7bffd6a7e7c7fbfb40e8c85347be">&#9670;&#160;</a></span>TransactionManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::TransactionManager::TransactionManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs the <a class="el" href="classsqlcc_1_1TransactionManager.html" title="事务管理器类 - SQLCC数据库系统的ACID属性实现核心">TransactionManager</a>. Initializes the next available transaction ID. </p>
+<p>构造函数 </p>
+
+</div>
+</div>
+<a id="a6bc444d66f238d3722c05806e4608693" name="a6bc444d66f238d3722c05806e4608693"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bc444d66f238d3722c05806e4608693">&#9670;&#160;</a></span>~TransactionManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::TransactionManager::~TransactionManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destroys the <a class="el" href="classsqlcc_1_1TransactionManager.html" title="事务管理器类 - SQLCC数据库系统的ACID属性实现核心">TransactionManager</a>. Cleans up any resources if necessary (e.g., stopping background threads). </p>
+<p>析构函数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a12af6a39399459fb75cce36a1225e543" name="a12af6a39399459fb75cce36a1225e543"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12af6a39399459fb75cce36a1225e543">&#9670;&#160;</a></span>acquire_lock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionManager::acquire_lock </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>resource</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>lock_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>wait</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Attempts to acquire a lock on a specified resource for a transaction. This is a simplified implementation of a lock manager. </p>
+<p>获取锁 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">resource</td><td>资源标识 </td></tr>
+    <tr><td class="paramname">lock_type</td><td>锁类型 </td></tr>
+    <tr><td class="paramname">wait</td><td>是否等待锁 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否获取成功</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction requesting the lock. </td></tr>
+    <tr><td class="paramname">resource</td><td>The identifier of the resource to lock (e.g., table name, page ID). </td></tr>
+    <tr><td class="paramname">lock_type</td><td>The type of lock to acquire (SHARED or EXCLUSIVE). </td></tr>
+    <tr><td class="paramname">wait</td><td>If true, the transaction waits for the lock; otherwise, it returns immediately. (Currently ignored). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>True if the lock was acquired (or upgraded), false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a4fb9a3a44b0ffda46389ec26892bbbc9" name="a4fb9a3a44b0ffda46389ec26892bbbc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fb9a3a44b0ffda46389ec26892bbbc9">&#9670;&#160;</a></span>begin_nested_transaction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> sqlcc::TransactionManager::begin_nested_transaction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>parent_txn_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Begins a new nested transaction within an existing parent transaction. </p>
+<p>开始嵌套事务 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent_txn_id</td><td>父事务ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>子事务ID，失败返回0</dd></dl>
+<p>Nested transactions allow for sub-units of work to be committed or rolled back independently of their parent, until the parent transaction itself commits or aborts. </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent_txn_id</td><td>The ID of the parent transaction. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The <code><a class="el" href="classsqlcc_1_1TransactionId.html" title="事务ID类型 - 唯一标识一个事务">TransactionId</a></code> of the newly created nested transaction, or 0 if creation fails. </dd></dl>
+
+</div>
+</div>
+<a id="a05db25198754abcea8b19c81ae54fe99" name="a05db25198754abcea8b19c81ae54fe99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05db25198754abcea8b19c81ae54fe99">&#9670;&#160;</a></span>begin_transaction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> sqlcc::TransactionManager::begin_transaction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a>&#160;</td>
+          <td class="paramname"><em>isolation_level</em> = <code><a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5a51dd037c6fc783bfbbb79a401342750b">IsolationLevel::READ_COMMITTED</a></code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initiates a new transaction with the specified isolation level. </p>
+<p>开始新事务 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">isolation_level</td><td>隔离级别 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>事务ID</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">isolation_level</td><td>The desired isolation level for the new transaction. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The <code><a class="el" href="classsqlcc_1_1TransactionId.html" title="事务ID类型 - 唯一标识一个事务">TransactionId</a></code> of the newly created transaction. </dd></dl>
+
+</div>
+</div>
+<a id="aa8f7c1c8eda3a8c963142b86013cf6da" name="aa8f7c1c8eda3a8c963142b86013cf6da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8f7c1c8eda3a8c963142b86013cf6da">&#9670;&#160;</a></span>can_acquire_lock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionManager::can_acquire_lock </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>resource</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>lock_type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>检查是否可以获取锁（用于死锁检测） </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">resource</td><td>资源 </td></tr>
+    <tr><td class="paramname">lock_type</td><td>锁类型 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否可以获取 </dd></dl>
+
+</div>
+</div>
+<a id="a5e402c5ed6ec37dae7533c69ae128fcf" name="a5e402c5ed6ec37dae7533c69ae128fcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e402c5ed6ec37dae7533c69ae128fcf">&#9670;&#160;</a></span>check_and_handle_timeouts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::TransactionManager::check_and_handle_timeouts </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Periodically checks for and handles timed-out active transactions. </p>
+<p>检查并处理超时事务 </p><dl class="section return"><dt>返回</dt><dd>处理的超时事务数量</dd></dl>
+<p>This method is typically called by a background thread or a timer. Timed-out active transactions are forcibly rolled back to prevent resource starvation. </p><dl class="section return"><dt>返回</dt><dd>The number of transactions that timed out and were rolled back. </dd></dl>
+
+</div>
+</div>
+<a id="a730d665f253c6f4eb2d12b1df80bb5f2" name="a730d665f253c6f4eb2d12b1df80bb5f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a730d665f253c6f4eb2d12b1df80bb5f2">&#9670;&#160;</a></span>check_isolation_constraints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionManager::check_isolation_constraints </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>operation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>resource</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if a specific operation on a resource is allowed given the transaction's isolation level. </p>
+<p>检查隔离级别约束 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">operation</td><td>操作类型 </td></tr>
+    <tr><td class="paramname">resource</td><td>资源标识 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否允许操作</dd></dl>
+<p>This is a simplified implementation of isolation constraint checking. In a real system, this would interact deeply with the concurrency control mechanism (e.g., <a class="el" href="classsqlcc_1_1LockManager.html">LockManager</a> or MVCC). </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction. </td></tr>
+    <tr><td class="paramname">operation</td><td>The type of operation ("READ" or "WRITE"). </td></tr>
+    <tr><td class="paramname">resource</td><td>The resource being accessed. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>True if the operation is permitted by the isolation level, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a0eeba8f70cb8d913416e0adb30f9e158" name="a0eeba8f70cb8d913416e0adb30f9e158"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0eeba8f70cb8d913416e0adb30f9e158">&#9670;&#160;</a></span>cleanup_completed_transactions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::TransactionManager::cleanup_completed_transactions </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>清理已完成的事务 </p>
+
+</div>
+</div>
+<a id="a785e2fd8e3c47908995fa4fc183c84b1" name="a785e2fd8e3c47908995fa4fc183c84b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a785e2fd8e3c47908995fa4fc183c84b1">&#9670;&#160;</a></span>commit_nested_transaction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionManager::commit_nested_transaction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>nested_txn_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Commits a nested transaction. </p>
+<p>提交嵌套事务 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nested_txn_id</td><td>嵌套事务ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功</dd></dl>
+<p>In a typical nested transaction model, committing a nested transaction makes its changes visible to its parent but not to other transactions until the top-level transaction commits. This simplified implementation just marks the nested transaction as committed and releases its locks. </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nested_txn_id</td><td>The ID of the nested transaction to commit. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>True if the nested transaction was successfully committed, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="adb51a287c89b54b34e9d4fe00c74ddf4" name="adb51a287c89b54b34e9d4fe00c74ddf4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb51a287c89b54b34e9d4fe00c74ddf4">&#9670;&#160;</a></span>commit_transaction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionManager::commit_transaction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Commits an active transaction, making its changes permanent. </p>
+<p>提交事务 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction to commit. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>True if the transaction was successfully committed, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="aeaee8cf0eae471aa90e64771f3ffac14" name="aeaee8cf0eae471aa90e64771f3ffac14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeaee8cf0eae471aa90e64771f3ffac14">&#9670;&#160;</a></span>create_savepoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionManager::create_savepoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>savepoint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a new savepoint within an active transaction. Savepoints allow for partial rollbacks within a transaction. </p>
+<p>创建保存点 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">savepoint_name</td><td>保存点名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction to create the savepoint in. </td></tr>
+    <tr><td class="paramname">savepoint_name</td><td>The unique name for the savepoint. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>True if the savepoint was successfully created, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a114b0ffdffafdd6be011d43e096a5521" name="a114b0ffdffafdd6be011d43e096a5521"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a114b0ffdffafdd6be011d43e096a5521">&#9670;&#160;</a></span>detect_deadlock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionManager::detect_deadlock </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Detects deadlocks in the system using a wait-for graph. </p>
+<p>检测死锁 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否存在死锁</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction that initiated the deadlock detection (can be any active transaction). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>True if a deadlock is detected, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a2e9a167ce9c6eef35d53dd37acd4220e" name="a2e9a167ce9c6eef35d53dd37acd4220e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e9a167ce9c6eef35d53dd37acd4220e">&#9670;&#160;</a></span>get_active_transactions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> &gt; sqlcc::TransactionManager::get_active_transactions </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves a list of all currently active transaction IDs. </p>
+<p>获取活动事务列表 </p><dl class="section return"><dt>返回</dt><dd>活动事务ID列表</dd>
+<dd>
+A <code>std::vector</code> containing the IDs of all active transactions. </dd></dl>
+
+</div>
+</div>
+<a id="a4a66af76280faae7e55c1048b7f18bb2" name="a4a66af76280faae7e55c1048b7f18bb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a66af76280faae7e55c1048b7f18bb2">&#9670;&#160;</a></span>get_transaction_isolation_level()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a> sqlcc::TransactionManager::get_transaction_isolation_level </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves the isolation level of a specified transaction. </p>
+<p>获取事务隔离级别 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>隔离级别</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The <code>IsolationLevel</code> of the transaction. </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if the transaction ID is not found. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7cff6d1da8adc701ea6893ac138fc823" name="a7cff6d1da8adc701ea6893ac138fc823"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cff6d1da8adc701ea6893ac138fc823">&#9670;&#160;</a></span>get_transaction_state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#a0c57d89a2dad7e9c0f7a8a52f9788835">TransactionState</a> sqlcc::TransactionManager::get_transaction_state </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves the current state of a specified transaction. </p>
+<p>获取事务状态 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>事务状态</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>The current <code>TransactionState</code> of the transaction. </dd></dl>
+<dl class="exception"><dt>异常</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::runtime_error</td><td>if the transaction ID is not found. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a93522d3a77a8c03cd47c15b8bb8a8929" name="a93522d3a77a8c03cd47c15b8bb8a8929"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93522d3a77a8c03cd47c15b8bb8a8929">&#9670;&#160;</a></span>get_transaction_stats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1TransactionManager_1_1TransactionStats.html">TransactionManager::TransactionStats</a> sqlcc::TransactionManager::get_transaction_stats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieves current statistics about transactions managed by the system. </p>
+<dl class="section return"><dt>返回</dt><dd>A <code><a class="el" href="structsqlcc_1_1TransactionManager_1_1TransactionStats.html">TransactionStats</a></code> struct containing various metrics. </dd></dl>
+
+</div>
+</div>
+<a id="a6643e0b9e287c5de529a1eef437c4567" name="a6643e0b9e287c5de529a1eef437c4567"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6643e0b9e287c5de529a1eef437c4567">&#9670;&#160;</a></span>log_operation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::TransactionManager::log_operation </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1LogEntry.html">LogEntry</a> &amp;&#160;</td>
+          <td class="paramname"><em>entry</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Logs an operation performed by a transaction into its private undo log. </p>
+<p>记录事务操作到日志 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">entry</td><td>日志条目</td></tr>
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction. </td></tr>
+    <tr><td class="paramname">entry</td><td>The <code><a class="el" href="structsqlcc_1_1LogEntry.html" title="操作日志条目 - 多版本并发控制（MVCC）的核心数据结构">LogEntry</a></code> detailing the operation to be logged. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="adbe345c0242744f4192b0a69cc30875c" name="adbe345c0242744f4192b0a69cc30875c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbe345c0242744f4192b0a69cc30875c">&#9670;&#160;</a></span>next_transaction_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> sqlcc::TransactionManager::next_transaction_id </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Generates and returns a new unique transaction ID. Uses an atomic operation to ensure thread-safe, sequential ID generation. </p>
+<p>获取下一个事务ID </p><dl class="section return"><dt>返回</dt><dd>新事务ID</dd>
+<dd>
+A unique <code><a class="el" href="classsqlcc_1_1TransactionId.html" title="事务ID类型 - 唯一标识一个事务">TransactionId</a></code>. </dd></dl>
+
+</div>
+</div>
+<a id="a755e6bebb4b804b97acd85542ad401e3" name="a755e6bebb4b804b97acd85542ad401e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a755e6bebb4b804b97acd85542ad401e3">&#9670;&#160;</a></span>release_all_locks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::TransactionManager::release_all_locks </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Public interface to release all locks held by a transaction. </p>
+<p>释放事务持有的所有锁 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This method acquires the manager's global mutex before calling the internal <code>release_all_locks_internal</code> to ensure thread safety when releasing locks. </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction whose locks are to be released. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a492ff389527343a8fc34c0231e95f3da" name="a492ff389527343a8fc34c0231e95f3da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a492ff389527343a8fc34c0231e95f3da">&#9670;&#160;</a></span>release_all_locks_internal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::TransactionManager::release_all_locks_internal </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Internal helper function to release all locks held by a specific transaction. </p>
+<p>释放事务持有的所有锁（内部版本，不加锁） </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This version does NOT acquire a mutex and assumes the caller (e.g., commit/rollback) already holds the manager's global mutex, preventing re-locking issues. </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction whose locks are to be released. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5722ea156091c14f0af60b4255ec2f60" name="a5722ea156091c14f0af60b4255ec2f60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5722ea156091c14f0af60b4255ec2f60">&#9670;&#160;</a></span>release_lock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::TransactionManager::release_lock </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>resource</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Releases a specific lock held by a transaction on a resource. </p>
+<p>释放锁 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">resource</td><td>资源标识</td></tr>
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction releasing the lock. </td></tr>
+    <tr><td class="paramname">resource</td><td>The identifier of the resource whose lock is to be released. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a43b84f7a79a083d913fc6f317eb18bf8" name="a43b84f7a79a083d913fc6f317eb18bf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43b84f7a79a083d913fc6f317eb18bf8">&#9670;&#160;</a></span>rollback_to_savepoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionManager::rollback_to_savepoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>savepoint_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rolls back an active transaction to a specified savepoint. Undoes changes made since the savepoint was created. </p>
+<p>回滚到保存点 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">savepoint_name</td><td>保存点名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction to roll back. </td></tr>
+    <tr><td class="paramname">savepoint_name</td><td>The name of the savepoint to roll back to. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>True if the rollback was successful, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a8e48b65d6115edc02d54f1fb347c0b85" name="a8e48b65d6115edc02d54f1fb347c0b85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e48b65d6115edc02d54f1fb347c0b85">&#9670;&#160;</a></span>rollback_transaction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionManager::rollback_transaction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rolls back an active transaction, undoing all its changes. </p>
+<p>回滚事务 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction to roll back. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>True if the transaction was successfully rolled back, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="ace73bda0d6f143120ee2778617fdb511" name="ace73bda0d6f143120ee2778617fdb511"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace73bda0d6f143120ee2778617fdb511">&#9670;&#160;</a></span>set_transaction_isolation_level()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionManager::set_transaction_isolation_level </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a>&#160;</td>
+          <td class="paramname"><em>level</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the isolation level for an active transaction. </p>
+<p>设置事务隔离级别 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">level</td><td>隔离级别 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功</dd></dl>
+<p>In this simplified implementation, the isolation level can only be set for an active transaction. In a full SQL implementation, it might be possible to change the isolation level mid-transaction, with certain restrictions. </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction. </td></tr>
+    <tr><td class="paramname">level</td><td>The new <code>IsolationLevel</code> to set. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>True if the isolation level was successfully set, false otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a8d96a51dcb7905030c1ae6dbe7632e57" name="a8d96a51dcb7905030c1ae6dbe7632e57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d96a51dcb7905030c1ae6dbe7632e57">&#9670;&#160;</a></span>set_transaction_timeout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::TransactionManager::set_transaction_timeout </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td>
+          <td class="paramname"><em>txn_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::milliseconds&#160;</td>
+          <td class="paramname"><em>timeout_ms</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets or updates the timeout duration for an active transaction. </p>
+<p>设置事务超时时间 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
+    <tr><td class="paramname">timeout_ms</td><td>超时时间（毫秒） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txn_id</td><td>The ID of the transaction. </td></tr>
+    <tr><td class="paramname">timeout_ms</td><td>The new timeout duration in milliseconds. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>True if the timeout was successfully set, false if the transaction is not found or not active. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a2ea57a41359c8c6c13acdcfc5b99b323" name="a2ea57a41359c8c6c13acdcfc5b99b323"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ea57a41359c8c6c13acdcfc5b99b323">&#9670;&#160;</a></span>lock_table_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, std::vector&lt;<a class="el" href="structsqlcc_1_1LockEntry.html">LockEntry</a>&gt; &gt; sqlcc::TransactionManager::lock_table_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>锁表 </p>
+
+</div>
+</div>
+<a id="a118d97323ed72d94df69496bf06407a8" name="a118d97323ed72d94df69496bf06407a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a118d97323ed72d94df69496bf06407a8">&#9670;&#160;</a></span>mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::TransactionManager::mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>互斥锁 </p>
+
+</div>
+</div>
+<a id="a93be6a5d950cafd7fd39c9002ecf2baf" name="a93be6a5d950cafd7fd39c9002ecf2baf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93be6a5d950cafd7fd39c9002ecf2baf">&#9670;&#160;</a></span>nested_transactions_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>, <a class="el" href="structsqlcc_1_1NestedTransaction.html">NestedTransaction</a>&gt; sqlcc::TransactionManager::nested_transactions_</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>获取嵌套事务表 </p>
+
+</div>
+</div>
+<a id="a64693b580dd5d678b4116fdfe05dd618" name="a64693b580dd5d678b4116fdfe05dd618"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64693b580dd5d678b4116fdfe05dd618">&#9670;&#160;</a></span>next_txn_id_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&gt; sqlcc::TransactionManager::next_txn_id_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>事务ID生成器 </p>
+
+</div>
+</div>
+<a id="ab35bd4768f3c8a11b90beed16ff30767" name="ab35bd4768f3c8a11b90beed16ff30767"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab35bd4768f3c8a11b90beed16ff30767">&#9670;&#160;</a></span>transactions_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>, <a class="el" href="classsqlcc_1_1Transaction.html">Transaction</a>&gt; sqlcc::TransactionManager::transactions_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>事务表 </p>
+
+</div>
+</div>
+<a id="aba87f1b666716f0f834cd6f1bf47b80c" name="aba87f1b666716f0f834cd6f1bf47b80c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba87f1b666716f0f834cd6f1bf47b80c">&#9670;&#160;</a></span>wait_graph_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>, std::unordered_set&lt;<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&gt; &gt; sqlcc::TransactionManager::wait_graph_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>等待图结构（用于死锁检测） </p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="transaction__manager_8h_source.html">transaction_manager.h</a></li>
+<li><a class="el" href="transaction__manager_8cpp.html">transaction_manager.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,573 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: config_snapshot.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_313caf1132e152dd9b58bea13a4052ca.html">utils</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">config_snapshot.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="config__snapshot_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="preprocessor">#ifndef SQLCC_CONFIG_SNAPSHOT_H_</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="preprocessor">#define SQLCC_CONFIG_SNAPSHOT_H_</span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span><span class="preprocessor">#include &lt;variant&gt;</span></div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span><span class="preprocessor">#include &lt;shared_mutex&gt;</span></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span> </div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span><span class="keyword">using </span><a class="code hl_typedef" href="namespacesqlcc.html#ae2f4bc4eee37aaf01276a62a2a79dc0a">ConfigValue</a> = std::variant&lt;bool, int, double, std::string&gt;;</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span> </div>
+<div class="foldopen" id="foldopen00260" data-start="{" data-end="};">
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html">  260</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1ConfigSnapshot.html">ConfigSnapshot</a> {</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">  265</a></span>    <span class="keyword">using </span><a class="code hl_typedef" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">SnapshotPtr</a> = std::shared_ptr&lt;const ConfigSnapshot&gt;;</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a9554cbca3fe2e7dea5b06ca898e748fd">  266</a></span>    <span class="keyword">using </span><a class="code hl_typedef" href="classsqlcc_1_1ConfigSnapshot.html#a9554cbca3fe2e7dea5b06ca898e748fd">MutableSnapshotPtr</a> = std::shared_ptr&lt;ConfigSnapshot&gt;;</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#ab5b98beb14d8994f7beca5ee2f4f1b41">  267</a></span>    <span class="keyword">using </span><a class="code hl_typedef" href="classsqlcc_1_1ConfigSnapshot.html#ab5b98beb14d8994f7beca5ee2f4f1b41">WeakSnapshotPtr</a> = std::weak_ptr&lt;const ConfigSnapshot&gt;;</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span> </div>
+<div class="foldopen" id="foldopen00272" data-start="{" data-end="};">
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html">  272</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html">SnapshotMetadata</a> {</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a6f9eddf2d972026cda24bc20323aefef">  273</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a6f9eddf2d972026cda24bc20323aefef">version_id</a>;                    <span class="comment">// 版本ID</span></div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a1803e45f1c6033ca50b23ef86156c80d">  274</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a1803e45f1c6033ca50b23ef86156c80d">description</a>;                   <span class="comment">// 描述信息</span></div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#af4ead114fe7b1f439e44720e549a062a">  275</a></span>        std::chrono::system_clock::time_point <a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#af4ead114fe7b1f439e44720e549a062a">create_time</a>;  <span class="comment">// 创建时间</span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#af57cf4c433de5fbf2d9c29b970906d68">  276</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#af57cf4c433de5fbf2d9c29b970906d68">parent_version</a>;               <span class="comment">// 父版本ID</span></div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a5fb9c6a587a4f049ba1b76693eec68ae">  277</a></span>        <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a5fb9c6a587a4f049ba1b76693eec68ae">config_count</a>;                      <span class="comment">// 配置项数量</span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a7856b4f3654605df4ba92aa814ad4644">  278</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a7856b4f3654605df4ba92aa814ad4644">checksum</a>;                     <span class="comment">// 数据校验和</span></div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    };</div>
+</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">  285</a></span>    <span class="keyword">const</span> std::unordered_map&lt;std::string, ConfigValue&gt; <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">config_data_</a>;</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>    </div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a515fa3594387ecd4a81d47caa02914d2">  290</a></span>    <span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html">SnapshotMetadata</a> <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a515fa3594387ecd4a81d47caa02914d2">metadata_</a>;</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    </div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#ad6aedec77b174fb9f020c1f60bd2a322">  295</a></span>    <span class="keyword">mutable</span> std::atomic&lt;int&gt; <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#ad6aedec77b174fb9f020c1f60bd2a322">access_count_</a>{0};</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span> </div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00303" data-start="{" data-end="}">
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a6c83af8b34169285f74b652f0d57debf">  303</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#a6c83af8b34169285f74b652f0d57debf">ConfigSnapshot</a>(</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>        <span class="keyword">const</span> std::unordered_map&lt;std::string, ConfigValue&gt;&amp; config_data,</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>        <span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html">SnapshotMetadata</a>&amp; metadata)</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>        : <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">config_data_</a>(config_data), <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a515fa3594387ecd4a81d47caa02914d2">metadata_</a>(metadata) {}</div>
+</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span> </div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#ab49c25637e4d5cb5da25d52424077e98">  311</a></span>    <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#ab49c25637e4d5cb5da25d52424077e98">~ConfigSnapshot</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span> </div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>    <span class="comment">// 禁止拷贝构造和赋值（使用智能指针管理）</span></div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a89dc18221de1cb4a56de746d6673f8e2">  314</a></span>    <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#a89dc18221de1cb4a56de746d6673f8e2">ConfigSnapshot</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1ConfigSnapshot.html">ConfigSnapshot</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a6b7a613f284aa0212d7f37045e39456a">  315</a></span>    <a class="code hl_class" href="classsqlcc_1_1ConfigSnapshot.html">ConfigSnapshot</a>&amp; <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#a6b7a613f284aa0212d7f37045e39456a">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1ConfigSnapshot.html">ConfigSnapshot</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span> </div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>    <span class="comment">// 允许移动构造和赋值</span></div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a7081b1dcc8b8d27eecdead7306406b89">  318</a></span>    <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#a7081b1dcc8b8d27eecdead7306406b89">ConfigSnapshot</a>(<a class="code hl_class" href="classsqlcc_1_1ConfigSnapshot.html">ConfigSnapshot</a>&amp;&amp;) noexcept = default;</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a22bce5072660317dbe63df6214105830">  319</a></span>    <a class="code hl_class" href="classsqlcc_1_1ConfigSnapshot.html">ConfigSnapshot</a>&amp; operator=(<a class="code hl_class" href="classsqlcc_1_1ConfigSnapshot.html">ConfigSnapshot</a>&amp;&amp;) noexcept = default;</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span> </div>
+<div class="foldopen" id="foldopen00327" data-start="{" data-end="}">
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#ae735d0b336e66366e7b0fc3f997e618e">  327</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#ae735d0b336e66366e7b0fc3f997e618e">GetValue</a>(const std::<span class="keywordtype">string</span>&amp; key, <a class="code hl_typedef" href="namespacesqlcc.html#ae2f4bc4eee37aaf01276a62a2a79dc0a">ConfigValue</a>&amp; value)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>        <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#ad6aedec77b174fb9f020c1f60bd2a322">access_count_</a>.fetch_add(1, std::memory_order_relaxed);</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>        </div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>        <span class="keyword">auto</span> it = <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">config_data_</a>.find(key);</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>        <span class="keywordflow">if</span> (it != <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">config_data_</a>.end()) {</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>            value = it-&gt;second;</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>        }</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>    }</div>
+</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span> </div>
+<div class="foldopen" id="foldopen00343" data-start="{" data-end="}">
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#aa8882bc943ffa3805545b1a0eeac9b74">  343</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#aa8882bc943ffa3805545b1a0eeac9b74">HasKey</a>(<span class="keyword">const</span> std::string&amp; key)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>        <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#ad6aedec77b174fb9f020c1f60bd2a322">access_count_</a>.fetch_add(1, std::memory_order_relaxed);</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">config_data_</a>.find(key) != <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">config_data_</a>.end();</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>    }</div>
+</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span> </div>
+<div class="foldopen" id="foldopen00352" data-start="{" data-end="}">
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a9e7102f9780efb128aec86a6f93e3185">  352</a></span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#a9e7102f9780efb128aec86a6f93e3185">GetAllKeys</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>        <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#ad6aedec77b174fb9f020c1f60bd2a322">access_count_</a>.fetch_add(1, std::memory_order_relaxed);</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>        </div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>        std::vector&lt;std::string&gt; keys;</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>        keys.reserve(<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">config_data_</a>.size());</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>        </div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; [key, value] : <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">config_data_</a>) {</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>            keys.push_back(key);</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>        }</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>        </div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>        <span class="keywordflow">return</span> keys;</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    }</div>
+</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span> </div>
+<div class="foldopen" id="foldopen00370" data-start="{" data-end="}">
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a441566a87294ebe896a4daacf2b8da87">  370</a></span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#a441566a87294ebe896a4daacf2b8da87">GetKeysWithPrefix</a>(<span class="keyword">const</span> std::string&amp; prefix)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>        <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#ad6aedec77b174fb9f020c1f60bd2a322">access_count_</a>.fetch_add(1, std::memory_order_relaxed);</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>        </div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>        std::vector&lt;std::string&gt; keys;</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>        </div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; [key, value] : <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">config_data_</a>) {</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>            <span class="keywordflow">if</span> (key.find(prefix) == 0) {</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>                keys.push_back(key);</div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>            }</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>        }</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>        </div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>        <span class="keywordflow">return</span> keys;</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>    }</div>
+</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span> </div>
+<div class="foldopen" id="foldopen00388" data-start="{" data-end="}">
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a8c5191e86d4d58795a7be5e4e1e4e604">  388</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#a8c5191e86d4d58795a7be5e4e1e4e604">GetConfigCount</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">config_data_</a>.size();</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>    }</div>
+</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span> </div>
+<div class="foldopen" id="foldopen00396" data-start="{" data-end="}">
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a7ebef631f9f726633dfae1fba6eb956b">  396</a></span>    <span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html">SnapshotMetadata</a>&amp; <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#a7ebef631f9f726633dfae1fba6eb956b">GetMetadata</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a515fa3594387ecd4a81d47caa02914d2">metadata_</a>;</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>    }</div>
+</div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span> </div>
+<div class="foldopen" id="foldopen00404" data-start="{" data-end="}">
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#aa637a11147c32d327383ef3f98403a9d">  404</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#aa637a11147c32d327383ef3f98403a9d">GetAccessCount</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#ad6aedec77b174fb9f020c1f60bd2a322">access_count_</a>.load(std::memory_order_relaxed);</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>    }</div>
+</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span> </div>
+<div class="foldopen" id="foldopen00412" data-start="{" data-end="}">
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a6f64770e95533831bba53b77ab32eaeb">  412</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#a6f64770e95533831bba53b77ab32eaeb">CalculateChecksum</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>        <span class="comment">// 简单的校验和计算，实际项目中可以使用更复杂的哈希算法</span></div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>        <span class="keywordtype">size_t</span> hash = 0;</div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; [key, value] : <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">config_data_</a>) {</div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>            std::hash&lt;std::string&gt; hasher;</div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>            hash ^= hasher(key) + 0x9e3779b9 + (hash &lt;&lt; 6) + (hash &gt;&gt; 2);</div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>            </div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>            <span class="comment">// 对配置值也进行哈希</span></div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>            std::visit([&amp;hash, &amp;hasher](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; val) {</div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>                <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_same_v&lt;std::decay_t&lt;<span class="keyword">decltype</span>(val)&gt;, std::string&gt;) {</div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>                    hash ^= hasher(val) + 0x9e3779b9 + (hash &lt;&lt; 6) + (hash &gt;&gt; 2);</div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>                } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>                    hash ^= std::hash&lt;std::decay_t&lt;<span class="keyword">decltype</span>(val)&gt;&gt;{}(val) + 0x9e3779b9 + (hash &lt;&lt; 6) + (hash &gt;&gt; 2);</div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>                }</div>
+<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>            }, value);</div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>        }</div>
+<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>        </div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>        <span class="keywordflow">return</span> std::to_string(hash);</div>
+<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>    }</div>
+</div>
+<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span> </div>
+<div class="foldopen" id="foldopen00436" data-start="{" data-end="}">
+<div class="line"><a id="l00436" name="l00436"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a3a63d8522fbb22feb47c6c10b97f3f81">  436</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#a3a63d8522fbb22feb47c6c10b97f3f81">ValidateIntegrity</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#a6f64770e95533831bba53b77ab32eaeb">CalculateChecksum</a>() == <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a515fa3594387ecd4a81d47caa02914d2">metadata_</a>.<a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a7856b4f3654605df4ba92aa814ad4644">checksum</a>;</div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>    }</div>
+</div>
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span> </div>
+<div class="foldopen" id="foldopen00444" data-start="{" data-end="}">
+<div class="line"><a id="l00444" name="l00444"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#adef3e7d34356c4896539e3ce86e1c212">  444</a></span>    <a class="code hl_typedef" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">SnapshotPtr</a> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#adef3e7d34356c4896539e3ce86e1c212">Clone</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>        <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#ad6aedec77b174fb9f020c1f60bd2a322">access_count_</a>.fetch_add(1, std::memory_order_relaxed);</div>
+<div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span>        </div>
+<div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span>        <span class="comment">// 创建新的元数据，保持版本ID但更新时间</span></div>
+<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span>        <a class="code hl_struct" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html">SnapshotMetadata</a> new_metadata = <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a515fa3594387ecd4a81d47caa02914d2">metadata_</a>;</div>
+<div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span>        new_metadata.<a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#af4ead114fe7b1f439e44720e549a062a">create_time</a> = std::chrono::system_clock::now();</div>
+<div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span>        new_metadata.<a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#af57cf4c433de5fbf2d9c29b970906d68">parent_version</a> = <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a515fa3594387ecd4a81d47caa02914d2">metadata_</a>.<a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a6f9eddf2d972026cda24bc20323aefef">version_id</a>;</div>
+<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span>        </div>
+<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span>        <span class="keywordflow">return</span> std::make_shared&lt;ConfigSnapshot&gt;(<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">config_data_</a>, new_metadata);</div>
+<div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span>    }</div>
+</div>
+<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span> </div>
+<div class="foldopen" id="foldopen00460" data-start="{" data-end="}">
+<div class="line"><a id="l00460" name="l00460"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshot.html#a0e9ec28422bbbac3cdfbb954ba7b84fb">  460</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#a0e9ec28422bbbac3cdfbb954ba7b84fb">Equals</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1ConfigSnapshot.html">ConfigSnapshot</a>&amp; other)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">config_data_</a> == other.<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">config_data_</a> &amp;&amp; </div>
+<div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span>               <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a515fa3594387ecd4a81d47caa02914d2">metadata_</a>.<a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a6f9eddf2d972026cda24bc20323aefef">version_id</a> == other.<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshot.html#a515fa3594387ecd4a81d47caa02914d2">metadata_</a>.<a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a6f9eddf2d972026cda24bc20323aefef">version_id</a>;</div>
+<div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span>    }</div>
+</div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>};</div>
+</div>
+<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span> </div>
+<div class="foldopen" id="foldopen00471" data-start="{" data-end="};">
+<div class="line"><a id="l00471" name="l00471"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotFactory.html">  471</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1ConfigSnapshotFactory.html">ConfigSnapshotFactory</a> {</div>
+<div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00480" data-start="{" data-end="}">
+<div class="line"><a id="l00480" name="l00480"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotFactory.html#a0f67a595a1b0bb0d1def2dad2204bf28">  480</a></span>    <span class="keyword">static</span> <a class="code hl_typedef" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">ConfigSnapshot::SnapshotPtr</a> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotFactory.html#a0f67a595a1b0bb0d1def2dad2204bf28">CreateSnapshot</a>(</div>
+<div class="line"><a id="l00481" name="l00481"></a><span class="lineno">  481</span>        <span class="keyword">const</span> std::unordered_map&lt;std::string, ConfigValue&gt;&amp; config_data,</div>
+<div class="line"><a id="l00482" name="l00482"></a><span class="lineno">  482</span>        <span class="keyword">const</span> std::string&amp; version_id,</div>
+<div class="line"><a id="l00483" name="l00483"></a><span class="lineno">  483</span>        <span class="keyword">const</span> std::string&amp; description = <span class="stringliteral">&quot;&quot;</span>) {</div>
+<div class="line"><a id="l00484" name="l00484"></a><span class="lineno">  484</span>        </div>
+<div class="line"><a id="l00485" name="l00485"></a><span class="lineno">  485</span>        <a class="code hl_struct" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html">ConfigSnapshot::SnapshotMetadata</a> metadata;</div>
+<div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>        metadata.<a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a6f9eddf2d972026cda24bc20323aefef">version_id</a> = version_id;</div>
+<div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span>        metadata.<a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a1803e45f1c6033ca50b23ef86156c80d">description</a> = description;</div>
+<div class="line"><a id="l00488" name="l00488"></a><span class="lineno">  488</span>        metadata.<a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#af4ead114fe7b1f439e44720e549a062a">create_time</a> = std::chrono::system_clock::now();</div>
+<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>        metadata.<a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a5fb9c6a587a4f049ba1b76693eec68ae">config_count</a> = config_data.size();</div>
+<div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span>        </div>
+<div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span>        <span class="comment">// 创建临时快照以计算校验和</span></div>
+<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>        <a class="code hl_class" href="classsqlcc_1_1ConfigSnapshot.html">ConfigSnapshot</a> temp_snapshot(config_data, metadata);</div>
+<div class="line"><a id="l00493" name="l00493"></a><span class="lineno">  493</span>        metadata.<a class="code hl_variable" href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a7856b4f3654605df4ba92aa814ad4644">checksum</a> = temp_snapshot.<a class="code hl_function" href="classsqlcc_1_1ConfigSnapshot.html#a6f64770e95533831bba53b77ab32eaeb">CalculateChecksum</a>();</div>
+<div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span>        </div>
+<div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>        <span class="keywordflow">return</span> std::make_shared&lt;ConfigSnapshot&gt;(config_data, metadata);</div>
+<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span>    }</div>
+</div>
+<div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span> </div>
+<div class="foldopen" id="foldopen00504" data-start="{" data-end="}">
+<div class="line"><a id="l00504" name="l00504"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotFactory.html#ab866d4412cf0b2bf0c9c126f70dbe3f9">  504</a></span>    <span class="keyword">static</span> <a class="code hl_typedef" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">ConfigSnapshot::SnapshotPtr</a> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotFactory.html#ab866d4412cf0b2bf0c9c126f70dbe3f9">CreateEmptySnapshot</a>(</div>
+<div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span>        <span class="keyword">const</span> std::string&amp; version_id,</div>
+<div class="line"><a id="l00506" name="l00506"></a><span class="lineno">  506</span>        <span class="keyword">const</span> std::string&amp; description = <span class="stringliteral">&quot;&quot;</span>) {</div>
+<div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span>        </div>
+<div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span>        std::unordered_map&lt;std::string, ConfigValue&gt; empty_data;</div>
+<div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotFactory.html#a0f67a595a1b0bb0d1def2dad2204bf28">CreateSnapshot</a>(empty_data, version_id, description);</div>
+<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span>    }</div>
+</div>
+<div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span> </div>
+<div class="foldopen" id="foldopen00520" data-start="{" data-end="}">
+<div class="line"><a id="l00520" name="l00520"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotFactory.html#a187d3f76ead862cd9c4d63b64c9f9190">  520</a></span>    <span class="keyword">static</span> <a class="code hl_typedef" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">ConfigSnapshot::SnapshotPtr</a> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotFactory.html#a187d3f76ead862cd9c4d63b64c9f9190">MergeSnapshots</a>(</div>
+<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>        <span class="keyword">const</span> <a class="code hl_typedef" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">ConfigSnapshot::SnapshotPtr</a>&amp; base_snapshot,</div>
+<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>        <span class="keyword">const</span> <a class="code hl_typedef" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">ConfigSnapshot::SnapshotPtr</a>&amp; override_snapshot,</div>
+<div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span>        <span class="keyword">const</span> std::string&amp; new_version_id,</div>
+<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>        <span class="keyword">const</span> std::string&amp; description = <span class="stringliteral">&quot;&quot;</span>) {</div>
+<div class="line"><a id="l00525" name="l00525"></a><span class="lineno">  525</span>        </div>
+<div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span>        <span class="keywordflow">if</span> (!base_snapshot) {</div>
+<div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span>            <span class="keywordflow">return</span> override_snapshot;</div>
+<div class="line"><a id="l00528" name="l00528"></a><span class="lineno">  528</span>        }</div>
+<div class="line"><a id="l00529" name="l00529"></a><span class="lineno">  529</span>        </div>
+<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>        <span class="keywordflow">if</span> (!override_snapshot) {</div>
+<div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span>            <span class="keywordflow">return</span> base_snapshot;</div>
+<div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span>        }</div>
+<div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span>        </div>
+<div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span>        <span class="comment">// 获取基础配置数据</span></div>
+<div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span>        <span class="keyword">auto</span> base_keys = base_snapshot-&gt;GetAllKeys();</div>
+<div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span>        std::unordered_map&lt;std::string, ConfigValue&gt; merged_data;</div>
+<div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>        </div>
+<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span>        <span class="comment">// 复制基础配置</span></div>
+<div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; key : base_keys) {</div>
+<div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span>            <a class="code hl_typedef" href="namespacesqlcc.html#ae2f4bc4eee37aaf01276a62a2a79dc0a">ConfigValue</a> value;</div>
+<div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span>            <span class="keywordflow">if</span> (base_snapshot-&gt;GetValue(key, value)) {</div>
+<div class="line"><a id="l00542" name="l00542"></a><span class="lineno">  542</span>                merged_data[key] = value;</div>
+<div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span>            }</div>
+<div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span>        }</div>
+<div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span>        </div>
+<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span>        <span class="comment">// 应用覆盖配置</span></div>
+<div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span>        <span class="keyword">auto</span> override_keys = override_snapshot-&gt;GetAllKeys();</div>
+<div class="line"><a id="l00548" name="l00548"></a><span class="lineno">  548</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; key : override_keys) {</div>
+<div class="line"><a id="l00549" name="l00549"></a><span class="lineno">  549</span>            <a class="code hl_typedef" href="namespacesqlcc.html#ae2f4bc4eee37aaf01276a62a2a79dc0a">ConfigValue</a> value;</div>
+<div class="line"><a id="l00550" name="l00550"></a><span class="lineno">  550</span>            <span class="keywordflow">if</span> (override_snapshot-&gt;GetValue(key, value)) {</div>
+<div class="line"><a id="l00551" name="l00551"></a><span class="lineno">  551</span>                merged_data[key] = value;  <span class="comment">// 覆盖或新增</span></div>
+<div class="line"><a id="l00552" name="l00552"></a><span class="lineno">  552</span>            }</div>
+<div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span>        }</div>
+<div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span>        </div>
+<div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotFactory.html#a0f67a595a1b0bb0d1def2dad2204bf28">CreateSnapshot</a>(merged_data, new_version_id, description);</div>
+<div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>    }</div>
+</div>
+<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>};</div>
+</div>
+<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span> </div>
+<div class="foldopen" id="foldopen00564" data-start="{" data-end="};">
+<div class="line"><a id="l00564" name="l00564"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html">  564</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1ConfigSnapshotManager.html">ConfigSnapshotManager</a> {</div>
+<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00566" name="l00566"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#acc7a144daa5e44dd40d8f8dd0e0ab252">  566</a></span>    <span class="keyword">mutable</span> std::shared_mutex <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acc7a144daa5e44dd40d8f8dd0e0ab252">snapshots_mutex_</a>;</div>
+<div class="line"><a id="l00567" name="l00567"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">  567</a></span>    std::unordered_map&lt;std::string, ConfigSnapshot::SnapshotPtr&gt; <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>;</div>
+<div class="line"><a id="l00568" name="l00568"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#a9b4057fc34819a7ddc9bb5fa0b02a8c0">  568</a></span>    <a class="code hl_typedef" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">ConfigSnapshot::SnapshotPtr</a> <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#a9b4057fc34819a7ddc9bb5fa0b02a8c0">current_snapshot_</a>;</div>
+<div class="line"><a id="l00569" name="l00569"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#acb2bf271a871ec9a1d5a03234a9c7308">  569</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acb2bf271a871ec9a1d5a03234a9c7308">current_version_id_</a>;</div>
+<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>    </div>
+<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>    <span class="comment">// 快照历史记录（用于回滚）</span></div>
+<div class="line"><a id="l00572" name="l00572"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#abf13c1470221d7ede9a379a0738e92cf">  572</a></span>    std::vector&lt;std::string&gt; <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#abf13c1470221d7ede9a379a0738e92cf">version_history_</a>;</div>
+<div class="line"><a id="l00573" name="l00573"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#a62fae2c99c177a383679605f8e738778">  573</a></span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">size_t</span> <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#a62fae2c99c177a383679605f8e738778">kMaxHistorySize</a> = 100;</div>
+<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span> </div>
+<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00576" name="l00576"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#a10b690519cc32f8b3cd3cca82bda133f">  576</a></span>    <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#a10b690519cc32f8b3cd3cca82bda133f">ConfigSnapshotManager</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00577" name="l00577"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#a2ad269f6fa2366a3e2d16c774f90b8d8">  577</a></span>    <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#a2ad269f6fa2366a3e2d16c774f90b8d8">~ConfigSnapshotManager</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>    </div>
+<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>    <span class="comment">// 禁止拷贝，允许移动</span></div>
+<div class="line"><a id="l00580" name="l00580"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#aff9bcf0080521f3ade5411866d0987fa">  580</a></span>    <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#aff9bcf0080521f3ade5411866d0987fa">ConfigSnapshotManager</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1ConfigSnapshotManager.html">ConfigSnapshotManager</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00581" name="l00581"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#a73cb1987b65caf93d69f98388096331b">  581</a></span>    <a class="code hl_class" href="classsqlcc_1_1ConfigSnapshotManager.html">ConfigSnapshotManager</a>&amp; <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#a73cb1987b65caf93d69f98388096331b">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1ConfigSnapshotManager.html">ConfigSnapshotManager</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>    </div>
+<div class="line"><a id="l00583" name="l00583"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#a956723e6609465caa0a58aafc39f4b87">  583</a></span>    <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#a956723e6609465caa0a58aafc39f4b87">ConfigSnapshotManager</a>(<a class="code hl_class" href="classsqlcc_1_1ConfigSnapshotManager.html">ConfigSnapshotManager</a>&amp;&amp;) noexcept = default;</div>
+<div class="line"><a id="l00584" name="l00584"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#ae234c9031d4b227bc4f850610df42a5e">  584</a></span>    <a class="code hl_class" href="classsqlcc_1_1ConfigSnapshotManager.html">ConfigSnapshotManager</a>&amp; operator=(<a class="code hl_class" href="classsqlcc_1_1ConfigSnapshotManager.html">ConfigSnapshotManager</a>&amp;&amp;) noexcept = default;</div>
+<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span> </div>
+<div class="foldopen" id="foldopen00591" data-start="{" data-end="}">
+<div class="line"><a id="l00591" name="l00591"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#a8e8b2797085c899392f905068138321c">  591</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#a8e8b2797085c899392f905068138321c">AddSnapshot</a>(const <a class="code hl_class" href="classsqlcc_1_1ConfigSnapshot.html">ConfigSnapshot</a>::SnapshotPtr&amp; snapshot) {</div>
+<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>        <span class="keywordflow">if</span> (!snapshot) {</div>
+<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>        }</div>
+<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>        </div>
+<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>        std::unique_lock&lt;std::shared_mutex&gt; lock(<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acc7a144daa5e44dd40d8f8dd0e0ab252">snapshots_mutex_</a>);</div>
+<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>        </div>
+<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; version_id = snapshot-&gt;GetMetadata().version_id;</div>
+<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>        <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>[version_id] = snapshot;</div>
+<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>        </div>
+<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>        <span class="comment">// 更新当前快照</span></div>
+<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>        <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#a9b4057fc34819a7ddc9bb5fa0b02a8c0">current_snapshot_</a> = snapshot;</div>
+<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>        <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acb2bf271a871ec9a1d5a03234a9c7308">current_version_id_</a> = version_id;</div>
+<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>        </div>
+<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>        <span class="comment">// 更新版本历史</span></div>
+<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>        <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#abf13c1470221d7ede9a379a0738e92cf">version_history_</a>.push_back(version_id);</div>
+<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#abf13c1470221d7ede9a379a0738e92cf">version_history_</a>.size() &gt; <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#a62fae2c99c177a383679605f8e738778">kMaxHistorySize</a>) {</div>
+<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>            <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#abf13c1470221d7ede9a379a0738e92cf">version_history_</a>.erase(<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#abf13c1470221d7ede9a379a0738e92cf">version_history_</a>.begin());</div>
+<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>        }</div>
+<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>        </div>
+<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span>    }</div>
+</div>
+<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span> </div>
+<div class="foldopen" id="foldopen00619" data-start="{" data-end="}">
+<div class="line"><a id="l00619" name="l00619"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#a5fc951b7c40f02e9efe7b0ded08d713a">  619</a></span>    <a class="code hl_typedef" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">ConfigSnapshot::SnapshotPtr</a> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#a5fc951b7c40f02e9efe7b0ded08d713a">GetSnapshot</a>(<span class="keyword">const</span> std::string&amp; version_id)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>        std::shared_lock&lt;std::shared_mutex&gt; lock(<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acc7a144daa5e44dd40d8f8dd0e0ab252">snapshots_mutex_</a>);</div>
+<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>        </div>
+<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>        <span class="keyword">auto</span> it = <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>.find(version_id);</div>
+<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>        <span class="keywordflow">if</span> (it != <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>.end()) {</div>
+<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>            <span class="keywordflow">return</span> it-&gt;second;</div>
+<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>        }</div>
+<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span>        </div>
+<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>    }</div>
+</div>
+<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span> </div>
+<div class="foldopen" id="foldopen00634" data-start="{" data-end="}">
+<div class="line"><a id="l00634" name="l00634"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#a8baceada80f534b6580f99209f9461d0">  634</a></span>    <a class="code hl_typedef" href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">ConfigSnapshot::SnapshotPtr</a> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#a8baceada80f534b6580f99209f9461d0">GetCurrentSnapshot</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>        std::shared_lock&lt;std::shared_mutex&gt; lock(<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acc7a144daa5e44dd40d8f8dd0e0ab252">snapshots_mutex_</a>);</div>
+<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#a9b4057fc34819a7ddc9bb5fa0b02a8c0">current_snapshot_</a>;</div>
+<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>    }</div>
+</div>
+<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span> </div>
+<div class="foldopen" id="foldopen00643" data-start="{" data-end="}">
+<div class="line"><a id="l00643" name="l00643"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#aee5f67c18ce68a47d5e0ef9377d28543">  643</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#aee5f67c18ce68a47d5e0ef9377d28543">GetCurrentVersionId</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>        std::shared_lock&lt;std::shared_mutex&gt; lock(<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acc7a144daa5e44dd40d8f8dd0e0ab252">snapshots_mutex_</a>);</div>
+<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acb2bf271a871ec9a1d5a03234a9c7308">current_version_id_</a>;</div>
+<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>    }</div>
+</div>
+<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span> </div>
+<div class="foldopen" id="foldopen00653" data-start="{" data-end="}">
+<div class="line"><a id="l00653" name="l00653"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#a8592f1644a4c707517907a4d7fba760c">  653</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#a8592f1644a4c707517907a4d7fba760c">RemoveSnapshot</a>(<span class="keyword">const</span> std::string&amp; version_id) {</div>
+<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>        std::unique_lock&lt;std::shared_mutex&gt; lock(<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acc7a144daa5e44dd40d8f8dd0e0ab252">snapshots_mutex_</a>);</div>
+<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>        </div>
+<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>        <span class="comment">// 不能删除当前版本</span></div>
+<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>        <span class="keywordflow">if</span> (version_id == <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acb2bf271a871ec9a1d5a03234a9c7308">current_version_id_</a>) {</div>
+<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>        }</div>
+<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>        </div>
+<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>.erase(version_id) &gt; 0;</div>
+<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>    }</div>
+</div>
+<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span> </div>
+<div class="foldopen" id="foldopen00669" data-start="{" data-end="}">
+<div class="line"><a id="l00669" name="l00669"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#a40212ee2c9b347e83426d4e5ac39d52d">  669</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#a40212ee2c9b347e83426d4e5ac39d52d">CleanupSnapshots</a>(<span class="keywordtype">size_t</span> keep_versions = 10) {</div>
+<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>        std::unique_lock&lt;std::shared_mutex&gt; lock(<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acc7a144daa5e44dd40d8f8dd0e0ab252">snapshots_mutex_</a>);</div>
+<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>        </div>
+<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>.size() &lt;= keep_versions) {</div>
+<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>            <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>        }</div>
+<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>        </div>
+<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>        <span class="keywordtype">size_t</span> removed_count = 0;</div>
+<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>        <span class="keyword">auto</span> it = <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>.begin();</div>
+<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>        </div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>        <span class="keywordflow">while</span> (it != <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>.end() &amp;&amp; <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>.size() &gt; keep_versions) {</div>
+<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>            <span class="comment">// 跳过当前版本</span></div>
+<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>            <span class="keywordflow">if</span> (it-&gt;first == <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acb2bf271a871ec9a1d5a03234a9c7308">current_version_id_</a>) {</div>
+<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>                ++it;</div>
+<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>            }</div>
+<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>            </div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>            it = <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>.erase(it);</div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>            ++removed_count;</div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>        }</div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>        </div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>        <span class="keywordflow">return</span> removed_count;</div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>    }</div>
+</div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span> </div>
+<div class="foldopen" id="foldopen00697" data-start="{" data-end="}">
+<div class="line"><a id="l00697" name="l00697"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#a9962be2ac8b1c8ef5d3b631172de178c">  697</a></span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#a9962be2ac8b1c8ef5d3b631172de178c">GetAllVersionIds</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>        std::shared_lock&lt;std::shared_mutex&gt; lock(<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acc7a144daa5e44dd40d8f8dd0e0ab252">snapshots_mutex_</a>);</div>
+<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>        </div>
+<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>        std::vector&lt;std::string&gt; version_ids;</div>
+<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>        version_ids.reserve(<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>.size());</div>
+<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>        </div>
+<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; [version_id, snapshot] : <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>) {</div>
+<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>            version_ids.push_back(version_id);</div>
+<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>        }</div>
+<div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span>        </div>
+<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>        <span class="keywordflow">return</span> version_ids;</div>
+<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>    }</div>
+</div>
+<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span> </div>
+<div class="foldopen" id="foldopen00714" data-start="{" data-end="}">
+<div class="line"><a id="l00714" name="l00714"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#ae7ba26ba557d8120a629887ae5df0669">  714</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#ae7ba26ba557d8120a629887ae5df0669">GetSnapshotCount</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>        std::shared_lock&lt;std::shared_mutex&gt; lock(<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acc7a144daa5e44dd40d8f8dd0e0ab252">snapshots_mutex_</a>);</div>
+<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>.size();</div>
+<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>    }</div>
+</div>
+<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span> </div>
+<div class="foldopen" id="foldopen00724" data-start="{" data-end="}">
+<div class="line"><a id="l00724" name="l00724"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#ae715b00a6f5a92a46f27e321198f318a">  724</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#ae715b00a6f5a92a46f27e321198f318a">RollbackToVersion</a>(<span class="keyword">const</span> std::string&amp; version_id) {</div>
+<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>        std::unique_lock&lt;std::shared_mutex&gt; lock(<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acc7a144daa5e44dd40d8f8dd0e0ab252">snapshots_mutex_</a>);</div>
+<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>        </div>
+<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>        <span class="keyword">auto</span> it = <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>.find(version_id);</div>
+<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>        <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">snapshots_</a>.end()) {</div>
+<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>        }</div>
+<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>        </div>
+<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>        <span class="comment">// 更新当前快照和版本ID</span></div>
+<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>        <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#a9b4057fc34819a7ddc9bb5fa0b02a8c0">current_snapshot_</a> = it-&gt;second;</div>
+<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>        <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acb2bf271a871ec9a1d5a03234a9c7308">current_version_id_</a> = version_id;</div>
+<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>        </div>
+<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>        <span class="comment">// 添加到历史记录</span></div>
+<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>        <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#abf13c1470221d7ede9a379a0738e92cf">version_history_</a>.push_back(version_id);</div>
+<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>        </div>
+<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>    }</div>
+</div>
+<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span> </div>
+<div class="foldopen" id="foldopen00746" data-start="{" data-end="}">
+<div class="line"><a id="l00746" name="l00746"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ConfigSnapshotManager.html#aa728f01af5286d83e6ec2594c6e1edf4">  746</a></span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1ConfigSnapshotManager.html#aa728f01af5286d83e6ec2594c6e1edf4">GetVersionHistory</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span>        std::shared_lock&lt;std::shared_mutex&gt; lock(<a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#acc7a144daa5e44dd40d8f8dd0e0ab252">snapshots_mutex_</a>);</div>
+<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1ConfigSnapshotManager.html#abf13c1470221d7ede9a379a0738e92cf">version_history_</a>;</div>
+<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span>    }</div>
+</div>
+<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span>};</div>
+</div>
+<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span> </div>
+<div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span>std::string <a class="code hl_function" href="namespacesqlcc.html#a6ac318c32ac1a24546d7f866ef2f8d13">GenerateVersionId</a>(<span class="keyword">const</span> std::string&amp; prefix = <span class="stringliteral">&quot;v&quot;</span>);</div>
+<div class="line"><a id="l00758" name="l00758"></a><span class="lineno">  758</span> </div>
+<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span>}  <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span> </div>
+<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span><span class="preprocessor">#endif  </span><span class="comment">// SQLCC_CONFIG_SNAPSHOT_H_</span></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotFactory_html"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotFactory.html">sqlcc::ConfigSnapshotFactory</a></div><div class="ttdoc">配置快照工厂类</div><div class="ttdef"><b>Definition</b> config_snapshot.h:471</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotFactory_html_a0f67a595a1b0bb0d1def2dad2204bf28"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotFactory.html#a0f67a595a1b0bb0d1def2dad2204bf28">sqlcc::ConfigSnapshotFactory::CreateSnapshot</a></div><div class="ttdeci">static ConfigSnapshot::SnapshotPtr CreateSnapshot(const std::unordered_map&lt; std::string, ConfigValue &gt; &amp;config_data, const std::string &amp;version_id, const std::string &amp;description=&quot;&quot;)</div><div class="ttdoc">从配置映射创建快照</div><div class="ttdef"><b>Definition</b> config_snapshot.h:480</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotFactory_html_a187d3f76ead862cd9c4d63b64c9f9190"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotFactory.html#a187d3f76ead862cd9c4d63b64c9f9190">sqlcc::ConfigSnapshotFactory::MergeSnapshots</a></div><div class="ttdeci">static ConfigSnapshot::SnapshotPtr MergeSnapshots(const ConfigSnapshot::SnapshotPtr &amp;base_snapshot, const ConfigSnapshot::SnapshotPtr &amp;override_snapshot, const std::string &amp;new_version_id, const std::string &amp;description=&quot;&quot;)</div><div class="ttdoc">合并多个快照</div><div class="ttdef"><b>Definition</b> config_snapshot.h:520</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotFactory_html_ab866d4412cf0b2bf0c9c126f70dbe3f9"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotFactory.html#ab866d4412cf0b2bf0c9c126f70dbe3f9">sqlcc::ConfigSnapshotFactory::CreateEmptySnapshot</a></div><div class="ttdeci">static ConfigSnapshot::SnapshotPtr CreateEmptySnapshot(const std::string &amp;version_id, const std::string &amp;description=&quot;&quot;)</div><div class="ttdoc">创建空快照</div><div class="ttdef"><b>Definition</b> config_snapshot.h:504</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html">sqlcc::ConfigSnapshotManager</a></div><div class="ttdoc">配置快照管理器</div><div class="ttdef"><b>Definition</b> config_snapshot.h:564</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_a10b690519cc32f8b3cd3cca82bda133f"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#a10b690519cc32f8b3cd3cca82bda133f">sqlcc::ConfigSnapshotManager::ConfigSnapshotManager</a></div><div class="ttdeci">ConfigSnapshotManager()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_a2ad269f6fa2366a3e2d16c774f90b8d8"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#a2ad269f6fa2366a3e2d16c774f90b8d8">sqlcc::ConfigSnapshotManager::~ConfigSnapshotManager</a></div><div class="ttdeci">~ConfigSnapshotManager()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_a40212ee2c9b347e83426d4e5ac39d52d"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#a40212ee2c9b347e83426d4e5ac39d52d">sqlcc::ConfigSnapshotManager::CleanupSnapshots</a></div><div class="ttdeci">size_t CleanupSnapshots(size_t keep_versions=10)</div><div class="ttdoc">清理过期快照</div><div class="ttdef"><b>Definition</b> config_snapshot.h:669</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_a5fc951b7c40f02e9efe7b0ded08d713a"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#a5fc951b7c40f02e9efe7b0ded08d713a">sqlcc::ConfigSnapshotManager::GetSnapshot</a></div><div class="ttdeci">ConfigSnapshot::SnapshotPtr GetSnapshot(const std::string &amp;version_id) const</div><div class="ttdoc">获取快照</div><div class="ttdef"><b>Definition</b> config_snapshot.h:619</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_a62fae2c99c177a383679605f8e738778"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#a62fae2c99c177a383679605f8e738778">sqlcc::ConfigSnapshotManager::kMaxHistorySize</a></div><div class="ttdeci">static constexpr size_t kMaxHistorySize</div><div class="ttdef"><b>Definition</b> config_snapshot.h:573</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_a73cb1987b65caf93d69f98388096331b"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#a73cb1987b65caf93d69f98388096331b">sqlcc::ConfigSnapshotManager::operator=</a></div><div class="ttdeci">ConfigSnapshotManager &amp; operator=(const ConfigSnapshotManager &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_a8592f1644a4c707517907a4d7fba760c"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#a8592f1644a4c707517907a4d7fba760c">sqlcc::ConfigSnapshotManager::RemoveSnapshot</a></div><div class="ttdeci">bool RemoveSnapshot(const std::string &amp;version_id)</div><div class="ttdoc">删除快照</div><div class="ttdef"><b>Definition</b> config_snapshot.h:653</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_a8baceada80f534b6580f99209f9461d0"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#a8baceada80f534b6580f99209f9461d0">sqlcc::ConfigSnapshotManager::GetCurrentSnapshot</a></div><div class="ttdeci">ConfigSnapshot::SnapshotPtr GetCurrentSnapshot() const</div><div class="ttdoc">获取当前快照</div><div class="ttdef"><b>Definition</b> config_snapshot.h:634</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_a8e8b2797085c899392f905068138321c"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#a8e8b2797085c899392f905068138321c">sqlcc::ConfigSnapshotManager::AddSnapshot</a></div><div class="ttdeci">bool AddSnapshot(const ConfigSnapshot::SnapshotPtr &amp;snapshot)</div><div class="ttdoc">添加快照</div><div class="ttdef"><b>Definition</b> config_snapshot.h:591</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_a956723e6609465caa0a58aafc39f4b87"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#a956723e6609465caa0a58aafc39f4b87">sqlcc::ConfigSnapshotManager::ConfigSnapshotManager</a></div><div class="ttdeci">ConfigSnapshotManager(ConfigSnapshotManager &amp;&amp;) noexcept=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_a9962be2ac8b1c8ef5d3b631172de178c"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#a9962be2ac8b1c8ef5d3b631172de178c">sqlcc::ConfigSnapshotManager::GetAllVersionIds</a></div><div class="ttdeci">std::vector&lt; std::string &gt; GetAllVersionIds() const</div><div class="ttdoc">获取所有版本ID</div><div class="ttdef"><b>Definition</b> config_snapshot.h:697</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_a9b4057fc34819a7ddc9bb5fa0b02a8c0"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#a9b4057fc34819a7ddc9bb5fa0b02a8c0">sqlcc::ConfigSnapshotManager::current_snapshot_</a></div><div class="ttdeci">ConfigSnapshot::SnapshotPtr current_snapshot_</div><div class="ttdef"><b>Definition</b> config_snapshot.h:568</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_aa728f01af5286d83e6ec2594c6e1edf4"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#aa728f01af5286d83e6ec2594c6e1edf4">sqlcc::ConfigSnapshotManager::GetVersionHistory</a></div><div class="ttdeci">std::vector&lt; std::string &gt; GetVersionHistory() const</div><div class="ttdoc">获取版本历史</div><div class="ttdef"><b>Definition</b> config_snapshot.h:746</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_abf13c1470221d7ede9a379a0738e92cf"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#abf13c1470221d7ede9a379a0738e92cf">sqlcc::ConfigSnapshotManager::version_history_</a></div><div class="ttdeci">std::vector&lt; std::string &gt; version_history_</div><div class="ttdef"><b>Definition</b> config_snapshot.h:572</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_acb2bf271a871ec9a1d5a03234a9c7308"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#acb2bf271a871ec9a1d5a03234a9c7308">sqlcc::ConfigSnapshotManager::current_version_id_</a></div><div class="ttdeci">std::string current_version_id_</div><div class="ttdef"><b>Definition</b> config_snapshot.h:569</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_acc7a144daa5e44dd40d8f8dd0e0ab252"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#acc7a144daa5e44dd40d8f8dd0e0ab252">sqlcc::ConfigSnapshotManager::snapshots_mutex_</a></div><div class="ttdeci">std::shared_mutex snapshots_mutex_</div><div class="ttdef"><b>Definition</b> config_snapshot.h:566</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_adacc1538d24ca2cb0833e44f5567733d"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#adacc1538d24ca2cb0833e44f5567733d">sqlcc::ConfigSnapshotManager::snapshots_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, ConfigSnapshot::SnapshotPtr &gt; snapshots_</div><div class="ttdef"><b>Definition</b> config_snapshot.h:567</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_ae715b00a6f5a92a46f27e321198f318a"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#ae715b00a6f5a92a46f27e321198f318a">sqlcc::ConfigSnapshotManager::RollbackToVersion</a></div><div class="ttdeci">bool RollbackToVersion(const std::string &amp;version_id)</div><div class="ttdoc">回滚到指定版本</div><div class="ttdef"><b>Definition</b> config_snapshot.h:724</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_ae7ba26ba557d8120a629887ae5df0669"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#ae7ba26ba557d8120a629887ae5df0669">sqlcc::ConfigSnapshotManager::GetSnapshotCount</a></div><div class="ttdeci">size_t GetSnapshotCount() const</div><div class="ttdoc">获取快照数量</div><div class="ttdef"><b>Definition</b> config_snapshot.h:714</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_aee5f67c18ce68a47d5e0ef9377d28543"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#aee5f67c18ce68a47d5e0ef9377d28543">sqlcc::ConfigSnapshotManager::GetCurrentVersionId</a></div><div class="ttdeci">std::string GetCurrentVersionId() const</div><div class="ttdoc">获取当前版本ID</div><div class="ttdef"><b>Definition</b> config_snapshot.h:643</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshotManager_html_aff9bcf0080521f3ade5411866d0987fa"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshotManager.html#aff9bcf0080521f3ade5411866d0987fa">sqlcc::ConfigSnapshotManager::ConfigSnapshotManager</a></div><div class="ttdeci">ConfigSnapshotManager(const ConfigSnapshotManager &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html">sqlcc::ConfigSnapshot</a></div><div class="ttdoc">配置快照类</div><div class="ttdef"><b>Definition</b> config_snapshot.h:260</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_a0e9ec28422bbbac3cdfbb954ba7b84fb"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#a0e9ec28422bbbac3cdfbb954ba7b84fb">sqlcc::ConfigSnapshot::Equals</a></div><div class="ttdeci">bool Equals(const ConfigSnapshot &amp;other) const</div><div class="ttdoc">比较两个快照是否相等</div><div class="ttdef"><b>Definition</b> config_snapshot.h:460</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_a3a63d8522fbb22feb47c6c10b97f3f81"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#a3a63d8522fbb22feb47c6c10b97f3f81">sqlcc::ConfigSnapshot::ValidateIntegrity</a></div><div class="ttdeci">bool ValidateIntegrity() const</div><div class="ttdoc">验证快照完整性</div><div class="ttdef"><b>Definition</b> config_snapshot.h:436</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_a441566a87294ebe896a4daacf2b8da87"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#a441566a87294ebe896a4daacf2b8da87">sqlcc::ConfigSnapshot::GetKeysWithPrefix</a></div><div class="ttdeci">std::vector&lt; std::string &gt; GetKeysWithPrefix(const std::string &amp;prefix) const</div><div class="ttdoc">获取指定前缀的配置键</div><div class="ttdef"><b>Definition</b> config_snapshot.h:370</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_a515fa3594387ecd4a81d47caa02914d2"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#a515fa3594387ecd4a81d47caa02914d2">sqlcc::ConfigSnapshot::metadata_</a></div><div class="ttdeci">const SnapshotMetadata metadata_</div><div class="ttdoc">快照元数据</div><div class="ttdef"><b>Definition</b> config_snapshot.h:290</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_a6b7a613f284aa0212d7f37045e39456a"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#a6b7a613f284aa0212d7f37045e39456a">sqlcc::ConfigSnapshot::operator=</a></div><div class="ttdeci">ConfigSnapshot &amp; operator=(const ConfigSnapshot &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_a6c83af8b34169285f74b652f0d57debf"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#a6c83af8b34169285f74b652f0d57debf">sqlcc::ConfigSnapshot::ConfigSnapshot</a></div><div class="ttdeci">ConfigSnapshot(const std::unordered_map&lt; std::string, ConfigValue &gt; &amp;config_data, const SnapshotMetadata &amp;metadata)</div><div class="ttdoc">构造函数</div><div class="ttdef"><b>Definition</b> config_snapshot.h:303</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_a6f64770e95533831bba53b77ab32eaeb"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#a6f64770e95533831bba53b77ab32eaeb">sqlcc::ConfigSnapshot::CalculateChecksum</a></div><div class="ttdeci">std::string CalculateChecksum() const</div><div class="ttdoc">计算数据校验和</div><div class="ttdef"><b>Definition</b> config_snapshot.h:412</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_a7081b1dcc8b8d27eecdead7306406b89"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#a7081b1dcc8b8d27eecdead7306406b89">sqlcc::ConfigSnapshot::ConfigSnapshot</a></div><div class="ttdeci">ConfigSnapshot(ConfigSnapshot &amp;&amp;) noexcept=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_a7ebef631f9f726633dfae1fba6eb956b"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#a7ebef631f9f726633dfae1fba6eb956b">sqlcc::ConfigSnapshot::GetMetadata</a></div><div class="ttdeci">const SnapshotMetadata &amp; GetMetadata() const</div><div class="ttdoc">获取快照元数据</div><div class="ttdef"><b>Definition</b> config_snapshot.h:396</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_a89dc18221de1cb4a56de746d6673f8e2"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#a89dc18221de1cb4a56de746d6673f8e2">sqlcc::ConfigSnapshot::ConfigSnapshot</a></div><div class="ttdeci">ConfigSnapshot(const ConfigSnapshot &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_a8c5191e86d4d58795a7be5e4e1e4e604"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#a8c5191e86d4d58795a7be5e4e1e4e604">sqlcc::ConfigSnapshot::GetConfigCount</a></div><div class="ttdeci">size_t GetConfigCount() const</div><div class="ttdoc">获取配置数量</div><div class="ttdef"><b>Definition</b> config_snapshot.h:388</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_a9554cbca3fe2e7dea5b06ca898e748fd"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#a9554cbca3fe2e7dea5b06ca898e748fd">sqlcc::ConfigSnapshot::MutableSnapshotPtr</a></div><div class="ttdeci">std::shared_ptr&lt; ConfigSnapshot &gt; MutableSnapshotPtr</div><div class="ttdef"><b>Definition</b> config_snapshot.h:266</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_a9e565b3d4b9e63b1d394f9e1a5f9ff4f"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#a9e565b3d4b9e63b1d394f9e1a5f9ff4f">sqlcc::ConfigSnapshot::config_data_</a></div><div class="ttdeci">const std::unordered_map&lt; std::string, ConfigValue &gt; config_data_</div><div class="ttdoc">配置数据（不可变）</div><div class="ttdef"><b>Definition</b> config_snapshot.h:285</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_a9e7102f9780efb128aec86a6f93e3185"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#a9e7102f9780efb128aec86a6f93e3185">sqlcc::ConfigSnapshot::GetAllKeys</a></div><div class="ttdeci">std::vector&lt; std::string &gt; GetAllKeys() const</div><div class="ttdoc">获取所有配置键</div><div class="ttdef"><b>Definition</b> config_snapshot.h:352</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_aa637a11147c32d327383ef3f98403a9d"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#aa637a11147c32d327383ef3f98403a9d">sqlcc::ConfigSnapshot::GetAccessCount</a></div><div class="ttdeci">int GetAccessCount() const</div><div class="ttdoc">获取访问计数（用于调试和监控）</div><div class="ttdef"><b>Definition</b> config_snapshot.h:404</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_aa8882bc943ffa3805545b1a0eeac9b74"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#aa8882bc943ffa3805545b1a0eeac9b74">sqlcc::ConfigSnapshot::HasKey</a></div><div class="ttdeci">bool HasKey(const std::string &amp;key) const</div><div class="ttdoc">检查配置键是否存在</div><div class="ttdef"><b>Definition</b> config_snapshot.h:343</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_aaed8c2f6fd94bfca35551943155ecac2"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#aaed8c2f6fd94bfca35551943155ecac2">sqlcc::ConfigSnapshot::SnapshotPtr</a></div><div class="ttdeci">std::shared_ptr&lt; const ConfigSnapshot &gt; SnapshotPtr</div><div class="ttdoc">智能指针类型定义</div><div class="ttdef"><b>Definition</b> config_snapshot.h:265</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_ab49c25637e4d5cb5da25d52424077e98"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#ab49c25637e4d5cb5da25d52424077e98">sqlcc::ConfigSnapshot::~ConfigSnapshot</a></div><div class="ttdeci">~ConfigSnapshot()=default</div><div class="ttdoc">默认析构函数</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_ab5b98beb14d8994f7beca5ee2f4f1b41"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#ab5b98beb14d8994f7beca5ee2f4f1b41">sqlcc::ConfigSnapshot::WeakSnapshotPtr</a></div><div class="ttdeci">std::weak_ptr&lt; const ConfigSnapshot &gt; WeakSnapshotPtr</div><div class="ttdef"><b>Definition</b> config_snapshot.h:267</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_ad6aedec77b174fb9f020c1f60bd2a322"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#ad6aedec77b174fb9f020c1f60bd2a322">sqlcc::ConfigSnapshot::access_count_</a></div><div class="ttdeci">std::atomic&lt; int &gt; access_count_</div><div class="ttdoc">原子引用计数（用于调试和监控）</div><div class="ttdef"><b>Definition</b> config_snapshot.h:295</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_adef3e7d34356c4896539e3ce86e1c212"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#adef3e7d34356c4896539e3ce86e1c212">sqlcc::ConfigSnapshot::Clone</a></div><div class="ttdeci">SnapshotPtr Clone() const</div><div class="ttdoc">创建快照的深拷贝</div><div class="ttdef"><b>Definition</b> config_snapshot.h:444</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigSnapshot_html_ae735d0b336e66366e7b0fc3f997e618e"><div class="ttname"><a href="classsqlcc_1_1ConfigSnapshot.html#ae735d0b336e66366e7b0fc3f997e618e">sqlcc::ConfigSnapshot::GetValue</a></div><div class="ttdeci">bool GetValue(const std::string &amp;key, ConfigValue &amp;value) const</div><div class="ttdoc">获取配置值</div><div class="ttdef"><b>Definition</b> config_snapshot.h:327</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a6ac318c32ac1a24546d7f866ef2f8d13"><div class="ttname"><a href="namespacesqlcc.html#a6ac318c32ac1a24546d7f866ef2f8d13">sqlcc::GenerateVersionId</a></div><div class="ttdeci">std::string GenerateVersionId(const std::string &amp;prefix)</div><div class="ttdoc">生成版本ID</div><div class="ttdef"><b>Definition</b> config_snapshot.cpp:27</div></div>
+<div class="ttc" id="anamespacesqlcc_html_ae2f4bc4eee37aaf01276a62a2a79dc0a"><div class="ttname"><a href="namespacesqlcc.html#ae2f4bc4eee37aaf01276a62a2a79dc0a">sqlcc::ConfigValue</a></div><div class="ttdeci">std::variant&lt; bool, int, double, std::string &gt; ConfigValue</div><div class="ttdoc">配置值类型，支持多种数据类型 使用std::variant实现类型安全的配置值存储</div><div class="ttdef"><b>Definition</b> config_manager.h:14</div></div>
+<div class="ttc" id="astructsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata_html"><div class="ttname"><a href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html">sqlcc::ConfigSnapshot::SnapshotMetadata</a></div><div class="ttdoc">快照元数据结构</div><div class="ttdef"><b>Definition</b> config_snapshot.h:272</div></div>
+<div class="ttc" id="astructsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata_html_a1803e45f1c6033ca50b23ef86156c80d"><div class="ttname"><a href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a1803e45f1c6033ca50b23ef86156c80d">sqlcc::ConfigSnapshot::SnapshotMetadata::description</a></div><div class="ttdeci">std::string description</div><div class="ttdef"><b>Definition</b> config_snapshot.h:274</div></div>
+<div class="ttc" id="astructsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata_html_a5fb9c6a587a4f049ba1b76693eec68ae"><div class="ttname"><a href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a5fb9c6a587a4f049ba1b76693eec68ae">sqlcc::ConfigSnapshot::SnapshotMetadata::config_count</a></div><div class="ttdeci">size_t config_count</div><div class="ttdef"><b>Definition</b> config_snapshot.h:277</div></div>
+<div class="ttc" id="astructsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata_html_a6f9eddf2d972026cda24bc20323aefef"><div class="ttname"><a href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a6f9eddf2d972026cda24bc20323aefef">sqlcc::ConfigSnapshot::SnapshotMetadata::version_id</a></div><div class="ttdeci">std::string version_id</div><div class="ttdef"><b>Definition</b> config_snapshot.h:273</div></div>
+<div class="ttc" id="astructsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata_html_a7856b4f3654605df4ba92aa814ad4644"><div class="ttname"><a href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#a7856b4f3654605df4ba92aa814ad4644">sqlcc::ConfigSnapshot::SnapshotMetadata::checksum</a></div><div class="ttdeci">std::string checksum</div><div class="ttdef"><b>Definition</b> config_snapshot.h:278</div></div>
+<div class="ttc" id="astructsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata_html_af4ead114fe7b1f439e44720e549a062a"><div class="ttname"><a href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#af4ead114fe7b1f439e44720e549a062a">sqlcc::ConfigSnapshot::SnapshotMetadata::create_time</a></div><div class="ttdeci">std::chrono::system_clock::time_point create_time</div><div class="ttdef"><b>Definition</b> config_snapshot.h:275</div></div>
+<div class="ttc" id="astructsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata_html_af57cf4c433de5fbf2d9c29b970906d68"><div class="ttname"><a href="structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html#af57cf4c433de5fbf2d9c29b970906d68">sqlcc::ConfigSnapshot::SnapshotMetadata::parent_version</a></div><div class="ttdeci">std::string parent_version</div><div class="ttdef"><b>Definition</b> config_snapshot.h:276</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

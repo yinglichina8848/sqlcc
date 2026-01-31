@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: procedure_function_manager.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c4da858a4a51ad367068831bac354363.html">sql_executor</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">procedure_function_manager.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="procedure__function__manager_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span>sql_executor {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">// Forward declarations</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">class </span>CreateFunctionStatement;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">class </span>AlterFunctionStatement;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">class </span>DropFunctionStatement;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">class </span>CreateProcedureStatement;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">class </span>CallStatement;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">class </span>ProcedureFunctionManager {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a5aa61686e76dd4d3a13c914bd3dc6b4a">   26</a></span>    <span class="keyword">static</span> <a class="code hl_class" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html">ProcedureFunctionManager</a>&amp; <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a5aa61686e76dd4d3a13c914bd3dc6b4a">getInstance</a>();</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="comment">// 函数管理</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#ac0f0801ccdd005c39b351301842ae0d6">   29</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#ac0f0801ccdd005c39b351301842ae0d6">createFunction</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html">sql_parser::CreateFunctionStatement</a>&amp; stmt);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a627657436e78211f080b83912a014daf">   30</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a627657436e78211f080b83912a014daf">alterFunction</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1AlterFunctionStatement.html">sql_parser::AlterFunctionStatement</a>&amp; stmt);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a248128214949a39bfcf63234340bcbdf">   31</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a248128214949a39bfcf63234340bcbdf">dropFunction</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1DropFunctionStatement.html">sql_parser::DropFunctionStatement</a>&amp; stmt);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a4a17caa10d0ca0c9b4ab391e01ee33aa">   32</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a4a17caa10d0ca0c9b4ab391e01ee33aa">functionExists</a>(<span class="keyword">const</span> std::string&amp; functionName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="comment">// 过程管理</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a0a57a6ae0c79258173cd23eeba452f50">   35</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a0a57a6ae0c79258173cd23eeba452f50">createProcedure</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1CreateProcedureStatement.html">sql_parser::CreateProcedureStatement</a>&amp; stmt);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a6b0884fa5c8d5c9aa87a5e77e2bd4626">   36</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a6b0884fa5c8d5c9aa87a5e77e2bd4626">dropProcedure</a>(<span class="keyword">const</span> std::string&amp; procedureName);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#aff1198a09a24abb3b28154962699afb9">   37</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#aff1198a09a24abb3b28154962699afb9">procedureExists</a>(<span class="keyword">const</span> std::string&amp; procedureName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="comment">// 调用执行</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#ab5bcc924453d0feea77307b0a80700f2">   40</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#ab5bcc924453d0feea77307b0a80700f2">callProcedure</a>(<span class="keyword">const</span> sql_parser::CallStatement&amp; stmt);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a13dfacd4baa7cb9e70bff1ddd54fbcb7">   41</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a13dfacd4baa7cb9e70bff1ddd54fbcb7">callFunction</a>(<span class="keyword">const</span> std::string&amp; functionName,</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                            <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; args);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="comment">// 信息查询</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#ab1fd237895dfb73fc5a59df98d35cc94">   45</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#ab1fd237895dfb73fc5a59df98d35cc94">getFunctionInfo</a>(<span class="keyword">const</span> std::string&amp; functionName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a0f2e30c63de90d37b2ed00a42ed8ce4c">   46</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a0f2e30c63de90d37b2ed00a42ed8ce4c">getProcedureInfo</a>(<span class="keyword">const</span> std::string&amp; procedureName) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a75a8722d666b1617dd41a47edd63e69d">   47</a></span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a75a8722d666b1617dd41a47edd63e69d">listFunctions</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a41f950fe8d4ebdb77ada5df1783f22b7">   48</a></span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a41f950fe8d4ebdb77ada5df1783f22b7">listProcedures</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a2a0f2d6f01b95eed360b27032c39f9e9">   51</a></span>    <a class="code hl_function" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a2a0f2d6f01b95eed360b27032c39f9e9">ProcedureFunctionManager</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html">FunctionInfo</a> {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a191cdab7767c0776e66f091661dcfb84">name</a>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a2d1087eb704ae93c1215fc682ba8ea4f">   55</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a2d1087eb704ae93c1215fc682ba8ea4f">returnType</a>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a1b3556ed56aec3a0f82594d8d8c12906">   56</a></span>        std::vector&lt;std::string&gt; <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a1b3556ed56aec3a0f82594d8d8c12906">parameters</a>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a63a5e7f07d6ac7f5334eb3e8c54018c0">body</a>;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a79f208a9a37b258fb9c683e4c4d4860e">language</a>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a73be624413fa262fde2b70f8562e34fd">   59</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a73be624413fa262fde2b70f8562e34fd">isAggregate</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordtype">long</span> <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#aec59a217764b37a1879211cde322fa69">created_time</a>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a657bf03cacad3fa49507e80b131ba0d8">   61</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a657bf03cacad3fa49507e80b131ba0d8">created_by</a>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    };</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html">ProcedureInfo</a> {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#a3d1a5c8118983738e24828d3b190f94d">name</a>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#acb999b96497aac82eacfbe46884f5ade">   66</a></span>        std::vector&lt;std::string&gt; <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#acb999b96497aac82eacfbe46884f5ade">parameters</a>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#a70d319dcaaa222ea3d75b8beb65ae77d">body</a>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#a4360da202bd988cff9e77c4bf89255b4">   68</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#a4360da202bd988cff9e77c4bf89255b4">language</a>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordtype">long</span> <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#ac133c68e6bfbec56287dd9e439723b76">created_time</a>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#ae0f6ef7b1fa131132bc5332c150766c5">   70</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#ae0f6ef7b1fa131132bc5332c150766c5">created_by</a>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    };</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    std::unordered_map&lt;std::string, FunctionInfo&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a73a950873699e92bb5ba99ac98320212">functions_</a>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    std::unordered_map&lt;std::string, ProcedureInfo&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a6e94afc4ce5fc571588d6a3d5f658cf2">procedures_</a>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a09b8d72e7b5b5c962f9a143a0253712a">   75</a></span>    <span class="keywordtype">long</span> <a class="code hl_variable" href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a09b8d72e7b5b5c962f9a143a0253712a">next_id_</a> = 1;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>};</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>} <span class="comment">// namespace sql_executor</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html">sqlcc::sql_executor::ProcedureFunctionManager</a></div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:24</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_a09b8d72e7b5b5c962f9a143a0253712a"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a09b8d72e7b5b5c962f9a143a0253712a">sqlcc::sql_executor::ProcedureFunctionManager::next_id_</a></div><div class="ttdeci">long next_id_</div><div class="ttdef"><b>Definition</b> procedure_function_manager.h:75</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_a0a57a6ae0c79258173cd23eeba452f50"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a0a57a6ae0c79258173cd23eeba452f50">sqlcc::sql_executor::ProcedureFunctionManager::createProcedure</a></div><div class="ttdeci">bool createProcedure(const sql_parser::CreateProcedureStatement &amp;stmt)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_a0f2e30c63de90d37b2ed00a42ed8ce4c"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a0f2e30c63de90d37b2ed00a42ed8ce4c">sqlcc::sql_executor::ProcedureFunctionManager::getProcedureInfo</a></div><div class="ttdeci">std::string getProcedureInfo(const std::string &amp;procedureName) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_a13dfacd4baa7cb9e70bff1ddd54fbcb7"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a13dfacd4baa7cb9e70bff1ddd54fbcb7">sqlcc::sql_executor::ProcedureFunctionManager::callFunction</a></div><div class="ttdeci">std::string callFunction(const std::string &amp;functionName, const std::vector&lt; std::string &gt; &amp;args)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_a248128214949a39bfcf63234340bcbdf"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a248128214949a39bfcf63234340bcbdf">sqlcc::sql_executor::ProcedureFunctionManager::dropFunction</a></div><div class="ttdeci">bool dropFunction(const sql_parser::DropFunctionStatement &amp;stmt)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_a2a0f2d6f01b95eed360b27032c39f9e9"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a2a0f2d6f01b95eed360b27032c39f9e9">sqlcc::sql_executor::ProcedureFunctionManager::ProcedureFunctionManager</a></div><div class="ttdeci">ProcedureFunctionManager()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_a41f950fe8d4ebdb77ada5df1783f22b7"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a41f950fe8d4ebdb77ada5df1783f22b7">sqlcc::sql_executor::ProcedureFunctionManager::listProcedures</a></div><div class="ttdeci">std::vector&lt; std::string &gt; listProcedures() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_a4a17caa10d0ca0c9b4ab391e01ee33aa"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a4a17caa10d0ca0c9b4ab391e01ee33aa">sqlcc::sql_executor::ProcedureFunctionManager::functionExists</a></div><div class="ttdeci">bool functionExists(const std::string &amp;functionName) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_a5aa61686e76dd4d3a13c914bd3dc6b4a"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a5aa61686e76dd4d3a13c914bd3dc6b4a">sqlcc::sql_executor::ProcedureFunctionManager::getInstance</a></div><div class="ttdeci">static ProcedureFunctionManager &amp; getInstance()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_a627657436e78211f080b83912a014daf"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a627657436e78211f080b83912a014daf">sqlcc::sql_executor::ProcedureFunctionManager::alterFunction</a></div><div class="ttdeci">bool alterFunction(const sql_parser::AlterFunctionStatement &amp;stmt)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_a6b0884fa5c8d5c9aa87a5e77e2bd4626"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a6b0884fa5c8d5c9aa87a5e77e2bd4626">sqlcc::sql_executor::ProcedureFunctionManager::dropProcedure</a></div><div class="ttdeci">bool dropProcedure(const std::string &amp;procedureName)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_a6e94afc4ce5fc571588d6a3d5f658cf2"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a6e94afc4ce5fc571588d6a3d5f658cf2">sqlcc::sql_executor::ProcedureFunctionManager::procedures_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, ProcedureInfo &gt; procedures_</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:70</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_a73a950873699e92bb5ba99ac98320212"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a73a950873699e92bb5ba99ac98320212">sqlcc::sql_executor::ProcedureFunctionManager::functions_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, FunctionInfo &gt; functions_</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:71</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_a75a8722d666b1617dd41a47edd63e69d"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#a75a8722d666b1617dd41a47edd63e69d">sqlcc::sql_executor::ProcedureFunctionManager::listFunctions</a></div><div class="ttdeci">std::vector&lt; std::string &gt; listFunctions() const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_ab1fd237895dfb73fc5a59df98d35cc94"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#ab1fd237895dfb73fc5a59df98d35cc94">sqlcc::sql_executor::ProcedureFunctionManager::getFunctionInfo</a></div><div class="ttdeci">std::string getFunctionInfo(const std::string &amp;functionName) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_ab5bcc924453d0feea77307b0a80700f2"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#ab5bcc924453d0feea77307b0a80700f2">sqlcc::sql_executor::ProcedureFunctionManager::callProcedure</a></div><div class="ttdeci">bool callProcedure(const sql_parser::CallStatement &amp;stmt)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_ac0f0801ccdd005c39b351301842ae0d6"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#ac0f0801ccdd005c39b351301842ae0d6">sqlcc::sql_executor::ProcedureFunctionManager::createFunction</a></div><div class="ttdeci">bool createFunction(const sql_parser::CreateFunctionStatement &amp;stmt)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__executor_1_1ProcedureFunctionManager_html_aff1198a09a24abb3b28154962699afb9"><div class="ttname"><a href="classsqlcc_1_1sql__executor_1_1ProcedureFunctionManager.html#aff1198a09a24abb3b28154962699afb9">sqlcc::sql_executor::ProcedureFunctionManager::procedureExists</a></div><div class="ttdeci">bool procedureExists(const std::string &amp;procedureName) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1AlterFunctionStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1AlterFunctionStatement.html">sqlcc::sql_parser::AlterFunctionStatement</a></div><div class="ttdoc">修改函数语句</div><div class="ttdef"><b>Definition</b> alter_function.h:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateFunctionStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateFunctionStatement.html">sqlcc::sql_parser::CreateFunctionStatement</a></div><div class="ttdoc">创建函数语句</div><div class="ttdef"><b>Definition</b> advanced_sql92_features.h:294</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateProcedureStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateProcedureStatement.html">sqlcc::sql_parser::CreateProcedureStatement</a></div><div class="ttdef"><b>Definition</b> ast_ddl_nodes.h:264</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DropFunctionStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DropFunctionStatement.html">sqlcc::sql_parser::DropFunctionStatement</a></div><div class="ttdoc">删除函数语句</div><div class="ttdef"><b>Definition</b> advanced_sql92_features.h:311</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo_html"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html">sqlcc::sql_executor::ProcedureFunctionManager::FunctionInfo</a></div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:59</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo_html_a191cdab7767c0776e66f091661dcfb84"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a191cdab7767c0776e66f091661dcfb84">sqlcc::sql_executor::ProcedureFunctionManager::FunctionInfo::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:60</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo_html_a1b3556ed56aec3a0f82594d8d8c12906"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a1b3556ed56aec3a0f82594d8d8c12906">sqlcc::sql_executor::ProcedureFunctionManager::FunctionInfo::parameters</a></div><div class="ttdeci">std::vector&lt; std::string &gt; parameters</div><div class="ttdef"><b>Definition</b> procedure_function_manager.h:56</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo_html_a2d1087eb704ae93c1215fc682ba8ea4f"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a2d1087eb704ae93c1215fc682ba8ea4f">sqlcc::sql_executor::ProcedureFunctionManager::FunctionInfo::returnType</a></div><div class="ttdeci">std::string returnType</div><div class="ttdef"><b>Definition</b> procedure_function_manager.h:55</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo_html_a63a5e7f07d6ac7f5334eb3e8c54018c0"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a63a5e7f07d6ac7f5334eb3e8c54018c0">sqlcc::sql_executor::ProcedureFunctionManager::FunctionInfo::body</a></div><div class="ttdeci">std::string body</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:63</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo_html_a657bf03cacad3fa49507e80b131ba0d8"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a657bf03cacad3fa49507e80b131ba0d8">sqlcc::sql_executor::ProcedureFunctionManager::FunctionInfo::created_by</a></div><div class="ttdeci">std::string created_by</div><div class="ttdef"><b>Definition</b> procedure_function_manager.h:61</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo_html_a73be624413fa262fde2b70f8562e34fd"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a73be624413fa262fde2b70f8562e34fd">sqlcc::sql_executor::ProcedureFunctionManager::FunctionInfo::isAggregate</a></div><div class="ttdeci">bool isAggregate</div><div class="ttdef"><b>Definition</b> procedure_function_manager.h:59</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo_html_a79f208a9a37b258fb9c683e4c4d4860e"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#a79f208a9a37b258fb9c683e4c4d4860e">sqlcc::sql_executor::ProcedureFunctionManager::FunctionInfo::language</a></div><div class="ttdeci">std::string language</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:64</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo_html_aec59a217764b37a1879211cde322fa69"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1FunctionInfo.html#aec59a217764b37a1879211cde322fa69">sqlcc::sql_executor::ProcedureFunctionManager::FunctionInfo::created_time</a></div><div class="ttdeci">long created_time</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:67</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo_html"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html">sqlcc::sql_executor::ProcedureFunctionManager::ProcedureInfo</a></div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:51</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo_html_a3d1a5c8118983738e24828d3b190f94d"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#a3d1a5c8118983738e24828d3b190f94d">sqlcc::sql_executor::ProcedureFunctionManager::ProcedureInfo::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:52</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo_html_a4360da202bd988cff9e77c4bf89255b4"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#a4360da202bd988cff9e77c4bf89255b4">sqlcc::sql_executor::ProcedureFunctionManager::ProcedureInfo::language</a></div><div class="ttdeci">std::string language</div><div class="ttdef"><b>Definition</b> procedure_function_manager.h:68</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo_html_a70d319dcaaa222ea3d75b8beb65ae77d"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#a70d319dcaaa222ea3d75b8beb65ae77d">sqlcc::sql_executor::ProcedureFunctionManager::ProcedureInfo::body</a></div><div class="ttdeci">std::string body</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:54</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo_html_ac133c68e6bfbec56287dd9e439723b76"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#ac133c68e6bfbec56287dd9e439723b76">sqlcc::sql_executor::ProcedureFunctionManager::ProcedureInfo::created_time</a></div><div class="ttdeci">long created_time</div><div class="ttdef"><b>Definition</b> advanced_sql92_executor.cpp:56</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo_html_acb999b96497aac82eacfbe46884f5ade"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#acb999b96497aac82eacfbe46884f5ade">sqlcc::sql_executor::ProcedureFunctionManager::ProcedureInfo::parameters</a></div><div class="ttdeci">std::vector&lt; std::string &gt; parameters</div><div class="ttdef"><b>Definition</b> procedure_function_manager.h:66</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo_html_ae0f6ef7b1fa131132bc5332c150766c5"><div class="ttname"><a href="structsqlcc_1_1sql__executor_1_1ProcedureFunctionManager_1_1ProcedureInfo.html#ae0f6ef7b1fa131132bc5332c150766c5">sqlcc::sql_executor::ProcedureFunctionManager::ProcedureInfo::created_by</a></div><div class="ttdeci">std::string created_by</div><div class="ttdef"><b>Definition</b> procedure_function_manager.h:70</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

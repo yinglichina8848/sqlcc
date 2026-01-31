@@ -1,0 +1,611 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::sql_parser::ForeignKeyValidator类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1sql__parser.html">sql_parser</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html">ForeignKeyValidator</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::sql_parser::ForeignKeyValidator类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>外键约束验证器  
+ <a href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ast__nodes_8h_source.html">ast_nodes.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::sql_parser::ForeignKeyValidator 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator__inherit__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1ForeignKeyValidator_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1sql__parser_1_1ForeignKeyValidator_inherit__map" id="asqlcc_1_1sql__parser_1_1ForeignKeyValidator_inherit__map">
+<area shape="rect" title="外键约束验证器" alt="" coords="5,93,157,133"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ConstraintValidator.html" title="约束验证器接口" alt="" coords="8,5,155,45"/>
+<area shape="poly" title=" " alt="" coords="84,59,84,93,79,93,79,59"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<div class="dynheader">
+sqlcc::sql_parser::ForeignKeyValidator 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator__coll__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1ForeignKeyValidator_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1sql__parser_1_1ForeignKeyValidator_coll__map" id="asqlcc_1_1sql__parser_1_1ForeignKeyValidator_coll__map">
+<area shape="rect" title="外键约束验证器" alt="" coords="5,93,157,133"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ConstraintValidator.html" title="约束验证器接口" alt="" coords="8,5,155,45"/>
+<area shape="poly" title=" " alt="" coords="84,59,84,93,79,93,79,59"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a3303bfd31e9b6680d2753e88cb55fd83" id="r_a3303bfd31e9b6680d2753e88cb55fd83"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83">CascadeAction</a> { <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83abc1708a63772f56bf5abe2dd0dd304d4">RESTRICT</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83a13a24f1f110aee9dbb89e499c4ff379b">CASCADE</a>
+, <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83a6da8ac1eebcb04fe4f2f5ea55167f96c">SET_NULL</a>
+ }</td></tr>
+<tr class="separator:a3303bfd31e9b6680d2753e88cb55fd83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:aa05f4b91e5b551063d6a59b077ebe900" id="r_aa05f4b91e5b551063d6a59b077ebe900"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#aa05f4b91e5b551063d6a59b077ebe900">ForeignKeyValidator</a> (const std::vector&lt; std::string &gt; &amp;columns, const std::string &amp;referenced_table, const std::vector&lt; std::string &gt; &amp;referenced_columns, const std::string &amp;constraint_name=&quot;&quot;)</td></tr>
+<tr class="separator:aa05f4b91e5b551063d6a59b077ebe900"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d13b101f73cafa3680397068a0a4446" id="r_a5d13b101f73cafa3680397068a0a4446"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a5d13b101f73cafa3680397068a0a4446">~ForeignKeyValidator</a> () override</td></tr>
+<tr class="separator:a5d13b101f73cafa3680397068a0a4446"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ee51827c2827e38587325b21144b806" id="r_a1ee51827c2827e38587325b21144b806"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a1ee51827c2827e38587325b21144b806">validate</a> (const std::vector&lt; std::string &gt; &amp;record, std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1TableMetadata.html">TableMetadata</a> &gt; metadata, const std::string &amp;table_name) const override</td></tr>
+<tr class="separator:a1ee51827c2827e38587325b21144b806"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a857722463a674631e77028e8b2dabbb9" id="r_a857722463a674631e77028e8b2dabbb9"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a857722463a674631e77028e8b2dabbb9">getConstraintName</a> () const override</td></tr>
+<tr class="separator:a857722463a674631e77028e8b2dabbb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a468f9699dfcfd960caf0e9c9fe0ce198" id="r_a468f9699dfcfd960caf0e9c9fe0ce198"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a468f9699dfcfd960caf0e9c9fe0ce198">getConstraintType</a> () const override</td></tr>
+<tr class="separator:a468f9699dfcfd960caf0e9c9fe0ce198"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad549cc33a3b2e71120cec7ba57a85bbd" id="r_ad549cc33a3b2e71120cec7ba57a85bbd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#ad549cc33a3b2e71120cec7ba57a85bbd">setOnDeleteAction</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83">CascadeAction</a> action)</td></tr>
+<tr class="separator:ad549cc33a3b2e71120cec7ba57a85bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae80b644e8bb48dd4ff0ed5e533aea0e8" id="r_ae80b644e8bb48dd4ff0ed5e533aea0e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#ae80b644e8bb48dd4ff0ed5e533aea0e8">setOnUpdateAction</a> (<a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83">CascadeAction</a> action)</td></tr>
+<tr class="separator:ae80b644e8bb48dd4ff0ed5e533aea0e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e317deee28fafce64b8a765da612193" id="r_a2e317deee28fafce64b8a765da612193"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83">CascadeAction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a2e317deee28fafce64b8a765da612193">getOnDeleteAction</a> () const</td></tr>
+<tr class="separator:a2e317deee28fafce64b8a765da612193"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98603dca67499c457e8f45fb3fc2d1f4" id="r_a98603dca67499c457e8f45fb3fc2d1f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83">CascadeAction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a98603dca67499c457e8f45fb3fc2d1f4">getOnUpdateAction</a> () const</td></tr>
+<tr class="separator:a98603dca67499c457e8f45fb3fc2d1f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsqlcc_1_1sql__parser_1_1ConstraintValidator"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsqlcc_1_1sql__parser_1_1ConstraintValidator')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsqlcc_1_1sql__parser_1_1ConstraintValidator.html">sqlcc::sql_parser::ConstraintValidator</a></td></tr>
+<tr class="memitem:a84cec5ecc25b42477f16749c10c639ce inherit pub_methods_classsqlcc_1_1sql__parser_1_1ConstraintValidator" id="r_a84cec5ecc25b42477f16749c10c639ce"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ConstraintValidator.html#a84cec5ecc25b42477f16749c10c639ce">~ConstraintValidator</a> ()=default</td></tr>
+<tr class="separator:a84cec5ecc25b42477f16749c10c639ce inherit pub_methods_classsqlcc_1_1sql__parser_1_1ConstraintValidator"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a2610b6e164881bbb98c2a8a857fcc4ee" id="r_a2610b6e164881bbb98c2a8a857fcc4ee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a2610b6e164881bbb98c2a8a857fcc4ee">checkReferenceExists</a> (const std::vector&lt; std::string &gt; &amp;values, const std::string &amp;ref_table) const</td></tr>
+<tr class="separator:a2610b6e164881bbb98c2a8a857fcc4ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a19b1b6feaf6333247fafd03acb3746e8" id="r_a19b1b6feaf6333247fafd03acb3746e8"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a19b1b6feaf6333247fafd03acb3746e8">columns_</a></td></tr>
+<tr class="separator:a19b1b6feaf6333247fafd03acb3746e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f58b61544e92b32f9fa84da5edf93f5" id="r_a3f58b61544e92b32f9fa84da5edf93f5"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3f58b61544e92b32f9fa84da5edf93f5">referenced_table_</a></td></tr>
+<tr class="separator:a3f58b61544e92b32f9fa84da5edf93f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a232fbf142ac41a4c1e8cf3a073fe85d0" id="r_a232fbf142ac41a4c1e8cf3a073fe85d0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a232fbf142ac41a4c1e8cf3a073fe85d0">referenced_columns_</a></td></tr>
+<tr class="separator:a232fbf142ac41a4c1e8cf3a073fe85d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a017e8af4b9c1a0d0ce1643f0d03284ca" id="r_a017e8af4b9c1a0d0ce1643f0d03284ca"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a017e8af4b9c1a0d0ce1643f0d03284ca">constraint_name_</a></td></tr>
+<tr class="separator:a017e8af4b9c1a0d0ce1643f0d03284ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d01271a34b2d1a3e3cdea42daddb513" id="r_a9d01271a34b2d1a3e3cdea42daddb513"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83">CascadeAction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a9d01271a34b2d1a3e3cdea42daddb513">on_delete_action_</a></td></tr>
+<tr class="separator:a9d01271a34b2d1a3e3cdea42daddb513"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a915da3c040806a308a1a889573bdf151" id="r_a915da3c040806a308a1a889573bdf151"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83">CascadeAction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a915da3c040806a308a1a889573bdf151">on_update_action_</a></td></tr>
+<tr class="separator:a915da3c040806a308a1a889573bdf151"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>外键约束验证器 </p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a3303bfd31e9b6680d2753e88cb55fd83" name="a3303bfd31e9b6680d2753e88cb55fd83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3303bfd31e9b6680d2753e88cb55fd83">&#9670;&#160;</a></span>CascadeAction</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83">sqlcc::sql_parser::ForeignKeyValidator::CascadeAction</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a3303bfd31e9b6680d2753e88cb55fd83abc1708a63772f56bf5abe2dd0dd304d4" name="a3303bfd31e9b6680d2753e88cb55fd83abc1708a63772f56bf5abe2dd0dd304d4"></a>RESTRICT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3303bfd31e9b6680d2753e88cb55fd83a13a24f1f110aee9dbb89e499c4ff379b" name="a3303bfd31e9b6680d2753e88cb55fd83a13a24f1f110aee9dbb89e499c4ff379b"></a>CASCADE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3303bfd31e9b6680d2753e88cb55fd83a6da8ac1eebcb04fe4f2f5ea55167f96c" name="a3303bfd31e9b6680d2753e88cb55fd83a6da8ac1eebcb04fe4f2f5ea55167f96c"></a>SET_NULL&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="aa05f4b91e5b551063d6a59b077ebe900" name="aa05f4b91e5b551063d6a59b077ebe900"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa05f4b91e5b551063d6a59b077ebe900">&#9670;&#160;</a></span>ForeignKeyValidator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::ForeignKeyValidator::ForeignKeyValidator </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>columns</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>referenced_table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>referenced_columns</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>constraint_name</em> = <code>&quot;&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5d13b101f73cafa3680397068a0a4446" name="a5d13b101f73cafa3680397068a0a4446"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d13b101f73cafa3680397068a0a4446">&#9670;&#160;</a></span>~ForeignKeyValidator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::sql_parser::ForeignKeyValidator::~ForeignKeyValidator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a2610b6e164881bbb98c2a8a857fcc4ee" name="a2610b6e164881bbb98c2a8a857fcc4ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2610b6e164881bbb98c2a8a857fcc4ee">&#9670;&#160;</a></span>checkReferenceExists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::ForeignKeyValidator::checkReferenceExists </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>ref_table</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a857722463a674631e77028e8b2dabbb9" name="a857722463a674631e77028e8b2dabbb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a857722463a674631e77028e8b2dabbb9">&#9670;&#160;</a></span>getConstraintName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::ForeignKeyValidator::getConstraintName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>获取约束名称 </p>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1sql__parser_1_1ConstraintValidator.html#a9657419ba6528c373efb3b6c93bae214">sqlcc::sql_parser::ConstraintValidator</a>.</p>
+
+</div>
+</div>
+<a id="a468f9699dfcfd960caf0e9c9fe0ce198" name="a468f9699dfcfd960caf0e9c9fe0ce198"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a468f9699dfcfd960caf0e9c9fe0ce198">&#9670;&#160;</a></span>getConstraintType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::ForeignKeyValidator::getConstraintType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>获取约束类型 </p>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1sql__parser_1_1ConstraintValidator.html#a0230487ee5c0100003d2466460ab74d6">sqlcc::sql_parser::ConstraintValidator</a>.</p>
+
+</div>
+</div>
+<a id="a2e317deee28fafce64b8a765da612193" name="a2e317deee28fafce64b8a765da612193"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e317deee28fafce64b8a765da612193">&#9670;&#160;</a></span>getOnDeleteAction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83">ForeignKeyValidator::CascadeAction</a> sqlcc::sql_parser::ForeignKeyValidator::getOnDeleteAction </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a98603dca67499c457e8f45fb3fc2d1f4" name="a98603dca67499c457e8f45fb3fc2d1f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98603dca67499c457e8f45fb3fc2d1f4">&#9670;&#160;</a></span>getOnUpdateAction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83">ForeignKeyValidator::CascadeAction</a> sqlcc::sql_parser::ForeignKeyValidator::getOnUpdateAction </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad549cc33a3b2e71120cec7ba57a85bbd" name="ad549cc33a3b2e71120cec7ba57a85bbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad549cc33a3b2e71120cec7ba57a85bbd">&#9670;&#160;</a></span>setOnDeleteAction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::ForeignKeyValidator::setOnDeleteAction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83">CascadeAction</a>&#160;</td>
+          <td class="paramname"><em>action</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae80b644e8bb48dd4ff0ed5e533aea0e8" name="ae80b644e8bb48dd4ff0ed5e533aea0e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae80b644e8bb48dd4ff0ed5e533aea0e8">&#9670;&#160;</a></span>setOnUpdateAction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::sql_parser::ForeignKeyValidator::setOnUpdateAction </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83">CascadeAction</a>&#160;</td>
+          <td class="paramname"><em>action</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1ee51827c2827e38587325b21144b806" name="a1ee51827c2827e38587325b21144b806"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ee51827c2827e38587325b21144b806">&#9670;&#160;</a></span>validate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::sql_parser::ForeignKeyValidator::validate </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>record</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1TableMetadata.html">TableMetadata</a> &gt;&#160;</td>
+          <td class="paramname"><em>metadata</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>验证记录是否满足约束条件 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">record</td><td>要验证的记录 </td></tr>
+    <tr><td class="paramname">metadata</td><td>表元数据 </td></tr>
+    <tr><td class="paramname">table_name</td><td>表名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>验证结果 </dd></dl>
+
+<p>实现了 <a class="el" href="classsqlcc_1_1sql__parser_1_1ConstraintValidator.html#a092ba72026a1b1af82ccac8aae414681">sqlcc::sql_parser::ConstraintValidator</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a19b1b6feaf6333247fafd03acb3746e8" name="a19b1b6feaf6333247fafd03acb3746e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19b1b6feaf6333247fafd03acb3746e8">&#9670;&#160;</a></span>columns_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; sqlcc::sql_parser::ForeignKeyValidator::columns_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a017e8af4b9c1a0d0ce1643f0d03284ca" name="a017e8af4b9c1a0d0ce1643f0d03284ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a017e8af4b9c1a0d0ce1643f0d03284ca">&#9670;&#160;</a></span>constraint_name_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::ForeignKeyValidator::constraint_name_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9d01271a34b2d1a3e3cdea42daddb513" name="a9d01271a34b2d1a3e3cdea42daddb513"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d01271a34b2d1a3e3cdea42daddb513">&#9670;&#160;</a></span>on_delete_action_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83">CascadeAction</a> sqlcc::sql_parser::ForeignKeyValidator::on_delete_action_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a915da3c040806a308a1a889573bdf151" name="a915da3c040806a308a1a889573bdf151"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a915da3c040806a308a1a889573bdf151">&#9670;&#160;</a></span>on_update_action_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1sql__parser_1_1ForeignKeyValidator.html#a3303bfd31e9b6680d2753e88cb55fd83">CascadeAction</a> sqlcc::sql_parser::ForeignKeyValidator::on_update_action_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a232fbf142ac41a4c1e8cf3a073fe85d0" name="a232fbf142ac41a4c1e8cf3a073fe85d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a232fbf142ac41a4c1e8cf3a073fe85d0">&#9670;&#160;</a></span>referenced_columns_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; sqlcc::sql_parser::ForeignKeyValidator::referenced_columns_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3f58b61544e92b32f9fa84da5edf93f5" name="a3f58b61544e92b32f9fa84da5edf93f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f58b61544e92b32f9fa84da5edf93f5">&#9670;&#160;</a></span>referenced_table_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sqlcc::sql_parser::ForeignKeyValidator::referenced_table_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="ast__nodes_8h_source.html">ast_nodes.h</a></li>
+<li><a class="el" href="constraint__validators_8cpp.html">constraint_validators.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

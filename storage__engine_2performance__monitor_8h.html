@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: performance_monitor.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#define-members">宏定义</a> &#124;
+<a href="#enum-members">枚举</a>  </div>
+  <div class="headertitle"><div class="title">performance_monitor.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+storage_engine/performance_monitor.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="storage__engine_2performance__monitor_8h__incl.png" border="0" usemap="#aperformance__monitor_8h" alt=""/></div>
+<map name="aperformance__monitor_8h" id="aperformance__monitor_8h">
+<area shape="rect" title=" " alt="" coords="233,5,407,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,72,104"/>
+<area shape="poly" title=" " alt="" coords="275,33,86,81,85,76,274,28"/>
+<area shape="rect" title=" " alt="" coords="96,79,163,104"/>
+<area shape="poly" title=" " alt="" coords="290,33,174,76,172,71,288,28"/>
+<area shape="rect" title=" " alt="" coords="187,79,264,104"/>
+<area shape="poly" title=" " alt="" coords="306,33,253,72,250,68,303,29"/>
+<area shape="rect" title=" " alt="" coords="288,79,352,104"/>
+<area shape="poly" title=" " alt="" coords="323,31,323,65,317,65,317,31"/>
+<area shape="rect" title=" " alt="" coords="376,79,435,104"/>
+<area shape="poly" title=" " alt="" coords="335,29,383,68,379,72,332,33"/>
+<area shape="rect" title=" " alt="" coords="459,79,583,104"/>
+<area shape="poly" title=" " alt="" coords="353,28,477,71,475,77,351,33"/>
+<area shape="rect" title=" " alt="" coords="607,79,670,104"/>
+<area shape="poly" title=" " alt="" coords="377,28,594,76,593,81,376,33"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="storage__engine_2performance__monitor_8h__dep__incl.png" border="0" usemap="#aperformance__monitor_8hdep" alt=""/></div>
+<map name="aperformance__monitor_8hdep" id="aperformance__monitor_8hdep">
+<area shape="rect" title=" " alt="" coords="13,5,187,31"/>
+<area shape="rect" href="storage__engine_2performance__monitor_8cpp.html" title=" " alt="" coords="5,79,195,104"/>
+<area shape="poly" title=" " alt="" coords="103,44,103,79,97,79,97,44"/>
+</map>
+</div>
+</div>
+<p><a href="storage__engine_2performance__monitor_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1HistogramBucket.html">sqlcc::HistogramBucket</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Metric.html">sqlcc::Metric</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CounterMetric.html">sqlcc::CounterMetric</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1GaugeMetric.html">sqlcc::GaugeMetric</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HistogramMetric.html">sqlcc::HistogramMetric</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TimerMetric.html">sqlcc::TimerMetric</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PerformanceMonitor.html">sqlcc::PerformanceMonitor</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1PerformanceMonitor_1_1ScopedTimer.html">sqlcc::PerformanceMonitor::ScopedTimer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngineMetrics.html">sqlcc::StorageEngineMetrics</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:a785ed741ae551fb8d85395aeacaf3df2" id="r_a785ed741ae551fb8d85395aeacaf3df2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="storage__engine_2performance__monitor_8h.html#a785ed741ae551fb8d85395aeacaf3df2">PERF_COUNTER</a>(name,  description)&#160;&#160;&#160;  <a class="el" href="classsqlcc_1_1PerformanceMonitor.html#a536a630c14c1581c6e7f9a79b7eccdef">sqlcc::PerformanceMonitor::GetInstance</a>().CreateCounter(name, description)</td></tr>
+<tr class="separator:a785ed741ae551fb8d85395aeacaf3df2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6391849ad5af47a76f8512814a9b9a76" id="r_a6391849ad5af47a76f8512814a9b9a76"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="storage__engine_2performance__monitor_8h.html#a6391849ad5af47a76f8512814a9b9a76">PERF_GAUGE</a>(name,  description)&#160;&#160;&#160;  <a class="el" href="classsqlcc_1_1PerformanceMonitor.html#a536a630c14c1581c6e7f9a79b7eccdef">sqlcc::PerformanceMonitor::GetInstance</a>().CreateGauge(name, description)</td></tr>
+<tr class="separator:a6391849ad5af47a76f8512814a9b9a76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22fad41ef298e830c9c214dee8ef8aaf" id="r_a22fad41ef298e830c9c214dee8ef8aaf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="storage__engine_2performance__monitor_8h.html#a22fad41ef298e830c9c214dee8ef8aaf">PERF_HISTOGRAM</a>(name,  description, ...)</td></tr>
+<tr class="separator:a22fad41ef298e830c9c214dee8ef8aaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63f7cdb580cd5eb8a8ef5bd792604eac" id="r_a63f7cdb580cd5eb8a8ef5bd792604eac"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="storage__engine_2performance__monitor_8h.html#a63f7cdb580cd5eb8a8ef5bd792604eac">PERF_TIMER</a>(name,  description)&#160;&#160;&#160;  <a class="el" href="classsqlcc_1_1PerformanceMonitor.html#a536a630c14c1581c6e7f9a79b7eccdef">sqlcc::PerformanceMonitor::GetInstance</a>().CreateTimer(name, description)</td></tr>
+<tr class="separator:a63f7cdb580cd5eb8a8ef5bd792604eac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac94057ffc03589b8a5af655c948a65b" id="r_aac94057ffc03589b8a5af655c948a65b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="storage__engine_2performance__monitor_8h.html#aac94057ffc03589b8a5af655c948a65b">PERF_SCOPED_TIMER</a>(timer)&#160;&#160;&#160;  auto scoped_timer = <a class="el" href="classsqlcc_1_1PerformanceMonitor.html#ae006d91e07c93c540ff39c6b9e7cbf07">sqlcc::PerformanceMonitor::CreateScopedTimer</a>(timer)</td></tr>
+<tr class="separator:aac94057ffc03589b8a5af655c948a65b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:adabb1daa1c086b9b5a6522ae1255147e" id="r_adabb1daa1c086b9b5a6522ae1255147e"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#adabb1daa1c086b9b5a6522ae1255147e">sqlcc::MetricType</a> { <a class="el" href="namespacesqlcc.html#adabb1daa1c086b9b5a6522ae1255147ea125e831262b4dbbd68c6878c5d3759f6">sqlcc::COUNTER</a>
+, <a class="el" href="namespacesqlcc.html#adabb1daa1c086b9b5a6522ae1255147ea6a91e159ac40f39402ef860163318744">sqlcc::GAUGE</a>
+, <a class="el" href="namespacesqlcc.html#adabb1daa1c086b9b5a6522ae1255147ea7f33aef6b28f7abec2f5d804ab1343c8">sqlcc::HISTOGRAM</a>
+, <a class="el" href="namespacesqlcc.html#adabb1daa1c086b9b5a6522ae1255147eab127d163c55a6603f3a37ce3a642c36d">sqlcc::TIMER</a>
+ }</td></tr>
+<tr class="separator:adabb1daa1c086b9b5a6522ae1255147e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1289e43c3af48be601fdb10b9cf6edcb" id="r_a1289e43c3af48be601fdb10b9cf6edcb"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a1289e43c3af48be601fdb10b9cf6edcb">sqlcc::MetricUnit</a> { <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a1289e43c3af48be601fdb10b9cf6edcba4905ac9d6a22bdfc1ae096094ce6248d">sqlcc::COUNT</a>
+, <a class="el" href="namespacesqlcc.html#a1289e43c3af48be601fdb10b9cf6edcba9f1908a641ea399fd2e76f0905c88fcf">sqlcc::BYTES</a>
+, <a class="el" href="namespacesqlcc.html#a1289e43c3af48be601fdb10b9cf6edcba98a5b3971201a65b35d420793d7148ea">sqlcc::MICROSECONDS</a>
+, <a class="el" href="namespacesqlcc.html#a1289e43c3af48be601fdb10b9cf6edcbab4fd5e5c06e72437a57379576df36936">sqlcc::MILLISECONDS</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a1289e43c3af48be601fdb10b9cf6edcbaa9126caa6ef3db9cf3c35ac627ad22b5">sqlcc::SECONDS</a>
+, <a class="el" href="namespacesqlcc.html#a1289e43c3af48be601fdb10b9cf6edcba6865d19576ae60f95fd4e61333404352">sqlcc::PERCENT</a>
+, <a class="el" href="namespacesqlcc.html#a1289e43c3af48be601fdb10b9cf6edcbab50339a10e1de285ac99d4c3990b8693">sqlcc::NONE</a>
+<br />
+ }</td></tr>
+<tr class="separator:a1289e43c3af48be601fdb10b9cf6edcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="a785ed741ae551fb8d85395aeacaf3df2" name="a785ed741ae551fb8d85395aeacaf3df2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a785ed741ae551fb8d85395aeacaf3df2">&#9670;&#160;</a></span>PERF_COUNTER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PERF_COUNTER</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">description&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;  <a class="el" href="classsqlcc_1_1PerformanceMonitor.html#a536a630c14c1581c6e7f9a79b7eccdef">sqlcc::PerformanceMonitor::GetInstance</a>().CreateCounter(name, description)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6391849ad5af47a76f8512814a9b9a76" name="a6391849ad5af47a76f8512814a9b9a76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6391849ad5af47a76f8512814a9b9a76">&#9670;&#160;</a></span>PERF_GAUGE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PERF_GAUGE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">description&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;  <a class="el" href="classsqlcc_1_1PerformanceMonitor.html#a536a630c14c1581c6e7f9a79b7eccdef">sqlcc::PerformanceMonitor::GetInstance</a>().CreateGauge(name, description)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a22fad41ef298e830c9c214dee8ef8aaf" name="a22fad41ef298e830c9c214dee8ef8aaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22fad41ef298e830c9c214dee8ef8aaf">&#9670;&#160;</a></span>PERF_HISTOGRAM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PERF_HISTOGRAM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">description, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">  <a class="code hl_function" href="classsqlcc_1_1PerformanceMonitor.html#a536a630c14c1581c6e7f9a79b7eccdef">sqlcc::PerformanceMonitor::GetInstance</a>().<a class="code hl_function" href="classsqlcc_1_1PerformanceMonitor.html#ace71fb9cd813dbb45670c38789f8dc1d">CreateHistogram</a>(name, description,  \</div>
+<div class="line">                                                           {__VA_ARGS__})</div>
+<div class="ttc" id="aclasssqlcc_1_1PerformanceMonitor_html_a536a630c14c1581c6e7f9a79b7eccdef"><div class="ttname"><a href="classsqlcc_1_1PerformanceMonitor.html#a536a630c14c1581c6e7f9a79b7eccdef">sqlcc::PerformanceMonitor::GetInstance</a></div><div class="ttdeci">static PerformanceMonitor &amp; GetInstance()</div><div class="ttdef"><b>Definition</b> storage_engine/performance_monitor.cpp:158</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PerformanceMonitor_html_ace71fb9cd813dbb45670c38789f8dc1d"><div class="ttname"><a href="classsqlcc_1_1PerformanceMonitor.html#ace71fb9cd813dbb45670c38789f8dc1d">sqlcc::PerformanceMonitor::CreateHistogram</a></div><div class="ttdeci">std::shared_ptr&lt; HistogramMetric &gt; CreateHistogram(const std::string &amp;name, const std::string &amp;description, const std::vector&lt; double &gt; &amp;bucket_bounds)</div><div class="ttdef"><b>Definition</b> storage_engine/performance_monitor.cpp:227</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aac94057ffc03589b8a5af655c948a65b" name="aac94057ffc03589b8a5af655c948a65b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac94057ffc03589b8a5af655c948a65b">&#9670;&#160;</a></span>PERF_SCOPED_TIMER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PERF_SCOPED_TIMER</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">timer</td><td>)</td>
+          <td>&#160;&#160;&#160;  auto scoped_timer = <a class="el" href="classsqlcc_1_1PerformanceMonitor.html#ae006d91e07c93c540ff39c6b9e7cbf07">sqlcc::PerformanceMonitor::CreateScopedTimer</a>(timer)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a63f7cdb580cd5eb8a8ef5bd792604eac" name="a63f7cdb580cd5eb8a8ef5bd792604eac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63f7cdb580cd5eb8a8ef5bd792604eac">&#9670;&#160;</a></span>PERF_TIMER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PERF_TIMER</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">name, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">description&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;  <a class="el" href="classsqlcc_1_1PerformanceMonitor.html#a536a630c14c1581c6e7f9a79b7eccdef">sqlcc::PerformanceMonitor::GetInstance</a>().CreateTimer(name, description)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

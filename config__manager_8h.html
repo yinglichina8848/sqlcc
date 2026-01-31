@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: config_manager.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_313caf1132e152dd9b58bea13a4052ca.html">utils</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#typedef-members">类型定义</a> &#124;
+<a href="#var-members">变量</a>  </div>
+  <div class="headertitle"><div class="title">config_manager.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;string&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;variant&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+config_manager.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="config__manager_8h__incl.png" border="0" usemap="#aconfig__manager_8h" alt=""/></div>
+<map name="aconfig__manager_8h" id="aconfig__manager_8h">
+<area shape="rect" title=" " alt="" coords="250,5,387,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,64,104"/>
+<area shape="poly" title=" " alt="" coords="271,33,78,81,77,76,270,28"/>
+<area shape="rect" title=" " alt="" coords="89,79,213,104"/>
+<area shape="poly" title=" " alt="" coords="293,33,192,76,190,71,291,28"/>
+<area shape="rect" title=" " alt="" coords="237,79,305,104"/>
+<area shape="poly" title=" " alt="" coords="313,33,288,69,284,66,309,30"/>
+<area shape="rect" title=" " alt="" coords="329,79,407,104"/>
+<area shape="poly" title=" " alt="" coords="329,29,354,66,350,69,325,33"/>
+<area shape="rect" title=" " alt="" coords="431,79,495,104"/>
+<area shape="poly" title=" " alt="" coords="343,28,428,70,426,75,341,33"/>
+<area shape="rect" title=" " alt="" coords="519,79,582,104"/>
+<area shape="poly" title=" " alt="" coords="357,28,507,74,506,79,355,33"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="config__manager_8h__dep__incl.png" border="0" usemap="#aconfig__manager_8hdep" alt=""/></div>
+<map name="aconfig__manager_8hdep" id="aconfig__manager_8hdep">
+<area shape="rect" title=" " alt="" coords="2545,5,2682,31"/>
+<area shape="rect" href="buffer__pool__sharded_8h.html" title=" " alt="" coords="1383,167,1550,192"/>
+<area shape="poly" title=" " alt="" coords="2531,23,2335,27,2085,37,1843,54,1744,67,1669,81,1614,100,1563,124,1485,169,1483,164,1560,119,1612,95,1667,76,1743,61,1843,49,2085,32,2335,22,2531,18"/>
+<area shape="rect" href="core__database__manager_8cpp.html" title=" " alt="" coords="424,321,632,346"/>
+<area shape="poly" title=" " alt="" coords="2531,22,2328,25,2044,34,1716,52,1383,81,1309,87,1240,89,1110,82,991,71,882,63,830,63,779,67,730,77,682,93,634,116,586,148,538,190,490,242,485,251,484,260,490,281,503,302,517,318,513,322,498,305,485,283,478,260,480,249,486,238,534,186,583,144,631,112,680,88,729,72,779,62,830,58,882,58,992,65,1110,77,1240,83,1309,82,1382,76,1715,46,2043,29,2328,20,2531,17"/>
+<area shape="rect" href="storage__engine_8h.html" title=" " alt="" coords="1545,240,1679,265"/>
+<area shape="poly" title=" " alt="" coords="2531,21,2357,22,2143,29,2036,36,1937,47,1854,62,1793,81,1763,97,1735,117,1685,163,1646,208,1622,241,1617,238,1642,204,1681,159,1732,113,1760,93,1791,76,1853,57,1937,42,2035,31,2142,24,2357,16,2531,16"/>
+<area shape="rect" href="checkpoint_8cpp.html" title=" " alt="" coords="3096,401,3216,427"/>
+<area shape="poly" title=" " alt="" coords="2531,22,2328,25,2044,34,1716,52,1383,81,1129,113,933,146,738,186,488,243,380,259,271,275,230,287,205,302,200,311,200,322,206,336,219,351,254,360,339,369,631,382,1042,393,1521,400,2479,408,3096,410,3096,415,2479,413,1521,405,1042,398,631,388,339,374,253,365,216,356,202,338,195,323,195,310,201,299,228,282,270,270,379,254,488,237,737,181,932,141,1129,108,1382,76,1715,46,2043,29,2328,20,2531,17"/>
+<area shape="rect" href="storage__engine_2checkpoint_8h.html" title=" " alt="" coords="3227,321,3333,346"/>
+<area shape="poly" title=" " alt="" coords="2531,24,2406,29,2261,39,2125,56,2071,67,2030,81,2001,97,1974,117,1952,140,1935,165,1925,190,1923,216,1931,240,1950,263,1971,271,2015,278,2158,288,2575,300,2995,305,3215,311,3247,318,3245,323,3214,316,2995,310,2575,305,2158,294,2014,283,1969,276,1946,267,1926,243,1918,216,1920,189,1930,162,1948,137,1971,113,1998,93,2028,76,2070,62,2125,51,2260,34,2406,24,2531,18"/>
+<area shape="rect" href="storage_2checkpoint_8h.html" title=" " alt="" coords="3510,321,3615,346"/>
+<area shape="poly" title=" " alt="" coords="2696,18,2944,25,3258,37,3533,54,3624,64,3652,70,3667,76,3688,98,3704,120,3714,143,3719,166,3720,190,3715,215,3692,267,3675,287,3655,302,3610,323,3608,318,3652,298,3672,283,3687,264,3710,213,3714,189,3714,167,3709,144,3699,123,3684,102,3664,81,3650,75,3623,70,3533,59,3258,43,2944,31,2696,24"/>
+<area shape="rect" href="storage__engine__pch_8h.html" title=" " alt="" coords="3390,401,3554,427"/>
+<area shape="poly" title=" " alt="" coords="2695,17,2941,20,3255,28,3407,36,3540,46,3642,59,3678,67,3701,76,3731,96,3752,117,3764,143,3768,178,3768,254,3762,288,3747,318,3723,342,3694,362,3660,378,3624,390,3555,406,3554,401,3623,385,3658,373,3691,357,3720,338,3742,314,3757,287,3763,254,3763,178,3759,145,3748,120,3728,100,3699,81,3676,72,3641,65,3540,51,3407,41,3255,34,2941,25,2695,22"/>
+<area shape="rect" href="index__manager_8cpp.html" title=" " alt="" coords="5,321,155,346"/>
+<area shape="poly" title=" " alt="" coords="2531,22,2095,24,1473,32,1160,39,882,50,667,64,591,72,541,81,469,105,398,135,330,169,267,206,161,275,96,323,93,319,158,270,264,201,328,165,396,130,467,100,539,76,590,67,666,58,882,45,1160,34,1473,27,2095,19,2531,17"/>
+<area shape="rect" href="index__manager__smart__ptr__enhancement_8cpp.html" title="索引管理智能指针化深度改进 &#45; 索引对象生命周期管理优化" alt="" coords="229,313,400,353"/>
+<area shape="poly" title=" " alt="" coords="2531,23,1472,41,906,58,713,69,653,75,621,81,572,104,525,132,482,164,441,198,375,265,331,315,327,312,371,261,438,194,478,160,522,127,570,99,619,76,652,70,713,64,905,53,1472,36,2531,18"/>
+<area shape="rect" href="isql__main_8cpp.html" title=" " alt="" coords="656,321,768,346"/>
+<area shape="poly" title=" " alt="" coords="2531,24,2038,43,1766,60,1653,70,1567,81,1408,114,1288,151,1168,192,1013,243,749,323,748,318,1011,237,1166,187,1286,146,1407,109,1566,76,1652,65,1765,55,2038,38,2531,19"/>
+<area shape="rect" href="main_8cpp.html" title=" " alt="" coords="3120,321,3203,346"/>
+<area shape="poly" title=" " alt="" coords="2531,26,2414,33,2285,45,2176,61,2140,70,2120,81,2097,116,2090,136,2089,158,2093,182,2104,208,2124,235,2154,263,2176,274,2212,283,2320,296,2460,303,2617,305,2918,305,3032,306,3099,311,3129,318,3128,323,3098,316,3031,312,2918,311,2617,311,2460,308,2319,302,2211,289,2174,279,2150,268,2120,238,2100,210,2088,184,2083,159,2085,135,2092,114,2117,77,2138,65,2175,56,2284,40,2414,28,2531,21"/>
+<area shape="rect" href="utils_2config__manager_8cpp.html" title=" " alt="" coords="2280,86,2432,111"/>
+<area shape="poly" title=" " alt="" coords="2563,37,2394,89,2393,83,2562,32"/>
+<area shape="rect" href="config__manager_2config__manager_8cpp.html" title=" " alt="" coords="2456,86,2608,111"/>
+<area shape="poly" title=" " alt="" coords="2594,42,2546,88,2542,84,2590,38"/>
+<area shape="rect" href="__deprecated__storage__headers_2disk__manager_8h.html" title=" " alt="" coords="2632,86,2757,111"/>
+<area shape="poly" title=" " alt="" coords="2637,38,2684,84,2681,88,2633,42"/>
+<area shape="rect" href="storage_2disk__manager_8h.html" title=" " alt="" coords="2131,86,2256,111"/>
+<area shape="poly" title=" " alt="" coords="2531,34,2407,55,2269,81,2237,89,2236,83,2267,76,2406,50,2530,29"/>
+<area shape="rect" href="storage_2lazy__writer_8h.html" title=" " alt="" coords="2755,167,2861,192"/>
+<area shape="poly" title=" " alt="" coords="2691,32,2733,50,2771,77,2788,99,2799,123,2809,166,2804,167,2794,125,2783,101,2767,81,2731,54,2689,37"/>
+<area shape="rect" href="storage__engine_2lazy__writer_8h.html" title=" " alt="" coords="1950,167,2055,192"/>
+<area shape="poly" title=" " alt="" coords="2531,23,2415,27,2282,37,2160,54,2111,66,2076,81,2052,100,2033,124,2010,168,2005,165,2029,121,2049,96,2073,76,2110,61,2159,49,2282,32,2415,22,2531,18"/>
+<area shape="rect" href="storage_2prefetcher_8h.html" title=" " alt="" coords="2885,167,2985,192"/>
+<area shape="poly" title=" " alt="" coords="2679,32,2740,50,2803,76,2839,98,2873,122,2924,165,2921,169,2870,126,2836,102,2800,81,2738,55,2677,37"/>
+<area shape="rect" href="storage__engine_2buffer__pool_2prefetcher_8h.html" title=" " alt="" coords="3009,167,3109,192"/>
+<area shape="poly" title=" " alt="" coords="2691,31,2770,50,2853,76,2892,95,2929,116,3034,164,3031,169,2927,121,2889,100,2851,81,2768,55,2689,36"/>
+<area shape="rect" href="storage__engine_2prefetcher_8h.html" title=" " alt="" coords="3133,167,3233,192"/>
+<area shape="poly" title=" " alt="" coords="2696,26,2799,44,2856,58,2910,76,2946,96,2980,116,3060,145,3133,164,3132,170,3058,150,2978,121,2943,100,2908,81,2854,63,2798,50,2695,31"/>
+<area shape="rect" href="multi__threaded__network__manager_8h.html" title=" " alt="" coords="3085,79,3267,119"/>
+<area shape="poly" title=" " alt="" coords="2696,26,3067,76,3085,79,3084,84,3066,81,2695,32"/>
+<area shape="rect" href="stored__procedure__manager_8h.html" title=" " alt="" coords="3291,86,3501,111"/>
+<area shape="poly" title=" " alt="" coords="2696,22,2956,43,3279,76,3330,83,3329,89,3278,81,2956,48,2696,28"/>
+<area shape="rect" href="wal__buffer_8cpp.html" title=" " alt="" coords="3190,240,3306,265"/>
+<area shape="poly" title=" " alt="" coords="2696,20,2756,26,2825,36,2895,52,2964,76,2980,86,2991,97,3002,107,3017,116,3051,127,3082,130,3141,126,3169,125,3195,129,3222,141,3247,165,3257,184,3259,204,3254,240,3249,240,3254,204,3252,185,3243,168,3219,146,3194,134,3168,130,3141,132,3082,136,3050,132,3015,121,2998,111,2988,100,2977,90,2962,81,2894,57,2824,41,2756,31,2695,25"/>
+<area shape="rect" href="wal__buffer_8h.html" title=" " alt="" coords="3525,86,3627,111"/>
+<area shape="poly" title=" " alt="" coords="2696,16,2849,18,3053,26,3283,44,3400,58,3514,76,3543,83,3542,88,3513,81,3399,63,3282,49,3052,31,2849,23,2696,21"/>
+<area shape="rect" href="wal__writer_8cpp.html" title=" " alt="" coords="3561,240,3677,265"/>
+<area shape="poly" title=" " alt="" coords="2695,18,2939,25,3244,36,3511,53,3599,64,3626,70,3640,77,3654,96,3660,118,3660,142,3657,165,3643,209,3628,241,3623,239,3638,207,3652,164,3655,141,3654,119,3649,98,3637,81,3625,75,3598,69,3511,59,3244,42,2938,30,2695,24"/>
+<area shape="rect" href="wal__writer_8h.html" title=" " alt="" coords="3395,167,3496,192"/>
+<area shape="poly" title=" " alt="" coords="2696,18,2766,23,2848,33,2934,50,3017,76,3035,86,3046,97,3058,107,3074,116,3136,133,3223,148,3395,170,3394,175,3222,153,3135,138,3072,121,3055,111,3043,101,3032,90,3015,81,2933,55,2847,38,2766,28,2695,23"/>
+<area shape="rect" href="buffer__pool_8h.html" title=" " alt="" coords="1413,240,1520,265"/>
+<area shape="poly" title=" " alt="" coords="1469,206,1469,240,1464,240,1464,206"/>
+<area shape="rect" href="buffer__pool_2buffer__pool_8h.html" title=" " alt="" coords="1024,240,1131,265"/>
+<area shape="poly" title=" " alt="" coords="1391,197,1131,244,1130,239,1390,192"/>
+<area shape="rect" href="buffer__pool__sharded_8cpp.html" title="SQLCC分片缓冲池实现 &#45; 16分片高并发缓冲池管理" alt="" coords="1704,240,1885,265"/>
+<area shape="poly" title=" " alt="" coords="1533,192,1742,237,1741,242,1532,197"/>
+<area shape="rect" href="cache__consistency__manager_8cpp.html" title="缓存一致性管理器实现 &#45; 保证数据一致性和并发安全性" alt="" coords="1155,240,1389,265"/>
+<area shape="poly" title=" " alt="" coords="1424,199,1305,242,1303,237,1422,194"/>
+<area shape="poly" title=" " alt="" coords="1370,194,1202,215,1012,243,772,285,583,323,582,318,771,280,1012,237,1202,210,1369,189"/>
+<area shape="rect" href="core__database__manager_8h.html" title=" " alt="" coords="501,240,694,265"/>
+<area shape="poly" title=" " alt="" coords="1370,191,694,246,694,241,1369,186"/>
+<area shape="poly" title=" " alt="" coords="1503,196,1589,237,1587,242,1501,200"/>
+<area shape="poly" title=" " alt="" coords="580,277,540,322,536,319,576,274"/>
+<area shape="poly" title=" " alt="" coords="1531,268,1281,286,1085,291,891,296,644,316,591,323,591,318,644,311,891,291,1085,285,1280,280,1531,263"/>
+<area shape="rect" href="advanced__sql92__executor_8cpp.html" title=" " alt="" coords="1119,321,1335,346"/>
+<area shape="poly" title=" " alt="" coords="1543,271,1283,323,1282,318,1542,265"/>
+<area shape="rect" href="b__plus__tree_8cpp.html" title=" " alt="" coords="1359,321,1483,346"/>
+<area shape="poly" title=" " alt="" coords="1573,273,1450,323,1448,318,1571,268"/>
+<area shape="rect" href="b__plus__tree__index_8cpp.html" title="SQLCC B+树索引实现 &#45; 现代数据库索引的核心组件" alt="" coords="1559,321,1726,346"/>
+<area shape="poly" title=" " alt="" coords="1624,277,1641,319,1636,321,1619,279"/>
+<area shape="rect" href="b__plus__tree__internal__node_8cpp.html" title=" " alt="" coords="1751,313,1905,353"/>
+<area shape="poly" title=" " alt="" coords="1657,267,1777,311,1775,316,1655,272"/>
+<area shape="rect" href="b__plus__tree__leaf__node_8cpp.html" title=" " alt="" coords="1929,321,2124,346"/>
+<area shape="poly" title=" " alt="" coords="1686,265,1967,318,1966,323,1685,270"/>
+<area shape="rect" href="b__plus__tree__node_8cpp.html" title=" " alt="" coords="2148,321,2311,346"/>
+<area shape="poly" title=" " alt="" coords="1693,263,1917,285,2014,294,2136,311,2177,318,2176,323,2136,316,2013,299,1917,290,1693,268"/>
+<area shape="poly" title=" " alt="" coords="1693,262,1962,269,2373,274,2772,286,2920,296,2972,303,3008,311,3026,319,3038,328,3066,351,3139,399,3136,403,3062,355,3035,333,3023,324,3006,316,2971,308,2919,301,2772,291,2373,280,1962,274,1693,268"/>
+<area shape="poly" title=" " alt="" coords="1693,263,1925,277,2123,279,2296,275,2458,269,2619,265,2792,267,2986,281,3215,311,3247,318,3246,323,3214,316,2986,286,2791,273,2619,270,2458,274,2296,281,2123,285,1925,282,1693,268"/>
+<area shape="poly" title=" " alt="" coords="1693,263,1945,281,2158,290,2346,294,2521,294,2883,294,3095,299,3346,311,3510,324,3509,329,3345,316,3095,304,2883,299,2521,299,2346,299,2158,296,1945,286,1693,268"/>
+<area shape="poly" title=" " alt="" coords="1693,262,1971,269,2396,273,2810,285,2963,295,3018,302,3054,311,3072,320,3083,331,3093,341,3109,351,3181,375,3255,392,3327,402,3390,408,3390,413,3326,407,3254,397,3179,380,3107,356,3090,346,3079,335,3068,324,3052,316,3017,308,2963,301,2810,290,2396,279,1971,274,1693,268"/>
+<area shape="rect" href="execution__engine_8h.html" title="SQLCC执行引擎 &#45; SQL语句解释和执行的核心组件" alt="" coords="2335,321,2483,346"/>
+<area shape="poly" title=" " alt="" coords="1693,263,1872,277,2011,283,2148,291,2323,311,2363,318,2362,323,2322,316,2148,296,2010,288,1871,282,1693,268"/>
+<area shape="rect" href="execution_2execution__engine_8h.html" title="SQLCC执行引擎 &#45; SQL语句解释和执行的核心组件" alt="" coords="2507,321,2655,346"/>
+<area shape="poly" title=" " alt="" coords="1693,263,1920,278,2097,282,2272,288,2375,296,2495,311,2535,318,2534,323,2494,316,2374,302,2272,293,2096,287,1920,283,1693,268"/>
+<area shape="poly" title=" " alt="" coords="1531,268,1331,283,1161,290,872,292,584,295,416,302,218,316,154,323,153,318,217,311,416,296,584,289,872,287,1161,285,1331,277,1531,263"/>
+<area shape="poly" title=" " alt="" coords="1531,268,1360,280,1215,286,969,287,724,291,581,299,412,316,400,318,400,312,412,311,580,294,724,285,969,282,1215,281,1360,275,1531,263"/>
+<area shape="poly" title=" " alt="" coords="1531,268,1416,277,1318,282,1152,284,988,290,892,300,780,316,749,323,747,318,780,311,892,294,988,285,1152,279,1318,276,1416,272,1531,263"/>
+<area shape="rect" href="load__data__executor_8h.html" title=" " alt="" coords="2680,321,2840,346"/>
+<area shape="poly" title=" " alt="" coords="1693,263,1842,274,1968,280,2183,282,2396,287,2521,295,2667,311,2711,318,2710,323,2666,316,2520,300,2396,292,2182,287,1968,285,1842,279,1693,268"/>
+<area shape="poly" title=" " alt="" coords="1693,263,1908,276,2091,278,2402,268,2551,264,2711,267,2891,281,3102,311,3131,318,3129,323,3101,316,2890,286,2710,272,2551,269,2402,273,2091,283,1908,281,1693,268"/>
+<area shape="rect" href="page__raii_8cpp.html" title=" " alt="" coords="1127,401,1236,427"/>
+<area shape="poly" title=" " alt="" coords="1591,277,1536,324,1496,356,1429,381,1358,398,1292,408,1236,413,1236,408,1292,403,1357,393,1427,376,1493,351,1533,320,1587,273"/>
+<area shape="rect" href="page__raii_8h.html" title=" " alt="" coords="793,321,887,346"/>
+<area shape="poly" title=" " alt="" coords="1531,268,1352,280,1211,283,1073,290,993,300,899,316,872,323,871,318,898,311,992,295,1073,285,1211,278,1351,275,1531,263"/>
+<area shape="rect" href="sql__executor_2sql__executor_8cpp.html" title=" " alt="" coords="2864,321,2995,346"/>
+<area shape="poly" title=" " alt="" coords="1693,263,1870,275,2020,279,2276,277,2399,276,2530,280,2678,290,2852,311,2889,318,2888,323,2852,316,2678,295,2529,285,2398,282,2276,283,2020,285,1870,280,1693,268"/>
+<area shape="rect" href="storage__accessor__impl_8h.html" title=" " alt="" coords="911,321,1094,346"/>
+<area shape="poly" title=" " alt="" coords="1531,268,1317,291,1107,316,1063,323,1062,318,1106,311,1316,286,1531,263"/>
+<area shape="poly" title=" " alt="" coords="3252,356,3176,403,3173,399,3249,351"/>
+<area shape="poly" title=" " alt="" coords="3541,357,3487,403,3484,399,3537,353"/>
+<area shape="poly" title=" " alt="" coords="888,348,899,351,1021,379,1127,400,1126,405,1020,384,898,356,886,353"/>
+<area shape="poly" title=" " alt="" coords="2117,111,1550,172,1550,166,2116,106"/>
+<area shape="poly" title=" " alt="" coords="2117,117,2030,138,1938,169,1867,206,1812,242,1809,238,1864,202,1936,164,2029,133,2116,111"/>
+<area shape="poly" title=" " alt="" coords="2120,117,2008,140,1885,169,1752,208,1646,242,1644,237,1750,203,1883,164,2007,135,2119,111"/>
+<area shape="poly" title=" " alt="" coords="2248,112,2268,116,2332,126,2387,130,2481,133,2575,139,2629,148,2692,164,2718,177,2744,190,2801,205,2874,219,3046,245,3218,274,3290,291,3346,311,3382,331,3415,356,3463,399,3459,403,3412,360,3380,336,3344,316,3288,296,3216,279,3046,250,2874,224,2800,210,2742,194,2716,181,2690,169,2627,153,2574,144,2481,138,2387,136,2332,131,2268,121,2247,117"/>
+<area shape="rect" href="disk__error__handler_8cpp.html" title="磁盘I/O错误处理器实现 &#45; 改进的磁盘I/O错误处理机制" alt="" coords="2165,240,2334,265"/>
+<area shape="poly" title=" " alt="" coords="2181,125,2168,157,2167,175,2172,191,2182,206,2195,219,2225,238,2222,242,2192,223,2178,209,2167,193,2162,175,2163,156,2176,123"/>
+<area shape="rect" href="storage_2disk__error__handler_8h.html" title=" " alt="" coords="2360,167,2515,192"/>
+<area shape="poly" title=" " alt="" coords="2243,113,2403,164,2401,169,2241,118"/>
+<area shape="rect" href="storage__engine_2disk__error__handler_8h.html" title=" " alt="" coords="2181,167,2336,192"/>
+<area shape="poly" title=" " alt="" coords="2214,120,2251,165,2247,168,2210,124"/>
+<area shape="rect" href="disk__manager_8cpp.html" title=" " alt="" coords="2539,167,2679,192"/>
+<area shape="poly" title=" " alt="" coords="2250,112,2269,116,2413,144,2540,165,2539,170,2412,149,2267,121,2249,117"/>
+<area shape="poly" title=" " alt="" coords="2248,112,2268,116,2399,135,2502,143,2605,150,2736,164,2755,167,2755,172,2736,169,2604,156,2501,149,2399,140,2268,121,2247,117"/>
+<area shape="poly" title=" " alt="" coords="2154,119,2031,169,2029,164,2152,114"/>
+<area shape="poly" title=" " alt="" coords="2248,112,2268,116,2437,137,2570,143,2703,148,2872,164,2885,166,2884,171,2872,169,2702,153,2569,149,2437,142,2268,121,2247,117"/>
+<area shape="poly" title=" " alt="" coords="2247,112,2268,116,2379,131,2472,139,2632,144,2793,147,2887,152,2998,164,3009,166,3008,171,2997,169,2886,158,2792,152,2632,149,2472,144,2378,136,2268,121,2246,117"/>
+<area shape="poly" title=" " alt="" coords="2246,112,2268,116,2397,133,2507,141,2694,144,2882,145,2992,151,3122,164,3133,166,3132,171,3121,169,2992,157,2882,151,2694,150,2507,147,2397,138,2268,121,2245,117"/>
+<area shape="poly" title=" " alt="" coords="2258,206,2253,240,2248,240,2253,205"/>
+<area shape="rect" href="lazy__writer_8cpp.html" title=" " alt="" coords="1960,240,2080,265"/>
+<area shape="poly" title=" " alt="" coords="2011,205,2020,239,2015,241,2006,206"/>
+<area shape="poly" title=" " alt="" coords="3528,118,3447,145,3384,169,3317,207,3265,242,3262,238,3314,203,3382,164,3445,140,3526,113"/>
+<area shape="poly" title=" " alt="" coords="3585,124,3618,239,3613,241,3580,125"/>
+<area shape="poly" title=" " alt="" coords="3546,121,3466,169,3463,164,3544,116"/>
+<area shape="poly" title=" " alt="" coords="3440,206,3427,240,3407,280,3381,320,3347,355,3316,375,3283,390,3217,408,3216,403,3281,385,3314,371,3344,351,3377,317,3403,277,3422,238,3435,204"/>
+<area shape="poly" title=" " alt="" coords="3423,203,3378,242,3293,322,3290,319,3374,238,3419,199"/>
+<area shape="poly" title=" " alt="" coords="3465,201,3556,319,3552,322,3460,204"/>
+<area shape="poly" title=" " alt="" coords="3451,206,3473,401,3468,401,3446,206"/>
+<area shape="poly" title=" " alt="" coords="3402,199,3281,242,3279,237,3400,194"/>
+<area shape="poly" title=" " alt="" coords="3487,195,3591,237,3589,242,3485,200"/>
+</map>
+</div>
+</div>
+<p><a href="config__manager_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConfigManager.html">sqlcc::ConfigManager</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+类型定义</h2></td></tr>
+<tr class="memitem:ae2f4bc4eee37aaf01276a62a2a79dc0a" id="r_ae2f4bc4eee37aaf01276a62a2a79dc0a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#ae2f4bc4eee37aaf01276a62a2a79dc0a">sqlcc::ConfigValue</a> = std::variant&lt; bool, int, double, std::string &gt;</td></tr>
+<tr class="memdesc:ae2f4bc4eee37aaf01276a62a2a79dc0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">配置值类型，支持多种数据类型 使用std::variant实现类型安全的配置值存储  <br /></td></tr>
+<tr class="separator:ae2f4bc4eee37aaf01276a62a2a79dc0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:ada91e47e90c07afd104d7b3c77b72dc0" id="r_ada91e47e90c07afd104d7b3c77b72dc0"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#ada91e47e90c07afd104d7b3c77b72dc0">sqlcc::kDefaultOperationTimeoutMs</a> = 30000</td></tr>
+<tr class="separator:ada91e47e90c07afd104d7b3c77b72dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

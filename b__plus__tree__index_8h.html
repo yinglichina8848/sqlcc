@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: b_plus_tree_index.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li><li class="navelem"><a class="el" href="dir_1beebb655226e3b3a0da039efb09b088.html">b_plus_tree</a></li><li class="navelem"><a class="el" href="dir_fdfcde172c08e5ff0ca440f3f4612b33.html">index</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">b_plus_tree_index.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="b__plus__tree__node_8h_source.html">../node/b_plus_tree_node.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="b__plus__tree__leaf__node_8h_source.html">../node/b_plus_tree_leaf_node.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="b__plus__tree__internal__node_8h_source.html">../node/b_plus_tree_internal_node.h</a>&quot;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+b_plus_tree_index.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="b__plus__tree__index_8h__incl.png" border="0" usemap="#ab__plus__tree__index_8h" alt=""/></div>
+<map name="ab__plus__tree__index_8h" id="ab__plus__tree__index_8h">
+<area shape="rect" title=" " alt="" coords="187,5,339,31"/>
+<area shape="rect" href="b__plus__tree__node_8h.html" title=" " alt="" coords="107,167,252,207"/>
+<area shape="poly" title=" " alt="" coords="260,32,197,156,193,153,255,30"/>
+<area shape="rect" title=" " alt="" coords="77,255,154,280"/>
+<area shape="poly" title=" " alt="" coords="188,30,84,48,41,63,15,80,9,93,8,109,17,147,32,183,44,205,64,227,86,245,82,249,60,231,40,208,27,186,12,149,3,109,4,92,11,77,39,58,83,43,187,24"/>
+<area shape="rect" title=" " alt="" coords="213,255,271,280"/>
+<area shape="poly" title=" " alt="" coords="331,28,372,46,391,60,406,77,412,98,406,120,383,163,349,199,312,229,278,250,276,246,309,224,346,196,378,160,401,118,407,98,401,80,387,64,369,51,328,33"/>
+<area shape="rect" title=" " alt="" coords="385,255,448,280"/>
+<area shape="poly" title=" " alt="" coords="340,25,389,43,410,58,428,77,439,97,445,119,447,164,440,208,429,243,424,241,435,206,442,164,440,120,434,99,424,80,407,62,386,48,338,30"/>
+<area shape="rect" href="b__plus__tree__leaf__node_8h.html" title=" " alt="" coords="247,79,392,119"/>
+<area shape="poly" title=" " alt="" coords="274,29,300,66,296,69,269,32"/>
+<area shape="rect" href="b__plus__tree__internal__node_8h.html" title=" " alt="" coords="25,79,171,119"/>
+<area shape="poly" title=" " alt="" coords="240,33,152,75,149,70,238,28"/>
+<area shape="poly" title=" " alt="" coords="166,209,136,245,132,242,162,205"/>
+<area shape="poly" title=" " alt="" coords="197,205,226,242,222,245,192,209"/>
+<area shape="poly" title=" " alt="" coords="237,204,373,249,371,254,235,209"/>
+<area shape="poly" title=" " alt="" coords="290,121,223,162,220,157,287,116"/>
+<area shape="poly" title=" " alt="" coords="316,120,298,164,284,188,265,209,243,225,218,239,169,257,167,252,216,234,240,221,262,205,279,184,294,161,312,118"/>
+<area shape="poly" title=" " alt="" coords="324,119,324,161,320,185,311,208,295,231,274,249,271,245,291,227,306,205,314,184,318,160,319,119"/>
+<area shape="poly" title=" " alt="" coords="360,117,389,137,412,165,420,184,423,204,423,241,418,241,418,204,415,186,408,168,385,141,357,121"/>
+<area shape="poly" title=" " alt="" coords="118,117,154,155,150,158,114,121"/>
+<area shape="poly" title=" " alt="" coords="81,120,67,139,55,160,49,183,53,206,67,227,86,244,82,248,63,230,48,208,44,183,50,158,63,136,77,117"/>
+<area shape="poly" title=" " alt="" coords="94,119,86,162,88,184,96,205,117,227,143,242,172,253,200,259,198,264,171,258,141,247,114,231,92,208,82,186,81,161,89,118"/>
+<area shape="poly" title=" " alt="" coords="153,116,208,138,265,164,334,205,392,244,389,249,332,210,262,169,205,143,151,121"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="b__plus__tree__index_8h__dep__incl.png" border="0" usemap="#ab__plus__tree__index_8hdep" alt=""/></div>
+<map name="ab__plus__tree__index_8hdep" id="ab__plus__tree__index_8hdep">
+<area shape="rect" title=" " alt="" coords="110,5,262,31"/>
+<area shape="rect" href="b__plus__tree__index_8cpp.html" title="SQLCC B+树索引实现 &#45; 现代数据库索引的核心组件" alt="" coords="5,79,172,104"/>
+<area shape="poly" title=" " alt="" coords="161,41,106,81,103,76,158,37"/>
+<area shape="rect" href="smart__index__cache_8cpp.html" title=" " alt="" coords="196,79,371,104"/>
+<area shape="poly" title=" " alt="" coords="214,37,269,76,266,81,211,41"/>
+</map>
+</div>
+</div>
+<p><a href="b__plus__tree__index_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">sqlcc::BPlusTreeIndex</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">B+树索引类  <a href="classsqlcc_1_1BPlusTreeIndex.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

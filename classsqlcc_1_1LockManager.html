@@ -1,0 +1,1061 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::LockManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1LockManager.html">LockManager</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1LockManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::LockManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="storage_2concurrent__access__validator_8h_source.html">concurrent_access_validator.h</a>&gt;</code></p>
+<div class="dynheader">
+sqlcc::LockManager 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1LockManager__coll__graph.png" border="0" usemap="#asqlcc_1_1LockManager_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1LockManager_coll__map" id="asqlcc_1_1LockManager_coll__map">
+<area shape="rect" title=" " alt="" coords="20,93,171,119"/>
+<area shape="rect" href="classsqlcc_1_1DeadlockDetector.html" title=" " alt="" coords="5,5,185,31"/>
+<area shape="poly" title=" " alt="" coords="98,45,98,93,93,93,93,45"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:accf7b1eb33ed7ecb89456e4fa4ee1141" id="r_accf7b1eb33ed7ecb89456e4fa4ee1141"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#accf7b1eb33ed7ecb89456e4fa4ee1141">LockManager</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt; transaction_manager)</td></tr>
+<tr class="separator:accf7b1eb33ed7ecb89456e4fa4ee1141"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a11563c044727bc77e9e292f597af5f" id="r_a0a11563c044727bc77e9e292f597af5f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a0a11563c044727bc77e9e292f597af5f">~LockManager</a> ()=default</td></tr>
+<tr class="separator:a0a11563c044727bc77e9e292f597af5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ce286e89abd11f97783888085a6d8b8" id="r_a9ce286e89abd11f97783888085a6d8b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a9ce286e89abd11f97783888085a6d8b8">AcquireLock</a> (const <a class="el" href="structsqlcc_1_1LockRequest.html">LockRequest</a> &amp;request)</td></tr>
+<tr class="separator:a9ce286e89abd11f97783888085a6d8b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19643128dccdaea2eaf2a8e29875b2e7" id="r_a19643128dccdaea2eaf2a8e29875b2e7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a19643128dccdaea2eaf2a8e29875b2e7">ReleaseLock</a> (int32_t transaction_id, const std::string &amp;table_name, int32_t record_id)</td></tr>
+<tr class="separator:a19643128dccdaea2eaf2a8e29875b2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03dff6320606ade84ea066f9809c798c" id="r_a03dff6320606ade84ea066f9809c798c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a03dff6320606ade84ea066f9809c798c">ReleaseAllLocks</a> (int32_t transaction_id)</td></tr>
+<tr class="separator:a03dff6320606ade84ea066f9809c798c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fc304019bfa2e325831b486193c4bbc" id="r_a0fc304019bfa2e325831b486193c4bbc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a0fc304019bfa2e325831b486193c4bbc">HasLock</a> (int32_t transaction_id, const std::string &amp;table_name, int32_t record_id, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> mode) const</td></tr>
+<tr class="separator:a0fc304019bfa2e325831b486193c4bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff5d8463723d230830e073f49e12c4bd" id="r_aff5d8463723d230830e073f49e12c4bd"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1LockHolder.html">LockHolder</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#aff5d8463723d230830e073f49e12c4bd">GetLockHolders</a> (const std::string &amp;table_name, int32_t record_id) const</td></tr>
+<tr class="separator:aff5d8463723d230830e073f49e12c4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3db2e95b42224e3ff33f24d0f13797e" id="r_aa3db2e95b42224e3ff33f24d0f13797e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1LockRequest.html">LockRequest</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#aa3db2e95b42224e3ff33f24d0f13797e">GetWaitingLocks</a> (int32_t transaction_id) const</td></tr>
+<tr class="separator:aa3db2e95b42224e3ff33f24d0f13797e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56ad18c58bbc1fb03f853ae2e8204e6a" id="r_a56ad18c58bbc1fb03f853ae2e8204e6a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a56ad18c58bbc1fb03f853ae2e8204e6a">UpgradeLock</a> (int32_t transaction_id, const std::string &amp;table_name, int32_t record_id, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> new_mode)</td></tr>
+<tr class="separator:a56ad18c58bbc1fb03f853ae2e8204e6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accf7b1eb33ed7ecb89456e4fa4ee1141" id="r_accf7b1eb33ed7ecb89456e4fa4ee1141"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#accf7b1eb33ed7ecb89456e4fa4ee1141">LockManager</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt; transaction_manager)</td></tr>
+<tr class="separator:accf7b1eb33ed7ecb89456e4fa4ee1141"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a11563c044727bc77e9e292f597af5f" id="r_a0a11563c044727bc77e9e292f597af5f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a0a11563c044727bc77e9e292f597af5f">~LockManager</a> ()=default</td></tr>
+<tr class="separator:a0a11563c044727bc77e9e292f597af5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ce286e89abd11f97783888085a6d8b8" id="r_a9ce286e89abd11f97783888085a6d8b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a9ce286e89abd11f97783888085a6d8b8">AcquireLock</a> (const <a class="el" href="structsqlcc_1_1LockRequest.html">LockRequest</a> &amp;request)</td></tr>
+<tr class="separator:a9ce286e89abd11f97783888085a6d8b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19643128dccdaea2eaf2a8e29875b2e7" id="r_a19643128dccdaea2eaf2a8e29875b2e7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a19643128dccdaea2eaf2a8e29875b2e7">ReleaseLock</a> (int32_t transaction_id, const std::string &amp;table_name, int32_t record_id)</td></tr>
+<tr class="separator:a19643128dccdaea2eaf2a8e29875b2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03dff6320606ade84ea066f9809c798c" id="r_a03dff6320606ade84ea066f9809c798c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a03dff6320606ade84ea066f9809c798c">ReleaseAllLocks</a> (int32_t transaction_id)</td></tr>
+<tr class="separator:a03dff6320606ade84ea066f9809c798c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fc304019bfa2e325831b486193c4bbc" id="r_a0fc304019bfa2e325831b486193c4bbc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a0fc304019bfa2e325831b486193c4bbc">HasLock</a> (int32_t transaction_id, const std::string &amp;table_name, int32_t record_id, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> mode) const</td></tr>
+<tr class="separator:a0fc304019bfa2e325831b486193c4bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff5d8463723d230830e073f49e12c4bd" id="r_aff5d8463723d230830e073f49e12c4bd"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1LockHolder.html">LockHolder</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#aff5d8463723d230830e073f49e12c4bd">GetLockHolders</a> (const std::string &amp;table_name, int32_t record_id) const</td></tr>
+<tr class="separator:aff5d8463723d230830e073f49e12c4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3db2e95b42224e3ff33f24d0f13797e" id="r_aa3db2e95b42224e3ff33f24d0f13797e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structsqlcc_1_1LockRequest.html">LockRequest</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#aa3db2e95b42224e3ff33f24d0f13797e">GetWaitingLocks</a> (int32_t transaction_id) const</td></tr>
+<tr class="separator:aa3db2e95b42224e3ff33f24d0f13797e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56ad18c58bbc1fb03f853ae2e8204e6a" id="r_a56ad18c58bbc1fb03f853ae2e8204e6a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a56ad18c58bbc1fb03f853ae2e8204e6a">UpgradeLock</a> (int32_t transaction_id, const std::string &amp;table_name, int32_t record_id, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> new_mode)</td></tr>
+<tr class="separator:a56ad18c58bbc1fb03f853ae2e8204e6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:aa7cf17e8f9f294f0ef674d1706bc2650" id="r_aa7cf17e8f9f294f0ef674d1706bc2650"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#aa7cf17e8f9f294f0ef674d1706bc2650">IsLockCompatible</a> (<a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> existing_mode, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> requested_mode) const</td></tr>
+<tr class="separator:aa7cf17e8f9f294f0ef674d1706bc2650"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fabab30bd705cd7c2a814b2116e78b9" id="r_a1fabab30bd705cd7c2a814b2116e78b9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a1fabab30bd705cd7c2a814b2116e78b9">CanGrantLock</a> (const std::vector&lt; <a class="el" href="structsqlcc_1_1LockHolder.html">LockHolder</a> &gt; &amp;holders, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> requested_mode) const</td></tr>
+<tr class="separator:a1fabab30bd705cd7c2a814b2116e78b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af46b146c71a26b814670cb9a7e8d7d5d" id="r_af46b146c71a26b814670cb9a7e8d7d5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#af46b146c71a26b814670cb9a7e8d7d5d">CleanupExpiredLocks</a> ()</td></tr>
+<tr class="separator:af46b146c71a26b814670cb9a7e8d7d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3dcb702111c85a9a0975a8b6a0d199c" id="r_af3dcb702111c85a9a0975a8b6a0d199c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#af3dcb702111c85a9a0975a8b6a0d199c">NotifyWaitingTransactions</a> (const std::string &amp;table_name, int32_t record_id)</td></tr>
+<tr class="separator:af3dcb702111c85a9a0975a8b6a0d199c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7cf17e8f9f294f0ef674d1706bc2650" id="r_aa7cf17e8f9f294f0ef674d1706bc2650"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#aa7cf17e8f9f294f0ef674d1706bc2650">IsLockCompatible</a> (<a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> existing_mode, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> requested_mode) const</td></tr>
+<tr class="separator:aa7cf17e8f9f294f0ef674d1706bc2650"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fabab30bd705cd7c2a814b2116e78b9" id="r_a1fabab30bd705cd7c2a814b2116e78b9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a1fabab30bd705cd7c2a814b2116e78b9">CanGrantLock</a> (const std::vector&lt; <a class="el" href="structsqlcc_1_1LockHolder.html">LockHolder</a> &gt; &amp;holders, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a> requested_mode) const</td></tr>
+<tr class="separator:a1fabab30bd705cd7c2a814b2116e78b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af46b146c71a26b814670cb9a7e8d7d5d" id="r_af46b146c71a26b814670cb9a7e8d7d5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#af46b146c71a26b814670cb9a7e8d7d5d">CleanupExpiredLocks</a> ()</td></tr>
+<tr class="separator:af46b146c71a26b814670cb9a7e8d7d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3dcb702111c85a9a0975a8b6a0d199c" id="r_af3dcb702111c85a9a0975a8b6a0d199c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#af3dcb702111c85a9a0975a8b6a0d199c">NotifyWaitingTransactions</a> (const std::string &amp;table_name, int32_t record_id)</td></tr>
+<tr class="separator:af3dcb702111c85a9a0975a8b6a0d199c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a3b8e545e8e23a8f081592d10b59419f1" id="r_a3b8e545e8e23a8f081592d10b59419f1"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a3b8e545e8e23a8f081592d10b59419f1">transaction_manager_</a></td></tr>
+<tr class="separator:a3b8e545e8e23a8f081592d10b59419f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a698f0527b967e6161eb99e8af0bf4f96" id="r_a698f0527b967e6161eb99e8af0bf4f96"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1DeadlockDetector.html">DeadlockDetector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a698f0527b967e6161eb99e8af0bf4f96">deadlock_detector_</a></td></tr>
+<tr class="separator:a698f0527b967e6161eb99e8af0bf4f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ac1ab202e2cc82bb7d7c53295b23785" id="r_a6ac1ab202e2cc82bb7d7c53295b23785"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::unordered_map&lt; int32_t, std::vector&lt; <a class="el" href="structsqlcc_1_1LockHolder.html">LockHolder</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a6ac1ab202e2cc82bb7d7c53295b23785">lock_table_</a></td></tr>
+<tr class="separator:a6ac1ab202e2cc82bb7d7c53295b23785"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae65829a511f01ffac20d344f67bccf08" id="r_ae65829a511f01ffac20d344f67bccf08"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, std::vector&lt; <a class="el" href="structsqlcc_1_1LockRequest.html">LockRequest</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#ae65829a511f01ffac20d344f67bccf08">waiting_locks_</a></td></tr>
+<tr class="separator:ae65829a511f01ffac20d344f67bccf08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1667479c680f878e395a2343e405a40c" id="r_a1667479c680f878e395a2343e405a40c"><td class="memItemLeft" align="right" valign="top">std::shared_mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#a1667479c680f878e395a2343e405a40c">lock_table_mutex_</a></td></tr>
+<tr class="separator:a1667479c680f878e395a2343e405a40c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad11ae07276df2626070b01d64115dbe2" id="r_ad11ae07276df2626070b01d64115dbe2"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockManager.html#ad11ae07276df2626070b01d64115dbe2">waiting_mutex_</a></td></tr>
+<tr class="separator:ad11ae07276df2626070b01d64115dbe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="accf7b1eb33ed7ecb89456e4fa4ee1141" name="accf7b1eb33ed7ecb89456e4fa4ee1141"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accf7b1eb33ed7ecb89456e4fa4ee1141">&#9670;&#160;</a></span>LockManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::LockManager::LockManager </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>transaction_manager</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0a11563c044727bc77e9e292f597af5f" name="a0a11563c044727bc77e9e292f597af5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a11563c044727bc77e9e292f597af5f">&#9670;&#160;</a></span>~LockManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::LockManager::~LockManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="accf7b1eb33ed7ecb89456e4fa4ee1141" name="accf7b1eb33ed7ecb89456e4fa4ee1141"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accf7b1eb33ed7ecb89456e4fa4ee1141">&#9670;&#160;</a></span>LockManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::LockManager::LockManager </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt;&#160;</td>
+          <td class="paramname"><em>transaction_manager</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0a11563c044727bc77e9e292f597af5f" name="a0a11563c044727bc77e9e292f597af5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a11563c044727bc77e9e292f597af5f">&#9670;&#160;</a></span>~LockManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::LockManager::~LockManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a9ce286e89abd11f97783888085a6d8b8" name="a9ce286e89abd11f97783888085a6d8b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ce286e89abd11f97783888085a6d8b8">&#9670;&#160;</a></span>AcquireLock() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> sqlcc::LockManager::AcquireLock </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1LockRequest.html">LockRequest</a> &amp;&#160;</td>
+          <td class="paramname"><em>request</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9ce286e89abd11f97783888085a6d8b8" name="a9ce286e89abd11f97783888085a6d8b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ce286e89abd11f97783888085a6d8b8">&#9670;&#160;</a></span>AcquireLock() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> sqlcc::LockManager::AcquireLock </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1LockRequest.html">LockRequest</a> &amp;&#160;</td>
+          <td class="paramname"><em>request</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1fabab30bd705cd7c2a814b2116e78b9" name="a1fabab30bd705cd7c2a814b2116e78b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fabab30bd705cd7c2a814b2116e78b9">&#9670;&#160;</a></span>CanGrantLock() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::LockManager::CanGrantLock </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structsqlcc_1_1LockHolder.html">LockHolder</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>holders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>requested_mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1fabab30bd705cd7c2a814b2116e78b9" name="a1fabab30bd705cd7c2a814b2116e78b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fabab30bd705cd7c2a814b2116e78b9">&#9670;&#160;</a></span>CanGrantLock() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::LockManager::CanGrantLock </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structsqlcc_1_1LockHolder.html">LockHolder</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>holders</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>requested_mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af46b146c71a26b814670cb9a7e8d7d5d" name="af46b146c71a26b814670cb9a7e8d7d5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af46b146c71a26b814670cb9a7e8d7d5d">&#9670;&#160;</a></span>CleanupExpiredLocks() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LockManager::CleanupExpiredLocks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af46b146c71a26b814670cb9a7e8d7d5d" name="af46b146c71a26b814670cb9a7e8d7d5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af46b146c71a26b814670cb9a7e8d7d5d">&#9670;&#160;</a></span>CleanupExpiredLocks() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LockManager::CleanupExpiredLocks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aff5d8463723d230830e073f49e12c4bd" name="aff5d8463723d230830e073f49e12c4bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff5d8463723d230830e073f49e12c4bd">&#9670;&#160;</a></span>GetLockHolders() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1LockHolder.html">LockHolder</a> &gt; sqlcc::LockManager::GetLockHolders </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aff5d8463723d230830e073f49e12c4bd" name="aff5d8463723d230830e073f49e12c4bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff5d8463723d230830e073f49e12c4bd">&#9670;&#160;</a></span>GetLockHolders() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1LockHolder.html">LockHolder</a> &gt; sqlcc::LockManager::GetLockHolders </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa3db2e95b42224e3ff33f24d0f13797e" name="aa3db2e95b42224e3ff33f24d0f13797e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3db2e95b42224e3ff33f24d0f13797e">&#9670;&#160;</a></span>GetWaitingLocks() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1LockRequest.html">LockRequest</a> &gt; sqlcc::LockManager::GetWaitingLocks </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa3db2e95b42224e3ff33f24d0f13797e" name="aa3db2e95b42224e3ff33f24d0f13797e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3db2e95b42224e3ff33f24d0f13797e">&#9670;&#160;</a></span>GetWaitingLocks() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structsqlcc_1_1LockRequest.html">LockRequest</a> &gt; sqlcc::LockManager::GetWaitingLocks </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0fc304019bfa2e325831b486193c4bbc" name="a0fc304019bfa2e325831b486193c4bbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fc304019bfa2e325831b486193c4bbc">&#9670;&#160;</a></span>HasLock() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::LockManager::HasLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0fc304019bfa2e325831b486193c4bbc" name="a0fc304019bfa2e325831b486193c4bbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fc304019bfa2e325831b486193c4bbc">&#9670;&#160;</a></span>HasLock() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::LockManager::HasLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa7cf17e8f9f294f0ef674d1706bc2650" name="aa7cf17e8f9f294f0ef674d1706bc2650"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7cf17e8f9f294f0ef674d1706bc2650">&#9670;&#160;</a></span>IsLockCompatible() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::LockManager::IsLockCompatible </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>existing_mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>requested_mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa7cf17e8f9f294f0ef674d1706bc2650" name="aa7cf17e8f9f294f0ef674d1706bc2650"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7cf17e8f9f294f0ef674d1706bc2650">&#9670;&#160;</a></span>IsLockCompatible() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::LockManager::IsLockCompatible </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>existing_mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>requested_mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af3dcb702111c85a9a0975a8b6a0d199c" name="af3dcb702111c85a9a0975a8b6a0d199c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3dcb702111c85a9a0975a8b6a0d199c">&#9670;&#160;</a></span>NotifyWaitingTransactions() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LockManager::NotifyWaitingTransactions </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af3dcb702111c85a9a0975a8b6a0d199c" name="af3dcb702111c85a9a0975a8b6a0d199c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3dcb702111c85a9a0975a8b6a0d199c">&#9670;&#160;</a></span>NotifyWaitingTransactions() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::LockManager::NotifyWaitingTransactions </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a03dff6320606ade84ea066f9809c798c" name="a03dff6320606ade84ea066f9809c798c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03dff6320606ade84ea066f9809c798c">&#9670;&#160;</a></span>ReleaseAllLocks() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> sqlcc::LockManager::ReleaseAllLocks </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a03dff6320606ade84ea066f9809c798c" name="a03dff6320606ade84ea066f9809c798c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03dff6320606ade84ea066f9809c798c">&#9670;&#160;</a></span>ReleaseAllLocks() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> sqlcc::LockManager::ReleaseAllLocks </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a19643128dccdaea2eaf2a8e29875b2e7" name="a19643128dccdaea2eaf2a8e29875b2e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19643128dccdaea2eaf2a8e29875b2e7">&#9670;&#160;</a></span>ReleaseLock() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> sqlcc::LockManager::ReleaseLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a19643128dccdaea2eaf2a8e29875b2e7" name="a19643128dccdaea2eaf2a8e29875b2e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19643128dccdaea2eaf2a8e29875b2e7">&#9670;&#160;</a></span>ReleaseLock() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> sqlcc::LockManager::ReleaseLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a56ad18c58bbc1fb03f853ae2e8204e6a" name="a56ad18c58bbc1fb03f853ae2e8204e6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56ad18c58bbc1fb03f853ae2e8204e6a">&#9670;&#160;</a></span>UpgradeLock() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> sqlcc::LockManager::UpgradeLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>new_mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a56ad18c58bbc1fb03f853ae2e8204e6a" name="a56ad18c58bbc1fb03f853ae2e8204e6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56ad18c58bbc1fb03f853ae2e8204e6a">&#9670;&#160;</a></span>UpgradeLock() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacesqlcc.html#aae3d13c97d41f1506f16677fec12fa2e">LockState</a> sqlcc::LockManager::UpgradeLock </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>record_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">LockType</a>&#160;</td>
+          <td class="paramname"><em>new_mode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a698f0527b967e6161eb99e8af0bf4f96" name="a698f0527b967e6161eb99e8af0bf4f96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a698f0527b967e6161eb99e8af0bf4f96">&#9670;&#160;</a></span>deadlock_detector_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1DeadlockDetector.html">DeadlockDetector</a> sqlcc::LockManager::deadlock_detector_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6ac1ab202e2cc82bb7d7c53295b23785" name="a6ac1ab202e2cc82bb7d7c53295b23785"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ac1ab202e2cc82bb7d7c53295b23785">&#9670;&#160;</a></span>lock_table_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; std::string, std::unordered_map&lt; int32_t, std::vector&lt; <a class="el" href="structsqlcc_1_1LockHolder.html">LockHolder</a> &gt; &gt; &gt; sqlcc::LockManager::lock_table_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1667479c680f878e395a2343e405a40c" name="a1667479c680f878e395a2343e405a40c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1667479c680f878e395a2343e405a40c">&#9670;&#160;</a></span>lock_table_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_mutex sqlcc::LockManager::lock_table_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3b8e545e8e23a8f081592d10b59419f1" name="a3b8e545e8e23a8f081592d10b59419f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b8e545e8e23a8f081592d10b59419f1">&#9670;&#160;</a></span>transaction_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt; sqlcc::LockManager::transaction_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae65829a511f01ffac20d344f67bccf08" name="ae65829a511f01ffac20d344f67bccf08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae65829a511f01ffac20d344f67bccf08">&#9670;&#160;</a></span>waiting_locks_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; int32_t, std::vector&lt; <a class="el" href="structsqlcc_1_1LockRequest.html">LockRequest</a> &gt; &gt; sqlcc::LockManager::waiting_locks_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad11ae07276df2626070b01d64115dbe2" name="ad11ae07276df2626070b01d64115dbe2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad11ae07276df2626070b01d64115dbe2">&#9670;&#160;</a></span>waiting_mutex_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::mutex sqlcc::LockManager::waiting_mutex_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage_2concurrent__access__validator_8h_source.html">storage/concurrent_access_validator.h</a></li>
+<li><a class="el" href="storage__engine_2concurrent__access__validator_8h_source.html">storage_engine/concurrent_access_validator.h</a></li>
+<li><a class="el" href="concurrent__access__validator_8cpp.html">concurrent_access_validator.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

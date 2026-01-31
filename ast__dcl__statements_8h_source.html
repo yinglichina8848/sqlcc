@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: ast_dcl_statements.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li><li class="navelem"><a class="el" href="dir_3f40bfae0b1f6b03444daffc78cbbe28.html">ast</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">ast_dcl_statements.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ast__dcl__statements_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SQLCC_SQL_PARSER_AST_DCL_STATEMENTS_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SQLCC_SQL_PARSER_AST_DCL_STATEMENTS_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ast__node_8h.html">ast_node.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc_1_1sql__parser.html">sqlcc::sql_parser</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html">   13</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html">CreateRoleStatement</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Statement.html">Statement</a> {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html">CreateRoleStatement</a>(<span class="keyword">const</span> std::string&amp; role_name);</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a9ae62738210582050d78846eda761ecc">   16</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a9ae62738210582050d78846eda761ecc">~CreateRoleStatement</a>();</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a5de7d47ab248f1e83a79d1208ba8ddd7">getTypeName</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a34eab09389e4d963b4afad7021fac49b">accept</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">NodeVisitor</a>&amp; visitor) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a9787e86385deb0abdafcfc595ccc6586">   21</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a9787e86385deb0abdafcfc595ccc6586">getRoleName</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a6afb3515357c6664a4c5b59c2a0f0fe1">role_name_</a>; }</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a6afb3515357c6664a4c5b59c2a0f0fe1">   24</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a6afb3515357c6664a4c5b59c2a0f0fe1">role_name_</a>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>};</div>
+</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="foldopen" id="foldopen00030" data-start="{" data-end="};">
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html">   30</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html">DropRoleStatement</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Statement.html">Statement</a> {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html">DropRoleStatement</a>(<span class="keyword">const</span> std::string&amp; role_name);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a72278c5f0c43624bed6c4124000045a3">   33</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a72278c5f0c43624bed6c4124000045a3">~DropRoleStatement</a>();</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a3fc1d7e69c4f2e36e5276f5e2d450f1b">getTypeName</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a1948bd1495a60d79c066695c4192d527">accept</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">NodeVisitor</a>&amp; visitor) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a83349be0e778f4abca9a1376024d82da">   38</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a83349be0e778f4abca9a1376024d82da">getRoleName</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a91489d60953390bffed53549e5d9f4ef">role_name_</a>; }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a91489d60953390bffed53549e5d9f4ef">   41</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a91489d60953390bffed53549e5d9f4ef">role_name_</a>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>};</div>
+</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="foldopen" id="foldopen00047" data-start="{" data-end="};">
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html">   47</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html">GrantRoleStatement</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Statement.html">Statement</a> {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html">GrantRoleStatement</a>(<span class="keyword">const</span> std::string&amp; role_name, <span class="keyword">const</span> std::string&amp; grantee);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a1b34e2b5dd495fbcfba606915b5c3b7c">   50</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a1b34e2b5dd495fbcfba606915b5c3b7c">~GrantRoleStatement</a>();</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a5825bcd34f4c3951e784c9819c2d87ab">getTypeName</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a86ee455952bbc96a0353eed4bd293617">accept</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">NodeVisitor</a>&amp; visitor) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#aa1cb5200e81ef3eb1024c441712caefa">   55</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#aa1cb5200e81ef3eb1024c441712caefa">getRoleName</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a2b28161b8a9903ef9002faee3d733973">role_name_</a>; }</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a3cf54104677b5a3af5980bc53398d352">   56</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a3cf54104677b5a3af5980bc53398d352">getGrantee</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#af4b05414f874dd0c86985a490db87a76">grantee_</a>; }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a2b28161b8a9903ef9002faee3d733973">   59</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a2b28161b8a9903ef9002faee3d733973">role_name_</a>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#af4b05414f874dd0c86985a490db87a76">   60</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#af4b05414f874dd0c86985a490db87a76">grantee_</a>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>};</div>
+</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="foldopen" id="foldopen00066" data-start="{" data-end="};">
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html">   66</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html">RevokeRoleStatement</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Statement.html">Statement</a> {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html">RevokeRoleStatement</a>(<span class="keyword">const</span> std::string&amp; role_name, <span class="keyword">const</span> std::string&amp; grantee);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#a7f1f129eaf8a28a2b9864eb580bc781b">   69</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#a7f1f129eaf8a28a2b9864eb580bc781b">~RevokeRoleStatement</a>();</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    std::string <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#a8ca22bf124459aec1247e6886648c56c">getTypeName</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#ab7d50c415f06b963bc2a3821e5318bb2">accept</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">NodeVisitor</a>&amp; visitor) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#a7bc78ac88df2fbb6e7b1a8c1491f20e6">   74</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#a7bc78ac88df2fbb6e7b1a8c1491f20e6">getRoleName</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#adab2f74c095f57809dcf46dd1c2cce5d">role_name_</a>; }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#ae29021e0ed3ccf1b1aa9d08a52820a93">   75</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#ae29021e0ed3ccf1b1aa9d08a52820a93">getGrantee</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#a836af166f9be5d4840a5a25791aad181">grantee_</a>; }</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#adab2f74c095f57809dcf46dd1c2cce5d">   78</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#adab2f74c095f57809dcf46dd1c2cce5d">role_name_</a>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#a836af166f9be5d4840a5a25791aad181">   79</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#a836af166f9be5d4840a5a25791aad181">grantee_</a>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>};</div>
+</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>} <span class="comment">// namespace sqlcc::sql_parser</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SQL_PARSER_AST_DCL_STATEMENTS_H</span></div>
+<div class="ttc" id="aast__node_8h_html"><div class="ttname"><a href="ast__node_8h.html">ast_node.h</a></div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateRoleStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html">sqlcc::sql_parser::CreateRoleStatement</a></div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:13</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateRoleStatement_html_a34eab09389e4d963b4afad7021fac49b"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a34eab09389e4d963b4afad7021fac49b">sqlcc::sql_parser::CreateRoleStatement::accept</a></div><div class="ttdeci">virtual void accept(NodeVisitor &amp;visitor) override</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.cpp:16</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateRoleStatement_html_a5de7d47ab248f1e83a79d1208ba8ddd7"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a5de7d47ab248f1e83a79d1208ba8ddd7">sqlcc::sql_parser::CreateRoleStatement::getTypeName</a></div><div class="ttdeci">std::string getTypeName() const</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.cpp:12</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateRoleStatement_html_a6afb3515357c6664a4c5b59c2a0f0fe1"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a6afb3515357c6664a4c5b59c2a0f0fe1">sqlcc::sql_parser::CreateRoleStatement::role_name_</a></div><div class="ttdeci">std::string role_name_</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:24</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateRoleStatement_html_a9787e86385deb0abdafcfc595ccc6586"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a9787e86385deb0abdafcfc595ccc6586">sqlcc::sql_parser::CreateRoleStatement::getRoleName</a></div><div class="ttdeci">const std::string &amp; getRoleName() const</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:21</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1CreateRoleStatement_html_a9ae62738210582050d78846eda761ecc"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1CreateRoleStatement.html#a9ae62738210582050d78846eda761ecc">sqlcc::sql_parser::CreateRoleStatement::~CreateRoleStatement</a></div><div class="ttdeci">virtual ~CreateRoleStatement()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DropRoleStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html">sqlcc::sql_parser::DropRoleStatement</a></div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:30</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DropRoleStatement_html_a1948bd1495a60d79c066695c4192d527"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a1948bd1495a60d79c066695c4192d527">sqlcc::sql_parser::DropRoleStatement::accept</a></div><div class="ttdeci">virtual void accept(NodeVisitor &amp;visitor) override</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.cpp:30</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DropRoleStatement_html_a3fc1d7e69c4f2e36e5276f5e2d450f1b"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a3fc1d7e69c4f2e36e5276f5e2d450f1b">sqlcc::sql_parser::DropRoleStatement::getTypeName</a></div><div class="ttdeci">std::string getTypeName() const</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.cpp:26</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DropRoleStatement_html_a72278c5f0c43624bed6c4124000045a3"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a72278c5f0c43624bed6c4124000045a3">sqlcc::sql_parser::DropRoleStatement::~DropRoleStatement</a></div><div class="ttdeci">virtual ~DropRoleStatement()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DropRoleStatement_html_a83349be0e778f4abca9a1376024d82da"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a83349be0e778f4abca9a1376024d82da">sqlcc::sql_parser::DropRoleStatement::getRoleName</a></div><div class="ttdeci">const std::string &amp; getRoleName() const</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:38</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1DropRoleStatement_html_a91489d60953390bffed53549e5d9f4ef"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1DropRoleStatement.html#a91489d60953390bffed53549e5d9f4ef">sqlcc::sql_parser::DropRoleStatement::role_name_</a></div><div class="ttdeci">std::string role_name_</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:41</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1GrantRoleStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html">sqlcc::sql_parser::GrantRoleStatement</a></div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:47</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1GrantRoleStatement_html_a1b34e2b5dd495fbcfba606915b5c3b7c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a1b34e2b5dd495fbcfba606915b5c3b7c">sqlcc::sql_parser::GrantRoleStatement::~GrantRoleStatement</a></div><div class="ttdeci">virtual ~GrantRoleStatement()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1GrantRoleStatement_html_a2b28161b8a9903ef9002faee3d733973"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a2b28161b8a9903ef9002faee3d733973">sqlcc::sql_parser::GrantRoleStatement::role_name_</a></div><div class="ttdeci">std::string role_name_</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:59</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1GrantRoleStatement_html_a3cf54104677b5a3af5980bc53398d352"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a3cf54104677b5a3af5980bc53398d352">sqlcc::sql_parser::GrantRoleStatement::getGrantee</a></div><div class="ttdeci">const std::string &amp; getGrantee() const</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:56</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1GrantRoleStatement_html_a5825bcd34f4c3951e784c9819c2d87ab"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a5825bcd34f4c3951e784c9819c2d87ab">sqlcc::sql_parser::GrantRoleStatement::getTypeName</a></div><div class="ttdeci">std::string getTypeName() const</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.cpp:40</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1GrantRoleStatement_html_a86ee455952bbc96a0353eed4bd293617"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#a86ee455952bbc96a0353eed4bd293617">sqlcc::sql_parser::GrantRoleStatement::accept</a></div><div class="ttdeci">virtual void accept(NodeVisitor &amp;visitor) override</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.cpp:44</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1GrantRoleStatement_html_aa1cb5200e81ef3eb1024c441712caefa"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#aa1cb5200e81ef3eb1024c441712caefa">sqlcc::sql_parser::GrantRoleStatement::getRoleName</a></div><div class="ttdeci">const std::string &amp; getRoleName() const</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:55</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1GrantRoleStatement_html_af4b05414f874dd0c86985a490db87a76"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1GrantRoleStatement.html#af4b05414f874dd0c86985a490db87a76">sqlcc::sql_parser::GrantRoleStatement::grantee_</a></div><div class="ttdeci">std::string grantee_</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:60</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1RevokeRoleStatement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html">sqlcc::sql_parser::RevokeRoleStatement</a></div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:66</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1RevokeRoleStatement_html_a7bc78ac88df2fbb6e7b1a8c1491f20e6"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#a7bc78ac88df2fbb6e7b1a8c1491f20e6">sqlcc::sql_parser::RevokeRoleStatement::getRoleName</a></div><div class="ttdeci">const std::string &amp; getRoleName() const</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:74</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1RevokeRoleStatement_html_a7f1f129eaf8a28a2b9864eb580bc781b"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#a7f1f129eaf8a28a2b9864eb580bc781b">sqlcc::sql_parser::RevokeRoleStatement::~RevokeRoleStatement</a></div><div class="ttdeci">virtual ~RevokeRoleStatement()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1RevokeRoleStatement_html_a836af166f9be5d4840a5a25791aad181"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#a836af166f9be5d4840a5a25791aad181">sqlcc::sql_parser::RevokeRoleStatement::grantee_</a></div><div class="ttdeci">std::string grantee_</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:79</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1RevokeRoleStatement_html_a8ca22bf124459aec1247e6886648c56c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#a8ca22bf124459aec1247e6886648c56c">sqlcc::sql_parser::RevokeRoleStatement::getTypeName</a></div><div class="ttdeci">std::string getTypeName() const</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.cpp:54</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1RevokeRoleStatement_html_ab7d50c415f06b963bc2a3821e5318bb2"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#ab7d50c415f06b963bc2a3821e5318bb2">sqlcc::sql_parser::RevokeRoleStatement::accept</a></div><div class="ttdeci">virtual void accept(NodeVisitor &amp;visitor) override</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.cpp:58</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1RevokeRoleStatement_html_adab2f74c095f57809dcf46dd1c2cce5d"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#adab2f74c095f57809dcf46dd1c2cce5d">sqlcc::sql_parser::RevokeRoleStatement::role_name_</a></div><div class="ttdeci">std::string role_name_</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:78</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1RevokeRoleStatement_html_ae29021e0ed3ccf1b1aa9d08a52820a93"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1RevokeRoleStatement.html#ae29021e0ed3ccf1b1aa9d08a52820a93">sqlcc::sql_parser::RevokeRoleStatement::getGrantee</a></div><div class="ttdeci">const std::string &amp; getGrantee() const</div><div class="ttdef"><b>Definition</b> ast_dcl_statements.h:75</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Statement_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Statement.html">sqlcc::sql_parser::Statement</a></div><div class="ttdef"><b>Definition</b> statement.h:11</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1NodeVisitor.html">sqlcc::sql_parser::ast::NodeVisitor</a></div><div class="ttdef"><b>Definition</b> node_visitor.h:27</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html">sqlcc::sql_parser</a></div><div class="ttdef"><b>Definition</b> aggregate_engine.h:20</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

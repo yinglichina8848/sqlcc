@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: permission_validator.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">permission_validator.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="permission__validator_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="preprocessor">#ifndef SQLCC_PERMISSION_VALIDATOR_H</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="preprocessor">#define SQLCC_PERMISSION_VALIDATOR_H</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="preprocessor">#include &quot;<a class="code" href="ast__node_8h.html">sql_parser/ast/ast_node.h</a>&quot;</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="preprocessor">#include &quot;<a class="code" href="core_2user__manager_8h.html">core/user_manager.h</a>&quot;</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="preprocessor">#include &quot;<a class="code" href="core__database__manager_8h.html">core/core_database_manager.h</a>&quot;</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">#include &quot;<a class="code" href="error__handler_2error__handler_8h.html">error_handler.h</a>&quot;</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="preprocessor">#include &quot;<a class="code" href="ast__nodes_8h.html">sql_parser/ast/ast_nodes.h</a>&quot;</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="foldopen" id="foldopen00165" data-start="{" data-end="};">
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">  165</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">PermissionOperation</a> {</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a91835d2e664d4a4285a438e298451592">CREATE_DATABASE</a>,   <span class="comment">// 创建数据库</span></div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552aafad96c969acbafa8327d9f11f376b5f">DROP_DATABASE</a>,     <span class="comment">// 删除数据库</span></div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552aa262b4a928241dd92c1757d259f4a15d">CREATE_TABLE</a>,      <span class="comment">// 创建表</span></div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a9be122a94f599cc4262ad4a613abbb74">DROP_TABLE</a>,        <span class="comment">// 删除表</span></div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552adbb8fe69ef4e064475d836f5ceaf23ba">ALTER_TABLE</a>,       <span class="comment">// 修改表</span></div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a63225f19fccb18e7c709f1fa11bc738e">SELECT</a>,            <span class="comment">// 查询数据</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a61ee777e7f71dc466c3b2c685d8d313b">INSERT</a>,            <span class="comment">// 插入数据</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a15a8022d0ed9cd9c2a2e756822703eb4">UPDATE</a>,            <span class="comment">// 更新数据</span></div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a32f68a60cef40faedbc6af20298c1a1e">DELETE</a>,            <span class="comment">// 删除数据</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a47c7b79e9b4df36fea9784364ad60699">CREATE_USER</a>,       <span class="comment">// 创建用户</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a23188406d630f92528afe71607bd5d90">DROP_USER</a>,         <span class="comment">// 删除用户</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552ad9fdc8f875b86df6d7a2f5b2aece1ef2">GRANT</a>,             <span class="comment">// 授予权限</span></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552ac0542d70ebd1332044f84ea36e1ef24e">REVOKE</a>,            <span class="comment">// 撤销权限</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552abc152ccc041e70158a9b33e1469ba2f5">USE_DATABASE</a>,      <span class="comment">// 使用数据库</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a949b815ca225cd1cb4d9669da6b71878">SHOW_DATABASES</a>,    <span class="comment">// 查看数据库列表</span></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    <a class="code hl_enumvalue" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a4ca18b488ed082faa85acfe5c8a13d78">SHOW_TABLES</a>        <span class="comment">// 查看表列表</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>};</div>
+</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="keyword">struct </span>PermissionResult {</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1PermissionResult.html#a1f2001ef9470896916a195d0380aed39">allowed</a>;</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    std::string <a class="code hl_variable" href="structsqlcc_1_1PermissionResult.html#a8bf009bc145700b3d28f634394217d73">message</a>;</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    ErrorInfo <a class="code hl_variable" href="structsqlcc_1_1PermissionResult.html#aa53b834d19d3d9f4a65719f1442a109d">error_info</a>;</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span> </div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno"><a class="line" href="structsqlcc_1_1PermissionResult.html#a1d3e90940ccccb7adf1e3993327dc75a">  281</a></span>    <a class="code hl_function" href="structsqlcc_1_1PermissionResult.html#a1d3e90940ccccb7adf1e3993327dc75a">PermissionResult</a>(<span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1PermissionResult.html#a1f2001ef9470896916a195d0380aed39">allowed</a>, <span class="keyword">const</span> std::string&amp; msg = <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>                    <span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1ErrorInfo.html">ErrorInfo</a>&amp; error = <a class="code hl_struct" href="structsqlcc_1_1ErrorInfo.html">ErrorInfo</a>(<a class="code hl_enumvalue" href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edad0749aaba8b833466dfcbb0428e4f89c">ErrorCode::SUCCESS</a>, <a class="code hl_enumvalue" href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2a551b723eafd6a31d444fcb2f5920fbd3">ErrorLevel::INFO</a>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;PERMISSION&quot;</span>));</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span> </div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno"><a class="line" href="structsqlcc_1_1PermissionResult.html#a89b42b9a91fa990cd00dca73f63343c8">  287</a></span>    <span class="keyword">static</span> <a class="code hl_struct" href="structsqlcc_1_1PermissionResult.html">PermissionResult</a> <a class="code hl_function" href="structsqlcc_1_1PermissionResult.html#a89b42b9a91fa990cd00dca73f63343c8">createAllowed</a>();</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span> </div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno"><a class="line" href="structsqlcc_1_1PermissionResult.html#aedfcdc235e10f9863a3b86759ed7b462">  292</a></span>    <span class="keyword">static</span> <a class="code hl_struct" href="structsqlcc_1_1PermissionResult.html">PermissionResult</a> <a class="code hl_function" href="structsqlcc_1_1PermissionResult.html#aedfcdc235e10f9863a3b86759ed7b462">createDenied</a>(<span class="keyword">const</span> std::string&amp; reason);</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span> </div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno"><a class="line" href="structsqlcc_1_1PermissionResult.html#a29f4c92ec287641ec567f9c889c198cd">  297</a></span>    <span class="keyword">static</span> <a class="code hl_struct" href="structsqlcc_1_1PermissionResult.html">PermissionResult</a> <a class="code hl_function" href="structsqlcc_1_1PermissionResult.html#a29f4c92ec287641ec567f9c889c198cd">createDeniedWithError</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1ErrorInfo.html">ErrorInfo</a>&amp; error);</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno"><a class="line" href="structsqlcc_1_1PermissionResult.html#ae2f4ff7d90a3e00edac24af5c13ee3db">  302</a></span>    <span class="keyword">explicit</span> <span class="keyword">operator</span> bool()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="structsqlcc_1_1PermissionResult.html#a1f2001ef9470896916a195d0380aed39">allowed</a>; }</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>};</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span> </div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span><span class="keyword">class </span>PermissionValidator {</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>    PermissionValidator(std::shared_ptr&lt;UserManager&gt; user_manager,</div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>                       std::shared_ptr&lt;DatabaseManager&gt; db_manager);</div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span> </div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno"><a class="line" href="classsqlcc_1_1PermissionValidator.html#a679c53026c49790e56b1bd2faa58698a">  418</a></span>    <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#a679c53026c49790e56b1bd2faa58698a">~PermissionValidator</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span> </div>
+<div class="line"><a id="l00463" name="l00463"></a><span class="lineno"><a class="line" href="classsqlcc_1_1PermissionValidator.html#a06a8b97be2767c8845a7607ee58c3f8f">  463</a></span>    <a class="code hl_struct" href="structsqlcc_1_1PermissionResult.html">PermissionResult</a> <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#a06a8b97be2767c8845a7607ee58c3f8f">validate</a>(<a class="code hl_enumeration" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">PermissionOperation</a> operation,</div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>                             <span class="keyword">const</span> std::string&amp; resource = <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>                             <span class="keyword">const</span> std::string&amp; current_user = <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>                             <span class="keyword">const</span> std::string&amp; current_database = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span> </div>
+<div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span>    <a class="code hl_struct" href="structsqlcc_1_1PermissionResult.html">PermissionResult</a> <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#a6fa7d7334338bf4cef8ede72c80d71e4">validateStatement</a>(std::unique_ptr&lt;sql_parser::Statement&gt; stmt,</div>
+<div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span>                                      <span class="keyword">const</span> std::string&amp; current_user = <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span>                                      <span class="keyword">const</span> std::string&amp; current_database = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span> </div>
+<div class="line"><a id="l00546" name="l00546"></a><span class="lineno"><a class="line" href="classsqlcc_1_1PermissionValidator.html#a34ab0ec2d11f4400bfb51a1a9d8b7916">  546</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#a34ab0ec2d11f4400bfb51a1a9d8b7916">setDefaultUser</a>(<span class="keyword">const</span> std::string&amp; user);</div>
+<div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span> </div>
+<div class="line"><a id="l00582" name="l00582"></a><span class="lineno"><a class="line" href="classsqlcc_1_1PermissionValidator.html#ab4cdac6bc2fa4acb2cbceff5df4151d1">  582</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#ab4cdac6bc2fa4acb2cbceff5df4151d1">setDefaultDatabase</a>(<span class="keyword">const</span> std::string&amp; database);</div>
+<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span> </div>
+<div class="line"><a id="l00618" name="l00618"></a><span class="lineno"><a class="line" href="classsqlcc_1_1PermissionValidator.html#adac8078e3d447d483426368d8656585d">  618</a></span>    <span class="keyword">static</span> std::string <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#adac8078e3d447d483426368d8656585d">operationToPrivilege</a>(<a class="code hl_enumeration" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">PermissionOperation</a> operation);</div>
+<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span> </div>
+<div class="line"><a id="l00656" name="l00656"></a><span class="lineno"><a class="line" href="classsqlcc_1_1PermissionValidator.html#a415f261c1a06716ef63ca148bfd833b6">  656</a></span>    <span class="keyword">static</span> std::string <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#a415f261c1a06716ef63ca148bfd833b6">operationToResourceType</a>(<a class="code hl_enumeration" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">PermissionOperation</a> operation);</div>
+<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span> </div>
+<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>    std::shared_ptr&lt;UserManager&gt; <a class="code hl_variable" href="classsqlcc_1_1PermissionValidator.html#a97aea751b0388254fecd428942126de7">user_manager_</a>;</div>
+<div class="line"><a id="l00660" name="l00660"></a><span class="lineno"><a class="line" href="classsqlcc_1_1PermissionValidator.html#a3ab24986ad1d19b76809a4f3e6dc8194">  660</a></span>    std::shared_ptr&lt;DatabaseManager&gt; <a class="code hl_variable" href="classsqlcc_1_1PermissionValidator.html#a3ab24986ad1d19b76809a4f3e6dc8194">db_manager_</a>;</div>
+<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>    std::string <a class="code hl_variable" href="classsqlcc_1_1PermissionValidator.html#a0f893c24dc6bff2cccebd8158db6b135">default_user_</a>;</div>
+<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>    std::string <a class="code hl_variable" href="classsqlcc_1_1PermissionValidator.html#aa58c9c736e851780c25ded9e972ceb02">default_database_</a>;</div>
+<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span> </div>
+<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>    <span class="comment">// 权限验证方法</span></div>
+<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>    <a class="code hl_struct" href="structsqlcc_1_1PermissionResult.html">PermissionResult</a> <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#a01f3bd744c18637fe5a7e65343dba858">validateDatabaseOperation</a>(<a class="code hl_enumeration" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">PermissionOperation</a> operation,</div>
+<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>                                              <span class="keyword">const</span> std::string&amp; resource,</div>
+<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>                                              <span class="keyword">const</span> std::string&amp; current_user,</div>
+<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>                                              <span class="keyword">const</span> std::string&amp; current_database);</div>
+<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span> </div>
+<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>    <a class="code hl_struct" href="structsqlcc_1_1PermissionResult.html">PermissionResult</a> <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#a58b4870f45e5490d0c08cb2575033daf">validateTableOperation</a>(<a class="code hl_enumeration" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">PermissionOperation</a> operation,</div>
+<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>                                           <span class="keyword">const</span> std::string&amp; resource,</div>
+<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>                                           <span class="keyword">const</span> std::string&amp; current_user,</div>
+<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>                                           <span class="keyword">const</span> std::string&amp; current_database);</div>
+<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span> </div>
+<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>    <a class="code hl_struct" href="structsqlcc_1_1PermissionResult.html">PermissionResult</a> <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#aa2871460ef7e65fefe05999ee6cdd77a">validateUserOperation</a>(<a class="code hl_enumeration" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">PermissionOperation</a> operation,</div>
+<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>                                          <span class="keyword">const</span> std::string&amp; resource,</div>
+<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>                                          <span class="keyword">const</span> std::string&amp; current_user,</div>
+<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>                                          <span class="keyword">const</span> std::string&amp; current_database);</div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span> </div>
+<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>    <a class="code hl_struct" href="structsqlcc_1_1PermissionResult.html">PermissionResult</a> <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#a63114058201e9a9e37bc494464190f78">validateUtilityOperation</a>(<a class="code hl_enumeration" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">PermissionOperation</a> operation,</div>
+<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>                                             <span class="keyword">const</span> std::string&amp; resource,</div>
+<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>                                             <span class="keyword">const</span> std::string&amp; current_user,</div>
+<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>                                             <span class="keyword">const</span> std::string&amp; current_database);</div>
+<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span> </div>
+<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>    <span class="comment">// 辅助方法</span></div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno"><a class="line" href="classsqlcc_1_1PermissionValidator.html#a0b097605e492ed344501d1ec3ef14812">  686</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#a0b097605e492ed344501d1ec3ef14812">getCurrentUser</a>(<span class="keyword">const</span> std::string&amp; user) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno"><a class="line" href="classsqlcc_1_1PermissionValidator.html#a91d69f2891c7cc5d36dbc1928fca13b5">  687</a></span>    std::string <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#a91d69f2891c7cc5d36dbc1928fca13b5">getCurrentDatabase</a>(<span class="keyword">const</span> std::string&amp; database) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#a5decca8a02fecb15f4fcbb81ddb7761d">hasDatabaseContext</a>(<a class="code hl_enumeration" href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">PermissionOperation</a> operation) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span> </div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>    <span class="comment">// 权限检查</span></div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1PermissionValidator.html#a9e5fd170149537634a429baabfbc5ab4">checkUserPermission</a>(<span class="keyword">const</span> std::string&amp; user,</div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>                            <span class="keyword">const</span> std::string&amp; database,</div>
+<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>                            <span class="keyword">const</span> std::string&amp; resource,</div>
+<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>                            <span class="keyword">const</span> std::string&amp; privilege);</div>
+<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>};</div>
+<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span> </div>
+<div class="foldopen" id="foldopen00738" data-start="" data-end="">
+<div class="line"><a id="l00738" name="l00738"></a><span class="lineno"><a class="line" href="permission__validator_8h.html#a4b1fcfff28d59635f91300a6ebba024e">  738</a></span><span class="preprocessor">#define VALIDATE_PERMISSION(validator, operation, resource, user, database) \</span></div>
+<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span><span class="preprocessor">    validator.validate(operation, resource, user, database)</span></div>
+</div>
+<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span> </div>
+<div class="foldopen" id="foldopen00741" data-start="" data-end="">
+<div class="line"><a id="l00741" name="l00741"></a><span class="lineno"><a class="line" href="permission__validator_8h.html#a13554492d7f93db5669515f528cea0cc">  741</a></span><span class="preprocessor">#define VALIDATE_STATEMENT(validator, stmt, user, database) \</span></div>
+<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span><span class="preprocessor">    validator.validateStatement(std::move(stmt), user, database)</span></div>
+</div>
+<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span> </div>
+<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span> </div>
+<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_PERMISSION_VALIDATOR_H</span></div>
+<div class="ttc" id="aast__node_8h_html"><div class="ttname"><a href="ast__node_8h.html">ast_node.h</a></div></div>
+<div class="ttc" id="aast__nodes_8h_html"><div class="ttname"><a href="ast__nodes_8h.html">ast_nodes.h</a></div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a01f3bd744c18637fe5a7e65343dba858"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a01f3bd744c18637fe5a7e65343dba858">sqlcc::PermissionValidator::validateDatabaseOperation</a></div><div class="ttdeci">PermissionResult validateDatabaseOperation(PermissionOperation operation, const std::string &amp;resource, const std::string &amp;current_user, const std::string &amp;current_database)</div><div class="ttdef"><b>Definition</b> sql_executor/permission_validator.cpp:177</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a06a8b97be2767c8845a7607ee58c3f8f"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a06a8b97be2767c8845a7607ee58c3f8f">sqlcc::PermissionValidator::validate</a></div><div class="ttdeci">PermissionResult validate(PermissionOperation operation, const std::string &amp;resource=&quot;&quot;, const std::string &amp;current_user=&quot;&quot;, const std::string &amp;current_database=&quot;&quot;)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a0b097605e492ed344501d1ec3ef14812"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a0b097605e492ed344501d1ec3ef14812">sqlcc::PermissionValidator::getCurrentUser</a></div><div class="ttdeci">std::string getCurrentUser(const std::string &amp;user) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a0f893c24dc6bff2cccebd8158db6b135"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a0f893c24dc6bff2cccebd8158db6b135">sqlcc::PermissionValidator::default_user_</a></div><div class="ttdeci">std::string default_user_</div><div class="ttdef"><b>Definition</b> core/permission_validator.h:206</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a34ab0ec2d11f4400bfb51a1a9d8b7916"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a34ab0ec2d11f4400bfb51a1a9d8b7916">sqlcc::PermissionValidator::setDefaultUser</a></div><div class="ttdeci">void setDefaultUser(const std::string &amp;user)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a3ab24986ad1d19b76809a4f3e6dc8194"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a3ab24986ad1d19b76809a4f3e6dc8194">sqlcc::PermissionValidator::db_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; DatabaseManager &gt; db_manager_</div><div class="ttdef"><b>Definition</b> permission_validator.h:660</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a415f261c1a06716ef63ca148bfd833b6"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a415f261c1a06716ef63ca148bfd833b6">sqlcc::PermissionValidator::operationToResourceType</a></div><div class="ttdeci">static std::string operationToResourceType(PermissionOperation operation)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a58b4870f45e5490d0c08cb2575033daf"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a58b4870f45e5490d0c08cb2575033daf">sqlcc::PermissionValidator::validateTableOperation</a></div><div class="ttdeci">PermissionResult validateTableOperation(PermissionOperation operation, const std::string &amp;resource, const std::string &amp;current_user, const std::string &amp;current_database)</div><div class="ttdef"><b>Definition</b> sql_executor/permission_validator.cpp:254</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a5decca8a02fecb15f4fcbb81ddb7761d"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a5decca8a02fecb15f4fcbb81ddb7761d">sqlcc::PermissionValidator::hasDatabaseContext</a></div><div class="ttdeci">bool hasDatabaseContext(PermissionOperation operation) const</div><div class="ttdef"><b>Definition</b> sql_executor/permission_validator.cpp:385</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a63114058201e9a9e37bc494464190f78"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a63114058201e9a9e37bc494464190f78">sqlcc::PermissionValidator::validateUtilityOperation</a></div><div class="ttdeci">PermissionResult validateUtilityOperation(PermissionOperation operation, const std::string &amp;resource, const std::string &amp;current_user, const std::string &amp;current_database)</div><div class="ttdef"><b>Definition</b> sql_executor/permission_validator.cpp:369</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a679c53026c49790e56b1bd2faa58698a"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a679c53026c49790e56b1bd2faa58698a">sqlcc::PermissionValidator::~PermissionValidator</a></div><div class="ttdeci">~PermissionValidator()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a6fa7d7334338bf4cef8ede72c80d71e4"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a6fa7d7334338bf4cef8ede72c80d71e4">sqlcc::PermissionValidator::validateStatement</a></div><div class="ttdeci">PermissionResult validateStatement(std::unique_ptr&lt; sql_parser::Statement &gt; stmt, const std::string &amp;current_user=&quot;&quot;, const std::string &amp;current_database=&quot;&quot;)</div><div class="ttdef"><b>Definition</b> sql_executor/permission_validator.cpp:57</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a91d69f2891c7cc5d36dbc1928fca13b5"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a91d69f2891c7cc5d36dbc1928fca13b5">sqlcc::PermissionValidator::getCurrentDatabase</a></div><div class="ttdeci">std::string getCurrentDatabase(const std::string &amp;database) const</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a97aea751b0388254fecd428942126de7"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a97aea751b0388254fecd428942126de7">sqlcc::PermissionValidator::user_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; UserManager &gt; user_manager_</div><div class="ttdef"><b>Definition</b> core/permission_validator.h:204</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_a9e5fd170149537634a429baabfbc5ab4"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#a9e5fd170149537634a429baabfbc5ab4">sqlcc::PermissionValidator::checkUserPermission</a></div><div class="ttdeci">bool checkUserPermission(const std::string &amp;user, const std::string &amp;database, const std::string &amp;resource, const std::string &amp;privilege)</div><div class="ttdef"><b>Definition</b> sql_executor/permission_validator.cpp:401</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_aa2871460ef7e65fefe05999ee6cdd77a"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#aa2871460ef7e65fefe05999ee6cdd77a">sqlcc::PermissionValidator::validateUserOperation</a></div><div class="ttdeci">PermissionResult validateUserOperation(PermissionOperation operation, const std::string &amp;resource, const std::string &amp;current_user, const std::string &amp;current_database)</div><div class="ttdef"><b>Definition</b> sql_executor/permission_validator.cpp:327</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_aa58c9c736e851780c25ded9e972ceb02"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#aa58c9c736e851780c25ded9e972ceb02">sqlcc::PermissionValidator::default_database_</a></div><div class="ttdeci">std::string default_database_</div><div class="ttdef"><b>Definition</b> core/permission_validator.h:207</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_ab4cdac6bc2fa4acb2cbceff5df4151d1"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#ab4cdac6bc2fa4acb2cbceff5df4151d1">sqlcc::PermissionValidator::setDefaultDatabase</a></div><div class="ttdeci">void setDefaultDatabase(const std::string &amp;database)</div></div>
+<div class="ttc" id="aclasssqlcc_1_1PermissionValidator_html_adac8078e3d447d483426368d8656585d"><div class="ttname"><a href="classsqlcc_1_1PermissionValidator.html#adac8078e3d447d483426368d8656585d">sqlcc::PermissionValidator::operationToPrivilege</a></div><div class="ttdeci">static std::string operationToPrivilege(PermissionOperation operation)</div></div>
+<div class="ttc" id="acore_2user__manager_8h_html"><div class="ttname"><a href="core_2user__manager_8h.html">user_manager.h</a></div></div>
+<div class="ttc" id="acore__database__manager_8h_html"><div class="ttname"><a href="core__database__manager_8h.html">core_database_manager.h</a></div></div>
+<div class="ttc" id="aerror__handler_2error__handler_8h_html"><div class="ttname"><a href="error__handler_2error__handler_8h.html">error_handler.h</a></div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552">sqlcc::PermissionOperation</a></div><div class="ttdeci">PermissionOperation</div><div class="ttdoc">Represents a generic, abstract operation that requires a permission check. These operations are decou...</div><div class="ttdef"><b>Definition</b> core/permission_validator.h:54</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552a15a8022d0ed9cd9c2a2e756822703eb4"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a15a8022d0ed9cd9c2a2e756822703eb4">sqlcc::PermissionOperation::UPDATE</a></div><div class="ttdeci">@ UPDATE</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552a23188406d630f92528afe71607bd5d90"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a23188406d630f92528afe71607bd5d90">sqlcc::PermissionOperation::DROP_USER</a></div><div class="ttdeci">@ DROP_USER</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552a32f68a60cef40faedbc6af20298c1a1e"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a32f68a60cef40faedbc6af20298c1a1e">sqlcc::PermissionOperation::DELETE</a></div><div class="ttdeci">@ DELETE</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552a47c7b79e9b4df36fea9784364ad60699"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a47c7b79e9b4df36fea9784364ad60699">sqlcc::PermissionOperation::CREATE_USER</a></div><div class="ttdeci">@ CREATE_USER</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552a4ca18b488ed082faa85acfe5c8a13d78"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a4ca18b488ed082faa85acfe5c8a13d78">sqlcc::PermissionOperation::SHOW_TABLES</a></div><div class="ttdeci">@ SHOW_TABLES</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552a61ee777e7f71dc466c3b2c685d8d313b"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a61ee777e7f71dc466c3b2c685d8d313b">sqlcc::PermissionOperation::INSERT</a></div><div class="ttdeci">@ INSERT</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552a63225f19fccb18e7c709f1fa11bc738e"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a63225f19fccb18e7c709f1fa11bc738e">sqlcc::PermissionOperation::SELECT</a></div><div class="ttdeci">@ SELECT</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552a91835d2e664d4a4285a438e298451592"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a91835d2e664d4a4285a438e298451592">sqlcc::PermissionOperation::CREATE_DATABASE</a></div><div class="ttdeci">@ CREATE_DATABASE</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552a949b815ca225cd1cb4d9669da6b71878"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a949b815ca225cd1cb4d9669da6b71878">sqlcc::PermissionOperation::SHOW_DATABASES</a></div><div class="ttdeci">@ SHOW_DATABASES</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552a9be122a94f599cc4262ad4a613abbb74"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552a9be122a94f599cc4262ad4a613abbb74">sqlcc::PermissionOperation::DROP_TABLE</a></div><div class="ttdeci">@ DROP_TABLE</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552aa262b4a928241dd92c1757d259f4a15d"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552aa262b4a928241dd92c1757d259f4a15d">sqlcc::PermissionOperation::CREATE_TABLE</a></div><div class="ttdeci">@ CREATE_TABLE</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552aafad96c969acbafa8327d9f11f376b5f"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552aafad96c969acbafa8327d9f11f376b5f">sqlcc::PermissionOperation::DROP_DATABASE</a></div><div class="ttdeci">@ DROP_DATABASE</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552abc152ccc041e70158a9b33e1469ba2f5"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552abc152ccc041e70158a9b33e1469ba2f5">sqlcc::PermissionOperation::USE_DATABASE</a></div><div class="ttdeci">@ USE_DATABASE</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552ac0542d70ebd1332044f84ea36e1ef24e"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552ac0542d70ebd1332044f84ea36e1ef24e">sqlcc::PermissionOperation::REVOKE</a></div><div class="ttdeci">@ REVOKE</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552ad9fdc8f875b86df6d7a2f5b2aece1ef2"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552ad9fdc8f875b86df6d7a2f5b2aece1ef2">sqlcc::PermissionOperation::GRANT</a></div><div class="ttdeci">@ GRANT</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a2d6bc7f42bad18a32025b20afeb44552adbb8fe69ef4e064475d836f5ceaf23ba"><div class="ttname"><a href="namespacesqlcc.html#a2d6bc7f42bad18a32025b20afeb44552adbb8fe69ef4e064475d836f5ceaf23ba">sqlcc::PermissionOperation::ALTER_TABLE</a></div><div class="ttdeci">@ ALTER_TABLE</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a46f586b1b700479210f06ad72d88d1edad0749aaba8b833466dfcbb0428e4f89c"><div class="ttname"><a href="namespacesqlcc.html#a46f586b1b700479210f06ad72d88d1edad0749aaba8b833466dfcbb0428e4f89c">sqlcc::ErrorCode::SUCCESS</a></div><div class="ttdeci">@ SUCCESS</div></div>
+<div class="ttc" id="anamespacesqlcc_html_a8ecc411d1876eec8559fbcfa78292bd2a551b723eafd6a31d444fcb2f5920fbd3"><div class="ttname"><a href="namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2a551b723eafd6a31d444fcb2f5920fbd3">sqlcc::ErrorLevel::INFO</a></div><div class="ttdeci">@ INFO</div></div>
+<div class="ttc" id="astructsqlcc_1_1ErrorInfo_html"><div class="ttname"><a href="structsqlcc_1_1ErrorInfo.html">sqlcc::ErrorInfo</a></div><div class="ttdef"><b>Definition</b> error_handler.h:316</div></div>
+<div class="ttc" id="astructsqlcc_1_1PermissionResult_html"><div class="ttname"><a href="structsqlcc_1_1PermissionResult.html">sqlcc::PermissionResult</a></div><div class="ttdoc">Encapsulates the result of a permission validation check.</div><div class="ttdef"><b>Definition</b> core/permission_validator.h:76</div></div>
+<div class="ttc" id="astructsqlcc_1_1PermissionResult_html_a1d3e90940ccccb7adf1e3993327dc75a"><div class="ttname"><a href="structsqlcc_1_1PermissionResult.html#a1d3e90940ccccb7adf1e3993327dc75a">sqlcc::PermissionResult::PermissionResult</a></div><div class="ttdeci">PermissionResult(bool allowed, const std::string &amp;msg=&quot;&quot;, const ErrorInfo &amp;error=ErrorInfo(ErrorCode::SUCCESS, ErrorLevel::INFO, &quot;&quot;, &quot;&quot;, &quot;PERMISSION&quot;))</div></div>
+<div class="ttc" id="astructsqlcc_1_1PermissionResult_html_a1f2001ef9470896916a195d0380aed39"><div class="ttname"><a href="structsqlcc_1_1PermissionResult.html#a1f2001ef9470896916a195d0380aed39">sqlcc::PermissionResult::allowed</a></div><div class="ttdeci">bool allowed</div><div class="ttdoc">True if the operation is permitted, false otherwise.</div><div class="ttdef"><b>Definition</b> core/permission_validator.h:77</div></div>
+<div class="ttc" id="astructsqlcc_1_1PermissionResult_html_a29f4c92ec287641ec567f9c889c198cd"><div class="ttname"><a href="structsqlcc_1_1PermissionResult.html#a29f4c92ec287641ec567f9c889c198cd">sqlcc::PermissionResult::createDeniedWithError</a></div><div class="ttdeci">static PermissionResult createDeniedWithError(const ErrorInfo &amp;error)</div></div>
+<div class="ttc" id="astructsqlcc_1_1PermissionResult_html_a89b42b9a91fa990cd00dca73f63343c8"><div class="ttname"><a href="structsqlcc_1_1PermissionResult.html#a89b42b9a91fa990cd00dca73f63343c8">sqlcc::PermissionResult::createAllowed</a></div><div class="ttdeci">static PermissionResult createAllowed()</div></div>
+<div class="ttc" id="astructsqlcc_1_1PermissionResult_html_a8bf009bc145700b3d28f634394217d73"><div class="ttname"><a href="structsqlcc_1_1PermissionResult.html#a8bf009bc145700b3d28f634394217d73">sqlcc::PermissionResult::message</a></div><div class="ttdeci">std::string message</div><div class="ttdoc">A human-readable message explaining the result.</div><div class="ttdef"><b>Definition</b> core/permission_validator.h:78</div></div>
+<div class="ttc" id="astructsqlcc_1_1PermissionResult_html_aa53b834d19d3d9f4a65719f1442a109d"><div class="ttname"><a href="structsqlcc_1_1PermissionResult.html#aa53b834d19d3d9f4a65719f1442a109d">sqlcc::PermissionResult::error_info</a></div><div class="ttdeci">ErrorInfo error_info</div><div class="ttdoc">Detailed error information if the operation is denied.</div><div class="ttdef"><b>Definition</b> core/permission_validator.h:79</div></div>
+<div class="ttc" id="astructsqlcc_1_1PermissionResult_html_aedfcdc235e10f9863a3b86759ed7b462"><div class="ttname"><a href="structsqlcc_1_1PermissionResult.html#aedfcdc235e10f9863a3b86759ed7b462">sqlcc::PermissionResult::createDenied</a></div><div class="ttdeci">static PermissionResult createDenied(const std::string &amp;reason)</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

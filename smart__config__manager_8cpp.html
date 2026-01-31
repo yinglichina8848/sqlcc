@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: smart_config_manager.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_313caf1132e152dd9b58bea13a4052ca.html">utils</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">smart_config_manager.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>智能配置管理器实现文件 - 集成内存安全和RAII模式  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="smart__config__manager_8h_source.html">smart_config_manager.h</a>&quot;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+smart_config_manager.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="smart__config__manager_8cpp__incl.png" border="0" usemap="#asmart__config__manager_8cpp" alt=""/></div>
+<map name="asmart__config__manager_8cpp" id="asmart__config__manager_8cpp">
+<area shape="rect" title="智能配置管理器实现文件 &#45; 集成内存安全和RAII模式" alt="" coords="453,5,651,31"/>
+<area shape="rect" href="smart__config__manager_8h.html" title=" " alt="" coords="385,79,567,104"/>
+<area shape="poly" title=" " alt="" coords="542,33,500,71,497,67,538,29"/>
+<area shape="rect" title=" " alt="" coords="5,299,72,324"/>
+<area shape="poly" title=" " alt="" coords="454,33,337,50,210,75,151,91,99,110,58,131,31,154,23,169,17,185,15,221,21,256,31,285,26,287,16,257,10,221,12,184,18,166,27,150,55,126,97,105,149,86,209,70,336,44,453,27"/>
+<area shape="rect" title=" " alt="" coords="591,79,665,104"/>
+<area shape="poly" title=" " alt="" coords="566,29,607,67,604,71,562,33"/>
+<area shape="rect" title=" " alt="" coords="689,79,764,104"/>
+<area shape="poly" title=" " alt="" coords="581,28,686,71,684,76,579,33"/>
+<area shape="rect" href="config__snapshot_8h.html" title=" " alt="" coords="401,225,540,251"/>
+<area shape="poly" title=" " alt="" coords="484,103,495,136,498,157,497,178,485,214,480,212,492,177,493,157,490,138,479,105"/>
+<area shape="rect" title=" " alt="" coords="547,299,605,324"/>
+<area shape="poly" title=" " alt="" coords="502,102,533,122,561,151,576,184,583,221,584,256,582,285,577,285,579,256,578,222,571,186,556,153,530,126,499,106"/>
+<area shape="rect" title=" " alt="" coords="630,299,754,324"/>
+<area shape="poly" title=" " alt="" coords="506,102,545,122,584,150,616,183,644,220,682,285,678,288,639,223,612,187,581,154,542,126,503,107"/>
+<area shape="rect" title=" " alt="" coords="213,299,291,324"/>
+<area shape="poly" title=" " alt="" coords="478,105,471,140,464,160,453,179,428,199,383,230,284,294,281,289,380,226,425,195,449,176,459,158,466,138,472,104"/>
+<area shape="rect" title=" " alt="" coords="779,299,845,324"/>
+<area shape="poly" title=" " alt="" coords="509,102,559,122,613,150,666,184,715,222,791,287,788,291,712,226,663,189,611,154,557,127,507,107"/>
+<area shape="rect" title=" " alt="" coords="408,299,523,324"/>
+<area shape="poly" title=" " alt="" coords="491,102,517,129,544,166,555,187,561,208,561,230,554,252,534,277,509,295,506,290,531,273,550,249,556,230,556,209,550,189,540,169,513,132,487,106"/>
+<area shape="rect" href="config__lifecycle_8h.html" title="Defines a robust, RAII&#45;based lifecycle and access framework for managing system configuration." alt="" coords="42,152,177,177"/>
+<area shape="poly" title=" " alt="" coords="418,107,183,152,182,147,417,101"/>
+<area shape="rect" title=" " alt="" coords="201,152,265,177"/>
+<area shape="poly" title=" " alt="" coords="438,107,280,153,278,147,436,101"/>
+<area shape="rect" title=" " alt="" coords="289,152,353,177"/>
+<area shape="poly" title=" " alt="" coords="452,106,360,149,358,144,450,102"/>
+<area shape="rect" title=" " alt="" coords="377,152,439,177"/>
+<area shape="poly" title=" " alt="" coords="467,106,431,144,427,140,463,102"/>
+<area shape="poly" title=" " alt="" coords="489,248,549,289,546,293,486,253"/>
+<area shape="poly" title=" " alt="" coords="507,248,644,292,643,297,505,253"/>
+<area shape="rect" title=" " alt="" coords="315,299,383,324"/>
+<area shape="poly" title=" " alt="" coords="453,253,382,294,379,289,450,248"/>
+<area shape="poly" title=" " alt="" coords="436,253,301,297,300,292,435,248"/>
+<area shape="poly" title=" " alt="" coords="402,253,86,305,85,300,401,248"/>
+<area shape="poly" title=" " alt="" coords="533,248,766,296,765,301,532,253"/>
+<area shape="poly" title=" " alt="" coords="472,251,470,285,465,285,467,251"/>
+<area shape="poly" title=" " alt="" coords="168,175,400,220,399,225,167,180"/>
+<area shape="poly" title=" " alt="" coords="124,176,177,223,235,286,231,290,173,227,121,179"/>
+<area shape="poly" title=" " alt="" coords="101,179,83,200,66,227,54,257,46,286,41,284,49,255,62,224,79,197,97,176"/>
+<area shape="rect" title=" " alt="" coords="77,225,163,251"/>
+<area shape="poly" title=" " alt="" coords="114,177,119,211,114,212,108,178"/>
+<area shape="rect" title=" " alt="" coords="239,225,326,251"/>
+<area shape="poly" title=" " alt="" coords="138,175,243,218,241,222,136,180"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>智能配置管理器实现文件 - 集成内存安全和RAII模式 </p>
+<p>Why: 实现企业级配置管理器，支持内存安全、RAII模式和异常安全配置 What: 提供SmartConfigManager类的实现，集成智能指针、RAII生命周期管理和线程安全 How: 使用std::shared_ptr、std::unique_ptr和RAII模式实现内存安全的配置管理 </p>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

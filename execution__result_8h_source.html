@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: execution_result.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html">core</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">execution_result.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="execution__result_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SQLCC_EXECUTION_RESULT_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SQLCC_EXECUTION_RESULT_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;../../src/wal_manager.h&quot;</span> <span class="comment">// 包含Value的定义</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;optional&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="foldopen" id="foldopen00157" data-start="{" data-end="};">
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ColumnMeta.html">  157</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1ColumnMeta.html">ColumnMeta</a> {</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ColumnMeta.html#ad607355219f5fa1d8f6df15bcffbc1b0">  158</a></span>  std::string <a class="code hl_variable" href="structsqlcc_1_1ColumnMeta.html#ad607355219f5fa1d8f6df15bcffbc1b0">name</a>;          <span class="comment">// 列名</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ColumnMeta.html#abb6c68154922bd9c24ba9049b066bb14">  159</a></span>  std::string <a class="code hl_variable" href="structsqlcc_1_1ColumnMeta.html#abb6c68154922bd9c24ba9049b066bb14">data_type</a>;     <span class="comment">// 数据类型</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ColumnMeta.html#a1926645daffd6f55a3fef68da878d419">  160</a></span>  <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1ColumnMeta.html#a1926645daffd6f55a3fef68da878d419">is_nullable</a>;          <span class="comment">// 是否允许为NULL</span></div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ColumnMeta.html#aad58d8a6f4f117c8f311f8e36286964b">  161</a></span>  <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1ColumnMeta.html#aad58d8a6f4f117c8f311f8e36286964b">is_primary_key</a>;       <span class="comment">// 是否为主键</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ColumnMeta.html#a944c065f6652875a59c23ed0c8406ec4">  162</a></span>  <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1ColumnMeta.html#a944c065f6652875a59c23ed0c8406ec4">is_unique_key</a>;        <span class="comment">// 是否为唯一键</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ColumnMeta.html#a8d209a1bb1d96a245b510a7fc65cd067">  163</a></span>  std::string <a class="code hl_variable" href="structsqlcc_1_1ColumnMeta.html#a8d209a1bb1d96a245b510a7fc65cd067">default_value</a>; <span class="comment">// 默认值</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>};</div>
+</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
+<div class="foldopen" id="foldopen00170" data-start="{" data-end="};">
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="structsqlcc_1_1Row.html">  170</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1Row.html">Row</a> {</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="structsqlcc_1_1Row.html#a087178ac9818d3a9bbc3590e6b28dae7">  171</a></span>  std::vector&lt;Value&gt; <a class="code hl_variable" href="structsqlcc_1_1Row.html#a087178ac9818d3a9bbc3590e6b28dae7">values</a>; <span class="comment">// 行中的各个列值</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>};</div>
+</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="foldopen" id="foldopen00178" data-start="{" data-end="};">
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html">  178</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> {</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#ae07917a48ed48893a9d7c4fd977596e4aed40af4f6eb12d7baa549d8f31e1d3aa">  179</a></span>    <span class="keyword">enum</span> <a class="code hl_enumeration" href="structsqlcc_1_1ExecutionResult.html#ae07917a48ed48893a9d7c4fd977596e4">Status</a> { <a class="code hl_enumvalue" href="structsqlcc_1_1ExecutionResult.html#ae07917a48ed48893a9d7c4fd977596e4aa591c87301bb6ee06101a411dc06a227">SUCCESS</a>, <a class="code hl_enumvalue" href="structsqlcc_1_1ExecutionResult.html#ae07917a48ed48893a9d7c4fd977596e4aed40af4f6eb12d7baa549d8f31e1d3aa">FAILURE</a> };</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    <span class="comment">// 结果集数据</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#ad2310bbc468b46e4bbb19df65ebf9b79">  182</a></span>    std::vector&lt;Row&gt; <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#ad2310bbc468b46e4bbb19df65ebf9b79">rows</a>;</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    <span class="comment">// 列元数据</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#a90d85bccf8d5f7ae3c94a3a88b954576">  185</a></span>    std::vector&lt;ColumnMeta&gt; <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#a90d85bccf8d5f7ae3c94a3a88b954576">column_metadata</a>;</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <span class="comment">// 执行状态</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#af8d2360a846188c1dce51ec361d765b6">  188</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#af8d2360a846188c1dce51ec361d765b6">success</a>;        <span class="comment">// 执行是否成功</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#abb1cf8d32962ce5be7ea138751c5f0a6">  189</a></span>    std::string <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#abb1cf8d32962ce5be7ea138751c5f0a6">message</a>; <span class="comment">// 执行消息</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="comment">// 新增字段（用于DML操作）</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#a15e86b5ffec9e6b7be659a171779897b">  192</a></span>    int64_t <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#a15e86b5ffec9e6b7be659a171779897b">rows_affected</a> = 0;  <span class="comment">// 影响的行数</span></div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#a5f7bf87649083e1d2198569da2e85e2f">  193</a></span>    std::vector&lt;std::string&gt; <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#a5f7bf87649083e1d2198569da2e85e2f">warnings</a>; <span class="comment">// 警告信息</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#a7843dc1cff49fb690102e9622c7f8f2b">  194</a></span>    std::vector&lt;std::string&gt; <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#a7843dc1cff49fb690102e9622c7f8f2b">errors</a>;   <span class="comment">// 错误信息（向后兼容）</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    <span class="comment">// 构造函数</span></div>
+<div class="foldopen" id="foldopen00197" data-start="{" data-end="}">
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#ae1291fd0b4d5d5e3a3dce38257ea2a4d">  197</a></span>    <a class="code hl_function" href="structsqlcc_1_1ExecutionResult.html#ae1291fd0b4d5d5e3a3dce38257ea2a4d">ExecutionResult</a>(<span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#af8d2360a846188c1dce51ec361d765b6">success</a> = <span class="keyword">true</span>, <span class="keyword">const</span> std::string &amp;<a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#abb1cf8d32962ce5be7ea138751c5f0a6">message</a> = <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        : <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#af8d2360a846188c1dce51ec361d765b6">success</a>(<a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#af8d2360a846188c1dce51ec361d765b6">success</a>), <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#abb1cf8d32962ce5be7ea138751c5f0a6">message</a>(<a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#abb1cf8d32962ce5be7ea138751c5f0a6">message</a>) {}</div>
+</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="comment">// 方法</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#a833938f0e6ea48d77a854e06b2bd53b4">  201</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="structsqlcc_1_1ExecutionResult.html#a833938f0e6ea48d77a854e06b2bd53b4">add_row</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1Row.html">Row</a> &amp;row) { <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#ad2310bbc468b46e4bbb19df65ebf9b79">rows</a>.push_back(row); }</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#a7c25efcd92dfc32ca7298731414fbde2">  203</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="structsqlcc_1_1ExecutionResult.html#a7c25efcd92dfc32ca7298731414fbde2">row_count</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#ad2310bbc468b46e4bbb19df65ebf9b79">rows</a>.size(); }</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#ab9060d66a5a00b4b95339899e39fdb1a">  205</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="structsqlcc_1_1ExecutionResult.html#ab9060d66a5a00b4b95339899e39fdb1a">is_empty</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#ad2310bbc468b46e4bbb19df65ebf9b79">rows</a>.empty(); }</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#ab92dd5218580d419e26b1e3ea1782af6">  207</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="structsqlcc_1_1ExecutionResult.html#ab92dd5218580d419e26b1e3ea1782af6">has_error</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> !<a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#af8d2360a846188c1dce51ec361d765b6">success</a>; }</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span> </div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    <span class="comment">// 兼容旧版接口</span></div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#a7922ad7df193fa393c23d493e20b7d10">  210</a></span>    <a class="code hl_enumeration" href="structsqlcc_1_1ExecutionResult.html#ae07917a48ed48893a9d7c4fd977596e4">Status</a> <a class="code hl_function" href="structsqlcc_1_1ExecutionResult.html#a7922ad7df193fa393c23d493e20b7d10">getStatus</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#af8d2360a846188c1dce51ec361d765b6">success</a> ? <a class="code hl_enumvalue" href="structsqlcc_1_1ExecutionResult.html#ae07917a48ed48893a9d7c4fd977596e4aa591c87301bb6ee06101a411dc06a227">SUCCESS</a> : <a class="code hl_enumvalue" href="structsqlcc_1_1ExecutionResult.html#ae07917a48ed48893a9d7c4fd977596e4aed40af4f6eb12d7baa549d8f31e1d3aa">FAILURE</a>; }</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#a65a8629ba2b7fab07089dd121c2e93fc">  212</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="structsqlcc_1_1ExecutionResult.html#a65a8629ba2b7fab07089dd121c2e93fc">getMessage</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#abb1cf8d32962ce5be7ea138751c5f0a6">message</a>; }</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span> </div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    <span class="comment">// 新增方法</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#a0b04db4811f624a3687d54b7f55d4d23">  215</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="structsqlcc_1_1ExecutionResult.html#a0b04db4811f624a3687d54b7f55d4d23">add_warning</a>(<span class="keyword">const</span> std::string&amp; warning) { <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#a5f7bf87649083e1d2198569da2e85e2f">warnings</a>.push_back(warning); }</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#aecbcf2fe98c10faada51ba414b3bcc58">  216</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="structsqlcc_1_1ExecutionResult.html#aecbcf2fe98c10faada51ba414b3bcc58">add_error</a>(<span class="keyword">const</span> std::string&amp; error) { <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#a7843dc1cff49fb690102e9622c7f8f2b">errors</a>.push_back(error); }</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="comment">// 向后兼容：将error_message映射到message</span></div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#ad19aba13c52ce421e2297886abb0a6e4">  219</a></span>    std::string&amp; <a class="code hl_function" href="structsqlcc_1_1ExecutionResult.html#ad19aba13c52ce421e2297886abb0a6e4">error_message</a>() { <span class="keywordflow">return</span> <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#abb1cf8d32962ce5be7ea138751c5f0a6">message</a>; }</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno"><a class="line" href="structsqlcc_1_1ExecutionResult.html#a53ce33f231fc14a7849a3748b50c4677">  220</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="structsqlcc_1_1ExecutionResult.html#a53ce33f231fc14a7849a3748b50c4677">error_message</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="structsqlcc_1_1ExecutionResult.html#abb1cf8d32962ce5be7ea138751c5f0a6">message</a>; }</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>};</div>
+</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span> </div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_EXECUTION_RESULT_H</span></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1ColumnMeta_html"><div class="ttname"><a href="structsqlcc_1_1ColumnMeta.html">sqlcc::ColumnMeta</a></div><div class="ttdef"><b>Definition</b> execution_result.h:157</div></div>
+<div class="ttc" id="astructsqlcc_1_1ColumnMeta_html_a1926645daffd6f55a3fef68da878d419"><div class="ttname"><a href="structsqlcc_1_1ColumnMeta.html#a1926645daffd6f55a3fef68da878d419">sqlcc::ColumnMeta::is_nullable</a></div><div class="ttdeci">bool is_nullable</div><div class="ttdef"><b>Definition</b> execution_result.h:160</div></div>
+<div class="ttc" id="astructsqlcc_1_1ColumnMeta_html_a8d209a1bb1d96a245b510a7fc65cd067"><div class="ttname"><a href="structsqlcc_1_1ColumnMeta.html#a8d209a1bb1d96a245b510a7fc65cd067">sqlcc::ColumnMeta::default_value</a></div><div class="ttdeci">std::string default_value</div><div class="ttdef"><b>Definition</b> execution_result.h:163</div></div>
+<div class="ttc" id="astructsqlcc_1_1ColumnMeta_html_a944c065f6652875a59c23ed0c8406ec4"><div class="ttname"><a href="structsqlcc_1_1ColumnMeta.html#a944c065f6652875a59c23ed0c8406ec4">sqlcc::ColumnMeta::is_unique_key</a></div><div class="ttdeci">bool is_unique_key</div><div class="ttdef"><b>Definition</b> execution_result.h:162</div></div>
+<div class="ttc" id="astructsqlcc_1_1ColumnMeta_html_aad58d8a6f4f117c8f311f8e36286964b"><div class="ttname"><a href="structsqlcc_1_1ColumnMeta.html#aad58d8a6f4f117c8f311f8e36286964b">sqlcc::ColumnMeta::is_primary_key</a></div><div class="ttdeci">bool is_primary_key</div><div class="ttdef"><b>Definition</b> execution_result.h:161</div></div>
+<div class="ttc" id="astructsqlcc_1_1ColumnMeta_html_abb6c68154922bd9c24ba9049b066bb14"><div class="ttname"><a href="structsqlcc_1_1ColumnMeta.html#abb6c68154922bd9c24ba9049b066bb14">sqlcc::ColumnMeta::data_type</a></div><div class="ttdeci">std::string data_type</div><div class="ttdef"><b>Definition</b> execution_result.h:159</div></div>
+<div class="ttc" id="astructsqlcc_1_1ColumnMeta_html_ad607355219f5fa1d8f6df15bcffbc1b0"><div class="ttname"><a href="structsqlcc_1_1ColumnMeta.html#ad607355219f5fa1d8f6df15bcffbc1b0">sqlcc::ColumnMeta::name</a></div><div class="ttdeci">std::string name</div><div class="ttdef"><b>Definition</b> execution_result.h:158</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html">sqlcc::ExecutionResult</a></div><div class="ttdoc">执行结果结构体 用于表示SQL查询的执行结果</div><div class="ttdef"><b>Definition</b> execution_result.h:178</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_a0b04db4811f624a3687d54b7f55d4d23"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#a0b04db4811f624a3687d54b7f55d4d23">sqlcc::ExecutionResult::add_warning</a></div><div class="ttdeci">void add_warning(const std::string &amp;warning)</div><div class="ttdef"><b>Definition</b> execution_result.h:215</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_a15e86b5ffec9e6b7be659a171779897b"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#a15e86b5ffec9e6b7be659a171779897b">sqlcc::ExecutionResult::rows_affected</a></div><div class="ttdeci">int64_t rows_affected</div><div class="ttdef"><b>Definition</b> execution_result.h:192</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_a53ce33f231fc14a7849a3748b50c4677"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#a53ce33f231fc14a7849a3748b50c4677">sqlcc::ExecutionResult::error_message</a></div><div class="ttdeci">const std::string &amp; error_message() const</div><div class="ttdef"><b>Definition</b> execution_result.h:220</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_a5f7bf87649083e1d2198569da2e85e2f"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#a5f7bf87649083e1d2198569da2e85e2f">sqlcc::ExecutionResult::warnings</a></div><div class="ttdeci">std::vector&lt; std::string &gt; warnings</div><div class="ttdef"><b>Definition</b> execution_result.h:193</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_a65a8629ba2b7fab07089dd121c2e93fc"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#a65a8629ba2b7fab07089dd121c2e93fc">sqlcc::ExecutionResult::getMessage</a></div><div class="ttdeci">const std::string &amp; getMessage() const</div><div class="ttdef"><b>Definition</b> execution_result.h:212</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_a7843dc1cff49fb690102e9622c7f8f2b"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#a7843dc1cff49fb690102e9622c7f8f2b">sqlcc::ExecutionResult::errors</a></div><div class="ttdeci">std::vector&lt; std::string &gt; errors</div><div class="ttdef"><b>Definition</b> execution_result.h:194</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_a7922ad7df193fa393c23d493e20b7d10"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#a7922ad7df193fa393c23d493e20b7d10">sqlcc::ExecutionResult::getStatus</a></div><div class="ttdeci">Status getStatus() const</div><div class="ttdef"><b>Definition</b> execution_result.h:210</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_a7c25efcd92dfc32ca7298731414fbde2"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#a7c25efcd92dfc32ca7298731414fbde2">sqlcc::ExecutionResult::row_count</a></div><div class="ttdeci">size_t row_count() const</div><div class="ttdef"><b>Definition</b> execution_result.h:203</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_a833938f0e6ea48d77a854e06b2bd53b4"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#a833938f0e6ea48d77a854e06b2bd53b4">sqlcc::ExecutionResult::add_row</a></div><div class="ttdeci">void add_row(const Row &amp;row)</div><div class="ttdef"><b>Definition</b> execution_result.h:201</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_a90d85bccf8d5f7ae3c94a3a88b954576"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#a90d85bccf8d5f7ae3c94a3a88b954576">sqlcc::ExecutionResult::column_metadata</a></div><div class="ttdeci">std::vector&lt; ColumnMeta &gt; column_metadata</div><div class="ttdef"><b>Definition</b> execution_result.h:185</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_ab9060d66a5a00b4b95339899e39fdb1a"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#ab9060d66a5a00b4b95339899e39fdb1a">sqlcc::ExecutionResult::is_empty</a></div><div class="ttdeci">bool is_empty() const</div><div class="ttdef"><b>Definition</b> execution_result.h:205</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_ab92dd5218580d419e26b1e3ea1782af6"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#ab92dd5218580d419e26b1e3ea1782af6">sqlcc::ExecutionResult::has_error</a></div><div class="ttdeci">bool has_error() const</div><div class="ttdef"><b>Definition</b> execution_result.h:207</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_abb1cf8d32962ce5be7ea138751c5f0a6"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#abb1cf8d32962ce5be7ea138751c5f0a6">sqlcc::ExecutionResult::message</a></div><div class="ttdeci">std::string message</div><div class="ttdef"><b>Definition</b> execution_result.h:189</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_ad19aba13c52ce421e2297886abb0a6e4"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#ad19aba13c52ce421e2297886abb0a6e4">sqlcc::ExecutionResult::error_message</a></div><div class="ttdeci">std::string &amp; error_message()</div><div class="ttdef"><b>Definition</b> execution_result.h:219</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_ad2310bbc468b46e4bbb19df65ebf9b79"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#ad2310bbc468b46e4bbb19df65ebf9b79">sqlcc::ExecutionResult::rows</a></div><div class="ttdeci">std::vector&lt; Row &gt; rows</div><div class="ttdef"><b>Definition</b> execution_result.h:182</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_ae07917a48ed48893a9d7c4fd977596e4"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#ae07917a48ed48893a9d7c4fd977596e4">sqlcc::ExecutionResult::Status</a></div><div class="ttdeci">Status</div><div class="ttdef"><b>Definition</b> execution_result.h:179</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_ae07917a48ed48893a9d7c4fd977596e4aa591c87301bb6ee06101a411dc06a227"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#ae07917a48ed48893a9d7c4fd977596e4aa591c87301bb6ee06101a411dc06a227">sqlcc::ExecutionResult::SUCCESS</a></div><div class="ttdeci">@ SUCCESS</div><div class="ttdef"><b>Definition</b> execution_result.h:179</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_ae07917a48ed48893a9d7c4fd977596e4aed40af4f6eb12d7baa549d8f31e1d3aa"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#ae07917a48ed48893a9d7c4fd977596e4aed40af4f6eb12d7baa549d8f31e1d3aa">sqlcc::ExecutionResult::FAILURE</a></div><div class="ttdeci">@ FAILURE</div><div class="ttdef"><b>Definition</b> execution_result.h:179</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_ae1291fd0b4d5d5e3a3dce38257ea2a4d"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#ae1291fd0b4d5d5e3a3dce38257ea2a4d">sqlcc::ExecutionResult::ExecutionResult</a></div><div class="ttdeci">ExecutionResult(bool success=true, const std::string &amp;message=&quot;&quot;)</div><div class="ttdef"><b>Definition</b> execution_result.h:197</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_aecbcf2fe98c10faada51ba414b3bcc58"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#aecbcf2fe98c10faada51ba414b3bcc58">sqlcc::ExecutionResult::add_error</a></div><div class="ttdeci">void add_error(const std::string &amp;error)</div><div class="ttdef"><b>Definition</b> execution_result.h:216</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html_af8d2360a846188c1dce51ec361d765b6"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html#af8d2360a846188c1dce51ec361d765b6">sqlcc::ExecutionResult::success</a></div><div class="ttdeci">bool success</div><div class="ttdef"><b>Definition</b> execution_result.h:188</div></div>
+<div class="ttc" id="astructsqlcc_1_1Row_html"><div class="ttname"><a href="structsqlcc_1_1Row.html">sqlcc::Row</a></div><div class="ttdoc">行结构体 用于存储查询结果中的一行数据</div><div class="ttdef"><b>Definition</b> execution_result.h:170</div></div>
+<div class="ttc" id="astructsqlcc_1_1Row_html_a087178ac9818d3a9bbc3590e6b28dae7"><div class="ttname"><a href="structsqlcc_1_1Row.html#a087178ac9818d3a9bbc3590e6b28dae7">sqlcc::Row::values</a></div><div class="ttdeci">std::vector&lt; Value &gt; values</div><div class="ttdef"><b>Definition</b> execution_result.h:171</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

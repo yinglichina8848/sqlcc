@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: database_manager.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">database_manager.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;../include/core/core_database_manager.h&quot;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+database_manager.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="database__manager_8cpp__incl.png" border="0" usemap="#adatabase__manager_8cpp" alt=""/></div>
+<map name="adatabase__manager_8cpp" id="adatabase__manager_8cpp">
+<area shape="rect" title=" " alt="" coords="256,5,429,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,171,119"/>
+<area shape="poly" title=" " alt="" coords="306,33,163,77,161,72,305,28"/>
+<area shape="rect" title=" " alt="" coords="195,86,275,111"/>
+<area shape="poly" title=" " alt="" coords="328,33,263,80,260,76,325,29"/>
+<area shape="rect" title=" " alt="" coords="299,86,386,111"/>
+<area shape="poly" title=" " alt="" coords="345,31,345,72,340,72,340,31"/>
+<area shape="rect" title=" " alt="" coords="411,86,501,111"/>
+<area shape="poly" title=" " alt="" coords="361,29,430,76,427,80,358,33"/>
+<area shape="rect" title=" " alt="" coords="525,86,603,111"/>
+<area shape="poly" title=" " alt="" coords="377,28,514,76,522,79,520,84,512,81,375,33"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么需要数据库管理器？</p>
+<p>数据库管理器是SQLCC数据库系统的核心控制器，承担着整个数据库生命周期管理的重任。 没有数据库管理器，数据库就无法组织和管理数据存储、处理并发访问、维护数据一致性。</p>
+<p>主要问题解决：</p><ol type="1">
+<li>数据组织：创建和管理数据库、表等数据结构</li>
+<li>并发控制：协调多用户同时访问数据库的冲突</li>
+<li>事务管理：确保数据操作的原子性和一致性</li>
+<li>存储管理：管理数据在磁盘上的存储和检索</li>
+<li>元数据维护：跟踪数据库对象的结构和属性</li>
+</ol>
+<p>数据库管理器失败的影响：</p><ul>
+<li>无法创建或访问数据库</li>
+<li>数据完整性无法保证</li>
+<li>并发访问会导致数据损坏</li>
+<li>系统无法正常启动和运行</li>
+</ul>
+<p>WHAT: 这实现了什么功能？</p>
+<p>数据库管理器提供完整的数据库生命周期管理功能：</p><ul>
+<li>数据库管理：创建、删除、切换数据库实例</li>
+<li>表管理：创建、删除、修改数据库表结构</li>
+<li>事务支持：开始、提交、回滚事务操作</li>
+<li>存储管理：页面读写、缓冲池管理</li>
+<li>锁管理：行级和表级并发控制</li>
+<li>元数据查询：表结构、数据库信息查询</li>
+</ul>
+<p>核心组件：</p><ul>
+<li>数据库目录：管理所有数据库的元数据</li>
+<li>表存储映射：表名到存储引擎的映射</li>
+<li>事务协调器：管理事务的生命周期</li>
+<li>锁管理器：处理并发访问的锁定机制</li>
+<li>缓冲管理器：优化数据页面的内存访问</li>
+<li>索引管理器：维护表的索引结构</li>
+</ul>
+<p>HOW: 如何实现的？</p>
+<p>技术实现要点：</p><ol type="1">
+<li>内存映射：使用std::map管理数据库和表的元数据</li>
+<li>线程安全：std::mutex保护共享数据结构的并发访问</li>
+<li>资源管理：std::shared_ptr管理组件生命周期</li>
+<li>异常处理：try-catch块处理操作异常</li>
+<li>文件系统：std::filesystem管理数据库目录结构</li>
+<li>懒加载：按需初始化和管理资源</li>
+</ol>
+<p>架构设计：</p><ul>
+<li>门面模式：为复杂子系统提供统一接口</li>
+<li>工厂模式：创建和管理各种数据库对象</li>
+<li>模板方法：统一的CRUD操作流程</li>
+<li>状态模式：管理数据库的打开/关闭状态</li>
+<li>组合模式：组织数据库、表、索引的层次结构</li>
+</ul>
+<p>性能优化：</p><ul>
+<li>索引查找：O(log n)的时间复杂度查找</li>
+<li>缓存机制：内存中缓存频繁访问的元数据</li>
+<li>批量操作：支持批量的数据操作</li>
+<li>延迟初始化：避免不必要的资源分配</li>
+<li>智能指针：自动管理资源生命周期</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>该实现专为SQLCC数据库系统优化，支持ACID事务特性 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>include/core/core_database_manager.h </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: function_parameter.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li><li class="navelem"><a class="el" href="dir_039cc34cb916358c9476a0577894d2ad.html">function</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">function_parameter.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="function__parameter_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifndef SQLCC_SQL_PARSER_FUNCTION_PARAMETER_H</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define SQLCC_SQL_PARSER_FUNCTION_PARAMETER_H</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;../data_types.h&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment">// 函数参数方向</span></div>
+<div class="foldopen" id="foldopen00020" data-start="{" data-end="};">
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1sql__parser.html#a1fe848f2f2a145152733d1a017747c91">   20</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#a1fe848f2f2a145152733d1a017747c91">ParameterMode</a> {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#a1fe848f2f2a145152733d1a017747c91ac86ee0d9d7ed3e7b4fdbf486fa6c0ebb">IN</a>,      <span class="comment">// 输入参数</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#a1fe848f2f2a145152733d1a017747c91aef373774188a51f80463f37b6bd9e83a">OUT</a>,     <span class="comment">// 输出参数</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#a1fe848f2f2a145152733d1a017747c91a0c93f5d83bbb636236e9610d01e4f3cd">INOUT</a>    <span class="comment">// 输入输出参数</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>};</div>
+</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment">// 函数参数定义</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">class </span>FunctionParameter {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#ae780e42e07bbc1feead1635de40eae7c">   29</a></span>    <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#ae780e42e07bbc1feead1635de40eae7c">FunctionParameter</a>(<span class="keyword">const</span> std::string&amp; <a class="code hl_variable" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a4a8f8a0749145375278261b4c3dde1ff">name</a>, <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#ac957dddbae6340c826f93de7af6fd38d">DataType</a> data_type,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                     <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#a1fe848f2f2a145152733d1a017747c91">ParameterMode</a> mode = <a class="code hl_enumvalue" href="namespacesqlcc_1_1sql__parser.html#a1fe848f2f2a145152733d1a017747c91ac86ee0d9d7ed3e7b4fdbf486fa6c0ebb">ParameterMode::IN</a>,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                     <span class="keyword">const</span> std::string&amp; default_value = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a317e4652933482b0084f9c08b4c2838a">   33</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a317e4652933482b0084f9c08b4c2838a">get_name</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#aa9a1455f32640bc6be5a92c86073a51b">   34</a></span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#ac957dddbae6340c826f93de7af6fd38d">DataType</a> <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#aa9a1455f32640bc6be5a92c86073a51b">get_data_type</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a5134cd067e2508da915a3e76765b038f">   35</a></span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#a1fe848f2f2a145152733d1a017747c91">ParameterMode</a> <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a5134cd067e2508da915a3e76765b038f">get_mode</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a4bca80adb8be5c81033ce86427d98d2d">   36</a></span>    <span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a4bca80adb8be5c81033ce86427d98d2d">get_default_value</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#aea23a801dd81692d24564af331624fc4">   37</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#aea23a801dd81692d24564af331624fc4">has_default_value</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#acebc588527b151a912527778c0e4d62d">   39</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#acebc588527b151a912527778c0e4d62d">set_default_value</a>(<span class="keyword">const</span> std::string&amp; value);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#ab16c874ccdcee654eb9593f2ae81dd11">   41</a></span>    std::string <a class="code hl_function" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#ab16c874ccdcee654eb9593f2ae81dd11">to_string</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a31e0f72da8906eee2ba080732d53fcf7">   44</a></span>    std::string <a class="code hl_variable" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a31e0f72da8906eee2ba080732d53fcf7">name_</a>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#aa6ecd32cbd6c3995e944627c1797f7c0">   45</a></span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#ac957dddbae6340c826f93de7af6fd38d">DataType</a> <a class="code hl_variable" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#aa6ecd32cbd6c3995e944627c1797f7c0">data_type_</a>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a3f46e66bb2f82f80b1dea46dbd428e3d">   46</a></span>    <a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#a1fe848f2f2a145152733d1a017747c91">ParameterMode</a> <a class="code hl_variable" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a3f46e66bb2f82f80b1dea46dbd428e3d">mode_</a>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a5ec5d3ff5d971c69ffc58b57feb2d038">   47</a></span>    std::string <a class="code hl_variable" href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a5ec5d3ff5d971c69ffc58b57feb2d038">default_value_</a>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>};</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SQL_PARSER_FUNCTION_PARAMETER_H</span></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_a1fe848f2f2a145152733d1a017747c91"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#a1fe848f2f2a145152733d1a017747c91">sqlcc::sql_parser::ParameterMode</a></div><div class="ttdeci">ParameterMode</div><div class="ttdef"><b>Definition</b> function_parameter.h:20</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_a1fe848f2f2a145152733d1a017747c91a0c93f5d83bbb636236e9610d01e4f3cd"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#a1fe848f2f2a145152733d1a017747c91a0c93f5d83bbb636236e9610d01e4f3cd">sqlcc::sql_parser::ParameterMode::INOUT</a></div><div class="ttdeci">@ INOUT</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_a1fe848f2f2a145152733d1a017747c91ac86ee0d9d7ed3e7b4fdbf486fa6c0ebb"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#a1fe848f2f2a145152733d1a017747c91ac86ee0d9d7ed3e7b4fdbf486fa6c0ebb">sqlcc::sql_parser::ParameterMode::IN</a></div><div class="ttdeci">@ IN</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_a1fe848f2f2a145152733d1a017747c91aef373774188a51f80463f37b6bd9e83a"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#a1fe848f2f2a145152733d1a017747c91aef373774188a51f80463f37b6bd9e83a">sqlcc::sql_parser::ParameterMode::OUT</a></div><div class="ttdeci">@ OUT</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_ac957dddbae6340c826f93de7af6fd38d"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#ac957dddbae6340c826f93de7af6fd38d">sqlcc::sql_parser::DataType</a></div><div class="ttdeci">DataType</div><div class="ttdoc">数据类型枚举</div><div class="ttdef"><b>Definition</b> data_types.h:135</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1FunctionParameter_html_a317e4652933482b0084f9c08b4c2838a"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a317e4652933482b0084f9c08b4c2838a">sqlcc::sql_parser::FunctionParameter::get_name</a></div><div class="ttdeci">const std::string &amp; get_name() const</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1FunctionParameter_html_a31e0f72da8906eee2ba080732d53fcf7"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a31e0f72da8906eee2ba080732d53fcf7">sqlcc::sql_parser::FunctionParameter::name_</a></div><div class="ttdeci">std::string name_</div><div class="ttdef"><b>Definition</b> function_parameter.h:44</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1FunctionParameter_html_a3f46e66bb2f82f80b1dea46dbd428e3d"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a3f46e66bb2f82f80b1dea46dbd428e3d">sqlcc::sql_parser::FunctionParameter::mode_</a></div><div class="ttdeci">ParameterMode mode_</div><div class="ttdef"><b>Definition</b> function_parameter.h:46</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1FunctionParameter_html_a4a8f8a0749145375278261b4c3dde1ff"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a4a8f8a0749145375278261b4c3dde1ff">sqlcc::sql_parser::FunctionParameter::name</a></div><div class="ttdeci">std::string name</div><div class="ttdoc">参数名称</div><div class="ttdef"><b>Definition</b> function_definition.h:33</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1FunctionParameter_html_a4bca80adb8be5c81033ce86427d98d2d"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a4bca80adb8be5c81033ce86427d98d2d">sqlcc::sql_parser::FunctionParameter::get_default_value</a></div><div class="ttdeci">const std::string &amp; get_default_value() const</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1FunctionParameter_html_a5134cd067e2508da915a3e76765b038f"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a5134cd067e2508da915a3e76765b038f">sqlcc::sql_parser::FunctionParameter::get_mode</a></div><div class="ttdeci">ParameterMode get_mode() const</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1FunctionParameter_html_a5ec5d3ff5d971c69ffc58b57feb2d038"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#a5ec5d3ff5d971c69ffc58b57feb2d038">sqlcc::sql_parser::FunctionParameter::default_value_</a></div><div class="ttdeci">std::string default_value_</div><div class="ttdef"><b>Definition</b> function_parameter.h:47</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1FunctionParameter_html_aa6ecd32cbd6c3995e944627c1797f7c0"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#aa6ecd32cbd6c3995e944627c1797f7c0">sqlcc::sql_parser::FunctionParameter::data_type_</a></div><div class="ttdeci">DataType data_type_</div><div class="ttdef"><b>Definition</b> function_parameter.h:45</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1FunctionParameter_html_aa9a1455f32640bc6be5a92c86073a51b"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#aa9a1455f32640bc6be5a92c86073a51b">sqlcc::sql_parser::FunctionParameter::get_data_type</a></div><div class="ttdeci">DataType get_data_type() const</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1FunctionParameter_html_ab16c874ccdcee654eb9593f2ae81dd11"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#ab16c874ccdcee654eb9593f2ae81dd11">sqlcc::sql_parser::FunctionParameter::to_string</a></div><div class="ttdeci">std::string to_string() const</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1FunctionParameter_html_acebc588527b151a912527778c0e4d62d"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#acebc588527b151a912527778c0e4d62d">sqlcc::sql_parser::FunctionParameter::set_default_value</a></div><div class="ttdeci">void set_default_value(const std::string &amp;value)</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1FunctionParameter_html_ae780e42e07bbc1feead1635de40eae7c"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#ae780e42e07bbc1feead1635de40eae7c">sqlcc::sql_parser::FunctionParameter::FunctionParameter</a></div><div class="ttdeci">FunctionParameter(const std::string &amp;name, DataType data_type, ParameterMode mode=ParameterMode::IN, const std::string &amp;default_value=&quot;&quot;)</div></div>
+<div class="ttc" id="astructsqlcc_1_1sql__parser_1_1FunctionParameter_html_aea23a801dd81692d24564af331624fc4"><div class="ttname"><a href="structsqlcc_1_1sql__parser_1_1FunctionParameter.html#aea23a801dd81692d24564af331624fc4">sqlcc::sql_parser::FunctionParameter::has_default_value</a></div><div class="ttdeci">bool has_default_value() const</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

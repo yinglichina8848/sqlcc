@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: window_function_executor.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bd0755c95a42e835fb06f38bbeb1d6ed.html">execution</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">execution/window_function_executor.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="execution_2window__function__executor_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="preprocessor">#include &quot;../sql_parser/window_function.h&quot;</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="preprocessor">#include &quot;../core/core_database_manager.h&quot;</span></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="preprocessor">#include &quot;../core/execution_context.h&quot;</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="preprocessor">#include &quot;../core/execution_result.h&quot;</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
+<div class="foldopen" id="foldopen00183" data-start="{" data-end="};">
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WindowFunctionExecutor.html">  183</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1WindowFunctionExecutor.html">WindowFunctionExecutor</a> {</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classsqlcc_1_1WindowFunctionExecutor.html">WindowFunctionExecutor</a>(std::shared_ptr&lt;DatabaseManager&gt; db_manager);</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WindowFunctionExecutor.html#afd088f4a193fc38c762bfd038a2bec10">  186</a></span>    <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#afd088f4a193fc38c762bfd038a2bec10">~WindowFunctionExecutor</a>();</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="comment">// 执行单个窗口函数</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#a60361a526660dcb85a77248b28a76058">execute</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1WindowFunction.html">sql_parser::WindowFunction</a>&amp; stmt, <a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a>&amp; context);</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="comment">// 执行多个窗口函数（基于基础查询结果）</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#aa7405e338fd5f0f2b0131e8e7e92d252">executeWindowFunctions</a>(</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        <span class="keyword">const</span> std::vector&lt;std::unique_ptr&lt;sql_parser::WindowFunction&gt;&gt;&amp; window_funcs,</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        <span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&amp; base_result,</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        <a class="code hl_class" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a>&amp; context);</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno"><a class="line" href="classsqlcc_1_1WindowFunctionExecutor.html#a806486adce039c771d3cfef78433f467">  198</a></span>    std::shared_ptr&lt;DatabaseManager&gt; <a class="code hl_variable" href="classsqlcc_1_1WindowFunctionExecutor.html#a806486adce039c771d3cfef78433f467">db_manager_</a>;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="comment">// 数据分区和排序</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    std::vector&lt;std::vector&lt;Row&gt;&gt; <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#adaca22fd11edeed4eb4e57a943016bd8">partitionAndSortData</a>(</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        <span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&amp; data,</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>        <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; partitions,</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>        <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; order_cols,</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        <span class="keyword">const</span> std::vector&lt;bool&gt;&amp; order_asc);</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#a50cd804aa07e3195ef3f965b0ce29c55">sortPartitionData</a>(std::vector&lt;Row&gt;&amp; partition_data,</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>                          <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; order_cols,</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>                          <span class="keyword">const</span> std::vector&lt;bool&gt;&amp; order_asc,</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>                          <span class="keyword">const</span> std::vector&lt;ColumnMeta&gt;&amp; column_metadata);</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    <span class="comment">// 窗口函数计算</span></div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#a4dc5df8779759af9f8bd9938882dbd5d">calculateWindowFunction</a>(</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        <span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1WindowFunction.html">sql_parser::WindowFunction</a>&amp; window_func,</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        <span class="keyword">const</span> std::vector&lt;std::vector&lt;Row&gt;&gt;&amp; partitions,</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        std::vector&lt;std::string&gt;&amp; results);</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="comment">// 具体窗口函数实现</span></div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#a03449dcaadf9e570a379207f5ac9ffbd">calculateRowNumber</a>(<span class="keyword">const</span> std::vector&lt;Row&gt;&amp; rows, std::vector&lt;std::string&gt;&amp; results);</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#a87b856977864a5b980a5b88afc3a866b">calculateRank</a>(<span class="keyword">const</span> std::vector&lt;std::vector&lt;Row&gt;&gt;&amp; partitions, std::vector&lt;std::string&gt;&amp; results);</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#a2a5fd0f8e9f50ef1f173c17ad32f2070">calculateDenseRank</a>(<span class="keyword">const</span> std::vector&lt;std::vector&lt;Row&gt;&gt;&amp; partitions, std::vector&lt;std::string&gt;&amp; results);</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#a3b89e0eb80d5915612adc49735e7fe83">calculateAggregateWindowFunction</a>(</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        <span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1WindowFunction.html">sql_parser::WindowFunction</a>&amp; window_func,</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>        <span class="keyword">const</span> std::vector&lt;std::vector&lt;Row&gt;&gt;&amp; partitions,</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>        std::vector&lt;std::string&gt;&amp; results);</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="comment">// 聚合函数辅助方法</span></div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    std::string <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#a5cbedb80263b36c0c9743641c54ff6b9">calculateSum</a>(<span class="keyword">const</span> std::vector&lt;Row&gt;&amp; rows);</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    std::string <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#a3d968d8619fd72c06656fd8752f17827">calculateAvg</a>(<span class="keyword">const</span> std::vector&lt;Row&gt;&amp; rows);</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    std::string <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#aeaf50181398891ff2287714e7442d8ee">calculateMin</a>(<span class="keyword">const</span> std::vector&lt;Row&gt;&amp; rows);</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    std::string <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#ad975e817ced691b36bbe65012a1594ef">calculateMax</a>(<span class="keyword">const</span> std::vector&lt;Row&gt;&amp; rows);</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    <span class="comment">// 辅助函数</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#abca76b44a66c87600014f59450cdf1cc">findColumnIndex</a>(<span class="keyword">const</span> std::vector&lt;ColumnMeta&gt;&amp; columns, <span class="keyword">const</span> std::string&amp; column_name);</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classsqlcc_1_1WindowFunctionExecutor.html#a8fe0414922e5cb122481dc3a875e03a2">compareRows</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1Row.html">Row</a>&amp; a, <span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1Row.html">Row</a>&amp; b);</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>};</div>
+</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1ExecutionContext_html"><div class="ttname"><a href="classsqlcc_1_1ExecutionContext.html">sqlcc::ExecutionContext</a></div><div class="ttdef"><b>Definition</b> execution_context.h:162</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html">sqlcc::WindowFunctionExecutor</a></div><div class="ttdoc">窗口函数执行器</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.h:183</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_a03449dcaadf9e570a379207f5ac9ffbd"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#a03449dcaadf9e570a379207f5ac9ffbd">sqlcc::WindowFunctionExecutor::calculateRowNumber</a></div><div class="ttdeci">void calculateRowNumber(const std::vector&lt; Row &gt; &amp;rows, std::vector&lt; std::string &gt; &amp;results)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:224</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_a2a5fd0f8e9f50ef1f173c17ad32f2070"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#a2a5fd0f8e9f50ef1f173c17ad32f2070">sqlcc::WindowFunctionExecutor::calculateDenseRank</a></div><div class="ttdeci">void calculateDenseRank(const std::vector&lt; std::vector&lt; Row &gt; &gt; &amp;partitions, std::vector&lt; std::string &gt; &amp;results)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:264</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_a3b89e0eb80d5915612adc49735e7fe83"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#a3b89e0eb80d5915612adc49735e7fe83">sqlcc::WindowFunctionExecutor::calculateAggregateWindowFunction</a></div><div class="ttdeci">void calculateAggregateWindowFunction(const sql_parser::WindowFunction &amp;window_func, const std::vector&lt; std::vector&lt; Row &gt; &gt; &amp;partitions, std::vector&lt; std::string &gt; &amp;results)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:299</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_a3d968d8619fd72c06656fd8752f17827"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#a3d968d8619fd72c06656fd8752f17827">sqlcc::WindowFunctionExecutor::calculateAvg</a></div><div class="ttdeci">std::string calculateAvg(const std::vector&lt; Row &gt; &amp;rows)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:355</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_a4dc5df8779759af9f8bd9938882dbd5d"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#a4dc5df8779759af9f8bd9938882dbd5d">sqlcc::WindowFunctionExecutor::calculateWindowFunction</a></div><div class="ttdeci">void calculateWindowFunction(const sql_parser::WindowFunction &amp;window_func, const std::vector&lt; std::vector&lt; Row &gt; &gt; &amp;partitions, std::vector&lt; std::string &gt; &amp;results)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:186</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_a50cd804aa07e3195ef3f965b0ce29c55"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#a50cd804aa07e3195ef3f965b0ce29c55">sqlcc::WindowFunctionExecutor::sortPartitionData</a></div><div class="ttdeci">void sortPartitionData(std::vector&lt; Row &gt; &amp;partition_data, const std::vector&lt; std::string &gt; &amp;order_cols, const std::vector&lt; bool &gt; &amp;order_asc, const std::vector&lt; ColumnMeta &gt; &amp;column_metadata)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:163</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_a5cbedb80263b36c0c9743641c54ff6b9"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#a5cbedb80263b36c0c9743641c54ff6b9">sqlcc::WindowFunctionExecutor::calculateSum</a></div><div class="ttdeci">std::string calculateSum(const std::vector&lt; Row &gt; &amp;rows)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:340</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_a60361a526660dcb85a77248b28a76058"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#a60361a526660dcb85a77248b28a76058">sqlcc::WindowFunctionExecutor::execute</a></div><div class="ttdeci">ExecutionResult execute(const sql_parser::WindowFunction &amp;stmt, ExecutionContext &amp;context)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:16</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_a806486adce039c771d3cfef78433f467"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#a806486adce039c771d3cfef78433f467">sqlcc::WindowFunctionExecutor::db_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; DatabaseManager &gt; db_manager_</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.h:198</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_a87b856977864a5b980a5b88afc3a866b"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#a87b856977864a5b980a5b88afc3a866b">sqlcc::WindowFunctionExecutor::calculateRank</a></div><div class="ttdeci">void calculateRank(const std::vector&lt; std::vector&lt; Row &gt; &gt; &amp;partitions, std::vector&lt; std::string &gt; &amp;results)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:232</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_a8fe0414922e5cb122481dc3a875e03a2"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#a8fe0414922e5cb122481dc3a875e03a2">sqlcc::WindowFunctionExecutor::compareRows</a></div><div class="ttdeci">int compareRows(const Row &amp;a, const Row &amp;b)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:399</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_aa7405e338fd5f0f2b0131e8e7e92d252"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#aa7405e338fd5f0f2b0131e8e7e92d252">sqlcc::WindowFunctionExecutor::executeWindowFunctions</a></div><div class="ttdeci">ExecutionResult executeWindowFunctions(const std::vector&lt; std::unique_ptr&lt; sql_parser::WindowFunction &gt; &gt; &amp;window_funcs, const ExecutionResult &amp;base_result, ExecutionContext &amp;context)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:72</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_abca76b44a66c87600014f59450cdf1cc"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#abca76b44a66c87600014f59450cdf1cc">sqlcc::WindowFunctionExecutor::findColumnIndex</a></div><div class="ttdeci">size_t findColumnIndex(const std::vector&lt; ColumnMeta &gt; &amp;columns, const std::string &amp;column_name)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:389</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_ad975e817ced691b36bbe65012a1594ef"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#ad975e817ced691b36bbe65012a1594ef">sqlcc::WindowFunctionExecutor::calculateMax</a></div><div class="ttdeci">std::string calculateMax(const std::vector&lt; Row &gt; &amp;rows)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:375</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_adaca22fd11edeed4eb4e57a943016bd8"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#adaca22fd11edeed4eb4e57a943016bd8">sqlcc::WindowFunctionExecutor::partitionAndSortData</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; Row &gt; &gt; partitionAndSortData(const ExecutionResult &amp;data, const std::vector&lt; std::string &gt; &amp;partitions, const std::vector&lt; std::string &gt; &amp;order_cols, const std::vector&lt; bool &gt; &amp;order_asc)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:123</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_aeaf50181398891ff2287714e7442d8ee"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#aeaf50181398891ff2287714e7442d8ee">sqlcc::WindowFunctionExecutor::calculateMin</a></div><div class="ttdeci">std::string calculateMin(const std::vector&lt; Row &gt; &amp;rows)</div><div class="ttdef"><b>Definition</b> execution/window_function_executor.cpp:361</div></div>
+<div class="ttc" id="aclasssqlcc_1_1WindowFunctionExecutor_html_afd088f4a193fc38c762bfd038a2bec10"><div class="ttname"><a href="classsqlcc_1_1WindowFunctionExecutor.html#afd088f4a193fc38c762bfd038a2bec10">sqlcc::WindowFunctionExecutor::~WindowFunctionExecutor</a></div><div class="ttdeci">~WindowFunctionExecutor()</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1WindowFunction_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1WindowFunction.html">sqlcc::sql_parser::WindowFunction</a></div><div class="ttdoc">窗口函数表达式节点</div><div class="ttdef"><b>Definition</b> window_function.h:194</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionResult_html"><div class="ttname"><a href="structsqlcc_1_1ExecutionResult.html">sqlcc::ExecutionResult</a></div><div class="ttdoc">执行结果结构体 用于表示SQL查询的执行结果</div><div class="ttdef"><b>Definition</b> execution_result.h:178</div></div>
+<div class="ttc" id="astructsqlcc_1_1Row_html"><div class="ttname"><a href="structsqlcc_1_1Row.html">sqlcc::Row</a></div><div class="ttdoc">行结构体 用于存储查询结果中的一行数据</div><div class="ttdef"><b>Definition</b> execution_result.h:170</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

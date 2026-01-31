@@ -1,0 +1,830 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::storage::CompositePartition类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1storage.html">storage</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html">CompositePartition</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classsqlcc_1_1storage_1_1CompositePartition-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::storage::CompositePartition类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>复合分区实现  
+ <a href="classsqlcc_1_1storage_1_1CompositePartition.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="storage_2partition__manager_8h_source.html">partition_manager.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::storage::CompositePartition 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1storage_1_1CompositePartition__inherit__graph.png" border="0" usemap="#asqlcc_1_1storage_1_1CompositePartition_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1storage_1_1CompositePartition_inherit__map" id="asqlcc_1_1storage_1_1CompositePartition_inherit__map">
+<area shape="rect" title="复合分区实现" alt="" coords="5,79,196,119"/>
+<area shape="rect" href="classsqlcc_1_1storage_1_1Partition.html" title="分区定义基类" alt="" coords="13,5,188,31"/>
+<area shape="poly" title=" " alt="" coords="95,44,96,78,90,79,90,44"/>
+<area shape="poly" title=" " alt="" coords="112,44,111,79,106,78,106,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<div class="dynheader">
+sqlcc::storage::CompositePartition 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1storage_1_1CompositePartition__coll__graph.png" border="0" usemap="#asqlcc_1_1storage_1_1CompositePartition_coll__map" alt="Collaboration graph"/></div>
+<map name="asqlcc_1_1storage_1_1CompositePartition_coll__map" id="asqlcc_1_1storage_1_1CompositePartition_coll__map">
+<area shape="rect" title="复合分区实现" alt="" coords="5,108,196,148"/>
+<area shape="rect" href="classsqlcc_1_1storage_1_1Partition.html" title="分区定义基类" alt="" coords="13,13,188,38"/>
+<area shape="poly" title=" " alt="" coords="95,52,96,108,91,108,90,52"/>
+<area shape="poly" title=" " alt="" coords="111,52,111,108,105,108,106,52"/>
+<area shape="rect" href="structsqlcc_1_1storage_1_1CompositePartition_1_1CompositeInfo.html" title=" " alt="" coords="212,5,403,45"/>
+<area shape="poly" title=" " alt="" coords="257,54,141,110,138,106,255,49"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1storage_1_1CompositePartition_1_1CompositeInfo.html">CompositeInfo</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a8b79295155fa6259009edfc48ebe2737" id="r_a8b79295155fa6259009edfc48ebe2737"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#a8b79295155fa6259009edfc48ebe2737">CompositePartition</a> (int32_t partition_id, const std::string &amp;name, const <a class="el" href="structsqlcc_1_1storage_1_1CompositePartition_1_1CompositeInfo.html">CompositeInfo</a> &amp;composite_info)</td></tr>
+<tr class="separator:a8b79295155fa6259009edfc48ebe2737"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff8e601b03d7dd5dbbf6b5a3aa10d975" id="r_aff8e601b03d7dd5dbbf6b5a3aa10d975"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#aff8e601b03d7dd5dbbf6b5a3aa10d975">containsValue</a> (const void *value) const override</td></tr>
+<tr class="separator:aff8e601b03d7dd5dbbf6b5a3aa10d975"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcf49f9c430bc5b4e806ad6d7925f01c" id="r_afcf49f9c430bc5b4e806ad6d7925f01c"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#afcf49f9c430bc5b4e806ad6d7925f01c">getPartitionForValue</a> (const void *value) const override</td></tr>
+<tr class="separator:afcf49f9c430bc5b4e806ad6d7925f01c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada0015a8572a4762e06ada854764efb6" id="r_ada0015a8572a4762e06ada854764efb6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#ada0015a8572a4762e06ada854764efb6">isEmpty</a> () const override</td></tr>
+<tr class="separator:ada0015a8572a4762e06ada854764efb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fe608ce40f95666e58d69b3a4ead1e0" id="r_a0fe608ce40f95666e58d69b3a4ead1e0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#a0fe608ce40f95666e58d69b3a4ead1e0">getRowCount</a> () const override</td></tr>
+<tr class="separator:a0fe608ce40f95666e58d69b3a4ead1e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2572160bc8b1c5939b77bb4806d7633" id="r_af2572160bc8b1c5939b77bb4806d7633"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#af2572160bc8b1c5939b77bb4806d7633">getSizeInBytes</a> () const override</td></tr>
+<tr class="separator:af2572160bc8b1c5939b77bb4806d7633"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af38ec4402a5861915d94dab23293db57" id="r_af38ec4402a5861915d94dab23293db57"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1storage_1_1Partition_1_1PartitionStatistics.html">PartitionStatistics</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#af38ec4402a5861915d94dab23293db57">getStatistics</a> () const override</td></tr>
+<tr class="separator:af38ec4402a5861915d94dab23293db57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec375d319327c709b45149f8e0928a49" id="r_aec375d319327c709b45149f8e0928a49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#aec375d319327c709b45149f8e0928a49">updateStatistics</a> () override</td></tr>
+<tr class="separator:aec375d319327c709b45149f8e0928a49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f596e1cb297d4a57593dede381b76ad" id="r_a3f596e1cb297d4a57593dede381b76ad"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structsqlcc_1_1storage_1_1CompositePartition_1_1CompositeInfo.html">CompositeInfo</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#a3f596e1cb297d4a57593dede381b76ad">getCompositeInfo</a> () const</td></tr>
+<tr class="separator:a3f596e1cb297d4a57593dede381b76ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b79295155fa6259009edfc48ebe2737" id="r_a8b79295155fa6259009edfc48ebe2737"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#a8b79295155fa6259009edfc48ebe2737">CompositePartition</a> (int32_t partition_id, const std::string &amp;name, const <a class="el" href="structsqlcc_1_1storage_1_1CompositePartition_1_1CompositeInfo.html">CompositeInfo</a> &amp;composite_info)</td></tr>
+<tr class="separator:a8b79295155fa6259009edfc48ebe2737"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff8e601b03d7dd5dbbf6b5a3aa10d975" id="r_aff8e601b03d7dd5dbbf6b5a3aa10d975"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#aff8e601b03d7dd5dbbf6b5a3aa10d975">containsValue</a> (const void *value) const override</td></tr>
+<tr class="separator:aff8e601b03d7dd5dbbf6b5a3aa10d975"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcf49f9c430bc5b4e806ad6d7925f01c" id="r_afcf49f9c430bc5b4e806ad6d7925f01c"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#afcf49f9c430bc5b4e806ad6d7925f01c">getPartitionForValue</a> (const void *value) const override</td></tr>
+<tr class="separator:afcf49f9c430bc5b4e806ad6d7925f01c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada0015a8572a4762e06ada854764efb6" id="r_ada0015a8572a4762e06ada854764efb6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#ada0015a8572a4762e06ada854764efb6">isEmpty</a> () const override</td></tr>
+<tr class="separator:ada0015a8572a4762e06ada854764efb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fe608ce40f95666e58d69b3a4ead1e0" id="r_a0fe608ce40f95666e58d69b3a4ead1e0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#a0fe608ce40f95666e58d69b3a4ead1e0">getRowCount</a> () const override</td></tr>
+<tr class="separator:a0fe608ce40f95666e58d69b3a4ead1e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2572160bc8b1c5939b77bb4806d7633" id="r_af2572160bc8b1c5939b77bb4806d7633"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#af2572160bc8b1c5939b77bb4806d7633">getSizeInBytes</a> () const override</td></tr>
+<tr class="separator:af2572160bc8b1c5939b77bb4806d7633"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1727027436f8ced988a14ee1afcf99f0" id="r_a1727027436f8ced988a14ee1afcf99f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1storage_1_1Partition_1_1PartitionStatistics.html">PartitionStatistics</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#a1727027436f8ced988a14ee1afcf99f0">getStatistics</a> () const override</td></tr>
+<tr class="separator:a1727027436f8ced988a14ee1afcf99f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec375d319327c709b45149f8e0928a49" id="r_aec375d319327c709b45149f8e0928a49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#aec375d319327c709b45149f8e0928a49">updateStatistics</a> () override</td></tr>
+<tr class="separator:aec375d319327c709b45149f8e0928a49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f596e1cb297d4a57593dede381b76ad" id="r_a3f596e1cb297d4a57593dede381b76ad"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structsqlcc_1_1storage_1_1CompositePartition_1_1CompositeInfo.html">CompositeInfo</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#a3f596e1cb297d4a57593dede381b76ad">getCompositeInfo</a> () const</td></tr>
+<tr class="separator:a3f596e1cb297d4a57593dede381b76ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classsqlcc_1_1storage_1_1Partition"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classsqlcc_1_1storage_1_1Partition')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">sqlcc::storage::Partition</a></td></tr>
+<tr class="memitem:a344cdef116abbb72f60f5993167876d2 inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_a344cdef116abbb72f60f5993167876d2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a344cdef116abbb72f60f5993167876d2">Partition</a> (int32_t partition_id, const std::string &amp;name, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62">Type</a> type)</td></tr>
+<tr class="separator:a344cdef116abbb72f60f5993167876d2 inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ef691b5451b7a9a6374adbb115ade2f inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_a1ef691b5451b7a9a6374adbb115ade2f"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a1ef691b5451b7a9a6374adbb115ade2f">~Partition</a> ()=default</td></tr>
+<tr class="separator:a1ef691b5451b7a9a6374adbb115ade2f inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee36b477d0eed1bf995028df242c9681 inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_aee36b477d0eed1bf995028df242c9681"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#aee36b477d0eed1bf995028df242c9681">getPartitionId</a> () const</td></tr>
+<tr class="separator:aee36b477d0eed1bf995028df242c9681 inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a265933823cea6c5980f0090ffb1db791 inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_a265933823cea6c5980f0090ffb1db791"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a265933823cea6c5980f0090ffb1db791">getName</a> () const</td></tr>
+<tr class="separator:a265933823cea6c5980f0090ffb1db791 inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac5f91bcf2324d8085c572c46e5873fe inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_aac5f91bcf2324d8085c572c46e5873fe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#aac5f91bcf2324d8085c572c46e5873fe">getType</a> () const</td></tr>
+<tr class="separator:aac5f91bcf2324d8085c572c46e5873fe inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a681daf16c181e2ba182bdaed4910654f inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_a681daf16c181e2ba182bdaed4910654f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a681daf16c181e2ba182bdaed4910654f">getState</a> () const</td></tr>
+<tr class="separator:a681daf16c181e2ba182bdaed4910654f inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef89217265f028aac9fb2f317d0e499e inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_aef89217265f028aac9fb2f317d0e499e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#aef89217265f028aac9fb2f317d0e499e">setState</a> (<a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599">State</a> state)</td></tr>
+<tr class="separator:aef89217265f028aac9fb2f317d0e499e inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e150f33f55d52959b9c28291956ba78 inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_a6e150f33f55d52959b9c28291956ba78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a6e150f33f55d52959b9c28291956ba78">setLastModified</a> (const std::chrono::system_clock::time_point &amp;time)</td></tr>
+<tr class="separator:a6e150f33f55d52959b9c28291956ba78 inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55949842df2c5723d5fab3a22cf91c37 inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_a55949842df2c5723d5fab3a22cf91c37"><td class="memItemLeft" align="right" valign="top">const std::chrono::system_clock::time_point &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a55949842df2c5723d5fab3a22cf91c37">getLastModified</a> () const</td></tr>
+<tr class="separator:a55949842df2c5723d5fab3a22cf91c37 inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a344cdef116abbb72f60f5993167876d2 inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_a344cdef116abbb72f60f5993167876d2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a344cdef116abbb72f60f5993167876d2">Partition</a> (int32_t partition_id, const std::string &amp;name, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62">Type</a> type)</td></tr>
+<tr class="separator:a344cdef116abbb72f60f5993167876d2 inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ef691b5451b7a9a6374adbb115ade2f inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_a1ef691b5451b7a9a6374adbb115ade2f"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a1ef691b5451b7a9a6374adbb115ade2f">~Partition</a> ()=default</td></tr>
+<tr class="separator:a1ef691b5451b7a9a6374adbb115ade2f inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee36b477d0eed1bf995028df242c9681 inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_aee36b477d0eed1bf995028df242c9681"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#aee36b477d0eed1bf995028df242c9681">getPartitionId</a> () const</td></tr>
+<tr class="separator:aee36b477d0eed1bf995028df242c9681 inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a265933823cea6c5980f0090ffb1db791 inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_a265933823cea6c5980f0090ffb1db791"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a265933823cea6c5980f0090ffb1db791">getName</a> () const</td></tr>
+<tr class="separator:a265933823cea6c5980f0090ffb1db791 inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac5f91bcf2324d8085c572c46e5873fe inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_aac5f91bcf2324d8085c572c46e5873fe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#aac5f91bcf2324d8085c572c46e5873fe">getType</a> () const</td></tr>
+<tr class="separator:aac5f91bcf2324d8085c572c46e5873fe inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a681daf16c181e2ba182bdaed4910654f inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_a681daf16c181e2ba182bdaed4910654f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a681daf16c181e2ba182bdaed4910654f">getState</a> () const</td></tr>
+<tr class="separator:a681daf16c181e2ba182bdaed4910654f inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef89217265f028aac9fb2f317d0e499e inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_aef89217265f028aac9fb2f317d0e499e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#aef89217265f028aac9fb2f317d0e499e">setState</a> (<a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599">State</a> state)</td></tr>
+<tr class="separator:aef89217265f028aac9fb2f317d0e499e inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e150f33f55d52959b9c28291956ba78 inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_a6e150f33f55d52959b9c28291956ba78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a6e150f33f55d52959b9c28291956ba78">setLastModified</a> (const std::chrono::system_clock::time_point &amp;time)</td></tr>
+<tr class="separator:a6e150f33f55d52959b9c28291956ba78 inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55949842df2c5723d5fab3a22cf91c37 inherit pub_methods_classsqlcc_1_1storage_1_1Partition" id="r_a55949842df2c5723d5fab3a22cf91c37"><td class="memItemLeft" align="right" valign="top">const std::chrono::system_clock::time_point &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a55949842df2c5723d5fab3a22cf91c37">getLastModified</a> () const</td></tr>
+<tr class="separator:a55949842df2c5723d5fab3a22cf91c37 inherit pub_methods_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a84c696fd152926d389f1a05d170c61d5" id="r_a84c696fd152926d389f1a05d170c61d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1storage_1_1CompositePartition_1_1CompositeInfo.html">CompositeInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#a84c696fd152926d389f1a05d170c61d5">composite_info_</a></td></tr>
+<tr class="separator:a84c696fd152926d389f1a05d170c61d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f9458a2cf57041b8355aff0a0a919c4" id="r_a6f9458a2cf57041b8355aff0a0a919c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1storage_1_1Partition_1_1PartitionStatistics.html">PartitionStatistics</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1CompositePartition.html#a6f9458a2cf57041b8355aff0a0a919c4">stats_</a></td></tr>
+<tr class="separator:a6f9458a2cf57041b8355aff0a0a919c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+额外继承的成员函数</h2></td></tr>
+<tr class="inherit_header pub_types_classsqlcc_1_1storage_1_1Partition"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classsqlcc_1_1storage_1_1Partition')"><img src="closed.png" alt="-"/>&#160;Public 类型 继承自 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">sqlcc::storage::Partition</a></td></tr>
+<tr class="memitem:af65c006988e1d1b5a62ac252116e7d62 inherit pub_types_classsqlcc_1_1storage_1_1Partition" id="r_af65c006988e1d1b5a62ac252116e7d62"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62">Type</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a01036ddcc971d02f6c32c3da31a119f2">RANGE</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a50b7748612b28db487d115f220bb77ab">HASH</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a298cb25408234de02baf2085803a464a">LIST</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a817e60c93ea667a3b1f99f516a56fa62">COMPOSITE</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a01036ddcc971d02f6c32c3da31a119f2">RANGE</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a50b7748612b28db487d115f220bb77ab">HASH</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a298cb25408234de02baf2085803a464a">LIST</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a817e60c93ea667a3b1f99f516a56fa62">COMPOSITE</a>
+<br />
+ }</td></tr>
+<tr class="separator:af65c006988e1d1b5a62ac252116e7d62 inherit pub_types_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a124c4e0cad5b430fac63bd37b96c9599 inherit pub_types_classsqlcc_1_1storage_1_1Partition" id="r_a124c4e0cad5b430fac63bd37b96c9599"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599">State</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a18ff74f43da410c5529f7d6fca84f115">ACTIVE</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a6b273343c454f9c53dcfc9c4ccf171d2">INACTIVE</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a6a61aa174348bc8528bb6c9784f51d06">DROPPING</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a4406e828b33b92084489d241b190ebfe">MERGING</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a18ff74f43da410c5529f7d6fca84f115">ACTIVE</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a6b273343c454f9c53dcfc9c4ccf171d2">INACTIVE</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a6a61aa174348bc8528bb6c9784f51d06">DROPPING</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a4406e828b33b92084489d241b190ebfe">MERGING</a>
+<br />
+ }</td></tr>
+<tr class="separator:a124c4e0cad5b430fac63bd37b96c9599 inherit pub_types_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af65c006988e1d1b5a62ac252116e7d62 inherit pub_types_classsqlcc_1_1storage_1_1Partition" id="r_af65c006988e1d1b5a62ac252116e7d62"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62">Type</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a01036ddcc971d02f6c32c3da31a119f2">RANGE</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a50b7748612b28db487d115f220bb77ab">HASH</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a298cb25408234de02baf2085803a464a">LIST</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a817e60c93ea667a3b1f99f516a56fa62">COMPOSITE</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a01036ddcc971d02f6c32c3da31a119f2">RANGE</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a50b7748612b28db487d115f220bb77ab">HASH</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a298cb25408234de02baf2085803a464a">LIST</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62a817e60c93ea667a3b1f99f516a56fa62">COMPOSITE</a>
+<br />
+ }</td></tr>
+<tr class="separator:af65c006988e1d1b5a62ac252116e7d62 inherit pub_types_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a124c4e0cad5b430fac63bd37b96c9599 inherit pub_types_classsqlcc_1_1storage_1_1Partition" id="r_a124c4e0cad5b430fac63bd37b96c9599"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599">State</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a18ff74f43da410c5529f7d6fca84f115">ACTIVE</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a6b273343c454f9c53dcfc9c4ccf171d2">INACTIVE</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a6a61aa174348bc8528bb6c9784f51d06">DROPPING</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a4406e828b33b92084489d241b190ebfe">MERGING</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a18ff74f43da410c5529f7d6fca84f115">ACTIVE</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a6b273343c454f9c53dcfc9c4ccf171d2">INACTIVE</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a6a61aa174348bc8528bb6c9784f51d06">DROPPING</a>
+, <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599a4406e828b33b92084489d241b190ebfe">MERGING</a>
+<br />
+ }</td></tr>
+<tr class="separator:a124c4e0cad5b430fac63bd37b96c9599 inherit pub_types_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classsqlcc_1_1storage_1_1Partition"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classsqlcc_1_1storage_1_1Partition')"><img src="closed.png" alt="-"/>&#160;Protected 属性 继承自 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html">sqlcc::storage::Partition</a></td></tr>
+<tr class="memitem:aa165406a59a5db0afe05f44a0abb4f9e inherit pro_attribs_classsqlcc_1_1storage_1_1Partition" id="r_aa165406a59a5db0afe05f44a0abb4f9e"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#aa165406a59a5db0afe05f44a0abb4f9e">partition_id_</a></td></tr>
+<tr class="separator:aa165406a59a5db0afe05f44a0abb4f9e inherit pro_attribs_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8587347ca9f6a9518bee7b7c64d9b491 inherit pro_attribs_classsqlcc_1_1storage_1_1Partition" id="r_a8587347ca9f6a9518bee7b7c64d9b491"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a8587347ca9f6a9518bee7b7c64d9b491">name_</a></td></tr>
+<tr class="separator:a8587347ca9f6a9518bee7b7c64d9b491 inherit pro_attribs_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c5e60f507b255ac8c9ab97cdb9600b3 inherit pro_attribs_classsqlcc_1_1storage_1_1Partition" id="r_a3c5e60f507b255ac8c9ab97cdb9600b3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#af65c006988e1d1b5a62ac252116e7d62">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a3c5e60f507b255ac8c9ab97cdb9600b3">type_</a></td></tr>
+<tr class="separator:a3c5e60f507b255ac8c9ab97cdb9600b3 inherit pro_attribs_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a237f43f0f16da0a2ac1a6ca51d06f03e inherit pro_attribs_classsqlcc_1_1storage_1_1Partition" id="r_a237f43f0f16da0a2ac1a6ca51d06f03e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a124c4e0cad5b430fac63bd37b96c9599">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a237f43f0f16da0a2ac1a6ca51d06f03e">state_</a></td></tr>
+<tr class="separator:a237f43f0f16da0a2ac1a6ca51d06f03e inherit pro_attribs_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaf9bac7cc96a1aae29317a8bdcae6ec inherit pro_attribs_classsqlcc_1_1storage_1_1Partition" id="r_acaf9bac7cc96a1aae29317a8bdcae6ec"><td class="memItemLeft" align="right" valign="top">std::chrono::system_clock::time_point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1Partition.html#acaf9bac7cc96a1aae29317a8bdcae6ec">last_modified_</a></td></tr>
+<tr class="separator:acaf9bac7cc96a1aae29317a8bdcae6ec inherit pro_attribs_classsqlcc_1_1storage_1_1Partition"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>复合分区实现 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a8b79295155fa6259009edfc48ebe2737" name="a8b79295155fa6259009edfc48ebe2737"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b79295155fa6259009edfc48ebe2737">&#9670;&#160;</a></span>CompositePartition() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::storage::CompositePartition::CompositePartition </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1storage_1_1CompositePartition_1_1CompositeInfo.html">CompositeInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>composite_info</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8b79295155fa6259009edfc48ebe2737" name="a8b79295155fa6259009edfc48ebe2737"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b79295155fa6259009edfc48ebe2737">&#9670;&#160;</a></span>CompositePartition() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::storage::CompositePartition::CompositePartition </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>partition_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1storage_1_1CompositePartition_1_1CompositeInfo.html">CompositeInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>composite_info</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="aff8e601b03d7dd5dbbf6b5a3aa10d975" name="aff8e601b03d7dd5dbbf6b5a3aa10d975"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff8e601b03d7dd5dbbf6b5a3aa10d975">&#9670;&#160;</a></span>containsValue() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::CompositePartition::containsValue </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a9bbd6d2cfac71f31dd1e337f27686290">sqlcc::storage::Partition</a>.</p>
+
+</div>
+</div>
+<a id="aff8e601b03d7dd5dbbf6b5a3aa10d975" name="aff8e601b03d7dd5dbbf6b5a3aa10d975"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff8e601b03d7dd5dbbf6b5a3aa10d975">&#9670;&#160;</a></span>containsValue() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::CompositePartition::containsValue </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a9bbd6d2cfac71f31dd1e337f27686290">sqlcc::storage::Partition</a>.</p>
+
+</div>
+</div>
+<a id="a3f596e1cb297d4a57593dede381b76ad" name="a3f596e1cb297d4a57593dede381b76ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f596e1cb297d4a57593dede381b76ad">&#9670;&#160;</a></span>getCompositeInfo() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structsqlcc_1_1storage_1_1CompositePartition_1_1CompositeInfo.html">CompositeInfo</a> &amp; sqlcc::storage::CompositePartition::getCompositeInfo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3f596e1cb297d4a57593dede381b76ad" name="a3f596e1cb297d4a57593dede381b76ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f596e1cb297d4a57593dede381b76ad">&#9670;&#160;</a></span>getCompositeInfo() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structsqlcc_1_1storage_1_1CompositePartition_1_1CompositeInfo.html">CompositeInfo</a> &amp; sqlcc::storage::CompositePartition::getCompositeInfo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afcf49f9c430bc5b4e806ad6d7925f01c" name="afcf49f9c430bc5b4e806ad6d7925f01c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcf49f9c430bc5b4e806ad6d7925f01c">&#9670;&#160;</a></span>getPartitionForValue() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t sqlcc::storage::CompositePartition::getPartitionForValue </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a5d195f5c77f4315f8a09d582ae28e5f2">sqlcc::storage::Partition</a>.</p>
+
+</div>
+</div>
+<a id="afcf49f9c430bc5b4e806ad6d7925f01c" name="afcf49f9c430bc5b4e806ad6d7925f01c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcf49f9c430bc5b4e806ad6d7925f01c">&#9670;&#160;</a></span>getPartitionForValue() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int32_t sqlcc::storage::CompositePartition::getPartitionForValue </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a5d195f5c77f4315f8a09d582ae28e5f2">sqlcc::storage::Partition</a>.</p>
+
+</div>
+</div>
+<a id="a0fe608ce40f95666e58d69b3a4ead1e0" name="a0fe608ce40f95666e58d69b3a4ead1e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fe608ce40f95666e58d69b3a4ead1e0">&#9670;&#160;</a></span>getRowCount() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::storage::CompositePartition::getRowCount </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a16551fe23c6487b2b50781ceadd346f3">sqlcc::storage::Partition</a>.</p>
+
+</div>
+</div>
+<a id="a0fe608ce40f95666e58d69b3a4ead1e0" name="a0fe608ce40f95666e58d69b3a4ead1e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fe608ce40f95666e58d69b3a4ead1e0">&#9670;&#160;</a></span>getRowCount() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t sqlcc::storage::CompositePartition::getRowCount </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a16551fe23c6487b2b50781ceadd346f3">sqlcc::storage::Partition</a>.</p>
+
+</div>
+</div>
+<a id="af2572160bc8b1c5939b77bb4806d7633" name="af2572160bc8b1c5939b77bb4806d7633"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2572160bc8b1c5939b77bb4806d7633">&#9670;&#160;</a></span>getSizeInBytes() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t sqlcc::storage::CompositePartition::getSizeInBytes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#ae1769d67a75533998473d156ecb6c5ca">sqlcc::storage::Partition</a>.</p>
+
+</div>
+</div>
+<a id="af2572160bc8b1c5939b77bb4806d7633" name="af2572160bc8b1c5939b77bb4806d7633"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2572160bc8b1c5939b77bb4806d7633">&#9670;&#160;</a></span>getSizeInBytes() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t sqlcc::storage::CompositePartition::getSizeInBytes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#ae1769d67a75533998473d156ecb6c5ca">sqlcc::storage::Partition</a>.</p>
+
+</div>
+</div>
+<a id="af38ec4402a5861915d94dab23293db57" name="af38ec4402a5861915d94dab23293db57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af38ec4402a5861915d94dab23293db57">&#9670;&#160;</a></span>getStatistics() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1storage_1_1Partition_1_1PartitionStatistics.html">Partition::PartitionStatistics</a> sqlcc::storage::CompositePartition::getStatistics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a9a2e6a947906994cc213a52599440f06">sqlcc::storage::Partition</a>.</p>
+
+</div>
+</div>
+<a id="a1727027436f8ced988a14ee1afcf99f0" name="a1727027436f8ced988a14ee1afcf99f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1727027436f8ced988a14ee1afcf99f0">&#9670;&#160;</a></span>getStatistics() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1storage_1_1Partition_1_1PartitionStatistics.html">PartitionStatistics</a> sqlcc::storage::CompositePartition::getStatistics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a9a2e6a947906994cc213a52599440f06">sqlcc::storage::Partition</a>.</p>
+
+</div>
+</div>
+<a id="ada0015a8572a4762e06ada854764efb6" name="ada0015a8572a4762e06ada854764efb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada0015a8572a4762e06ada854764efb6">&#9670;&#160;</a></span>isEmpty() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::CompositePartition::isEmpty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a9f26abbe1baf70ee8ec885201e1e364f">sqlcc::storage::Partition</a>.</p>
+
+</div>
+</div>
+<a id="ada0015a8572a4762e06ada854764efb6" name="ada0015a8572a4762e06ada854764efb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada0015a8572a4762e06ada854764efb6">&#9670;&#160;</a></span>isEmpty() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage::CompositePartition::isEmpty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#a9f26abbe1baf70ee8ec885201e1e364f">sqlcc::storage::Partition</a>.</p>
+
+</div>
+</div>
+<a id="aec375d319327c709b45149f8e0928a49" name="aec375d319327c709b45149f8e0928a49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec375d319327c709b45149f8e0928a49">&#9670;&#160;</a></span>updateStatistics() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::storage::CompositePartition::updateStatistics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#aeff31906ef8fc0f03f66cf0f0c631559">sqlcc::storage::Partition</a>.</p>
+
+</div>
+</div>
+<a id="aec375d319327c709b45149f8e0928a49" name="aec375d319327c709b45149f8e0928a49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec375d319327c709b45149f8e0928a49">&#9670;&#160;</a></span>updateStatistics() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::storage::CompositePartition::updateStatistics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="classsqlcc_1_1storage_1_1Partition.html#aeff31906ef8fc0f03f66cf0f0c631559">sqlcc::storage::Partition</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a84c696fd152926d389f1a05d170c61d5" name="a84c696fd152926d389f1a05d170c61d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84c696fd152926d389f1a05d170c61d5">&#9670;&#160;</a></span>composite_info_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1storage_1_1CompositePartition_1_1CompositeInfo.html">CompositeInfo</a> sqlcc::storage::CompositePartition::composite_info_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6f9458a2cf57041b8355aff0a0a919c4" name="a6f9458a2cf57041b8355aff0a0a919c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f9458a2cf57041b8355aff0a0a919c4">&#9670;&#160;</a></span>stats_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1storage_1_1Partition_1_1PartitionStatistics.html">PartitionStatistics</a> sqlcc::storage::CompositePartition::stats_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="storage_2partition__manager_8h_source.html">storage/partition_manager.h</a></li>
+<li><a class="el" href="storage__engine_2partition__manager_8h_source.html">storage_engine/partition_manager.h</a></li>
+<li><a class="el" href="partition__manager_8cpp.html">partition_manager.cpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

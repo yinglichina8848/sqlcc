@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: transaction_context_impl.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">transaction_context_impl.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="transaction__context_8h_source.html">transaction_context.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="transaction__manager_8h_source.html">transaction_manager/transaction_manager.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+transaction_context_impl.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="transaction__context__impl_8h__incl.png" border="0" usemap="#atransaction__context__impl_8h" alt=""/></div>
+<map name="atransaction__context__impl_8h" id="atransaction__context__impl_8h">
+<area shape="rect" title=" " alt="" coords="169,5,319,45"/>
+<area shape="rect" href="transaction__context_8h.html" title=" " alt="" coords="5,101,168,126"/>
+<area shape="poly" title=" " alt="" coords="211,48,121,96,118,92,208,43"/>
+<area shape="rect" href="transaction__manager_8h.html" title="SQLCC事务管理器 &#45; ACID属性实现的完整解决方案" alt="" coords="347,93,522,133"/>
+<area shape="poly" title=" " alt="" coords="287,43,382,85,379,90,285,48"/>
+<area shape="rect" title=" " alt="" coords="200,269,277,295"/>
+<area shape="poly" title=" " alt="" coords="84,127,72,171,72,197,81,220,97,233,123,245,188,266,186,271,121,250,94,237,77,223,67,198,67,170,79,125"/>
+<area shape="rect" title=" " alt="" coords="91,189,149,214"/>
+<area shape="poly" title=" " alt="" coords="94,125,113,174,108,176,89,127"/>
+<area shape="rect" title=" " alt="" coords="113,269,175,295"/>
+<area shape="poly" title=" " alt="" coords="75,128,58,146,41,170,32,196,32,208,37,220,49,236,65,248,101,266,98,271,62,253,46,239,32,223,27,209,27,195,36,168,54,143,71,124"/>
+<area shape="poly" title=" " alt="" coords="384,136,343,156,304,183,273,220,252,258,247,255,269,217,301,179,340,151,381,131"/>
+<area shape="poly" title=" " alt="" coords="349,136,261,157,169,184,161,186,160,181,167,179,260,152,347,131"/>
+<area shape="poly" title=" " alt="" coords="375,136,321,157,267,184,212,222,168,261,164,257,208,218,264,179,319,152,373,131"/>
+<area shape="rect" title=" " alt="" coords="999,269,1065,295"/>
+<area shape="poly" title=" " alt="" coords="523,114,638,120,768,131,887,150,934,163,969,179,989,195,1005,215,1026,255,1021,257,1000,218,985,199,967,184,933,168,886,155,767,136,637,125,522,119"/>
+<area shape="rect" title=" " alt="" coords="307,269,373,295"/>
+<area shape="poly" title=" " alt="" coords="374,136,341,155,327,168,316,183,310,201,311,220,326,256,322,258,306,221,305,200,311,180,323,164,338,151,372,131"/>
+<area shape="rect" title=" " alt="" coords="704,269,768,295"/>
+<area shape="poly" title=" " alt="" coords="522,111,631,113,752,123,808,132,858,144,899,159,926,180,936,199,933,217,919,232,897,245,840,264,783,276,781,271,839,259,895,240,915,228,928,215,931,200,922,183,896,164,857,149,807,137,751,128,631,119,522,116"/>
+<area shape="rect" title=" " alt="" coords="831,269,955,295"/>
+<area shape="poly" title=" " alt="" coords="523,117,644,126,777,140,889,157,927,168,949,179,955,190,957,201,951,223,937,244,920,262,916,258,933,240,946,220,952,201,950,192,945,183,925,173,888,162,776,145,643,132,522,123"/>
+<area shape="rect" title=" " alt="" coords="568,189,683,214"/>
+<area shape="poly" title=" " alt="" coords="478,131,589,181,586,186,475,136"/>
+<area shape="rect" title=" " alt="" coords="707,189,912,214"/>
+<area shape="poly" title=" " alt="" coords="517,131,747,183,746,188,516,136"/>
+<area shape="rect" href="concurrency__control_8h.html" title="SQLCC并发控制系统 &#45; MVCC与两阶段锁协议的完整实现" alt="" coords="326,181,543,221"/>
+<area shape="poly" title=" " alt="" coords="437,134,437,167,432,167,432,134"/>
+<area shape="poly" title=" " alt="" coords="389,224,281,267,279,262,387,219"/>
+<area shape="poly" title=" " alt="" coords="366,224,189,271,188,266,364,219"/>
+<area shape="poly" title=" " alt="" coords="544,217,556,219,762,242,968,267,985,269,985,275,968,272,762,247,556,224,543,222"/>
+<area shape="poly" title=" " alt="" coords="413,224,367,262,363,258,410,219"/>
+<area shape="poly" title=" " alt="" coords="508,219,691,266,690,271,506,224"/>
+<area shape="poly" title=" " alt="" coords="544,219,818,265,817,270,543,224"/>
+<area shape="rect" title=" " alt="" coords="488,269,603,295"/>
+<area shape="poly" title=" " alt="" coords="463,219,519,259,516,263,460,224"/>
+<area shape="rect" title=" " alt="" coords="400,269,464,295"/>
+<area shape="poly" title=" " alt="" coords="437,222,436,255,430,255,431,221"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="transaction__context__impl_8h__dep__incl.png" border="0" usemap="#atransaction__context__impl_8hdep" alt=""/></div>
+<map name="atransaction__context__impl_8hdep" id="atransaction__context__impl_8hdep">
+<area shape="rect" title=" " alt="" coords="5,5,156,45"/>
+<area shape="rect" href="transaction__context__impl_8cpp.html" title=" " alt="" coords="5,93,156,133"/>
+<area shape="poly" title=" " alt="" coords="83,59,83,93,78,93,78,59"/>
+</map>
+</div>
+</div>
+<p><a href="transaction__context__impl_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionContextImpl.html">sqlcc::TransactionContextImpl</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: user_manager.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html">core</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">user_manager.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;../user_manager.h&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;queue&gt;</code><br />
+<code>#include &lt;unordered_set&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+core/user_manager.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="core_2user__manager_8cpp__incl.png" border="0" usemap="#auser__manager_8cpp" alt=""/></div>
+<map name="auser__manager_8cpp" id="auser__manager_8cpp">
+<area shape="rect" title=" " alt="" coords="247,5,388,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,144,104"/>
+<area shape="poly" title=" " alt="" coords="279,33,128,77,126,72,278,28"/>
+<area shape="rect" title=" " alt="" coords="168,79,253,104"/>
+<area shape="poly" title=" " alt="" coords="302,33,241,73,238,69,299,28"/>
+<area shape="rect" title=" " alt="" coords="277,79,357,104"/>
+<area shape="poly" title=" " alt="" coords="320,31,320,65,315,65,315,31"/>
+<area shape="rect" title=" " alt="" coords="382,79,445,104"/>
+<area shape="poly" title=" " alt="" coords="334,29,388,68,385,72,331,33"/>
+<area shape="rect" title=" " alt="" coords="469,79,584,104"/>
+<area shape="poly" title=" " alt="" coords="352,28,480,72,479,77,350,33"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>WHY: 为什么需要用户管理器？</p>
+<p>数据库系统是多用户的共享资源，需要精细的访问控制来确保数据安全和完整性。 没有用户管理器，数据库就无法区分不同用户的权限，任何人都能访问所有数据。</p>
+<p>主要问题解决：</p><ol type="1">
+<li>身份认证：验证用户身份，防止未授权访问</li>
+<li>权限控制：基于角色的访问控制，精确控制数据操作权限</li>
+<li>安全隔离：不同用户的数据和操作相互隔离</li>
+<li>审计追踪：记录用户操作，便于安全审计和问题排查</li>
+<li>密码安全：安全的密码存储和验证机制</li>
+</ol>
+<p>用户管理器失败的影响：</p><ul>
+<li>数据泄露：任何人都能访问敏感数据</li>
+<li>数据破坏：恶意用户可以删除或修改重要数据</li>
+<li>法律风险：违反数据保护法规和隐私要求</li>
+<li>系统瘫痪：恶意用户占用系统资源</li>
+</ul>
+<p>WHAT: 这实现了什么功能？</p>
+<p>用户管理器提供完整的用户和权限管理系统：</p><ul>
+<li>用户管理：创建、删除、修改用户信息和密码</li>
+<li>角色管理：创建、删除、修改角色定义和继承关系</li>
+<li>权限管理：授予、撤销用户和角色的数据库对象访问权限</li>
+<li>身份验证：用户名密码认证和会话管理</li>
+<li>权限检查：实时验证用户对数据库对象的访问权限</li>
+<li>权限矩阵：高效的权限查找和缓存机制</li>
+</ul>
+<p>核心组件：</p><ul>
+<li>用户存储：用户信息、密码哈希、安全状态管理</li>
+<li>角色体系：角色定义、继承关系、权限聚合</li>
+<li>权限模型：数据库、表、列级别的细粒度权限控制</li>
+<li>认证引擎：安全的身份验证和密码管理</li>
+<li>授权引擎：基于角色的访问控制决策</li>
+<li>持久化层：用户和权限信息的持久化存储</li>
+</ul>
+<p>HOW: 如何实现的？</p>
+<p>技术实现要点：</p><ol type="1">
+<li>并发安全：使用互斥锁保护共享状态的多线程安全</li>
+<li>密码安全：哈希存储密码（当前实现为简化版本）</li>
+<li>权限矩阵：高效的权限查找和缓存数据结构</li>
+<li>角色继承：支持角色间的权限继承关系</li>
+<li>原子操作：用户和权限管理的原子性保证</li>
+<li>错误处理：完善的错误信息和异常处理机制</li>
+</ol>
+<p>架构设计：</p><ul>
+<li>观察者模式：与系统数据库集成，支持权限变更通知</li>
+<li>工厂模式：动态创建和管理器实例</li>
+<li>策略模式：可插拔的认证和授权策略</li>
+<li>模板方法：统一的CRUD操作流程</li>
+<li>享元模式：权限对象的复用和缓存</li>
+</ul>
+<p>性能优化：</p><ul>
+<li>权限缓存：内存中的权限矩阵快速查找</li>
+<li>延迟加载：按需加载用户和角色信息</li>
+<li>批量操作：支持批量权限管理和用户操作</li>
+<li>索引优化：用户和角色名称的快速查找</li>
+</ul>
+<dl class="section note"><dt>注解</dt><dd>该实现专为SQLCC数据库系统优化，支持RBAC权限模型 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>include/core/user_manager.h </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

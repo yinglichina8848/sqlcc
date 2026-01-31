@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::execution::JoinAlgorithm类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="namespacesqlcc_1_1execution.html">execution</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1execution_1_1JoinAlgorithm.html">JoinAlgorithm</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="classsqlcc_1_1execution_1_1JoinAlgorithm-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::execution::JoinAlgorithm类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>JOIN算法接口  
+ <a href="classsqlcc_1_1execution_1_1JoinAlgorithm.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="join__executor_8h_source.html">join_executor.h</a>&gt;</code></p>
+<div class="dynheader">
+类 sqlcc::execution::JoinAlgorithm 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="classsqlcc_1_1execution_1_1JoinAlgorithm__inherit__graph.png" border="0" usemap="#asqlcc_1_1execution_1_1JoinAlgorithm_inherit__map" alt="Inheritance graph"/></div>
+<map name="asqlcc_1_1execution_1_1JoinAlgorithm_inherit__map" id="asqlcc_1_1execution_1_1JoinAlgorithm_inherit__map">
+<area shape="rect" title="JOIN算法接口" alt="" coords="5,55,228,80"/>
+<area shape="rect" href="classsqlcc_1_1execution_1_1HashJoin.html" title="Hash JOIN算法" alt="" coords="280,5,471,31"/>
+<area shape="poly" title=" " alt="" coords="197,49,307,28,308,33,198,55"/>
+<area shape="rect" href="classsqlcc_1_1execution_1_1MergeJoin.html" title="Merge JOIN算法" alt="" coords="276,55,475,80"/>
+<area shape="poly" title=" " alt="" coords="241,65,276,65,276,70,241,70"/>
+<area shape="rect" href="classsqlcc_1_1execution_1_1NestedLoopJoin.html" title="Nested Loop JOIN算法" alt="" coords="285,105,465,145"/>
+<area shape="poly" title=" " alt="" coords="189,80,286,102,285,107,188,86"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:aae8d96005e109173a829f3259103c6e5" id="r_aae8d96005e109173a829f3259103c6e5"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1JoinAlgorithm.html#aae8d96005e109173a829f3259103c6e5">~JoinAlgorithm</a> ()=default</td></tr>
+<tr class="separator:aae8d96005e109173a829f3259103c6e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5eb75b68b2c95e51c8c7165ef8ce25c0" id="r_a5eb75b68b2c95e51c8c7165ef8ce25c0"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; <a class="el" href="structsqlcc_1_1execution_1_1JoinResultRow.html">JoinResultRow</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1JoinAlgorithm.html#a5eb75b68b2c95e51c8c7165ef8ce25c0">execute</a> (const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;left_table, const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;right_table, <a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1">sql_parser::JoinClause::JoinType</a> join_type, const <a class="el" href="classsqlcc_1_1execution_1_1JoinConditionEvaluator.html">JoinConditionEvaluator</a> *condition)=0</td></tr>
+<tr class="memdesc:a5eb75b68b2c95e51c8c7165ef8ce25c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行JOIN操作  <br /></td></tr>
+<tr class="separator:a5eb75b68b2c95e51c8c7165ef8ce25c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade5783f406cc449e8a8b343015f47b51" id="r_ade5783f406cc449e8a8b343015f47b51"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1JoinAlgorithm.html#ade5783f406cc449e8a8b343015f47b51">getAlgorithmName</a> () const =0</td></tr>
+<tr class="memdesc:ade5783f406cc449e8a8b343015f47b51"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取算法名称  <br /></td></tr>
+<tr class="separator:ade5783f406cc449e8a8b343015f47b51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cc58b3e2f4960348c186e1142f387f9" id="r_a2cc58b3e2f4960348c186e1142f387f9"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1execution_1_1JoinAlgorithm.html#a2cc58b3e2f4960348c186e1142f387f9">estimateCost</a> (size_t left_rows, size_t right_rows) const =0</td></tr>
+<tr class="memdesc:a2cc58b3e2f4960348c186e1142f387f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">估算执行成本  <br /></td></tr>
+<tr class="separator:a2cc58b3e2f4960348c186e1142f387f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>JOIN算法接口 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="aae8d96005e109173a829f3259103c6e5" name="aae8d96005e109173a829f3259103c6e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae8d96005e109173a829f3259103c6e5">&#9670;&#160;</a></span>~JoinAlgorithm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual sqlcc::execution::JoinAlgorithm::~JoinAlgorithm </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a2cc58b3e2f4960348c186e1142f387f9" name="a2cc58b3e2f4960348c186e1142f387f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cc58b3e2f4960348c186e1142f387f9">&#9670;&#160;</a></span>estimateCost()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double sqlcc::execution::JoinAlgorithm::estimateCost </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>left_rows</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>right_rows</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>估算执行成本 </p>
+
+<p>在 <a class="el" href="classsqlcc_1_1execution_1_1NestedLoopJoin.html#aef8e543e208eacd649b917415cc2f027">sqlcc::execution::NestedLoopJoin</a>, <a class="el" href="classsqlcc_1_1execution_1_1HashJoin.html#a3dfaf83fcd8fd95d1121f3472272e2f3">sqlcc::execution::HashJoin</a> , 以及 <a class="el" href="classsqlcc_1_1execution_1_1MergeJoin.html#a416a3df25b4f52720239b339d6cab372">sqlcc::execution::MergeJoin</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a5eb75b68b2c95e51c8c7165ef8ce25c0" name="a5eb75b68b2c95e51c8c7165ef8ce25c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5eb75b68b2c95e51c8c7165ef8ce25c0">&#9670;&#160;</a></span>execute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::vector&lt; <a class="el" href="structsqlcc_1_1execution_1_1JoinResultRow.html">JoinResultRow</a> &gt; sqlcc::execution::JoinAlgorithm::execute </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>left_table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>right_table</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1sql__parser_1_1JoinClause.html#a7b3282e5d0a0c7cba7916418be7bb8d1">sql_parser::JoinClause::JoinType</a>&#160;</td>
+          <td class="paramname"><em>join_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1execution_1_1JoinConditionEvaluator.html">JoinConditionEvaluator</a> *&#160;</td>
+          <td class="paramname"><em>condition</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行JOIN操作 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">left_table</td><td>左表数据 </td></tr>
+    <tr><td class="paramname">right_table</td><td>右表数据 </td></tr>
+    <tr><td class="paramname">join_type</td><td>JOIN类型 </td></tr>
+    <tr><td class="paramname">condition</td><td>JOIN条件 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>JOIN结果 </dd></dl>
+
+<p>在 <a class="el" href="classsqlcc_1_1execution_1_1NestedLoopJoin.html#a9d7d703107e8c4d283d14d6ea5f99742">sqlcc::execution::NestedLoopJoin</a>, <a class="el" href="classsqlcc_1_1execution_1_1HashJoin.html#a3421badaf9add1a3233b0ccd97b4f812">sqlcc::execution::HashJoin</a> , 以及 <a class="el" href="classsqlcc_1_1execution_1_1MergeJoin.html#a532fb6592cc4ddcac500f9a34bf00249">sqlcc::execution::MergeJoin</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ade5783f406cc449e8a8b343015f47b51" name="ade5783f406cc449e8a8b343015f47b51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade5783f406cc449e8a8b343015f47b51">&#9670;&#160;</a></span>getAlgorithmName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string sqlcc::execution::JoinAlgorithm::getAlgorithmName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取算法名称 </p>
+
+<p>在 <a class="el" href="classsqlcc_1_1execution_1_1NestedLoopJoin.html#abc80c37e1aed88af051836e48c942d13">sqlcc::execution::NestedLoopJoin</a>, <a class="el" href="classsqlcc_1_1execution_1_1HashJoin.html#afb4e578681f71beab9c8c420213ef16a">sqlcc::execution::HashJoin</a> , 以及 <a class="el" href="classsqlcc_1_1execution_1_1MergeJoin.html#a9b581d4f256c83ad03a1168e839acfaf">sqlcc::execution::MergeJoin</a> 内被实现.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="join__executor_8h_source.html">join_executor.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

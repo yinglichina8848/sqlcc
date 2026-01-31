@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: cost_estimator.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bd0755c95a42e835fb06f38bbeb1d6ed.html">execution</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">cost_estimator.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="cost__estimator_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="preprocessor">#ifndef SQLCC_EXECUTION_COST_ESTIMATOR_H</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="preprocessor">#define SQLCC_EXECUTION_COST_ESTIMATOR_H</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="foldopen" id="foldopen00161" data-start="{" data-end="};">
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="structsqlcc_1_1QueryCost.html">  161</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1QueryCost.html">QueryCost</a> {</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="structsqlcc_1_1QueryCost.html#a244ad0d0e2c241f3482e46ec1e7d1856">  162</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#a244ad0d0e2c241f3482e46ec1e7d1856">cpu_cost</a> = 0.0;        <span class="comment">// CPU代价</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="structsqlcc_1_1QueryCost.html#a927fafa8e50997d03592d00ee2355dcf">  163</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#a927fafa8e50997d03592d00ee2355dcf">io_cost</a> = 0.0;         <span class="comment">// I/O代价</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="structsqlcc_1_1QueryCost.html#a84378333714d5023107d67718507ca58">  164</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#a84378333714d5023107d67718507ca58">network_cost</a> = 0.0;    <span class="comment">// 网络代价</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="structsqlcc_1_1QueryCost.html#ad1047c70f57df81d10bbdc218f75d2fa">  165</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#ad1047c70f57df81d10bbdc218f75d2fa">memory_cost</a> = 0.0;     <span class="comment">// 内存代价</span></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno"><a class="line" href="structsqlcc_1_1QueryCost.html#a35e6cf4502fc6a436af88e607ed87cd5">  166</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#a35e6cf4502fc6a436af88e607ed87cd5">total_cost</a> = 0.0;      <span class="comment">// 总代价</span></div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
+<div class="foldopen" id="foldopen00168" data-start="{" data-end="}">
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="structsqlcc_1_1QueryCost.html#a384b3c2312f9794a227f8d3cbb4178ad">  168</a></span>    <a class="code hl_struct" href="structsqlcc_1_1QueryCost.html">QueryCost</a>&amp; <a class="code hl_function" href="structsqlcc_1_1QueryCost.html#a384b3c2312f9794a227f8d3cbb4178ad">operator+=</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1QueryCost.html">QueryCost</a>&amp; other) {</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        <a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#a244ad0d0e2c241f3482e46ec1e7d1856">cpu_cost</a> += other.<a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#a244ad0d0e2c241f3482e46ec1e7d1856">cpu_cost</a>;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        <a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#a927fafa8e50997d03592d00ee2355dcf">io_cost</a> += other.<a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#a927fafa8e50997d03592d00ee2355dcf">io_cost</a>;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        <a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#a84378333714d5023107d67718507ca58">network_cost</a> += other.<a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#a84378333714d5023107d67718507ca58">network_cost</a>;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#ad1047c70f57df81d10bbdc218f75d2fa">memory_cost</a> += other.<a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#ad1047c70f57df81d10bbdc218f75d2fa">memory_cost</a>;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        <a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#a35e6cf4502fc6a436af88e607ed87cd5">total_cost</a> += other.<a class="code hl_variable" href="structsqlcc_1_1QueryCost.html#a35e6cf4502fc6a436af88e607ed87cd5">total_cost</a>;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    }</div>
+</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
+<div class="foldopen" id="foldopen00177" data-start="{" data-end="}">
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="structsqlcc_1_1QueryCost.html#a50a58454108d85e2fae1baf21eed0ba9">  177</a></span>    <a class="code hl_struct" href="structsqlcc_1_1QueryCost.html">QueryCost</a> <a class="code hl_function" href="structsqlcc_1_1QueryCost.html#a50a58454108d85e2fae1baf21eed0ba9">operator+</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1QueryCost.html">QueryCost</a>&amp; other)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>        <a class="code hl_struct" href="structsqlcc_1_1QueryCost.html">QueryCost</a> result = *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>        result += other;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    }</div>
+</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>};</div>
+</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="foldopen" id="foldopen00184" data-start="{" data-end="};">
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno"><a class="line" href="structsqlcc_1_1TableStatistics.html">  184</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1TableStatistics.html">TableStatistics</a> {</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno"><a class="line" href="structsqlcc_1_1TableStatistics.html#ab32760216014dd77ddfe5c283834e8c6">  185</a></span>    std::string <a class="code hl_variable" href="structsqlcc_1_1TableStatistics.html#ab32760216014dd77ddfe5c283834e8c6">table_name</a>;</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="structsqlcc_1_1TableStatistics.html#ae4aae87352f223552dda10bd78d91c28">  186</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1TableStatistics.html#ae4aae87352f223552dda10bd78d91c28">row_count</a> = 0;         <span class="comment">// 表行数</span></div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno"><a class="line" href="structsqlcc_1_1TableStatistics.html#a0d2b8a146c98097577a6bcb110a07495">  187</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1TableStatistics.html#a0d2b8a146c98097577a6bcb110a07495">page_count</a> = 0;        <span class="comment">// 表页数</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="structsqlcc_1_1TableStatistics.html#ade4f621226ef67da091250546e4b078c">  188</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1TableStatistics.html#ade4f621226ef67da091250546e4b078c">avg_row_size</a> = 0;      <span class="comment">// 平均行大小</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno"><a class="line" href="structsqlcc_1_1TableStatistics.html#abf4e53e0588f542f6db6bfdee973b7bc">  189</a></span>    std::unordered_map&lt;std::string, size_t&gt; <a class="code hl_variable" href="structsqlcc_1_1TableStatistics.html#abf4e53e0588f542f6db6bfdee973b7bc">column_cardinalities</a>;  <span class="comment">// 列基数</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="comment">// 直方图数据 (简化版)</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="structsqlcc_1_1TableStatistics.html#a80fb0caa2f2171e38c994890072c3077">  192</a></span>    std::unordered_map&lt;std::string, std::vector&lt;double&gt;&gt; <a class="code hl_variable" href="structsqlcc_1_1TableStatistics.html#a80fb0caa2f2171e38c994890072c3077">column_histograms</a>;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>};</div>
+</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
+<div class="foldopen" id="foldopen00195" data-start="{" data-end="};">
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno"><a class="line" href="structsqlcc_1_1IndexStatistics.html">  195</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1IndexStatistics.html">IndexStatistics</a> {</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno"><a class="line" href="structsqlcc_1_1IndexStatistics.html#ab1e9d8722b7b9c7178c4cc099bab1e7a">  196</a></span>    std::string <a class="code hl_variable" href="structsqlcc_1_1IndexStatistics.html#ab1e9d8722b7b9c7178c4cc099bab1e7a">index_name</a>;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno"><a class="line" href="structsqlcc_1_1IndexStatistics.html#a46c9d50a170b023738a0e1025b8a974b">  197</a></span>    std::string <a class="code hl_variable" href="structsqlcc_1_1IndexStatistics.html#a46c9d50a170b023738a0e1025b8a974b">table_name</a>;</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno"><a class="line" href="structsqlcc_1_1IndexStatistics.html#adc40720e568a925c2a1cb06a8d51087c">  198</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1IndexStatistics.html#adc40720e568a925c2a1cb06a8d51087c">levels</a> = 0;            <span class="comment">// 索引层数</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno"><a class="line" href="structsqlcc_1_1IndexStatistics.html#a6e04e760bfa942428dbbbba53ab50cd7">  199</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structsqlcc_1_1IndexStatistics.html#a6e04e760bfa942428dbbbba53ab50cd7">pages</a> = 0;             <span class="comment">// 索引页数</span></div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno"><a class="line" href="structsqlcc_1_1IndexStatistics.html#a7aebc506e1709b709376ccfd6d1ce39e">  200</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structsqlcc_1_1IndexStatistics.html#a7aebc506e1709b709376ccfd6d1ce39e">selectivity</a> = 1.0;     <span class="comment">// 选择度</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno"><a class="line" href="structsqlcc_1_1IndexStatistics.html#a6e9c5c37c5519d9691c724af2af257ce">  201</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structsqlcc_1_1IndexStatistics.html#a6e9c5c37c5519d9691c724af2af257ce">is_unique</a> = <span class="keyword">false</span>;       <span class="comment">// 是否唯一索引</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>};</div>
+</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
+<div class="foldopen" id="foldopen00204" data-start="{" data-end="};">
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CostEstimator.html">  204</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1CostEstimator.html">CostEstimator</a> {</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#a7e87040ac14a9d11428965857cc0da78">CostEstimator</a>();</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CostEstimator.html#a8db37cec4d47570121dd049be754a2d9">  207</a></span>    <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#a8db37cec4d47570121dd049be754a2d9">~CostEstimator</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span> </div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    <span class="comment">// 主要接口</span></div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    <a class="code hl_struct" href="structsqlcc_1_1QueryCost.html">QueryCost</a> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#acdda769148ccb260717ec45af6bec8c9">estimate_query_cost</a>(<span class="keyword">const</span> <span class="keyword">class</span> <a class="code hl_struct" href="structsqlcc_1_1ExecutionPlan.html">ExecutionPlan</a>* plan);</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    <span class="comment">// 代价计算方法</span></div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <a class="code hl_struct" href="structsqlcc_1_1QueryCost.html">QueryCost</a> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#a2110b0c3b8d866135e8f519333a1b5e9">estimate_scan_cost</a>(<span class="keyword">const</span> <span class="keyword">class</span> TableScan* scan);</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    <a class="code hl_struct" href="structsqlcc_1_1QueryCost.html">QueryCost</a> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#ae3bcecfa800b6148801df3ff1bcc18af">estimate_index_scan_cost</a>(<span class="keyword">const</span> <span class="keyword">class</span> IndexScan* index_scan);</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>    <a class="code hl_struct" href="structsqlcc_1_1QueryCost.html">QueryCost</a> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#adc16e83b943945c76543d6f984d5bba9">estimate_join_cost</a>(<span class="keyword">const</span> <span class="keyword">class</span> Join* join);</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>    <a class="code hl_struct" href="structsqlcc_1_1QueryCost.html">QueryCost</a> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#a8296a8d451129b404436063f6f8a72ad">estimate_sort_cost</a>(<span class="keyword">const</span> <span class="keyword">class</span> Sort* sort);</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    <a class="code hl_struct" href="structsqlcc_1_1QueryCost.html">QueryCost</a> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#a090dd81c8fb0b349d91f67ef1864687f">estimate_aggregate_cost</a>(<span class="keyword">const</span> <span class="keyword">class</span> Aggregate* aggregate);</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <a class="code hl_struct" href="structsqlcc_1_1QueryCost.html">QueryCost</a> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#a27b9a9cd9d9c48d85e868c5277beb93b">estimate_filter_cost</a>(<span class="keyword">const</span> <span class="keyword">class</span> Filter* filter);</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    <span class="comment">// 统计信息管理</span></div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#a9493d2d77acb74319f45d430273313b4">update_table_statistics</a>(<span class="keyword">const</span> std::string&amp; table_name,</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>                               <span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1TableStatistics.html">TableStatistics</a>&amp; stats);</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#a4d6cf4b321899321c2033d5ba0851090">update_index_statistics</a>(<span class="keyword">const</span> std::string&amp; index_name,</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>                               <span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1IndexStatistics.html">IndexStatistics</a>&amp; stats);</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span> </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1TableStatistics.html">TableStatistics</a>* <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#a37555eb0954758b3448fe07f1925e77b">get_table_statistics</a>(<span class="keyword">const</span> std::string&amp; table_name) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1IndexStatistics.html">IndexStatistics</a>* <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#a5773099318c7561c63fe0fcdfd2a4476">get_index_statistics</a>(<span class="keyword">const</span> std::string&amp; index_name) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span> </div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    <span class="comment">// 代价参数设置</span></div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CostEstimator.html#ad351f076d8fe32603803299b945b6751">  230</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#ad351f076d8fe32603803299b945b6751">set_cpu_cost_per_row</a>(<span class="keywordtype">double</span> cost) { <a class="code hl_variable" href="classsqlcc_1_1CostEstimator.html#ad679ae21fc97d57564535d0dbf2a56d1">cpu_cost_per_row_</a> = cost; }</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CostEstimator.html#a16953188ed015321bf644134732d2008">  231</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#a16953188ed015321bf644134732d2008">set_io_cost_per_page</a>(<span class="keywordtype">double</span> cost) { <a class="code hl_variable" href="classsqlcc_1_1CostEstimator.html#a9dee886f6d592bbf1c5132477107eb9a">io_cost_per_page_</a> = cost; }</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CostEstimator.html#a7eb9bcd111096cfa90438947c8e8a7be">  232</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#a7eb9bcd111096cfa90438947c8e8a7be">set_memory_cost_per_byte</a>(<span class="keywordtype">double</span> cost) { <a class="code hl_variable" href="classsqlcc_1_1CostEstimator.html#a9c11b19170479819eb980505fabc891d">memory_cost_per_byte_</a> = cost; }</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    <span class="comment">// 基础代价参数</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CostEstimator.html#ad679ae21fc97d57564535d0dbf2a56d1">  236</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="classsqlcc_1_1CostEstimator.html#ad679ae21fc97d57564535d0dbf2a56d1">cpu_cost_per_row_</a> = 0.01;      <span class="comment">// 每行CPU代价</span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CostEstimator.html#a9dee886f6d592bbf1c5132477107eb9a">  237</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="classsqlcc_1_1CostEstimator.html#a9dee886f6d592bbf1c5132477107eb9a">io_cost_per_page_</a> = 1.0;       <span class="comment">// 每页I/O代价</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CostEstimator.html#a9c11b19170479819eb980505fabc891d">  238</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="classsqlcc_1_1CostEstimator.html#a9c11b19170479819eb980505fabc891d">memory_cost_per_byte_</a> = 0.0001; <span class="comment">// 每字节内存代价</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CostEstimator.html#a1536662504c226a2dc05c60a9085c5d5">  239</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="classsqlcc_1_1CostEstimator.html#a1536662504c226a2dc05c60a9085c5d5">network_cost_per_kb_</a> = 0.1;    <span class="comment">// 每KB网络代价</span></div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span> </div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    <span class="comment">// 统计信息存储</span></div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CostEstimator.html#aa51cb9ef556a0f7865d6aa7e570ceab3">  242</a></span>    std::unordered_map&lt;std::string, TableStatistics&gt; <a class="code hl_variable" href="classsqlcc_1_1CostEstimator.html#aa51cb9ef556a0f7865d6aa7e570ceab3">table_stats_</a>;</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno"><a class="line" href="classsqlcc_1_1CostEstimator.html#a41c6c76bc68295a1aa6b75183210cf76">  243</a></span>    std::unordered_map&lt;std::string, IndexStatistics&gt; <a class="code hl_variable" href="classsqlcc_1_1CostEstimator.html#a41c6c76bc68295a1aa6b75183210cf76">index_stats_</a>;</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span> </div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    <span class="comment">// 内部辅助方法</span></div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    <span class="keywordtype">double</span> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#afcab21ca0f51862ad862fc137126d091">calculate_selectivity</a>(<span class="keyword">const</span> <span class="keyword">class</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ast_1_1Expression.html">Expression</a>* condition,</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>                               <span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1TableStatistics.html">TableStatistics</a>* table_stats) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    <span class="keywordtype">size_t</span> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#ac34262d38c87f206e2e21c25ce8f2487">estimate_result_rows</a>(<span class="keyword">const</span> <span class="keyword">class</span> <a class="code hl_struct" href="structsqlcc_1_1ExecutionPlan.html">ExecutionPlan</a>* plan) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    <span class="keywordtype">double</span> <a class="code hl_function" href="classsqlcc_1_1CostEstimator.html#a1ef249a01cdb6c476cf1a109dd129159">calculate_index_selectivity</a>(<span class="keyword">const</span> std::string&amp; column_name,</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>                                     <span class="keyword">const</span> std::string&amp; operator_type,</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>                                     <span class="keyword">const</span> std::string&amp; value,</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                                     <span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1IndexStatistics.html">IndexStatistics</a>* index_stats) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>};</div>
+</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_EXECUTION_COST_ESTIMATOR_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html">sqlcc::CostEstimator</a></div><div class="ttdef"><b>Definition</b> cost_estimator.h:204</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a090dd81c8fb0b349d91f67ef1864687f"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a090dd81c8fb0b349d91f67ef1864687f">sqlcc::CostEstimator::estimate_aggregate_cost</a></div><div class="ttdeci">QueryCost estimate_aggregate_cost(const class Aggregate *aggregate)</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:116</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a1536662504c226a2dc05c60a9085c5d5"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a1536662504c226a2dc05c60a9085c5d5">sqlcc::CostEstimator::network_cost_per_kb_</a></div><div class="ttdeci">double network_cost_per_kb_</div><div class="ttdef"><b>Definition</b> cost_estimator.h:239</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a16953188ed015321bf644134732d2008"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a16953188ed015321bf644134732d2008">sqlcc::CostEstimator::set_io_cost_per_page</a></div><div class="ttdeci">void set_io_cost_per_page(double cost)</div><div class="ttdef"><b>Definition</b> cost_estimator.h:231</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a1ef249a01cdb6c476cf1a109dd129159"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a1ef249a01cdb6c476cf1a109dd129159">sqlcc::CostEstimator::calculate_index_selectivity</a></div><div class="ttdeci">double calculate_index_selectivity(const std::string &amp;column_name, const std::string &amp;operator_type, const std::string &amp;value, const IndexStatistics *index_stats) const</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:191</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a2110b0c3b8d866135e8f519333a1b5e9"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a2110b0c3b8d866135e8f519333a1b5e9">sqlcc::CostEstimator::estimate_scan_cost</a></div><div class="ttdeci">QueryCost estimate_scan_cost(const class TableScan *scan)</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:32</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a27b9a9cd9d9c48d85e868c5277beb93b"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a27b9a9cd9d9c48d85e868c5277beb93b">sqlcc::CostEstimator::estimate_filter_cost</a></div><div class="ttdeci">QueryCost estimate_filter_cost(const class Filter *filter)</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:133</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a37555eb0954758b3448fe07f1925e77b"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a37555eb0954758b3448fe07f1925e77b">sqlcc::CostEstimator::get_table_statistics</a></div><div class="ttdeci">const TableStatistics * get_table_statistics(const std::string &amp;table_name) const</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:160</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a41c6c76bc68295a1aa6b75183210cf76"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a41c6c76bc68295a1aa6b75183210cf76">sqlcc::CostEstimator::index_stats_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, IndexStatistics &gt; index_stats_</div><div class="ttdef"><b>Definition</b> cost_estimator.h:243</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a4d6cf4b321899321c2033d5ba0851090"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a4d6cf4b321899321c2033d5ba0851090">sqlcc::CostEstimator::update_index_statistics</a></div><div class="ttdeci">void update_index_statistics(const std::string &amp;index_name, const IndexStatistics &amp;stats)</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:155</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a5773099318c7561c63fe0fcdfd2a4476"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a5773099318c7561c63fe0fcdfd2a4476">sqlcc::CostEstimator::get_index_statistics</a></div><div class="ttdeci">const IndexStatistics * get_index_statistics(const std::string &amp;index_name) const</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:165</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a7e87040ac14a9d11428965857cc0da78"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a7e87040ac14a9d11428965857cc0da78">sqlcc::CostEstimator::CostEstimator</a></div><div class="ttdeci">CostEstimator()</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:7</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a7eb9bcd111096cfa90438947c8e8a7be"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a7eb9bcd111096cfa90438947c8e8a7be">sqlcc::CostEstimator::set_memory_cost_per_byte</a></div><div class="ttdeci">void set_memory_cost_per_byte(double cost)</div><div class="ttdef"><b>Definition</b> cost_estimator.h:232</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a8296a8d451129b404436063f6f8a72ad"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a8296a8d451129b404436063f6f8a72ad">sqlcc::CostEstimator::estimate_sort_cost</a></div><div class="ttdeci">QueryCost estimate_sort_cost(const class Sort *sort)</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:97</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a8db37cec4d47570121dd049be754a2d9"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a8db37cec4d47570121dd049be754a2d9">sqlcc::CostEstimator::~CostEstimator</a></div><div class="ttdeci">~CostEstimator()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a9493d2d77acb74319f45d430273313b4"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a9493d2d77acb74319f45d430273313b4">sqlcc::CostEstimator::update_table_statistics</a></div><div class="ttdeci">void update_table_statistics(const std::string &amp;table_name, const TableStatistics &amp;stats)</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:150</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a9c11b19170479819eb980505fabc891d"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a9c11b19170479819eb980505fabc891d">sqlcc::CostEstimator::memory_cost_per_byte_</a></div><div class="ttdeci">double memory_cost_per_byte_</div><div class="ttdef"><b>Definition</b> cost_estimator.h:238</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_a9dee886f6d592bbf1c5132477107eb9a"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#a9dee886f6d592bbf1c5132477107eb9a">sqlcc::CostEstimator::io_cost_per_page_</a></div><div class="ttdeci">double io_cost_per_page_</div><div class="ttdef"><b>Definition</b> cost_estimator.h:237</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_aa51cb9ef556a0f7865d6aa7e570ceab3"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#aa51cb9ef556a0f7865d6aa7e570ceab3">sqlcc::CostEstimator::table_stats_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, TableStatistics &gt; table_stats_</div><div class="ttdef"><b>Definition</b> cost_estimator.h:242</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_ac34262d38c87f206e2e21c25ce8f2487"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#ac34262d38c87f206e2e21c25ce8f2487">sqlcc::CostEstimator::estimate_result_rows</a></div><div class="ttdeci">size_t estimate_result_rows(const class ExecutionPlan *plan) const</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:181</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_acdda769148ccb260717ec45af6bec8c9"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#acdda769148ccb260717ec45af6bec8c9">sqlcc::CostEstimator::estimate_query_cost</a></div><div class="ttdeci">QueryCost estimate_query_cost(const class ExecutionPlan *plan)</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:12</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_ad351f076d8fe32603803299b945b6751"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#ad351f076d8fe32603803299b945b6751">sqlcc::CostEstimator::set_cpu_cost_per_row</a></div><div class="ttdeci">void set_cpu_cost_per_row(double cost)</div><div class="ttdef"><b>Definition</b> cost_estimator.h:230</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_ad679ae21fc97d57564535d0dbf2a56d1"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#ad679ae21fc97d57564535d0dbf2a56d1">sqlcc::CostEstimator::cpu_cost_per_row_</a></div><div class="ttdeci">double cpu_cost_per_row_</div><div class="ttdef"><b>Definition</b> cost_estimator.h:236</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_adc16e83b943945c76543d6f984d5bba9"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#adc16e83b943945c76543d6f984d5bba9">sqlcc::CostEstimator::estimate_join_cost</a></div><div class="ttdeci">QueryCost estimate_join_cost(const class Join *join)</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:78</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_ae3bcecfa800b6148801df3ff1bcc18af"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#ae3bcecfa800b6148801df3ff1bcc18af">sqlcc::CostEstimator::estimate_index_scan_cost</a></div><div class="ttdeci">QueryCost estimate_index_scan_cost(const class IndexScan *index_scan)</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:55</div></div>
+<div class="ttc" id="aclasssqlcc_1_1CostEstimator_html_afcab21ca0f51862ad862fc137126d091"><div class="ttname"><a href="classsqlcc_1_1CostEstimator.html#afcab21ca0f51862ad862fc137126d091">sqlcc::CostEstimator::calculate_selectivity</a></div><div class="ttdeci">double calculate_selectivity(const class Expression *condition, const TableStatistics *table_stats) const</div><div class="ttdef"><b>Definition</b> cost_estimator.cpp:170</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ast_1_1Expression_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ast_1_1Expression.html">sqlcc::sql_parser::ast::Expression</a></div><div class="ttdef"><b>Definition</b> expression.h:25</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1ExecutionPlan_html"><div class="ttname"><a href="structsqlcc_1_1ExecutionPlan.html">sqlcc::ExecutionPlan</a></div><div class="ttdoc">Represents a query execution plan, typically generated by the QueryOptimizer. This struct describes t...</div><div class="ttdef"><b>Definition</b> unified_executor.h:263</div></div>
+<div class="ttc" id="astructsqlcc_1_1IndexStatistics_html"><div class="ttname"><a href="structsqlcc_1_1IndexStatistics.html">sqlcc::IndexStatistics</a></div><div class="ttdef"><b>Definition</b> cost_estimator.h:195</div></div>
+<div class="ttc" id="astructsqlcc_1_1IndexStatistics_html_a46c9d50a170b023738a0e1025b8a974b"><div class="ttname"><a href="structsqlcc_1_1IndexStatistics.html#a46c9d50a170b023738a0e1025b8a974b">sqlcc::IndexStatistics::table_name</a></div><div class="ttdeci">std::string table_name</div><div class="ttdef"><b>Definition</b> cost_estimator.h:197</div></div>
+<div class="ttc" id="astructsqlcc_1_1IndexStatistics_html_a6e04e760bfa942428dbbbba53ab50cd7"><div class="ttname"><a href="structsqlcc_1_1IndexStatistics.html#a6e04e760bfa942428dbbbba53ab50cd7">sqlcc::IndexStatistics::pages</a></div><div class="ttdeci">size_t pages</div><div class="ttdef"><b>Definition</b> cost_estimator.h:199</div></div>
+<div class="ttc" id="astructsqlcc_1_1IndexStatistics_html_a6e9c5c37c5519d9691c724af2af257ce"><div class="ttname"><a href="structsqlcc_1_1IndexStatistics.html#a6e9c5c37c5519d9691c724af2af257ce">sqlcc::IndexStatistics::is_unique</a></div><div class="ttdeci">bool is_unique</div><div class="ttdef"><b>Definition</b> cost_estimator.h:201</div></div>
+<div class="ttc" id="astructsqlcc_1_1IndexStatistics_html_a7aebc506e1709b709376ccfd6d1ce39e"><div class="ttname"><a href="structsqlcc_1_1IndexStatistics.html#a7aebc506e1709b709376ccfd6d1ce39e">sqlcc::IndexStatistics::selectivity</a></div><div class="ttdeci">double selectivity</div><div class="ttdef"><b>Definition</b> cost_estimator.h:200</div></div>
+<div class="ttc" id="astructsqlcc_1_1IndexStatistics_html_ab1e9d8722b7b9c7178c4cc099bab1e7a"><div class="ttname"><a href="structsqlcc_1_1IndexStatistics.html#ab1e9d8722b7b9c7178c4cc099bab1e7a">sqlcc::IndexStatistics::index_name</a></div><div class="ttdeci">std::string index_name</div><div class="ttdef"><b>Definition</b> cost_estimator.h:196</div></div>
+<div class="ttc" id="astructsqlcc_1_1IndexStatistics_html_adc40720e568a925c2a1cb06a8d51087c"><div class="ttname"><a href="structsqlcc_1_1IndexStatistics.html#adc40720e568a925c2a1cb06a8d51087c">sqlcc::IndexStatistics::levels</a></div><div class="ttdeci">size_t levels</div><div class="ttdef"><b>Definition</b> cost_estimator.h:198</div></div>
+<div class="ttc" id="astructsqlcc_1_1QueryCost_html"><div class="ttname"><a href="structsqlcc_1_1QueryCost.html">sqlcc::QueryCost</a></div><div class="ttdef"><b>Definition</b> cost_estimator.h:161</div></div>
+<div class="ttc" id="astructsqlcc_1_1QueryCost_html_a244ad0d0e2c241f3482e46ec1e7d1856"><div class="ttname"><a href="structsqlcc_1_1QueryCost.html#a244ad0d0e2c241f3482e46ec1e7d1856">sqlcc::QueryCost::cpu_cost</a></div><div class="ttdeci">double cpu_cost</div><div class="ttdef"><b>Definition</b> cost_estimator.h:162</div></div>
+<div class="ttc" id="astructsqlcc_1_1QueryCost_html_a35e6cf4502fc6a436af88e607ed87cd5"><div class="ttname"><a href="structsqlcc_1_1QueryCost.html#a35e6cf4502fc6a436af88e607ed87cd5">sqlcc::QueryCost::total_cost</a></div><div class="ttdeci">double total_cost</div><div class="ttdef"><b>Definition</b> cost_estimator.h:166</div></div>
+<div class="ttc" id="astructsqlcc_1_1QueryCost_html_a384b3c2312f9794a227f8d3cbb4178ad"><div class="ttname"><a href="structsqlcc_1_1QueryCost.html#a384b3c2312f9794a227f8d3cbb4178ad">sqlcc::QueryCost::operator+=</a></div><div class="ttdeci">QueryCost &amp; operator+=(const QueryCost &amp;other)</div><div class="ttdef"><b>Definition</b> cost_estimator.h:168</div></div>
+<div class="ttc" id="astructsqlcc_1_1QueryCost_html_a50a58454108d85e2fae1baf21eed0ba9"><div class="ttname"><a href="structsqlcc_1_1QueryCost.html#a50a58454108d85e2fae1baf21eed0ba9">sqlcc::QueryCost::operator+</a></div><div class="ttdeci">QueryCost operator+(const QueryCost &amp;other) const</div><div class="ttdef"><b>Definition</b> cost_estimator.h:177</div></div>
+<div class="ttc" id="astructsqlcc_1_1QueryCost_html_a84378333714d5023107d67718507ca58"><div class="ttname"><a href="structsqlcc_1_1QueryCost.html#a84378333714d5023107d67718507ca58">sqlcc::QueryCost::network_cost</a></div><div class="ttdeci">double network_cost</div><div class="ttdef"><b>Definition</b> cost_estimator.h:164</div></div>
+<div class="ttc" id="astructsqlcc_1_1QueryCost_html_a927fafa8e50997d03592d00ee2355dcf"><div class="ttname"><a href="structsqlcc_1_1QueryCost.html#a927fafa8e50997d03592d00ee2355dcf">sqlcc::QueryCost::io_cost</a></div><div class="ttdeci">double io_cost</div><div class="ttdef"><b>Definition</b> cost_estimator.h:163</div></div>
+<div class="ttc" id="astructsqlcc_1_1QueryCost_html_ad1047c70f57df81d10bbdc218f75d2fa"><div class="ttname"><a href="structsqlcc_1_1QueryCost.html#ad1047c70f57df81d10bbdc218f75d2fa">sqlcc::QueryCost::memory_cost</a></div><div class="ttdeci">double memory_cost</div><div class="ttdef"><b>Definition</b> cost_estimator.h:165</div></div>
+<div class="ttc" id="astructsqlcc_1_1TableStatistics_html"><div class="ttname"><a href="structsqlcc_1_1TableStatistics.html">sqlcc::TableStatistics</a></div><div class="ttdef"><b>Definition</b> cost_estimator.h:184</div></div>
+<div class="ttc" id="astructsqlcc_1_1TableStatistics_html_a0d2b8a146c98097577a6bcb110a07495"><div class="ttname"><a href="structsqlcc_1_1TableStatistics.html#a0d2b8a146c98097577a6bcb110a07495">sqlcc::TableStatistics::page_count</a></div><div class="ttdeci">size_t page_count</div><div class="ttdef"><b>Definition</b> cost_estimator.h:187</div></div>
+<div class="ttc" id="astructsqlcc_1_1TableStatistics_html_a80fb0caa2f2171e38c994890072c3077"><div class="ttname"><a href="structsqlcc_1_1TableStatistics.html#a80fb0caa2f2171e38c994890072c3077">sqlcc::TableStatistics::column_histograms</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::vector&lt; double &gt; &gt; column_histograms</div><div class="ttdef"><b>Definition</b> cost_estimator.h:192</div></div>
+<div class="ttc" id="astructsqlcc_1_1TableStatistics_html_ab32760216014dd77ddfe5c283834e8c6"><div class="ttname"><a href="structsqlcc_1_1TableStatistics.html#ab32760216014dd77ddfe5c283834e8c6">sqlcc::TableStatistics::table_name</a></div><div class="ttdeci">std::string table_name</div><div class="ttdef"><b>Definition</b> cost_estimator.h:185</div></div>
+<div class="ttc" id="astructsqlcc_1_1TableStatistics_html_abf4e53e0588f542f6db6bfdee973b7bc"><div class="ttname"><a href="structsqlcc_1_1TableStatistics.html#abf4e53e0588f542f6db6bfdee973b7bc">sqlcc::TableStatistics::column_cardinalities</a></div><div class="ttdeci">std::unordered_map&lt; std::string, size_t &gt; column_cardinalities</div><div class="ttdef"><b>Definition</b> cost_estimator.h:189</div></div>
+<div class="ttc" id="astructsqlcc_1_1TableStatistics_html_ade4f621226ef67da091250546e4b078c"><div class="ttname"><a href="structsqlcc_1_1TableStatistics.html#ade4f621226ef67da091250546e4b078c">sqlcc::TableStatistics::avg_row_size</a></div><div class="ttdeci">size_t avg_row_size</div><div class="ttdef"><b>Definition</b> cost_estimator.h:188</div></div>
+<div class="ttc" id="astructsqlcc_1_1TableStatistics_html_ae4aae87352f223552dda10bd78d91c28"><div class="ttname"><a href="structsqlcc_1_1TableStatistics.html#ae4aae87352f223552dda10bd78d91c28">sqlcc::TableStatistics::row_count</a></div><div class="ttdeci">size_t row_count</div><div class="ttdef"><b>Definition</b> cost_estimator.h:186</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

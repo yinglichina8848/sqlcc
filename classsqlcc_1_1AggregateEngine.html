@@ -1,0 +1,490 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: sqlcc::AggregateEngine类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacesqlcc.html">sqlcc</a></li><li class="navelem"><a class="el" href="classsqlcc_1_1AggregateEngine.html">AggregateEngine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-types">Private 类型</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="classsqlcc_1_1AggregateEngine-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">sqlcc::AggregateEngine类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>A helper engine specifically for processing aggregate functions (COUNT, SUM, AVG, etc.). Used by the <code><a class="el" href="classsqlcc_1_1DMLExecutionStrategy.html" title="Concrete Strategy for handling Data Manipulation Language (DML) statements. Responsible for SELECT,...">DMLExecutionStrategy</a></code> during SELECT queries.  
+ <a href="classsqlcc_1_1AggregateEngine.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="aggregate__engine_8h_source.html">aggregate_engine.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1AggregateEngine_1_1AggregateResult.html">AggregateResult</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:acb80d6bb1b12143d12c32df659f2bcff" id="r_acb80d6bb1b12143d12c32df659f2bcff"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AggregateEngine.html#acb80d6bb1b12143d12c32df659f2bcff">AggregateFunction</a> { <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1AggregateEngine.html#acb80d6bb1b12143d12c32df659f2bcffa02f1b5bac90bfde876a9aaec3e176de1">COUNT</a>
+, <a class="el" href="classsqlcc_1_1AggregateEngine.html#acb80d6bb1b12143d12c32df659f2bcffa9f6718996019a31c57f59592e1075921">SUM</a>
+, <a class="el" href="classsqlcc_1_1AggregateEngine.html#acb80d6bb1b12143d12c32df659f2bcffa79018843d547ce903eaff3b9747b893b">AVG</a>
+, <a class="el" href="classsqlcc_1_1AggregateEngine.html#acb80d6bb1b12143d12c32df659f2bcffab300000ef97ea99cf4700eaa9563c6ac">MIN</a>
+, <br />
+&#160;&#160;<a class="el" href="classsqlcc_1_1AggregateEngine.html#acb80d6bb1b12143d12c32df659f2bcffa0ae5ec8d8bd0407408e5356ec2110068">MAX</a>
+, <a class="el" href="classsqlcc_1_1AggregateEngine.html#acb80d6bb1b12143d12c32df659f2bcffa5f1bc973d1fc7bf1b61daceb446c9dc3">COUNT_DISTINCT</a>
+<br />
+ }</td></tr>
+<tr class="separator:acb80d6bb1b12143d12c32df659f2bcff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a783fa22f2ecbb934694a7aad57752ced" id="r_a783fa22f2ecbb934694a7aad57752ced"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AggregateEngine.html#a783fa22f2ecbb934694a7aad57752ced">AggregateEngine</a> ()</td></tr>
+<tr class="separator:a783fa22f2ecbb934694a7aad57752ced"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1984d3a03900647e72dc387265dafc4" id="r_ab1984d3a03900647e72dc387265dafc4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AggregateEngine.html#ab1984d3a03900647e72dc387265dafc4">~AggregateEngine</a> ()=default</td></tr>
+<tr class="separator:ab1984d3a03900647e72dc387265dafc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6143d29f806ba93e97afcf38252051f8" id="r_a6143d29f806ba93e97afcf38252051f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AggregateEngine.html#a6143d29f806ba93e97afcf38252051f8">executeAggregateQuery</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &amp;stmt, <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context)</td></tr>
+<tr class="separator:a6143d29f806ba93e97afcf38252051f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-types" name="pri-types"></a>
+Private 类型</h2></td></tr>
+<tr class="memitem:ac490ff05977a73be3584e401dd5b2fc9" id="r_ac490ff05977a73be3584e401dd5b2fc9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AggregateEngine.html#ac490ff05977a73be3584e401dd5b2fc9">GroupKey</a> = std::vector&lt; std::shared_ptr&lt; void &gt; &gt;</td></tr>
+<tr class="separator:ac490ff05977a73be3584e401dd5b2fc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79387628b619931935fe61ec532cf133" id="r_a79387628b619931935fe61ec532cf133"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AggregateEngine.html#a79387628b619931935fe61ec532cf133">AggregateResults</a> = std::unordered_map&lt; <a class="el" href="classsqlcc_1_1AggregateEngine.html#ac490ff05977a73be3584e401dd5b2fc9">GroupKey</a>, std::vector&lt; <a class="el" href="structsqlcc_1_1AggregateEngine_1_1AggregateResult.html">AggregateResult</a> &gt; &gt;</td></tr>
+<tr class="separator:a79387628b619931935fe61ec532cf133"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a906847a67ac0ab50b45dd7ee33482d3c" id="r_a906847a67ac0ab50b45dd7ee33482d3c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AggregateEngine.html#a906847a67ac0ab50b45dd7ee33482d3c">processGroupBy</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &amp;stmt, <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context)</td></tr>
+<tr class="separator:a906847a67ac0ab50b45dd7ee33482d3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6ba4fa1b4b232472a50ca2a7458d62c" id="r_af6ba4fa1b4b232472a50ca2a7458d62c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AggregateEngine.html#af6ba4fa1b4b232472a50ca2a7458d62c">processSimpleAggregate</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &amp;stmt, <a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;context)</td></tr>
+<tr class="separator:af6ba4fa1b4b232472a50ca2a7458d62c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a054f85a4ac9b64b74cce9fac4d26bbaa" id="r_a054f85a4ac9b64b74cce9fac4d26bbaa"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classsqlcc_1_1AggregateEngine.html#acb80d6bb1b12143d12c32df659f2bcff">AggregateFunction</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AggregateEngine.html#a054f85a4ac9b64b74cce9fac4d26bbaa">identifyAggregateFunctions</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &amp;stmt)</td></tr>
+<tr class="separator:a054f85a4ac9b64b74cce9fac4d26bbaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67b56b75dcfa1fcf6aa618e1b7ea9de4" id="r_a67b56b75dcfa1fcf6aa618e1b7ea9de4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1AggregateEngine.html#ac490ff05977a73be3584e401dd5b2fc9">GroupKey</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AggregateEngine.html#a67b56b75dcfa1fcf6aa618e1b7ea9de4">createGroupKey</a> (const std::vector&lt; sql_parser::Expression * &gt; &amp;group_by_exprs, const std::unordered_map&lt; std::string, std::shared_ptr&lt; void &gt; &gt; &amp;row_data)</td></tr>
+<tr class="separator:a67b56b75dcfa1fcf6aa618e1b7ea9de4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3456acd20888d083c8b710f99ff64df6" id="r_a3456acd20888d083c8b710f99ff64df6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AggregateEngine.html#a3456acd20888d083c8b710f99ff64df6">updateAggregateResult</a> (<a class="el" href="structsqlcc_1_1AggregateEngine_1_1AggregateResult.html">AggregateResult</a> &amp;result, const std::shared_ptr&lt; void &gt; &amp;value)</td></tr>
+<tr class="separator:a3456acd20888d083c8b710f99ff64df6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1b1f2a0f4d03fbb331e7dc72af82d2f" id="r_aa1b1f2a0f4d03fbb331e7dc72af82d2f"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1AggregateEngine.html#aa1b1f2a0f4d03fbb331e7dc72af82d2f">finalizeAggregateResult</a> (const <a class="el" href="structsqlcc_1_1AggregateEngine_1_1AggregateResult.html">AggregateResult</a> &amp;result)</td></tr>
+<tr class="separator:aa1b1f2a0f4d03fbb331e7dc72af82d2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>A helper engine specifically for processing aggregate functions (COUNT, SUM, AVG, etc.). Used by the <code><a class="el" href="classsqlcc_1_1DMLExecutionStrategy.html" title="Concrete Strategy for handling Data Manipulation Language (DML) statements. Responsible for SELECT,...">DMLExecutionStrategy</a></code> during SELECT queries. </p>
+</div><h2 class="groupheader">成员类型定义说明</h2>
+<a id="a79387628b619931935fe61ec532cf133" name="a79387628b619931935fe61ec532cf133"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79387628b619931935fe61ec532cf133">&#9670;&#160;</a></span>AggregateResults</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1AggregateEngine.html#a79387628b619931935fe61ec532cf133">sqlcc::AggregateEngine::AggregateResults</a> =  std::unordered_map&lt;<a class="el" href="classsqlcc_1_1AggregateEngine.html#ac490ff05977a73be3584e401dd5b2fc9">GroupKey</a>, std::vector&lt;<a class="el" href="structsqlcc_1_1AggregateEngine_1_1AggregateResult.html">AggregateResult</a>&gt; &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac490ff05977a73be3584e401dd5b2fc9" name="ac490ff05977a73be3584e401dd5b2fc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac490ff05977a73be3584e401dd5b2fc9">&#9670;&#160;</a></span>GroupKey</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classsqlcc_1_1AggregateEngine.html#ac490ff05977a73be3584e401dd5b2fc9">sqlcc::AggregateEngine::GroupKey</a> =  std::vector&lt;std::shared_ptr&lt;void&gt; &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员枚举类型说明</h2>
+<a id="acb80d6bb1b12143d12c32df659f2bcff" name="acb80d6bb1b12143d12c32df659f2bcff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb80d6bb1b12143d12c32df659f2bcff">&#9670;&#160;</a></span>AggregateFunction</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classsqlcc_1_1AggregateEngine.html#acb80d6bb1b12143d12c32df659f2bcff">sqlcc::AggregateEngine::AggregateFunction</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="acb80d6bb1b12143d12c32df659f2bcffa02f1b5bac90bfde876a9aaec3e176de1" name="acb80d6bb1b12143d12c32df659f2bcffa02f1b5bac90bfde876a9aaec3e176de1"></a>COUNT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acb80d6bb1b12143d12c32df659f2bcffa9f6718996019a31c57f59592e1075921" name="acb80d6bb1b12143d12c32df659f2bcffa9f6718996019a31c57f59592e1075921"></a>SUM&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acb80d6bb1b12143d12c32df659f2bcffa79018843d547ce903eaff3b9747b893b" name="acb80d6bb1b12143d12c32df659f2bcffa79018843d547ce903eaff3b9747b893b"></a>AVG&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acb80d6bb1b12143d12c32df659f2bcffab300000ef97ea99cf4700eaa9563c6ac" name="acb80d6bb1b12143d12c32df659f2bcffab300000ef97ea99cf4700eaa9563c6ac"></a>MIN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acb80d6bb1b12143d12c32df659f2bcffa0ae5ec8d8bd0407408e5356ec2110068" name="acb80d6bb1b12143d12c32df659f2bcffa0ae5ec8d8bd0407408e5356ec2110068"></a>MAX&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acb80d6bb1b12143d12c32df659f2bcffa5f1bc973d1fc7bf1b61daceb446c9dc3" name="acb80d6bb1b12143d12c32df659f2bcffa5f1bc973d1fc7bf1b61daceb446c9dc3"></a>COUNT_DISTINCT&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a783fa22f2ecbb934694a7aad57752ced" name="a783fa22f2ecbb934694a7aad57752ced"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a783fa22f2ecbb934694a7aad57752ced">&#9670;&#160;</a></span>AggregateEngine()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::AggregateEngine::AggregateEngine </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab1984d3a03900647e72dc387265dafc4" name="ab1984d3a03900647e72dc387265dafc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1984d3a03900647e72dc387265dafc4">&#9670;&#160;</a></span>~AggregateEngine()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">sqlcc::AggregateEngine::~AggregateEngine </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a67b56b75dcfa1fcf6aa618e1b7ea9de4" name="a67b56b75dcfa1fcf6aa618e1b7ea9de4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67b56b75dcfa1fcf6aa618e1b7ea9de4">&#9670;&#160;</a></span>createGroupKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1AggregateEngine.html#ac490ff05977a73be3584e401dd5b2fc9">GroupKey</a> sqlcc::AggregateEngine::createGroupKey </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; sql_parser::Expression * &gt; &amp;&#160;</td>
+          <td class="paramname"><em>group_by_exprs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::unordered_map&lt; std::string, std::shared_ptr&lt; void &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>row_data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6143d29f806ba93e97afcf38252051f8" name="a6143d29f806ba93e97afcf38252051f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6143d29f806ba93e97afcf38252051f8">&#9670;&#160;</a></span>executeAggregateQuery()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::AggregateEngine::executeAggregateQuery </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa1b1f2a0f4d03fbb331e7dc72af82d2f" name="aa1b1f2a0f4d03fbb331e7dc72af82d2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1b1f2a0f4d03fbb331e7dc72af82d2f">&#9670;&#160;</a></span>finalizeAggregateResult()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; void &gt; sqlcc::AggregateEngine::finalizeAggregateResult </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structsqlcc_1_1AggregateEngine_1_1AggregateResult.html">AggregateResult</a> &amp;&#160;</td>
+          <td class="paramname"><em>result</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a054f85a4ac9b64b74cce9fac4d26bbaa" name="a054f85a4ac9b64b74cce9fac4d26bbaa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a054f85a4ac9b64b74cce9fac4d26bbaa">&#9670;&#160;</a></span>identifyAggregateFunctions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="classsqlcc_1_1AggregateEngine.html#acb80d6bb1b12143d12c32df659f2bcff">AggregateFunction</a> &gt; sqlcc::AggregateEngine::identifyAggregateFunctions </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a906847a67ac0ab50b45dd7ee33482d3c" name="a906847a67ac0ab50b45dd7ee33482d3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a906847a67ac0ab50b45dd7ee33482d3c">&#9670;&#160;</a></span>processGroupBy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::AggregateEngine::processGroupBy </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af6ba4fa1b4b232472a50ca2a7458d62c" name="af6ba4fa1b4b232472a50ca2a7458d62c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6ba4fa1b4b232472a50ca2a7458d62c">&#9670;&#160;</a></span>processSimpleAggregate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1ExecutionResult.html">ExecutionResult</a> sqlcc::AggregateEngine::processSimpleAggregate </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">sql_parser::SelectStatement</a> &amp;&#160;</td>
+          <td class="paramname"><em>stmt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classsqlcc_1_1ExecutionContext.html">ExecutionContext</a> &amp;&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3456acd20888d083c8b710f99ff64df6" name="a3456acd20888d083c8b710f99ff64df6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3456acd20888d083c8b710f99ff64df6">&#9670;&#160;</a></span>updateAggregateResult()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::AggregateEngine::updateAggregateResult </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structsqlcc_1_1AggregateEngine_1_1AggregateResult.html">AggregateResult</a> &amp;&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::shared_ptr&lt; void &gt; &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li><a class="el" href="aggregate__engine_8h_source.html">aggregate_engine.h</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

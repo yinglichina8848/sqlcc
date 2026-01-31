@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: function_executor.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bd0755c95a42e835fb06f38bbeb1d6ed.html">execution</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">function_executor.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="function__executor_8h_source.html">function_executor.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="types_2domain__manager_8h_source.html">types/domain_manager.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="function__definition_8h_source.html">sql_parser/function/function_definition.h</a>&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;regex&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+function_executor.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="function__executor_8cpp__incl.png" border="0" usemap="#afunction__executor_8cpp" alt=""/></div>
+<map name="afunction__executor_8cpp" id="afunction__executor_8cpp">
+<area shape="rect" title=" " alt="" coords="447,5,611,31"/>
+<area shape="rect" href="function__executor_8h.html" title=" " alt="" coords="383,79,533,104"/>
+<area shape="poly" title=" " alt="" coords="519,33,481,71,477,67,515,29"/>
+<area shape="rect" href="types_2domain__manager_8h.html" title=" " alt="" coords="239,159,426,185"/>
+<area shape="poly" title=" " alt="" coords="467,33,418,51,394,64,373,81,361,95,352,112,340,146,335,145,347,110,357,92,369,77,391,60,415,46,465,28"/>
+<area shape="rect" href="function__definition_8h.html" title="函数定义类定义" alt="" coords="5,152,164,192"/>
+<area shape="poly" title=" " alt="" coords="494,33,350,81,151,150,149,145,348,76,493,28"/>
+<area shape="rect" title=" " alt="" coords="557,79,642,104"/>
+<area shape="poly" title=" " alt="" coords="542,29,580,67,576,71,538,33"/>
+<area shape="rect" title=" " alt="" coords="666,79,741,104"/>
+<area shape="poly" title=" " alt="" coords="558,28,663,71,661,76,556,33"/>
+<area shape="rect" title=" " alt="" coords="765,79,823,104"/>
+<area shape="poly" title=" " alt="" coords="573,28,752,76,751,81,571,33"/>
+<area shape="rect" title=" " alt="" coords="303,240,362,265"/>
+<area shape="poly" title=" " alt="" coords="461,104,458,146,452,171,440,194,410,221,376,240,374,235,407,217,436,190,447,169,453,145,456,104"/>
+<area shape="rect" title=" " alt="" coords="171,240,233,265"/>
+<area shape="poly" title=" " alt="" coords="383,106,292,126,254,139,229,154,218,170,210,189,204,226,199,226,205,187,213,167,226,150,251,134,291,121,382,101"/>
+<area shape="rect" title=" " alt="" coords="419,240,543,265"/>
+<area shape="poly" title=" " alt="" coords="467,103,477,125,485,151,488,191,486,226,481,226,483,191,479,153,472,127,462,105"/>
+<area shape="rect" title=" " alt="" coords="602,240,679,265"/>
+<area shape="poly" title=" " alt="" coords="524,101,601,121,633,135,653,150,662,169,663,190,655,228,649,226,658,189,657,170,649,154,630,139,599,127,522,107"/>
+<area shape="rect" title=" " alt="" coords="552,159,639,185"/>
+<area shape="poly" title=" " alt="" coords="480,102,565,150,562,155,477,106"/>
+<area shape="poly" title=" " alt="" coords="441,106,364,154,361,150,438,102"/>
+<area shape="poly" title=" " alt="" coords="335,185,335,226,330,226,330,185"/>
+<area shape="poly" title=" " alt="" coords="315,187,234,235,232,230,312,183"/>
+<area shape="poly" title=" " alt="" coords="356,182,448,231,445,236,353,187"/>
+<area shape="poly" title=" " alt="" coords="378,182,589,236,588,241,377,187"/>
+<area shape="poly" title=" " alt="" coords="145,189,291,235,289,241,143,195"/>
+<area shape="poly" title=" " alt="" coords="115,190,175,230,172,235,112,194"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

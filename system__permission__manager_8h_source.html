@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: system_permission_manager.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c4da858a4a51ad367068831bac354363.html">sql_executor</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">system_permission_manager.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="system__permission__manager_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;../core_database_manager.h&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">// 前向声明系统数据结构</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">struct </span>SysUser;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">struct </span>SysRole;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">struct </span>SysPrivilege;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00023" data-start="{" data-end="};">
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SystemPermissionManager.html">   23</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1SystemPermissionManager.html">SystemPermissionManager</a> {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classsqlcc_1_1SystemPermissionManager.html">SystemPermissionManager</a>(std::shared_ptr&lt;DatabaseManager&gt; db_manager);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#a99035851d15bdda6a03863092bfb29e1">~SystemPermissionManager</a>();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="comment">// 用户管理方法</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#a4c2efc4e9689a59608964de5694b3424">CreateUserRecord</a>(<span class="keyword">const</span> std::string&amp; username, <span class="keyword">const</span> std::string&amp; password_hash, <span class="keyword">const</span> std::string&amp; role);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#ae88da5c4156be7b1d833826bfd73bce4">DropUserRecord</a>(<span class="keyword">const</span> std::string&amp; username);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#ae8b1909f6b98427d4120425a548aa6a7">UpdateUserRecord</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structsqlcc_1_1SysUser.html">SysUser</a>&amp; user);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <a class="code hl_struct" href="structsqlcc_1_1SysUser.html">SysUser</a> <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#ab4b89e01f1bbd278f85715e70a50751d">GetUserRecord</a>(<span class="keyword">const</span> std::string&amp; username);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    std::vector&lt;SysUser&gt; <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#a11a73dfeaa7f69d14e5bcf29d5445f02">ListUsers</a>();</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#a88e94143deddd9b3cebdf3f23261226f">UserExists</a>(<span class="keyword">const</span> std::string&amp; username);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="comment">// 角色管理方法</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#a67b7320a6d15d900d121c6eec2ec19dc">CreateRoleRecord</a>(<span class="keyword">const</span> std::string&amp; role_name);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#a49d10eb5b549b25cb0d6fdbde5b00859">DropRoleRecord</a>(<span class="keyword">const</span> std::string&amp; role_name);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <a class="code hl_struct" href="structsqlcc_1_1SysRole.html">SysRole</a> <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#acdab12b23df1b430e74beea06dbe2e5e">GetRoleRecord</a>(<span class="keyword">const</span> std::string&amp; role_name);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    std::vector&lt;SysRole&gt; <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#a853269b3739647d3bed0ee4dcf0c1969">ListRoles</a>();</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#aaf022ce4445e37d7e8cae0b36b7fc6f2">RoleExists</a>(<span class="keyword">const</span> std::string&amp; role_name);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="comment">// 权限管理方法</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#ad92876ebc7fdf10870045ae25c72f5b6">GrantPrivilegeRecord</a>(<span class="keyword">const</span> std::string&amp; grantee, <span class="keyword">const</span> std::string&amp; object_type, </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                             <span class="keyword">const</span> std::string&amp; object_name, <span class="keyword">const</span> std::string&amp; privilege_type,</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                             <span class="keyword">const</span> std::string&amp; grantor);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#ae6e36bd5c1d72fa618aeaede53005a0e">RevokePrivilegeRecord</a>(<span class="keyword">const</span> std::string&amp; grantee, <span class="keyword">const</span> std::string&amp; object_type, </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                              <span class="keyword">const</span> std::string&amp; object_name, <span class="keyword">const</span> std::string&amp; privilege_type);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    </div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    std::vector&lt;SysPrivilege&gt; <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#a428938a743cc3684778507ee3b68992e">GetObjectPrivileges</a>(<span class="keyword">const</span> std::string&amp; object_type, <span class="keyword">const</span> std::string&amp; object_name);</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    std::vector&lt;SysPrivilege&gt; <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#a61584842487248651e8f48e5e00e2862">GetUserPrivileges</a>(<span class="keyword">const</span> std::string&amp; username);</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    </div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#a2f599fe899c85f969e7f5f40da2c572e">HasPrivilege</a>(<span class="keyword">const</span> std::string&amp; username, <span class="keyword">const</span> std::string&amp; object_type, </div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>                     <span class="keyword">const</span> std::string&amp; object_name, <span class="keyword">const</span> std::string&amp; privilege_type);</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    </div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    std::string <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#afec23fb5ddd3b674af1fc08e196959bf">GetLastError</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#a040313a8d6d9b8384886802cb3f51cad">ExecuteSQL</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    std::vector&lt;std::vector&lt;std::string&gt;&gt; <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#a880f2f7fc4cbfc71dc7cce00b667d08a">ExecuteSelectQuery</a>(<span class="keyword">const</span> std::string&amp; sql);</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1SystemPermissionManager.html#a3b6cc98b76b133970523bd4fe4f44b01">SetError</a>(<span class="keyword">const</span> std::string&amp; error);</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    </div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SystemPermissionManager.html#ad497397026977dc55844555e051e6735">  193</a></span>    std::shared_ptr&lt;DatabaseManager&gt; <a class="code hl_variable" href="classsqlcc_1_1SystemPermissionManager.html#ad497397026977dc55844555e051e6735">db_manager_</a>;  <span class="comment">// 数据库管理器</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno"><a class="line" href="classsqlcc_1_1SystemPermissionManager.html#ab202af2f68dfd8be0cedd8d0a3f48b42">  194</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1SystemPermissionManager.html#ab202af2f68dfd8be0cedd8d0a3f48b42">last_error_</a>;                       <span class="comment">// 最后一次错误信息</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>};</div>
+</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html">sqlcc::SystemPermissionManager</a></div><div class="ttdoc">系统权限管理器</div><div class="ttdef"><b>Definition</b> system_permission_manager.h:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_a040313a8d6d9b8384886802cb3f51cad"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#a040313a8d6d9b8384886802cb3f51cad">sqlcc::SystemPermissionManager::ExecuteSQL</a></div><div class="ttdeci">bool ExecuteSQL(const std::string &amp;sql)</div><div class="ttdoc">执行SQL语句</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:512</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_a11a73dfeaa7f69d14e5bcf29d5445f02"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#a11a73dfeaa7f69d14e5bcf29d5445f02">sqlcc::SystemPermissionManager::ListUsers</a></div><div class="ttdeci">std::vector&lt; SysUser &gt; ListUsers()</div><div class="ttdoc">列出所有用户</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:138</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_a2f599fe899c85f969e7f5f40da2c572e"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#a2f599fe899c85f969e7f5f40da2c572e">sqlcc::SystemPermissionManager::HasPrivilege</a></div><div class="ttdeci">bool HasPrivilege(const std::string &amp;username, const std::string &amp;object_type, const std::string &amp;object_name, const std::string &amp;privilege_type)</div><div class="ttdoc">检查用户是否有特定权限</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:477</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_a3b6cc98b76b133970523bd4fe4f44b01"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#a3b6cc98b76b133970523bd4fe4f44b01">sqlcc::SystemPermissionManager::SetError</a></div><div class="ttdeci">void SetError(const std::string &amp;error)</div><div class="ttdoc">设置错误信息</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:555</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_a428938a743cc3684778507ee3b68992e"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#a428938a743cc3684778507ee3b68992e">sqlcc::SystemPermissionManager::GetObjectPrivileges</a></div><div class="ttdeci">std::vector&lt; SysPrivilege &gt; GetObjectPrivileges(const std::string &amp;object_type, const std::string &amp;object_name)</div><div class="ttdoc">获取对象权限</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:398</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_a49d10eb5b549b25cb0d6fdbde5b00859"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#a49d10eb5b549b25cb0d6fdbde5b00859">sqlcc::SystemPermissionManager::DropRoleRecord</a></div><div class="ttdeci">bool DropRoleRecord(const std::string &amp;role_name)</div><div class="ttdoc">删除角色记录</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:224</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_a4c2efc4e9689a59608964de5694b3424"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#a4c2efc4e9689a59608964de5694b3424">sqlcc::SystemPermissionManager::CreateUserRecord</a></div><div class="ttdeci">bool CreateUserRecord(const std::string &amp;username, const std::string &amp;password_hash, const std::string &amp;role)</div><div class="ttdoc">创建用户记录</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:24</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_a61584842487248651e8f48e5e00e2862"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#a61584842487248651e8f48e5e00e2862">sqlcc::SystemPermissionManager::GetUserPrivileges</a></div><div class="ttdeci">std::vector&lt; SysPrivilege &gt; GetUserPrivileges(const std::string &amp;username)</div><div class="ttdoc">获取用户权限</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:434</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_a67b7320a6d15d900d121c6eec2ec19dc"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#a67b7320a6d15d900d121c6eec2ec19dc">sqlcc::SystemPermissionManager::CreateRoleRecord</a></div><div class="ttdeci">bool CreateRoleRecord(const std::string &amp;role_name)</div><div class="ttdoc">创建角色记录</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:193</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_a853269b3739647d3bed0ee4dcf0c1969"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#a853269b3739647d3bed0ee4dcf0c1969">sqlcc::SystemPermissionManager::ListRoles</a></div><div class="ttdeci">std::vector&lt; SysRole &gt; ListRoles()</div><div class="ttdoc">列出所有角色</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:282</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_a880f2f7fc4cbfc71dc7cce00b667d08a"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#a880f2f7fc4cbfc71dc7cce00b667d08a">sqlcc::SystemPermissionManager::ExecuteSelectQuery</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; std::string &gt; &gt; ExecuteSelectQuery(const std::string &amp;sql)</div><div class="ttdoc">执行查询并返回结果</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:533</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_a88e94143deddd9b3cebdf3f23261226f"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#a88e94143deddd9b3cebdf3f23261226f">sqlcc::SystemPermissionManager::UserExists</a></div><div class="ttdeci">bool UserExists(const std::string &amp;username)</div><div class="ttdoc">检查用户是否存在</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:172</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_a99035851d15bdda6a03863092bfb29e1"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#a99035851d15bdda6a03863092bfb29e1">sqlcc::SystemPermissionManager::~SystemPermissionManager</a></div><div class="ttdeci">~SystemPermissionManager()</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:20</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_aaf022ce4445e37d7e8cae0b36b7fc6f2"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#aaf022ce4445e37d7e8cae0b36b7fc6f2">sqlcc::SystemPermissionManager::RoleExists</a></div><div class="ttdeci">bool RoleExists(const std::string &amp;role_name)</div><div class="ttdoc">检查角色是否存在</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:312</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_ab202af2f68dfd8be0cedd8d0a3f48b42"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#ab202af2f68dfd8be0cedd8d0a3f48b42">sqlcc::SystemPermissionManager::last_error_</a></div><div class="ttdeci">std::string last_error_</div><div class="ttdef"><b>Definition</b> system_permission_manager.h:194</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_ab4b89e01f1bbd278f85715e70a50751d"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#ab4b89e01f1bbd278f85715e70a50751d">sqlcc::SystemPermissionManager::GetUserRecord</a></div><div class="ttdeci">SysUser GetUserRecord(const std::string &amp;username)</div><div class="ttdoc">获取用户记录</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:105</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_acdab12b23df1b430e74beea06dbe2e5e"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#acdab12b23df1b430e74beea06dbe2e5e">sqlcc::SystemPermissionManager::GetRoleRecord</a></div><div class="ttdeci">SysRole GetRoleRecord(const std::string &amp;role_name)</div><div class="ttdoc">获取角色记录</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:253</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_ad497397026977dc55844555e051e6735"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#ad497397026977dc55844555e051e6735">sqlcc::SystemPermissionManager::db_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; DatabaseManager &gt; db_manager_</div><div class="ttdef"><b>Definition</b> system_permission_manager.h:193</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_ad92876ebc7fdf10870045ae25c72f5b6"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#ad92876ebc7fdf10870045ae25c72f5b6">sqlcc::SystemPermissionManager::GrantPrivilegeRecord</a></div><div class="ttdeci">bool GrantPrivilegeRecord(const std::string &amp;grantee, const std::string &amp;object_type, const std::string &amp;object_name, const std::string &amp;privilege_type, const std::string &amp;grantor)</div><div class="ttdoc">授权记录</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:333</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_ae6e36bd5c1d72fa618aeaede53005a0e"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#ae6e36bd5c1d72fa618aeaede53005a0e">sqlcc::SystemPermissionManager::RevokePrivilegeRecord</a></div><div class="ttdeci">bool RevokePrivilegeRecord(const std::string &amp;grantee, const std::string &amp;object_type, const std::string &amp;object_name, const std::string &amp;privilege_type)</div><div class="ttdoc">撤销权限记录</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:380</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_ae88da5c4156be7b1d833826bfd73bce4"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#ae88da5c4156be7b1d833826bfd73bce4">sqlcc::SystemPermissionManager::DropUserRecord</a></div><div class="ttdeci">bool DropUserRecord(const std::string &amp;username)</div><div class="ttdoc">删除用户记录</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:62</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_ae8b1909f6b98427d4120425a548aa6a7"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#ae8b1909f6b98427d4120425a548aa6a7">sqlcc::SystemPermissionManager::UpdateUserRecord</a></div><div class="ttdeci">bool UpdateUserRecord(const SysUser &amp;user)</div><div class="ttdoc">更新用户记录</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:81</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemPermissionManager_html_afec23fb5ddd3b674af1fc08e196959bf"><div class="ttname"><a href="classsqlcc_1_1SystemPermissionManager.html#afec23fb5ddd3b674af1fc08e196959bf">sqlcc::SystemPermissionManager::GetLastError</a></div><div class="ttdeci">std::string GetLastError() const</div><div class="ttdoc">获取最后一次错误信息</div><div class="ttdef"><b>Definition</b> system_permission_manager.cpp:508</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1SysRole_html"><div class="ttname"><a href="structsqlcc_1_1SysRole.html">sqlcc::SysRole</a></div><div class="ttdoc">系统角色记录</div><div class="ttdef"><b>Definition</b> system_data_structures.h:36</div></div>
+<div class="ttc" id="astructsqlcc_1_1SysUser_html"><div class="ttname"><a href="structsqlcc_1_1SysUser.html">sqlcc::SysUser</a></div><div class="ttdoc">系统用户记录</div><div class="ttdef"><b>Definition</b> system_data_structures.h:23</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

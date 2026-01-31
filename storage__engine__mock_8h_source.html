@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: storage_engine_mock.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_96e7e2b482a7ad21f14d30b126e4a026.html">mocks</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">storage_engine_mock.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="storage__engine__mock_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;../storage_engine/storage_engine.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span>mocks {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html">   21</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html">StorageEngineMock</a> : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1StorageEngine.html">StorageEngine</a> {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html">StorageEngineMock</a>(<a class="code hl_class" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager, <span class="keyword">const</span> std::string&amp; db_path = <span class="stringliteral">&quot;./data&quot;</span>);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#ab647c52b07586f6f66dd214903542249">~StorageEngineMock</a>();</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="comment">// 禁止拷贝</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#af5575f5f095513a06dd0102d1817214c">   36</a></span>    <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#af5575f5f095513a06dd0102d1817214c">StorageEngineMock</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html">StorageEngineMock</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a1d0d93962731ed2fc1243d8f9e0fc94e">   37</a></span>    <a class="code hl_class" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html">StorageEngineMock</a>&amp; <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a1d0d93962731ed2fc1243d8f9e0fc94e">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html">StorageEngineMock</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="comment">// Mock配置方法</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a05ed1c90bd7444aab6a2e503014625df">SetNewPageResult</a>(<span class="keywordtype">bool</span> success, int32_t page_id = -1);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a688dd16db8c19a86f1cbece548835fdc">SetFetchPageResult</a>(std::shared_ptr&lt;Page&gt; page);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#aeee8a0da7bd05b660a2d1e318304aa6c">SetUnpinPageResult</a>(<span class="keywordtype">bool</span> success);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#adfddd19f829beb220d1f8e3f6e28e612">SetFlushPageResult</a>(<span class="keywordtype">bool</span> success);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#ac38430f6d85506c1aaa0032699f035cf">SetDeletePageResult</a>(<span class="keywordtype">bool</span> success);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#acc8ed21f0000134b6c6835ccd6568022">SetFlushAllPagesResult</a>(<span class="keywordtype">bool</span> success);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a63cb54c3179a00b79d5b599e40486f4a">SetGetStatsResult</a>(<span class="keyword">const</span> std::string&amp; stats);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="comment">// 调用历史记录</span></div>
+<div class="foldopen" id="foldopen00049" data-start="{" data-end="};">
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="structsqlcc_1_1mocks_1_1StorageEngineMock_1_1CallRecord.html">   49</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structsqlcc_1_1mocks_1_1StorageEngineMock_1_1CallRecord.html">CallRecord</a> {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="structsqlcc_1_1mocks_1_1StorageEngineMock_1_1CallRecord.html#abc5cad58fe6bfa39565d25ea74c251c9">   50</a></span>        std::string <a class="code hl_variable" href="structsqlcc_1_1mocks_1_1StorageEngineMock_1_1CallRecord.html#abc5cad58fe6bfa39565d25ea74c251c9">method_name</a>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="structsqlcc_1_1mocks_1_1StorageEngineMock_1_1CallRecord.html#a57d388d6a83f3307e4d1c448cce71ba5">   51</a></span>        std::vector&lt;std::string&gt; <a class="code hl_variable" href="structsqlcc_1_1mocks_1_1StorageEngineMock_1_1CallRecord.html#a57d388d6a83f3307e4d1c448cce71ba5">args</a>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    };</div>
+</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#aa310cbfef8298401336e4584bc59daa5">   54</a></span>    <span class="keyword">const</span> std::vector&lt;CallRecord&gt;&amp; <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#aa310cbfef8298401336e4584bc59daa5">GetCallHistory</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a785076da30908010705302b73a902512">call_history_</a>; }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a1d0f2d0c84ad4487d0d4871805877baf">   55</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a1d0f2d0c84ad4487d0d4871805877baf">ClearCallHistory</a>() { <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a785076da30908010705302b73a902512">call_history_</a>.clear(); }</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// 重写StorageEngine接口方法</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a230975728e056f96fa4e0e3b6def5be6">InitializeIndexManager</a>();</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    std::unique_ptr&lt;Page&gt; <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#ad3af7628342c333584ca530f15dd7435">NewPage</a>(int32_t *page_id = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    std::shared_ptr&lt;Page&gt; <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a607fcf5f502eda3c54353f2b0e12f88a">FetchPage</a>(int32_t page_id);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a10699bf94d898e0d4c93afdee819aecf">UnpinPage</a>(int32_t page_id, <span class="keywordtype">bool</span> is_dirty = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#acc497a05151f447b7abbf9d9080ac9e6">FlushPage</a>(int32_t page_id);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a585001df9302b21b27fe93f56d886ff6">DeletePage</a>(int32_t page_id);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#ac4417406ef2ef60634ac9ea50965e1c7">FlushAllPages</a>();</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    std::string <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#af11a5fc6ee7793707f43dcf8396fe348">GetStats</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a0481eb370f9b1f1f688bd106642e51fb">RecordCall</a>(<span class="keyword">const</span> std::string&amp; method, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; args = {});</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="comment">// Mock配置</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#af9e48f37d1f431c5dd6e93bc3f37295a">   71</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#af9e48f37d1f431c5dd6e93bc3f37295a">new_page_success_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a924df12b0b2c9601fc0326e63f9e491b">   72</a></span>    int32_t <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a924df12b0b2c9601fc0326e63f9e491b">new_page_id_</a> = 1;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a6237926f6c49da07eb734c5ee67ae349">   73</a></span>    std::shared_ptr&lt;Page&gt; <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a6237926f6c49da07eb734c5ee67ae349">fetch_page_result_</a>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#abbaa4641665f4c1017f625f66f081cd4">   74</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#abbaa4641665f4c1017f625f66f081cd4">unpin_page_success_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a0d0951fa7fd62a2c702ad5a05e0b69a7">   75</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a0d0951fa7fd62a2c702ad5a05e0b69a7">flush_page_success_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#ac259c7d3aa6dee8f5e6de90de704b8fb">   76</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#ac259c7d3aa6dee8f5e6de90de704b8fb">delete_page_success_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a6e136c1d942ba7e465d82e54be0db3b5">   77</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a6e136c1d942ba7e465d82e54be0db3b5">flush_all_success_</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a132c7c694ee282530c3e27111cb27e82">   78</a></span>    std::string <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a132c7c694ee282530c3e27111cb27e82">stats_result_</a> = <span class="stringliteral">&quot;Mock Storage Engine Stats&quot;</span>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="comment">// 调用历史</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a785076da30908010705302b73a902512">   81</a></span>    <span class="keyword">mutable</span> std::vector&lt;CallRecord&gt; <a class="code hl_variable" href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a785076da30908010705302b73a902512">call_history_</a>;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>};</div>
+</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>} <span class="comment">// namespace mocks</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigManager_html"><div class="ttname"><a href="classsqlcc_1_1ConfigManager.html">sqlcc::ConfigManager</a></div><div class="ttdef"><b>Definition</b> config_manager.h:23</div></div>
+<div class="ttc" id="aclasssqlcc_1_1StorageEngine_html"><div class="ttname"><a href="classsqlcc_1_1StorageEngine.html">sqlcc::StorageEngine</a></div><div class="ttdoc">存储引擎类，封装磁盘管理和缓冲池功能</div><div class="ttdef"><b>Definition</b> storage_engine.h:59</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html">sqlcc::mocks::StorageEngineMock</a></div><div class="ttdoc">StorageEngine Mock类，用于单元测试</div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:21</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a0481eb370f9b1f1f688bd106642e51fb"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a0481eb370f9b1f1f688bd106642e51fb">sqlcc::mocks::StorageEngineMock::RecordCall</a></div><div class="ttdeci">void RecordCall(const std::string &amp;method, const std::vector&lt; std::string &gt; &amp;args={})</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:96</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a05ed1c90bd7444aab6a2e503014625df"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a05ed1c90bd7444aab6a2e503014625df">sqlcc::mocks::StorageEngineMock::SetNewPageResult</a></div><div class="ttdeci">void SetNewPageResult(bool success, int32_t page_id=-1)</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:17</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a0d0951fa7fd62a2c702ad5a05e0b69a7"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a0d0951fa7fd62a2c702ad5a05e0b69a7">sqlcc::mocks::StorageEngineMock::flush_page_success_</a></div><div class="ttdeci">bool flush_page_success_</div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:75</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a10699bf94d898e0d4c93afdee819aecf"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a10699bf94d898e0d4c93afdee819aecf">sqlcc::mocks::StorageEngineMock::UnpinPage</a></div><div class="ttdeci">bool UnpinPage(int32_t page_id, bool is_dirty=false)</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:69</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a132c7c694ee282530c3e27111cb27e82"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a132c7c694ee282530c3e27111cb27e82">sqlcc::mocks::StorageEngineMock::stats_result_</a></div><div class="ttdeci">std::string stats_result_</div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:78</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a1d0d93962731ed2fc1243d8f9e0fc94e"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a1d0d93962731ed2fc1243d8f9e0fc94e">sqlcc::mocks::StorageEngineMock::operator=</a></div><div class="ttdeci">StorageEngineMock &amp; operator=(const StorageEngineMock &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a1d0f2d0c84ad4487d0d4871805877baf"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a1d0f2d0c84ad4487d0d4871805877baf">sqlcc::mocks::StorageEngineMock::ClearCallHistory</a></div><div class="ttdeci">void ClearCallHistory()</div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:55</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a230975728e056f96fa4e0e3b6def5be6"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a230975728e056f96fa4e0e3b6def5be6">sqlcc::mocks::StorageEngineMock::InitializeIndexManager</a></div><div class="ttdeci">void InitializeIndexManager()</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:46</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a585001df9302b21b27fe93f56d886ff6"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a585001df9302b21b27fe93f56d886ff6">sqlcc::mocks::StorageEngineMock::DeletePage</a></div><div class="ttdeci">bool DeletePage(int32_t page_id)</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:79</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a607fcf5f502eda3c54353f2b0e12f88a"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a607fcf5f502eda3c54353f2b0e12f88a">sqlcc::mocks::StorageEngineMock::FetchPage</a></div><div class="ttdeci">std::shared_ptr&lt; Page &gt; FetchPage(int32_t page_id)</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:64</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a6237926f6c49da07eb734c5ee67ae349"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a6237926f6c49da07eb734c5ee67ae349">sqlcc::mocks::StorageEngineMock::fetch_page_result_</a></div><div class="ttdeci">std::shared_ptr&lt; Page &gt; fetch_page_result_</div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:73</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a63cb54c3179a00b79d5b599e40486f4a"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a63cb54c3179a00b79d5b599e40486f4a">sqlcc::mocks::StorageEngineMock::SetGetStatsResult</a></div><div class="ttdeci">void SetGetStatsResult(const std::string &amp;stats)</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:42</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a688dd16db8c19a86f1cbece548835fdc"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a688dd16db8c19a86f1cbece548835fdc">sqlcc::mocks::StorageEngineMock::SetFetchPageResult</a></div><div class="ttdeci">void SetFetchPageResult(std::shared_ptr&lt; Page &gt; page)</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:22</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a6e136c1d942ba7e465d82e54be0db3b5"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a6e136c1d942ba7e465d82e54be0db3b5">sqlcc::mocks::StorageEngineMock::flush_all_success_</a></div><div class="ttdeci">bool flush_all_success_</div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:77</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a785076da30908010705302b73a902512"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a785076da30908010705302b73a902512">sqlcc::mocks::StorageEngineMock::call_history_</a></div><div class="ttdeci">std::vector&lt; CallRecord &gt; call_history_</div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:81</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_a924df12b0b2c9601fc0326e63f9e491b"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#a924df12b0b2c9601fc0326e63f9e491b">sqlcc::mocks::StorageEngineMock::new_page_id_</a></div><div class="ttdeci">int32_t new_page_id_</div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:72</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_aa310cbfef8298401336e4584bc59daa5"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#aa310cbfef8298401336e4584bc59daa5">sqlcc::mocks::StorageEngineMock::GetCallHistory</a></div><div class="ttdeci">const std::vector&lt; CallRecord &gt; &amp; GetCallHistory() const</div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:54</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_ab647c52b07586f6f66dd214903542249"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#ab647c52b07586f6f66dd214903542249">sqlcc::mocks::StorageEngineMock::~StorageEngineMock</a></div><div class="ttdeci">~StorageEngineMock()</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:13</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_abbaa4641665f4c1017f625f66f081cd4"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#abbaa4641665f4c1017f625f66f081cd4">sqlcc::mocks::StorageEngineMock::unpin_page_success_</a></div><div class="ttdeci">bool unpin_page_success_</div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:74</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_ac259c7d3aa6dee8f5e6de90de704b8fb"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#ac259c7d3aa6dee8f5e6de90de704b8fb">sqlcc::mocks::StorageEngineMock::delete_page_success_</a></div><div class="ttdeci">bool delete_page_success_</div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:76</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_ac38430f6d85506c1aaa0032699f035cf"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#ac38430f6d85506c1aaa0032699f035cf">sqlcc::mocks::StorageEngineMock::SetDeletePageResult</a></div><div class="ttdeci">void SetDeletePageResult(bool success)</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:34</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_ac4417406ef2ef60634ac9ea50965e1c7"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#ac4417406ef2ef60634ac9ea50965e1c7">sqlcc::mocks::StorageEngineMock::FlushAllPages</a></div><div class="ttdeci">void FlushAllPages()</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:84</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_acc497a05151f447b7abbf9d9080ac9e6"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#acc497a05151f447b7abbf9d9080ac9e6">sqlcc::mocks::StorageEngineMock::FlushPage</a></div><div class="ttdeci">bool FlushPage(int32_t page_id)</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:74</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_acc8ed21f0000134b6c6835ccd6568022"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#acc8ed21f0000134b6c6835ccd6568022">sqlcc::mocks::StorageEngineMock::SetFlushAllPagesResult</a></div><div class="ttdeci">void SetFlushAllPagesResult(bool success)</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:38</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_ad3af7628342c333584ca530f15dd7435"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#ad3af7628342c333584ca530f15dd7435">sqlcc::mocks::StorageEngineMock::NewPage</a></div><div class="ttdeci">std::unique_ptr&lt; Page &gt; NewPage(int32_t *page_id=nullptr)</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:51</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_adfddd19f829beb220d1f8e3f6e28e612"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#adfddd19f829beb220d1f8e3f6e28e612">sqlcc::mocks::StorageEngineMock::SetFlushPageResult</a></div><div class="ttdeci">void SetFlushPageResult(bool success)</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:30</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_aeee8a0da7bd05b660a2d1e318304aa6c"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#aeee8a0da7bd05b660a2d1e318304aa6c">sqlcc::mocks::StorageEngineMock::SetUnpinPageResult</a></div><div class="ttdeci">void SetUnpinPageResult(bool success)</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:26</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_af11a5fc6ee7793707f43dcf8396fe348"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#af11a5fc6ee7793707f43dcf8396fe348">sqlcc::mocks::StorageEngineMock::GetStats</a></div><div class="ttdeci">std::string GetStats() const</div><div class="ttdef"><b>Definition</b> storage_engine_mock.cpp:89</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_af5575f5f095513a06dd0102d1817214c"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#af5575f5f095513a06dd0102d1817214c">sqlcc::mocks::StorageEngineMock::StorageEngineMock</a></div><div class="ttdeci">StorageEngineMock(const StorageEngineMock &amp;)=delete</div></div>
+<div class="ttc" id="aclasssqlcc_1_1mocks_1_1StorageEngineMock_html_af9e48f37d1f431c5dd6e93bc3f37295a"><div class="ttname"><a href="classsqlcc_1_1mocks_1_1StorageEngineMock.html#af9e48f37d1f431c5dd6e93bc3f37295a">sqlcc::mocks::StorageEngineMock::new_page_success_</a></div><div class="ttdeci">bool new_page_success_</div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:71</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="astructsqlcc_1_1mocks_1_1StorageEngineMock_1_1CallRecord_html"><div class="ttname"><a href="structsqlcc_1_1mocks_1_1StorageEngineMock_1_1CallRecord.html">sqlcc::mocks::StorageEngineMock::CallRecord</a></div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:49</div></div>
+<div class="ttc" id="astructsqlcc_1_1mocks_1_1StorageEngineMock_1_1CallRecord_html_a57d388d6a83f3307e4d1c448cce71ba5"><div class="ttname"><a href="structsqlcc_1_1mocks_1_1StorageEngineMock_1_1CallRecord.html#a57d388d6a83f3307e4d1c448cce71ba5">sqlcc::mocks::StorageEngineMock::CallRecord::args</a></div><div class="ttdeci">std::vector&lt; std::string &gt; args</div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:51</div></div>
+<div class="ttc" id="astructsqlcc_1_1mocks_1_1StorageEngineMock_1_1CallRecord_html_abc5cad58fe6bfa39565d25ea74c251c9"><div class="ttname"><a href="structsqlcc_1_1mocks_1_1StorageEngineMock_1_1CallRecord.html#abc5cad58fe6bfa39565d25ea74c251c9">sqlcc::mocks::StorageEngineMock::CallRecord::method_name</a></div><div class="ttdeci">std::string method_name</div><div class="ttdef"><b>Definition</b> storage_engine_mock.h:50</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

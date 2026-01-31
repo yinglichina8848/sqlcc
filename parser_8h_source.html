@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: parser.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">parser.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="parser_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="preprocessor">#ifndef SQLCC_SQL_PARSER_PARSER_H</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="preprocessor">#define SQLCC_SQL_PARSER_PARSER_H</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="preprocessor">#include &quot;<a class="code" href="ast__node_8h.html">ast/ast_node.h</a>&quot;</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="preprocessor">#include &quot;<a class="code" href="constraint_8h.html">constraint.h</a>&quot;</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#include &quot;<a class="code" href="set__operation_8h.html">set_operation.h</a>&quot;</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="preprocessor">#include &quot;<a class="code" href="token_8h.html">token.h</a>&quot;</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="preprocessor">#include &quot;<a class="code" href="window__function_8h.html">window_function.h</a>&quot;</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="preprocessor">#include &quot;<a class="code" href="lexer_8h.html">lexer.h</a>&quot;</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#include &quot;<a class="code" href="token__stream_8h.html">token_stream.h</a>&quot;</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="preprocessor">#include &quot;<a class="code" href="parser__core_8h.html">parsers/parser_core.h</a>&quot;</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="preprocessor">#include &quot;<a class="code" href="parser__ddl_8h.html">parsers/ddl/parser_ddl.h</a>&quot;</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="preprocessor">#include &quot;<a class="code" href="parser__dml_8h.html">parsers/dml/parser_dml.h</a>&quot;</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="preprocessor">#include &quot;<a class="code" href="parser__dcl_8h.html">parsers/dcl/parser_dcl.h</a>&quot;</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="preprocessor">#include &quot;<a class="code" href="parser__tcl_8h.html">parsers/tcl/parser_tcl.h</a>&quot;</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span><span class="preprocessor">#include &lt;unordered_set&gt;</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
+<div class="foldopen" id="foldopen00188" data-start="{" data-end="};">
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Parser.html">  188</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Parser.html">Parser</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1ParserCore.html">ParserCore</a> {</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>  <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Parser.html">Parser</a>(<span class="keyword">const</span> std::string&amp; input);</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>  std::vector&lt;std::unique_ptr&lt;Statement&gt;&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Parser.html#ab788fb554022bdcab961d7baa2848894">parse</a>();</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>  <span class="comment">// Error handling (public interface for testing)</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>  std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Parser.html#a8bb3eb7001125e403f33ba69b85e34e4">getDetailedErrors</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Parser.html#a2cefa15d39c00ef7f0de2ecb039937fa">clearErrors</a>();</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Parser.html#a9f5bafdead33ee501db8e7d01b93ec66">hadError</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>  <span class="comment">// Token stream management</span></div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Parser.html#a0cc37c4e95734f1db8ed2321773f90cd">  210</a></span>  <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Lexer.html">Lexer</a> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1Parser.html#a0cc37c4e95734f1db8ed2321773f90cd">lexer_</a>;</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Parser.html#a86bbda5ed93a1f3438bd46b1903679bb">  211</a></span>  <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1Parser.html#a86bbda5ed93a1f3438bd46b1903679bb">tokenStream_</a>;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>  <span class="comment">// Sub-parsers for modular parsing logic</span></div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Parser.html#ace327fcaaa0c8c025800e04daff3b910">  214</a></span>  std::unique_ptr&lt;ParserDDL&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1Parser.html#ace327fcaaa0c8c025800e04daff3b910">ddl_parser_</a>;</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Parser.html#a5ed7982b14567d6fb2a4f16f924584cd">  215</a></span>  std::unique_ptr&lt;ParserDML&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1Parser.html#a5ed7982b14567d6fb2a4f16f924584cd">dml_parser_</a>;</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Parser.html#a3880a1cde98fbcbc7386ab495bbde7ee">  216</a></span>  std::unique_ptr&lt;ParserDCL&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1Parser.html#a3880a1cde98fbcbc7386ab495bbde7ee">dcl_parser_</a>;</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1Parser.html#a25f329e897182ba2f96897c622f750a0">  217</a></span>  std::unique_ptr&lt;ParserTCL&gt; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1Parser.html#a25f329e897182ba2f96897c622f750a0">tcl_parser_</a>;</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span> </div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>  <span class="comment">// Core parsing methods</span></div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>  std::unique_ptr&lt;Statement&gt; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Parser.html#a114be7867b37cead44eee14330856de9">parseStatement</a>();</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span> </div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Parser.html#a6cfe328dbc6f2f89f2b8477e59fcf086">synchronize</a>();</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>  <span class="comment">// Helper methods</span></div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1Parser.html#a2adfe84cb0ceee519e7b230071e001f8">initializeSyncTokens</a>();</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>};</div>
+</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span> </div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SQL_PARSER_PARSER_H</span></div>
+<div class="ttc" id="aast__node_8h_html"><div class="ttname"><a href="ast__node_8h.html">ast_node.h</a></div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html">sqlcc::sql_parser::Lexer</a></div><div class="ttdoc">SQL词法分析器类</div><div class="ttdef"><b>Definition</b> lexer.h:133</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1ParserCore_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1ParserCore.html">sqlcc::sql_parser::ParserCore</a></div><div class="ttdef"><b>Definition</b> parser_core.h:31</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Parser_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Parser.html">sqlcc::sql_parser::Parser</a></div><div class="ttdef"><b>Definition</b> parser.h:188</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Parser_html_a0cc37c4e95734f1db8ed2321773f90cd"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Parser.html#a0cc37c4e95734f1db8ed2321773f90cd">sqlcc::sql_parser::Parser::lexer_</a></div><div class="ttdeci">Lexer lexer_</div><div class="ttdef"><b>Definition</b> parser.h:210</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Parser_html_a114be7867b37cead44eee14330856de9"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Parser.html#a114be7867b37cead44eee14330856de9">sqlcc::sql_parser::Parser::parseStatement</a></div><div class="ttdeci">std::unique_ptr&lt; Statement &gt; parseStatement()</div><div class="ttdef"><b>Definition</b> parser.cpp:83</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Parser_html_a25f329e897182ba2f96897c622f750a0"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Parser.html#a25f329e897182ba2f96897c622f750a0">sqlcc::sql_parser::Parser::tcl_parser_</a></div><div class="ttdeci">std::unique_ptr&lt; ParserTCL &gt; tcl_parser_</div><div class="ttdef"><b>Definition</b> parser.h:217</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Parser_html_a2adfe84cb0ceee519e7b230071e001f8"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Parser.html#a2adfe84cb0ceee519e7b230071e001f8">sqlcc::sql_parser::Parser::initializeSyncTokens</a></div><div class="ttdeci">void initializeSyncTokens()</div><div class="ttdef"><b>Definition</b> parser.cpp:160</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Parser_html_a2cefa15d39c00ef7f0de2ecb039937fa"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Parser.html#a2cefa15d39c00ef7f0de2ecb039937fa">sqlcc::sql_parser::Parser::clearErrors</a></div><div class="ttdeci">void clearErrors()</div><div class="ttdef"><b>Definition</b> parser.cpp:151</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Parser_html_a3880a1cde98fbcbc7386ab495bbde7ee"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Parser.html#a3880a1cde98fbcbc7386ab495bbde7ee">sqlcc::sql_parser::Parser::dcl_parser_</a></div><div class="ttdeci">std::unique_ptr&lt; ParserDCL &gt; dcl_parser_</div><div class="ttdef"><b>Definition</b> parser.h:216</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Parser_html_a5ed7982b14567d6fb2a4f16f924584cd"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Parser.html#a5ed7982b14567d6fb2a4f16f924584cd">sqlcc::sql_parser::Parser::dml_parser_</a></div><div class="ttdeci">std::unique_ptr&lt; ParserDML &gt; dml_parser_</div><div class="ttdef"><b>Definition</b> parser.h:215</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Parser_html_a6cfe328dbc6f2f89f2b8477e59fcf086"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Parser.html#a6cfe328dbc6f2f89f2b8477e59fcf086">sqlcc::sql_parser::Parser::synchronize</a></div><div class="ttdeci">void synchronize()</div><div class="ttdef"><b>Definition</b> parser.cpp:143</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Parser_html_a86bbda5ed93a1f3438bd46b1903679bb"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Parser.html#a86bbda5ed93a1f3438bd46b1903679bb">sqlcc::sql_parser::Parser::tokenStream_</a></div><div class="ttdeci">TokenStream tokenStream_</div><div class="ttdef"><b>Definition</b> parser.h:211</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Parser_html_a8bb3eb7001125e403f33ba69b85e34e4"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Parser.html#a8bb3eb7001125e403f33ba69b85e34e4">sqlcc::sql_parser::Parser::getDetailedErrors</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getDetailedErrors() const</div><div class="ttdef"><b>Definition</b> parser.cpp:147</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Parser_html_a9f5bafdead33ee501db8e7d01b93ec66"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Parser.html#a9f5bafdead33ee501db8e7d01b93ec66">sqlcc::sql_parser::Parser::hadError</a></div><div class="ttdeci">bool hadError() const</div><div class="ttdef"><b>Definition</b> parser.cpp:156</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Parser_html_ab788fb554022bdcab961d7baa2848894"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Parser.html#ab788fb554022bdcab961d7baa2848894">sqlcc::sql_parser::Parser::parse</a></div><div class="ttdeci">std::vector&lt; std::unique_ptr&lt; Statement &gt; &gt; parse()</div><div class="ttdef"><b>Definition</b> parser.cpp:59</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Parser_html_ace327fcaaa0c8c025800e04daff3b910"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Parser.html#ace327fcaaa0c8c025800e04daff3b910">sqlcc::sql_parser::Parser::ddl_parser_</a></div><div class="ttdeci">std::unique_ptr&lt; ParserDDL &gt; ddl_parser_</div><div class="ttdef"><b>Definition</b> parser.h:214</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html">sqlcc::sql_parser::TokenStream</a></div><div class="ttdoc">Token流管理类 - 负责词法分析器的token流管理</div><div class="ttdef"><b>Definition</b> token_stream.h:59</div></div>
+<div class="ttc" id="aconstraint_8h_html"><div class="ttname"><a href="constraint_8h.html">constraint.h</a></div></div>
+<div class="ttc" id="alexer_8h_html"><div class="ttname"><a href="lexer_8h.html">lexer.h</a></div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="aparser__core_8h_html"><div class="ttname"><a href="parser__core_8h.html">parser_core.h</a></div></div>
+<div class="ttc" id="aparser__dcl_8h_html"><div class="ttname"><a href="parser__dcl_8h.html">parser_dcl.h</a></div></div>
+<div class="ttc" id="aparser__ddl_8h_html"><div class="ttname"><a href="parser__ddl_8h.html">parser_ddl.h</a></div></div>
+<div class="ttc" id="aparser__dml_8h_html"><div class="ttname"><a href="parser__dml_8h.html">parser_dml.h</a></div></div>
+<div class="ttc" id="aparser__tcl_8h_html"><div class="ttname"><a href="parser__tcl_8h.html">parser_tcl.h</a></div></div>
+<div class="ttc" id="aset__operation_8h_html"><div class="ttname"><a href="set__operation_8h.html">set_operation.h</a></div></div>
+<div class="ttc" id="atoken_8h_html"><div class="ttname"><a href="token_8h.html">token.h</a></div></div>
+<div class="ttc" id="atoken__stream_8h_html"><div class="ttname"><a href="token__stream_8h.html">token_stream.h</a></div></div>
+<div class="ttc" id="awindow__function_8h_html"><div class="ttname"><a href="window__function_8h.html">window_function.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

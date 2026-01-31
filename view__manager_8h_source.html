@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: view_manager.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">view_manager.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="view__manager_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SQLCC_VIEW_MANAGER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SQLCC_VIEW_MANAGER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">class </span>SqlExecutor;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="foldopen" id="foldopen00294" data-start="{" data-end="};">
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ViewManager.html">  294</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1ViewManager.html">ViewManager</a> {</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    <a class="code hl_function" href="classsqlcc_1_1ViewManager.html#a429ed6efce68518ec06060ea9a4c823f">ViewManager</a>();</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span> </div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classsqlcc_1_1ViewManager.html#a429ed6efce68518ec06060ea9a4c823f">ViewManager</a>(std::shared_ptr&lt;SqlExecutor&gt; sql_executor);</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span> </div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>    <a class="code hl_function" href="classsqlcc_1_1ViewManager.html#a7f430374b79f9d17aa4e7846a6cdaace">~ViewManager</a>();</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span> </div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1ViewManager.html#a81c3ef6f8947ae7bf8af9ed8a6fd8e48">CreateView</a>(<span class="keyword">const</span> std::string&amp; view_name, <span class="keyword">const</span> std::string&amp; sql_query);</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span> </div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1ViewManager.html#a24ec5bc3c383fcb39b37db1f4d9a295e">DropView</a>(<span class="keyword">const</span> std::string&amp; view_name);</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span> </div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1ViewManager.html#a3da2e2c7d2b3d6328bbc77feb48e0f2d">ViewExists</a>(<span class="keyword">const</span> std::string&amp; view_name);</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span> </div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    std::string <a class="code hl_function" href="classsqlcc_1_1ViewManager.html#aa79b2a4dccd3bd8931828dbef49ea6c5">GetViewDefinition</a>(<span class="keyword">const</span> std::string&amp; view_name);</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>    std::vector&lt;std::string&gt; <a class="code hl_function" href="classsqlcc_1_1ViewManager.html#a1010daa112067a9f7ea8be1f6ee68b2b">ListViews</a>();</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span> </div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1ViewManager.html#a9cb6a94510e53a6c1be9213496fed0a8">AlterView</a>(<span class="keyword">const</span> std::string&amp; view_name, <span class="keyword">const</span> std::string&amp; new_sql_query);</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span> </div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>    <span class="comment">// 视图存储：视图名 -&gt; SQL定义</span></div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ViewManager.html#af2d92513d9b92ac31719218e4b00efd4">  357</a></span>    std::unordered_map&lt;std::string, std::string&gt; <a class="code hl_variable" href="classsqlcc_1_1ViewManager.html#af2d92513d9b92ac31719218e4b00efd4">views_</a>;</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span> </div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>    <span class="comment">// SQL执行器（用于验证视图查询）</span></div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno"><a class="line" href="classsqlcc_1_1ViewManager.html#a18730146b1f2b3630c526357aac2b624">  360</a></span>    std::shared_ptr&lt;SqlExecutor&gt; <a class="code hl_variable" href="classsqlcc_1_1ViewManager.html#a18730146b1f2b3630c526357aac2b624">sql_executor_</a>;</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>};</div>
+</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span> </div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span> </div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_VIEW_MANAGER_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1ViewManager_html"><div class="ttname"><a href="classsqlcc_1_1ViewManager.html">sqlcc::ViewManager</a></div><div class="ttdef"><b>Definition</b> view_manager.h:294</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ViewManager_html_a1010daa112067a9f7ea8be1f6ee68b2b"><div class="ttname"><a href="classsqlcc_1_1ViewManager.html#a1010daa112067a9f7ea8be1f6ee68b2b">sqlcc::ViewManager::ListViews</a></div><div class="ttdeci">std::vector&lt; std::string &gt; ListViews()</div><div class="ttdoc">列出所有视图</div><div class="ttdef"><b>Definition</b> view_manager.cpp:51</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ViewManager_html_a18730146b1f2b3630c526357aac2b624"><div class="ttname"><a href="classsqlcc_1_1ViewManager.html#a18730146b1f2b3630c526357aac2b624">sqlcc::ViewManager::sql_executor_</a></div><div class="ttdeci">std::shared_ptr&lt; SqlExecutor &gt; sql_executor_</div><div class="ttdef"><b>Definition</b> view_manager.h:360</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ViewManager_html_a24ec5bc3c383fcb39b37db1f4d9a295e"><div class="ttname"><a href="classsqlcc_1_1ViewManager.html#a24ec5bc3c383fcb39b37db1f4d9a295e">sqlcc::ViewManager::DropView</a></div><div class="ttdeci">bool DropView(const std::string &amp;view_name)</div><div class="ttdoc">删除视图</div><div class="ttdef"><b>Definition</b> view_manager.cpp:28</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ViewManager_html_a3da2e2c7d2b3d6328bbc77feb48e0f2d"><div class="ttname"><a href="classsqlcc_1_1ViewManager.html#a3da2e2c7d2b3d6328bbc77feb48e0f2d">sqlcc::ViewManager::ViewExists</a></div><div class="ttdeci">bool ViewExists(const std::string &amp;view_name)</div><div class="ttdoc">检查视图是否存在</div><div class="ttdef"><b>Definition</b> view_manager.cpp:38</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ViewManager_html_a429ed6efce68518ec06060ea9a4c823f"><div class="ttname"><a href="classsqlcc_1_1ViewManager.html#a429ed6efce68518ec06060ea9a4c823f">sqlcc::ViewManager::ViewManager</a></div><div class="ttdeci">ViewManager()</div><div class="ttdoc">构造函数</div><div class="ttdef"><b>Definition</b> view_manager.cpp:6</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ViewManager_html_a7f430374b79f9d17aa4e7846a6cdaace"><div class="ttname"><a href="classsqlcc_1_1ViewManager.html#a7f430374b79f9d17aa4e7846a6cdaace">sqlcc::ViewManager::~ViewManager</a></div><div class="ttdeci">~ViewManager()</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> view_manager.cpp:11</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ViewManager_html_a81c3ef6f8947ae7bf8af9ed8a6fd8e48"><div class="ttname"><a href="classsqlcc_1_1ViewManager.html#a81c3ef6f8947ae7bf8af9ed8a6fd8e48">sqlcc::ViewManager::CreateView</a></div><div class="ttdeci">bool CreateView(const std::string &amp;view_name, const std::string &amp;sql_query)</div><div class="ttdoc">创建视图</div><div class="ttdef"><b>Definition</b> view_manager.cpp:16</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ViewManager_html_a9cb6a94510e53a6c1be9213496fed0a8"><div class="ttname"><a href="classsqlcc_1_1ViewManager.html#a9cb6a94510e53a6c1be9213496fed0a8">sqlcc::ViewManager::AlterView</a></div><div class="ttdeci">bool AlterView(const std::string &amp;view_name, const std::string &amp;new_sql_query)</div><div class="ttdoc">更新视图定义</div><div class="ttdef"><b>Definition</b> view_manager.cpp:59</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ViewManager_html_aa79b2a4dccd3bd8931828dbef49ea6c5"><div class="ttname"><a href="classsqlcc_1_1ViewManager.html#aa79b2a4dccd3bd8931828dbef49ea6c5">sqlcc::ViewManager::GetViewDefinition</a></div><div class="ttdeci">std::string GetViewDefinition(const std::string &amp;view_name)</div><div class="ttdoc">获取视图定义</div><div class="ttdef"><b>Definition</b> view_manager.cpp:42</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ViewManager_html_af2d92513d9b92ac31719218e4b00efd4"><div class="ttname"><a href="classsqlcc_1_1ViewManager.html#af2d92513d9b92ac31719218e4b00efd4">sqlcc::ViewManager::views_</a></div><div class="ttdeci">std::unordered_map&lt; std::string, std::string &gt; views_</div><div class="ttdef"><b>Definition</b> view_manager.h:357</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

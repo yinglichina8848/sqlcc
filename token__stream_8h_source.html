@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: token_stream.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_4e9519691b83054e0e6e19a7ab9a95b9.html">sql_parser</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">token_stream.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="token__stream_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SQLCC_SQL_PARSER_TOKEN_STREAM_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SQLCC_SQL_PARSER_TOKEN_STREAM_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="token_8h.html">token.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="lexer_8h.html">lexer.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span>sql_parser {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="foldopen" id="foldopen00059" data-start="{" data-end="};">
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">   59</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a> {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1TokenStream.html">TokenStream</a>(<a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Lexer.html">Lexer</a>&amp; lexer);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a>&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a5a5d61d2cc6abe41035bd39f9318b26f">current</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a>&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#af9df6782fdf270f259173a501b13cf30">peek</a>();</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a5ea710e2fec9cf302eb7b8124f2c05e3">advance</a>();</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a3ccd570997f6a1c695ad61d89365217c">check</a>(<a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a> type) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#aa153b70d3c967a766329adf8cbe5c9a8">match</a>(<a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a> type);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a6a40f34601f41a2aa91ece4d2f8cbba8">expect</a>(<a class="code hl_enumeration" href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">Type</a> type, <span class="keyword">const</span> std::string&amp; message = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a9d34c00072b895c3d311e7a962c0fb70">isAtEnd</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keyword">const</span> <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a>&amp; <a class="code hl_function" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a03eb1e76052aa0185af63733e668d93c">previous</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a3717390577adc0916732e870919e4f05">  121</a></span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Lexer.html">Lexer</a>&amp; <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a3717390577adc0916732e870919e4f05">lexer_</a>;              </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a24e8e2048e7943a8fa89a53d9667c606">  122</a></span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a24e8e2048e7943a8fa89a53d9667c606">previousToken_</a>;       </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a41b2463dbfba9011ff407acd31004855">  123</a></span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a41b2463dbfba9011ff407acd31004855">currentToken_</a>;        </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a26756f460c59d21e864c452d67c32562">  124</a></span>    <a class="code hl_class" href="classsqlcc_1_1sql__parser_1_1Token.html">Token</a> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a26756f460c59d21e864c452d67c32562">lookaheadToken_</a>;      </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a09bd7845b6bc33028df31aeca2728478">  125</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a09bd7845b6bc33028df31aeca2728478">hasLookahead_</a>;         </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>};</div>
+</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>} <span class="comment">// namespace sql_parser</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>} <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_SQL_PARSER_TOKEN_STREAM_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Lexer_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Lexer.html">sqlcc::sql_parser::Lexer</a></div><div class="ttdoc">SQL词法分析器类</div><div class="ttdef"><b>Definition</b> lexer.h:133</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html">sqlcc::sql_parser::TokenStream</a></div><div class="ttdoc">Token流管理类 - 负责词法分析器的token流管理</div><div class="ttdef"><b>Definition</b> token_stream.h:59</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a03eb1e76052aa0185af63733e668d93c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a03eb1e76052aa0185af63733e668d93c">sqlcc::sql_parser::TokenStream::previous</a></div><div class="ttdeci">const Token &amp; previous() const</div><div class="ttdoc">获取前一个token</div><div class="ttdef"><b>Definition</b> token_stream.cpp:26</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a09bd7845b6bc33028df31aeca2728478"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a09bd7845b6bc33028df31aeca2728478">sqlcc::sql_parser::TokenStream::hasLookahead_</a></div><div class="ttdeci">bool hasLookahead_</div><div class="ttdoc">是否有缓存的前瞻token</div><div class="ttdef"><b>Definition</b> token_stream.h:125</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a24e8e2048e7943a8fa89a53d9667c606"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a24e8e2048e7943a8fa89a53d9667c606">sqlcc::sql_parser::TokenStream::previousToken_</a></div><div class="ttdeci">Token previousToken_</div><div class="ttdoc">前一个处理过的token</div><div class="ttdef"><b>Definition</b> token_stream.h:122</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a26756f460c59d21e864c452d67c32562"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a26756f460c59d21e864c452d67c32562">sqlcc::sql_parser::TokenStream::lookaheadToken_</a></div><div class="ttdeci">Token lookaheadToken_</div><div class="ttdoc">缓存的前瞻token</div><div class="ttdef"><b>Definition</b> token_stream.h:124</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a3717390577adc0916732e870919e4f05"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a3717390577adc0916732e870919e4f05">sqlcc::sql_parser::TokenStream::lexer_</a></div><div class="ttdeci">Lexer &amp; lexer_</div><div class="ttdoc">词法分析器引用</div><div class="ttdef"><b>Definition</b> token_stream.h:121</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a3ccd570997f6a1c695ad61d89365217c"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a3ccd570997f6a1c695ad61d89365217c">sqlcc::sql_parser::TokenStream::check</a></div><div class="ttdeci">bool check(Type type) const</div><div class="ttdoc">检查当前token是否为指定类型</div><div class="ttdef"><b>Definition</b> token_stream.cpp:40</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a41b2463dbfba9011ff407acd31004855"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a41b2463dbfba9011ff407acd31004855">sqlcc::sql_parser::TokenStream::currentToken_</a></div><div class="ttdeci">Token currentToken_</div><div class="ttdoc">当前正在处理的token</div><div class="ttdef"><b>Definition</b> token_stream.h:123</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a5a5d61d2cc6abe41035bd39f9318b26f"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a5a5d61d2cc6abe41035bd39f9318b26f">sqlcc::sql_parser::TokenStream::current</a></div><div class="ttdeci">const Token &amp; current() const</div><div class="ttdoc">获取当前token</div><div class="ttdef"><b>Definition</b> token_stream.cpp:14</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a5ea710e2fec9cf302eb7b8124f2c05e3"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a5ea710e2fec9cf302eb7b8124f2c05e3">sqlcc::sql_parser::TokenStream::advance</a></div><div class="ttdeci">void advance()</div><div class="ttdoc">前进到下一个token 使用缓存的前瞻token或从词法分析器获取新token</div><div class="ttdef"><b>Definition</b> token_stream.cpp:30</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a6a40f34601f41a2aa91ece4d2f8cbba8"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a6a40f34601f41a2aa91ece4d2f8cbba8">sqlcc::sql_parser::TokenStream::expect</a></div><div class="ttdeci">void expect(Type type, const std::string &amp;message=&quot;&quot;)</div><div class="ttdoc">强制消费指定类型的token</div><div class="ttdef"><b>Definition</b> token_stream.cpp:55</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_a9d34c00072b895c3d311e7a962c0fb70"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#a9d34c00072b895c3d311e7a962c0fb70">sqlcc::sql_parser::TokenStream::isAtEnd</a></div><div class="ttdeci">bool isAtEnd() const</div><div class="ttdoc">检查是否到达输入末尾</div><div class="ttdef"><b>Definition</b> token_stream.cpp:69</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_aa153b70d3c967a766329adf8cbe5c9a8"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#aa153b70d3c967a766329adf8cbe5c9a8">sqlcc::sql_parser::TokenStream::match</a></div><div class="ttdeci">bool match(Type type)</div><div class="ttdoc">如果当前token匹配指定类型，则消费它并返回true</div><div class="ttdef"><b>Definition</b> token_stream.cpp:47</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1TokenStream_html_af9df6782fdf270f259173a501b13cf30"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1TokenStream.html#af9df6782fdf270f259173a501b13cf30">sqlcc::sql_parser::TokenStream::peek</a></div><div class="ttdeci">const Token &amp; peek()</div><div class="ttdoc">前瞻下一个token（不消费）</div><div class="ttdef"><b>Definition</b> token_stream.cpp:18</div></div>
+<div class="ttc" id="aclasssqlcc_1_1sql__parser_1_1Token_html"><div class="ttname"><a href="classsqlcc_1_1sql__parser_1_1Token.html">sqlcc::sql_parser::Token</a></div><div class="ttdoc">Token类</div><div class="ttdef"><b>Definition</b> token.h:289</div></div>
+<div class="ttc" id="alexer_8h_html"><div class="ttname"><a href="lexer_8h.html">lexer.h</a></div></div>
+<div class="ttc" id="anamespacesqlcc_1_1sql__parser_html_a5e282252d3f63af85bedb39436b4f867"><div class="ttname"><a href="namespacesqlcc_1_1sql__parser.html#a5e282252d3f63af85bedb39436b4f867">sqlcc::sql_parser::Type</a></div><div class="ttdeci">Type</div><div class="ttdoc">Token类型枚举</div><div class="ttdef"><b>Definition</b> token.h:48</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+<div class="ttc" id="atoken_8h_html"><div class="ttname"><a href="token_8h.html">token.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

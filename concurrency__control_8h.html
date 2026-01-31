@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: concurrency_control.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#enum-members">枚举</a>  </div>
+  <div class="headertitle"><div class="title">concurrency_control.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>SQLCC并发控制系统 - MVCC与两阶段锁协议的完整实现  
+<a href="#details">更多...</a></p>
+<div class="textblock"><code>#include &lt;atomic&gt;</code><br />
+<code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;shared_mutex&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+concurrency_control.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="concurrency__control_8h__incl.png" border="0" usemap="#aconcurrency__control_8h" alt=""/></div>
+<map name="aconcurrency__control_8h" id="aconcurrency__control_8h">
+<area shape="rect" title="SQLCC并发控制系统 &#45; MVCC与两阶段锁协议的完整实现" alt="" coords="305,5,471,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,72,104"/>
+<area shape="poly" title=" " alt="" coords="325,33,86,81,85,76,324,28"/>
+<area shape="rect" title=" " alt="" coords="96,79,163,104"/>
+<area shape="poly" title=" " alt="" coords="347,33,177,80,175,75,346,28"/>
+<area shape="rect" title=" " alt="" coords="187,79,251,104"/>
+<area shape="poly" title=" " alt="" coords="362,33,260,76,258,71,360,28"/>
+<area shape="rect" title=" " alt="" coords="275,79,389,104"/>
+<area shape="poly" title=" " alt="" coords="381,33,352,69,347,66,377,29"/>
+<area shape="rect" title=" " alt="" coords="413,79,477,104"/>
+<area shape="poly" title=" " alt="" coords="400,29,429,66,425,70,395,33"/>
+<area shape="rect" title=" " alt="" coords="502,79,626,104"/>
+<area shape="poly" title=" " alt="" coords="417,28,523,71,521,76,415,33"/>
+<area shape="rect" title=" " alt="" coords="650,79,713,104"/>
+<area shape="poly" title=" " alt="" coords="439,28,637,76,636,81,437,33"/>
+<area shape="rect" title=" " alt="" coords="737,79,815,104"/>
+<area shape="poly" title=" " alt="" coords="458,28,724,76,723,81,457,33"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><img src="concurrency__control_8h__dep__incl.png" border="0" usemap="#aconcurrency__control_8hdep" alt=""/></div>
+<map name="aconcurrency__control_8hdep" id="aconcurrency__control_8hdep">
+<area shape="rect" title="SQLCC并发控制系统 &#45; MVCC与两阶段锁协议的完整实现" alt="" coords="344,5,509,31"/>
+<area shape="rect" href="storage_2advanced__lock__manager_8h.html" title=" " alt="" coords="5,79,200,104"/>
+<area shape="poly" title=" " alt="" coords="362,36,156,81,155,76,361,31"/>
+<area shape="rect" href="storage__engine_2advanced__lock__manager_8h.html" title=" " alt="" coords="224,79,419,104"/>
+<area shape="poly" title=" " alt="" coords="400,41,340,81,337,76,397,36"/>
+<area shape="rect" href="concurrency__control_8cpp.html" title=" " alt="" coords="443,79,623,104"/>
+<area shape="poly" title=" " alt="" coords="456,36,517,76,514,81,454,40"/>
+<area shape="rect" href="transaction__manager_8h.html" title="SQLCC事务管理器 &#45; ACID属性实现的完整解决方案" alt="" coords="719,79,889,104"/>
+<area shape="poly" title=" " alt="" coords="501,31,743,76,742,81,500,36"/>
+<area shape="rect" href="advanced__lock__manager_8cpp.html" title=" " alt="" coords="144,159,355,185"/>
+<area shape="poly" title=" " alt="" coords="303,116,262,161,258,157,299,112"/>
+<area shape="rect" href="index__manager__smart__ptr__enhancement_8cpp.html" title="索引管理智能指针化深度改进 &#45; 索引对象生命周期管理优化" alt="" coords="379,152,549,192"/>
+<area shape="poly" title=" " alt="" coords="742,110,546,155,545,149,741,104"/>
+<area shape="rect" href="sql__executor_2sql__executor_8cpp.html" title=" " alt="" coords="573,159,704,185"/>
+<area shape="poly" title=" " alt="" coords="769,112,664,162,662,157,766,107"/>
+<area shape="rect" href="transaction_2transaction__context__impl_8h.html" title=" " alt="" coords="729,152,879,192"/>
+<area shape="poly" title=" " alt="" coords="807,118,807,152,801,152,801,118"/>
+<area shape="rect" href="transaction__context__impl_8h.html" title=" " alt="" coords="903,152,1054,192"/>
+<area shape="poly" title=" " alt="" coords="843,107,938,149,936,154,841,112"/>
+<area shape="rect" href="transaction__manager_8cpp.html" title=" " alt="" coords="1079,159,1265,185"/>
+<area shape="poly" title=" " alt="" coords="871,104,1119,157,1118,162,870,109"/>
+<area shape="rect" href="transaction__manager__mock_8h.html" title=" " alt="" coords="1289,152,1449,192"/>
+<area shape="poly" title=" " alt="" coords="903,100,1078,121,1278,149,1290,151,1289,157,1277,155,1078,126,903,106"/>
+<area shape="rect" href="transaction__context__impl_8cpp.html" title=" " alt="" coords="903,240,1054,280"/>
+<area shape="poly" title=" " alt="" coords="981,206,981,240,976,240,976,206"/>
+<area shape="rect" href="transaction__manager__mock_8cpp.html" title=" " alt="" coords="1289,240,1449,280"/>
+<area shape="poly" title=" " alt="" coords="1372,206,1372,240,1367,240,1367,206"/>
+</map>
+</div>
+</div>
+<p><a href="concurrency__control_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1LockCompatibilityMatrix.html">sqlcc::LockCompatibilityMatrix</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁兼容性矩阵 - 定义不同锁类型间的兼容关系  <a href="classsqlcc_1_1LockCompatibilityMatrix.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1HierarchicalLockManager.html">sqlcc::HierarchicalLockManager</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">层级锁管理器 - 分层并发控制的核心组件  <a href="classsqlcc_1_1HierarchicalLockManager.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1HierarchicalLockManager_1_1LockInfo.html">sqlcc::HierarchicalLockManager::LockInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁类型枚举（已在文件开头定义）  <a href="structsqlcc_1_1HierarchicalLockManager_1_1LockInfo.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1HierarchicalLockManager_1_1LockManagerStats.html">sqlcc::HierarchicalLockManager::LockManagerStats</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁管理器统计信息 - 并发控制的性能监控数据  <a href="structsqlcc_1_1HierarchicalLockManager_1_1LockManagerStats.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Prefetcher.html">sqlcc::Prefetcher</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">预取器类  <a href="classsqlcc_1_1Prefetcher.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html">sqlcc::Prefetcher::PrefetcherStats</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">预取器统计信息  <a href="structsqlcc_1_1Prefetcher_1_1PrefetcherStats.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:ad4cd9e5426c83d2c3c1579f653c6ebb4" id="r_ad4cd9e5426c83d2c3c1579f653c6ebb4"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">sqlcc::LockType</a> { <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4afdce0faa06974992a05156ec20a5b4c2">sqlcc::SHARED_LOCK</a> = 1
+, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4a7cd66bacad06ec73236c45d0434b1238">sqlcc::EXCLUSIVE_LOCK</a> = 2
+, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4a50b954f87af9eb3f451413d8f5a4463e">sqlcc::UPDATE_LOCK</a> = 3
+, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4a5ad58b452274116edfc40680167263e8">sqlcc::INTENT_SHARED</a> = 4
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4a2558a95a92e5e561e1235f39327527b9">sqlcc::INTENT_EXCLUSIVE</a> = 5
+, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4aec2da226cd515b59aaa3fd1a658f3109">sqlcc::SHARED_INTENT_EXCLUSIVE</a> = 6
+, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4a049518eb4dc1859c7cebbe15876cfd63">sqlcc::SHARED</a>
+, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4af45c3a0bb3687ed8e221253b3fd4a2ce">sqlcc::EXCLUSIVE</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4a049518eb4dc1859c7cebbe15876cfd63">sqlcc::SHARED</a>
+, <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4af45c3a0bb3687ed8e221253b3fd4a2ce">sqlcc::EXCLUSIVE</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ad4cd9e5426c83d2c3c1579f653c6ebb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁类型枚举 - 定义数据库锁的类型  <a href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">更多...</a><br /></td></tr>
+<tr class="separator:ad4cd9e5426c83d2c3c1579f653c6ebb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19c2ff8ba16f6c35308417813df646d8" id="r_a19c2ff8ba16f6c35308417813df646d8"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a19c2ff8ba16f6c35308417813df646d8">sqlcc::ConcurrencyControlStrategy</a> { <a class="el" href="namespacesqlcc.html#a19c2ff8ba16f6c35308417813df646d8a6391683530e71054e7cdd9a36e0ad273">sqlcc::PESSIMISTIC</a>
+, <a class="el" href="namespacesqlcc.html#a19c2ff8ba16f6c35308417813df646d8a9b5c8f808c8e254b2a884459824e658d">sqlcc::OPTIMISTIC</a>
+, <a class="el" href="namespacesqlcc.html#a19c2ff8ba16f6c35308417813df646d8af04455e01aa72b8ad41701439740ff2a">sqlcc::MVCC</a>
+, <a class="el" href="namespacesqlcc.html#a19c2ff8ba16f6c35308417813df646d8a3bf07fe8ac3883060b1558113ba248d4">sqlcc::HYBRID</a>
+ }</td></tr>
+<tr class="memdesc:a19c2ff8ba16f6c35308417813df646d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">并发控制策略枚举 - 定义不同的并发控制方法  <a href="namespacesqlcc.html#a19c2ff8ba16f6c35308417813df646d8">更多...</a><br /></td></tr>
+<tr class="separator:a19c2ff8ba16f6c35308417813df646d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>SQLCC并发控制系统 - MVCC与两阶段锁协议的完整实现 </p>
+<p>并发控制是数据库系统的核心机制之一，确保多用户并发访问下的数据一致性。 本文件实现了多版本并发控制（MVCC）和两阶段锁协议，为高并发场景提供 高效且可靠的并发访问控制。</p>
+<p>📚 配套教材参考：</p><ul>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#第九章并发控制与事务调度">第9章：并发控制与事务调度</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#91-多版本并发控制mvcc">9.1 多版本并发控制（MVCC）</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#92-两阶段锁协议与死锁处理">9.2 两阶段锁协议与死锁处理</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#93-并发控制的性能优化">9.3 并发控制的性能优化</a></li>
+</ul>
+<p>WHY层 - 设计意图： 并发控制是数据库系统的"心脏"，直接影响系统的并发性能和数据一致性保证。 通过精心设计的锁协议和版本控制机制，实现高并发访问下的ACID属性保证， 为企业级应用提供可靠的数据服务。</p>
+<p>WHAT层 - 功能说明：</p><ul>
+<li>两阶段锁协议：严格的锁获取和释放顺序保证</li>
+<li>多版本并发控制：基于时间戳的版本管理</li>
+<li>死锁检测和预防：实时监控和自动处理死锁</li>
+<li>智能预取：基于访问模式的页面预取优化</li>
+<li>性能监控：详细的并发统计和性能指标</li>
+</ul>
+<p>HOW层 - 实现机制：</p><ul>
+<li>锁兼容性矩阵：定义不同锁类型的兼容关系</li>
+<li>等待图算法：用于死锁检测的图论算法</li>
+<li>版本链管理：维护数据的历史版本</li>
+<li>隔离级别控制：READ COMMITTED到SERIALIZABLE</li>
+<li>锁升级策略：从细粒度到粗粒度的锁转换</li>
+</ul>
+<p>并发控制策略：</p><ul>
+<li>**乐观并发控制**：假设冲突少，使用版本验证</li>
+<li>**悲观并发控制**：假设冲突多，提前加锁</li>
+<li>**混合策略**：根据负载特征动态调整</li>
+<li>**锁粒度选择**：行级vs页级vs表级锁的选择</li>
+</ul>
+<p>性能优化考虑：</p><ul>
+<li>**锁竞争最小化**：减少锁的持有时间和冲突</li>
+<li>**死锁预防**：有序锁获取避免循环等待</li>
+<li>**锁升级**：在合适时机将细粒度锁升级为粗粒度锁</li>
+<li>**自适应调整**：根据工作负载动态调整策略</li>
+</ul>
+<p>MVCC核心机制：</p><ul>
+<li>**版本创建**：写操作创建新的数据版本</li>
+<li>**可见性规则**：基于事务时间戳确定版本可见性</li>
+<li>**垃圾回收**：清理不再需要的旧版本数据</li>
+<li>**索引维护**：版本化的索引结构维护</li>
+</ul>
+<p>锁协议详解：</p><ul>
+<li>**两阶段锁（2PL）**：增长阶段获取锁，收缩阶段释放锁</li>
+<li>**严格两阶段锁（S2PL）**：直到事务结束才释放写锁</li>
+<li>**树形协议**：基于层次结构的锁获取顺序</li>
+<li>**多粒度锁**：支持不同粒度的锁并发控制</li>
+</ul>
+<p>死锁处理策略：</p><ul>
+<li>**死锁检测**：定期扫描等待图检测死锁环</li>
+<li>**死锁预防**：通过超时和资源排序避免死锁</li>
+<li>**牺牲者选择**：选择合适事务进行回滚</li>
+<li>**死锁恢复**：自动或手动解决死锁状态</li>
+</ul>
+<p>预取优化：</p><ul>
+<li>**顺序预取**：检测顺序访问模式，预读后续页面</li>
+<li>**随机预取**：基于访问历史预测可能访问页面</li>
+<li>**跨步预取**：处理固定跨步的访问模式</li>
+<li>**自适应调整**：根据预取命中率动态调整策略</li>
+</ul>
+<p>监控和诊断：</p><ul>
+<li>**锁统计**：锁获取次数、等待时间、冲突次数</li>
+<li>**死锁统计**：死锁发生频率、检测和解决时间</li>
+<li>**版本统计**：版本创建、清理、垃圾回收统计</li>
+<li>**预取统计**：预取命中率、预取开销效益分析</li>
+</ul>
+<dl class="section author"><dt>作者</dt><dd>SQLCC技术委员会 </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>1.2.6 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2025-12-24 </dd></dl>
+</div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>
