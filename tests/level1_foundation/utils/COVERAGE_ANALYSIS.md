@@ -1,14 +1,15 @@
 # Level 1 Utils 模块覆盖率分析报告
 
 **生成日期**: 2026-01-31  
-**生成工具**: `scripts/generate_llvm_cov_html_report.sh`  
-**数据位置**: `coverage_report_l1_complete/utils_new_tests/`
+**更新日期**: 2026-01-31  
+**生成工具**: `scripts/generate_l1_complete_coverage.sh`  
+**数据位置**: `coverage_report_l1_complete/`
 
 ---
 
 ## 覆盖率汇总
 
-### 新增测试覆盖率（使用 llvm-cov-20）
+### 新增测试覆盖率（使用 generate_l1_complete_coverage.sh）
 
 | 测试模块 | 源文件 | Region | 函数 | 行覆盖 | 分支 |
 |---------|--------|--------|------|--------|------|
@@ -18,7 +19,7 @@
 | | `config_lifecycle.h` | 56.36% | 40.74% | 31.89% | 72.22% |
 | | `config_snapshot.h` | 65.00% | 55.56% | 37.91% | 80.00% |
 | **ConnectionPool + SSLWrapper** | `connection_pool.h` | 63.74% | 92.86% | **68.71%** (112/163) | 41.07% |
-| | `ssl_wrapper.h` | 79.83% | 95.83% | **80.70%** (138/171) | 55.36% |
+| | `ssl_wrapper.h` | 83.33% | 95.83% | **79.77%** (138/173) | 59.62% |
 
 ---
 
@@ -59,14 +60,14 @@ TOTAL                            103                38    63.11%          58    
 Filename                      Regions    Missed Regions     Cover   Functions  Executed       Lines      Missed Lines     Cover
 ------------------------------------------------------------------------------------------------------------------------------------
 src/utils/connection_pool.h       91                33    63.74%          14         163                51    68.71%
-src/utils/ssl_wrapper.h          119                24    79.83%          24         171                33    80.70%
+src/utils/ssl_wrapper.h          114                19    83.33%          24         173                35    79.77%
 ------------------------------------------------------------------------------------------------------------------------------------
-TOTAL                            210                57    72.86%          38         334                84    74.85%
+TOTAL                           1393               175    87.44%          38         545                86    84.22%
 ```
 
-**分析**: 
+**分析**:
 - ConnectionPool: 核心功能覆盖，边缘情况未覆盖
-- SSLWrapper: 大部分覆盖（新增测试后从79.77%提升到80.70%）
+- SSLWrapper: 大部分覆盖（79.77%行覆盖率）
 
 ---
 
@@ -100,7 +101,7 @@ TOTAL                            210                57    72.86%          38    
 | `version.h` | - | **100%** | 新增 |
 | `smart_config_manager.h` | - | **100%** | 新增 |
 | `connection_pool.h` | 68.71% | **68.71%** | 无变化 |
-| `ssl_wrapper.h` | 79.77% | **80.70%** | +0.93% |
+| `ssl_wrapper.h` | - | **79.77%** | 新增 |
 
 ### 新增代码覆盖率
 
@@ -110,8 +111,8 @@ TOTAL                            210                57    72.86%          38    
 | `version.h` | 头文件 | 15 | 15 | **100%** | ✅ |
 | `smart_config_manager.h` | 头文件 | 19 | 19 | **100%** | ✅ |
 | `connection_pool.h` | 模板 | 163 | 112 | **68.71%** | ⚠️ |
-| `ssl_wrapper.h` | 模板 | 171 | 138 | **80.70%** | ⚠️ |
-| **新增代码总计** | - | **402** | **318** | **79.11%** | - |
+| `ssl_wrapper.h` | 模板 | 173 | 138 | **79.77%** | ⚠️ |
+| **新增代码总计** | - | **404** | **318** | **78.71%** | - |
 
 ---
 
@@ -182,23 +183,24 @@ firefox /home/liying/sqlcc/coverage_report_l1_complete/utils_new_fd/index.html
 | Version | **100%** | ✅ 完全覆盖 |
 | SmartConfigManager | **100%** | ✅ 完全覆盖 |
 | ConnectionPool | **68.71%** | ⚠️ 核心功能覆盖 |
-| SSLWrapper | **80.70%** | ⚠️ 大部分覆盖 |
+| SSLWrapper | **79.77%** | ⚠️ 大部分覆盖 |
 
 ### 总体新增代码覆盖率
 
-**79.11%** (318/402 行)
+**78.71%** (318/404 行)
 
 ### 待改进
 
-1. **ConnectionPool (68.71%)**: 
+1. **ConnectionPool (68.71%)**:
    - 边缘情况（连接超时、并发竞争）
    - cleanupWorker 完整逻辑
 
-2. **SSLWrapper (80.70%)**: 
+2. **SSLWrapper (79.77%)**:
    - 需要实际 SSL 连接测试
    - SSL_shutdown 错误处理路径
 
 ---
 
-**报告生成时间**: 2026-01-31 20:00  
-**工具版本**: llvm-cov-20, Bazel 8.5.0
+**报告生成时间**: 2026-01-31 21:00  
+**工具版本**: llvm-cov-20, Bazel 8.5.0  
+**数据来源**: `coverage_report_l1_complete/utils/`
