@@ -31,12 +31,12 @@ namespace index_manager {
  *   3. 异步清理：启动后台线程 cleanup_thread_，每 10 分钟扫描一次超过 1 小时未使用的索引。
  *   4. 指标统计：收集缓存命中率等性能指标供 DBA 调优。
  */
-EnhancedIndexManager::EnhancedIndexManager(::sqlcc::StorageEngine* storage_engine,
-                                          ::sqlcc::TransactionManager* transaction_manager)
+EnhancedIndexManager::EnhancedIndexManager(std::shared_ptr<StorageEngine> storage_engine,
+                                          std::shared_ptr<TransactionManager> transaction_manager)
     : storage_engine_(storage_engine),
       transaction_manager_(transaction_manager),
-      smart_cache_(new SmartIndexCache()),
-      tx_manager_(new TransactionalIndexManager(storage_engine)) {
+      smart_cache_(std::make_unique<SmartIndexCache>()),
+      tx_manager_(std::make_unique<TransactionalIndexManager>(storage_engine)) {
 
     StartCacheCleanupTimer();
 }
@@ -148,12 +148,23 @@ void EnhancedIndexManager::CleanupExpiredCache(std::chrono::minutes max_age) {
 bool EnhancedIndexManager::RebuildIndex(const std::string& index_name) {
     SQLCC_LOG_INFO("Rebuilding index: " + index_name);
     // 简化的重建实现
-    return true;
+    auto index = smart_cache_->GetIndex(index_name);
+    if (!index) {
+        SQLCC_LOG_WARN("Index not found for rebuilding: " + index_name);
+        return false;
+    }
+
+    // 简化：仅删除并重新创建索引
+    if (DropIndex(index_name, "", false, -1)) {
+        return CreateIndex(index_name, "", "", false, -1);
+    }
+    return false;
 }
 
 bool EnhancedIndexManager::OptimizeIndex(const std::string& index_name) {
     SQLCC_LOG_INFO("Optimizing index: " + index_name);
     // 简化的优化实现
+    (void)index_name;
     return true;
 }
 
@@ -161,10 +172,11 @@ std::unordered_map<std::string, double> EnhancedIndexManager::GetPerformanceStat
     std::unordered_map<std::string, double> stats;
     auto cache_stats = smart_cache_->GetEnhancedCacheStats();
 
-    stats["total_indexes"] = static_cast<double>(cache_stats.total_indexes);
-    stats["expired_entries"] = static_cast<double>(cache_stats.expired_entries);
-    stats["high_priority_entries"] = static_cast<double>(cache_stats.high_priority_entries);
-    stats["average_access_frequency"] = cache_stats.average_access_frequency;
+    stats["cache_hits"] = static_cast<double>(cache_stats.cache_hits);
+    stats["cache_misses"] = static_cast<double>(cache_stats.cache_misses);
+    stats["hit_rate"] = cache_stats.hit_rate;
+    stats["active_indexes"] = cache_stats.active_indexes;
+    stats["expired_indexes"] = cache_stats.expired_indexes;
 
     return stats;
 }
@@ -175,7 +187,7 @@ void EnhancedIndexManager::StartCacheCleanupTimer() {
         while (cleanup_timer_running_) {
             std::this_thread::sleep_for(std::chrono::minutes(10));
             if (cleanup_timer_running_) {
-                smart_cache_->CleanupExpiredCache(std::chrono::minutes(60));
+                CleanupExpiredCache(std::chrono::hours(1));
             }
         }
     });

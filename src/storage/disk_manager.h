@@ -33,10 +33,26 @@ struct DiskIOStats {
 };
 
 /**
- * @brief 磁盘管理器类
+ * @class DiskManager
+ * @brief 磁盘管理器 - 实现数据库文件与物理磁盘之间的底层 I/O 通信
  *
- * 负责数据库文件的磁盘I/O操作，包括页面读取、写入、分配和释放等功能。
- * 提供线程安全的磁盘操作和I/O统计信息收集。
+ * WHY层 - 设计意图：
+ *   数据库是持久化系统。内存数据如果不写入磁盘，在断电或进程重启时将永久丢失。
+ *   DiskManager 作为存储引擎的最底层组件，屏蔽了操作系统文件系统的复杂性，
+ *   提供了一种以“固定大小页面（8KB）”为单位的逻辑磁盘访问模型，
+ *   支持快速定位、空间分配和数据持久化保障。
+ *
+ * WHAT层 - 功能说明：
+ *   实现页面的物理读写（ReadPage, WritePage），映射 page_id 到文件的物理偏移量（Offset = page_id * PAGE_SIZE）。
+ *   管理数据库文件的增长与收缩（AllocatePage, DeallocatePage）。
+ *   提供异步预读支持（PrefetchPage）以优化顺序扫描性能。
+ *   支持强制落盘（Sync/fsync）确保事务的持久性（Durability）。
+ *
+ * HOW层 - 实现机制：
+ *   1. 文件指针操作：使用 std::fstream 并配合 seekp/seekg 实现随机访问。
+ *   2. 空间分配：维护一个简单的 Atomic 计数器（next_page_id_）和空闲列表（free_pages_）实现 O(1) 分配。
+ *   3. 线程安全：使用 recursive_timed_mutex 保护文件流指针，防止并发读写导致的数据竞争。
+ *   4. 错误容忍：集成了模拟故障机制（simulate_failure_），便于在测试环境下验证系统在磁盘损坏时的恢复能力。
  */
 class DiskManager {
 public:

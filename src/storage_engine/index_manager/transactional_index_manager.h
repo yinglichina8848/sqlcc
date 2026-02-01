@@ -6,13 +6,14 @@
 #include <map>
 #include <cstdint>
 
+#include "../b_plus_tree/index/b_plus_tree_index.h"
+
 namespace sqlcc {
 
 class StorageEngine;
 class TransactionManager;
 
 namespace storage_engine {
-
 namespace index_manager {
 
 // 索引操作类型
@@ -30,10 +31,6 @@ struct IndexOperation {
     int32_t transaction_id;
 };
 
-#include "../b_plus_tree/index/b_plus_tree_index.h"
-
-using namespace sqlcc;
-
 class TransactionalIndexManager {
 public:
     TransactionalIndexManager(std::shared_ptr<StorageEngine> storage_engine);
@@ -44,9 +41,9 @@ public:
                                    const std::string& column_name,
                                    int transaction_id);
     bool DropIndexInTransaction(const std::string& index_name,
-                                 const std::string& table_name,
-                                 const std::string& column_name,
-                                 int transaction_id);
+                                const std::string& table_name,
+                                const std::string& column_name,
+                                int transaction_id);
     void CommitTransaction(int32_t transaction_id);
     void RollbackTransaction(int32_t transaction_id);
 

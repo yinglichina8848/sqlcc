@@ -8,6 +8,7 @@
 #include <thread>
 
 #include "smart_index_cache.h"
+#include "transactional_index_manager.h"
 
 namespace sqlcc {
 
