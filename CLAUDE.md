@@ -1,6 +1,54 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## ⚠️ AI Agent 必需阅读指南
+
+**All AI Agents working on SQLCC MUST read these documents first**:
+
+| Priority | Document | Description | Status |
+|----------|----------|-------------|--------|
+| 🔴 **P0** | `docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md` | **SDD Spec-Driven Development Guide** | ☐ |
+| 🔴 **P0** | `docs/ai_tools/AI_COLLABORATION_GUIDE.md` | **Multi-Agent Parallel Collaboration Guide** | ☐ |
+| 🟡 P1 | `docs/ai_tools/AI_DEVELOPMENT_GUIDELINES.md` | AI Development Guidelines | ☐ |
+| 🟡 P1 | `docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md` | C++ Development Specification | ☐ |
+
+### SDD Compliance Requirements
+
+**All AI Agents MUST follow these rules**:
+
+1. **Task State Machine**: `OPEN → CLAIMED → WIP → DONE → FROZEN`
+2. **Message Protocol**: Use standard messages (TASK_CLAIM, PROGRESS_UPDATE, BLOCKER_NOTIFICATION, TASK_COMPLETE)
+3. **Communication Frequency**: Progress update every 30 minutes, blockers immediate
+4. **Acceptance Criteria**: Compile Pass → 100% Tests → Coverage达标 → Docs Complete → CHANGELOG Updated
+
+### Multi-Agent Workflow
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    Multi-Agent Workflow                          │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│   Master Agent: Task decomposition → Progress aggregation       │
+│   Developer Agent: Code implementation → Unit testing           │
+│   Tester Agent: Test execution → Coverage analysis              │
+│   Reviewer Agent: Code review → Quality gate                    │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Quick Reference
+
+```bash
+# Read AI Collaboration Guide
+cat docs/ai_tools/AI_COLLABORATION_GUIDE.md
+
+# Read SDD Specification
+cat docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md
+
+# Check current task status
+cat docs/sdd/refactoring/level2_core/tasks.md
+```
+
+---
 
 ## Project Overview
 

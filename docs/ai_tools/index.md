@@ -10,43 +10,42 @@
 
 ```
 docs/ai_tools/
-├── AI_DEVELOPMENT_GUIDELINES.md       # AI 开发规范
-├── BUILD_FILE_SPECIFICATION.md        # BUILD 文件规范 (含头文件规范)
+├── AI_COLLABORATION_GUIDE.md       # ⭐ 多Agent并行协作指南 v1.0 新增
+├── AI_DEVELOPMENT_GUIDELINES.md    # AI 开发规范
+├── BUILD_FILE_SPECIFICATION.md     # BUILD 文件规范 (含头文件规范)
 ├── CPP_DEVELOPMENT_SPECIFICATION.md   # C++ 开发、测试与重构规范 ⭐新增
-├── improvement_guide.md               # 测试规范
+├── improvement_guide.md            # 测试规范
 ├── systematic_refactoring_knowledge_base.md # 重构规范
-├── bazel_tools_manual.md              # Bazel 工具手册
-└── index.md                           # 本索引文件
+├── bazel_tools_manual.md           # Bazel 工具手册
+└── index.md                        # 本索引文件
 
-docs/sdd/                              # 规范驱动开发 (SDD)
-├── SPEC_DRIVEN_DEVELOPMENT.md         # SDD 使用指南 ⭐新增
-└── templates/                         # SDD 模板 ⭐新增
-    ├── requirements_template.md       # 需求模板
-    ├── design_template.md             # 设计模板
-    └── tasks_template.md              # 任务模板
+docs/sdd/                           # 规范驱动开发 (SDD)
+├── SPEC_DRIVEN_DEVELOPMENT.md      # SDD 使用指南 ⭐新增
+└── templates/                      # SDD 模板 ⭐新增
+    ├── requirements_template.md    # 需求模板
+    ├── design_template.md          # 设计模板
+    ├── tasks_template.md           # 任务模板
+    ├── verification_template.md    # 验证模板
+    └── multi_agent_collaboration_template.md # 多Agent协作模板
 ```
 
 ---
 
 ## 🎯 核心规范文档
 
-### 1. AI 开发规范
+### 1. 多Agent协作指南 ⭐新增
 
-**文件**: `AI_DEVELOPMENT_GUIDELINES.md`
-**版本**: v1.3.9
-**适用范围**: 所有 AI Agent 参与 SQLCC 项目开发
+**文件**: `AI_COLLABORATION_GUIDE.md`
+**版本**: v1.0
+**适用范围**: 所有参与 SQLCC 项目的 AI Agent
 
 **核心内容**:
-- FIRST 原则 (Find First, Investigate Before Implement, Respect Existing Style, Systematic Approach, Test Everything)
-- 约束条件 (C++20, Bazel 8.5.0+, Clang 20+, 智能指针强制使用)
-- 禁止行为 (不读取文件直接修改代码等)
-- 项目结构理解
-- 开发工作流程 (问题理解 → 方案设计 → 代码实现 → 验证测试 → 文档更新)
-- 编码规范 (命名规范、头文件规范、智能指针使用、异常处理、注释规范)
-- 测试规范 (测试文件结构、测试标签使用、测试运行命令)
-- 工具使用指南 (常用 Shell 命令、Python 工具)
-- 质量门禁 (提交前检查清单、覆盖率要求)
-- 故障排除 (常见问题及解决方案)
+- **Agent 角色定义**: Master, Developer, Tester, Documenter, Reviewer
+- **SDD 规范遵从**: 任务状态机、消息协议、沟通频率
+- **消息通信协议**: TASK_CLAIM, PROGRESS_UPDATE, BLOCKER_NOTIFICATION, TASK_COMPLETE
+- **并行开发规范**: 任务并行度配置、资源冲突检测
+- **任务看板管理**: TODO/IN PROGRESS/IN REVIEW/DONE/BLOCKED
+- **故障处理**: Agent 故障处理、任务恢复流程
 
 ### 2. BUILD 文件规范
 
@@ -210,6 +209,7 @@ docs/sdd/                              # 规范驱动开发 (SDD)
 
 | 文档名称 | 版本 | 主要内容 |
 |----------|------|----------|
+| `AI_COLLABORATION_GUIDE.md` | v1.0 | ⭐多Agent并行协作指南 |
 | `AI_DEVELOPMENT_GUIDELINES.md` | v1.3.9 | AI 开发规范 |
 | `BUILD_FILE_SPECIFICATION.md` | v1.3.10 | BUILD 文件规范 (含头文件规范) |
 | `CPP_DEVELOPMENT_SPECIFICATION.md` | v1.3.10 | C++ 开发、测试与重构规范 |
@@ -220,6 +220,8 @@ docs/sdd/                              # 规范驱动开发 (SDD)
 | `templates/requirements_template.md` | v1.0 | 需求模板 (EARS) |
 | `templates/design_template.md` | v1.0 | 设计模板 (Mermaid) |
 | `templates/tasks_template.md` | v1.0 | 任务模板 |
+| `templates/verification_template.md` | v1.0 | 验证模板 |
+| `templates/multi_agent_collaboration_template.md` | v1.0 | 多Agent协作模板 |
 
 ---
 

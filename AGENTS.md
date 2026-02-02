@@ -1,5 +1,72 @@
 # AGENTS.md - SQLCC 编码指南（AI代理专用）
 
+## ⚠️ AI Agent 必需阅读指南
+
+**所有参与 SQLCC 项目的 AI Agent 必须首先阅读以下文档**：
+
+| 优先级 | 文档 | 说明 | 状态 |
+|--------|------|------|------|
+| 🔴 **P0** | `docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md` | **SDD 规范驱动开发指南** | ☐ |
+| 🔴 **P0** | `docs/ai_tools/AI_COLLABORATION_GUIDE.md` | **多Agent并行协作指南** | ☐ |
+| 🟡 P1 | `docs/ai_tools/AI_DEVELOPMENT_GUIDELINES.md` | AI 开发规范 | ☐ |
+| 🟡 P1 | `docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md` | C++ 开发规范 | ☐ |
+
+### SDD 规范遵从要求
+
+**所有 AI Agent 必须严格遵从以下规范**：
+
+1. **任务状态机**: `OPEN → CLAIMED → WIP → DONE → FROZEN`
+2. **消息协议**: 使用标准消息格式 (TASK_CLAIM, PROGRESS_UPDATE, BLOCKER_NOTIFICATION, TASK_COMPLETE)
+3. **沟通频率**: 进度更新每30分钟，阻塞即时通知
+4. **验收标准**: 编译通过 → 测试100% → 覆盖率达标 → 文档完整 → CHANGELOG 更新
+
+### 多Agent协作流程
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    多Agent协作工作流                              │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│   Master Agent                                                  │
+│   ├── 分解任务 → 分配给 Developer Agent                         │
+│   ├── 汇总进度 → 监控阻塞 → 协调资源                             │
+│   └── 验证交付 → 生成报告                                       │
+│                                                                 │
+│   Developer Agent                                               │
+│   ├── 认领任务 (TASK_CLAIM)                                     │
+│   ├── 定期更新进度 (PROGRESS_UPDATE)                            │
+│   ├── 遇到阻塞上报 (BLOCKER_NOTIFICATION)                       │
+│   └── 完成任务 (TASK_COMPLETE)                                  │
+│                                                                 │
+│   Tester Agent                                                  │
+│   ├── 编译验证 → 运行测试 → 生成覆盖率                           │
+│   └── 验证报告 → 确认验收                                       │
+│                                                                 │
+│   Reviewer Agent                                                │
+│   ├── 代码评审 → 规范检查 → 质量把关                             │
+│   └── 反馈修改 → 通过确认                                       │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 快速参考命令
+
+```bash
+# 读取 AI 协作指南
+cat docs/ai_tools/AI_COLLABORATION_GUIDE.md
+
+# 读取 SDD 规范
+cat docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md
+
+# 查看当前任务状态
+cat docs/sdd/refactoring/level2_core/tasks.md | grep -A 50 "任务看板"
+
+# 检查文件冲突
+python3 tools/bazel_code_checker.py --check-conflicts
+```
+
+---
+
 ## 项目概述
 
 **SQLCC**（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数据库系统，采用C++20开发，实现了完整的SQL-92标准支持和高性能存储引擎。本项目专为数据库原理教学设计，同时满足企业级应用标准。
@@ -607,6 +674,8 @@ python3 tools/bazel_dep_fixer_enhanced.py .
 - [构建和测试指南](docs/development/guides/BUILD_AND_TEST_GUIDE.md)
 - [API文档](docs/api/): 类文档和接口说明
 - [AI辅助开发指南](docs/ai_tools/AI_TOOLS_USAGE_GUIDE.md)
+- [AI协作开发指南](docs/ai_tools/AI_COLLABORATION_GUIDE.md): ⭐ **多Agent并行协作**
+- [SDD规范指南](docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md): ⭐ **规范驱动开发**
 - [测试驱动开发指南](docs/development/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md)
 
 ### 版本发布说明
