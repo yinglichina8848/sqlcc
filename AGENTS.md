@@ -7,9 +7,29 @@
 | 优先级 | 文档 | 说明 | 状态 |
 |--------|------|------|------|
 | 🔴 **P0** | `docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md` | **SDD 规范驱动开发指南** | ☐ |
+| 🔴 **P0** | `.github/ISSUE_MULTI_AGENT_COLLABORATION.md` | **多Agent跨平台协作规范** ⭐NEW | ☐ |
 | 🔴 **P0** | `docs/ai_tools/AI_COLLABORATION_GUIDE.md` | **多Agent并行协作指南** | ☐ |
 | 🟡 P1 | `docs/ai_tools/AI_DEVELOPMENT_GUIDELINES.md` | AI 开发规范 | ☐ |
 | 🟡 P1 | `docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md` | C++ 开发规范 | ☐ |
+
+### 多Agent协作快速入门
+
+```bash
+# 1. 配置Agent身份
+source scripts/sqlcc-agent-config.sh <agent-id>
+
+# 2. 验证配置
+git config user.name && git config user.email
+
+# 3. 创建功能分支
+git checkout -b feature/xxx
+
+# 4. 开发后提交（遵循规范）
+# <类型>: <描述>
+# Agent: <Agent名称>
+# Scope: <影响范围>
+# Refs: #<issue编号>
+```
 
 ### SDD 规范遵从要求
 

@@ -62,6 +62,79 @@
 
 ---
 
+## 🤖 多Agent跨平台协作开发 ⭐NEW
+
+### 概述
+
+SQLCC项目采用多个AI Agent（OpenCode、iFlow、Claude、Gemini、OpenClaw等）进行协同开发，必须遵循统一的协作规范。
+
+### Agent身份体系
+
+**所有Agent必须配置唯一身份**（见 `.gitconfig.d/agents.conf`）：
+
+| Agent ID | 名称 | 邮箱后缀 |
+|----------|------|----------|
+| **OpenCode** | opencode-master/developer/tester/doc/reviewer | opencode-xxx@... |
+| **iFlow** | iflow-builder/refactor/test | iflow-xxx@... |
+| **Claude** | claude-architect/developer/reviewer/researcher | claude-xxx@... |
+| **Claude Code** | claudecode-executor/toolmaker | claude-code-xxx@... |
+| **Gemini** | gemini-assistant/analyst/debugger | gemini-xxx@... |
+| **OpenClaw** | openclaw-refactor/test-fixer/build-cleaner/doc/sdd | openclaw-xxx@... |
+
+### 配置方法
+
+```bash
+# 方法1: 使用配置脚本
+cd /path/to/sqlcc
+source scripts/sqlcc-agent-config.sh <agent-id>
+
+# 示例
+source scripts/sqlcc-agent-config.sh opencode-developer
+
+# 方法2: 手动配置
+git config user.name "SQLCC-AI(OpenCode-Developer)"
+git config user.email "sqlcc+opencode-dev@users.noreply.github.com"
+```
+
+### 提交规范
+
+**所有提交必须包含**：
+
+```
+<类型>: <描述>
+
+Agent: <Agent名称>
+Scope: <影响范围>
+Refs: #<issue编号>
+```
+
+**示例**:
+```
+feat: 修复 execution 模块编译错误
+
+Agent: OpenCode-Developer
+Scope: src/execution/*
+Refs: #EXEC-101
+```
+
+### 分支策略
+
+| 分支类型 | 命名规则 | 保护状态 |
+|----------|----------|----------|
+| 主分支 | `main` | ❌ 禁止直接提交 |
+| 基线分支 | `baseline/recover` | ❌ 禁止直接提交 |
+| 功能分支 | `feature/*` | ✅ 开放 |
+| 修复分支 | `fix/*` | ✅ 开放 |
+
+### 相关文档
+
+- [**多Agent协作规范Issue**](.github/ISSUE_MULTI_AGENT_COLLABORATION.md) - 完整规范
+- [**Agent配置通知**](docs/MULTI_AGENT_NOTIFICATION.md) - 配置指南
+- [**PR模板**](.github/pull_request_template.md) - PR强制检查项
+- [**提交钩子**](.git/hooks/commit-msg) - 提交规范检查
+
+---
+
 ## 📊 项目功能状态评估
 
 ### ✅ 核心功能完整性
