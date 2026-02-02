@@ -20,6 +20,7 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 - [**AI工具使用指南**](ai_tools/AI_TOOLS_USAGE_GUIDE.md) - AI工具最佳实践
 - [**AI开发原则**](development/ai_development_principles.md) - AI辅助软件工程理念
 - [**AI开发规范 ⭐新增**](ai_tools/AI_DEVELOPMENT_GUIDELINES.md) - AI Agent 开发规范 (FIRST 原则)
+- [**🤖 多Agent跨平台协作开发 ⭐⭐⭐必读⭐⭐⭐**](ai_tools/MULTI_AGENT_COLLABORATION_GUIDE.md) - **所有AI Agent进入项目必须阅读的第一份文档！**
 - [**C++开发规范 ⭐新增**](ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md) - C++ 开发、测试与重构规范
 - [**测试驱动开发**](development/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md) - TDD理念与实践
 - [**规范驱动开发 (SDD) ⭐新增**](sdd/SPEC_DRIVEN_DEVELOPMENT.md) - 规范驱动开发方法论
