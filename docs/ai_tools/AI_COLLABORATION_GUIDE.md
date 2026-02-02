@@ -1,8 +1,28 @@
-# SQLCC AI 协作开发指南 v1.0
+# SQLCC AI 协作开发指南 v1.1
 
-**版本**: 1.0  
-**日期**: 2026-02-02  
+**版本**: 1.1
+**日期**: 2026-02-03
 **适用范围**: 所有参与 SQLCC 项目的 AI Agent
+
+---
+
+## 📋 文档身份与控制关系
+
+| 属性 | 值 |
+|------|-----|
+| **文档管理者** | SQLCC-AI(OpenCode Doc) |
+| **当前控制者** | YingLi (人类) |
+| **未来控制者** | OpenClaw (待配置) |
+| **上次更新** | 2026-02-03 - 新增基线治理规范 |
+
+### 身份层级
+
+```
+控制链:
+  YingLi (人类, 最终控制者)
+    └── OpenClaw (多实例协作框架, 待配置)
+          └── SQLCC-AI(OpenCode Doc) ← 当前活跃身份
+```
 
 ---
 
@@ -22,6 +42,67 @@
 2. `docs/ai_tools/AI_DEVELOPMENT_GUIDELINES.md` - AI 开发规范
 3. `docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md` - C++ 开发规范
 4. `docs/ai_tools/index.md` - AI 工具索引
+
+---
+
+## 1.4 基线治理规范
+
+### 1.4.1 基线分支定义
+
+| 分支 | 名称 | 用途 | 保护级别 |
+|------|------|------|----------|
+| `baseline/recover` | 基线恢复分支 | 所有开发的唯一合法起点 | ❌ 禁止直接提交 |
+| `main` | 主分支 | PR合并后版本 | ❌ 禁止直接提交 |
+| `feature/*` | 功能分支 | 日常开发 | ✅ 开放 |
+| `fix/*` | 修复分支 | Bug修复 | ✅ 开放 |
+
+### 1.4.2 强制规则：必须基于基线开发
+
+**所有功能分支和修复分支必须基于 `baseline/recover` 创建：**
+
+```bash
+# ✅ 正确：基于基线创建分支
+git checkout baseline/recover
+git checkout -b feature/xxx-xxx
+
+# ❌ 错误：基于main创建分支
+git checkout main
+git checkout -b feature/xxx-xxx
+```
+
+**禁止行为：**
+- ❌ 以 `main` 为 base 创建分支
+- ❌ 将 `main` 作为 PR 的 target
+- ❌ 直接向 `main` 或 `baseline/recover` 提交代码
+
+**允许行为：**
+- ✅ 从 `baseline/recover` 创建 `feature/*` 或 `fix/*` 分支
+- ✅ PR 的 target 始终为 `baseline/recover`
+- ✅ 合并顺序：`feature/*` → `baseline/recover` → `main`
+
+### 1.4.3 分支关系图
+
+```
+baseline/recover (基线，不可污染)
+│
+├── feature/level2-coverage-improvement (当前开发)
+├── feature/parser-refactor
+├── fix/exception-build-error
+│
+└── → PR 合并回 baseline/recover → → PR 合并到 main
+```
+
+### 1.4.4 分支重置规范
+
+当开发分支偏离基线时，必须重置：
+
+```bash
+# 检查分支是否基于基线
+git merge-base --is-ancestor baseline/recover HEAD && echo "OK" || echo "NEED RESET"
+
+# 重置到基线
+git reset --hard baseline/recover
+```
 
 ---
 
