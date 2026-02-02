@@ -1,11 +1,11 @@
-#include "sql_parser/ast/ast_node.h"
 #ifndef SQLCC_PROCEDURE_TRIGGER_TASK_H
 #define SQLCC_PROCEDURE_TRIGGER_TASK_H
 
-#include "execution/task_executor.h"
-#include "execution/task_result.h"
-#include "procedure/procedure_trigger_executor.h"
-#include "sql_parser/ast_nodes.h"
+#include "task_executor.h"
+#include "task_result.h"
+#include "../procedure/procedure_trigger_executor.h"
+#include "sql_parser/ast/ast_node.h"
+#include "sql_parser/ast/ast_nodes.h"
 #include <memory>
 #include <string>
 

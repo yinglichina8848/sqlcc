@@ -1,6 +1,6 @@
 #include "window_function_executor.h"
-#include "../core/execution_context.h"
-#include "../core/execution_result.h"
+#include "core/execution_context.h"
+#include "core/execution_result.h"
 #include <algorithm>
 #include <unordered_map>
 #include <map>

@@ -266,7 +266,7 @@ std::string DatabaseManagerMock::GetTableSchema(const std::string& table_name) {
     return get_table_schema_result_;
 }
 
-void DatabaseManagerMock::RecordCall(const std::string& method, const std::vector<std::string>& args) {
+void DatabaseManagerMock::RecordCall(const std::string& method, const std::vector<std::string>& args) const {
     CallRecord record;
     record.method_name = method;
 

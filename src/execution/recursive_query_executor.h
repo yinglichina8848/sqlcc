@@ -182,16 +182,16 @@
  * - 可视化工具：递归执行过程和结果的可视化展示
  */
 
-#include "../sql_parser/ast/ast_nodes.h"
+#include "sql_parser/ast/ast_nodes.h"
 #pragma once
 
 #include <memory>
 #include <vector>
 #include <string>
-#include "../sql_parser/recursive_query.h"
-#include "../core/core_database_manager.h"
-#include "../core/execution_context.h"
-#include "../core/execution_result.h"
+#include "sql_parser/recursive_query.h"
+#include "core/core_database_manager.h"
+#include "core/execution_context.h"
+#include "core/execution_result.h"
 
 namespace sqlcc {
 

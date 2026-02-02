@@ -2,10 +2,10 @@
 #define SQLCC_PROCEDURE_PROCEDURE_TRIGGER_EXECUTOR_H
 
 #include "../sql_executor.h"
-#include "procedure/procedure_parser.h"
-#include "procedure/procedure_vm.h"
-#include "trigger/trigger_manager.h"
-#include "sql_parser/ast_nodes.h"
+#include "procedure_parser.h"
+#include "procedure_vm.h"
+#include "../trigger/trigger_manager.h"
+#include "../sql_parser/ast/ast_nodes.h"
 #include <memory>
 #include <unordered_map>
 #include <string>

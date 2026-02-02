@@ -40,6 +40,7 @@ declare -A TEST_TARGETS=(
     ["file_descriptor_version"]="//tests/level1_foundation/utils:file_descriptor_version_test"
     ["smart_config"]="//tests/level1_foundation/utils:smart_config_test"
     ["ssl_connection_pool"]="//tests/level1_foundation/utils:ssl_connection_pool_test"
+    ["thread_pool"]="//tests/level1_foundation/utils:thread_pool_test"
     
     # config
     ["config"]="//tests/level1_foundation/config:config_test"
@@ -62,6 +63,7 @@ bazel test \
     //tests/level1_foundation/utils:file_descriptor_version_test \
     //tests/level1_foundation/utils:smart_config_test \
     //tests/level1_foundation/utils:ssl_connection_pool_test \
+    //tests/level1_foundation/utils:thread_pool_test \
     //tests/level1_foundation/config:config_test \
     --test_output=errors 2>&1 | tail -20
 

@@ -1,6 +1,6 @@
 #include "function_executor.h"
 #include "types/domain_manager.h"
-#include "../sql_parser/function/function_definition.h"
+#include "sql_parser/function/function_definition.h"
 #include <algorithm>
 #include <sstream>
 

@@ -1,10 +1,8 @@
 #include "dml_execution_strategy.h"
-#include "../core/execution_result.h"
-#include "../core/database_context.h"
-#include "../core/permissions.h"
-#include "../sql_parser/ast/ast_nodes.h"
-#include "../core/core_database_manager.h"
-#include "execution_context.h"
+#include "core/execution_result.h"
+#include "sql_parser/ast/ast_nodes.h"
+#include "core/core_database_manager.h"
+#include "../core/execution_context.h"
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -63,16 +61,16 @@ bool DMLExecutionStrategy::checkPermission(const sql_parser::Statement& stmt,
                                          const ExecutionContext& context) {
     // 权限检查实现
     switch (stmt.type) {
-        case sql_parser::StatementType::INSERT_STATEMENT:
+        case sql_parser::Statement::Type::INSERT:
             return checkInsertPermission(dynamic_cast<const sql_parser::InsertStatement&>(stmt),
                                        context);
-        case sql_parser::StatementType::UPDATE_STATEMENT:
+        case sql_parser::Statement::Type::UPDATE:
             return checkUpdatePermission(dynamic_cast<const sql_parser::UpdateStatement&>(stmt),
                                        context);
-        case sql_parser::StatementType::DELETE_STATEMENT:
+        case sql_parser::Statement::Type::DELETE:
             return checkDeletePermission(dynamic_cast<const sql_parser::DeleteStatement&>(stmt),
                                        context);
-        case sql_parser::StatementType::SELECT_STATEMENT:
+        case sql_parser::Statement::Type::SELECT:
             return checkSelectPermission(dynamic_cast<const sql_parser::SelectStatement&>(stmt),
                                        context);
         default:
@@ -88,7 +86,7 @@ bool DMLExecutionStrategy::validate(const sql_parser::Statement& stmt,
     }
 
     switch (stmt.type) {
-        case sql_parser::StatementType::INSERT_STATEMENT: {
+        case sql_parser::Statement::Type::INSERT: {
             const auto& insert_stmt = dynamic_cast<const sql_parser::InsertStatement&>(stmt);
             // 验证表是否存在
             if (!validateTableExists(insert_stmt.table_name, context)) {
@@ -104,7 +102,7 @@ bool DMLExecutionStrategy::validate(const sql_parser::Statement& stmt,
             }
             return true;
         }
-        case sql_parser::StatementType::SELECT_STATEMENT: {
+        case sql_parser::Statement::Type::SELECT: {
             const auto& select_stmt = dynamic_cast<const sql_parser::SelectStatement&>(stmt);
             // 验证表是否存在
             for (const auto& table : select_stmt.from_clause.tables) {
@@ -114,7 +112,7 @@ bool DMLExecutionStrategy::validate(const sql_parser::Statement& stmt,
             }
             return true;
         }
-        case sql_parser::StatementType::UPDATE_STATEMENT: {
+        case sql_parser::Statement::Type::UPDATE: {
             const auto& update_stmt = dynamic_cast<const sql_parser::UpdateStatement&>(stmt);
             // 验证表是否存在
             if (!validateTableExists(update_stmt.table_name, context)) {
@@ -122,7 +120,7 @@ bool DMLExecutionStrategy::validate(const sql_parser::Statement& stmt,
             }
             return true;
         }
-        case sql_parser::StatementType::DELETE_STATEMENT: {
+        case sql_parser::Statement::Type::DELETE: {
             const auto& delete_stmt = dynamic_cast<const sql_parser::DeleteStatement&>(stmt);
             // 验证表是否存在
             if (!validateTableExists(delete_stmt.table_name, context)) {

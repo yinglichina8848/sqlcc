@@ -1,6 +1,6 @@
 #include "sql_parser/ast/ast_node.h"
 #include "../permission_validator.h"
-#include "sql_parser/ast_nodes.h"
+#include "sql_parser/ast/ast_nodes.h"
 #include <algorithm>
 #include <sstream>
 

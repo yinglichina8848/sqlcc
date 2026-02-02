@@ -202,14 +202,14 @@
 #ifndef SQLCC_EXECUTION_EXECUTION_STRATEGY_H
 #define SQLCC_EXECUTION_EXECUTION_STRATEGY_H
 
-#include "../sql_parser/ast/ast_nodes.h"
+#include "sql_parser/ast/ast_nodes.h"
 #include <memory>
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "../core/execution_result.h"
-#include "../core/execution_context.h"
-#include "../storage_engine/table_storage.h"  // 包含TableMetadata定义
+#include "core/execution_result.h"
+#include "core/execution_context.h"
+#include "storage_engine/table_storage.h"  // 包含TableMetadata定义
 
 namespace sqlcc {
 

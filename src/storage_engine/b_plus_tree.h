@@ -276,6 +276,14 @@ public:  // 添加公共接口用于查询优化
     std::vector<std::string> GetKeys(std::unique_ptr<BPlusTreeNode>& node) const;
     std::vector<std::pair<int32_t, size_t>> GetValues(std::unique_ptr<BPlusTreeNode>& node) const;
     std::vector<int32_t> GetChildren(std::unique_ptr<BPlusTreeNode>& node) const;
+
+    // 迭代式插入方法
+    bool InsertIterative(const std::string& key, int32_t page_id, size_t offset);
+    int32_t FindLeafPageId(const std::string& key);
+    bool HandleLeafSplit(BPlusTreeLeafNode* leaf_node, int recursion_depth);
+    bool HandleInternalSplit(BPlusTreeInternalNode* internal_node, BPlusTreeNode* child_node, int recursion_depth);
+    bool HandleRootSplit(int32_t left_child_id, int32_t right_child_id, const std::string& split_key);
+    bool UpdateParentForSplit(int32_t parent_page_id, int32_t left_child_id, int32_t right_child_id, const std::string& split_key, int recursion_depth);
 };
 
 } // namespace sqlcc

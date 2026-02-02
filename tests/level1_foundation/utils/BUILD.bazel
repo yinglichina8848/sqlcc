@@ -65,3 +65,19 @@ cc_test(
     ],
     tags = ["coverage", "level1"],
 )
+
+cc_test(
+    name = "thread_pool_test",
+    srcs = ["thread_pool_test.cpp"],
+    copts = [
+        "-fprofile-instr-generate",
+        "-fcoverage-mapping",
+        "-Isrc",
+    ],
+    linkopts = ["-fprofile-instr-generate", "-pthread"],
+    deps = [
+        "@com_google_googletest//:gtest_main",
+        "//src/utils:utils_coverage",
+    ],
+    tags = ["coverage", "level1"],
+)

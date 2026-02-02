@@ -54,44 +54,6 @@ TableConstraint::TableConstraint(Type type, const std::string &name)
 
 TableConstraint::~TableConstraint() {}
 
-void TableConstraint::addColumn(const std::string &column) {
-  columns_.push_back(column);
-}
-
-void TableConstraint::setReferencedTable(const std::string &table) {
-  referencedTable_ = table;
-}
-
-void TableConstraint::addReferencedColumn(const std::string &column) {
-  referencedColumns_.push_back(column);
-}
-
-void TableConstraint::setCheckExpression(const std::string &expression) {
-  checkExpression_ = expression;
-}
-
-TableConstraint::Type TableConstraint::getType() const { return type_; }
-
-const std::string &TableConstraint::getConstraintName() const {
-  return constraintName_;
-}
-
-const std::vector<std::string> &TableConstraint::getColumns() const {
-  return columns_;
-}
-
-const std::string &TableConstraint::getReferencedTable() const {
-  return referencedTable_;
-}
-
-const std::vector<std::string> &TableConstraint::getReferencedColumns() const {
-  return referencedColumns_;
-}
-
-const std::string &TableConstraint::getCheckExpression() const {
-  return checkExpression_;
-}
-
 // ==================== CreateStatement ====================
 
 CreateStatement::CreateStatement(ObjectType objectType,
@@ -103,44 +65,12 @@ CreateStatement::~CreateStatement() {}
 CreateStatement::CreateStatement(ObjectType objectType)
     : Statement(CREATE), objectType_(objectType), objectName_("") {}
 
-void CreateStatement::addColumn(std::unique_ptr<ColumnDefinition> column) {
-  columns_.push_back(std::move(column));
-}
-
-void CreateStatement::addConstraint(std::unique_ptr<TableConstraint> constraint) {
-  constraints_.push_back(std::move(constraint));
-}
-
 void CreateStatement::setSelectStatement(std::unique_ptr<SelectStatement> select) {
   selectStatement_ = std::move(select);
 }
 
 void CreateStatement::accept(NodeVisitor &visitor) {
   visitor.visit(*this);
-}
-
-CreateStatement::ObjectType CreateStatement::getObjectType() const {
-  return objectType_;
-}
-
-// Non-const version for compatibility (remove duplicate signature)
-const std::string &CreateStatement::getObjectName() const {
-  return objectName_;
-}
-
-// Non-const compatibility getters (restore symbols expected by other TUs)
-CreateStatement::ObjectType CreateStatement::getObjectType() {
-  return objectType_;
-}
-
-std::string CreateStatement::getObjectName() { return objectName_; }
-
-const std::vector<std::unique_ptr<ColumnDefinition>> &CreateStatement::getColumns() const {
-  return columns_;
-}
-
-const std::vector<std::unique_ptr<TableConstraint>> &CreateStatement::getConstraints() const {
-  return constraints_;
 }
 
 // ==================== CreateViewStatement ====================
@@ -189,14 +119,6 @@ void DropStatement::accept(NodeVisitor &visitor) {
   visitor.visit(*this);
 }
 
-DropStatement::ObjectType DropStatement::getObjectType() const {
-  return objectType_;
-}
-
-const std::string &DropStatement::getObjectName() const {
-  return objectName_;
-}
-
 // ==================== AlterStatement ====================
 
 AlterStatement::AlterStatement(ObjectType objectType, const std::string &objectName)
@@ -206,14 +128,6 @@ AlterStatement::~AlterStatement() {}
 
 void AlterStatement::accept(NodeVisitor &visitor) {
   visitor.visit(*this);
-}
-
-AlterStatement::ObjectType AlterStatement::getObjectType() const {
-  return objectType_;
-}
-
-const std::string &AlterStatement::getObjectName() const {
-  return objectName_;
 }
 
 // ==================== 其他DDL相关节点 ====================

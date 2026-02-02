@@ -1,5 +1,5 @@
 #include "sql_parser/ast/ast_node.h"
-#include "sql_parser/ast_nodes.h"
+#include "sql_parser/ast/ast_nodes.h"
 #include "sql_parser/token.h"
 #include "constraint_executor.h"
 #include <algorithm>

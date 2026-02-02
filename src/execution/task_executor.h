@@ -149,7 +149,7 @@
 #include <atomic>
 #include <functional>
 
-#include "../core/execution_result.h"
+#include "core/execution_result.h"
 #include "task_result.h"
 
 namespace sqlcc {

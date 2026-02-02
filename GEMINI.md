@@ -2,6 +2,56 @@
 
 This document provides a comprehensive overview of the SQLCC project, intended to be used as a context for AI-powered development assistance.
 
+## ⚠️ AI Agent 必需阅读指南
+
+**所有参与 SQLCC 项目的 AI Agent 必须首先阅读以下文档**：
+
+| 优先级 | 文档 | 说明 | 状态 |
+|--------|------|------|------|
+| 🔴 **P0** | `docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md` | **SDD 规范驱动开发指南** | ☐ |
+| 🔴 **P0** | `docs/ai_tools/AI_COLLABORATION_GUIDE.md` | **多Agent并行协作指南** | ☐ |
+| 🟡 P1 | `docs/ai_tools/AI_DEVELOPMENT_GUIDELINES.md` | AI 开发规范 | ☐ |
+| 🟡 P1 | `docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md` | C++ 开发规范 | ☐ |
+
+### SDD 规范遵从要求
+
+**所有 AI Agent 必须严格遵从以下规范**：
+
+1. **任务状态机**: `OPEN → CLAIMED → WIP → DONE → FROZEN`
+2. **消息协议**: 使用标准消息格式 (TASK_CLAIM, PROGRESS_UPDATE, BLOCKER_NOTIFICATION, TASK_COMPLETE)
+3. **沟通频率**: 进度更新每30分钟，阻塞即时通知
+4. **验收标准**: 编译通过 → 测试100% → 覆盖率达标 → 文档完整 → CHANGELOG 更新
+
+### 多Agent协作流程
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    多Agent协作工作流                              │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│   Master Agent: 任务分解 → 进度汇总                              │
+│   Developer Agent: 代码实现 → 单元测试                           │
+│   Tester Agent: 测试执行 → 覆盖率分析                            │
+│   Reviewer Agent: 代码评审 → 质量把关                            │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 快速参考
+
+```bash
+# 读取 AI 协作指南
+cat docs/ai_tools/AI_COLLABORATION_GUIDE.md
+
+# 读取 SDD 规范
+cat docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md
+
+# 查看当前任务状态
+cat docs/sdd/refactoring/level2_core/tasks.md
+```
+
+---
+
 ## Project Overview
 
 **SQLCC** is a **SQL Cloud Computing Database System** written in C++20. It aims to be a fully-featured, SQL-92 compliant database with a modern, modular architecture.

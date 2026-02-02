@@ -66,7 +66,7 @@
  */
 
 #include "sql_parser/ast/ast_node.h"
-#include "sql_parser/ast_nodes.h"
+#include "sql_parser/ast/ast_nodes.h"
 #include "execution_engine.h"
 #include "../core_database_manager.h"
 #include "../execution_context.h"
