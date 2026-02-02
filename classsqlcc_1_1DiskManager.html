@@ -84,7 +84,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>磁盘管理器 - 实现数据库文件与物理磁盘之间的底层 I/O 通信  
+<p>磁盘管理器 - 物理I/O的终点，持久化的起点  
  <a href="classsqlcc_1_1DiskManager.html#details">更多...</a></p>
 
 <p><code>#include &lt;<a class="el" href="storage_2disk__manager_8h_source.html">disk_manager.h</a>&gt;</code></p>
@@ -93,10 +93,10 @@ sqlcc::DiskManager 的协作图:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsqlcc_1_1DiskManager__coll__graph.png" border="0" usemap="#asqlcc_1_1DiskManager_coll__map" alt="Collaboration graph"/></div>
 <map name="asqlcc_1_1DiskManager_coll__map" id="asqlcc_1_1DiskManager_coll__map">
-<area shape="rect" title="磁盘管理器 &#45; 实现数据库文件与物理磁盘之间的底层 I/O 通信" alt="" coords="87,93,236,119"/>
+<area shape="rect" title="磁盘管理器 &#45; 物理I/O的终点，持久化的起点" alt="" coords="87,93,236,119"/>
 <area shape="rect" href="structsqlcc_1_1DiskIOStats.html" title="磁盘I/O统计信息" alt="" coords="5,5,144,31"/>
 <area shape="poly" title=" " alt="" coords="98,38,151,91,147,95,94,42"/>
-<area shape="rect" href="classsqlcc_1_1ConfigManager.html" title=" " alt="" coords="169,5,330,31"/>
+<area shape="rect" href="classsqlcc_1_1ConfigManager.html" title="配置管理器 &#45; 线程安全的单例配置中心" alt="" coords="169,5,330,31"/>
 <area shape="poly" title=" " alt="" coords="230,42,175,95,172,91,226,38"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
@@ -107,37 +107,37 @@ Public 成员函数</h2></td></tr>
 <tr class="memdesc:a63a61d43379bc12a46574e981fd3b3d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
 <tr class="separator:a63a61d43379bc12a46574e981fd3b3d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07242cce7909e0899e6321cc0e5de3d1" id="r_a07242cce7909e0899e6321cc0e5de3d1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#a07242cce7909e0899e6321cc0e5de3d1">~DiskManager</a> ()</td></tr>
-<tr class="memdesc:a07242cce7909e0899e6321cc0e5de3d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="memdesc:a07242cce7909e0899e6321cc0e5de3d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数 - 确保关闭文件句柄  <br /></td></tr>
 <tr class="separator:a07242cce7909e0899e6321cc0e5de3d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa65011bfb8783d5808787795c8786827" id="r_aa65011bfb8783d5808787795c8786827"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#aa65011bfb8783d5808787795c8786827">WritePage</a> (int32_t page_id, const char *page_data)</td></tr>
-<tr class="memdesc:aa65011bfb8783d5808787795c8786827"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入页面数据到磁盘  <br /></td></tr>
+<tr class="memdesc:aa65011bfb8783d5808787795c8786827"><td class="mdescLeft">&#160;</td><td class="mdescRight">将8KB页面数据原子地写入磁盘  <br /></td></tr>
 <tr class="separator:aa65011bfb8783d5808787795c8786827"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee0ac0ad4df85f6522d355be6f47598b" id="r_aee0ac0ad4df85f6522d355be6f47598b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#aee0ac0ad4df85f6522d355be6f47598b">ReadPage</a> (int32_t page_id, char *page_data)</td></tr>
-<tr class="memdesc:aee0ac0ad4df85f6522d355be6f47598b"><td class="mdescLeft">&#160;</td><td class="mdescRight">从磁盘读取页面数据  <br /></td></tr>
+<tr class="memdesc:aee0ac0ad4df85f6522d355be6f47598b"><td class="mdescLeft">&#160;</td><td class="mdescRight">从磁盘物理地址加载页面数据  <br /></td></tr>
 <tr class="separator:aee0ac0ad4df85f6522d355be6f47598b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2834723cc4c2c3017e62223c0660f9b0" id="r_a2834723cc4c2c3017e62223c0660f9b0"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#a2834723cc4c2c3017e62223c0660f9b0">AllocatePage</a> ()</td></tr>
-<tr class="memdesc:a2834723cc4c2c3017e62223c0660f9b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">分配新页面  <br /></td></tr>
+<tr class="memdesc:a2834723cc4c2c3017e62223c0660f9b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">逻辑空间分配  <br /></td></tr>
 <tr class="separator:a2834723cc4c2c3017e62223c0660f9b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f1a72682c2a3a73e15cf9dcae9c213c" id="r_a9f1a72682c2a3a73e15cf9dcae9c213c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#a9f1a72682c2a3a73e15cf9dcae9c213c">DeallocatePage</a> (int32_t page_id)</td></tr>
-<tr class="memdesc:a9f1a72682c2a3a73e15cf9dcae9c213c"><td class="mdescLeft">&#160;</td><td class="mdescRight">释放页面  <br /></td></tr>
+<tr class="memdesc:a9f1a72682c2a3a73e15cf9dcae9c213c"><td class="mdescLeft">&#160;</td><td class="mdescRight">逻辑空间释放  <br /></td></tr>
 <tr class="separator:a9f1a72682c2a3a73e15cf9dcae9c213c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2916dda0176dc70b3a0c5d858bcc3ca0" id="r_a2916dda0176dc70b3a0c5d858bcc3ca0"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#a2916dda0176dc70b3a0c5d858bcc3ca0">GetFileSize</a> () const</td></tr>
-<tr class="memdesc:a2916dda0176dc70b3a0c5d858bcc3ca0"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取文件大小  <br /></td></tr>
+<tr class="memdesc:a2916dda0176dc70b3a0c5d858bcc3ca0"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取物理文件字节数  <br /></td></tr>
 <tr class="separator:a2916dda0176dc70b3a0c5d858bcc3ca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2586f2932109870afd979c3aae3a8705" id="r_a2586f2932109870afd979c3aae3a8705"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#a2586f2932109870afd979c3aae3a8705">BatchReadPages</a> (const std::vector&lt; int32_t &gt; &amp;page_ids, std::vector&lt; char * &gt; &amp;data_buffers)</td></tr>
-<tr class="memdesc:a2586f2932109870afd979c3aae3a8705"><td class="mdescLeft">&#160;</td><td class="mdescRight">批量读取页面  <br /></td></tr>
+<tr class="memdesc:a2586f2932109870afd979c3aae3a8705"><td class="mdescLeft">&#160;</td><td class="mdescRight">批量读取优化  <br /></td></tr>
 <tr class="separator:a2586f2932109870afd979c3aae3a8705"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b0ff8f3129729033d8d05e898a920ac" id="r_a3b0ff8f3129729033d8d05e898a920ac"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#a3b0ff8f3129729033d8d05e898a920ac">PrefetchPage</a> (int32_t page_id)</td></tr>
-<tr class="memdesc:a3b0ff8f3129729033d8d05e898a920ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">预读取页面  <br /></td></tr>
+<tr class="memdesc:a3b0ff8f3129729033d8d05e898a920ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">异步预读触发  <br /></td></tr>
 <tr class="separator:a3b0ff8f3129729033d8d05e898a920ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0457223d46ee0ce517c43baf08739fa6" id="r_a0457223d46ee0ce517c43baf08739fa6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#a0457223d46ee0ce517c43baf08739fa6">BatchPrefetchPages</a> (const std::vector&lt; int32_t &gt; &amp;page_ids)</td></tr>
-<tr class="memdesc:a0457223d46ee0ce517c43baf08739fa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">批量预读取页面  <br /></td></tr>
+<tr class="memdesc:a0457223d46ee0ce517c43baf08739fa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">批量预读  <br /></td></tr>
 <tr class="separator:a0457223d46ee0ce517c43baf08739fa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad06bd75441034e45a6e920482d3eee7e" id="r_ad06bd75441034e45a6e920482d3eee7e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#ad06bd75441034e45a6e920482d3eee7e">Sync</a> ()</td></tr>
-<tr class="memdesc:ad06bd75441034e45a6e920482d3eee7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">同步文件到磁盘  <br /></td></tr>
+<tr class="memdesc:ad06bd75441034e45a6e920482d3eee7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">强制物理刷盘 (fsync)  <br /></td></tr>
 <tr class="separator:ad06bd75441034e45a6e920482d3eee7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a940ba3cd6569255586b147bdf06f4e96" id="r_a940ba3cd6569255586b147bdf06f4e96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#a940ba3cd6569255586b147bdf06f4e96">OnConfigChange</a> (const std::string &amp;key, const <a class="el" href="namespacesqlcc.html#ae2f4bc4eee37aaf01276a62a2a79dc0a">ConfigValue</a> &amp;value)</td></tr>
-<tr class="memdesc:a940ba3cd6569255586b147bdf06f4e96"><td class="mdescLeft">&#160;</td><td class="mdescRight">配置变更回调  <br /></td></tr>
+<tr class="memdesc:a940ba3cd6569255586b147bdf06f4e96"><td class="mdescLeft">&#160;</td><td class="mdescRight">配置热更新回调  <br /></td></tr>
 <tr class="separator:a940ba3cd6569255586b147bdf06f4e96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -160,16 +160,17 @@ Private 属性</h2></td></tr>
 <tr class="memitem:a0db69582adf4220d6f5316aeaf160174" id="r_a0db69582adf4220d6f5316aeaf160174"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#a0db69582adf4220d6f5316aeaf160174">lock_timeout_ms_</a></td></tr>
 <tr class="separator:a0db69582adf4220d6f5316aeaf160174"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdafae6286d5488768cfc245cc6b86cc" id="r_acdafae6286d5488768cfc245cc6b86cc"><td class="memItemLeft" align="right" valign="top">std::recursive_timed_mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#acdafae6286d5488768cfc245cc6b86cc">io_mutex_</a></td></tr>
+<tr class="memdesc:acdafae6286d5488768cfc245cc6b86cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">线程安全互斥锁 使用 recursive_timed_mutex 以支持：  <br /></td></tr>
 <tr class="separator:acdafae6286d5488768cfc245cc6b86cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa0ab606c8e98c147fd850d8aacc2857" id="r_afa0ab606c8e98c147fd850d8aacc2857"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#afa0ab606c8e98c147fd850d8aacc2857">free_pages_</a></td></tr>
 <tr class="separator:afa0ab606c8e98c147fd850d8aacc2857"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20ca73b87d140c5ae1467ecab3ad44ac" id="r_a20ca73b87d140c5ae1467ecab3ad44ac"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#a20ca73b87d140c5ae1467ecab3ad44ac">simulate_seek_failure_</a> = false</td></tr>
+<tr class="memitem:a20ca73b87d140c5ae1467ecab3ad44ac" id="r_a20ca73b87d140c5ae1467ecab3ad44ac"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#a20ca73b87d140c5ae1467ecab3ad44ac">simulate_seek_failure_</a> = <a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a></td></tr>
 <tr class="separator:a20ca73b87d140c5ae1467ecab3ad44ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a760cab9cc3fad9ece8088a4602584242" id="r_a760cab9cc3fad9ece8088a4602584242"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#a760cab9cc3fad9ece8088a4602584242">simulate_read_failure_</a> = false</td></tr>
+<tr class="memitem:a760cab9cc3fad9ece8088a4602584242" id="r_a760cab9cc3fad9ece8088a4602584242"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#a760cab9cc3fad9ece8088a4602584242">simulate_read_failure_</a> = <a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a></td></tr>
 <tr class="separator:a760cab9cc3fad9ece8088a4602584242"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abaf8d42136a572122ae499fd33a32c7b" id="r_abaf8d42136a572122ae499fd33a32c7b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#abaf8d42136a572122ae499fd33a32c7b">simulate_write_failure_</a> = false</td></tr>
+<tr class="memitem:abaf8d42136a572122ae499fd33a32c7b" id="r_abaf8d42136a572122ae499fd33a32c7b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#abaf8d42136a572122ae499fd33a32c7b">simulate_write_failure_</a> = <a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a></td></tr>
 <tr class="separator:abaf8d42136a572122ae499fd33a32c7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdb34b10c14f3b3b0c742a22f64de79a" id="r_acdb34b10c14f3b3b0c742a22f64de79a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#acdb34b10c14f3b3b0c742a22f64de79a">simulate_flush_failure_</a> = false</td></tr>
+<tr class="memitem:acdb34b10c14f3b3b0c742a22f64de79a" id="r_acdb34b10c14f3b3b0c742a22f64de79a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DiskManager.html#acdb34b10c14f3b3b0c742a22f64de79a">simulate_flush_failure_</a> = <a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a></td></tr>
 <tr class="separator:acdb34b10c14f3b3b0c742a22f64de79a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
@@ -178,15 +179,7 @@ Private 属性</h2></td></tr>
 <tr class="separator:a34c40b40c26fccabc8c98aa4343497cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>磁盘管理器 - 实现数据库文件与物理磁盘之间的底层 I/O 通信 </p>
-<p>WHY层 - 设计意图： 数据库是持久化系统。内存数据如果不写入磁盘，在断电或进程重启时将永久丢失。 <a class="el" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器 - 实现数据库文件与物理磁盘之间的底层 I/O 通信">DiskManager</a> 作为存储引擎的最底层组件，屏蔽了操作系统文件系统的复杂性， 提供了一种以“固定大小页面（8KB）”为单位的逻辑磁盘访问模型， 支持快速定位、空间分配和数据持久化保障。</p>
-<p>WHAT层 - 功能说明： 实现页面的物理读写（ReadPage, WritePage），映射 page_id 到文件的物理偏移量（Offset = page_id * PAGE_SIZE）。 管理数据库文件的增长与收缩（AllocatePage, DeallocatePage）。 提供异步预读支持（PrefetchPage）以优化顺序扫描性能。 支持强制落盘（Sync/fsync）确保事务的持久性（Durability）。</p>
-<p>HOW层 - 实现机制：</p><ol type="1">
-<li>文件指针操作：使用 std::fstream 并配合 seekp/seekg 实现随机访问。</li>
-<li>空间分配：维护一个简单的 Atomic 计数器（next_page_id_）和空闲列表（free_pages_）实现 O(1) 分配。</li>
-<li>线程安全：使用 recursive_timed_mutex 保护文件流指针，防止并发读写导致的数据竞争。</li>
-<li>错误容忍：集成了模拟故障机制（simulate_failure_），便于在测试环境下验证系统在磁盘损坏时的恢复能力。 </li>
-</ol>
+<div class="textblock"><p>磁盘管理器 - 物理I/O的终点，持久化的起点 </p>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a63a61d43379bc12a46574e981fd3b3d0" name="a63a61d43379bc12a46574e981fd3b3d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a63a61d43379bc12a46574e981fd3b3d0">&#9670;&#160;</a></span>DiskManager()</h2>
@@ -217,8 +210,8 @@ Private 属性</h2></td></tr>
 <p>构造函数 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">db_file</td><td>数据库文件名 </td></tr>
-    <tr><td class="paramname">config_manager</td><td>配置管理器引用 </td></tr>
+    <tr><td class="paramname">db_file</td><td>物理数据库文件路径 </td></tr>
+    <tr><td class="paramname">config_manager</td><td>用于获取I/O超时等运行时配置 </td></tr>
   </table>
   </dd>
 </dl>
@@ -240,7 +233,7 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>析构函数 </p>
+<p>析构函数 - 确保关闭文件句柄 </p>
 
 </div>
 </div>
@@ -260,8 +253,8 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>分配新页面 </p>
-<dl class="section return"><dt>返回</dt><dd>新分配的页面ID，失败返回-1 </dd></dl>
+<p>逻辑空间分配 </p>
+<p>WHY: 实现文件空间的自动扩展。 WHAT: 返回一个新的 PageID，物理上通过递增文件指针实现。 </p><dl class="section return"><dt>返回</dt><dd>新分配的页面ID，-1表示分配失败 </dd></dl>
 
 </div>
 </div>
@@ -281,14 +274,7 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>批量预读取页面 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">page_ids</td><td>页面ID列表 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>是否批量预读取成功 </dd></dl>
+<p>批量预读 </p>
 
 </div>
 </div>
@@ -318,15 +304,8 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>批量读取页面 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">page_ids</td><td>页面ID列表 </td></tr>
-    <tr><td class="paramname">data_buffers</td><td>数据缓冲区列表 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>是否批量读取成功 </dd></dl>
+<p>批量读取优化 </p>
+<p>WHY: 减少系统调用（System Call）次数。 HOW: 将不连续的读请求合并或并行下发。 </p>
 
 </div>
 </div>
@@ -346,14 +325,8 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>释放页面 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">page_id</td><td>要释放的页面ID </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>是否释放成功 </dd></dl>
+<p>逻辑空间释放 </p>
+<p>WHAT: 将页面ID加入空闲列表供后续复用，而不是立即缩减文件大小。 </p>
 
 </div>
 </div>
@@ -372,8 +345,7 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>获取文件大小 </p>
-<dl class="section return"><dt>返回</dt><dd>文件大小（字节数） </dd></dl>
+<p>获取物理文件字节数 </p>
 
 </div>
 </div>
@@ -403,14 +375,7 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>配置变更回调 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">key</td><td>配置键 </td></tr>
-    <tr><td class="paramname">value</td><td>配置值 </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>配置热更新回调 </p>
 
 </div>
 </div>
@@ -430,14 +395,8 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>预读取页面 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">page_id</td><td>要预读取的页面ID </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>是否预读取成功 </dd></dl>
+<p>异步预读触发 </p>
+<p>WHY: 隐藏磁盘I/O延迟，预加载数据到BufferPool。 </p>
 
 </div>
 </div>
@@ -467,15 +426,14 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>从磁盘读取页面数据 </p>
+<p>从磁盘物理地址加载页面数据 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
-    <tr><td class="paramname">page_data</td><td>页面数据缓冲区 </td></tr>
+    <tr><td class="paramname">page_id</td><td>源页面ID </td></tr>
+    <tr><td class="paramname">page_data</td><td>目标内存块指针 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>是否读取成功 </dd></dl>
 
 </div>
 </div>
@@ -494,8 +452,8 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>同步文件到磁盘 </p>
-<dl class="section return"><dt>返回</dt><dd>是否同步成功 </dd></dl>
+<p>强制物理刷盘 (fsync) </p>
+<p>WHY: 绕过操作系统缓存，确保数据真正到达物理介质，满足ACID的D属性。 </p>
 
 </div>
 </div>
@@ -525,16 +483,16 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>写入页面数据到磁盘 </p>
+<p>将8KB页面数据原子地写入磁盘 </p>
 <p>写入指定页的数据</p>
-<dl class="params"><dt>参数</dt><dd>
+<p>WHY: 它是持久化的核心操作。 HOW: 定位到 Offset = page_id * 8192，执行文件写入。 </p><dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
-    <tr><td class="paramname">page_data</td><td>页面数据缓冲区 </td></tr>
+    <tr><td class="paramname">page_id</td><td>目标页面ID </td></tr>
+    <tr><td class="paramname">page_data</td><td>指向8KB内存块的指针 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>是否写入成功</dd></dl>
+<dl class="section return"><dt>返回</dt><dd>写入是否成功</dd></dl>
 <p>@why 提供可靠的页写入功能：</p><ul>
 <li>数据库修改操作需要持久化到磁盘</li>
 <li>保证写入操作的原子性和一致性</li>
@@ -743,6 +701,12 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>线程安全互斥锁 使用 recursive_timed_mutex 以支持： </p>
+<ol type="1">
+<li>同一线程重入（递归）</li>
+<li>防止无限等待（限时） </li>
+</ol>
+
 </div>
 </div>
 <a id="aba3bec07dcd5caa4d10cf0d5d80f86df" name="aba3bec07dcd5caa4d10cf0d5d80f86df"></a>
@@ -813,7 +777,7 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool sqlcc::DiskManager::simulate_flush_failure_ = false</td>
+          <td class="memname">bool sqlcc::DiskManager::simulate_flush_failure_ = <a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a></td>
         </tr>
       </table>
   </td>
@@ -835,7 +799,7 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool sqlcc::DiskManager::simulate_read_failure_ = false</td>
+          <td class="memname">bool sqlcc::DiskManager::simulate_read_failure_ = <a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a></td>
         </tr>
       </table>
   </td>
@@ -857,7 +821,7 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool sqlcc::DiskManager::simulate_seek_failure_ = false</td>
+          <td class="memname">bool sqlcc::DiskManager::simulate_seek_failure_ = <a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a></td>
         </tr>
       </table>
   </td>
@@ -879,7 +843,7 @@ Private 属性</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool sqlcc::DiskManager::simulate_write_failure_ = false</td>
+          <td class="memname">bool sqlcc::DiskManager::simulate_write_failure_ = <a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a></td>
         </tr>
       </table>
   </td>

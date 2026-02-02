@@ -81,43 +81,46 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>存储过程虚拟机定义  
+<p>SQLCC存储过程虚拟机 - 数据库服务端逻辑的沙盒执行环境  
 <a href="#details">更多...</a></p>
-<div class="textblock"><code>#include &lt;memory&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="ast__node_8h_source.html">sql_parser/ast/ast_node.h</a>&quot;</code><br />
+<code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;unordered_map&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;exception&gt;</code><br />
 <code>#include &quot;<a class="el" href="procedure__parser_8h_source.html">procedure_parser.h</a>&quot;</code><br />
-<code>#include &quot;../sql_executor_interface.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="sql__executor__interface_8h_source.html">../core/sql_executor_interface.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 procedure_vm.h 的引用(Include)关系图:</div>
 <div class="dyncontent">
 <div class="center"><img src="procedure__vm_8h__incl.png" border="0" usemap="#aprocedure__vm_8h" alt=""/></div>
 <map name="aprocedure__vm_8h" id="aprocedure__vm_8h">
-<area shape="rect" title="存储过程虚拟机定义" alt="" coords="407,5,534,31"/>
-<area shape="rect" title=" " alt="" coords="149,240,226,265"/>
-<area shape="poly" title=" " alt="" coords="407,30,303,48,184,74,127,91,78,110,39,131,15,153,9,170,11,185,22,198,39,209,86,228,136,240,135,245,84,233,37,214,18,202,7,187,3,170,11,151,36,126,76,105,126,86,182,69,302,42,406,25"/>
-<area shape="rect" title=" " alt="" coords="372,240,430,265"/>
-<area shape="poly" title=" " alt="" coords="481,29,500,59,519,101,525,124,528,148,526,171,517,193,502,211,484,225,445,243,442,239,481,220,498,207,512,191,520,170,523,148,520,125,514,103,495,62,476,32"/>
-<area shape="rect" title=" " alt="" coords="26,159,150,185"/>
-<area shape="poly" title=" " alt="" coords="408,33,328,52,243,81,173,117,116,154,113,149,171,112,241,76,327,47,407,28"/>
-<area shape="rect" title=" " alt="" coords="439,159,502,185"/>
-<area shape="poly" title=" " alt="" coords="473,31,473,146,468,146,468,31"/>
-<area shape="rect" title=" " alt="" coords="578,79,664,104"/>
-<area shape="poly" title=" " alt="" coords="496,28,585,70,583,75,493,33"/>
-<area shape="rect" href="procedure__parser_8h.html" title=" " alt="" coords="254,79,401,104"/>
-<area shape="poly" title=" " alt="" coords="448,33,364,75,362,70,446,28"/>
-<area shape="rect" title=" " alt="" coords="688,79,882,104"/>
-<area shape="poly" title=" " alt="" coords="521,28,721,73,720,78,520,33"/>
-<area shape="poly" title=" " alt="" coords="289,106,249,125,231,138,215,154,205,171,198,189,191,226,186,225,193,188,200,168,211,150,227,134,247,120,286,102"/>
-<area shape="poly" title=" " alt="" coords="342,103,360,124,378,151,392,190,400,226,395,227,387,191,373,153,356,127,338,106"/>
-<area shape="poly" title=" " alt="" coords="293,107,136,158,135,153,292,101"/>
-<area shape="poly" title=" " alt="" coords="350,102,439,150,436,155,347,107"/>
-<area shape="rect" href="ast__node_8h.html" title=" " alt="" coords="226,152,363,192"/>
-<area shape="poly" title=" " alt="" coords="325,105,310,141,305,138,320,103"/>
-<area shape="poly" title=" " alt="" coords="270,194,216,234,213,229,267,190"/>
-<area shape="poly" title=" " alt="" coords="322,190,375,229,372,234,318,194"/>
+<area shape="rect" title="SQLCC存储过程虚拟机 &#45; 数据库服务端逻辑的沙盒执行环境" alt="" coords="255,5,381,31"/>
+<area shape="rect" href="ast__node_8h.html" title=" " alt="" coords="172,167,309,207"/>
+<area shape="poly" title=" " alt="" coords="256,32,213,50,195,63,180,80,175,99,179,118,192,138,208,155,204,159,187,141,175,120,169,99,176,77,191,59,211,45,253,27"/>
+<area shape="rect" title=" " alt="" coords="202,255,279,280"/>
+<area shape="poly" title=" " alt="" coords="255,30,191,44,122,70,89,88,59,110,33,137,14,168,8,191,16,210,33,225,58,238,123,254,189,261,188,267,122,259,57,243,30,230,11,213,3,191,9,166,29,133,56,106,86,84,120,65,190,39,254,24"/>
+<area shape="rect" title=" " alt="" coords="438,255,497,280"/>
+<area shape="poly" title=" " alt="" coords="382,18,417,23,453,34,486,51,514,77,531,110,533,140,526,171,514,208,504,228,491,246,486,243,499,225,509,206,521,170,528,139,526,111,509,80,483,55,451,39,416,28,381,23"/>
+<area shape="rect" title=" " alt="" coords="24,174,148,199"/>
+<area shape="poly" title=" " alt="" coords="271,33,219,52,168,81,147,100,128,121,101,163,96,160,124,118,143,96,164,77,216,47,269,28"/>
+<area shape="rect" title=" " alt="" coords="436,174,499,199"/>
+<area shape="poly" title=" " alt="" coords="329,30,403,117,447,163,444,166,399,120,325,33"/>
+<area shape="rect" title=" " alt="" coords="412,86,499,111"/>
+<area shape="poly" title=" " alt="" coords="340,29,425,77,422,81,337,33"/>
+<area shape="rect" href="procedure__parser_8h.html" title=" " alt="" coords="190,86,337,111"/>
+<area shape="poly" title=" " alt="" coords="312,32,281,76,277,73,308,29"/>
+<area shape="rect" href="sql__executor__interface_8h.html" title=" " alt="" coords="575,79,723,119"/>
+<area shape="poly" title=" " alt="" coords="367,28,562,74,561,79,366,33"/>
+<area shape="poly" title=" " alt="" coords="243,207,243,241,238,241,238,207"/>
+<area shape="poly" title=" " alt="" coords="296,204,426,249,424,254,294,209"/>
+<area shape="poly" title=" " alt="" coords="263,112,252,154,247,152,258,111"/>
+<area shape="poly" title=" " alt="" coords="280,109,299,128,317,152,328,179,329,194,324,208,305,232,281,250,278,246,302,228,320,205,324,193,323,180,313,154,295,131,276,113"/>
+<area shape="poly" title=" " alt="" coords="279,109,445,244,441,248,276,113"/>
+<area shape="poly" title=" " alt="" coords="241,114,123,170,121,166,238,109"/>
+<area shape="poly" title=" " alt="" coords="292,109,428,166,426,171,290,114"/>
+<area shape="poly" title=" " alt="" coords="637,121,602,163,557,209,501,250,498,245,554,205,598,159,632,117"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -125,7 +128,7 @@ procedure_vm.h 的引用(Include)关系图:</div>
 <div class="dyncontent">
 <div class="center"><img src="procedure__vm_8h__dep__incl.png" border="0" usemap="#aprocedure__vm_8hdep" alt=""/></div>
 <map name="aprocedure__vm_8hdep" id="aprocedure__vm_8hdep">
-<area shape="rect" title="存储过程虚拟机定义" alt="" coords="306,5,433,31"/>
+<area shape="rect" title="SQLCC存储过程虚拟机 &#45; 数据库服务端逻辑的沙盒执行环境" alt="" coords="306,5,433,31"/>
 <area shape="rect" href="procedure__trigger__executor_8h.html" title=" " alt="" coords="164,79,375,104"/>
 <area shape="poly" title=" " alt="" coords="344,41,287,81,284,76,341,36"/>
 <area shape="rect" href="procedure__vm_8cpp.html" title=" " alt="" coords="398,79,541,104"/>
@@ -145,13 +148,13 @@ procedure_vm.h 的引用(Include)关系图:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 类</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1procedure_1_1Value.html">sqlcc::procedure::Value</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">存储过程值类型  <a href="classsqlcc_1_1procedure_1_1Value.html#details">更多...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">存储过程运行时数据类型封装  <a href="classsqlcc_1_1procedure_1_1Value.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1procedure_1_1ProcedureContext.html">sqlcc::procedure::ProcedureContext</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">存储过程执行上下文  <a href="classsqlcc_1_1procedure_1_1ProcedureContext.html#details">更多...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">存储过程执行上下文 - 维护过程的运行时状态  <a href="classsqlcc_1_1procedure_1_1ProcedureContext.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1procedure_1_1ProcedureVM.html">sqlcc::procedure::ProcedureVM</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">存储过程虚拟机  <a href="classsqlcc_1_1procedure_1_1ProcedureVM.html#details">更多...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">存储过程虚拟机 - 解释执行存储过程 AST  <a href="classsqlcc_1_1procedure_1_1ProcedureVM.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -162,9 +165,37 @@ procedure_vm.h 的引用(Include)关系图:</div>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>存储过程虚拟机定义 </p>
-<p>#include "sql_parser/ast/ast_node.h"</p>
-<p>提供存储过程的执行环境和虚拟机，支持变量、参数、控制流等 </p>
+<div class="textblock"><p>SQLCC存储过程虚拟机 - 数据库服务端逻辑的沙盒执行环境 </p>
+<p>ProcedureVM (Procedure Virtual Machine) 是一个轻量级的虚拟机， 专门设计用于执行存储过程。它提供了一个隔离的执行环境，支持变量管理、 参数传递、控制流（IF/WHILE）和 SQL 语句的内联执行。</p>
+<p>📚 配套教材参考：</p><ul>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#第十三章查询优化与执行">第13章：查询优化与执行</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#134-存储过程的执行原理">13.4 存储过程的执行原理</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#135-数据库虚拟机的设计">13.5 数据库虚拟机的设计</a></li>
+</ul>
+<p>WHY层 - 设计意图：</p><ol type="1">
+<li>**逻辑封装**：为存储过程提供一个独立的、可控的运行环境，与外部数据库操作隔离。</li>
+<li>**安全性**：通过沙盒机制限制存储过程的行为，防止恶意代码直接访问系统资源。</li>
+<li>**可移植性**：提供与特定 SQL 引擎无关的执行模型，理论上可支持多种过程语言。</li>
+<li>**性能**：通过预编译和高效的内部指令集，优化过程体的执行速度。</li>
+</ol>
+<p>WHAT层 - 功能说明：</p><ul>
+<li>存储过程解析：将过程体解析为可执行的中间代码或 AST。</li>
+<li>变量管理：支持过程内的局部变量声明、赋值和作用域管理。</li>
+<li>参数传递：处理存储过程的输入/输出参数。</li>
+<li>控制流：实现 IF/ELSE, WHILE 循环等编程结构。</li>
+<li>SQL 执行：能够将过程体内的 SQL 语句提交给底层的 SqlExecutor 执行。</li>
+<li>异常处理：捕获过程执行中的错误，并返回错误信息。</li>
+</ul>
+<p>HOW层 - 实现机制：</p><ul>
+<li>**基于 AST 的解释执行**：VM 直接遍历存储过程的抽象语法树（AST），根据节点类型执行相应操作。</li>
+<li>**ProcedureContext**：作为 VM 的执行环境，维护局部变量、参数、调用栈和 SQL 执行器句柄。</li>
+<li>**Value 类型封装**：统一处理 INTEGER, DOUBLE, STRING, BOOLEAN, NULL 等数据类型。</li>
+<li>**SqlExecutorInterface 依赖**：VM 通过此接口与数据库的核心 SQL 执行功能交互。</li>
+<li>**错误堆栈**：通过 <code>call_stack_</code> 跟踪执行路径，便于错误诊断。</li>
+</ul>
+<dl class="section author"><dt>作者</dt><dd>SQLCC技术委员会 </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>1.2.6 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2026-02-02 </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

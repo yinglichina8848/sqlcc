@@ -81,6 +81,9 @@ $(function() {
   <div class="headertitle"><div class="title">user_manager.h 文件参考</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>SQLCC用户管理器 - 身份认证与权限控制（RBAC）核心  
+<a href="#details">更多...</a></p>
 <div class="textblock"><code>#include &lt;string&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
@@ -91,7 +94,7 @@ core/user_manager.h 的引用(Include)关系图:</div>
 <div class="dyncontent">
 <div class="center"><img src="core_2user__manager_8h__incl.png" border="0" usemap="#auser__manager_8h" alt=""/></div>
 <map name="auser__manager_8h" id="auser__manager_8h">
-<area shape="rect" title=" " alt="" coords="158,5,285,31"/>
+<area shape="rect" title="SQLCC用户管理器 &#45; 身份认证与权限控制（RBAC）核心" alt="" coords="158,5,285,31"/>
 <area shape="rect" title=" " alt="" coords="5,79,64,104"/>
 <area shape="poly" title=" " alt="" coords="192,33,78,76,76,71,190,28"/>
 <area shape="rect" title=" " alt="" coords="88,79,165,104"/>
@@ -109,7 +112,7 @@ core/user_manager.h 的引用(Include)关系图:</div>
 <div class="dyncontent">
 <div class="center"><img src="core_2user__manager_8h__dep__incl.png" border="0" usemap="#auser__manager_8hdep" alt=""/></div>
 <map name="auser__manager_8hdep" id="auser__manager_8hdep">
-<area shape="rect" title=" " alt="" coords="997,5,1123,31"/>
+<area shape="rect" title="SQLCC用户管理器 &#45; 身份认证与权限控制（RBAC）核心" alt="" coords="997,5,1123,31"/>
 <area shape="rect" href="execution_2execution__engine_8h.html" title="SQLCC执行引擎 &#45; SQL语句解释和执行的核心组件" alt="" coords="117,79,265,104"/>
 <area shape="poly" title=" " alt="" coords="983,28,265,87,265,81,983,23"/>
 <area shape="rect" href="execution_2unified__executor_8cpp.html" title="Implements the UnifiedExecutor, the core dispatcher for the SQL execution engine." alt="" coords="5,225,160,251"/>
@@ -122,12 +125,12 @@ core/user_manager.h 的引用(Include)关系图:</div>
 <area shape="poly" title=" " alt="" coords="1063,44,1063,79,1057,79,1057,44"/>
 <area shape="rect" href="permission__validator_8h.html" title=" " alt="" coords="1751,79,1921,104"/>
 <area shape="poly" title=" " alt="" coords="1137,24,1750,80,1750,85,1137,29"/>
-<area shape="rect" href="sql__executor_8h.html" title=" " alt="" coords="2823,152,2937,177"/>
-<area shape="poly" title=" " alt="" coords="1137,21,1482,44,1934,76,2449,120,2823,155,2822,160,2449,125,1933,81,1482,49,1137,27"/>
-<area shape="rect" href="core_2sql__executor_8cpp.html" title=" " alt="" coords="4563,225,4693,251"/>
-<area shape="poly" title=" " alt="" coords="1137,21,2096,76,2787,110,3325,131,3584,144,3862,162,4178,187,4551,223,4563,224,4562,229,4550,228,4178,192,3862,167,3584,149,3325,137,2787,115,2096,81,1137,26"/>
-<area shape="rect" href="core_2user__manager_8cpp.html" title="用户管理器核心实现。" alt="" coords="3012,79,3153,104"/>
-<area shape="poly" title=" " alt="" coords="1137,16,1436,18,1893,25,2436,43,2718,57,2994,76,3012,78,3011,83,2993,81,2717,62,2436,48,1893,30,1436,23,1137,22"/>
+<area shape="rect" href="sql__executor_8h.html" title=" " alt="" coords="2868,152,2983,177"/>
+<area shape="poly" title=" " alt="" coords="1137,21,1934,76,2477,121,2868,155,2868,161,2476,126,1933,81,1137,27"/>
+<area shape="rect" href="core_2sql__executor_8cpp.html" title=" " alt="" coords="4379,225,4509,251"/>
+<area shape="poly" title=" " alt="" coords="1137,21,2103,76,2740,110,3236,133,3732,164,4023,189,4367,223,4379,224,4378,229,4366,228,4023,194,3731,169,3236,138,2740,115,2103,81,1137,26"/>
+<area shape="rect" href="core_2user__manager_8cpp.html" title="用户管理器核心实现。" alt="" coords="3057,79,3199,104"/>
+<area shape="poly" title=" " alt="" coords="1137,16,1442,17,1910,24,2467,42,2756,57,3039,76,3057,78,3057,83,3038,81,2756,62,2467,48,1910,30,1442,23,1137,22"/>
 <area shape="poly" title=" " alt="" coords="157,113,132,131,110,154,100,172,93,191,86,226,81,225,88,190,95,170,106,150,128,127,153,109"/>
 <area shape="poly" title=" " alt="" coords="193,118,193,152,188,152,188,118"/>
 <area shape="poly" title=" " alt="" coords="163,187,102,227,99,223,161,183"/>
@@ -149,60 +152,56 @@ core/user_manager.h 的引用(Include)关系图:</div>
 <area shape="poly" title=" " alt="" coords="1866,110,1886,129,1905,151,1924,190,1935,224,1930,226,1919,192,1900,153,1882,132,1862,114"/>
 <area shape="rect" href="sql__executor_2permission__validator_8cpp.html" title=" " alt="" coords="1522,152,1707,177"/>
 <area shape="poly" title=" " alt="" coords="1788,111,1651,154,1650,149,1787,106"/>
-<area shape="poly" title=" " alt="" coords="1935,97,2823,157,2822,162,1935,102"/>
+<area shape="poly" title=" " alt="" coords="1935,96,2868,157,2868,162,1935,102"/>
 <area shape="rect" href="sql__executor_2sql__executor_8h.html" title=" " alt="" coords="1732,152,1847,177"/>
 <area shape="poly" title=" " alt="" coords="1823,117,1799,153,1795,150,1819,114"/>
 <area shape="poly" title=" " alt="" coords="1904,260,1831,301,1829,296,1901,255"/>
-<area shape="rect" href="network_8cpp.html" title=" " alt="" coords="2069,372,2171,397"/>
-<area shape="poly" title=" " alt="" coords="1953,260,1979,291,2011,322,2053,349,2094,370,2091,374,2050,354,2008,326,1975,295,1949,263"/>
-<area shape="rect" href="server__network__manager_8cpp.html" title=" " alt="" coords="1829,372,2043,397"/>
+<area shape="rect" href="network_8cpp.html" title=" " alt="" coords="1885,372,1987,397"/>
 <area shape="poly" title=" " alt="" coords="1938,265,1939,372,1933,372,1932,265"/>
+<area shape="rect" href="server__network__manager_8cpp.html" title=" " alt="" coords="2013,372,2227,397"/>
+<area shape="poly" title=" " alt="" coords="1953,260,1979,291,2011,322,2053,349,2094,370,2091,374,2050,354,2008,326,1975,295,1949,263"/>
 <area shape="rect" href="server__network__manager_8h.html" title=" " alt="" coords="2022,299,2221,324"/>
 <area shape="poly" title=" " alt="" coords="1978,253,2092,296,2090,301,1976,258"/>
-<area shape="poly" title=" " alt="" coords="2124,338,2123,372,2118,372,2118,338"/>
 <area shape="poly" title=" " alt="" coords="2080,331,1967,374,1965,369,2078,326"/>
-<area shape="poly" title=" " alt="" coords="2808,168,2575,170,2272,177,2124,184,1995,195,1898,209,1865,218,1844,227,1830,243,1821,262,1813,299,1808,298,1816,260,1826,240,1841,223,1863,213,1897,204,1995,190,2124,179,2271,172,2575,164,2808,163"/>
-<area shape="poly" title=" " alt="" coords="2809,172,2472,193,2027,228,2015,229,2015,224,2026,223,2471,187,2809,167"/>
-<area shape="poly" title=" " alt="" coords="2809,170,2672,175,2505,185,2346,202,2281,214,2233,228,2203,243,2175,263,2134,300,2130,296,2172,259,2200,239,2231,223,2280,209,2345,197,2504,180,2672,170,2809,165"/>
-<area shape="rect" href="advanced__sql92__executor_8cpp.html" title=" " alt="" coords="3597,225,3813,251"/>
-<area shape="poly" title=" " alt="" coords="2951,174,2956,175,3133,192,3271,201,3586,223,3597,224,3597,229,3585,228,3270,207,3132,197,2956,180,2951,179"/>
-<area shape="rect" href="isql__main_8cpp.html" title=" " alt="" coords="3837,225,3949,251"/>
-<area shape="poly" title=" " alt="" coords="2951,174,2956,175,3088,186,3200,193,3391,197,3582,203,3694,210,3826,223,3837,224,3837,229,3825,228,3693,215,3581,208,3391,203,3200,198,3088,192,2956,180,2951,179"/>
-<area shape="rect" href="load__data__executor_8h.html" title=" " alt="" coords="3179,225,3339,251"/>
-<area shape="poly" title=" " alt="" coords="2951,177,3198,223,3197,228,2950,182"/>
-<area shape="rect" href="network__server_8cpp.html" title=" " alt="" coords="4024,225,4173,251"/>
-<area shape="poly" title=" " alt="" coords="2951,174,2956,175,3116,188,3251,196,3481,201,3711,205,3846,211,4006,223,4024,224,4024,230,4005,228,3846,217,3710,210,3480,206,3250,201,3115,193,2956,180,2951,179"/>
-<area shape="rect" href="procedure__trigger__executor_8h.html" title=" " alt="" coords="3363,225,3573,251"/>
-<area shape="poly" title=" " alt="" coords="2951,174,2956,175,3363,223,3362,228,2956,180,2951,179"/>
-<area shape="rect" href="sqlcc__server_2server__main_8cpp.html" title=" " alt="" coords="4408,225,4539,251"/>
-<area shape="poly" title=" " alt="" coords="2951,174,2956,175,3175,191,3360,199,3676,199,3992,199,4177,207,4396,223,4408,224,4408,229,4396,228,4177,212,3992,205,3676,204,3360,204,3175,196,2956,180,2951,179"/>
+<area shape="poly" title=" " alt="" coords="2124,338,2123,372,2118,372,2118,338"/>
+<area shape="poly" title=" " alt="" coords="2854,168,2612,169,2294,176,2139,183,2004,194,1901,208,1866,217,1844,227,1830,243,1821,262,1813,299,1807,298,1816,260,1826,240,1841,223,1864,212,1900,203,2003,188,2139,178,2294,170,2612,163,2854,163"/>
+<area shape="poly" title=" " alt="" coords="2854,172,2499,192,2265,208,2027,228,2015,229,2015,224,2026,223,2264,203,2499,187,2854,167"/>
+<area shape="poly" title=" " alt="" coords="2997,176,3070,196,3099,209,3118,224,3124,238,3118,253,3105,259,3079,265,2998,275,2749,292,2460,303,2221,310,2221,305,2460,298,2749,286,2998,270,3078,259,3103,254,3114,249,3119,238,3114,227,3097,213,3068,201,2996,182"/>
+<area shape="rect" href="advanced__sql92__executor_8cpp.html" title=" " alt="" coords="3413,225,3629,251"/>
+<area shape="poly" title=" " alt="" coords="2997,174,3002,175,3413,223,3413,228,3001,180,2996,179"/>
+<area shape="rect" href="isql__main_8cpp.html" title=" " alt="" coords="3653,225,3765,251"/>
+<area shape="poly" title=" " alt="" coords="2997,174,3002,175,3181,191,3322,198,3462,205,3642,223,3653,224,3653,230,3641,228,3462,211,3321,203,3181,196,3001,180,2996,179"/>
+<area shape="rect" href="network__server_8cpp.html" title=" " alt="" coords="3840,225,3989,251"/>
+<area shape="poly" title=" " alt="" coords="2997,174,3002,175,3232,193,3411,201,3591,207,3822,223,3840,225,3840,230,3821,228,3591,212,3411,206,3231,199,3001,180,2996,179"/>
+<area shape="rect" href="procedure__trigger__executor_8h.html" title=" " alt="" coords="3179,225,3389,251"/>
+<area shape="poly" title=" " alt="" coords="2997,177,3226,223,3225,228,2996,183"/>
+<area shape="rect" href="sqlcc__server_2server__main_8cpp.html" title=" " alt="" coords="4224,225,4355,251"/>
+<area shape="poly" title=" " alt="" coords="2997,174,3002,175,3185,189,3341,196,3607,199,3872,201,4028,208,4212,223,4224,224,4224,229,4212,228,4028,214,3872,207,3607,204,3341,202,3185,195,3001,180,2996,179"/>
 <area shape="rect" href="network_2server__main_8cpp.html" title=" " alt="" coords="2039,225,2169,251"/>
-<area shape="poly" title=" " alt="" coords="2809,174,2537,195,2188,228,2170,230,2169,225,2188,223,2536,189,2809,168"/>
-<area shape="rect" href="set__operation__executor_8cpp.html" title=" " alt="" coords="4039,299,4239,324"/>
-<area shape="poly" title=" " alt="" coords="2951,174,2956,175,3054,181,3177,183,3461,186,3607,188,3744,194,3865,205,3962,223,3988,234,4013,248,4115,296,4113,301,4011,253,3986,239,3961,228,3865,211,3744,200,3607,194,3461,191,3177,189,3054,186,2956,180,2951,179"/>
-<area shape="rect" href="set__operation__executor_8h.html" title=" " alt="" coords="4198,225,4383,251"/>
-<area shape="poly" title=" " alt="" coords="2951,174,2956,175,3143,190,3301,198,3570,203,3840,206,3998,211,4186,223,4198,224,4197,229,4185,228,3998,217,3840,211,3570,208,3301,203,3143,195,2956,180,2951,179"/>
-<area shape="poly" title=" " alt="" coords="2951,174,2956,175,3198,192,3404,200,3585,201,3753,199,3922,197,4103,198,4308,205,4551,223,4563,224,4562,229,4550,228,4308,211,4103,203,3922,202,3753,204,3585,207,3404,205,3198,198,2956,180,2951,180"/>
-<area shape="rect" href="sql__executor_2sql__executor_8cpp.html" title=" " alt="" coords="2244,225,2375,251"/>
-<area shape="poly" title=" " alt="" coords="2809,177,2387,228,2375,230,2374,224,2386,223,2809,171"/>
-<area shape="rect" href="sql__executor__stub_8cpp.html" title="SQL执行器存根 &#45; 仅用于链接演示程序" alt="" coords="2399,225,2566,251"/>
-<area shape="poly" title=" " alt="" coords="2810,181,2547,228,2546,223,2809,176"/>
-<area shape="rect" href="sql__trigger__executor_8cpp.html" title=" " alt="" coords="2590,225,2770,251"/>
-<area shape="poly" title=" " alt="" coords="2836,184,2714,228,2712,223,2834,179"/>
-<area shape="rect" href="subquery__executor_8cpp.html" title=" " alt="" coords="2795,225,2965,251"/>
-<area shape="poly" title=" " alt="" coords="2883,191,2883,225,2877,225,2877,191"/>
-<area shape="rect" href="sql__executor_2system__database_8cpp.html" title="系统数据库（元数据目录）核心实现。" alt="" coords="2990,225,3154,251"/>
-<area shape="poly" title=" " alt="" coords="2925,180,3042,223,3040,228,2923,185"/>
-<area shape="rect" href="load__data__executor_8cpp.html" title=" " alt="" coords="3079,299,3254,324"/>
-<area shape="poly" title=" " alt="" coords="3235,261,3183,301,3180,296,3232,257"/>
-<area shape="rect" href="procedure__trigger__executor_8cpp.html" title=" " alt="" coords="3279,299,3505,324"/>
-<area shape="poly" title=" " alt="" coords="3448,262,3406,300,3403,296,3444,258"/>
-<area shape="rect" href="procedure__trigger__task_8cpp.html" title=" " alt="" coords="3507,372,3706,397"/>
-<area shape="poly" title=" " alt="" coords="3491,259,3597,370,3594,374,3487,263"/>
-<area shape="rect" href="procedure__trigger__task_8h.html" title=" " alt="" coords="3580,299,3764,324"/>
-<area shape="poly" title=" " alt="" coords="3514,253,3640,296,3638,301,3513,258"/>
-<area shape="poly" title=" " alt="" coords="3654,336,3619,374,3615,370,3650,333"/>
-<area shape="poly" title=" " alt="" coords="4255,259,4165,301,4162,296,4253,254"/>
+<area shape="poly" title=" " alt="" coords="2855,173,2561,193,2182,228,2170,229,2169,224,2181,223,2560,188,2854,167"/>
+<area shape="rect" href="set__operation__executor_8cpp.html" title=" " alt="" coords="3855,299,4055,324"/>
+<area shape="poly" title=" " alt="" coords="2997,174,3002,175,3120,183,3221,185,3393,179,3476,178,3564,182,3663,196,3778,223,3804,234,3829,248,3931,296,3929,301,3827,253,3802,239,3777,228,3662,202,3563,188,3476,183,3393,184,3221,190,3120,189,3001,180,2996,179"/>
+<area shape="rect" href="set__operation__executor_8h.html" title=" " alt="" coords="4014,225,4199,251"/>
+<area shape="poly" title=" " alt="" coords="2997,174,3002,175,3282,196,3501,202,3720,207,4002,223,4014,224,4013,229,4001,228,3720,212,3501,207,3282,201,3001,180,2996,179"/>
+<area shape="poly" title=" " alt="" coords="2996,174,3002,175,3209,190,3385,198,3684,199,3983,200,4159,207,4367,223,4379,224,4378,229,4366,228,4159,212,3983,205,3684,204,3385,203,3209,196,3001,180,2996,179"/>
+<area shape="rect" href="sql__executor_2sql__executor_8cpp.html" title=" " alt="" coords="2193,225,2324,251"/>
+<area shape="poly" title=" " alt="" coords="2855,175,2624,196,2336,228,2324,230,2324,224,2336,223,2623,191,2854,169"/>
+<area shape="rect" href="sql__executor__stub_8cpp.html" title="SQL执行器存根 &#45; 仅用于链接演示程序" alt="" coords="2349,225,2515,251"/>
+<area shape="poly" title=" " alt="" coords="2855,179,2512,228,2511,223,2854,174"/>
+<area shape="rect" href="sql__trigger__executor_8cpp.html" title=" " alt="" coords="2539,225,2719,251"/>
+<area shape="poly" title=" " alt="" coords="2865,183,2678,228,2677,223,2864,178"/>
+<area shape="rect" href="subquery__executor_8cpp.html" title=" " alt="" coords="2744,225,2915,251"/>
+<area shape="poly" title=" " alt="" coords="2900,188,2847,227,2843,223,2897,183"/>
+<area shape="rect" href="sql__executor_2system__database_8cpp.html" title="系统数据库（元数据目录）核心实现。" alt="" coords="2939,225,3103,251"/>
+<area shape="poly" title=" " alt="" coords="2953,183,3007,223,3004,227,2950,188"/>
+<area shape="rect" href="procedure__trigger__executor_8cpp.html" title=" " alt="" coords="3171,299,3397,324"/>
+<area shape="poly" title=" " alt="" coords="3287,264,3287,299,3281,299,3281,264"/>
+<area shape="rect" href="procedure__trigger__task_8cpp.html" title=" " alt="" coords="3223,372,3422,397"/>
+<area shape="poly" title=" " alt="" coords="3225,257,3194,269,3169,285,3156,303,3156,312,3161,323,3176,339,3194,352,3235,369,3233,374,3191,357,3172,343,3156,325,3151,313,3151,301,3165,281,3192,265,3223,252"/>
+<area shape="rect" href="procedure__trigger__task_8h.html" title=" " alt="" coords="3421,299,3605,324"/>
+<area shape="poly" title=" " alt="" coords="3335,252,3477,296,3475,301,3333,257"/>
+<area shape="poly" title=" " alt="" coords="3471,331,3355,374,3353,369,3469,326"/>
+<area shape="poly" title=" " alt="" coords="4071,259,3981,301,3978,296,4069,254"/>
 </map>
 </div>
 </div>
@@ -211,25 +210,24 @@ core/user_manager.h 的引用(Include)关系图:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 类</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1Role.html">sqlcc::Role</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">角色数据结构。  <a href="structsqlcc_1_1Role.html#details">更多...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">角色数据结构 - RBAC模型的核心单元  <a href="structsqlcc_1_1Role.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1User.html">sqlcc::User</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户数据结构。  <a href="structsqlcc_1_1User.html#details">更多...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户数据结构  <a href="structsqlcc_1_1User.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1Permission.html">sqlcc::Permission</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">权限数据结构。  <a href="structsqlcc_1_1Permission.html#details">更多...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">权限条目 描述 "谁（Grantee）" 对 "什么（Resource）" 拥有 "何种权利（Privilege）"。  <a href="structsqlcc_1_1Permission.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1PermissionKey.html">sqlcc::PermissionKey</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">权限矩阵的键结构。  <a href="structsqlcc_1_1PermissionKey.html#details">更多...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">权限矩阵键 - 用于快速查找  <a href="structsqlcc_1_1PermissionKey.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1PermissionKeyHash.html">sqlcc::PermissionKeyHash</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">权限矩阵的哈希函数。  <a href="structsqlcc_1_1PermissionKeyHash.html#details">更多...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">权限矩阵哈希函数  <a href="structsqlcc_1_1PermissionKeyHash.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1PermissionValue.html">sqlcc::PermissionValue</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">权限矩阵的值结构。  <a href="structsqlcc_1_1PermissionValue.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UserManager.html">sqlcc::UserManager</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户管理器类。  <a href="classsqlcc_1_1UserManager.html#details">更多...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户与权限管理器  <a href="classsqlcc_1_1UserManager.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -240,10 +238,39 @@ core/user_manager.h 的引用(Include)关系图:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 类型定义</h2></td></tr>
 <tr class="memitem:ac9706046ff44f13b6a5c91e2189dd1df" id="r_ac9706046ff44f13b6a5c91e2189dd1df"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#ac9706046ff44f13b6a5c91e2189dd1df">sqlcc::UserRoleMap</a> = std::unordered_map&lt; std::string, std::string &gt;</td></tr>
-<tr class="memdesc:ac9706046ff44f13b6a5c91e2189dd1df"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户到当前激活角色的映射。  <br /></td></tr>
 <tr class="separator:ac9706046ff44f13b6a5c91e2189dd1df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>SQLCC用户管理器 - 身份认证与权限控制（RBAC）核心 </p>
+<p>UserManager 是数据库安全系统的基石，负责管理用户（User）、角色（Role） 以及细粒度的权限（Permission）。它实现了基于角色的访问控制（RBAC）模型， 确保只有经过身份验证的用户才能在被授权的范围内访问数据库资源。</p>
+<p>📚 配套教材参考：</p><ul>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#第十章数据库安全性">第10章：数据库安全性</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#102-存取控制技术">10.2 存取控制技术</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#103-角色授权">10.3 角色授权</a></li>
+</ul>
+<p>WHY层 - 设计意图：</p><ol type="1">
+<li>**最小权限原则**：通过 RBAC 模型，可以将复杂的权限管理简化为角色的分配， 避免直接对用户进行繁琐的权限配置，降低管理错误风险。</li>
+<li>**安全性**：集中管理认证逻辑，确保密码（哈希）的安全存储和验证。</li>
+<li>**隔离性**：配合 SchemaManager 和 ExecutionContext，实现多租户间的数据隔离。</li>
+<li>**审计合规**：所有权限变更操作都应被记录，满足企业级审计需求。</li>
+</ol>
+<p>WHAT层 - 功能说明：</p><ul>
+<li>用户管理：创建/删除用户，密码修改，认证（Authentication）。</li>
+<li>角色管理：创建/删除角色，角色继承（Role Inheritance）。</li>
+<li>授权管理：GRANT/REVOKE 操作，支持对象级（Database/Table）权限。</li>
+<li>权限检查：CheckPermission 快速验证用户对特定资源的操作权限。</li>
+<li>持久化：将安全元数据持久化到 SystemDatabase 或文件系统。</li>
+</ul>
+<p>HOW层 - 实现机制：</p><ul>
+<li>**权限矩阵**：在内存中维护一个高效的哈希表（PermissionMatrix），实现 O(1) 的权限查找。</li>
+<li>**角色继承树**：支持角色的层级结构（如 Manager 继承 Employee），权限检查时递归遍历。</li>
+<li>**哈希存储**：密码仅存储加盐哈希值（Salted Hash），防止明文泄露。</li>
+<li>**原子变更**：权限修改操作通过互斥锁保护，并支持事务性持久化。</li>
+</ul>
+<dl class="section author"><dt>作者</dt><dd>SQLCC技术委员会 </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>1.2.6 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2026-02-02 </dd></dl>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8

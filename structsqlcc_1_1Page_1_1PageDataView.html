@@ -82,7 +82,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>获取页面数据的安全span视图  
+<p>获取页面数据的安全视图  
  <a href="structsqlcc_1_1Page_1_1PageDataView.html#details">更多...</a></p>
 
 <p><code>#include &lt;<a class="el" href="page_8h_source.html">page.h</a>&gt;</code></p>
@@ -97,6 +97,8 @@ Public 成员函数</h2></td></tr>
 <tr class="separator:ac8db3bb6278013f07c198a70824da9fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a376d72a3264f9380fed98af0f2966ee1" id="r_a376d72a3264f9380fed98af0f2966ee1"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1Page_1_1PageDataView.html#a376d72a3264f9380fed98af0f2966ee1">end</a> () const</td></tr>
 <tr class="separator:a376d72a3264f9380fed98af0f2966ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc3d1b48bf63a4a99809c1dfc8c3dd1f" id="r_acc3d1b48bf63a4a99809c1dfc8c3dd1f"><td class="memItemLeft" align="right" valign="top">char &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1Page_1_1PageDataView.html#acc3d1b48bf63a4a99809c1dfc8c3dd1f">operator[]</a> (size_t idx)</td></tr>
+<tr class="separator:acc3d1b48bf63a4a99809c1dfc8c3dd1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public 属性</h2></td></tr>
@@ -106,9 +108,8 @@ Public 属性</h2></td></tr>
 <tr class="separator:a3ee60e8572ee1e53b071395cb7875f5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>获取页面数据的安全span视图 </p>
-<dl class="section return"><dt>返回</dt><dd>std::span&lt;char&gt; 页面数据的安全视图</dd></dl>
-<p>Why: 提供类型安全和边界检查的数据访问方式，避免裸指针操作 What: GetDataSpan方法返回一个std::span，包含整个页面的数据 How: 使用std::span包装data_数组，提供安全的内存访问 </p>
+<div class="textblock"><p>获取页面数据的安全视图 </p>
+<p>WHY: std::span 提供了类似于指针的性能，但带有大小信息，是C++20推荐的内存操作方式。 WHAT: 返回指向 data_ 数组的 span，覆盖整个 PAGE_SIZE。 HOW: 调用方式：auto view = page.GetDataSpan(); view[0] = ...; </p>
 </div><h2 class="groupheader">成员函数说明</h2>
 <a id="a0e84b22d91a78f5c3808216a115bcbe7" name="a0e84b22d91a78f5c3808216a115bcbe7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0e84b22d91a78f5c3808216a115bcbe7">&#9670;&#160;</a></span>begin() <span class="overload">[1/2]</span></h2>
@@ -199,6 +200,32 @@ Public 属性</h2></td></tr>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acc3d1b48bf63a4a99809c1dfc8c3dd1f" name="acc3d1b48bf63a4a99809c1dfc8c3dd1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc3d1b48bf63a4a99809c1dfc8c3dd1f">&#9670;&#160;</a></span>operator[]()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char &amp; sqlcc::Page::PageDataView::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>idx</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>

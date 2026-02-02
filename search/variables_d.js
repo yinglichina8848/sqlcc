@@ -21,7 +21,7 @@ var searchData=
   ['new_5fprefix_18',['NEW_PREFIX',['../classsqlcc_1_1trigger_1_1SQLTriggerExecutor.html#a12d0c91aacd303cf791063a615565eb5',1,'sqlcc::trigger::SQLTriggerExecutor']]],
   ['new_5frows_5f_19',['new_rows_',['../classsqlcc_1_1execution_1_1TriggerExecuteTask.html#a1f1764de67dc5030c2b9f7c1019dd152',1,'sqlcc::execution::TriggerExecuteTask']]],
   ['new_5fschema_5f_20',['new_schema_',['../classsqlcc_1_1sql__parser_1_1AlterFunctionStatement.html#ae106a7060120ad9d8642f326e2b5d2e6',1,'sqlcc::sql_parser::AlterFunctionStatement']]],
-  ['new_5fvalue_21',['new_value',['../structsqlcc_1_1LogRecord.html#a8d68f9cb8d29331139faf21133e09413',1,'sqlcc::LogRecord::new_value'],['../structsqlcc_1_1LogRecord.html#afd4aac8176e92727fd1a4c5c96b6c972',1,'sqlcc::LogRecord::new_value']]],
+  ['new_5fvalue_21',['new_value',['../structsqlcc_1_1LogRecord.html#a8d68f9cb8d29331139faf21133e09413',1,'sqlcc::LogRecord']]],
   ['new_5fvalue_5f_22',['new_value_',['../classsqlcc_1_1sql__parser_1_1AlterFunctionStatement.html#a9df7b08feeb110b037414528ae425c39',1,'sqlcc::sql_parser::AlterFunctionStatement']]],
   ['newcolumndef_5f_23',['newColumnDef_',['../classsqlcc_1_1sql__parser_1_1AlterTableAction.html#a98f9444f2c01ae5c02ebdbe34bee59cf',1,'sqlcc::sql_parser::AlterTableAction']]],
   ['newest_5faccess_24',['newest_access',['../structsqlcc_1_1SmartIndexCache_1_1EnhancedCacheStats.html#a5ed3daf3ea0aa0b62336c799263594b0',1,'sqlcc::SmartIndexCache::EnhancedCacheStats::newest_access'],['../structsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedCacheStats.html#aee5047b439de1268cf5a3b50c879988c',1,'sqlcc::storage_engine::index_manager::EnhancedCacheStats::newest_access']]],

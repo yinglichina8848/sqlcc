@@ -82,7 +82,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>SQLCC事务相关基础类型定义  
+<p>SQLCC事务系统基础类型定义  
 <a href="#details">更多...</a></p>
 <div class="textblock"><code>#include &lt;chrono&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
@@ -91,7 +91,7 @@ transaction_types.h 的引用(Include)关系图:</div>
 <div class="dyncontent">
 <div class="center"><img src="transaction__types_8h__incl.png" border="0" usemap="#atransaction__types_8h" alt=""/></div>
 <map name="atransaction__types_8h" id="atransaction__types_8h">
-<area shape="rect" title="SQLCC事务相关基础类型定义" alt="" coords="9,5,159,31"/>
+<area shape="rect" title="SQLCC事务系统基础类型定义" alt="" coords="9,5,159,31"/>
 <area shape="rect" title=" " alt="" coords="5,79,72,104"/>
 <area shape="poly" title=" " alt="" coords="79,32,56,69,51,66,74,30"/>
 <area shape="rect" title=" " alt="" coords="96,79,163,104"/>
@@ -104,7 +104,7 @@ transaction_types.h 的引用(Include)关系图:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 类</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionId.html">sqlcc::TransactionId</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">事务ID类型 - 唯一标识一个事务  <a href="classsqlcc_1_1TransactionId.html#details">更多...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">事务全局唯一标识符  <a href="classsqlcc_1_1TransactionId.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -119,7 +119,6 @@ transaction_types.h 的引用(Include)关系图:</div>
 , <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4a049518eb4dc1859c7cebbe15876cfd63">sqlcc::SHARED</a>
 , <a class="el" href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4af45c3a0bb3687ed8e221253b3fd4a2ce">sqlcc::EXCLUSIVE</a>
  }</td></tr>
-<tr class="memdesc:ad4cd9e5426c83d2c3c1579f653c6ebb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁类型枚举 - 定义数据库锁的类型  <a href="namespacesqlcc.html#ad4cd9e5426c83d2c3c1579f653c6ebb4">更多...</a><br /></td></tr>
 <tr class="separator:ad4cd9e5426c83d2c3c1579f653c6ebb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fecb13bf96e6ee7f6827e3515a8b05c" id="r_a1fecb13bf96e6ee7f6827e3515a8b05c"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a1fecb13bf96e6ee7f6827e3515a8b05c">sqlcc::LockMode</a> { <br />
 &#160;&#160;<a class="el" href="namespacesqlcc.html#a1fecb13bf96e6ee7f6827e3515a8b05ca049518eb4dc1859c7cebbe15876cfd63">sqlcc::SHARED</a>
@@ -131,11 +130,21 @@ transaction_types.h 的引用(Include)关系图:</div>
 , <a class="el" href="namespacesqlcc.html#a1fecb13bf96e6ee7f6827e3515a8b05ca15a8022d0ed9cd9c2a2e756822703eb4">sqlcc::UPDATE</a>
 <br />
  }</td></tr>
-<tr class="memdesc:a1fecb13bf96e6ee7f6827e3515a8b05c"><td class="mdescLeft">&#160;</td><td class="mdescRight">锁模式枚举 - 更详细的锁模式定义（扩展用）  <a href="namespacesqlcc.html#a1fecb13bf96e6ee7f6827e3515a8b05c">更多...</a><br /></td></tr>
+<tr class="memdesc:a1fecb13bf96e6ee7f6827e3515a8b05c"><td class="mdescLeft">&#160;</td><td class="mdescRight">扩展锁模式 - 支持多粒度锁定协议 (MGL)  <a href="namespacesqlcc.html#a1fecb13bf96e6ee7f6827e3515a8b05c">更多...</a><br /></td></tr>
 <tr class="separator:a1fecb13bf96e6ee7f6827e3515a8b05c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>SQLCC事务相关基础类型定义 </p>
+<div class="textblock"><p>SQLCC事务系统基础类型定义 </p>
+<p>本文件定义了事务管理系统中使用的核心数据类型和枚举。 这些类型构成了事务调度、并发控制和死锁检测的基础。</p>
+<p>📚 配套教材参考：</p><ul>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#第八章oltp事务处理">第8章：OLTP事务处理</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#92-两阶段锁协议与死锁处理">9.2 两阶段锁协议</a></li>
+</ul>
+<p>WHY层 - 设计意图：</p><ol type="1">
+<li>**类型安全**：通过封装 <code>TransactionId</code> 类而不是简单的 <code>uint64_t</code>，防止与普通整数混淆。</li>
+<li>**可排序性**：事务ID必须单调递增，以便在 MVCC 中确定可见性顺序。</li>
+<li>**粒度控制**：<code>LockMode</code> 提供了比简单的读/写锁更丰富的语义（如意向锁），支持多粒度锁定协议。 </li>
+</ol>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

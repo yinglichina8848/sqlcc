@@ -166,7 +166,7 @@ Private 属性</h2></td></tr>
 <p>WHY层 - 设计意图： 数据库需要将逻辑上的“行（Rows）”转换为物理上的“字节（Bytes）”。 <a class="el" href="classsqlcc_1_1TableStorageManager.html" title="表存储管理器 - 实现堆表（Heap Table）的物理组织与记录管理">TableStorageManager</a> 负责管理跨多个页面的记录存储，解决页面内空间分配（Slotted Pages）、 记录跨页（Spanning - 简化版暂不支持）以及删除记录后的空间回收问题。</p>
 <p>WHAT层 - 功能说明： 实现 CRUD 操作：InsertRecord, UpdateRecord, DeleteRecord, GetRecord。 支持全表扫描（ScanTable），返回所有活跃记录的物理位置（RID: PageID + Offset）。 管理表元数据（TableMetadata）和相关的 B+ 树索引。</p>
 <p>HOW层 - 实现机制：</p><ol type="1">
-<li>槽位管理：采用 Slotted <a class="el" href="classsqlcc_1_1Page.html" title="数据库页面类，表示一个8KB的定长页面">Page</a> 架构，页面头部维护槽数组，每个槽记录对应记录在页内的偏移量。</li>
+<li>槽位管理：采用 Slotted <a class="el" href="classsqlcc_1_1Page.html" title="数据库页面类 - 存储引擎的物理载体">Page</a> 架构，页面头部维护槽数组，每个槽记录对应记录在页内的偏移量。</li>
 <li>顺序扫描：ScanTable 通过遍历页面的 NextPageID 链表并解析每页的槽数组实现。</li>
 <li>序列化：根据 <a class="el" href="structsqlcc_1_1TableMetadata.html">TableMetadata</a> 定义的 Schema，将字符串数组转换为紧凑的二进制表示。</li>
 <li>空间复用：DeleteRecord 仅标记 is_deleted 位，后续插入操作可重用这些空隙。 </li>
@@ -740,7 +740,7 @@ Private 属性</h2></td></tr>
 
 <p>插入新记录 </p>
 <p>WHY: 表存储的核心接口，负责数据落地的“最后一公里”。 WHAT: 将逻辑字段值列表写入物理磁盘页面。 HOW:</p><ol type="1">
-<li><a class="el" href="structsqlcc_1_1Schema.html">Schema</a> 校验：通过 RecordValidator 验证数据类型和数量的一致性。</li>
+<li><a class="el" href="structsqlcc_1_1Schema.html" title="模式元数据结构">Schema</a> 校验：通过 RecordValidator 验证数据类型和数量的一致性。</li>
 <li>页面寻址：调用 AllocateNewPage 寻找具有足够剩余空间的页面。</li>
 <li>序列化：将字符串数据转换为二进制流并拷贝至页面的 slot 对应偏移处。</li>
 <li>RID 生成：返回该记录成功插入后的 page_id 和 offset。 </li>

@@ -81,6 +81,9 @@ $(function() {
   <div class="headertitle"><div class="title">sqlcc::BufferPoolSharded::PageWrapper结构体 参考</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>页面容器，维护 <a class="el" href="classsqlcc_1_1Page.html" title="数据库页面类 - 存储引擎的物理载体">Page</a> 的元数据状态  
+ <a href="structsqlcc_1_1BufferPoolSharded_1_1PageWrapper.html#details">更多...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
@@ -90,17 +93,24 @@ Public 成员函数</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public 属性</h2></td></tr>
 <tr class="memitem:afb07b5486a7c14e368911c6686ab7710" id="r_afb07b5486a7c14e368911c6686ab7710"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1PageWrapper.html#afb07b5486a7c14e368911c6686ab7710">page</a></td></tr>
+<tr class="memdesc:afb07b5486a7c14e368911c6686ab7710"><td class="mdescLeft">&#160;</td><td class="mdescRight">物理页面数据  <br /></td></tr>
 <tr class="separator:afb07b5486a7c14e368911c6686ab7710"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8f50a51117d3770b1ef4d81558b2ae7" id="r_ad8f50a51117d3770b1ef4d81558b2ae7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1PageWrapper.html#ad8f50a51117d3770b1ef4d81558b2ae7">ref_count</a></td></tr>
+<tr class="memdesc:ad8f50a51117d3770b1ef4d81558b2ae7"><td class="mdescLeft">&#160;</td><td class="mdescRight">引用计数（固定计数）  <br /></td></tr>
 <tr class="separator:ad8f50a51117d3770b1ef4d81558b2ae7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3bac0cc705190a2400c027f36a5205d6" id="r_a3bac0cc705190a2400c027f36a5205d6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1PageWrapper.html#a3bac0cc705190a2400c027f36a5205d6">is_dirty</a></td></tr>
+<tr class="memdesc:a3bac0cc705190a2400c027f36a5205d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否被修改（待刷盘）  <br /></td></tr>
 <tr class="separator:a3bac0cc705190a2400c027f36a5205d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af824317b1704163f0d5f78d2f9435af9" id="r_af824317b1704163f0d5f78d2f9435af9"><td class="memItemLeft" align="right" valign="top">std::list&lt; int32_t &gt;::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1PageWrapper.html#af824317b1704163f0d5f78d2f9435af9">lru_iter</a></td></tr>
+<tr class="memdesc:af824317b1704163f0d5f78d2f9435af9"><td class="mdescLeft">&#160;</td><td class="mdescRight">在 LRU 链表中的位置  <br /></td></tr>
 <tr class="separator:af824317b1704163f0d5f78d2f9435af9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad31db116ebc3ccdd4fd585bb2c689f53" id="r_ad31db116ebc3ccdd4fd585bb2c689f53"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1PageWrapper.html#ad31db116ebc3ccdd4fd585bb2c689f53">is_in_lru</a></td></tr>
+<tr class="memdesc:ad31db116ebc3ccdd4fd585bb2c689f53"><td class="mdescLeft">&#160;</td><td class="mdescRight">标记是否处于可置换状态  <br /></td></tr>
 <tr class="separator:ad31db116ebc3ccdd4fd585bb2c689f53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>页面容器，维护 <a class="el" href="classsqlcc_1_1Page.html" title="数据库页面类 - 存储引擎的物理载体">Page</a> 的元数据状态 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="ac6b119d4e3bc257594a3573c25048062" name="ac6b119d4e3bc257594a3573c25048062"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac6b119d4e3bc257594a3573c25048062">&#9670;&#160;</a></span>PageWrapper()</h2>
 
@@ -140,6 +150,8 @@ Public 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>是否被修改（待刷盘） </p>
+
 </div>
 </div>
 <a id="ad31db116ebc3ccdd4fd585bb2c689f53" name="ad31db116ebc3ccdd4fd585bb2c689f53"></a>
@@ -153,6 +165,8 @@ Public 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>标记是否处于可置换状态 </p>
 
 </div>
 </div>
@@ -168,6 +182,8 @@ Public 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>在 LRU 链表中的位置 </p>
+
 </div>
 </div>
 <a id="afb07b5486a7c14e368911c6686ab7710" name="afb07b5486a7c14e368911c6686ab7710"></a>
@@ -182,6 +198,8 @@ Public 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>物理页面数据 </p>
+
 </div>
 </div>
 <a id="ad8f50a51117d3770b1ef4d81558b2ae7" name="ad8f50a51117d3770b1ef4d81558b2ae7"></a>
@@ -195,6 +213,8 @@ Public 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>引用计数（固定计数） </p>
 
 </div>
 </div>

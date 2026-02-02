@@ -81,6 +81,9 @@ $(function() {
   <div class="headertitle"><div class="title">sqlcc::BufferPoolSharded::Shard结构体 参考</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>独立的分片分区，拥有自己的锁和管理结构  
+ <a href="structsqlcc_1_1BufferPoolSharded_1_1Shard.html#details">更多...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
@@ -90,19 +93,27 @@ Public 成员函数</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public 属性</h2></td></tr>
 <tr class="memitem:a85f0cf380c1e512dee6a46e3d2848a4f" id="r_a85f0cf380c1e512dee6a46e3d2848a4f"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1Shard.html#a85f0cf380c1e512dee6a46e3d2848a4f">mutex</a></td></tr>
+<tr class="memdesc:a85f0cf380c1e512dee6a46e3d2848a4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">分片级互斥锁  <br /></td></tr>
 <tr class="separator:a85f0cf380c1e512dee6a46e3d2848a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a293a1dabd73fee37b4faf0762c8144b9" id="r_a293a1dabd73fee37b4faf0762c8144b9"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1PageWrapper.html">PageWrapper</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1Shard.html#a293a1dabd73fee37b4faf0762c8144b9">page_table</a></td></tr>
+<tr class="memdesc:a293a1dabd73fee37b4faf0762c8144b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">逻辑ID到包装器的映射  <br /></td></tr>
 <tr class="separator:a293a1dabd73fee37b4faf0762c8144b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a205d4c2a8ac327a8814635b92d5c1972" id="r_a205d4c2a8ac327a8814635b92d5c1972"><td class="memItemLeft" align="right" valign="top">std::list&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1Shard.html#a205d4c2a8ac327a8814635b92d5c1972">lru_list</a></td></tr>
+<tr class="memdesc:a205d4c2a8ac327a8814635b92d5c1972"><td class="mdescLeft">&#160;</td><td class="mdescRight">LRU 置换链表  <br /></td></tr>
 <tr class="separator:a205d4c2a8ac327a8814635b92d5c1972"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad68cc5c11e25ffe57d0ba0540d6fcaca" id="r_ad68cc5c11e25ffe57d0ba0540d6fcaca"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; int32_t, std::list&lt; int32_t &gt;::iterator &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1Shard.html#ad68cc5c11e25ffe57d0ba0540d6fcaca">lru_map</a></td></tr>
+<tr class="memdesc:ad68cc5c11e25ffe57d0ba0540d6fcaca"><td class="mdescLeft">&#160;</td><td class="mdescRight">加速 LRU 定位  <br /></td></tr>
 <tr class="separator:ad68cc5c11e25ffe57d0ba0540d6fcaca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5d343c82a8f726bb7d562e875f20e85" id="r_af5d343c82a8f726bb7d562e875f20e85"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1Shard.html#af5d343c82a8f726bb7d562e875f20e85">current_size</a></td></tr>
+<tr class="memdesc:af5d343c82a8f726bb7d562e875f20e85"><td class="mdescLeft">&#160;</td><td class="mdescRight">本分片承载的页面数  <br /></td></tr>
 <tr class="separator:af5d343c82a8f726bb7d562e875f20e85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e3e38e372afba532cf2202945c19e8a" id="r_a6e3e38e372afba532cf2202945c19e8a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1Shard.html#a6e3e38e372afba532cf2202945c19e8a">max_size</a></td></tr>
+<tr class="memdesc:a6e3e38e372afba532cf2202945c19e8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">本分片额定容量  <br /></td></tr>
 <tr class="separator:a6e3e38e372afba532cf2202945c19e8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>独立的分片分区，拥有自己的锁和管理结构 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a0e0d65d6963b82b6e92bbf0a0f1f883c" name="a0e0d65d6963b82b6e92bbf0a0f1f883c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0e0d65d6963b82b6e92bbf0a0f1f883c">&#9670;&#160;</a></span>Shard()</h2>
 
@@ -142,6 +153,8 @@ Public 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>本分片承载的页面数 </p>
+
 </div>
 </div>
 <a id="a205d4c2a8ac327a8814635b92d5c1972" name="a205d4c2a8ac327a8814635b92d5c1972"></a>
@@ -155,6 +168,8 @@ Public 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>LRU 置换链表 </p>
 
 </div>
 </div>
@@ -170,6 +185,8 @@ Public 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>加速 LRU 定位 </p>
+
 </div>
 </div>
 <a id="a6e3e38e372afba532cf2202945c19e8a" name="a6e3e38e372afba532cf2202945c19e8a"></a>
@@ -183,6 +200,8 @@ Public 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>本分片额定容量 </p>
 
 </div>
 </div>
@@ -198,6 +217,8 @@ Public 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>分片级互斥锁 </p>
+
 </div>
 </div>
 <a id="a293a1dabd73fee37b4faf0762c8144b9" name="a293a1dabd73fee37b4faf0762c8144b9"></a>
@@ -211,6 +232,8 @@ Public 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>逻辑ID到包装器的映射 </p>
 
 </div>
 </div>

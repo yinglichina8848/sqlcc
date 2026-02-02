@@ -94,9 +94,9 @@ sqlcc::BufferPoolSharded 的协作图:</div>
 <div class="center"><img src="classsqlcc_1_1BufferPoolSharded__coll__graph.png" border="0" usemap="#asqlcc_1_1BufferPoolSharded_coll__map" alt="Collaboration graph"/></div>
 <map name="asqlcc_1_1BufferPoolSharded_coll__map" id="asqlcc_1_1BufferPoolSharded_coll__map">
 <area shape="rect" title="分片缓冲池管理器 &#45; 现代数据库缓冲池的核心组件" alt="" coords="92,108,275,133"/>
-<area shape="rect" href="classsqlcc_1_1ConfigManager.html" title=" " alt="" coords="5,13,167,38"/>
+<area shape="rect" href="classsqlcc_1_1ConfigManager.html" title="配置管理器 &#45; 线程安全的单例配置中心" alt="" coords="5,13,167,38"/>
 <area shape="poly" title=" " alt="" coords="106,47,138,82,168,106,165,110,135,86,102,51"/>
-<area shape="rect" href="structsqlcc_1_1BufferPoolSharded_1_1Stats.html" title=" " alt="" coords="191,5,373,45"/>
+<area shape="rect" href="structsqlcc_1_1BufferPoolSharded_1_1Stats.html" title="原子性能统计指标" alt="" coords="191,5,373,45"/>
 <area shape="poly" title=" " alt="" coords="272,60,255,86,237,100,217,110,214,106,234,95,251,82,268,57"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
@@ -104,37 +104,42 @@ sqlcc::BufferPoolSharded 的协作图:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 类</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1PageWrapper.html">PageWrapper</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面容器，维护 <a class="el" href="classsqlcc_1_1Page.html" title="数据库页面类 - 存储引擎的物理载体">Page</a> 的元数据状态  <a href="structsqlcc_1_1BufferPoolSharded_1_1PageWrapper.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1Shard.html">Shard</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">独立的分片分区，拥有自己的锁和管理结构  <a href="structsqlcc_1_1BufferPoolSharded_1_1Shard.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1Stats.html">Stats</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">原子性能统计指标  <a href="structsqlcc_1_1BufferPoolSharded_1_1Stats.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
 <tr class="memitem:a4463479d9da5eea43bc582cab80e9cf2" id="r_a4463479d9da5eea43bc582cab80e9cf2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html#a4463479d9da5eea43bc582cab80e9cf2">BufferPoolSharded</a> (std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DiskManager.html">DiskManager</a> &gt; disk_manager, <a class="el" href="classsqlcc_1_1ConfigManager.html">ConfigManager</a> &amp;config_manager, size_t pool_size, size_t num_shards=16)</td></tr>
-<tr class="memdesc:a4463479d9da5eea43bc582cab80e9cf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数 - 初始化16分片缓冲池  <br /></td></tr>
+<tr class="memdesc:a4463479d9da5eea43bc582cab80e9cf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
 <tr class="separator:a4463479d9da5eea43bc582cab80e9cf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42c093d719356afea6d56fdc609112d1" id="r_a42c093d719356afea6d56fdc609112d1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html#a42c093d719356afea6d56fdc609112d1">~BufferPoolSharded</a> ()</td></tr>
 <tr class="separator:a42c093d719356afea6d56fdc609112d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf844b6a667fe0fea7a116934ba5f028" id="r_adf844b6a667fe0fea7a116934ba5f028"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html#adf844b6a667fe0fea7a116934ba5f028">FetchPage</a> (int32_t page_id, bool exclusive=false)</td></tr>
-<tr class="memdesc:adf844b6a667fe0fea7a116934ba5f028"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取页面 - 分片缓冲池的核心页面访问接口  <br /></td></tr>
+<tr class="memitem:adf844b6a667fe0fea7a116934ba5f028" id="r_adf844b6a667fe0fea7a116934ba5f028"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html#adf844b6a667fe0fea7a116934ba5f028">FetchPage</a> (int32_t page_id, bool exclusive=<a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a>)</td></tr>
+<tr class="memdesc:adf844b6a667fe0fea7a116934ba5f028"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取页面 - 缓冲池最频繁的操作  <br /></td></tr>
 <tr class="separator:adf844b6a667fe0fea7a116934ba5f028"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02316fdec7ea4fb9cea3a4ed2750dbb5" id="r_a02316fdec7ea4fb9cea3a4ed2750dbb5"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html#a02316fdec7ea4fb9cea3a4ed2750dbb5">NewPage</a> (int32_t *page_id)</td></tr>
-<tr class="memdesc:a02316fdec7ea4fb9cea3a4ed2750dbb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建新的页面 - 分片缓冲池的页面分配接口  <br /></td></tr>
+<tr class="memdesc:a02316fdec7ea4fb9cea3a4ed2750dbb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">分配并初始化新页面  <br /></td></tr>
 <tr class="separator:a02316fdec7ea4fb9cea3a4ed2750dbb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2790b3da141ca49095cdbfdcac180e30" id="r_a2790b3da141ca49095cdbfdcac180e30"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html#a2790b3da141ca49095cdbfdcac180e30">FlushPage</a> (int32_t page_id)</td></tr>
-<tr class="memdesc:a2790b3da141ca49095cdbfdcac180e30"><td class="mdescLeft">&#160;</td><td class="mdescRight">刷新单个页面到磁盘 - 脏页同步的核心机制  <br /></td></tr>
+<tr class="memdesc:a2790b3da141ca49095cdbfdcac180e30"><td class="mdescLeft">&#160;</td><td class="mdescRight">强制将指定脏页刷盘  <br /></td></tr>
 <tr class="separator:a2790b3da141ca49095cdbfdcac180e30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a509a06cdacd7509e6214c8ee269d1832" id="r_a509a06cdacd7509e6214c8ee269d1832"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html#a509a06cdacd7509e6214c8ee269d1832">FlushAllPages</a> ()</td></tr>
+<tr class="memdesc:a509a06cdacd7509e6214c8ee269d1832"><td class="mdescLeft">&#160;</td><td class="mdescRight">关机或检查点时刷新所有内存数据  <br /></td></tr>
 <tr class="separator:a509a06cdacd7509e6214c8ee269d1832"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3d64126699f94f6113917f07d10c7b5" id="r_ab3d64126699f94f6113917f07d10c7b5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html#ab3d64126699f94f6113917f07d10c7b5">DeletePage</a> (int32_t page_id)</td></tr>
-<tr class="memdesc:ab3d64126699f94f6113917f07d10c7b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">删除页面 - 分片缓冲池的页面删除接口  <br /></td></tr>
+<tr class="memdesc:ab3d64126699f94f6113917f07d10c7b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">销毁页面资源  <br /></td></tr>
 <tr class="separator:ab3d64126699f94f6113917f07d10c7b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1592a6dc7767f5709efed23c65a8ee1" id="r_ac1592a6dc7767f5709efed23c65a8ee1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html#ac1592a6dc7767f5709efed23c65a8ee1">UnpinPage</a> (int32_t page_id, bool is_dirty)</td></tr>
-<tr class="memdesc:ac1592a6dc7767f5709efed23c65a8ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">释放页面引用 - 引用计数管理的核心机制  <br /></td></tr>
+<tr class="memdesc:ac1592a6dc7767f5709efed23c65a8ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">释放页面使用权（解除 Pin）  <br /></td></tr>
 <tr class="separator:ac1592a6dc7767f5709efed23c65a8ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aebcdb5a19b9a75d0b621631bcce52ba1" id="r_aebcdb5a19b9a75d0b621631bcce52ba1"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html#aebcdb5a19b9a75d0b621631bcce52ba1">GetStats</a> () const</td></tr>
+<tr class="memdesc:aebcdb5a19b9a75d0b621631bcce52ba1"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取系统统计信息 返回 Hit Rate, Misses, Load Factor 等。  <br /></td></tr>
 <tr class="separator:aebcdb5a19b9a75d0b621631bcce52ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3c99497210bf1f3da9bf41c83929ec3" id="r_af3c99497210bf1f3da9bf41c83929ec3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html#af3c99497210bf1f3da9bf41c83929ec3">GetPoolSize</a> () const</td></tr>
 <tr class="separator:af3c99497210bf1f3da9bf41c83929ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,9 +149,10 @@ Public 成员函数</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private 成员函数</h2></td></tr>
 <tr class="memitem:a9d63ee367d5f05ad8839fef0cca71bd1" id="r_a9d63ee367d5f05ad8839fef0cca71bd1"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html#a9d63ee367d5f05ad8839fef0cca71bd1">GetShardIndex</a> (int32_t page_id) const</td></tr>
+<tr class="memdesc:a9d63ee367d5f05ad8839fef0cca71bd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">快速哈希路由 要求 num_shards_ 必须是 2 的幂，利用 &amp; 位运算代替 。  <br /></td></tr>
 <tr class="separator:a9d63ee367d5f05ad8839fef0cca71bd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0923238abdfd90430f05f361e6db5da" id="r_aa0923238abdfd90430f05f361e6db5da"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html#aa0923238abdfd90430f05f361e6db5da">ReplacePage</a> (<a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1Shard.html">Shard</a> &amp;shard)</td></tr>
-<tr class="memdesc:aa0923238abdfd90430f05f361e6db5da"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面替换算法实现  <br /></td></tr>
+<tr class="memdesc:aa0923238abdfd90430f05f361e6db5da"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面置换算法核心 从 <a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1Shard.html" title="独立的分片分区，拥有自己的锁和管理结构">Shard</a> 中挑选一个牺牲者并移除。  <br /></td></tr>
 <tr class="separator:aa0923238abdfd90430f05f361e6db5da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d7c9e432e866c71926d7a577923de94" id="r_a5d7c9e432e866c71926d7a577923de94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BufferPoolSharded.html#a5d7c9e432e866c71926d7a577923de94">MoveToHead</a> (<a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1Shard.html">Shard</a> &amp;shard, int32_t page_id)</td></tr>
 <tr class="memdesc:a5d7c9e432e866c71926d7a577923de94"><td class="mdescLeft">&#160;</td><td class="mdescRight">将页面移动到 LRU 队列头部  <br /></td></tr>
@@ -178,46 +184,7 @@ Private 属性</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>分片缓冲池管理器 - 现代数据库缓冲池的核心组件 </p>
-<p>WHY: 为什么需要分片缓冲池而不是单锁设计？</p>
-<p>传统缓冲池使用单一互斥锁保护所有操作，导致高并发场景下的锁竞争激烈。 分片设计通过以下方式解决性能瓶颈：</p>
-<p>设计原理：</p><ol type="1">
-<li>将缓冲池分为16个独立分片</li>
-<li>每个分片有独立的锁和LRU队列</li>
-<li>使用page_id % 16进行分片定位</li>
-<li>减少锁粒度，提高并发性能</li>
-</ol>
-<p>性能提升：</p><ul>
-<li>并发读操作：几乎无锁竞争</li>
-<li>写操作：锁竞争减少到1/16</li>
-<li>内存局部性：相邻页面倾向于同一分片</li>
-<li>扩展性：可通过增加分片数进一步提升性能</li>
-</ul>
-<p>权衡考虑：</p><ul>
-<li>内存开销：增加分片管理 overhead</li>
-<li>复杂性：并发控制逻辑更复杂</li>
-<li>适用场景：高并发读写负载</li>
-</ul>
-<p>⚡ 性能优化：分片缓冲池的性能优势分析</p>
-<p>性能瓶颈分析：</p><ul>
-<li>传统单锁缓冲池：锁竞争导致并发性能下降90%+</li>
-<li>分片设计：将锁竞争从全局减少到1/16</li>
-</ul>
-<p>性能提升量化：</p><ul>
-<li>并发读操作：性能提升8-10倍</li>
-<li>写操作：性能提升3-5倍</li>
-<li>内存局部性：缓存命中率提升15-20%</li>
-<li>扩展性：支持更高并发负载</li>
-</ul>
-<p>内存开销分析：</p><ul>
-<li>额外开销：每个分片的管理结构（约256字节）</li>
-<li>16分片总开销：约4KB（相对于100MB缓冲池可忽略）</li>
-<li>LRU链表：每个页面8字节指针开销</li>
-</ul>
-<p>WHAT: 基于RocksDB风格的Sharded Buffer Pool实现 特点：</p><ol type="1">
-<li>按2^n分shard，使用page_id哈希取模定位shard</li>
-<li>每个shard独立LRU + 独立mutex</li>
-<li>支持高并发访问</li>
-</ol>
+<p>分片缓冲池 - 现代多核数据库的标配实现</p>
 <p>WHY层 - 设计意图： 在现代多核CPU环境下，传统的单锁缓冲池已成为性能瓶颈。 通过将缓冲池分割为16个独立的分片，每个分片独立管理自己的页面， 大大降低了锁竞争，提高了并发访问性能。</p>
 <p>WHAT层 - 功能说明： 提供页面缓存、替换、刷新等核心功能，支持LRU页面替换策略。 实现了线程安全的页面访问，支持脏页管理和异步刷新。</p>
 <p>HOW层 - 实现细节： 使用哈希函数将页面ID映射到特定分片，每个分片独立维护LRU列表。 通过细粒度锁机制实现高并发访问，采用写时复制策略避免阻塞。</p>
@@ -272,13 +239,14 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>构造函数 - 初始化16分片缓冲池 </p>
-<p>构造函数 </p><dl class="params"><dt>参数</dt><dd>
+<p>构造函数 </p>
+<p>构造函数 - 初始化16分片缓冲池</p>
+<dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">disk_manager</td><td>磁盘管理器智能指针 </td></tr>
-    <tr><td class="paramname">config_manager</td><td>配置管理器实例 </td></tr>
-    <tr><td class="paramname">pool_size</td><td>缓冲池大小 </td></tr>
-    <tr><td class="paramname">num_shards</td><td>shard数量（必须是2的幂）</td></tr>
+    <tr><td class="paramname">disk_manager</td><td>存储引擎底层的磁盘读写组件 </td></tr>
+    <tr><td class="paramname">config_manager</td><td>系统配置管理器 </td></tr>
+    <tr><td class="paramname">pool_size</td><td>总内存容量（页面数） </td></tr>
+    <tr><td class="paramname">num_shards</td><td>分片数量，必须是2的幂（如 8, 16, 32）</td></tr>
   </table>
   </dd>
 </dl>
@@ -318,7 +286,6 @@ Private 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>析构函数 </p>
 
 </div>
 </div>
@@ -339,14 +306,8 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>删除页面 - 分片缓冲池的页面删除接口 </p>
-<p>删除页面 </p><dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>是否删除成功</dd></dl>
+<p>销毁页面资源 </p>
+<p>删除页面 - 分片缓冲池的页面删除接口</p>
 <p>WHY层 - 设计意图： 数据库运行过程中可能需要显式删除不再需要的页面。 DeletePage操作是数据库空间管理的关键，支持数据的清理和优化。 通过分片设计，即使在高并发场景下也能安全删除页面。</p>
 <p>WHAT层 - 功能说明： 从缓冲池中完全移除指定页面，释放占用的内存空间。 只允许删除引用计数为0的页面，确保没有其他使用者。 清理所有相关的缓存结构和统计信息。</p>
 <p>HOW层 - 实现细节：</p><ol type="1">
@@ -405,7 +366,7 @@ Private 属性</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>exclusive</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>exclusive</em> = <code><a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -415,33 +376,22 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>获取页面 - 分片缓冲池的核心页面访问接口 </p>
-<p>WHAT: FetchPage - 分片缓冲池页面获取</p>
-<p>根据页面ID从缓冲池获取页面，支持并发访问。 如果页面不在内存中，会从磁盘加载。</p>
-<p>HOW: 分片并发访问算法</p><ol type="1">
-<li>计算分片索引：page_id % num_shards</li>
-<li>获取对应分片的读锁（或写锁）</li>
-<li>在分片内查找页面：<ul>
-<li>找到：更新LRU位置，返回页面</li>
-<li>未找到：从磁盘加载，插入LRU</li>
-</ul>
-</li>
-<li>处理页面固定计数</li>
-<li>释放锁，返回页面</li>
+<p>获取页面 - 缓冲池最频繁的操作 </p>
+<p>获取页面 - 分片缓冲池的核心页面访问接口</p>
+<p>WHY: 它是所有数据访问的入口。 HOW:</p><ol type="1">
+<li>哈希路由到特定 Shard。</li>
+<li>加锁查询哈希表。</li>
+<li>命中则移动 LRU 到头部，返回。</li>
+<li>未命中则申请牺牲页，从磁盘 ReadPage。</li>
 </ol>
-<p>并发优化：</p><ul>
-<li>读锁允许多个并发读取</li>
-<li>写锁确保独占访问</li>
-<li>分片锁减少竞争</li>
-</ul>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
-    <tr><td class="paramname">exclusive</td><td>是否需要独占锁 </td></tr>
+    <tr><td class="paramname">page_id</td><td>目标页面ID </td></tr>
+    <tr><td class="paramname">exclusive</td><td>是否需要获取独占权限（用于写操作） </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>页面智能指针，失败时返回nullptr</dd></dl>
+<dl class="section return"><dt>返回</dt><dd>std::unique_ptr&lt;Page&gt; 页面包装后的指针</dd></dl>
 <p>WHY层 - 设计意图： 这是缓冲池最关键的接口，决定了数据库的I/O性能。 通过分片哈希定位，避免全局锁竞争，实现高并发访问。 采用写时复制策略，确保调用者获得独立的数据副本。</p>
 <p>WHAT层 - 功能说明： 根据页面ID获取页面数据，支持缓存命中和磁盘加载两种路径。 实现LRU页面替换策略，管理缓冲池容量限制。 返回页面数据的独立副本，保证调用者安全修改。</p>
 <p>HOW层 - 实现细节：</p><ol type="1">
@@ -487,7 +437,8 @@ Private 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>刷新所有页面到磁盘 </p>
+
+<p>关机或检查点时刷新所有内存数据 </p>
 
 </div>
 </div>
@@ -507,14 +458,8 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>刷新单个页面到磁盘 - 脏页同步的核心机制 </p>
-<p>刷新页面到磁盘 </p><dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>是否刷新成功</dd></dl>
+<p>强制将指定脏页刷盘 </p>
+<p>刷新单个页面到磁盘 - 脏页同步的核心机制</p>
 <p>WHY层 - 设计意图： 缓冲池的脏页管理是数据库ACID属性的关键保障。 及时将修改的页面同步到磁盘，避免数据丢失。 支持按需刷新，避免频繁的全量同步开销。</p>
 <p>WHAT层 - 功能说明： 检查指定页面是否为脏页，如果是则将其内容同步到磁盘。 成功刷新后清除脏页标记，确保数据一致性。 失败时保持脏页状态，支持后续重试。</p>
 <p>HOW层 - 实现细节：</p><ol type="1">
@@ -563,7 +508,6 @@ Private 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>获取当前页面数量 </p><dl class="section return"><dt>返回</dt><dd>当前页面数量 </dd></dl>
 
 </div>
 </div>
@@ -589,7 +533,6 @@ Private 属性</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>获取缓冲池大小 </p><dl class="section return"><dt>返回</dt><dd>缓冲池大小 </dd></dl>
 
 </div>
 </div>
@@ -617,6 +560,8 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>快速哈希路由 要求 num_shards_ 必须是 2 的幂，利用 &amp; 位运算代替 。 </p>
+
 </div>
 </div>
 <a id="aebcdb5a19b9a75d0b621631bcce52ba1" name="aebcdb5a19b9a75d0b621631bcce52ba1"></a>
@@ -633,7 +578,8 @@ Private 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>获取缓冲池统计信息 </p><dl class="section return"><dt>返回</dt><dd>统计信息哈希表 </dd></dl>
+
+<p>获取系统统计信息 返回 Hit Rate, Misses, Load Factor 等。 </p>
 
 </div>
 </div>
@@ -692,14 +638,14 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>创建新的页面 - 分片缓冲池的页面分配接口 </p>
-<p>创建新页面 </p><dl class="params"><dt>参数</dt><dd>
+<p>分配并初始化新页面 </p>
+<p>创建新的页面 - 分片缓冲池的页面分配接口</p>
+<p>WHAT: 在磁盘分配 page_id 的同时，在内存中为其预留空间并固定（Pin）。 </p><dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">page_id</td><td>输出参数，页面ID </td></tr>
+    <tr><td class="paramname">page_id</td><td>[out] 输出新分配的页面ID</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>页面智能指针，失败时返回nullptr</dd></dl>
 <p>WHY层 - 设计意图： 数据库运行过程中经常需要创建新的页面来存储数据。 NewPage操作是数据库写操作的基础，决定了系统的扩展能力。 通过分片设计，即使在高并发场景下也能高效分配页面。</p>
 <p>WHAT层 - 功能说明： 分配一个新的唯一页面ID，创建对应的页面对象并初始化为空。 如果缓冲池已满，会自动触发页面替换以腾出空间。 返回新页面的独立副本，保证调用者可以安全修改。</p>
 <p>HOW层 - 实现细节：</p><ol type="1">
@@ -805,7 +751,8 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>页面替换算法实现 </p>
+<p>页面置换算法核心 从 <a class="el" href="structsqlcc_1_1BufferPoolSharded_1_1Shard.html" title="独立的分片分区，拥有自己的锁和管理结构">Shard</a> 中挑选一个牺牲者并移除。 </p>
+<p>页面替换算法实现</p>
 <p>WHY: 当缓冲池满时，必须选择一个“牺牲页”并将其移除，为新页面腾出空间。 WHAT: 按照 LRU 策略寻找引用计数为 0 的页面。 HOW:</p><ol type="1">
 <li>从 lru_list 的尾部（最旧）向头部遍历。</li>
 <li>检查 page_table 中的 ref_count。</li>
@@ -842,34 +789,16 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>释放页面引用 - 引用计数管理的核心机制 </p>
-<p>WHAT: UnpinPage - 页面固定解除和LRU管理</p>
-<p>减少页面的固定计数，当计数为0时将页面加入LRU替换候选列表。 支持标记页面为脏页，需要写入磁盘。</p>
-<p>HOW: 引用计数和LRU管理算法</p><ol type="1">
-<li>计算分片索引，获取分片锁</li>
-<li>查找页面包装对象</li>
-<li>减少引用计数（ref_count&ndash;）</li>
-<li>如果is_dirty为true，标记页面为脏页</li>
-<li>当引用计数为0时：<ul>
-<li>将页面加入LRU链表头部</li>
-<li>记录LRU位置信息</li>
-</ul>
-</li>
-<li>释放锁，返回成功状态</li>
-</ol>
-<p>LRU策略：</p><ul>
-<li>固定页面（ref_count &gt; 0）：不受LRU替换</li>
-<li>非固定页面（ref_count = 0）：可被LRU替换</li>
-<li>脏页优先：脏页在LRU中保持更久</li>
-</ul>
+<p>释放页面使用权（解除 Pin） </p>
+<p>释放页面引用 - 引用计数管理的核心机制</p>
+<p>WHY: 页面使用完必须释放，否则缓冲池会因“全固定”而无法进行新页面换入（Deadlock）。 WHAT: 减少引用计数，标记脏页位，并可能将其放入 LRU 淘汰序列。</p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
-    <tr><td class="paramname">is_dirty</td><td>是否为脏页 </td></tr>
+    <tr><td class="paramname">page_id</td><td>目标页面ID </td></tr>
+    <tr><td class="paramname">is_dirty</td><td>本次使用是否修改了页面内容</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>是否解除成功</dd></dl>
 <p>WHY层 - 设计意图： 缓冲池的引用计数是内存安全的关键，避免页面在被使用时被替换。 通过引用计数实现多线程间的安全共享，保证数据一致性。 脏页标记支持延迟写回策略，优化I/O性能。</p>
 <p>WHAT层 - 功能说明： 减少指定页面的引用计数，当计数为零时页面可以被替换。 支持脏页标记，用于跟踪页面是否被修改过。 确保页面在被安全释放前不会被意外替换。</p>
 <p>HOW层 - 实现细节：</p><ol type="1">

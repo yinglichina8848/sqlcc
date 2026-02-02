@@ -106,7 +106,7 @@ sqlcc::StorageEngine 的协作图:</div>
 <area shape="rect" title="存储引擎类，封装磁盘管理和缓冲池功能" alt="" coords="139,108,297,133"/>
 <area shape="rect" title=" " alt="" coords="5,5,220,45"/>
 <area shape="poly" title=" " alt="" coords="146,52,206,106,203,110,142,56"/>
-<area shape="rect" href="classsqlcc_1_1ConfigManager.html" title=" " alt="" coords="244,13,405,38"/>
+<area shape="rect" href="classsqlcc_1_1ConfigManager.html" title="配置管理器 &#45; 线程安全的单例配置中心" alt="" coords="244,13,405,38"/>
 <area shape="poly" title=" " alt="" coords="303,49,233,110,229,106,300,45"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
@@ -134,7 +134,7 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:ac5bb1c4d5b09fc46ac1e00e5c95bcd5a" id="r_ac5bb1c4d5b09fc46ac1e00e5c95bcd5a"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1Page.html">Page</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#ac5bb1c4d5b09fc46ac1e00e5c95bcd5a">FetchPage</a> (int32_t page_id)</td></tr>
 <tr class="memdesc:ac5bb1c4d5b09fc46ac1e00e5c95bcd5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取页面  <br /></td></tr>
 <tr class="separator:ac5bb1c4d5b09fc46ac1e00e5c95bcd5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a164e428bcdbcffa1f8faf41f8546daa6" id="r_a164e428bcdbcffa1f8faf41f8546daa6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a164e428bcdbcffa1f8faf41f8546daa6">UnpinPage</a> (int32_t page_id, bool is_dirty=false)</td></tr>
+<tr class="memitem:a164e428bcdbcffa1f8faf41f8546daa6" id="r_a164e428bcdbcffa1f8faf41f8546daa6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a164e428bcdbcffa1f8faf41f8546daa6">UnpinPage</a> (int32_t page_id, bool is_dirty=<a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a>)</td></tr>
 <tr class="memdesc:a164e428bcdbcffa1f8faf41f8546daa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">取消固定页面  <br /></td></tr>
 <tr class="separator:a164e428bcdbcffa1f8faf41f8546daa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e7b43b887142db92d8ff6e9132cdba9" id="r_a6e7b43b887142db92d8ff6e9132cdba9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1StorageEngine.html#a6e7b43b887142db92d8ff6e9132cdba9">FlushPage</a> (int32_t page_id)</td></tr>
@@ -187,9 +187,9 @@ Private 属性</h2></td></tr>
 <div class="line"><a class="code hl_class" href="classsqlcc_1_1Page.html">Page</a>* page = storage_engine.NewPage();</div>
 <div class="line"><span class="comment">// ... use page ...</span></div>
 <div class="line">storage_engine.DeletePage(page-&gt;<a class="code hl_function" href="classsqlcc_1_1Page.html#ad5e9aa4bc6114d620d95f939d589daa3">GetPageId</a>());</div>
-<div class="ttc" id="aclasssqlcc_1_1ConfigManager_html"><div class="ttname"><a href="classsqlcc_1_1ConfigManager.html">sqlcc::ConfigManager</a></div><div class="ttdef"><b>Definition</b> config_manager.h:23</div></div>
-<div class="ttc" id="aclasssqlcc_1_1Page_html"><div class="ttname"><a href="classsqlcc_1_1Page.html">sqlcc::Page</a></div><div class="ttdoc">数据库页面类，表示一个8KB的定长页面</div><div class="ttdef"><b>Definition</b> page.h:22</div></div>
-<div class="ttc" id="aclasssqlcc_1_1Page_html_ad5e9aa4bc6114d620d95f939d589daa3"><div class="ttname"><a href="classsqlcc_1_1Page.html#ad5e9aa4bc6114d620d95f939d589daa3">sqlcc::Page::GetPageId</a></div><div class="ttdeci">int32_t GetPageId() const</div><div class="ttdoc">获取页面ID</div><div class="ttdef"><b>Definition</b> page.h:60</div></div>
+<div class="ttc" id="aclasssqlcc_1_1ConfigManager_html"><div class="ttname"><a href="classsqlcc_1_1ConfigManager.html">sqlcc::ConfigManager</a></div><div class="ttdoc">配置管理器 - 线程安全的单例配置中心</div><div class="ttdef"><b>Definition</b> config_manager.h:64</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Page_html"><div class="ttname"><a href="classsqlcc_1_1Page.html">sqlcc::Page</a></div><div class="ttdoc">数据库页面类 - 存储引擎的物理载体</div><div class="ttdef"><b>Definition</b> page.h:70</div></div>
+<div class="ttc" id="aclasssqlcc_1_1Page_html_ad5e9aa4bc6114d620d95f939d589daa3"><div class="ttname"><a href="classsqlcc_1_1Page.html#ad5e9aa4bc6114d620d95f939d589daa3">sqlcc::Page::GetPageId</a></div><div class="ttdeci">int32_t GetPageId() const</div><div class="ttdoc">获取页面ID</div><div class="ttdef"><b>Definition</b> page.h:95</div></div>
 <div class="ttc" id="aclasssqlcc_1_1StorageEngine_html"><div class="ttname"><a href="classsqlcc_1_1StorageEngine.html">sqlcc::StorageEngine</a></div><div class="ttdoc">存储引擎类，封装磁盘管理和缓冲池功能</div><div class="ttdef"><b>Definition</b> storage_engine.h:59</div></div>
 </div><!-- fragment --> </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a934d217a25b0934533cc91e60d4f9432" name="a934d217a25b0934533cc91e60d4f9432"></a>
@@ -314,7 +314,7 @@ Private 属性</h2></td></tr>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>操作是否成功</dd></dl>
 <p>Why: 当数据不再需要时，需要释放页面空间，例如删除记录或索引 What: DeletePage方法从缓冲池和磁盘中删除指定页面 How: 调用缓冲池的DeletePage方法，由缓冲池协调与磁盘管理器的交互</p>
-<p>WHY: 当表被 DROP 或索引被移除时，需要回收磁盘空间。 WHAT: 从缓冲池和磁盘文件中同时移除指定页面。 HOW: 释放 ID 至 <a class="el" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器 - 实现数据库文件与物理磁盘之间的底层 I/O 通信">DiskManager</a> 的空闲列表，并在缓冲池中标记该槽位为可用。 </p>
+<p>WHY: 当表被 DROP 或索引被移除时，需要回收磁盘空间。 WHAT: 从缓冲池和磁盘文件中同时移除指定页面。 HOW: 释放 ID 至 <a class="el" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器 - 物理I/O的终点，持久化的起点">DiskManager</a> 的空闲列表，并在缓冲池中标记该槽位为可用。 </p>
 
 </div>
 </div>
@@ -347,7 +347,7 @@ Private 属性</h2></td></tr>
 <p>WHY: 上层组件（如 B+ 树或记录管理器）需要访问磁盘上的特定数据块。 WHAT: 根据 page_id 返回对应的页面对象。如果页面不在内存，则触发磁盘 I/O。 HOW:</p><ol type="1">
 <li>检查缓冲池缓存。</li>
 <li>若命中，直接返回内存地址。</li>
-<li>若未命中，通过 <a class="el" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器 - 实现数据库文件与物理磁盘之间的底层 I/O 通信">DiskManager</a> 读取物理文件，并应用页面替换策略（如 LRU）载入。 </li>
+<li>若未命中，通过 <a class="el" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器 - 物理I/O的终点，持久化的起点">DiskManager</a> 读取物理文件，并应用页面替换策略（如 LRU）载入。 </li>
 </ol>
 
 </div>
@@ -593,7 +593,7 @@ Private 属性</h2></td></tr>
 <p>Why: 数据库需要新的存储空间来存储数据，例如插入新记录或创建索引 What: NewPage方法在数据库中分配一个新的页面，返回指向该页面的智能指针 How: 通过磁盘管理器分配新的页面ID，通过缓冲池创建页面对象，将页面标记为脏页</p>
 <p>WHY: 数据库需要扩展物理存储空间以承纳新数据（如 INSERT 操作或索引分裂）。 WHAT: 在磁盘文件中预留 8KB 空间，并在内存缓冲池中同步创建一个活跃页面对象。 HOW:</p><ol type="1">
 <li>委托分片缓冲池（BufferPoolSharded）执行 NewPage 操作。</li>
-<li>缓冲池内部会通过 <a class="el" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器 - 实现数据库文件与物理磁盘之间的底层 I/O 通信">DiskManager</a> 分配一个新的 page_id。</li>
+<li>缓冲池内部会通过 <a class="el" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器 - 物理I/O的终点，持久化的起点">DiskManager</a> 分配一个新的 page_id。</li>
 <li>自动将该页面 Pin 在内存中，防止立即被回收。 </li>
 </ol>
 
@@ -644,7 +644,7 @@ Private 属性</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>is_dirty</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>is_dirty</em> = <code><a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>

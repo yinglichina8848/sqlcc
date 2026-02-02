@@ -95,7 +95,7 @@ Public 成员函数</h2></td></tr>
 <tr class="memdesc:addc22c99927be657b37a73eced4ba01f"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
 <tr class="separator:addc22c99927be657b37a73eced4ba01f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3bd09ccba7364453ec0ad425c76a1207" id="r_a3bd09ccba7364453ec0ad425c76a1207"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ThreadPool.html#a3bd09ccba7364453ec0ad425c76a1207">~ThreadPool</a> ()</td></tr>
-<tr class="memdesc:a3bd09ccba7364453ec0ad425c76a1207"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数 等待所有任务完成并关闭线程池  <br /></td></tr>
+<tr class="memdesc:a3bd09ccba7364453ec0ad425c76a1207"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数 - 默认执行优雅关闭逻辑  <br /></td></tr>
 <tr class="separator:a3bd09ccba7364453ec0ad425c76a1207"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35e62194be08818d72184f302f0c8841" id="r_a35e62194be08818d72184f302f0c8841"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ThreadPool.html#a35e62194be08818d72184f302f0c8841">ThreadPool</a> (const <a class="el" href="classsqlcc_1_1utils_1_1ThreadPool.html">ThreadPool</a> &amp;)=delete</td></tr>
 <tr class="separator:a35e62194be08818d72184f302f0c8841"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -103,22 +103,22 @@ Public 成员函数</h2></td></tr>
 <tr class="separator:a4c906ef587180075e0306882fd765f67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed0cffd945332d2039cb30ac9368fa72" id="r_aed0cffd945332d2039cb30ac9368fa72"><td class="memTemplParams" colspan="2">template&lt;class F , class... Args&gt; </td></tr>
 <tr class="memitem:aed0cffd945332d2039cb30ac9368fa72"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ThreadPool.html#aed0cffd945332d2039cb30ac9368fa72">submit</a> (F &amp;&amp;f, Args &amp;&amp;... args) -&gt; std::future&lt; typename std::invoke_result&lt; F, Args... &gt;::type &gt;</td></tr>
-<tr class="memdesc:aed0cffd945332d2039cb30ac9368fa72"><td class="mdescLeft">&#160;</td><td class="mdescRight">提交任务到线程池  <br /></td></tr>
+<tr class="memdesc:aed0cffd945332d2039cb30ac9368fa72"><td class="mdescLeft">&#160;</td><td class="mdescRight">提交异步任务  <br /></td></tr>
 <tr class="separator:aed0cffd945332d2039cb30ac9368fa72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2256d3853ecf1fb855767e7d2def5f16" id="r_a2256d3853ecf1fb855767e7d2def5f16"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ThreadPool.html#a2256d3853ecf1fb855767e7d2def5f16">active_threads</a> () const</td></tr>
-<tr class="memdesc:a2256d3853ecf1fb855767e7d2def5f16"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取线程池状态  <br /></td></tr>
+<tr class="memdesc:a2256d3853ecf1fb855767e7d2def5f16"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取正在执行任务的线程数  <br /></td></tr>
 <tr class="separator:a2256d3853ecf1fb855767e7d2def5f16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8ebad7c7b785f456e52dfcb1a73ca81" id="r_ad8ebad7c7b785f456e52dfcb1a73ca81"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ThreadPool.html#ad8ebad7c7b785f456e52dfcb1a73ca81">queued_tasks</a> () const</td></tr>
-<tr class="memdesc:ad8ebad7c7b785f456e52dfcb1a73ca81"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取等待任务数  <br /></td></tr>
+<tr class="memdesc:ad8ebad7c7b785f456e52dfcb1a73ca81"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前任务队列深度 队列过长通常意味着系统处理能力遇到瓶颈。  <br /></td></tr>
 <tr class="separator:ad8ebad7c7b785f456e52dfcb1a73ca81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7517b3b91e3cff736ffc59bfd65a4ab8" id="r_a7517b3b91e3cff736ffc59bfd65a4ab8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ThreadPool.html#a7517b3b91e3cff736ffc59bfd65a4ab8">wait</a> ()</td></tr>
-<tr class="memdesc:a7517b3b91e3cff736ffc59bfd65a4ab8"><td class="mdescLeft">&#160;</td><td class="mdescRight">等待所有任务完成  <br /></td></tr>
+<tr class="memdesc:a7517b3b91e3cff736ffc59bfd65a4ab8"><td class="mdescLeft">&#160;</td><td class="mdescRight">阻塞等待所有已提交任务执行完毕  <br /></td></tr>
 <tr class="separator:a7517b3b91e3cff736ffc59bfd65a4ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6cb06c7fa93aad3d85f528b2145ad163" id="r_a6cb06c7fa93aad3d85f528b2145ad163"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ThreadPool.html#a6cb06c7fa93aad3d85f528b2145ad163">shutdown</a> ()</td></tr>
-<tr class="memdesc:a6cb06c7fa93aad3d85f528b2145ad163"><td class="mdescLeft">&#160;</td><td class="mdescRight">关闭线程池 不再接受新任务，等待现有任务完成  <br /></td></tr>
+<tr class="memdesc:a6cb06c7fa93aad3d85f528b2145ad163"><td class="mdescLeft">&#160;</td><td class="mdescRight">优雅关闭 不再接受新任务，直到队列中所有剩余任务处理完成后，销毁所有工作线程。  <br /></td></tr>
 <tr class="separator:a6cb06c7fa93aad3d85f528b2145ad163"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a836ed7aebe8fb5659e07715d83c34e30" id="r_a836ed7aebe8fb5659e07715d83c34e30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ThreadPool.html#a836ed7aebe8fb5659e07715d83c34e30">shutdown_now</a> ()</td></tr>
-<tr class="memdesc:a836ed7aebe8fb5659e07715d83c34e30"><td class="mdescLeft">&#160;</td><td class="mdescRight">强制关闭线程池 立即停止所有任务  <br /></td></tr>
+<tr class="memdesc:a836ed7aebe8fb5659e07715d83c34e30"><td class="mdescLeft">&#160;</td><td class="mdescRight">强制关闭 立即通知所有线程停止工作，未完成的任务将被丢弃。  <br /></td></tr>
 <tr class="separator:a836ed7aebe8fb5659e07715d83c34e30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-types" name="pri-types"></a>
@@ -129,7 +129,7 @@ Private 类型</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private 成员函数</h2></td></tr>
 <tr class="memitem:aa426d4f3284af268203df537f45bcd13" id="r_aa426d4f3284af268203df537f45bcd13"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1utils_1_1ThreadPool.html#aa426d4f3284af268203df537f45bcd13">worker_thread</a> ()</td></tr>
-<tr class="memdesc:aa426d4f3284af268203df537f45bcd13"><td class="mdescLeft">&#160;</td><td class="mdescRight">工作线程函数  <br /></td></tr>
+<tr class="memdesc:aa426d4f3284af268203df537f45bcd13"><td class="mdescLeft">&#160;</td><td class="mdescRight">工作线程主循环 采用抢占式获取任务模式。  <br /></td></tr>
 <tr class="separator:aa426d4f3284af268203df537f45bcd13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
@@ -153,21 +153,15 @@ Private 属性</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>通用工作线程池 - 实现多核并发处理和任务调度 </p>
-<p>线程池实现 - 支持任务提交和异步执行</p>
+<p>高性能线程池实现 - 现代 C++ 异步执行框架</p>
 <p>WHY层 - 设计意图： 在高负载数据库操作中，频繁地创建和销毁线程会带来显著的系统开销（Context Switch, Stack Allocation）。 线程池通过维护一组常驻线程，实现了线程资源的重用， 并通过任务队列（Task Queue）平滑处理突发流量，防止系统过载。</p>
 <p>WHAT层 - 功能说明： 提供任务提交接口（enqueue），支持异步执行 lambda 或 std::function。 支持优雅关闭（shutdown）和立即强制关闭（shutdown_now）。 支持同步等待（wait），直到所有提交的任务执行完毕。 提供活跃线程数和队列任务数的实时统计。</p>
 <p>HOW层 - 实现机制：</p><ol type="1">
 <li>生产者-消费者模式：主线程提交任务，工作线程从 tasks_ 队列中竞争任务。</li>
 <li>同步原语：使用 std::mutex 保护任务队列，std::condition_variable 实现线程的阻塞等待与唤醒。</li>
 <li>原子计数：active_task_count_ 使用 std::atomic 确保在无锁情况下统计执行状态。</li>
-<li>任务隔离：使用 try-catch 块包裹任务执行过程，确保单个任务崩溃不会导致整个线程池死锁或终止。</li>
+<li>任务隔离：使用 try-catch 块包裹任务执行过程，确保单个任务崩溃不会导致整个线程池死锁或终止。 </li>
 </ol>
-<p>提供高效的任务调度和执行，支持：</p><ul>
-<li>动态任务提交</li>
-<li>结果获取（future）</li>
-<li>线程安全</li>
-<li>优雅关闭 </li>
-</ul>
 </div><h2 class="groupheader">成员类型定义说明</h2>
 <a id="a35afef2f33df70a081025ae39049aeea" name="a35afef2f33df70a081025ae39049aeea"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a35afef2f33df70a081025ae39049aeea">&#9670;&#160;</a></span>Task</h2>
@@ -219,7 +213,7 @@ Private 属性</h2></td></tr>
 <p>构造函数 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">thread_count</td><td>线程数量，默认为硬件并发数 </td></tr>
+    <tr><td class="paramname">thread_count</td><td>线程池大小。默认为硬件核心数，建议针对 I/O 密集型任务适当增加。 </td></tr>
   </table>
   </dd>
 </dl>
@@ -241,7 +235,7 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>析构函数 等待所有任务完成并关闭线程池 </p>
+<p>析构函数 - 默认执行优雅关闭逻辑 </p>
 
 </div>
 </div>
@@ -287,8 +281,7 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>获取线程池状态 </p>
-<dl class="section return"><dt>返回</dt><dd>当前活跃线程数 </dd></dl>
+<p>获取正在执行任务的线程数 </p>
 
 </div>
 </div>
@@ -333,8 +326,7 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>获取等待任务数 </p>
-<dl class="section return"><dt>返回</dt><dd>队列中等待的任务数 </dd></dl>
+<p>获取当前任务队列深度 队列过长通常意味着系统处理能力遇到瓶颈。 </p>
 
 </div>
 </div>
@@ -353,7 +345,7 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>关闭线程池 不再接受新任务，等待现有任务完成 </p>
+<p>优雅关闭 不再接受新任务，直到队列中所有剩余任务处理完成后，销毁所有工作线程。 </p>
 
 </div>
 </div>
@@ -372,7 +364,7 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>强制关闭线程池 立即停止所有任务 </p>
+<p>强制关闭 立即通知所有线程停止工作，未完成的任务将被丢弃。 </p>
 
 </div>
 </div>
@@ -404,22 +396,24 @@ template&lt;class F , class... Args&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>提交任务到线程池 </p>
+<p>提交异步任务 </p>
+<p>WHY: 允许调用方提交任务后立即返回，稍后通过 future 获取结果。 HOW: 使用完美转发（Perfect Forwarding）接收参数。</p>
 <dl class="tparams"><dt>模板参数</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">F</td><td>函数类型 </td></tr>
-    <tr><td class="paramname">Args</td><td>参数类型 </td></tr>
+    <tr><td class="paramname">F</td><td>可调用对象类型 </td></tr>
+    <tr><td class="paramname">Args</td><td>参数包 </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">f</td><td>要执行的函数 </td></tr>
+    <tr><td class="paramname">f</td><td>函数或 Lambda </td></tr>
     <tr><td class="paramname">args</td><td>函数参数 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>std::future 异步结果 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>std::future&lt;ResultType&gt; 用于获取异步返回值的 Future 对象</dd></dl>
+<p>模板函数实现 - 必须位于头文件 </p>
 
 </div>
 </div>
@@ -438,7 +432,7 @@ template&lt;class F , class... Args&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>等待所有任务完成 </p>
+<p>阻塞等待所有已提交任务执行完毕 </p>
 
 </div>
 </div>
@@ -465,7 +459,7 @@ template&lt;class F , class... Args&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>工作线程函数 </p>
+<p>工作线程主循环 采用抢占式获取任务模式。 </p>
 
 </div>
 </div>

@@ -81,16 +81,30 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>网络服务器类 - 协议分发器  
+ <a href="classsqlcc_1_1network_1_1NetworkServer.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="network__server_8h_source.html">network_server.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
 <tr class="memitem:aa9979ae2f563f16acf94346a630c149c" id="r_aa9979ae2f563f16acf94346a630c149c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkServer.html#aa9979ae2f563f16acf94346a630c149c">handle_client</a> (<a class="el" href="classsqlcc_1_1FileDescriptor.html">sqlcc::FileDescriptor</a> &amp;&amp;client_fd)</td></tr>
+<tr class="memdesc:aa9979ae2f563f16acf94346a630c149c"><td class="mdescLeft">&#160;</td><td class="mdescRight">处理客户端连接（双协议支持）  <br /></td></tr>
 <tr class="separator:aa9979ae2f563f16acf94346a630c149c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8c1af30f70b5806ec6ef6732d423b65" id="r_ad8c1af30f70b5806ec6ef6732d423b65"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkServer.html#ad8c1af30f70b5806ec6ef6732d423b65">handle_mysql_authentication</a> (<a class="el" href="classsqlcc_1_1FileDescriptor.html">sqlcc::FileDescriptor</a> &amp;&amp;client_fd)</td></tr>
+<tr class="memdesc:ad8c1af30f70b5806ec6ef6732d423b65"><td class="mdescLeft">&#160;</td><td class="mdescRight">MySQL协议认证处理（第一阶段占位符）  <br /></td></tr>
 <tr class="separator:ad8c1af30f70b5806ec6ef6732d423b65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">成员函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>网络服务器类 - 协议分发器 </p>
+<p>WHY层 - 设计意图： NetworkServer封装了连接处理的具体逻辑，将网络IO（ServerNetworkManager负责） 与业务逻辑（ProtocolHandler负责）解耦。它充当了"协议网关"的角色。</p>
+<p>WHAT层 - 核心职责：</p><ul>
+<li>负责单个连接的生命周期初期管理</li>
+<li>协调底层网络资源与上层业务组件</li>
+<li>提供MySQL认证流程的扩展点</li>
+</ul>
+<p>HOW层 - 使用方式： 通常由ServerNetworkManager在accept()返回新的fd后调用： <a class="el" href="classsqlcc_1_1network_1_1NetworkServer.html" title="网络服务器类 - 协议分发器">NetworkServer</a> server; server.handle_client(std::move(client_fd)); </p>
+</div><h2 class="groupheader">成员函数说明</h2>
 <a id="aa9979ae2f563f16acf94346a630c149c" name="aa9979ae2f563f16acf94346a630c149c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa9979ae2f563f16acf94346a630c149c">&#9670;&#160;</a></span>handle_client()</h2>
 
@@ -106,6 +120,23 @@ Public 成员函数</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>处理客户端连接（双协议支持） </p>
+<p>WHY: 这是连接处理的主入口。必须在一个方法内完成协议探测和分发， 以保证连接处理的原子性和逻辑连贯性。</p>
+<p>WHAT: 接收一个已连接的Socket，探测其协议类型，并启动相应的处理流程。 如果是MySQL客户端，启动MySQL握手；如果是原生客户端，启动命令循环。</p>
+<p>HOW:</p><ol type="1">
+<li>创建SqlExecutor实例作为执行上下文</li>
+<li>peek socket首字节</li>
+<li>IF (byte == 0x0A) -&gt; <a class="el" href="classMySQLProtocolHandler.html" title="MySQL 协议兼容层处理器 - 实现 SQLCC 与标准 MySQL 客户端的无缝对接">MySQLProtocolHandler</a></li>
+<li>ELSE -&gt; <a class="el" href="classsqlcc_1_1network_1_1ConnectionHandler.html" title="连接处理器类，负责单个客户端连接的处理">ConnectionHandler</a> (Native)</li>
+<li>无论何种情况，fd的所有权都会被转移给具体的处理器</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">client_fd</td><td>客户端连接的文件描述符（所有权转移） </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -124,6 +155,16 @@ Public 成员函数</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>MySQL协议认证处理（第一阶段占位符） </p>
+<p>WHY: MySQL的认证流程较为复杂（握手 -&gt; 响应 -&gt; 验证 -&gt; 结果）， 需要独立的逻辑流来处理caching_sha2_password等机制。</p>
+<p>WHAT: 处理MySQL协议握手后的认证响应阶段。 目前作为后续完整实现的扩展接口保留。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">client_fd</td><td>客户端连接的文件描述符 </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

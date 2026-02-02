@@ -128,11 +128,11 @@ Public 成员函数</h2></td></tr>
 <tr class="separator:a8f7d9a6903accf20ee7755f87068e69a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6571f945e94a0447f49c6aca1bb65d79" id="r_a6571f945e94a0447f49c6aca1bb65d79"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a6571f945e94a0447f49c6aca1bb65d79">ListTables</a> ()</td></tr>
 <tr class="separator:a6571f945e94a0447f49c6aca1bb65d79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add924e28d79f34515c5afa9af38979a0" id="r_add924e28d79f34515c5afa9af38979a0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#add924e28d79f34515c5afa9af38979a0">CreateIndex</a> (const std::string &amp;index_name, const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;columns, bool unique=false, const std::string &amp;condition=&quot;&quot;)</td></tr>
+<tr class="memitem:add924e28d79f34515c5afa9af38979a0" id="r_add924e28d79f34515c5afa9af38979a0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#add924e28d79f34515c5afa9af38979a0">CreateIndex</a> (const std::string &amp;index_name, const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;columns, bool unique=<a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a>, const std::string &amp;condition=&quot;&quot;)</td></tr>
 <tr class="separator:add924e28d79f34515c5afa9af38979a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9fcf2469dfbb313ff98b75cfd71d59cd" id="r_a9fcf2469dfbb313ff98b75cfd71d59cd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a9fcf2469dfbb313ff98b75cfd71d59cd">DropIndex</a> (const std::string &amp;index_name)</td></tr>
 <tr class="separator:a9fcf2469dfbb313ff98b75cfd71d59cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f2680f42f18afca0119549ee8054e7b" id="r_a7f2680f42f18afca0119549ee8054e7b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a7f2680f42f18afca0119549ee8054e7b">CreateView</a> (const std::string &amp;view_name, const std::string &amp;query, bool with_check_option=false)</td></tr>
+<tr class="memitem:a7f2680f42f18afca0119549ee8054e7b" id="r_a7f2680f42f18afca0119549ee8054e7b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a7f2680f42f18afca0119549ee8054e7b">CreateView</a> (const std::string &amp;view_name, const std::string &amp;query, bool with_check_option=<a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a>)</td></tr>
 <tr class="separator:a7f2680f42f18afca0119549ee8054e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c0ee6c4fdb47f2a1dfd2a76a45730f3" id="r_a5c0ee6c4fdb47f2a1dfd2a76a45730f3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DatabaseManager.html#a5c0ee6c4fdb47f2a1dfd2a76a45730f3">DropView</a> (const std::string &amp;view_name)</td></tr>
 <tr class="separator:a5c0ee6c4fdb47f2a1dfd2a76a45730f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -556,7 +556,7 @@ Private 属性</h2></td></tr>
 <p>开启新事务 </p>
 <p>WHY: 保证一组数据库操作的 ACID 特性。 WHAT: 向 <a class="el" href="classsqlcc_1_1TransactionManager.html" title="事务管理器类 - SQLCC数据库系统的ACID属性实现核心">TransactionManager</a> 申请并初始化一个新的事务上下文。 HOW:</p><ol type="1">
 <li>委托给文件管理器 db_file_manager_ 执行 Begin。</li>
-<li>返回全局唯一的 <a class="el" href="classsqlcc_1_1TransactionId.html" title="事务ID类型 - 唯一标识一个事务">TransactionId</a> 用于后续操作关联。 </li>
+<li>返回全局唯一的 <a class="el" href="classsqlcc_1_1TransactionId.html" title="事务全局唯一标识符">TransactionId</a> 用于后续操作关联。 </li>
 </ol>
 
 </div>
@@ -649,7 +649,7 @@ Private 属性</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>unique</em> = <code>false</code>, </td>
+          <td class="paramname"><em>unique</em> = <code><a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -700,7 +700,7 @@ Private 属性</h2></td></tr>
 </div><div class="memdoc">
 
 <p>创建新表 </p>
-<p>WHY: 表是数据库存储的核心结构。需要将逻辑列定义转换为持久化的元数据。 WHAT: 在当前库目录下创建一个 .table 文件，记录 <a class="el" href="structsqlcc_1_1Schema.html">Schema</a> 信息。 HOW:</p><ol type="1">
+<p>WHY: 表是数据库存储的核心结构。需要将逻辑列定义转换为持久化的元数据。 WHAT: 在当前库目录下创建一个 .table 文件，记录 <a class="el" href="structsqlcc_1_1Schema.html" title="模式元数据结构">Schema</a> 信息。 HOW:</p><ol type="1">
 <li>检查数据库是否存在。</li>
 <li>检查表是否已存在。</li>
 <li>序列化列名和类型为 JSON 格式并写入文件。</li>
@@ -759,7 +759,7 @@ Private 属性</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>with_check_option</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>with_check_option</em> = <code><a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>

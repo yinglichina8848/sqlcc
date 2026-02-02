@@ -82,7 +82,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>存储过程执行上下文  
+<p>存储过程执行上下文 - 维护过程的运行时状态  
  <a href="classsqlcc_1_1procedure_1_1ProcedureContext.html#details">更多...</a></p>
 
 <p><code>#include &lt;<a class="el" href="procedure__vm_8h_source.html">procedure_vm.h</a>&gt;</code></p>
@@ -91,8 +91,8 @@ sqlcc::procedure::ProcedureContext 的协作图:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsqlcc_1_1procedure_1_1ProcedureContext__coll__graph.png" border="0" usemap="#asqlcc_1_1procedure_1_1ProcedureContext_coll__map" alt="Collaboration graph"/></div>
 <map name="asqlcc_1_1procedure_1_1ProcedureContext_coll__map" id="asqlcc_1_1procedure_1_1ProcedureContext_coll__map">
-<area shape="rect" title="存储过程执行上下文" alt="" coords="5,93,207,133"/>
-<area shape="rect" href="classsqlcc_1_1procedure_1_1Value.html" title="存储过程值类型" alt="" coords="20,5,192,31"/>
+<area shape="rect" title="存储过程执行上下文 &#45; 维护过程的运行时状态" alt="" coords="5,93,207,133"/>
+<area shape="rect" href="classsqlcc_1_1procedure_1_1Value.html" title="存储过程运行时数据类型封装" alt="" coords="20,5,192,31"/>
 <area shape="poly" title=" " alt="" coords="109,44,109,93,103,93,103,44"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
@@ -140,8 +140,14 @@ Private 属性</h2></td></tr>
 <tr class="separator:ae2038b2f64310d7a98c35ebc5649a668"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>存储过程执行上下文 </p>
-<p>管理变量、参数、返回值和调用栈 </p>
+<div class="textblock"><p>存储过程执行上下文 - 维护过程的运行时状态 </p>
+<p>WHY: 每个存储过程的执行都需要一个独立的上下文来管理其局部变量、参数、 返回值和当前的执行环境（如 <a class="el" href="classsqlcc_1_1SqlExecutor.html">SqlExecutor</a> 句柄）。</p>
+<p>WHAT:</p><ul>
+<li>变量/参数管理：存储过程内的局部变量和传递的参数。</li>
+<li>返回值：存储过程的最终返回值。</li>
+<li>调用栈：用于追踪过程嵌套调用，便于错误回溯。</li>
+<li>SQL 执行器：提供执行 SQL 语句的能力。 </li>
+</ul>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="ae6db5b140e727b273f097ae264b82a0e" name="ae6db5b140e727b273f097ae264b82a0e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae6db5b140e727b273f097ae264b82a0e">&#9670;&#160;</a></span>ProcedureContext()</h2>

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['nanoseconds_0',['nanoseconds',['../classsqlcc_1_1Timestamp.html#a166b3840e2c736f4a4ca342d695581d7',1,'sqlcc::Timestamp']]],
-  ['needmerge_1',['needmerge',['../classsqlcc_1_1BPlusTreeIndex.html#a0540bd7522f34e7253476023542dadfe',1,'sqlcc::BPlusTreeIndex::NeedMerge(const std::unique_ptr&lt; BPlusTreeNode &gt; &amp;node)'],['../classsqlcc_1_1BPlusTreeIndex.html#a0540bd7522f34e7253476023542dadfe',1,'sqlcc::BPlusTreeIndex::NeedMerge(const std::unique_ptr&lt; BPlusTreeNode &gt; &amp;node)'],['../classsqlcc_1_1BPlusTreeIndex.html#a0540bd7522f34e7253476023542dadfe',1,'sqlcc::BPlusTreeIndex::NeedMerge(const std::unique_ptr&lt; BPlusTreeNode &gt; &amp;node)']]],
+  ['needmerge_1',['needmerge',['../classsqlcc_1_1BPlusTreeIndex.html#a0540bd7522f34e7253476023542dadfe',1,'sqlcc::BPlusTreeIndex::NeedMerge(const std::unique_ptr&lt; BPlusTreeNode &gt; &amp;node)'],['../classsqlcc_1_1BPlusTreeIndex.html#a0540bd7522f34e7253476023542dadfe',1,'sqlcc::BPlusTreeIndex::NeedMerge(const std::unique_ptr&lt; BPlusTreeNode &gt; &amp;node)']]],
   ['networkexception_2',['NetworkException',['../classsqlcc_1_1network_1_1NetworkException.html#a9c4d2000d3abc888ac6c378006e116fc',1,'sqlcc::network::NetworkException']]],
   ['networkexceptionhandler_3',['NetworkExceptionHandler',['../classsqlcc_1_1network_1_1NetworkExceptionHandler.html#a17736905ed062575560eeb8ff77baa78',1,'sqlcc::network::NetworkExceptionHandler']]],
   ['networkiothread_4',['NetworkIOThread',['../classsqlcc_1_1MultiThreadedNetworkManager.html#a9935e0ef158eaec01fa0ee0a11cd867f',1,'sqlcc::MultiThreadedNetworkManager']]],

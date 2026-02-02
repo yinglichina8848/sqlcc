@@ -260,7 +260,7 @@ Private 属性</h2></td></tr>
 <p class="startli">WHY层 - 设计意图： 一个 SQL 脚本可能包含多个不同类型的语句（DDL, DML 等）。 <a class="el" href="classsqlcc_1_1sql__parser_1_1Parser.html" title="SQL 解析器门面类 - 实现 SQL 脚本的完整生命周期解析">Parser</a> 作为主控制器，负责协调各个子解析器，并提供统一的错误同步机制， 确保即使脚本中某个语句有误，也能尝试继续解析后续语句，提升解析效率和容错性。</p>
 <p class="startli">WHAT层 - 功能说明： coordinators 词法分析 (<a class="el" href="classsqlcc_1_1sql__parser_1_1Lexer.html" title="SQL词法分析器类">Lexer</a>) 和标记流 (<a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html" title="Token流管理类 - 负责词法分析器的token流管理">TokenStream</a>) 的集成。 主入口 <a class="el" href="classsqlcc_1_1sql__parser_1_1Parser.html#ab788fb554022bdcab961d7baa2848894">parse()</a> 循环解析完整的 SQL 文本并返回 AST 语句列表。 <a class="el" href="classsqlcc_1_1sql__parser_1_1Parser.html#a114be7867b37cead44eee14330856de9">parseStatement()</a> 负责基于首标记（Lookahead）分发到对应的 DDL/DML/DCL/TCL 子解析器。 实现恐慌模式（Panic Mode）下的自动同步（Synchronize）。</p>
 <p class="startli">HOW层 - 实现机制：</p><ol type="1">
-<li>组合模式：持有 <a class="el" href="classsqlcc_1_1sql__parser_1_1ParserDDL.html">ParserDDL</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ParserDML.html">ParserDML</a> 等专项解析器的 unique_ptr。</li>
+<li>组合模式：持有 <a class="el" href="classsqlcc_1_1sql__parser_1_1ParserDDL.html" title="DDL语句解析器类">ParserDDL</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ParserDML.html" title="DML语句解析器类">ParserDML</a> 等专项解析器的 unique_ptr。</li>
 <li>递归下降：按照 SQL 文法从高层语句向下递归。</li>
 <li>错误同步：initializeSyncTokens 定义了语句边界标记（如分号或关键字），同步逻辑跳过错误 <a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html" title="Token类">Token</a> 直至这些安全点。</li>
 <li>PIMPL 风格：核心逻辑委托给 <a class="el" href="classsqlcc_1_1sql__parser_1_1ParserCore.html">ParserCore</a> 基类和子解析器实现。 </li>

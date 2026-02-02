@@ -83,7 +83,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>存储过程虚拟机  
+<p>存储过程虚拟机 - 解释执行存储过程 AST  
  <a href="classsqlcc_1_1procedure_1_1ProcedureVM.html#details">更多...</a></p>
 
 <p><code>#include &lt;<a class="el" href="procedure__vm_8h_source.html">procedure_vm.h</a>&gt;</code></p>
@@ -95,6 +95,7 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:a3cf2c0af40afda9ebd087bdb0ac730d7" id="r_a3cf2c0af40afda9ebd087bdb0ac730d7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1procedure_1_1ProcedureVM.html#a3cf2c0af40afda9ebd087bdb0ac730d7">~ProcedureVM</a> ()</td></tr>
 <tr class="separator:a3cf2c0af40afda9ebd087bdb0ac730d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5cef2add6f541ab6d314bad8057f7b7" id="r_af5cef2add6f541ab6d314bad8057f7b7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1procedure_1_1ProcedureVM.html#af5cef2add6f541ab6d314bad8057f7b7">execute</a> (<a class="el" href="classsqlcc_1_1procedure_1_1ProcedureDefinition.html">ProcedureDefinition</a> *procedure, <a class="el" href="classsqlcc_1_1procedure_1_1ProcedureContext.html">ProcedureContext</a> &amp;context)</td></tr>
+<tr class="memdesc:af5cef2add6f541ab6d314bad8057f7b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行存储过程的主入口  <br /></td></tr>
 <tr class="separator:af5cef2add6f541ab6d314bad8057f7b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2463200b4cbdf15407f85b52a3e79127" id="r_a2463200b4cbdf15407f85b52a3e79127"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1procedure_1_1ProcedureVM.html#a2463200b4cbdf15407f85b52a3e79127">getLastError</a> () const</td></tr>
 <tr class="separator:a2463200b4cbdf15407f85b52a3e79127"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -136,8 +137,19 @@ Private 属性</h2></td></tr>
 <tr class="separator:ad108f51a63a08d02426cf7da42779dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>存储过程虚拟机 </p>
-<p>执行存储过程的虚拟机，支持完整的控制流和SQL执行 </p>
+<div class="textblock"><p>存储过程虚拟机 - 解释执行存储过程 AST </p>
+<p>WHY: 提供一个高效、安全的运行时环境，将存储过程的 AST 转化为实际的数据操作和控制流。 它是 <code><a class="el" href="classsqlcc_1_1StoredProcedureManager.html" title="存储过程与触发器管理中心">StoredProcedureManager</a></code> 的底层执行单元。</p>
+<p>WHAT:</p><ul>
+<li>AST 遍历执行：核心 <code>execute</code> 方法遍历过程的 AST。</li>
+<li>语句解释器：针对变量声明、赋值、IF/WHILE、SQL 调用等语句提供执行逻辑。</li>
+<li>表达式求值：能够解析和计算过程语言中的表达式。</li>
+<li>错误管理：记录并返回执行过程中发生的错误。</li>
+</ul>
+<p>HOW:</p><ul>
+<li>递归解释：<code>executeStatement</code> 递归调用各种 <code>executeXXX</code> 方法。</li>
+<li>表达式求值器：<code>evaluateExpression</code> 使用简化的规则或委托给专门的表达式解析器。</li>
+<li>SQL 委托：通过 <code>sql_executor_</code> 调用数据库的 SQL 执行功能。 </li>
+</ul>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="ad3faf0bcd0834a4ae95ffa62e0f86d61" name="ad3faf0bcd0834a4ae95ffa62e0f86d61"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad3faf0bcd0834a4ae95ffa62e0f86d61">&#9670;&#160;</a></span>ProcedureVM()</h2>
@@ -328,10 +340,12 @@ Private 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>执行存储过程 </p><dl class="params"><dt>参数</dt><dd>
+
+<p>执行存储过程的主入口 </p>
+<dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">procedure</td><td>要执行的过程定义 </td></tr>
-    <tr><td class="paramname">context</td><td>执行上下文 </td></tr>
+    <tr><td class="paramname">procedure</td><td>存储过程的 AST 定义 </td></tr>
+    <tr><td class="paramname">context</td><td>存储过程执行上下文 </td></tr>
   </table>
   </dd>
 </dl>
@@ -605,7 +619,6 @@ Private 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>获取最后一次错误信息 </p><dl class="section return"><dt>返回</dt><dd>错误信息 </dd></dl>
 
 </div>
 </div>

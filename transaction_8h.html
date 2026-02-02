@@ -80,6 +80,9 @@ $(function() {
   <div class="headertitle"><div class="title">transaction.h 文件参考</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>SQLCC事务抽象接口 - 数据库ACID特性的协议基础  
+<a href="#details">更多...</a></p>
 <div class="textblock"><code>#include &lt;string&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -87,7 +90,7 @@ transaction.h 的引用(Include)关系图:</div>
 <div class="dyncontent">
 <div class="center"><img src="transaction_8h__incl.png" border="0" usemap="#atransaction_8h" alt=""/></div>
 <map name="atransaction_8h" id="atransaction_8h">
-<area shape="rect" title=" " alt="" coords="27,5,133,31"/>
+<area shape="rect" title="SQLCC事务抽象接口 &#45; 数据库ACID特性的协议基础" alt="" coords="27,5,133,31"/>
 <area shape="rect" title=" " alt="" coords="5,79,64,104"/>
 <area shape="poly" title=" " alt="" coords="75,32,52,69,47,66,70,30"/>
 <area shape="rect" title=" " alt="" coords="88,79,165,104"/>
@@ -99,7 +102,7 @@ transaction.h 的引用(Include)关系图:</div>
 <div class="dyncontent">
 <div class="center"><img src="transaction_8h__dep__incl.png" border="0" usemap="#atransaction_8hdep" alt=""/></div>
 <map name="atransaction_8hdep" id="atransaction_8hdep">
-<area shape="rect" title=" " alt="" coords="13,5,120,31"/>
+<area shape="rect" title="SQLCC事务抽象接口 &#45; 数据库ACID特性的协议基础" alt="" coords="13,5,120,31"/>
 <area shape="rect" href="transaction_8cpp.html" title=" " alt="" coords="5,79,128,104"/>
 <area shape="poly" title=" " alt="" coords="69,44,69,79,64,79,64,44"/>
 </map>
@@ -109,10 +112,11 @@ transaction.h 的引用(Include)关系图:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 类</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Transaction.html">sqlcc::Transaction</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Transaction.html">sqlcc::Transaction</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">事务信息结构体 - 事务元数据的完整描述  <a href="classsqlcc_1_1Transaction.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionFactory.html">sqlcc::TransactionFactory</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">事务工厂接口 - 遵循工厂模式设计  <a href="classsqlcc_1_1TransactionFactory.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -120,7 +124,33 @@ transaction.h 的引用(Include)关系图:</div>
 <tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>SQLCC事务抽象接口 - 数据库ACID特性的协议基础 </p>
+<p>Transaction 类定义了数据库事务的通用行为契约。它是实现原子性（Atomicity）和 一致性（Consistency）的核心抽象。所有具体的事务实现（如单机事务、分布式事务） 都必须遵循此接口定义的生命周期。</p>
+<p>📚 配套教材参考：</p><ul>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#第八章oltp事务处理">第8章：OLTP事务处理</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#81-事务的定义与acid属性">8.1 事务的定义与ACID属性</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#82-事务控制语句实现">8.2 事务控制语句实现</a></li>
+</ul>
+<p>WHY层 - 设计意图：</p><ol type="1">
+<li>**抽象屏障**：执行层无需关心事务的具体实现细节（是基于WAL还是基于影子页），只需调用接口。</li>
+<li>**一致性契约**：确保所有数据修改操作都在明确的事务边界（Begin/Commit/Rollback）内进行。</li>
+<li>**扩展性**：支持未来引入XA事务、两阶段提交（2PC）等高级事务协议。</li>
+</ol>
+<p>WHAT层 - 功能说明：</p><ul>
+<li>生命周期管理：提供事务的开始、提交和回滚接口。</li>
+<li>状态查询：通过 IsActive() 实时追踪事务执行状态。</li>
+<li>唯一标识：GetId() 提供全局唯一的事务标识，用于死锁检测和日志关联。</li>
+</ul>
+<p>HOW层 - 协作机制：</p><ul>
+<li>**原子性保证**：如果 Commit() 失败或显式调用 Rollback()，系统必须撤销该事务的所有变更。</li>
+<li>**隔离性协作**：事务对象通常持有隔离级别信息（隔离性由 TransactionManager 配合锁实现）。</li>
+<li>**持久性对接**：Commit() 操作必须等待日志写入物理磁盘。</li>
+</ul>
+<dl class="section author"><dt>作者</dt><dd>SQLCC技术委员会 </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>1.2.6 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2026-02-02 </dd></dl>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8

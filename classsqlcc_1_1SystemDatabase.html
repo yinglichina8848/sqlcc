@@ -100,10 +100,10 @@ Public 成员函数</h2></td></tr>
 <tr class="memdesc:adbdd5033942ba7bf349b2115c080c273"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化系统数据库  <br /></td></tr>
 <tr class="separator:adbdd5033942ba7bf349b2115c080c273"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2c02168edd01bd8c812bcc078b44af5" id="r_ae2c02168edd01bd8c812bcc078b44af5"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1DatabaseManager.html">DatabaseManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SystemDatabase.html#ae2c02168edd01bd8c812bcc078b44af5">GetDatabaseManager</a> ()</td></tr>
-<tr class="memdesc:ae2c02168edd01bd8c812bcc078b44af5"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取数据库管理器  <br /></td></tr>
+<tr class="memdesc:ae2c02168edd01bd8c812bcc078b44af5"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取底层数据库管理器  <br /></td></tr>
 <tr class="separator:ae2c02168edd01bd8c812bcc078b44af5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57ebbc4777a5361c512c74a5c9e0c839" id="r_a57ebbc4777a5361c512c74a5c9e0c839"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SystemDatabase.html#a57ebbc4777a5361c512c74a5c9e0c839">IsInitialized</a> () const</td></tr>
-<tr class="memdesc:a57ebbc4777a5361c512c74a5c9e0c839"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查系统数据库是否已初始化  <br /></td></tr>
+<tr class="memdesc:a57ebbc4777a5361c512c74a5c9e0c839"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查系统数据库状态  <br /></td></tr>
 <tr class="separator:a57ebbc4777a5361c512c74a5c9e0c839"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0d3a549ceef3dfc3f2b51eea1058b8b" id="r_aa0d3a549ceef3dfc3f2b51eea1058b8b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SystemDatabase.html#aa0d3a549ceef3dfc3f2b51eea1058b8b">GetLastError</a> () const</td></tr>
 <tr class="memdesc:aa0d3a549ceef3dfc3f2b51eea1058b8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取最后一次错误信息  <br /></td></tr>
@@ -227,6 +227,7 @@ Private 属性</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>系统数据库管理类 </p>
+<p>系统数据库管理类 - 封装了对系统目录表的访问</p>
 <p>WHY: 为什么需要系统数据库？</p>
 <p>数据库系统需要存储大量的元数据信息：</p><ul>
 <li>用户权限和认证信息：用户名、密码、角色权限等</li>
@@ -278,8 +279,8 @@ Private 属性</h2></td></tr>
 </ul>
 <p>接口设计：</p><ul>
 <li><a class="el" href="classsqlcc_1_1SystemDatabase.html#adbdd5033942ba7bf349b2115c080c273" title="初始化系统数据库">Initialize()</a>: 初始化系统数据库</li>
-<li><a class="el" href="classsqlcc_1_1SystemDatabase.html#a57ebbc4777a5361c512c74a5c9e0c839" title="检查系统数据库是否已初始化">IsInitialized()</a>: 检查初始化状态</li>
-<li><a class="el" href="classsqlcc_1_1SystemDatabase.html#ae2c02168edd01bd8c812bcc078b44af5" title="获取数据库管理器">GetDatabaseManager()</a>: 获取数据库管理器</li>
+<li><a class="el" href="classsqlcc_1_1SystemDatabase.html#a57ebbc4777a5361c512c74a5c9e0c839" title="检查系统数据库状态">IsInitialized()</a>: 检查初始化状态</li>
+<li><a class="el" href="classsqlcc_1_1SystemDatabase.html#ae2c02168edd01bd8c812bcc078b44af5" title="获取底层数据库管理器">GetDatabaseManager()</a>: 获取数据库管理器</li>
 <li><a class="el" href="classsqlcc_1_1SystemDatabase.html#aa0d3a549ceef3dfc3f2b51eea1058b8b" title="获取最后一次错误信息">GetLastError()</a>: 获取最后错误信息</li>
 </ul>
 <p>HOW: 系统数据库的实现机制</p>
@@ -346,7 +347,7 @@ Private 属性</h2></td></tr>
 <p>数据库上下文切换的健壮错误处理策略 - 详细说明 (#SYSDB-008)</p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">db_manager</td><td>数据库管理器指针</td></tr>
+    <tr><td class="paramname">db_manager</td><td>数据库管理器实例，用于底层表操作</td></tr>
   </table>
   </dd>
 </dl>
@@ -397,7 +398,7 @@ Private 属性</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a84727377e5b3006700826375e10f123a"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a84727377e5b3006700826375e10f123a">sqlcc::SystemDatabase::db_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; DatabaseManager &gt; db_manager_</div><div class="ttdef"><b>Definition</b> core/system_database.h:136</div></div>
+<div class="ttc" id="aclasssqlcc_1_1SystemDatabase_html_a84727377e5b3006700826375e10f123a"><div class="ttname"><a href="classsqlcc_1_1SystemDatabase.html#a84727377e5b3006700826375e10f123a">sqlcc::SystemDatabase::db_manager_</a></div><div class="ttdeci">std::shared_ptr&lt; DatabaseManager &gt; db_manager_</div><div class="ttdef"><b>Definition</b> core/system_database.h:95</div></div>
 <div class="ttc" id="anamespacesqlcc_html_a8c69a51fa3297c01da41a972b11f6c7a"><div class="ttname"><a href="namespacesqlcc.html#a8c69a51fa3297c01da41a972b11f6c7a">sqlcc::SYSTEM_DB_NAME</a></div><div class="ttdeci">const std::string SYSTEM_DB_NAME</div><div class="ttdef"><b>Definition</b> system_database_new.h:130</div></div>
 </div><!-- fragment --><p> 这种模式可以替代分散在各个方法中的<code>if (!db_manager_-&gt;UseDatabase())</code>和<code>db_manager_-&gt;UseDatabase(prev_db)</code>逻辑， 使得代码更简洁、更安全。</p>
 <p>构造SystemDatabase实例。</p>
@@ -817,8 +818,7 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>获取数据库管理器 </p>
-<dl class="section return"><dt>返回</dt><dd>数据库管理器指针 </dd></dl>
+<p>获取底层数据库管理器 </p>
 
 </div>
 </div>
@@ -895,7 +895,6 @@ Private 属性</h2></td></tr>
 </div><div class="memdoc">
 
 <p>获取最后一次错误信息 </p>
-<dl class="section return"><dt>返回</dt><dd>错误信息 </dd></dl>
 
 </div>
 </div>
@@ -1123,6 +1122,7 @@ Private 属性</h2></td></tr>
 
 <p>初始化系统数据库 </p>
 <p>初始化系统数据库及其元数据。</p>
+<p>WHY: 确保所有必要的系统表都已存在且结构正确。 WHAT: 检查 <code>sqlcc_users</code>, <code>sqlcc_tables</code> 等表。如果缺失， 执行 CREATE TABLE 语句进行创建，并插入默认的管理员账户。</p>
 <dl class="section return"><dt>返回</dt><dd>初始化是否成功</dd></dl>
 <p>该方法是SystemDatabase的入口点，负责检查、创建system数据库， 创建所有必需的系统表，并初始化默认数据。 </p><dl class="section return"><dt>返回</dt><dd>初始化成功返回true，否则返回false。 </dd></dl>
 
@@ -1183,8 +1183,7 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>检查系统数据库是否已初始化 </p>
-<dl class="section return"><dt>返回</dt><dd>是否已初始化 </dd></dl>
+<p>检查系统数据库状态 </p>
 
 </div>
 </div>

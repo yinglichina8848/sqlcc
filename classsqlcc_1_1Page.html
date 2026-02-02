@@ -83,7 +83,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>数据库页面类，表示一个8KB的定长页面  
+<p>数据库页面类 - 存储引擎的物理载体  
  <a href="classsqlcc_1_1Page.html#details">更多...</a></p>
 
 <p><code>#include &lt;<a class="el" href="page_8h_source.html">page.h</a>&gt;</code></p>
@@ -91,16 +91,16 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 类</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1Page_1_1PageDataView.html">PageDataView</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取页面数据的安全span视图  <a href="structsqlcc_1_1Page_1_1PageDataView.html#details">更多...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取页面数据的安全视图  <a href="structsqlcc_1_1Page_1_1PageDataView.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
 <tr class="memitem:a98e61d688b19a03e94945e07a979563d" id="r_a98e61d688b19a03e94945e07a979563d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#a98e61d688b19a03e94945e07a979563d">Page</a> ()</td></tr>
-<tr class="memdesc:a98e61d688b19a03e94945e07a979563d"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="memdesc:a98e61d688b19a03e94945e07a979563d"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认构造函数 初始化无效页面（ID = -1），常用于预分配缓冲区占位。  <br /></td></tr>
 <tr class="separator:a98e61d688b19a03e94945e07a979563d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32704b50ed814dcad04893f278ad453a" id="r_a32704b50ed814dcad04893f278ad453a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#a32704b50ed814dcad04893f278ad453a">Page</a> (int32_t page_id)</td></tr>
-<tr class="memdesc:a32704b50ed814dcad04893f278ad453a"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数，使用指定的页面ID初始化  <br /></td></tr>
+<tr class="memdesc:a32704b50ed814dcad04893f278ad453a"><td class="mdescLeft">&#160;</td><td class="mdescRight">指定ID构造函数  <br /></td></tr>
 <tr class="separator:a32704b50ed814dcad04893f278ad453a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a5f2659452f89b597d708bf9ef5579a" id="r_a1a5f2659452f89b597d708bf9ef5579a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#a1a5f2659452f89b597d708bf9ef5579a">~Page</a> ()</td></tr>
 <tr class="memdesc:a1a5f2659452f89b597d708bf9ef5579a"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
@@ -112,38 +112,38 @@ Public 成员函数</h2></td></tr>
 <tr class="memdesc:a6a6bcecc0397e4e1b4e2b3089e48cb8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置页面ID  <br /></td></tr>
 <tr class="separator:a6a6bcecc0397e4e1b4e2b3089e48cb8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e73900eefb02c98f7d02754fc9413f2" id="r_a8e73900eefb02c98f7d02754fc9413f2"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#a8e73900eefb02c98f7d02754fc9413f2">GetData</a> ()</td></tr>
-<tr class="memdesc:a8e73900eefb02c98f7d02754fc9413f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取页面数据指针  <br /></td></tr>
+<tr class="memdesc:a8e73900eefb02c98f7d02754fc9413f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取原始数据指针 (不安全)  <br /></td></tr>
 <tr class="separator:a8e73900eefb02c98f7d02754fc9413f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66529b43f2f67b38e73c0e5816de5b92" id="r_a66529b43f2f67b38e73c0e5816de5b92"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#a66529b43f2f67b38e73c0e5816de5b92">GetData</a> () const</td></tr>
-<tr class="memdesc:a66529b43f2f67b38e73c0e5816de5b92"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取页面数据指针(const版本)  <br /></td></tr>
+<tr class="memdesc:a66529b43f2f67b38e73c0e5816de5b92"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取只读原始数据指针 (不安全)  <br /></td></tr>
 <tr class="separator:a66529b43f2f67b38e73c0e5816de5b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0db65470fe39a43e456497792e6a7f54" id="r_a0db65470fe39a43e456497792e6a7f54"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1Page_1_1PageDataView.html">PageDataView</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#a0db65470fe39a43e456497792e6a7f54">GetDataSpan</a> ()</td></tr>
 <tr class="separator:a0db65470fe39a43e456497792e6a7f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07a955db9759bc2a9625bb796c6a6d1c" id="r_a07a955db9759bc2a9625bb796c6a6d1c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structsqlcc_1_1Page_1_1PageDataView.html">PageDataView</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#a07a955db9759bc2a9625bb796c6a6d1c">GetDataSpan</a> () const</td></tr>
 <tr class="separator:a07a955db9759bc2a9625bb796c6a6d1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3be1f2e41ccaa3a2650b0682da5140d2" id="r_a3be1f2e41ccaa3a2650b0682da5140d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#a3be1f2e41ccaa3a2650b0682da5140d2">WriteData</a> (size_t offset, const char *data, size_t size)</td></tr>
-<tr class="memdesc:a3be1f2e41ccaa3a2650b0682da5140d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">将数据写入页面  <br /></td></tr>
-<tr class="separator:a3be1f2e41ccaa3a2650b0682da5140d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab7cfe564e6d8cb6c2e4dd3adf52e779" id="r_aab7cfe564e6d8cb6c2e4dd3adf52e779"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#aab7cfe564e6d8cb6c2e4dd3adf52e779">ReadData</a> (size_t offset, char *data, size_t size) const</td></tr>
-<tr class="memdesc:aab7cfe564e6d8cb6c2e4dd3adf52e779"><td class="mdescLeft">&#160;</td><td class="mdescRight">从页面读取数据  <br /></td></tr>
-<tr class="separator:aab7cfe564e6d8cb6c2e4dd3adf52e779"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f855b4653af983b8a56980e937934a8" id="r_a9f855b4653af983b8a56980e937934a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#a9f855b4653af983b8a56980e937934a8">WriteDataSpan</a> (size_t offset, const char *data, size_t size)</td></tr>
-<tr class="memdesc:a9f855b4653af983b8a56980e937934a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">使用span安全地写入数据到页面  <br /></td></tr>
+<tr class="memdesc:a9f855b4653af983b8a56980e937934a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入数据到页面偏移位置  <br /></td></tr>
 <tr class="separator:a9f855b4653af983b8a56980e937934a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afede469ce8e062d28b1a2217241982f9" id="r_afede469ce8e062d28b1a2217241982f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#afede469ce8e062d28b1a2217241982f9">ReadDataToSpan</a> (size_t offset, void *output_data, size_t size) const</td></tr>
-<tr class="memdesc:afede469ce8e062d28b1a2217241982f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">使用span安全地从页面读取数据  <br /></td></tr>
+<tr class="memdesc:afede469ce8e062d28b1a2217241982f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">从页面偏移位置读取数据  <br /></td></tr>
 <tr class="separator:afede469ce8e062d28b1a2217241982f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3be1f2e41ccaa3a2650b0682da5140d2" id="r_a3be1f2e41ccaa3a2650b0682da5140d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#a3be1f2e41ccaa3a2650b0682da5140d2">WriteData</a> (size_t offset, const char *data, size_t size)</td></tr>
+<tr class="separator:a3be1f2e41ccaa3a2650b0682da5140d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab7cfe564e6d8cb6c2e4dd3adf52e779" id="r_aab7cfe564e6d8cb6c2e4dd3adf52e779"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#aab7cfe564e6d8cb6c2e4dd3adf52e779">ReadData</a> (size_t offset, char *data, size_t size) const</td></tr>
+<tr class="separator:aab7cfe564e6d8cb6c2e4dd3adf52e779"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private 属性</h2></td></tr>
 <tr class="memitem:a6ce89350e94bd067cdd9f1d17f063eb6" id="r_a6ce89350e94bd067cdd9f1d17f063eb6"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#a6ce89350e94bd067cdd9f1d17f063eb6">page_id_</a> = -1</td></tr>
+<tr class="memdesc:a6ce89350e94bd067cdd9f1d17f063eb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面唯一ID -1 表示这是一个无效或未初始化的页面。  <br /></td></tr>
 <tr class="separator:a6ce89350e94bd067cdd9f1d17f063eb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29b35b88b60ef4045497d9f473435438" id="r_a29b35b88b60ef4045497d9f473435438"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1Page.html#a29b35b88b60ef4045497d9f473435438">data_</a> [<a class="el" href="namespacesqlcc.html#af06e8fb32fbce59846caac4b3fc5cdbb">PAGE_SIZE</a>] = {0}</td></tr>
+<tr class="memdesc:a29b35b88b60ef4045497d9f473435438"><td class="mdescLeft">&#160;</td><td class="mdescRight">页面物理存储区 严格限制为 PAGE_SIZE 大小。  <br /></td></tr>
 <tr class="separator:a29b35b88b60ef4045497d9f473435438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>数据库页面类，表示一个8KB的定长页面 </p>
-<p>Why: 数据库系统需要将数据组织成固定大小的页面，以便在磁盘和内存之间高效传输和管理 What: Page类封装了一个固定大小的数据块，包含页面ID和实际数据，是数据库存储系统的基本单位 How: 使用字符数组存储页面数据，提供读写操作接口，通过页面ID唯一标识每个页面 </p>
+<div class="textblock"><p>数据库页面类 - 存储引擎的物理载体 </p>
+<p>Page类是数据库系统中最基础的内存对象，它在磁盘上对应一个物理块。 所有的B+树节点、数据行、元数据表最终都存储在Page实例中。 </p>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a98e61d688b19a03e94945e07a979563d" name="a98e61d688b19a03e94945e07a979563d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a98e61d688b19a03e94945e07a979563d">&#9670;&#160;</a></span>Page() <span class="overload">[1/2]</span></h2>
@@ -160,8 +160,7 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>构造函数 </p>
-<p>Why: 需要创建页面对象并初始化其内部状态 What: 默认构造函数创建一个新页面，初始化页面ID为-1(表示无效页面)，清零数据缓冲区 How: 使用成员初始化列表设置page_id_为-1，使用{0}初始化data_数组为全零 </p>
+<p>默认构造函数 初始化无效页面（ID = -1），常用于预分配缓冲区占位。 </p>
 
 </div>
 </div>
@@ -189,14 +188,13 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>构造函数，使用指定的页面ID初始化 </p>
+<p>指定ID构造函数 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">page_id</td><td>页面ID</td></tr>
+    <tr><td class="paramname">page_id</td><td>全局唯一页面标识符 </td></tr>
   </table>
   </dd>
 </dl>
-<p>Why: 有时需要在创建页面对象时直接指定其ID，例如从磁盘读取页面时 What: 带参数的构造函数创建一个新页面，使用指定的页面ID初始化，清零数据缓冲区 How: 使用成员初始化列表设置page_id_为传入的参数值，使用{0}初始化data_数组为全零 </p>
 
 </div>
 </div>
@@ -216,7 +214,6 @@ Private 属性</h2></td></tr>
 </div><div class="memdoc">
 
 <p>析构函数 </p>
-<p>Why: 需要在页面对象销毁时释放资源(虽然当前实现没有动态资源) What: 析构函数负责清理页面对象的资源 How: 当前实现使用默认析构函数，因为Page类没有动态分配的资源 </p>
 
 </div>
 </div>
@@ -244,9 +241,8 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>获取页面数据指针 </p>
-<dl class="section return"><dt>返回</dt><dd>指向页面数据的指针</dd></dl>
-<p>Why: 需要访问页面中的实际数据，以便进行读写操作 What: GetData方法返回指向页面数据缓冲区的指针 How: 直接返回data_数组的指针，使用inline关键字提高性能 </p><dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">弃用:</a></b></dt><dd>建议使用GetDataSpan()进行安全访问 </dd></dl>
+<p>获取原始数据指针 (不安全) </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">弃用:</a></b></dt><dd>建议使用 <a class="el" href="classsqlcc_1_1Page.html#a0db65470fe39a43e456497792e6a7f54">GetDataSpan()</a> 进行带边界检查的访问 </dd></dl>
 
 </div>
 </div>
@@ -273,9 +269,8 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>获取页面数据指针(const版本) </p>
-<dl class="section return"><dt>返回</dt><dd>指向页面数据的const指针</dd></dl>
-<p>Why: 在const上下文中需要访问页面数据，但不允许修改 What: GetData方法(const版本)返回指向页面数据缓冲区的const指针 How: 直接返回data_数组的const指针，使用inline关键字提高性能 </p><dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">弃用:</a></b></dt><dd>建议使用GetDataSpan()进行安全访问 </dd></dl>
+<p>获取只读原始数据指针 (不安全) </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">弃用:</a></b></dt><dd>建议使用 <a class="el" href="classsqlcc_1_1Page.html#a0db65470fe39a43e456497792e6a7f54">GetDataSpan()</a> 进行带边界检查的访问 </dd></dl>
 
 </div>
 </div>
@@ -353,8 +348,8 @@ Private 属性</h2></td></tr>
 </div><div class="memdoc">
 
 <p>获取页面ID </p>
-<dl class="section return"><dt>返回</dt><dd>页面ID</dd></dl>
-<p>Why: 需要知道页面的唯一标识符，以便进行页面管理和定位 What: GetPageId方法返回当前页面的ID值 How: 直接返回page_id_成员变量的值，使用inline关键字提高性能 </p>
+<dl class="section return"><dt>返回</dt><dd>int32_t 页面标识符</dd></dl>
+<p>WHY: 页面ID是逻辑寻址的唯一凭证，磁盘上的偏移量通常通过 ID * PAGE_SIZE 计算。 </p>
 
 </div>
 </div>
@@ -390,17 +385,6 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>从页面读取数据 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">offset</td><td>读取偏移量 </td></tr>
-    <tr><td class="paramname">data</td><td>读取数据的缓冲区 </td></tr>
-    <tr><td class="paramname">size</td><td>要读取的数据大小</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Why: 需要从页面的特定位置读取数据，例如读取记录或元数据 What: ReadData方法从页面的指定偏移量处读取指定大小的数据到目标缓冲区 How: 使用memcpy函数进行内存复制，检查边界条件确保不会越界读取 </p><dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000004">弃用:</a></b></dt><dd>建议使用ReadDataToSpan()进行安全读取 </dd></dl>
-
 </div>
 </div>
 <a id="afede469ce8e062d28b1a2217241982f9" name="afede469ce8e062d28b1a2217241982f9"></a>
@@ -435,16 +419,15 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>使用span安全地从页面读取数据 </p>
+<p>从页面偏移位置读取数据 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">offset</td><td>读取偏移量 </td></tr>
-    <tr><td class="paramname">output_data</td><td>用于接收数据的缓冲区 </td></tr>
-    <tr><td class="paramname">size</td><td>要读取的数据大小</td></tr>
+    <tr><td class="paramname">offset</td><td>页面内偏移量 </td></tr>
+    <tr><td class="paramname">output_data</td><td>目标缓冲区 </td></tr>
+    <tr><td class="paramname">size</td><td>读取字节数 </td></tr>
   </table>
   </dd>
 </dl>
-<p>Why: 提供类型安全和边界检查的数据读取方式 What: ReadDataToSpan方法从页面的指定偏移量处读取数据到目标缓冲区 How: 检查边界条件，使用memcpy进行安全的数据复制 </p>
 
 </div>
 </div>
@@ -475,11 +458,10 @@ Private 属性</h2></td></tr>
 <p>设置页面ID </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">page_id</td><td>新的页面ID</td></tr>
+    <tr><td class="paramname">page_id</td><td>新的页面标识符 </td></tr>
   </table>
   </dd>
 </dl>
-<p>Why: 有时需要修改页面的ID，例如从磁盘读取页面后设置正确的ID What: SetPageId方法将当前页面的ID设置为指定值 How: 直接将传入的page_id参数赋值给page_id_成员变量，使用inline关键字提高性能 </p>
 
 </div>
 </div>
@@ -515,17 +497,6 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>将数据写入页面 </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">offset</td><td>写入偏移量 </td></tr>
-    <tr><td class="paramname">data</td><td>要写入的数据 </td></tr>
-    <tr><td class="paramname">size</td><td>数据大小</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Why: 需要将外部数据写入到页面的特定位置，例如存储记录或元数据 What: WriteData方法将指定大小的数据从源缓冲区复制到页面的指定偏移量处 How: 使用memcpy函数进行内存复制，检查边界条件确保不会越界写入 </p><dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000003">弃用:</a></b></dt><dd>建议使用WriteDataSpan()进行安全写入 </dd></dl>
-
 </div>
 </div>
 <a id="a9f855b4653af983b8a56980e937934a8" name="a9f855b4653af983b8a56980e937934a8"></a>
@@ -560,15 +531,16 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>使用span安全地写入数据到页面 </p>
+<p>写入数据到页面偏移位置 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">offset</td><td>写入偏移量 </td></tr>
-    <tr><td class="paramname">data_span</td><td>要写入的数据span</td></tr>
+    <tr><td class="paramname">offset</td><td>页面内偏移量 [0, PAGE_SIZE) </td></tr>
+    <tr><td class="paramname">data</td><td>源代码缓冲区 </td></tr>
+    <tr><td class="paramname">size</td><td>写入字节数</td></tr>
   </table>
   </dd>
 </dl>
-<p>Why: 提供类型安全和边界检查的数据写入方式 What: WriteDataSpan方法将span中的数据写入页面的指定偏移量处 How: 检查边界条件，使用memcpy进行安全的数据复制 </p>
+<p>WHY: 提供统一的、带边界检查的数据写入接口，防止内存越界。 </p>
 
 </div>
 </div>
@@ -593,6 +565,8 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>页面物理存储区 严格限制为 PAGE_SIZE 大小。 </p>
+
 </div>
 </div>
 <a id="a6ce89350e94bd067cdd9f1d17f063eb6" name="a6ce89350e94bd067cdd9f1d17f063eb6"></a>
@@ -614,6 +588,8 @@ Private 属性</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>页面唯一ID -1 表示这是一个无效或未初始化的页面。 </p>
 
 </div>
 </div>

@@ -169,7 +169,7 @@ Private 属性</h2></td></tr>
 <li>连接池的管理</li>
 </ul>
 <p>WHY层 - 设计意图： 作为数据库系统的流量入口，ServerNetworkManager 必须支持高并发连接且保证数据传输的安全性。 采用 epoll (Linux) 异步 I/O 架构，能够以极低的资源消耗管理数千个活跃会话， 并通过 TLS/SSL 加密防止网络嗅探。</p>
-<p>WHAT层 - 功能说明： 绑定监听端口，处理客户端握手请求（Accept）。 集成会话管理 (<a class="el" href="classsqlcc_1_1network_1_1SessionManager.html" title="会话管理器类，负责管理所有客户端会话">SessionManager</a>) 和身份认证 (<a class="el" href="classsqlcc_1_1UserManager.html" title="用户管理器类。">UserManager</a>)。 支持非阻塞的 epoll 事件循环，实现 I/O 多路复用。 提供可选的 TLS 加密链路层支持。</p>
+<p>WHAT层 - 功能说明： 绑定监听端口，处理客户端握手请求（Accept）。 集成会话管理 (<a class="el" href="classsqlcc_1_1network_1_1SessionManager.html" title="会话管理器类，负责管理所有客户端会话">SessionManager</a>) 和身份认证 (<a class="el" href="classsqlcc_1_1UserManager.html" title="用户与权限管理器">UserManager</a>)。 支持非阻塞的 epoll 事件循环，实现 I/O 多路复用。 提供可选的 TLS 加密链路层支持。</p>
 <p>HOW层 - 实现机制：</p><ol type="1">
 <li>基础架构：创建非阻塞监听 Socket 并加入 epoll 监听列表。</li>
 <li>事件循环：ProcessEvents 周期性调用 epoll_wait 获取就绪文件描述符。</li>

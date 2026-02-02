@@ -82,7 +82,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>事务ID类型 - 唯一标识一个事务  
+<p>事务全局唯一标识符  
  <a href="classsqlcc_1_1TransactionId.html#details">更多...</a></p>
 
 <p><code>#include &lt;<a class="el" href="transaction__types_8h_source.html">transaction_types.h</a>&gt;</code></p>
@@ -90,12 +90,16 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
 <tr class="memitem:a09c88ac0c084af920b81956ed2d29c27" id="r_a09c88ac0c084af920b81956ed2d29c27"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionId.html#a09c88ac0c084af920b81956ed2d29c27">TransactionId</a> ()</td></tr>
+<tr class="memdesc:a09c88ac0c084af920b81956ed2d29c27"><td class="mdescLeft">&#160;</td><td class="mdescRight">默认构造函数 初始化为无效事务ID（0）和当前时间。  <br /></td></tr>
 <tr class="separator:a09c88ac0c084af920b81956ed2d29c27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a4c18291eecdd57ae416a61e84d2a86" id="r_a9a4c18291eecdd57ae416a61e84d2a86"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionId.html#a9a4c18291eecdd57ae416a61e84d2a86">TransactionId</a> (uint64_t id, std::chrono::system_clock::time_point timestamp)</td></tr>
+<tr class="memdesc:a9a4c18291eecdd57ae416a61e84d2a86"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
 <tr class="separator:a9a4c18291eecdd57ae416a61e84d2a86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9e0ad9c5afd870dbad92295f0e2efb3" id="r_ad9e0ad9c5afd870dbad92295f0e2efb3"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionId.html#ad9e0ad9c5afd870dbad92295f0e2efb3">get_id</a> () const</td></tr>
+<tr class="memdesc:ad9e0ad9c5afd870dbad92295f0e2efb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取数字ID  <br /></td></tr>
 <tr class="separator:ad9e0ad9c5afd870dbad92295f0e2efb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46d69ce8996468a8797beb5ab464207e" id="r_a46d69ce8996468a8797beb5ab464207e"><td class="memItemLeft" align="right" valign="top">std::chrono::system_clock::time_point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionId.html#a46d69ce8996468a8797beb5ab464207e">get_timestamp</a> () const</td></tr>
+<tr class="memdesc:a46d69ce8996468a8797beb5ab464207e"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取事务开始时间戳 用于死锁检测中的超时判断或牺牲者选择策略（如 Wait-Die / Wound-Wait）。  <br /></td></tr>
 <tr class="separator:a46d69ce8996468a8797beb5ab464207e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4eb99e0b629f68ad300330aec7e12a6" id="r_ad4eb99e0b629f68ad300330aec7e12a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionId.html#ad4eb99e0b629f68ad300330aec7e12a6">operator==</a> (const <a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> &amp;other) const</td></tr>
 <tr class="separator:ad4eb99e0b629f68ad300330aec7e12a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -113,25 +117,15 @@ Public 成员函数</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private 属性</h2></td></tr>
 <tr class="memitem:a8113b3616b40b0e0c6ed60751e3362e8" id="r_a8113b3616b40b0e0c6ed60751e3362e8"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionId.html#a8113b3616b40b0e0c6ed60751e3362e8">id_</a></td></tr>
-<tr class="memdesc:a8113b3616b40b0e0c6ed60751e3362e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">事务ID  <br /></td></tr>
+<tr class="memdesc:a8113b3616b40b0e0c6ed60751e3362e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">单调递增的事务序列号  <br /></td></tr>
 <tr class="separator:a8113b3616b40b0e0c6ed60751e3362e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a060c0e56fbf72e02ad7e0b04f7636253" id="r_a060c0e56fbf72e02ad7e0b04f7636253"><td class="memItemLeft" align="right" valign="top">std::chrono::system_clock::time_point&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionId.html#a060c0e56fbf72e02ad7e0b04f7636253">timestamp_</a></td></tr>
-<tr class="memdesc:a060c0e56fbf72e02ad7e0b04f7636253"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建时间戳  <br /></td></tr>
+<tr class="memdesc:a060c0e56fbf72e02ad7e0b04f7636253"><td class="mdescLeft">&#160;</td><td class="mdescRight">事务创建时的物理时间  <br /></td></tr>
 <tr class="separator:a060c0e56fbf72e02ad7e0b04f7636253"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>事务ID类型 - 唯一标识一个事务 </p>
-<p>WHY层 - 设计意图： TransactionId是数据库事务的核心标识符，用于跟踪和管理事务的生命周期。 通过时间戳和ID的组合，确保事务ID的全局唯一性和可排序性。</p>
-<p>WHAT层 - 功能说明：</p><ul>
-<li>封装事务ID和创建时间戳</li>
-<li>提供事务的唯一标识和排序能力</li>
-<li>支持事务生命周期管理</li>
-</ul>
-<p>HOW层 - 实现机制：</p><ul>
-<li>使用64位整数作为事务ID</li>
-<li>使用系统时钟作为时间戳</li>
-<li>提供构造函数和比较操作符 </li>
-</ul>
+<div class="textblock"><p>事务全局唯一标识符 </p>
+<p><a class="el" href="classsqlcc_1_1TransactionId.html" title="事务全局唯一标识符">TransactionId</a> 不仅是一个唯一ID，还隐含了时间顺序信息。 在 MVCC 实现中，事务 ID 的大小关系决定了数据的可见性。 </p>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a09c88ac0c084af920b81956ed2d29c27" name="a09c88ac0c084af920b81956ed2d29c27"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a09c88ac0c084af920b81956ed2d29c27">&#9670;&#160;</a></span>TransactionId() <span class="overload">[1/2]</span></h2>
@@ -155,7 +149,8 @@ Private 属性</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>默认构造函数 </p>
+
+<p>默认构造函数 初始化为无效事务ID（0）和当前时间。 </p>
 
 </div>
 </div>
@@ -192,10 +187,12 @@ Private 属性</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>参数化构造函数 </p><dl class="params"><dt>参数</dt><dd>
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">id</td><td>事务ID </td></tr>
-    <tr><td class="paramname">timestamp</td><td>创建时间戳 </td></tr>
+    <tr><td class="paramname">id</td><td>分配的事务序列号 </td></tr>
+    <tr><td class="paramname">timestamp</td><td>事务开始时间 </td></tr>
   </table>
   </dd>
 </dl>
@@ -225,7 +222,8 @@ Private 属性</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>获取事务ID </p><dl class="section return"><dt>返回</dt><dd>事务ID </dd></dl>
+
+<p>获取数字ID </p>
 
 </div>
 </div>
@@ -251,7 +249,8 @@ Private 属性</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>获取创建时间戳 </p><dl class="section return"><dt>返回</dt><dd>创建时间戳 </dd></dl>
+
+<p>获取事务开始时间戳 用于死锁检测中的超时判断或牺牲者选择策略（如 Wait-Die / Wound-Wait）。 </p>
 
 </div>
 </div>
@@ -356,7 +355,6 @@ Private 属性</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>比较操作符 - 用于事务排序 </p>
 
 </div>
 </div>
@@ -433,7 +431,7 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>事务ID </p>
+<p>单调递增的事务序列号 </p>
 
 </div>
 </div>
@@ -457,7 +455,7 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>创建时间戳 </p>
+<p>事务创建时的物理时间 </p>
 
 </div>
 </div>

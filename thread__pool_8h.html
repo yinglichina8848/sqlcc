@@ -80,6 +80,9 @@ $(function() {
   <div class="headertitle"><div class="title">thread_pool.h 文件参考</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>SQLCC通用线程池 - 高并发任务调度引擎  
+<a href="#details">更多...</a></p>
 <div class="textblock"><code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;queue&gt;</code><br />
 <code>#include &lt;thread&gt;</code><br />
@@ -95,7 +98,7 @@ thread_pool.h 的引用(Include)关系图:</div>
 <div class="dyncontent">
 <div class="center"><img src="thread__pool_8h__incl.png" border="0" usemap="#athread__pool_8h" alt=""/></div>
 <map name="athread__pool_8h" id="athread__pool_8h">
-<area shape="rect" title=" " alt="" coords="441,5,552,31"/>
+<area shape="rect" title="SQLCC通用线程池 &#45; 高并发任务调度引擎" alt="" coords="441,5,552,31"/>
 <area shape="rect" title=" " alt="" coords="5,79,68,104"/>
 <area shape="poly" title=" " alt="" coords="442,28,284,47,82,81,81,76,283,42,441,22"/>
 <area shape="rect" title=" " alt="" coords="92,79,155,104"/>
@@ -123,7 +126,7 @@ thread_pool.h 的引用(Include)关系图:</div>
 <div class="dyncontent">
 <div class="center"><img src="thread__pool_8h__dep__incl.png" border="0" usemap="#athread__pool_8hdep" alt=""/></div>
 <map name="athread__pool_8hdep" id="athread__pool_8hdep">
-<area shape="rect" title=" " alt="" coords="185,5,296,31"/>
+<area shape="rect" title="SQLCC通用线程池 &#45; 高并发任务调度引擎" alt="" coords="185,5,296,31"/>
 <area shape="rect" href="server__network__manager_8h.html" title=" " alt="" coords="48,79,247,104"/>
 <area shape="poly" title=" " alt="" coords="217,41,164,81,161,76,213,37"/>
 <area shape="rect" href="thread__pool_8cpp.html" title=" " alt="" coords="271,79,397,104"/>
@@ -150,7 +153,41 @@ thread_pool.h 的引用(Include)关系图:</div>
 <tr class="memitem:namespacesqlcc_1_1utils" id="r_namespacesqlcc_1_1utils"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1utils.html">sqlcc::utils</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>SQLCC通用线程池 - 高并发任务调度引擎 </p>
+<p>线程池是数据库并发模型的核心。它通过预分配线程资源并复用工作线程， 避免了频繁创建/销毁线程的系统调用开销。它驱动着数据库的网络连接处理、 异步I/O、后台刷盘、以及并行查询执行。</p>
+<p>📚 配套教材参考：</p><ul>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#第十一章并发控制">第11章：数据库并发控制</a></li>
+<li><a href="../../textbook/《数据库系统原理_与开发实践》.md#111-多线程执行模型">11.1 多线程执行模型</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#115-任务调度与负载均衡">11.5 任务调度与负载均衡</a></li>
+</ul>
+<p>WHY层 - 设计意图：</p><ol type="1">
+<li>**资源复用**：减少线程上下文切换和内核对象分配的开销。</li>
+<li>**流量削峰**：通过有限的线程数和无限的任务队列，平滑突发的高并发请求。</li>
+<li>**解耦任务与执行**：允许执行器将复杂任务拆分并异步提交，提高系统响应速度。</li>
+<li>**优雅降级**：当系统负载过高时，线程池提供统一的任务拒绝和排队机制。</li>
+</ol>
+<p>WHAT层 - 功能说明：</p><ul>
+<li>动态任务提交：支持 Lambda、函数对象、成员函数等各种可调用对象的异步提交。</li>
+<li>异步结果获取：集成 <code>std::future</code>，支持非阻塞地获取任务返回值。</li>
+<li>生命周期管理：支持优雅关闭（Wait for tasks）和强制关闭（Shutdown now）。</li>
+<li>状态监控：实时反馈活跃线程数和队列任务深度。</li>
+</ul>
+<p>HOW层 - 实现机制：</p><ul>
+<li>生产者-消费者模型：主线程（或调用方）作为生产者提交任务，内部工作线程作为消费者竞争执行。</li>
+<li>同步原语：使用 <code>std::mutex</code> 保护任务队列，<code>std::condition_variable</code> 实现线程的唤醒与睡眠（Wait/Notify）。</li>
+<li>任务封装：利用 <code>std::packaged_task</code> 将各种签名函数统一封装为 <code>std::function&lt;void()&gt;</code> 存储在队列中。</li>
+<li>原子计数：采用 <code>std::atomic</code> 维护任务计数，确保监控数据的准确性。</li>
+</ul>
+<p>应用场景：</p><ul>
+<li>**网络层**：每接入一个 Socket 连接，提交一个 handle_session 任务。</li>
+<li>**存储引擎**：后台 Checkpoint 线程提交脏页刷新任务。</li>
+<li>**查询执行**：Hash Join 或 并行 Scan 时，将分片扫描任务下发。</li>
+</ul>
+<dl class="section author"><dt>作者</dt><dd>SQLCC技术委员会 </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>1.2.6 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2026-02-02 </dd></dl>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8

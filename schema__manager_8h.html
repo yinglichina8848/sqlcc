@@ -80,6 +80,9 @@ $(function() {
   <div class="headertitle"><div class="title">schema_manager.h 文件参考</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>SQLCC模式管理器 - 逻辑命名空间与多租户隔离核心  
+<a href="#details">更多...</a></p>
 <div class="textblock"><code>#include &lt;chrono&gt;</code><br />
 <code>#include &lt;mutex&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
@@ -90,7 +93,7 @@ schema_manager.h 的引用(Include)关系图:</div>
 <div class="dyncontent">
 <div class="center"><img src="schema__manager_8h__incl.png" border="0" usemap="#aschema__manager_8h" alt=""/></div>
 <map name="aschema__manager_8h" id="aschema__manager_8h">
-<area shape="rect" title=" " alt="" coords="139,5,288,31"/>
+<area shape="rect" title="SQLCC模式管理器 &#45; 逻辑命名空间与多租户隔离核心" alt="" coords="139,5,288,31"/>
 <area shape="rect" title=" " alt="" coords="5,79,72,104"/>
 <area shape="poly" title=" " alt="" coords="186,33,81,76,79,71,184,28"/>
 <area shape="rect" title=" " alt="" coords="96,79,160,104"/>
@@ -109,8 +112,10 @@ schema_manager.h 的引用(Include)关系图:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 类</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1Schema.html">sqlcc::Schema</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">模式元数据结构  <a href="structsqlcc_1_1Schema.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SchemaManager.html">sqlcc::SchemaManager</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">模式管理器 - 负责 <a class="el" href="structsqlcc_1_1Schema.html" title="模式元数据结构">Schema</a> 对象的全生命周期管理  <a href="classsqlcc_1_1SchemaManager.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -118,7 +123,35 @@ schema_manager.h 的引用(Include)关系图:</div>
 <tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>SQLCC模式管理器 - 逻辑命名空间与多租户隔离核心 </p>
+<p>SchemaManager 负责管理数据库中的 Schema（模式/命名空间）。在 SQL 标准中， Schema 是数据库对象的容器，用于组织表、视图、索引等对象。它提供了逻辑隔离 和访问控制边界，是多租户架构（Multi-Tenancy）的基础组件。</p>
+<p>📚 配套教材参考：</p><ul>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#第三章sql数据定义">第3章：SQL数据定义</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#31-模式定义与管理">3.1 模式定义与管理</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#102-存取控制与用户管理">10.2 存取控制与用户管理</a></li>
+</ul>
+<p>WHY层 - 设计意图：</p><ol type="1">
+<li>**逻辑隔离**：允许不同用户在同一个物理数据库中创建同名表而不冲突（如 user1.table1 和 user2.table1）。</li>
+<li>**权限边界**：基于 Schema 进行授权（GRANT ALL ON SCHEMA ...），简化权限管理。</li>
+<li>**组织结构**：将相关的数据库对象分组管理，提高可维护性。</li>
+</ol>
+<p>WHAT层 - 功能说明：</p><ul>
+<li>Schema CRUD：创建（CreateSchema）、删除（DropSchema）、修改（AlterSchema）。</li>
+<li>元数据持久化：将 Schema 定义存储在系统表（如 <code>sqlcc_schemas</code>）中。</li>
+<li>存在性检查：快速验证 Schema 是否存在，防止无效引用。</li>
+<li>列表查询：获取系统内所有 Schema 的清单。</li>
+</ul>
+<p>HOW层 - 实现机制：</p><ul>
+<li>**内存映射**：使用 <code>unordered_map&lt;name, Schema&gt;</code> 缓存所有 Schema 元数据， 加速查找（通常 Schema 数量有限，全量缓存可行）。</li>
+<li>**持久化同步**：任何修改操作（Create/Drop/Alter）都必须先写入系统表，再更新内存缓存。</li>
+<li>**并发控制**：使用互斥锁（Mutex）保护内存缓存的并发访问。</li>
+<li>**默认 Schema**：系统初始化时自动创建 'public' 模式，作为默认命名空间。</li>
+</ul>
+<dl class="section author"><dt>作者</dt><dd>SQLCC技术委员会 </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>1.2.6 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2026-02-02 </dd></dl>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8

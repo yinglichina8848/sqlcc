@@ -83,7 +83,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>存储过程值类型  
+<p>存储过程运行时数据类型封装  
  <a href="classsqlcc_1_1procedure_1_1Value.html#details">更多...</a></p>
 
 <p><code>#include &lt;<a class="el" href="procedure__vm_8h_source.html">procedure_vm.h</a>&gt;</code></p>
@@ -140,8 +140,10 @@ Private 属性</h2></td></tr>
 <tr class="separator:ad37e5f95ddc1ef661639692974082940"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>存储过程值类型 </p>
-<p>支持多种数据类型的统一表示 </p>
+<div class="textblock"><p>存储过程运行时数据类型封装 </p>
+<p>WHY: 存储过程语言需要一个统一的数据类型系统，能够透明地处理 SQL 类型与过程语言 内部类型的转换，并支持 NULL 值。</p>
+<p>WHAT: 封装了 INTEGER, DOUBLE, STRING, BOOLEAN, NULL_VALUE 五种基本数据类型。 提供类型安全的访问方法（如 <code><a class="el" href="classsqlcc_1_1procedure_1_1Value.html#a903aca12b95f97737d39a9c8daa7be90">asInteger()</a></code>），并在类型不匹配时抛出异常。</p>
+<p>HOW: 使用 <code>std::variant</code> (如果支持) 或手动 <code>union + enum</code> 实现类型判别与存储。 </p>
 </div><h2 class="groupheader">成员枚举类型说明</h2>
 <a id="a39c7f2e1604d0874eab7c5817712420e" name="a39c7f2e1604d0874eab7c5817712420e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a39c7f2e1604d0874eab7c5817712420e">&#9670;&#160;</a></span>Type</h2>

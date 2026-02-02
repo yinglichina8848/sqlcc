@@ -80,6 +80,9 @@ $(function() {
   <div class="headertitle"><div class="title">network_server.h 文件参考</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>SQLCC网络服务器核心 - 双协议支持与连接分发入口  
+<a href="#details">更多...</a></p>
 <div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
 <code>#include &quot;<a class="el" href="file__descriptor_8h_source.html">utils/file_descriptor.h</a>&quot;</code><br />
@@ -88,7 +91,7 @@ network_server.h 的引用(Include)关系图:</div>
 <div class="dyncontent">
 <div class="center"><img src="network__server_8h__incl.png" border="0" usemap="#anetwork__server_8h" alt=""/></div>
 <map name="anetwork__server_8h" id="anetwork__server_8h">
-<area shape="rect" title=" " alt="" coords="67,5,202,31"/>
+<area shape="rect" title="SQLCC网络服务器核心 &#45; 双协议支持与连接分发入口" alt="" coords="67,5,202,31"/>
 <area shape="rect" title=" " alt="" coords="5,79,72,104"/>
 <area shape="poly" title=" " alt="" coords="121,33,67,72,64,68,118,29"/>
 <area shape="rect" title=" " alt="" coords="96,79,173,104"/>
@@ -106,7 +109,7 @@ network_server.h 的引用(Include)关系图:</div>
 <div class="dyncontent">
 <div class="center"><img src="network__server_8h__dep__incl.png" border="0" usemap="#anetwork__server_8hdep" alt=""/></div>
 <map name="anetwork__server_8hdep" id="anetwork__server_8hdep">
-<area shape="rect" title=" " alt="" coords="13,5,147,31"/>
+<area shape="rect" title="SQLCC网络服务器核心 &#45; 双协议支持与连接分发入口" alt="" coords="13,5,147,31"/>
 <area shape="rect" href="network__server_8cpp.html" title=" " alt="" coords="5,79,155,104"/>
 <area shape="poly" title=" " alt="" coords="83,44,83,79,77,79,77,44"/>
 </map>
@@ -117,6 +120,7 @@ network_server.h 的引用(Include)关系图:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 类</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkServer.html">sqlcc::network::NetworkServer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">网络服务器类 - 协议分发器  <a href="classsqlcc_1_1network_1_1NetworkServer.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -126,7 +130,40 @@ network_server.h 的引用(Include)关系图:</div>
 <tr class="memitem:namespacesqlcc_1_1network" id="r_namespacesqlcc_1_1network"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1network.html">sqlcc::network</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>SQLCC网络服务器核心 - 双协议支持与连接分发入口 </p>
+<p>NetworkServer是数据库网络层的处理入口，负责接收原始的客户端连接， 智能识别通信协议（原生协议或MySQL协议），并将连接分发给相应的协议处理器。</p>
+<p>📚 配套教材参考：</p><ul>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#第十四章数据库网络协议">第14章：数据库网络协议</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#141-网络层架构设计">14.1 网络层架构设计</a></li>
+<li><a href="../../textbook/《数据库系统原理与开发实践》.md#142-多协议支持策略">14.2 多协议支持策略</a></li>
+</ul>
+<p>WHY层 - 设计意图： 为了提高系统的兼容性和易用性，SQLCC支持多种客户端协议。NetworkServer 需要作为一个统一的入口，透明地处理不同类型的客户端连接，无需用户配置 不同的端口，简化了部署和运维复杂度。</p>
+<p>WHAT层 - 功能说明：</p><ul>
+<li>统一入口：处理所有进入的TCP连接</li>
+<li>协议探测：智能识别客户端使用的通信协议</li>
+<li>连接分发：将连接移交给专门的协议处理器</li>
+<li>MySQL兼容：支持标准MySQL客户端直接连接</li>
+<li>原生支持：支持SQLCC原生高性能客户端</li>
+</ul>
+<p>HOW层 - 实现机制：</p><ul>
+<li>预读取探测：使用recv(MSG_PEEK)预读取首字节判断协议</li>
+<li>协议特征码：利用MySQL握手包特征（0x0A）进行识别</li>
+<li>资源移交：使用std::move转移Socket所有权，零拷贝</li>
+<li>依赖注入：动态创建SqlExecutor等核心组件</li>
+</ul>
+<p>协议识别算法：</p><ol type="1">
+<li>接收新连接的Socket文件描述符</li>
+<li>非破坏性读取第一个字节（MSG_PEEK）</li>
+<li>如果首字节是0x0A，识别为MySQL协议（Login Request Packet）</li>
+<li>否则默认为SQLCC原生自定义协议</li>
+<li>根据识别结果创建相应的ProtocolHandler</li>
+</ol>
+<p>架构位置： [Client] -&gt; [ServerNetworkManager] -&gt; [NetworkServer] -&gt; [ProtocolHandler] | +----&mdash;+----&mdash;+ | | [MySQLHandler] [NativeHandler]</p>
+<dl class="section author"><dt>作者</dt><dd>SQLCC技术委员会 </dd></dl>
+<dl class="section version"><dt>版本</dt><dd>1.1.0 </dd></dl>
+<dl class="section date"><dt>日期</dt><dd>2026-02-02 </dd></dl>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8

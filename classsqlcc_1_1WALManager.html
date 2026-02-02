@@ -103,8 +103,8 @@ sqlcc::WALManager 的协作图:</div>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
-<tr class="memitem:a986bb1e76ab0b52b35684aa023271e63" id="r_a986bb1e76ab0b52b35684aa023271e63"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a986bb1e76ab0b52b35684aa023271e63">WALManager</a> (const std::string &amp;log_file_path, bool force_sync=false)</td></tr>
-<tr class="memdesc:a986bb1e76ab0b52b35684aa023271e63"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造WALManager实例。  <br /></td></tr>
+<tr class="memitem:a986bb1e76ab0b52b35684aa023271e63" id="r_a986bb1e76ab0b52b35684aa023271e63"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a986bb1e76ab0b52b35684aa023271e63">WALManager</a> (const std::string &amp;log_file_path, bool force_sync=<a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a>)</td></tr>
+<tr class="memdesc:a986bb1e76ab0b52b35684aa023271e63"><td class="mdescLeft">&#160;</td><td class="mdescRight">定义了WAL日志记录的类型。 这些类型对应数据库操作（如BEGIN/COMMIT/ABORT事务控制，UPDATE/INSERT/DELETE数据修改）或内部恢复机制（如COMPENSATE）。  <br /></td></tr>
 <tr class="separator:a986bb1e76ab0b52b35684aa023271e63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62deaec0e1a59a5da9f2953d1f96854e" id="r_a62deaec0e1a59a5da9f2953d1f96854e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1WALManager.html#a62deaec0e1a59a5da9f2953d1f96854e">~WALManager</a> ()</td></tr>
 <tr class="memdesc:a62deaec0e1a59a5da9f2953d1f96854e"><td class="mdescLeft">&#160;</td><td class="mdescRight">销毁WALManager实例。  <br /></td></tr>
@@ -256,7 +256,7 @@ Private 属性</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>force_sync</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>force_sync</em> = <code><a class="el" href="namespacesqlcc.html#a74b7fd727740ce6428fb63c53f221859">false</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -271,7 +271,7 @@ Private 属性</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>构造WALManager实例。 </p>
+<p>定义了WAL日志记录的类型。 这些类型对应数据库操作（如BEGIN/COMMIT/ABORT事务控制，UPDATE/INSERT/DELETE数据修改）或内部恢复机制（如COMPENSATE）。 </p>
 <p>构造函数 </p><dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">log_file_path</td><td>日志文件路径 </td></tr>
@@ -279,6 +279,7 @@ Private 属性</h2></td></tr>
   </table>
   </dd>
 </dl>
+<p>构造WALManager实例。</p>
 <p>初始化WAL管理器的各项参数，包括日志文件路径、检查点文件路径、LSN管理器等。 同时，会初始化日志文件，并在当前版本（v0.4.8）中暂时禁用异步刷盘功能以避免编译问题，强制使用同步模式。 </p><dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">log_file_path</td><td>日志文件的存储路径。 </td></tr>
