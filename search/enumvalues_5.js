@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['failed_0',['failed',['../namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4a0b93acc7df52be5b35317a0f07513908',1,'sqlcc::FAILED'],['../namespacesqlcc.html#a820a141f6be2d854c314b595918b4b28ab9e14d9b2886bcff408b85aefa780419',1,'sqlcc::FAILED'],['../namespacesqlcc.html#a3db3a4de7e77a43b53be6b9cd30da081ab9e14d9b2886bcff408b85aefa780419',1,'sqlcc::FAILED']]],
+  ['failed_0',['failed',['../namespacesqlcc.html#add5125e3a79677024fcad929c00f8db4a0b93acc7df52be5b35317a0f07513908',1,'sqlcc::FAILED'],['../namespacesqlcc.html#a820a141f6be2d854c314b595918b4b28ab9e14d9b2886bcff408b85aefa780419',1,'sqlcc::FAILED']]],
   ['failover_1',['FAILOVER',['../namespacesqlcc.html#a33f9159a0e453410cf6a3800dbfd1496a1b4ff06d75eec6bcd5cfd17ae621bc37',1,'sqlcc']]],
   ['failure_2',['FAILURE',['../structsqlcc_1_1ExecutionResult.html#ae07917a48ed48893a9d7c4fd977596e4aed40af4f6eb12d7baa549d8f31e1d3aa',1,'sqlcc::ExecutionResult']]],
   ['fatal_3',['fatal',['../namespacesqlcc_1_1sql__parser_1_1errors.html#af3a9eb0965683399f6281296e4a4f7bfa19da7170bea36556dde582519795f3fc',1,'sqlcc::sql_parser::errors::FATAL'],['../namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2a19da7170bea36556dde582519795f3fc',1,'sqlcc::FATAL'],['../namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2a19da7170bea36556dde582519795f3fc',1,'sqlcc::FATAL'],['../namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2a19da7170bea36556dde582519795f3fc',1,'sqlcc::FATAL'],['../namespacesqlcc.html#a8ecc411d1876eec8559fbcfa78292bd2a19da7170bea36556dde582519795f3fc',1,'sqlcc::FATAL']]],

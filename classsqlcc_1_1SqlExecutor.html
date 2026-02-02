@@ -94,6 +94,7 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:ab2a47e58186e3d420d9b49f77e1068a5" id="r_ab2a47e58186e3d420d9b49f77e1068a5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SqlExecutor.html#ab2a47e58186e3d420d9b49f77e1068a5">~SqlExecutor</a> ()</td></tr>
 <tr class="separator:ab2a47e58186e3d420d9b49f77e1068a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06578db4906225b1614eaa7966f2ebc9" id="r_a06578db4906225b1614eaa7966f2ebc9"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SqlExecutor.html#a06578db4906225b1614eaa7966f2ebc9">Execute</a> (const std::string &amp;sql)</td></tr>
+<tr class="memdesc:a06578db4906225b1614eaa7966f2ebc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行 SQL 语句（字符串接口）  <br /></td></tr>
 <tr class="separator:a06578db4906225b1614eaa7966f2ebc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81cc11b8fdeed8659ad0c67fe8629a23" id="r_a81cc11b8fdeed8659ad0c67fe8629a23"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1SqlExecutor.html#a81cc11b8fdeed8659ad0c67fe8629a23">Execute</a> (const <a class="el" href="classsqlcc_1_1sql__parser_1_1Statement.html">sqlcc::sql_parser::Statement</a> *stmt)</td></tr>
 <tr class="separator:a81cc11b8fdeed8659ad0c67fe8629a23"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -826,6 +827,8 @@ Private 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>执行 SQL 语句（字符串接口） </p>
 <p>WHAT: Execute - SQL语句执行主入口</p>
 <p>处理完整的SQL语句执行流程，从解析到结果返回。 支持DDL、DML、DCL等多种SQL语句类型。</p>
 <p>HOW: SQL执行流水线</p><ol type="1">
@@ -846,7 +849,13 @@ Private 属性</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>执行结果消息 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>执行结果消息</dd></dl>
+<p>WHY: 应用程序通常通过文本协议发送 SQL 请求。执行器必须能够解析任意 SQL 文本并调度到正确。 WHAT: 实现一个完整的“文本解析 -&gt; 语义路由 -&gt; 物理执行”流水线。 HOW:</p><ol type="1">
+<li>预处理：将 SQL 统一转为大写并去除首尾空格，简化正则匹配。</li>
+<li>路由分发：基于正则表达式快速识别关键字（CREATE, SELECT, INSERT 等）。</li>
+<li>专项执行：根据识别出的类型，调用对应的私有处理函数（如 ExecuteCreateTable）。</li>
+<li>容错：若不匹配任何已知模式，返回带有详细提示的错误信息。 </li>
+</ol>
 
 </div>
 </div>

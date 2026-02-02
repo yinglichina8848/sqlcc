@@ -76,11 +76,15 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
 <a href="#pri-attribs">Private 属性</a> &#124;
 <a href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager-members.html">所有成员列表</a>  </div>
   <div class="headertitle"><div class="title">sqlcc::storage_engine::index_manager::EnhancedIndexManager类 参考</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>增强型索引管理器 - 提供带缓存和事务支持的 B+ 树索引生命周期管理  
+ <a href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#details">更多...</a></p>
 
 <p><code>#include &lt;<a class="el" href="enhanced__index__manager_8h_source.html">enhanced_index_manager.h</a>&gt;</code></p>
 <table class="memberdecls">
@@ -90,6 +94,35 @@ Public 成员函数</h2></td></tr>
 <tr class="separator:a7c301ddd509f40a1aa08365311f33816"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4de12e9d482fabf27455f9fa5cacb5aa" id="r_a4de12e9d482fabf27455f9fa5cacb5aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#a4de12e9d482fabf27455f9fa5cacb5aa">~EnhancedIndexManager</a> ()</td></tr>
 <tr class="separator:a4de12e9d482fabf27455f9fa5cacb5aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cd9e37108536cd187e5df54a40f36dc" id="r_a4cd9e37108536cd187e5df54a40f36dc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#a4cd9e37108536cd187e5df54a40f36dc">CreateIndex</a> (const std::string &amp;index_name, const std::string &amp;table_name, const std::string &amp;column_name, bool transactional=false, int32_t transaction_id=-1)</td></tr>
+<tr class="separator:a4cd9e37108536cd187e5df54a40f36dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c48f25fdbf9769ebac7fbd62168791c" id="r_a7c48f25fdbf9769ebac7fbd62168791c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#a7c48f25fdbf9769ebac7fbd62168791c">DropIndex</a> (const std::string &amp;index_name, const std::string &amp;table_name, bool transactional=false, int32_t transaction_id=-1)</td></tr>
+<tr class="separator:a7c48f25fdbf9769ebac7fbd62168791c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8f2f51563da562b059b6fd41dccd97d" id="r_ae8f2f51563da562b059b6fd41dccd97d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#ae8f2f51563da562b059b6fd41dccd97d">GetIndex</a> (const std::string &amp;index_name)</td></tr>
+<tr class="separator:ae8f2f51563da562b059b6fd41dccd97d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acac92ebf6e021785df2ab1f179b9de70" id="r_acac92ebf6e021785df2ab1f179b9de70"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#acac92ebf6e021785df2ab1f179b9de70">IndexExists</a> (const std::string &amp;index_name) const</td></tr>
+<tr class="separator:acac92ebf6e021785df2ab1f179b9de70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af514f2ca505c787480da9d5d2cb240b0" id="r_af514f2ca505c787480da9d5d2cb240b0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#af514f2ca505c787480da9d5d2cb240b0">GetTableIndexes</a> (const std::string &amp;table_name)</td></tr>
+<tr class="separator:af514f2ca505c787480da9d5d2cb240b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47006d25eb77691bb6d771bcb9abce6c" id="r_a47006d25eb77691bb6d771bcb9abce6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#a47006d25eb77691bb6d771bcb9abce6c">CommitTransaction</a> (int32_t transaction_id)</td></tr>
+<tr class="separator:a47006d25eb77691bb6d771bcb9abce6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3e06636f2a196a718841505c2419d18" id="r_af3e06636f2a196a718841505c2419d18"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#af3e06636f2a196a718841505c2419d18">RollbackTransaction</a> (int32_t transaction_id)</td></tr>
+<tr class="separator:af3e06636f2a196a718841505c2419d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a653386a109416c78fc0aaf463deb0f45" id="r_a653386a109416c78fc0aaf463deb0f45"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedCacheStats.html">EnhancedCacheStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#a653386a109416c78fc0aaf463deb0f45">GetCacheStats</a> () const</td></tr>
+<tr class="separator:a653386a109416c78fc0aaf463deb0f45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad51faf15d694be2af4cf6bbb159ee9c2" id="r_ad51faf15d694be2af4cf6bbb159ee9c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#ad51faf15d694be2af4cf6bbb159ee9c2">CleanupExpiredCache</a> (std::chrono::minutes max_age)</td></tr>
+<tr class="separator:ad51faf15d694be2af4cf6bbb159ee9c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a762d74f9031a980ba3b0bff17d88b691" id="r_a762d74f9031a980ba3b0bff17d88b691"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#a762d74f9031a980ba3b0bff17d88b691">RebuildIndex</a> (const std::string &amp;index_name)</td></tr>
+<tr class="separator:a762d74f9031a980ba3b0bff17d88b691"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa12d09fa297e8e39e98b16cacde248ab" id="r_aa12d09fa297e8e39e98b16cacde248ab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#aa12d09fa297e8e39e98b16cacde248ab">OptimizeIndex</a> (const std::string &amp;index_name)</td></tr>
+<tr class="separator:aa12d09fa297e8e39e98b16cacde248ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af39ced56c63ceeccc98fc0b968a482ae" id="r_af39ced56c63ceeccc98fc0b968a482ae"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#af39ced56c63ceeccc98fc0b968a482ae">GetPerformanceStats</a> () const</td></tr>
+<tr class="separator:af39ced56c63ceeccc98fc0b968a482ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:aec340f279d8e699065c3eb3826c6abea" id="r_aec340f279d8e699065c3eb3826c6abea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#aec340f279d8e699065c3eb3826c6abea">StartCacheCleanupTimer</a> ()</td></tr>
+<tr class="separator:aec340f279d8e699065c3eb3826c6abea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private 属性</h2></td></tr>
@@ -97,8 +130,26 @@ Private 属性</h2></td></tr>
 <tr class="separator:ac7e144a9a7237a7b0b4855b7a449add2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adbd6127499787cd958a6873c7555e8d5" id="r_adbd6127499787cd958a6873c7555e8d5"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#adbd6127499787cd958a6873c7555e8d5">transaction_manager_</a></td></tr>
 <tr class="separator:adbd6127499787cd958a6873c7555e8d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab073f0c29f411862f4e93d7fdc34463c" id="r_ab073f0c29f411862f4e93d7fdc34463c"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1SmartIndexCache.html">SmartIndexCache</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#ab073f0c29f411862f4e93d7fdc34463c">smart_cache_</a></td></tr>
+<tr class="separator:ab073f0c29f411862f4e93d7fdc34463c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd8612e8d0988f1fd41354686b920f08" id="r_abd8612e8d0988f1fd41354686b920f08"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1TransactionalIndexManager.html">TransactionalIndexManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#abd8612e8d0988f1fd41354686b920f08">tx_manager_</a></td></tr>
+<tr class="separator:abd8612e8d0988f1fd41354686b920f08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfbf5fb797fb4e2a3ae99c1ecdebcbd9" id="r_adfbf5fb797fb4e2a3ae99c1ecdebcbd9"><td class="memItemLeft" align="right" valign="top">std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#adfbf5fb797fb4e2a3ae99c1ecdebcbd9">cleanup_thread_</a></td></tr>
+<tr class="separator:adfbf5fb797fb4e2a3ae99c1ecdebcbd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a686675b811f99fd31fe6b7cb4cb23c17" id="r_a686675b811f99fd31fe6b7cb4cb23c17"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html#a686675b811f99fd31fe6b7cb4cb23c17">cleanup_timer_running_</a> = false</td></tr>
+<tr class="separator:a686675b811f99fd31fe6b7cb4cb23c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>增强型索引管理器 - 提供带缓存和事务支持的 B+ 树索引生命周期管理 </p>
+<p>WHY层 - 设计意图： 索引操作（创建、删除）是代价昂贵的操作，且直接影响查询计划的生成。 <a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedIndexManager.html" title="增强型索引管理器 - 提供带缓存和事务支持的 B+ 树索引生命周期管理">EnhancedIndexManager</a> 通过引入"智能缓存"和"事务感知"能力， 解决了索引在并发 DDL 场景下的不一致问题，并优化了索引查找的延迟。</p>
+<p>WHAT层 - 功能说明： 提供线程安全的索引创建（CreateIndex）和删除（DropIndex）。 集成 SmartIndexCache，实现索引对象的 LRU 缓存和过期清理。 集成 TransactionalIndexManager，支持在未提交事务中可见的索引修改。 后台自动维护：定期执行过期缓存清理。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>职责分离：管理逻辑委托给 smart_cache_ (缓存) 和 tx_manager_ (事务逻辑)。</li>
+<li>延迟加载：索引对象在首次使用时被实例化并加入缓存。</li>
+<li>异步清理：启动后台线程 cleanup_thread_，每 10 分钟扫描一次超过 1 小时未使用的索引。</li>
+<li>指标统计：收集缓存命中率等性能指标供 DBA 调优。 </li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a7c301ddd509f40a1aa08365311f33816" name="a7c301ddd509f40a1aa08365311f33816"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7c301ddd509f40a1aa08365311f33816">&#9670;&#160;</a></span>EnhancedIndexManager()</h2>
 
@@ -144,7 +195,363 @@ Private 属性</h2></td></tr>
 
 </div>
 </div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="ad51faf15d694be2af4cf6bbb159ee9c2" name="ad51faf15d694be2af4cf6bbb159ee9c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad51faf15d694be2af4cf6bbb159ee9c2">&#9670;&#160;</a></span>CleanupExpiredCache()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::storage_engine::index_manager::EnhancedIndexManager::CleanupExpiredCache </td>
+          <td>(</td>
+          <td class="paramtype">std::chrono::minutes&#160;</td>
+          <td class="paramname"><em>max_age</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a47006d25eb77691bb6d771bcb9abce6c" name="a47006d25eb77691bb6d771bcb9abce6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47006d25eb77691bb6d771bcb9abce6c">&#9670;&#160;</a></span>CommitTransaction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::storage_engine::index_manager::EnhancedIndexManager::CommitTransaction </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4cd9e37108536cd187e5df54a40f36dc" name="a4cd9e37108536cd187e5df54a40f36dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cd9e37108536cd187e5df54a40f36dc">&#9670;&#160;</a></span>CreateIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage_engine::index_manager::EnhancedIndexManager::CreateIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>column_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>transactional</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em> = <code>-1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7c48f25fdbf9769ebac7fbd62168791c" name="a7c48f25fdbf9769ebac7fbd62168791c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c48f25fdbf9769ebac7fbd62168791c">&#9670;&#160;</a></span>DropIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage_engine::index_manager::EnhancedIndexManager::DropIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>transactional</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em> = <code>-1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a653386a109416c78fc0aaf463deb0f45" name="a653386a109416c78fc0aaf463deb0f45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a653386a109416c78fc0aaf463deb0f45">&#9670;&#160;</a></span>GetCacheStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structsqlcc_1_1storage__engine_1_1index__manager_1_1EnhancedCacheStats.html">EnhancedCacheStats</a> sqlcc::storage_engine::index_manager::EnhancedIndexManager::GetCacheStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae8f2f51563da562b059b6fd41dccd97d" name="ae8f2f51563da562b059b6fd41dccd97d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8f2f51563da562b059b6fd41dccd97d">&#9670;&#160;</a></span>GetIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> * sqlcc::storage_engine::index_manager::EnhancedIndexManager::GetIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af39ced56c63ceeccc98fc0b968a482ae" name="af39ced56c63ceeccc98fc0b968a482ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af39ced56c63ceeccc98fc0b968a482ae">&#9670;&#160;</a></span>GetPerformanceStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; std::string, double &gt; sqlcc::storage_engine::index_manager::EnhancedIndexManager::GetPerformanceStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af514f2ca505c787480da9d5d2cb240b0" name="af514f2ca505c787480da9d5d2cb240b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af514f2ca505c787480da9d5d2cb240b0">&#9670;&#160;</a></span>GetTableIndexes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> * &gt; sqlcc::storage_engine::index_manager::EnhancedIndexManager::GetTableIndexes </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>table_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acac92ebf6e021785df2ab1f179b9de70" name="acac92ebf6e021785df2ab1f179b9de70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acac92ebf6e021785df2ab1f179b9de70">&#9670;&#160;</a></span>IndexExists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage_engine::index_manager::EnhancedIndexManager::IndexExists </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa12d09fa297e8e39e98b16cacde248ab" name="aa12d09fa297e8e39e98b16cacde248ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa12d09fa297e8e39e98b16cacde248ab">&#9670;&#160;</a></span>OptimizeIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage_engine::index_manager::EnhancedIndexManager::OptimizeIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a762d74f9031a980ba3b0bff17d88b691" name="a762d74f9031a980ba3b0bff17d88b691"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a762d74f9031a980ba3b0bff17d88b691">&#9670;&#160;</a></span>RebuildIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage_engine::index_manager::EnhancedIndexManager::RebuildIndex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>index_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af3e06636f2a196a718841505c2419d18" name="af3e06636f2a196a718841505c2419d18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3e06636f2a196a718841505c2419d18">&#9670;&#160;</a></span>RollbackTransaction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::storage_engine::index_manager::EnhancedIndexManager::RollbackTransaction </td>
+          <td>(</td>
+          <td class="paramtype">int32_t&#160;</td>
+          <td class="paramname"><em>transaction_id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aec340f279d8e699065c3eb3826c6abea" name="aec340f279d8e699065c3eb3826c6abea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec340f279d8e699065c3eb3826c6abea">&#9670;&#160;</a></span>StartCacheCleanupTimer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sqlcc::storage_engine::index_manager::EnhancedIndexManager::StartCacheCleanupTimer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">类成员变量说明</h2>
+<a id="adfbf5fb797fb4e2a3ae99c1ecdebcbd9" name="adfbf5fb797fb4e2a3ae99c1ecdebcbd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfbf5fb797fb4e2a3ae99c1ecdebcbd9">&#9670;&#160;</a></span>cleanup_thread_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::thread sqlcc::storage_engine::index_manager::EnhancedIndexManager::cleanup_thread_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a686675b811f99fd31fe6b7cb4cb23c17" name="a686675b811f99fd31fe6b7cb4cb23c17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a686675b811f99fd31fe6b7cb4cb23c17">&#9670;&#160;</a></span>cleanup_timer_running_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sqlcc::storage_engine::index_manager::EnhancedIndexManager::cleanup_timer_running_ = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab073f0c29f411862f4e93d7fdc34463c" name="ab073f0c29f411862f4e93d7fdc34463c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab073f0c29f411862f4e93d7fdc34463c">&#9670;&#160;</a></span>smart_cache_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1SmartIndexCache.html">SmartIndexCache</a>&gt; sqlcc::storage_engine::index_manager::EnhancedIndexManager::smart_cache_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ac7e144a9a7237a7b0b4855b7a449add2" name="ac7e144a9a7237a7b0b4855b7a449add2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac7e144a9a7237a7b0b4855b7a449add2">&#9670;&#160;</a></span>storage_engine_</h2>
 
@@ -178,6 +585,28 @@ Private 属性</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::shared_ptr&lt;<a class="el" href="classsqlcc_1_1TransactionManager.html">TransactionManager</a>&gt; sqlcc::storage_engine::index_manager::EnhancedIndexManager::transaction_manager_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abd8612e8d0988f1fd41354686b920f08" name="abd8612e8d0988f1fd41354686b920f08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd8612e8d0988f1fd41354686b920f08">&#9670;&#160;</a></span>tx_manager_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1TransactionalIndexManager.html">TransactionalIndexManager</a>&gt; sqlcc::storage_engine::index_manager::EnhancedIndexManager::tx_manager_</td>
         </tr>
       </table>
   </td>

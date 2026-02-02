@@ -127,7 +127,7 @@ $(function() {
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1MessageProcessor.html">MessageProcessor</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1MessageSerializer.html">MessageSerializer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">消息序列化器类  <a href="classsqlcc_1_1network_1_1MessageSerializer.html#details">更多...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">通用消息序列化器 - 实现 SQLCC 内部协议的二进制封包与解包  <a href="classsqlcc_1_1network_1_1MessageSerializer.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1network_1_1NetworkException.html">NetworkException</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">网络异常类  <a href="classsqlcc_1_1network_1_1NetworkException.html#details">更多...</a><br /></td></tr>
@@ -238,6 +238,7 @@ $(function() {
 , <a class="el" href="namespacesqlcc_1_1network.html#ac78bb36e50fefc6b64eb4aa13288e9aaabb1ca97ec761fc37101737ba0aa2e7c5">ERROR</a> = 6
 <br />
  }</td></tr>
+<tr class="memdesc:ada45c98dee50190b8725b191d8bc8d50"><td class="mdescLeft">&#160;</td><td class="mdescRight">内部协议消息类型枚举 - 定义 C/S 交互的状态语意  <a href="namespacesqlcc_1_1network.html#ada45c98dee50190b8725b191d8bc8d50">更多...</a><br /></td></tr>
 <tr class="separator:ada45c98dee50190b8725b191d8bc8d50"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49057d63202c6c2f4bc58fa7b2662522" id="r_a49057d63202c6c2f4bc58fa7b2662522"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522">NetworkExceptionType</a> { <br />
 &#160;&#160;<a class="el" href="namespacesqlcc_1_1network.html#a49057d63202c6c2f4bc58fa7b2662522af1277cbef1441738af73ceca629efaaf">CONNECTION_LOST</a> = 0
@@ -416,6 +417,14 @@ $(function() {
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>内部协议消息类型枚举 - 定义 C/S 交互的状态语意 </p>
+<p>WHY层 - 设计意图： SQLCC 协议是一个多阶段的有状态协议。通过定义明确的 Type，处理器（ConnectionHandler） 可以根据当前会话状态（如 AUTH_PENDING）判断收到的包是否合法（如是否提前发送了 QUERY）。</p>
+<p>WHAT层 - 类型说明： CONNECT/CONN_ACK: 建立逻辑会话。 AUTH/AUTH_ACK: 交换凭据并验证身份。 QUERY/QUERY_RESULT: 核心业务逻辑，传输 SQL 文本和行数据。 KEY_EXCHANGE: 密钥协商（如 DH 算法），为会话加密提供基础。</p>
+<p>HOW层 - 应用机制：</p><ol type="1">
+<li>状态映射：类型值直接对应处理器内部的状态转移矩阵。</li>
+<li>分发逻辑：ProcessMessage 方法通过 switch(type) 实现业务逻辑的快速派发。 </li>
+</ol>
 <table class="fieldtable">
 <tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="ada45c98dee50190b8725b191d8bc8d50aff39ca287f61a5a744317d653dd35b25" name="ada45c98dee50190b8725b191d8bc8d50aff39ca287f61a5a744317d653dd35b25"></a>CONNECT&#160;</td><td class="fielddoc"><p>连接请求 </p>
 </td></tr>

@@ -103,6 +103,7 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:a8595c51d334a39c2f5a640c6c07e11ad" id="r_a8595c51d334a39c2f5a640c6c07e11ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#a8595c51d334a39c2f5a640c6c07e11ad">~PartitionManager</a> ()=default</td></tr>
 <tr class="separator:a8595c51d334a39c2f5a640c6c07e11ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8b7afd633ba49ef32c07d7de3f30113" id="r_aa8b7afd633ba49ef32c07d7de3f30113"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#aa8b7afd633ba49ef32c07d7de3f30113">createPartitionedTable</a> (const <a class="el" href="structsqlcc_1_1storage_1_1PartitionedTableDef.html">PartitionedTableDef</a> &amp;definition)</td></tr>
+<tr class="memdesc:aa8b7afd633ba49ef32c07d7de3f30113"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建一个新的分区表  <br /></td></tr>
 <tr class="separator:aa8b7afd633ba49ef32c07d7de3f30113"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac60f06d50aaea63188882bcb0ec62ba0" id="r_ac60f06d50aaea63188882bcb0ec62ba0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage_1_1PartitionManager.html#ac60f06d50aaea63188882bcb0ec62ba0">dropPartitionedTable</a> (const std::string &amp;table_name)</td></tr>
 <tr class="separator:ac60f06d50aaea63188882bcb0ec62ba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,7 +200,16 @@ Private 属性</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>分区表管理器 </p>
-<p>负责分区表的创建、管理和维护 </p>
+<p>分区管理器 - 负责大表的水平切分和路由逻辑</p>
+<p>负责分区表的创建、管理和维护</p>
+<p>WHY层 - 设计意图： 随着数据量增长，单一 B+ 树索引的深度增加会导致性能下降。 分区通过将数据物理分散在不同的文件或目录中，实现“分而治之”， 支持分区裁剪（Partition Pruning）以减少扫描范围，并提升并行处理能力。</p>
+<p>WHAT层 - 功能说明： 管理分区表的定义（Range, Hash, List, Composite）。 动态增删分区，并维护分区的生命周期状态（ACTIVE, DROPPING等）。 提供基于条件的“分区裁剪”路由算法，返回可能包含数据的分区 ID。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>映射存储：使用 unordered_map 存储表名到分区对象列表的映射。</li>
+<li>物理管理：为每个分区创建独立的磁盘路径（data/partitions/...）。</li>
+<li>路由分发：基于 selectPartitionsByCondition 进行条件匹配。</li>
+<li>元数据同步：实时更新 row_count 和 data_size 等统计信息用于查询优化。 </li>
+</ol>
 </div><h2 class="groupheader">成员类型定义说明</h2>
 <a id="a2f38d2310464a624aaea399d2dba50e3" name="a2f38d2310464a624aaea399d2dba50e3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2f38d2310464a624aaea399d2dba50e3">&#9670;&#160;</a></span>PartitionChangeListener <span class="overload">[1/2]</span></h2>
@@ -612,6 +622,9 @@ Private 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>创建一个新的分区表 </p>
+<p>WHY: 建立分区体系的物理基础。 WHAT: 初始化目录结构，注册分区元数据。 HOW: 遍历 <a class="el" href="structsqlcc_1_1storage_1_1PartitionedTableDef.html" title="分区表定义">PartitionedTableDef</a> 中的分区定义，调用文件系统 API 创建目录，并存入内存 cache。 </p>
 
 </div>
 </div>

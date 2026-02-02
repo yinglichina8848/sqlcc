@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['validationresult_0',['validationresult',['../namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7',1,'sqlcc::ValidationResult'],['../namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7',1,'sqlcc::ValidationResult']]]
+  ['waloperation_0',['WALOperation',['../namespacesqlcc.html#a9a2793ce9cad657611fac208bce030b8',1,'sqlcc']]]
 ];

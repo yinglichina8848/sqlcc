@@ -84,20 +84,23 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>数据完整性验证器 - 实现 SQL 约束的执行引擎  
+ <a href="classsqlcc_1_1DataIntegrityValidator.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="storage_2data__integrity__validator_8h_source.html">data_integrity_validator.h</a>&gt;</code></p>
 <div class="dynheader">
 sqlcc::DataIntegrityValidator 的协作图:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsqlcc_1_1DataIntegrityValidator__coll__graph.png" border="0" usemap="#asqlcc_1_1DataIntegrityValidator_coll__map" alt="Collaboration graph"/></div>
 <map name="asqlcc_1_1DataIntegrityValidator_coll__map" id="asqlcc_1_1DataIntegrityValidator_coll__map">
-<area shape="rect" title=" " alt="" coords="409,129,616,155"/>
-<area shape="rect" href="classsqlcc_1_1CheckConstraintParser.html" title=" " alt="" coords="17,5,228,31"/>
+<area shape="rect" title="数据完整性验证器 &#45; 实现 SQL 约束的执行引擎" alt="" coords="409,129,616,155"/>
+<area shape="rect" href="classsqlcc_1_1CheckConstraintParser.html" title="CHECK 约束表达式解析器 &#45; 实现 SQL CHECK 约束的轻量级评估引擎" alt="" coords="17,5,228,31"/>
 <area shape="poly" title=" " alt="" coords="242,28,314,42,386,64,449,95,496,127,493,132,446,100,384,68,313,47,241,33"/>
-<area shape="rect" href="classsqlcc_1_1ForeignKeyValidator.html" title=" " alt="" coords="26,55,219,80"/>
+<area shape="rect" href="classsqlcc_1_1ForeignKeyValidator.html" title="外键约束验证器 &#45; 维护数据库表之间的参照完整性" alt="" coords="26,55,219,80"/>
 <area shape="poly" title=" " alt="" coords="234,79,386,105,470,127,469,132,385,110,233,84"/>
-<area shape="rect" href="classsqlcc_1_1UniqueConstraintValidator.html" title=" " alt="" coords="5,104,240,129"/>
+<area shape="rect" href="classsqlcc_1_1UniqueConstraintValidator.html" title="唯一约束验证器 &#45; 确保指定列（或列组合）在表中没有重复值" alt="" coords="5,104,240,129"/>
 <area shape="poly" title=" " alt="" coords="254,122,409,133,409,138,253,128"/>
-<area shape="rect" href="classsqlcc_1_1DefaultValueHandler.html" title=" " alt="" coords="23,153,222,179"/>
+<area shape="rect" href="classsqlcc_1_1DefaultValueHandler.html" title="默认值处理器 &#45; 实现 SQL DEFAULT 子句的填充逻辑" alt="" coords="23,153,222,179"/>
 <area shape="poly" title=" " alt="" coords="236,164,385,158,436,152,437,157,386,163,236,169"/>
 <area shape="rect" href="structsqlcc_1_1IntegrityValidationConfig.html" title=" " alt="" coords="31,203,214,243"/>
 <area shape="poly" title=" " alt="" coords="227,211,305,201,385,185,436,169,480,152,482,157,437,174,386,190,306,206,228,217"/>
@@ -222,7 +225,17 @@ Private 属性</h2></td></tr>
 <tr class="memitem:ad6c4245fbb936ca71d77c1d906dd21ab" id="r_ad6c4245fbb936ca71d77c1d906dd21ab"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityValidator.html#ad6c4245fbb936ca71d77c1d906dd21ab">validation_times_</a></td></tr>
 <tr class="separator:ad6c4245fbb936ca71d77c1d906dd21ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>数据完整性验证器 - 实现 SQL 约束的执行引擎 </p>
+<p>WHY层 - 设计意图： 数据库的“完整性”是区分其与普通文件系统的关键。 该验证器作为执行引擎的“守门员”，在数据落盘前进行最后一次逻辑校验， 确保每一行数据都符合业务定义的 Domain 规则。</p>
+<p>WHAT层 - 功能说明： 集成非空 (NOT NULL)、唯一 (UNIQUE)、外键 (FOREIGN KEY) 和检查 (CHECK) 约束。 支持批处理验证（ValidateConstraintsBatch）。 管理表级别的约束规则缓存（table_constraints_）。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>委托模式：具体验证逻辑委托给专门的子验证器（fk_validator_, unique_validator_ 等）。</li>
+<li>流水线执行：ValidateConstraints 方法按优先级顺序依次调用各专项验证函数。</li>
+<li>异常收集：在非严格模式下收集所有冲突，在严格模式下遇到首个冲突立即中断。</li>
+<li>动态规则：支持运行时增删约束规则，并实时同步到内存缓存中。 </li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a526f5db1b95180c8de8f9b1d6bb39622" name="a526f5db1b95180c8de8f9b1d6bb39622"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a526f5db1b95180c8de8f9b1d6bb39622">&#9670;&#160;</a></span>DataIntegrityValidator() <span class="overload">[1/2]</span></h2>
 

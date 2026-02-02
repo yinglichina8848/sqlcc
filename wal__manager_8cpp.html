@@ -75,7 +75,9 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#namespaces">命名空间</a>  </div>
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#enum-members">枚举</a>  </div>
   <div class="headertitle"><div class="title">wal_manager.cpp 文件参考</div></div>
 </div><!--header-->
 <div class="contents">
@@ -145,10 +147,41 @@ wal_manager.cpp 的引用(Include)关系图:</div>
 </map>
 </div>
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsqlcc_1_1LogRecord.html">sqlcc::LogRecord</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">单条WAL日志记录的结构体。 每条记录都包含必要的元数据和操作详情，以便在崩溃恢复时进行重做或撤销。  <a href="structsqlcc_1_1LogRecord.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 命名空间</h2></td></tr>
 <tr class="memitem:namespacesqlcc" id="r_namespacesqlcc"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html">sqlcc</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:a20e2bc332b842e56915ec0aecffa57e3" id="r_a20e2bc332b842e56915ec0aecffa57e3"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3">sqlcc::LogRecordType</a> { <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a19aad9f2fe3ce0023298ab83f7e75775">sqlcc::BEGIN</a>
+, <a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a1d0ba376e273b9d622641124d8c59264">sqlcc::COMMIT</a>
+, <a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a8d12a2ca7e5a64036d7251a3eda51a38">sqlcc::ABORT</a>
+, <a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a15a8022d0ed9cd9c2a2e756822703eb4">sqlcc::UPDATE</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a61ee777e7f71dc466c3b2c685d8d313b">sqlcc::INSERT</a>
+, <a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a32f68a60cef40faedbc6af20298c1a1e">sqlcc::DELETE</a>
+, <a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a29f42a1755feb702481dc9c2bc0b57bb">sqlcc::COMPENSATE</a>
+, <a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a19aad9f2fe3ce0023298ab83f7e75775">sqlcc::BEGIN</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a1d0ba376e273b9d622641124d8c59264">sqlcc::COMMIT</a>
+, <a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a8d12a2ca7e5a64036d7251a3eda51a38">sqlcc::ABORT</a>
+, <a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a15a8022d0ed9cd9c2a2e756822703eb4">sqlcc::UPDATE</a>
+, <a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a61ee777e7f71dc466c3b2c685d8d313b">sqlcc::INSERT</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a32f68a60cef40faedbc6af20298c1a1e">sqlcc::DELETE</a>
+, <a class="el" href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3a29f42a1755feb702481dc9c2bc0b57bb">sqlcc::COMPENSATE</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a20e2bc332b842e56915ec0aecffa57e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">定义了WAL日志记录的类型。 这些类型对应数据库操作（如BEGIN/COMMIT/ABORT事务控制，UPDATE/INSERT/DELETE数据修改）或内部恢复机制（如COMPENSATE）。  <a href="namespacesqlcc.html#a20e2bc332b842e56915ec0aecffa57e3">更多...</a><br /></td></tr>
+<tr class="separator:a20e2bc332b842e56915ec0aecffa57e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->

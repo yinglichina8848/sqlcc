@@ -83,16 +83,19 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>SELECT 语句专用解析器 - 实现复杂的 DML 查询语法分析  
+ <a href="classsqlcc_1_1sql__parser_1_1SelectParser.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="select__parser_8h_source.html">select_parser.h</a>&gt;</code></p>
 <div class="dynheader">
 sqlcc::sql_parser::SelectParser 的协作图:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsqlcc_1_1sql__parser_1_1SelectParser__coll__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1SelectParser_coll__map" alt="Collaboration graph"/></div>
 <map name="asqlcc_1_1sql__parser_1_1SelectParser_coll__map" id="asqlcc_1_1sql__parser_1_1SelectParser_coll__map">
-<area shape="rect" title=" " alt="" coords="87,343,225,383"/>
+<area shape="rect" title="SELECT 语句专用解析器 &#45; 实现复杂的 DML 查询语法分析" alt="" coords="87,343,225,383"/>
 <area shape="rect" href="classsqlcc_1_1sql__parser_1_1TokenStream.html" title="Token流管理类 &#45; 负责词法分析器的token流管理" alt="" coords="87,137,225,177"/>
 <area shape="poly" title=" " alt="" coords="154,191,149,240,149,280,156,342,151,343,144,280,144,240,149,190"/>
-<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html" title=" " alt="" coords="213,240,352,280"/>
+<area shape="rect" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html" title="SQL 表达式解析器 &#45; 实现基于算术和逻辑优先级的递归下降分析" alt="" coords="213,240,352,280"/>
 <area shape="poly" title=" " alt="" coords="192,184,261,238,257,242,189,188"/>
 <area shape="rect" href="classsqlcc_1_1sql__parser_1_1Lexer.html" title="SQL词法分析器类" alt="" coords="5,5,144,45"/>
 <area shape="poly" title=" " alt="" coords="96,56,146,136,142,139,92,59"/>
@@ -136,8 +139,17 @@ Private 属性</h2></td></tr>
 <tr class="separator:a5697f3714c1f32e1d719519e6ecfc2e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html">SelectParser</a> - SQL SELECT语句解析器</p>
-<p>专门负责解析复杂的SELECT语句，包括所有子句的处理。 通过依赖注入获得TokenStream和ExpressionParser，确保松耦合和高可测试性。 </p>
+<div class="textblock"><p>SELECT 语句专用解析器 - 实现复杂的 DML 查询语法分析 </p>
+<p><a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html" title="SELECT 语句专用解析器 - 实现复杂的 DML 查询语法分析">SelectParser</a> - SQL SELECT语句解析器</p>
+<p>专门负责解析复杂的SELECT语句，包括所有子句的处理。 通过依赖注入获得TokenStream和ExpressionParser，确保松耦合和高可测试性。</p>
+<p>WHY层 - 设计意图： SELECT 是 SQL 中最复杂、子句最多的语句。 为了保证代码的可读性和可维护性，SelectParser 采用“分治法”， 将一个巨大的查询语句拆解为 SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY 六个标准子句进行独立解析。</p>
+<p>WHAT层 - 功能说明： 解析标准的 SELECT 查询，包括聚合函数、多表 JOIN、嵌套过滤条件。 构建 <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> AST 节点，并填充各个子句的属性。 集成 <a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html" title="SQL 表达式解析器 - 实现基于算术和逻辑优先级的递归下降分析">ExpressionParser</a> 递归解析 WHERE 和 ON 子句中的布尔表达式。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>顺序解析：parse() 方法按照 SQL 标准子句的物理出现顺序依次调用对应的私有解析函数。</li>
+<li>递归下降：对于嵌套查询或复杂表达式，递归调用 <a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html" title="SQL 表达式解析器 - 实现基于算术和逻辑优先级的递归下降分析">ExpressionParser</a> 保持上下文。</li>
+<li>状态感知：利用 <a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html" title="Token流管理类 - 负责词法分析器的token流管理">TokenStream</a> 的 check 和 expect 机制进行语法断言。</li>
+<li>别名处理：parseSelectItem 处理列别名（AS），parseFromClause 处理表别名和连接类型。 </li>
+</ol>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="aeb6743b19e331101f324fa667d6055d1" name="aeb6743b19e331101f324fa667d6055d1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aeb6743b19e331101f324fa667d6055d1">&#9670;&#160;</a></span>SelectParser()</h2>

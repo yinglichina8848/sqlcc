@@ -83,6 +83,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>CHECK 约束表达式解析器 - 实现 SQL CHECK 约束的轻量级评估引擎  
+ <a href="classsqlcc_1_1CheckConstraintParser.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="storage_2data__integrity__validator_8h_source.html">data_integrity_validator.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -140,7 +143,17 @@ Private 属性</h2></td></tr>
 <tr class="memitem:a2f4fd3a9557070a1da42461398cfce5f" id="r_a2f4fd3a9557070a1da42461398cfce5f"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CheckConstraintParser.html#a2f4fd3a9557070a1da42461398cfce5f">parser_mutex_</a></td></tr>
 <tr class="separator:a2f4fd3a9557070a1da42461398cfce5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>CHECK 约束表达式解析器 - 实现 SQL CHECK 约束的轻量级评估引擎 </p>
+<p>WHY层 - 设计意图： CHECK 约束允许用户定义任意的布尔表达式来验证数据。 为了避免每次插入都调用庞大的 SQL 解析器，该类实现了一个专门针对约束子句的微型解析引擎， 能够快速识别简单的比较和逻辑运算，提升验证效率。</p>
+<p>WHAT层 - 功能说明： 解析字符串形式的表达式（如 "age &gt; 18 AND status = 'active'"）。 将表达式转换为可执行的函数对象（std::function）。 支持逻辑运算符（AND, OR）、比较运算符（&gt;, &lt;, =, !=）和内置函数（LEN, ISNULL）。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>语法预检：ValidateExpressionSyntax 递归检查括号匹配和引号完整性。</li>
+<li>正则匹配：利用正则表达式 ParseComparisonExpression 提取列名、操作符和字面量。</li>
+<li>组合逻辑：ParseLogicalExpression 递归拆解复合条件并构建布尔逻辑链。</li>
+<li>类型感知的比较：CompareValues 能够自动区分数值比较和字符串字典序比较。 </li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a46c8f7e43df3859a847e13654b92d0da" name="a46c8f7e43df3859a847e13654b92d0da"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a46c8f7e43df3859a847e13654b92d0da">&#9670;&#160;</a></span>CheckConstraintParser() <span class="overload">[1/2]</span></h2>
 

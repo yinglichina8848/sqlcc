@@ -82,13 +82,16 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>页面资源管理器 - 实现缓冲池页面的自动锁定与释放机制  
+ <a href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="page__raii_8h_source.html">page_raii.h</a>&gt;</code></p>
 <div class="dynheader">
 sqlcc::storage_engine::table_storage::PageRAII 的协作图:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII__coll__graph.png" border="0" usemap="#asqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII_coll__map" alt="Collaboration graph"/></div>
 <map name="asqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII_coll__map" id="asqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII_coll__map">
-<area shape="rect" title=" " alt="" coords="5,93,189,133"/>
+<area shape="rect" title="页面资源管理器 &#45; 实现缓冲池页面的自动锁定与释放机制" alt="" coords="5,93,189,133"/>
 <area shape="rect" href="classsqlcc_1_1Page.html" title="数据库页面类，表示一个8KB的定长页面" alt="" coords="50,5,145,31"/>
 <area shape="poly" title=" " alt="" coords="100,44,100,93,95,93,95,44"/>
 </map>
@@ -130,7 +133,17 @@ Private 属性</h2></td></tr>
 <tr class="memdesc:ad814639d0d8db07d48cd7e7118d6bf23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the page is still pinned  <br /></td></tr>
 <tr class="separator:ad814639d0d8db07d48cd7e7118d6bf23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>页面资源管理器 - 实现缓冲池页面的自动锁定与释放机制 </p>
+<p>WHY层 - 设计意图： 在 Buffer Pool 中，被获取的页面必须显式地进行“取消固定（Unpin）”， 否则该页面将永远留在内存中无法被替换，导致缓存泄漏。 <a class="el" href="classsqlcc_1_1storage__engine_1_1table__storage_1_1PageRAII.html" title="页面资源管理器 - 实现缓冲池页面的自动锁定与释放机制">PageRAII</a> 通过 C++ 的析构函数机制，确保无论业务逻辑是否发生异常（Exception）， 页面都能被正确地归还给存储引擎，极大增强了系统的鲁棒性。</p>
+<p>WHAT层 - 功能说明： 持有页面的指针及其元数据（page_id）。 提供数据缓冲区的访问接口（GetData）。 管理 pinned_ 状态，在对象生命周期结束时自动调用 UnpinPage。 支持移动语义（Move Semantics）以避免不必要的 Pin 计数波动。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>RAII 封装：构造函数记录 page 和 storage_engine，并将 pinned_ 设为 true。</li>
+<li>析构回收：~PageRAII 自动执行 Unpin，默认标记为干净页（除非手动调用了 Unpin(true)）。</li>
+<li>异常防御：在析构过程中使用 try-catch 包裹，防止清理时的次生异常导致程序崩溃。</li>
+<li>无所有权转移：仅管理“访问权”，不负责页面对象的物理内存销毁（由 BufferPool 负责）。 </li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="ad5e453bd2e9ddded4f900ae46ae70b4c" name="ad5e453bd2e9ddded4f900ae46ae70b4c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad5e453bd2e9ddded4f900ae46ae70b4c">&#9670;&#160;</a></span>PageRAII() <span class="overload">[1/3]</span></h2>
 

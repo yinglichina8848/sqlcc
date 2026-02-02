@@ -40,6 +40,5 @@ var searchData=
   ['triggerexecutor_37',['triggerexecutor',['../classsqlcc_1_1sql__executor_1_1TriggerExecutor.html',1,'sqlcc::sql_executor::TriggerExecutor'],['../classsqlcc_1_1trigger_1_1TriggerExecutor.html',1,'sqlcc::trigger::TriggerExecutor']]],
   ['triggerinfo_38',['TriggerInfo',['../structsqlcc_1_1sql__executor_1_1EnhancedTriggerManager_1_1TriggerInfo.html',1,'sqlcc::sql_executor::EnhancedTriggerManager']]],
   ['triggermanager_39',['triggermanager',['../classsqlcc_1_1trigger_1_1TriggerManager.html',1,'sqlcc::trigger::TriggerManager'],['../classsqlcc_1_1TriggerManager.html',1,'sqlcc::TriggerManager']]],
-  ['triggerparser_40',['TriggerParser',['../classsqlcc_1_1sql__parser_1_1TriggerParser.html',1,'sqlcc::sql_parser']]],
-  ['triggerqueryplan_41',['TriggerQueryPlan',['../classsqlcc_1_1TriggerQueryPlan.html',1,'sqlcc']]]
+  ['triggerparser_40',['TriggerParser',['../classsqlcc_1_1sql__parser_1_1TriggerParser.html',1,'sqlcc::sql_parser']]]
 ];

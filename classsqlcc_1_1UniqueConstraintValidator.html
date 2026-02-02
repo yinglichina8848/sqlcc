@@ -82,6 +82,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>唯一约束验证器 - 确保指定列（或列组合）在表中没有重复值  
+ <a href="classsqlcc_1_1UniqueConstraintValidator.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="storage_2data__integrity__validator_8h_source.html">data_integrity_validator.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -124,7 +127,17 @@ Private 属性</h2></td></tr>
 <tr class="memitem:a66c33240e003f899af407b0506017d0b" id="r_a66c33240e003f899af407b0506017d0b"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1UniqueConstraintValidator.html#a66c33240e003f899af407b0506017d0b">unique_indexes_</a></td></tr>
 <tr class="separator:a66c33240e003f899af407b0506017d0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>唯一约束验证器 - 确保指定列（或列组合）在表中没有重复值 </p>
+<p>WHY层 - 设计意图： 唯一约束是实体完整性的基础。它防止了数据的重复录入（如相同的身份证号或邮箱）， 同时也为查询优化器提供了重要的信息，即该列上的点查询最多返回一条记录。</p>
+<p>WHAT层 - 功能说明： 检查新值或更新值是否违反唯一性规则。 支持复合唯一键（多列组合唯一）。 提供内存中的唯一性索引缓存（unique_indexes_）以加速校验。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>键合成：将多列的值拼接为以 "|" 分隔的字符串作为哈希键。</li>
+<li>缓存校验：在 unordered_map 中执行 O(1) 的查找。</li>
+<li>事务隔离：校验时需考虑 exclude_record_id，即允许当前事务更新自己的行而不触发冲突。</li>
+<li>持久化关联：通过 CreateUniqueIndex 建立物理索引与验证逻辑的绑定。 </li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a6e1ec6e0e8d8ab2073adfc0dda327667" name="a6e1ec6e0e8d8ab2073adfc0dda327667"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6e1ec6e0e8d8ab2073adfc0dda327667">&#9670;&#160;</a></span>UniqueConstraintValidator() <span class="overload">[1/2]</span></h2>
 

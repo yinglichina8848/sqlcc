@@ -83,6 +83,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>数据完整性约束验证器 - 维护数据库定义的实体完整性、参照完整性和用户定义完整性  
+ <a href="classsqlcc_1_1DataIntegrityConstraintValidator.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="storage_2record__boundary__validator_8h_source.html">record_boundary_validator.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -160,7 +163,17 @@ Private 属性</h2></td></tr>
 <tr class="memitem:a8ea7c85eade24b4b3d7e55284c3d0300" id="r_a8ea7c85eade24b4b3d7e55284c3d0300"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DataIntegrityConstraintValidator.html#a8ea7c85eade24b4b3d7e55284c3d0300">validator_mutex_</a></td></tr>
 <tr class="separator:a8ea7c85eade24b4b3d7e55284c3d0300"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>数据完整性约束验证器 - 维护数据库定义的实体完整性、参照完整性和用户定义完整性 </p>
+<p>WHY层 - 设计意图： 约束（Constraint）是数据库保证数据正确性的最后防线。 即使上层业务逻辑有误，存储层的约束验证也能确保数据库状态的合法性（如主键不重复、外键存在）。</p>
+<p>WHAT层 - 功能说明： 执行 NOT NULL, UNIQUE, CHECK, FOREIGN KEY 约束校验。 支持默认值的应用逻辑。 管理针对不同表的验证规则列表。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>唯一性检查：通过 unique_value_cache_ 或查询对应索引进行排他性验证。</li>
+<li>非空检查：简单的字符串空值判断。</li>
+<li>外键检查：(简化实现) 调用 ForeignKeyExists 接口确认引用的父记录存在。</li>
+<li>Check约束：(计划中) 调用 SQL 表达式引擎评估布尔表达式。 </li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a7e070d033cc0f3a47695a30dbe6b8e44" name="a7e070d033cc0f3a47695a30dbe6b8e44"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7e070d033cc0f3a47695a30dbe6b8e44">&#9670;&#160;</a></span>DataIntegrityConstraintValidator() <span class="overload">[1/2]</span></h2>
 

@@ -197,7 +197,16 @@ Private 属性</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>WAL缓冲区类 </p>
-<p>负责WAL日志的缓冲和批量写入，减少磁盘I/O次数 </p>
+<p>WAL 日志缓冲区 - 实现日志的内存聚合与高性能异步刷盘</p>
+<p>负责WAL日志的缓冲和批量写入，减少磁盘I/O次数</p>
+<p>WHY层 - 设计意图： 磁盘 I/O 是数据库操作中最慢的部分。直接为每个事务执行 fsync 会导致吞吐量急剧下降。 <a class="el" href="classsqlcc_1_1WALBuffer.html" title="WAL缓冲区类">WALBuffer</a> 通过在内存中缓存日志记录，将随机的小 I/O 合并为大的顺序 I/O， 并通过后台线程实现异步落盘，在保证持久性的前提下最大化系统吞吐量。</p>
+<p>WHAT层 - 功能说明： 管理日志记录的内存队列（buffer_）。 分配全局唯一的日志序列号（LSN）。 监控缓冲区水位线（Utilization），并在超过阈值时触发自动刷盘。 支持手动强制刷盘（ForceFlush）以满足事务提交的要求。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>双缓冲区思想：Flush 操作时将 buffer_ 内容移入临时容器并立即清空原 buffer_，减少主线程锁阻塞。</li>
+<li>后台工作者：BackgroundFlushWorker 线程根据时间间隔或 flush_cv_ 信号唤醒执行 I/O。</li>
+<li>批量写入：每次 Flush 都会聚合多条记录，调用 wal_writer_ 的 WriteRecords 接口。</li>
+<li>指标驱动：通过 <a class="el" href="structsqlcc_1_1WALBuffer_1_1WALBufferStats.html" title="WAL缓冲区统计信息">WALBufferStats</a> 实时反馈缓冲区状态和刷盘效率。 </li>
+</ol>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="abf11474615ef7b768771084407eae75e" name="abf11474615ef7b768771084407eae75e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abf11474615ef7b768771084407eae75e">&#9670;&#160;</a></span>WALBuffer()</h2>

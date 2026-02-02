@@ -82,6 +82,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>外键约束验证器 - 维护数据库表之间的参照完整性  
+ <a href="classsqlcc_1_1ForeignKeyValidator.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="storage_2data__integrity__validator_8h_source.html">data_integrity_validator.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -124,7 +127,16 @@ Private 属性</h2></td></tr>
 <tr class="memitem:a6a5bec69962b955bc18dff16095b672e" id="r_a6a5bec69962b955bc18dff16095b672e"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::vector&lt; std::tuple&lt; std::string, std::string, std::string &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ForeignKeyValidator.html#a6a5bec69962b955bc18dff16095b672e">fk_relationships_</a></td></tr>
 <tr class="separator:a6a5bec69962b955bc18dff16095b672e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>外键约束验证器 - 维护数据库表之间的参照完整性 </p>
+<p>WHY层 - 设计意图： 外键确保了表之间的关联关系（Relationship）是有效的。 如果没有外键验证，删除父表记录可能会导致子表出现“孤儿记录”，破坏数据库的逻辑一致性。</p>
+<p>WHAT层 - 功能说明： 验证插入或更新的键值是否存在于被引用表（Parent Table）中。 支持级联操作（Cascade Update/Delete），在父记录变化时自动维护子记录。 提供 HasReferencingRecords 检查以防止破坏参照完整性。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>依赖存储引擎：通过 storage_engine_ 访问对应表的索引。</li>
+<li>存在性判定：(简化实现) 逻辑上对应于在被引用列的唯一索引上执行点查询。</li>
+<li>级联递归：ExecuteCascadeDelete 会触发针对子表的批量删除/更新操作。 </li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a3c8e7931452d52514a1784c30debc3c7" name="a3c8e7931452d52514a1784c30debc3c7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3c8e7931452d52514a1784c30debc3c7">&#9670;&#160;</a></span>ForeignKeyValidator() <span class="overload">[1/2]</span></h2>
 

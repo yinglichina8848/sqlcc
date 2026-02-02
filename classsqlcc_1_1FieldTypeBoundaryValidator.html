@@ -83,6 +83,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>字段类型边界验证器 - 确保具体数值在SQL数据类型的逻辑边界内  
+ <a href="classsqlcc_1_1FieldTypeBoundaryValidator.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="storage_2record__boundary__validator_8h_source.html">record_boundary_validator.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -92,6 +95,7 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:a70a9b5024a6b643354cd357340aedc0a" id="r_a70a9b5024a6b643354cd357340aedc0a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1FieldTypeBoundaryValidator.html#a70a9b5024a6b643354cd357340aedc0a">~FieldTypeBoundaryValidator</a> ()=default</td></tr>
 <tr class="separator:a70a9b5024a6b643354cd357340aedc0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c2c33003fba6a752ecdbdf00a5418d2" id="r_a0c2c33003fba6a752ecdbdf00a5418d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7">ValidationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1FieldTypeBoundaryValidator.html#a0c2c33003fba6a752ecdbdf00a5418d2">ValidateInteger</a> (const std::string &amp;value, bool is_bigint=false) const</td></tr>
+<tr class="memdesc:a0c2c33003fba6a752ecdbdf00a5418d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">验证整数是否在类型允许范围内  <br /></td></tr>
 <tr class="separator:a0c2c33003fba6a752ecdbdf00a5418d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af244801df8850d7fe5ca0aa4ab632273" id="r_af244801df8850d7fe5ca0aa4ab632273"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7">ValidationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1FieldTypeBoundaryValidator.html#af244801df8850d7fe5ca0aa4ab632273">ValidateFloat</a> (const std::string &amp;value, bool is_double=false) const</td></tr>
 <tr class="separator:af244801df8850d7fe5ca0aa4ab632273"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -212,7 +216,17 @@ Private 属性</h2></td></tr>
 <tr class="memitem:a5826bf710bd74d2b1e3dd147e06d4b48" id="r_a5826bf710bd74d2b1e3dd147e06d4b48"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1FieldTypeBoundaryValidator.html#a5826bf710bd74d2b1e3dd147e06d4b48">validator_mutex_</a></td></tr>
 <tr class="separator:a5826bf710bd74d2b1e3dd147e06d4b48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>字段类型边界验证器 - 确保具体数值在SQL数据类型的逻辑边界内 </p>
+<p>WHY层 - 设计意图： SQL类型如 INT, FLOAT, DATE 有明确的定义域。例如 INT 不能存超过 2^31-1 的值。 在写入前进行格式和数值校验，可以避免底层存储时的溢出错误或解析失败。</p>
+<p>WHAT层 - 功能说明： 验证整型、浮点型、日期时间、布尔、UUID、Email、JSON等格式的有效性。 对数值类型进行下限和上限检查（Range Check）。 使用正则表达式对复杂字符串格式进行模式匹配。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>使用 std::stoll/std::stod 进行字符串到数值的转换。</li>
+<li>捕获 std::out_of_range 等异常以识别边界冲突。</li>
+<li>利用预编译的 std::regex 模式（如 EMAIL_PATTERN）执行快速格式校验。</li>
+<li>特殊处理日期时间，结合 sscanf 和闰年规则进行深度有效性验证。 </li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="ad51518e4e9a83e3486a8c5239630118f" name="ad51518e4e9a83e3486a8c5239630118f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad51518e4e9a83e3486a8c5239630118f">&#9670;&#160;</a></span>FieldTypeBoundaryValidator() <span class="overload">[1/2]</span></h2>
 
@@ -1211,6 +1225,9 @@ Private 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>验证整数是否在类型允许范围内 </p>
+<p>WHY: 防止 32位 INT 存储 64位 BIGINT 的值导致截断。 WHAT: 将字符串转为 long long 并与该类型的常量最小值/最大值比较。 HOW: 使用 stoll 解析，并检查 stoll 是否抛出解析或溢出异常。 </p>
 
 </div>
 </div>

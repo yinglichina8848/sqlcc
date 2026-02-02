@@ -83,13 +83,16 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>索引管理器 - 负责 B+ 树索引的生命周期与查找路由  
+ <a href="classsqlcc_1_1IndexManager.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="storage_2index__manager_8h_source.html">index_manager.h</a>&gt;</code></p>
 <div class="dynheader">
 类 sqlcc::IndexManager 继承关系图:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsqlcc_1_1IndexManager__inherit__graph.png" border="0" usemap="#asqlcc_1_1IndexManager_inherit__map" alt="Inheritance graph"/></div>
 <map name="asqlcc_1_1IndexManager_inherit__map" id="asqlcc_1_1IndexManager_inherit__map">
-<area shape="rect" title=" " alt="" coords="49,5,205,31"/>
+<area shape="rect" title="索引管理器 &#45; 负责 B+ 树索引的生命周期与查找路由" alt="" coords="49,5,205,31"/>
 <area shape="rect" href="classsqlcc_1_1mocks_1_1IndexManagerMock.html" title="IndexManager Mock类，用于单元测试" alt="" coords="5,79,248,104"/>
 <area shape="poly" title=" " alt="" coords="129,44,129,79,124,79,124,44"/>
 </map>
@@ -160,7 +163,17 @@ Private 属性</h2></td></tr>
 <tr class="memitem:a9af22ae5b6f40806563f4b8be274917a" id="r_a9af22ae5b6f40806563f4b8be274917a"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1IndexManager.html#a9af22ae5b6f40806563f4b8be274917a">indexes_</a></td></tr>
 <tr class="separator:a9af22ae5b6f40806563f4b8be274917a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>索引管理器 - 负责 B+ 树索引的生命周期与查找路由 </p>
+<p>WHY层 - 设计意图： 全表扫描在大规模数据下极其低效。索引通过维护有序的键值对，将查找复杂度从 O(N) 降低到 O(log N)。 <a class="el" href="classsqlcc_1_1IndexManager.html" title="索引管理器 - 负责 B+ 树索引的生命周期与查找路由">IndexManager</a> 统一管理系统中所有的索引对象，确保查询优化器能够快速发现可用索引， 并在数据更新时维护索引与主表的一致性。</p>
+<p>WHAT层 - 功能说明： 提供索引创建（CreateIndex）和删除（DropIndex）。 支持单列索引和复合索引（Composite Index）。 维护表名到索引对象的映射，支持索引存在性检查。 自动生成标准化的索引名称规范。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>内存索引映射：使用 unordered_map 以索引全名（Table.Index）为键存储 unique_ptr&lt;BPlusTreeIndex&gt;。</li>
+<li>物理绑定：每个索引对象内部关联一个 PageID，作为 B+ 树的根节点。</li>
+<li>延迟加载：LoadAllIndexes 在系统启动时扫描元数据表并重建内存句柄。</li>
+<li>一致性协调：通过 <a class="el" href="classsqlcc_1_1StorageEngine.html" title="存储引擎类，封装磁盘管理和缓冲池功能">StorageEngine</a> 提供的页面接口，确保索引节点的持久化。 </li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a10f37e708bf35da6077b5ed3e6418611" name="a10f37e708bf35da6077b5ed3e6418611"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a10f37e708bf35da6077b5ed3e6418611">&#9670;&#160;</a></span>IndexManager() <span class="overload">[1/2]</span></h2>
 

@@ -84,7 +84,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>线程池实现 - 支持任务提交和异步执行  
+<p>通用工作线程池 - 实现多核并发处理和任务调度  
  <a href="classsqlcc_1_1utils_1_1ThreadPool.html#details">更多...</a></p>
 
 <p><code>#include &lt;<a class="el" href="thread__pool_8h_source.html">thread_pool.h</a>&gt;</code></p>
@@ -152,7 +152,16 @@ Private 属性</h2></td></tr>
 <tr class="separator:a0ca2e98be846dde1cf05cc9d8c671ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>线程池实现 - 支持任务提交和异步执行 </p>
+<div class="textblock"><p>通用工作线程池 - 实现多核并发处理和任务调度 </p>
+<p>线程池实现 - 支持任务提交和异步执行</p>
+<p>WHY层 - 设计意图： 在高负载数据库操作中，频繁地创建和销毁线程会带来显著的系统开销（Context Switch, Stack Allocation）。 线程池通过维护一组常驻线程，实现了线程资源的重用， 并通过任务队列（Task Queue）平滑处理突发流量，防止系统过载。</p>
+<p>WHAT层 - 功能说明： 提供任务提交接口（enqueue），支持异步执行 lambda 或 std::function。 支持优雅关闭（shutdown）和立即强制关闭（shutdown_now）。 支持同步等待（wait），直到所有提交的任务执行完毕。 提供活跃线程数和队列任务数的实时统计。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>生产者-消费者模式：主线程提交任务，工作线程从 tasks_ 队列中竞争任务。</li>
+<li>同步原语：使用 std::mutex 保护任务队列，std::condition_variable 实现线程的阻塞等待与唤醒。</li>
+<li>原子计数：active_task_count_ 使用 std::atomic 确保在无锁情况下统计执行状态。</li>
+<li>任务隔离：使用 try-catch 块包裹任务执行过程，确保单个任务崩溃不会导致整个线程池死锁或终止。</li>
+</ol>
 <p>提供高效的任务调度和执行，支持：</p><ul>
 <li>动态任务提交</li>
 <li>结果获取（future）</li>

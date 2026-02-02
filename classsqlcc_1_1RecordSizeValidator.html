@@ -82,6 +82,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>记录大小验证器 - 确保数据记录在物理页面的存储限制内  
+ <a href="classsqlcc_1_1RecordSizeValidator.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="storage_2record__boundary__validator_8h_source.html">record_boundary_validator.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -91,6 +94,7 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:acddb41696656f2feff28a688fb1a4202" id="r_acddb41696656f2feff28a688fb1a4202"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1RecordSizeValidator.html#acddb41696656f2feff28a688fb1a4202">~RecordSizeValidator</a> ()=default</td></tr>
 <tr class="separator:acddb41696656f2feff28a688fb1a4202"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56de4e73fadd999e719f1f6ba49c00f4" id="r_a56de4e73fadd999e719f1f6ba49c00f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7">ValidationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1RecordSizeValidator.html#a56de4e73fadd999e719f1f6ba49c00f4">ValidateRecordSize</a> (size_t record_size, size_t max_size=<a class="el" href="structsqlcc_1_1RecordSizeLimits.html#a6fd835186b187a7ae1fdecdfa2300b1f">RecordSizeLimits::DEFAULT_MAX_RECORD_SIZE</a>) const</td></tr>
+<tr class="memdesc:a56de4e73fadd999e719f1f6ba49c00f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">验证记录的总大小是否合法  <br /></td></tr>
 <tr class="separator:a56de4e73fadd999e719f1f6ba49c00f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31c7463ee8d5b6fad5a93d9137983f7a" id="r_a31c7463ee8d5b6fad5a93d9137983f7a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacesqlcc.html#a317d9329fd7efb93ef6891cf966756c7">ValidationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1RecordSizeValidator.html#a31c7463ee8d5b6fad5a93d9137983f7a">ValidateFieldSize</a> (const std::string &amp;field_type, size_t field_size) const</td></tr>
 <tr class="separator:a31c7463ee8d5b6fad5a93d9137983f7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -136,7 +140,17 @@ Private 属性</h2></td></tr>
 <tr class="memitem:ae01d115209f6a668ed97b87d1c0572b8" id="r_ae01d115209f6a668ed97b87d1c0572b8"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1RecordSizeValidator.html#ae01d115209f6a668ed97b87d1c0572b8">validator_mutex_</a></td></tr>
 <tr class="separator:ae01d115209f6a668ed97b87d1c0572b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>记录大小验证器 - 确保数据记录在物理页面的存储限制内 </p>
+<p>WHY层 - 设计意图： 数据库页面大小是固定的（通常为8KB）。如果记录大小超过限制，会导致插入失败或页面分裂。 提前验证记录大小可以防止无效的I/O操作，并确保数据的紧凑存储。</p>
+<p>WHAT层 - 功能说明： 计算单个字段及整条记录的预期存储字节数。 根据表元数据验证记录是否满足最大页长限制。 支持变长字段（VARCHAR, TEXT）的动态大小计算。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>遍历记录的所有字段。</li>
+<li>根据数据类型应用不同的计算规则（如INT固定4字节，VARCHAR按长度+前缀）。</li>
+<li>累加字段大小并加上RecordHeader的固定开销。</li>
+<li>与配置的 max_record_size_ 进行比较。 </li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a54a2854f31b8f6c354a26c6b0cbf9d1a" name="a54a2854f31b8f6c354a26c6b0cbf9d1a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a54a2854f31b8f6c354a26c6b0cbf9d1a">&#9670;&#160;</a></span>RecordSizeValidator() <span class="overload">[1/2]</span></h2>
 
@@ -521,6 +535,9 @@ Private 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>验证记录的总大小是否合法 </p>
+<p>WHY: 物理页面的剩余空间必须大于记录的序列化大小。 WHAT: 检查给定的字节数是否在 [1, max_size] 范围内。 HOW: 进行简单的数值边界检查，并区分一般性大小错误和严重的边界违反。 </p>
 
 </div>
 </div>

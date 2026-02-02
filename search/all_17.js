@@ -7,7 +7,7 @@ var searchData=
   ['query_5fexecution_4',['QUERY_EXECUTION',['../classsqlcc_1_1AuditEntry.html#a080c60505cbfc2c3646295d8c358ffd9a5d1994d8701e82ea3ae1c4f9b5d64dbf',1,'sqlcc::AuditEntry']]],
   ['query_5fexecution_5ftime_5',['query_execution_time',['../classsqlcc_1_1StorageEngineMetrics.html#a27b11caf2047ca476c6c6a412ae9dbf8',1,'sqlcc::StorageEngineMetrics']]],
   ['query_5fexecutions_6',['query_executions',['../classsqlcc_1_1StorageEngineMetrics.html#ac1abe1b0cd71ff50a7e9abe0b538b044',1,'sqlcc::StorageEngineMetrics']]],
-  ['query_5fid_7',['query_id',['../structsqlcc_1_1OptimizationSuggestion.html#a6c9bebbfe1ec295b7356a0a1ef440ff6',1,'sqlcc::OptimizationSuggestion::query_id'],['../structsqlcc_1_1QueryMetrics.html#abb4f0a419fe5aafa01272c01be4f99f9',1,'sqlcc::QueryMetrics::query_id']]],
+  ['query_5fid_7',['query_id',['../structsqlcc_1_1QueryMetrics.html#abb4f0a419fe5aafa01272c01be4f99f9',1,'sqlcc::QueryMetrics::query_id'],['../structsqlcc_1_1OptimizationSuggestion.html#a6c9bebbfe1ec295b7356a0a1ef440ff6',1,'sqlcc::OptimizationSuggestion::query_id']]],
   ['query_5fmetrics_5fhistory_5f_8',['query_metrics_history_',['../classsqlcc_1_1PerformanceMonitor.html#a6755f79bcf25e90dc272581161db2f33',1,'sqlcc::PerformanceMonitor']]],
   ['query_5foptimized_5f_9',['query_optimized_',['../classsqlcc_1_1ExecutionContext.html#ab3ef8ecd6d6a9f7f791ed4849d31f75a',1,'sqlcc::ExecutionContext']]],
   ['query_5foptimizer_2eh_10',['query_optimizer.h',['../query__optimizer_8h.html',1,'']]],
@@ -23,13 +23,10 @@ var searchData=
   ['queryoptimizer_20',['QueryOptimizer',['../classsqlcc_1_1QueryOptimizer.html',1,'sqlcc']]],
   ['queryperformancepattern_21',['QueryPerformancePattern',['../structsqlcc_1_1QueryPerformancePattern.html',1,'sqlcc']]],
   ['queryplanfactory_22',['QueryPlanFactory',['../classsqlcc_1_1QueryPlanFactory.html',1,'sqlcc']]],
-  ['queryplanstatus_23',['QueryPlanStatus',['../namespacesqlcc.html#a3db3a4de7e77a43b53be6b9cd30da081',1,'sqlcc']]],
-  ['queryrecords_24',['queryrecords',['../classsqlcc_1_1StorageAccessor.html#a2d59b078f0b25c905ece38ce5d5d2926',1,'sqlcc::StorageAccessor::queryRecords()'],['../classsqlcc_1_1StorageAccessorImpl.html#af2acae5d8d4c86058cdd977ff722d8da',1,'sqlcc::StorageAccessorImpl::queryRecords()']]],
-  ['querystep_25',['querystep',['../structsqlcc_1_1QueryStep.html#a94787d372d506302cbfd0ad09786a44d',1,'sqlcc::QueryStep::QueryStep()'],['../structsqlcc_1_1QueryStep.html',1,'sqlcc::QueryStep']]],
-  ['querysteptype_26',['QueryStepType',['../namespacesqlcc.html#a04b791cb76a1f58daab88ec1d5bfe9c6',1,'sqlcc']]],
-  ['queue_5fcv_5f_27',['queue_cv_',['../classsqlcc_1_1Prefetcher.html#a76608c2f72eb9ff58b287129ef644a37',1,'sqlcc::Prefetcher::queue_cv_'],['../classsqlcc_1_1TaskExecutor.html#a54525d5143f115b0ac996cb3eaf6315a',1,'sqlcc::TaskExecutor::queue_cv_']]],
-  ['queue_5fmutex_5f_28',['queue_mutex_',['../classsqlcc_1_1utils_1_1ThreadPool.html#a7ebfaae1131b684ede87bed803567f56',1,'sqlcc::utils::ThreadPool::queue_mutex_'],['../classsqlcc_1_1WALWriter.html#a6c30b43fc12f4407a01f06ef6d2dfd28',1,'sqlcc::WALWriter::queue_mutex_'],['../classsqlcc_1_1Prefetcher.html#a1601c2c111dbca7ebb6103abc8bc23b0',1,'sqlcc::Prefetcher::queue_mutex_'],['../classsqlcc_1_1TaskExecutor.html#aa666fd47a17fc6b6119876d0a9ead1fb',1,'sqlcc::TaskExecutor::queue_mutex_']]],
-  ['queued_5frequests_29',['queued_requests',['../structsqlcc_1_1MultiThreadedNetworkManager_1_1NetworkStats.html#ae067e297616794d2c497e23cd7845227',1,'sqlcc::MultiThreadedNetworkManager::NetworkStats']]],
-  ['queued_5ftasks_30',['queued_tasks',['../classsqlcc_1_1utils_1_1ThreadPool.html#ad8ebad7c7b785f456e52dfcb1a73ca81',1,'sqlcc::utils::ThreadPool']]],
-  ['quiet_31',['quiet',['../structsqlcc_1_1TestConfiguration.html#afa551a927317a2c2fcf7a383322c8656',1,'sqlcc::TestConfiguration']]]
+  ['queryrecords_23',['queryrecords',['../classsqlcc_1_1StorageAccessorImpl.html#af2acae5d8d4c86058cdd977ff722d8da',1,'sqlcc::StorageAccessorImpl::queryRecords()'],['../classsqlcc_1_1StorageAccessor.html#a2d59b078f0b25c905ece38ce5d5d2926',1,'sqlcc::StorageAccessor::queryRecords()']]],
+  ['queue_5fcv_5f_24',['queue_cv_',['../classsqlcc_1_1Prefetcher.html#a76608c2f72eb9ff58b287129ef644a37',1,'sqlcc::Prefetcher::queue_cv_'],['../classsqlcc_1_1TaskExecutor.html#a54525d5143f115b0ac996cb3eaf6315a',1,'sqlcc::TaskExecutor::queue_cv_']]],
+  ['queue_5fmutex_5f_25',['queue_mutex_',['../classsqlcc_1_1TaskExecutor.html#aa666fd47a17fc6b6119876d0a9ead1fb',1,'sqlcc::TaskExecutor::queue_mutex_'],['../classsqlcc_1_1Prefetcher.html#a1601c2c111dbca7ebb6103abc8bc23b0',1,'sqlcc::Prefetcher::queue_mutex_'],['../classsqlcc_1_1WALWriter.html#a6c30b43fc12f4407a01f06ef6d2dfd28',1,'sqlcc::WALWriter::queue_mutex_'],['../classsqlcc_1_1utils_1_1ThreadPool.html#a7ebfaae1131b684ede87bed803567f56',1,'sqlcc::utils::ThreadPool::queue_mutex_']]],
+  ['queued_5frequests_26',['queued_requests',['../structsqlcc_1_1MultiThreadedNetworkManager_1_1NetworkStats.html#ae067e297616794d2c497e23cd7845227',1,'sqlcc::MultiThreadedNetworkManager::NetworkStats']]],
+  ['queued_5ftasks_27',['queued_tasks',['../classsqlcc_1_1utils_1_1ThreadPool.html#ad8ebad7c7b785f456e52dfcb1a73ca81',1,'sqlcc::utils::ThreadPool']]],
+  ['quiet_28',['quiet',['../structsqlcc_1_1TestConfiguration.html#afa551a927317a2c2fcf7a383322c8656',1,'sqlcc::TestConfiguration']]]
 ];

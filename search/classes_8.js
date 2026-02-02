@@ -1,12 +1,12 @@
 var searchData=
 [
-  ['identifierexpression_0',['identifierexpression',['../classsqlcc_1_1sql__parser_1_1IdentifierExpression.html',1,'sqlcc::sql_parser::IdentifierExpression'],['../classsqlcc_1_1sql__parser_1_1ast_1_1IdentifierExpression.html',1,'sqlcc::sql_parser::ast::IdentifierExpression']]],
+  ['identifierexpression_0',['IdentifierExpression',['../classsqlcc_1_1sql__parser_1_1ast_1_1IdentifierExpression.html',1,'sqlcc::sql_parser::ast']]],
   ['ifstatement_1',['IfStatement',['../classsqlcc_1_1procedure_1_1IfStatement.html',1,'sqlcc::procedure']]],
   ['illegalargumentexception_2',['IllegalArgumentException',['../classsqlcc_1_1IllegalArgumentException.html',1,'sqlcc']]],
   ['impl_3',['impl',['../classsqlcc_1_1EnterpriseSecurity_1_1Impl.html',1,'sqlcc::EnterpriseSecurity::Impl'],['../classsqlcc_1_1sql__parser_1_1ParserDML_1_1Impl.html',1,'sqlcc::sql_parser::ParserDML::Impl']]],
   ['indexentry_4',['IndexEntry',['../structsqlcc_1_1IndexEntry.html',1,'sqlcc']]],
   ['indexexception_5',['IndexException',['../classsqlcc_1_1IndexException.html',1,'sqlcc']]],
-  ['indexlifetimeguard_6',['IndexLifetimeGuard',['../classsqlcc_1_1SmartPtrLifetimeManager_1_1IndexLifetimeGuard.html',1,'sqlcc::SmartPtrLifetimeManager']]],
+  ['indexlifetimeguard_6',['indexlifetimeguard',['../classsqlcc_1_1SmartPtrLifetimeManager_1_1IndexLifetimeGuard.html',1,'sqlcc::SmartPtrLifetimeManager::IndexLifetimeGuard'],['../classsqlcc_1_1storage__engine_1_1index__manager_1_1SmartPtrLifetimeManager_1_1IndexLifetimeGuard.html',1,'sqlcc::storage_engine::index_manager::SmartPtrLifetimeManager::IndexLifetimeGuard']]],
   ['indexmanager_7',['indexmanager',['../classsqlcc_1_1storage__engine_1_1index__manager_1_1IndexManager.html',1,'sqlcc::storage_engine::index_manager::IndexManager'],['../classsqlcc_1_1IndexManager.html',1,'sqlcc::IndexManager']]],
   ['indexmanagermock_8',['IndexManagerMock',['../classsqlcc_1_1mocks_1_1IndexManagerMock.html',1,'sqlcc::mocks']]],
   ['indexoperation_9',['indexoperation',['../structsqlcc_1_1storage__engine_1_1index__manager_1_1IndexOperation.html',1,'sqlcc::storage_engine::index_manager::IndexOperation'],['../structsqlcc_1_1TransactionalIndexManager_1_1IndexOperation.html',1,'sqlcc::TransactionalIndexManager::IndexOperation']]],

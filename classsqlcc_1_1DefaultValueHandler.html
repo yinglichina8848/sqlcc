@@ -83,6 +83,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>默认值处理器 - 实现 SQL DEFAULT 子句的填充逻辑  
+ <a href="classsqlcc_1_1DefaultValueHandler.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="storage_2data__integrity__validator_8h_source.html">data_integrity_validator.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -136,7 +139,17 @@ Private 属性</h2></td></tr>
 <tr class="memitem:a9c2f8756c6a607d64080a0d219c3c0b3" id="r_a9c2f8756c6a607d64080a0d219c3c0b3"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1DefaultValueHandler.html#a9c2f8756c6a607d64080a0d219c3c0b3">handler_mutex_</a></td></tr>
 <tr class="separator:a9c2f8756c6a607d64080a0d219c3c0b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>默认值处理器 - 实现 SQL DEFAULT 子句的填充逻辑 </p>
+<p>WHY层 - 设计意图： 在 INSERT 语句未指定某些列时，数据库需要自动填充预设值。 这不仅简化了应用层代码，还能确保某些元数据（如创建时间）由数据库自动维护，保证一致性。</p>
+<p>WHAT层 - 功能说明： 识别并应用 SQL 类型对应的字面量默认值（如 0, ""）。 支持动态默认值（如 CURRENT_TIMESTAMP, NOW()）。 支持逻辑字面量（TRUE, FALSE）。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>优先级匹配：ApplyDefaultValue 首先检查显式的表达式字符串。</li>
+<li>特殊令牌识别：匹配 "CURRENT_TIMESTAMP" 等关键词并调用 GenerateDateTimeDefault 获取系统时间。</li>
+<li>类型派生：若未指定 DEFAULT，GenerateDefaultValue 根据列的数据类型返回系统预设的零值。</li>
+<li>批量处理：ApplyDefaultValues 为整行数据中的空位执行“补全”。 </li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a17123ba8b73f2db392deae80c267420c" name="a17123ba8b73f2db392deae80c267420c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a17123ba8b73f2db392deae80c267420c">&#9670;&#160;</a></span>DefaultValueHandler() <span class="overload">[1/2]</span></h2>
 

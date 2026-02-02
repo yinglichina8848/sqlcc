@@ -332,6 +332,7 @@ Private 属性</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>B+树内部节点类 </p>
+<p>B+ 树内部节点 - 存储路由键并引导搜索流量至正确的子节点</p>
 <p>WHY: 为什么需要B+树内部节点？</p>
 <p>B+树索引系统需要专门的内部节点来构建树形结构：</p><ul>
 <li>内部节点存储索引键和子节点指针，建立多层索引</li>
@@ -468,8 +469,16 @@ Private 属性</h2></td></tr>
 <li>一致性测试：父子节点关系的验证</li>
 <li>性能分析：查找路径和访问深度的分析</li>
 <li>内存分析：节点内存使用的详细统计</li>
-<li>日志记录：操作历史的详细记录 </li>
+<li>日志记录：操作历史的详细记录</li>
 </ul>
+<p>WHY层 - 设计意图： 内部节点是 B+ 树的“路标”。它们不存储实际数据，只存储键（Keys）和子节点指针（Child IDs）。 通过维持多路平衡结构，内部节点保证了树的高度始终处于对数级（O(log N)）， 从而确保即便在海量数据下，任何点查询的 I/O 次数也是稳定且极少的。</p>
+<p>WHAT层 - 功能说明： 维护 n 个键和 n+1 个子节点指针的映射关系。 提供快速路由（FindChildPageId），定位给定键应进入哪个子页面。 支持垂直分裂（Split）和合并（Merge）操作，维护树的平衡性。 实现内部结构的二进制序列化（SerializeToPage）。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>范围映射：内部节点遵循 child[i] &lt; key[i] &lt;= child[i+1] 的逻辑。</li>
+<li>二分查找：FindChildPageId 使用 std::lower_bound 在有序的 keys_ 向量中搜索，减少 CPU 开销。</li>
+<li>动态扩展：Split 时将中间键（Middle Key）向上推送到父节点，实现树的向上生长。</li>
+<li>内存布局：序列化时，键长度、键内容和子 ID 紧凑存储，最大限度利用 8KB 页面空间。 </li>
+</ol>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a96925271c48a640c21a114000bb4b23c" name="a96925271c48a640c21a114000bb4b23c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a96925271c48a640c21a114000bb4b23c">&#9670;&#160;</a></span>BPlusTreeInternalNode() <span class="overload">[1/4]</span></h2>

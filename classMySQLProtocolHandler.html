@@ -79,13 +79,16 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>MySQL 协议兼容层处理器 - 实现 SQLCC 与标准 MySQL 客户端的无缝对接  
+ <a href="classMySQLProtocolHandler.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="mysql__protocol_8h_source.html">mysql_protocol.h</a>&gt;</code></p>
 <div class="dynheader">
 MySQLProtocolHandler 的协作图:</div>
 <div class="dyncontent">
 <div class="center"><img src="classMySQLProtocolHandler__coll__graph.png" border="0" usemap="#aMySQLProtocolHandler_coll__map" alt="Collaboration graph"/></div>
 <map name="aMySQLProtocolHandler_coll__map" id="aMySQLProtocolHandler_coll__map">
-<area shape="rect" title=" " alt="" coords="77,93,247,119"/>
+<area shape="rect" title="MySQL 协议兼容层处理器 &#45; 实现 SQLCC 与标准 MySQL 客户端的无缝对接" alt="" coords="77,93,247,119"/>
 <area shape="rect" href="classsqlcc_1_1FileDescriptor.html" title="RAII wrapper for file descriptors" alt="" coords="5,5,159,31"/>
 <area shape="poly" title=" " alt="" coords="104,39,153,91,149,95,100,43"/>
 <area shape="rect" href="structHandshakeV10.html" title=" " alt="" coords="183,5,301,31"/>
@@ -106,6 +109,7 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:afb8ff7398408a2bd264efa88b8bf777a" id="r_afb8ff7398408a2bd264efa88b8bf777a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMySQLProtocolHandler.html#afb8ff7398408a2bd264efa88b8bf777a">send_auth_error</a> (const std::string &amp;error_message)</td></tr>
 <tr class="separator:afb8ff7398408a2bd264efa88b8bf777a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c8db235086911a1d64382f6900ef048" id="r_a3c8db235086911a1d64382f6900ef048"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMySQLProtocolHandler.html#a3c8db235086911a1d64382f6900ef048">send_query_result</a> (const std::vector&lt; std::vector&lt; std::string &gt; &gt; &amp;rows, const std::vector&lt; std::string &gt; &amp;columns)</td></tr>
+<tr class="memdesc:a3c8db235086911a1d64382f6900ef048"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送查询结果集  <br /></td></tr>
 <tr class="separator:a3c8db235086911a1d64382f6900ef048"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20f5c3fb83d03a5b05f8a3b4b5905c13" id="r_a20f5c3fb83d03a5b05f8a3b4b5905c13"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMySQLProtocolHandler.html#a20f5c3fb83d03a5b05f8a3b4b5905c13">get_client_username</a> () const</td></tr>
 <tr class="separator:a20f5c3fb83d03a5b05f8a3b4b5905c13"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,7 +147,15 @@ Private 属性</h2></td></tr>
 <tr class="separator:ac40cb9ff0d655c95370d6abb5091155c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>MySQL协议处理器接口 用于双协议共存支持 </p>
+<div class="textblock"><p>MySQL 协议兼容层处理器 - 实现 SQLCC 与标准 MySQL 客户端的无缝对接 </p>
+<p>WHY层 - 设计意图： 为了降低用户的迁移成本，SQLCC 必须兼容主流的数据库客户端工具（如 MySQL Workbench, Navicat）。 MySQL 协议是一种基于 TCP 的有状态二进制协议。通过实现该协议，SQLCC 能够伪装成一个 标准的 MySQL 服务器，允许用户使用现有的驱动程序（如 JDBC, PyMySQL）直接连接。</p>
+<p>WHAT层 - 功能说明： 实现 MySQL 经典的四阶段握手（Handshake V10）。 解析 HandshakeResponse41 包，提取用户名、数据库名及加密后的认证数据（Scramble）。 封装并发送查询结果集（ResultSet），包括列定义（Column Definition）和行数据（Text Resultset Row）。 管理数据包序列号（Sequence ID），确保数据包在 TCP 链路上的顺序一致性。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>二进制序列化：按照 MySQL 官方文档定义的字节序（小端序为主）手动构建 Data Payload。</li>
+<li>变长编码：实现“长度编码整数（Length Encoded Integer）”算法，以节省元数据传输空间。</li>
+<li>状态维护：next_sequence_id_ 记录当前会话的包编号，每发送/接收一个完整包则自增。</li>
+<li>安全集成：利用 handshake_.scramble_buf 生成随机盐值，支持 mysql_native_password 认证方式。 </li>
+</ol>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a151bfb29530af11c7c1e6e877cfd1998" name="a151bfb29530af11c7c1e6e877cfd1998"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a151bfb29530af11c7c1e6e877cfd1998">&#9670;&#160;</a></span>MySQLProtocolHandler()</h2>
@@ -492,6 +504,15 @@ Private 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>发送查询结果集 </p>
+<p>WHY: 查询结果集是 MySQL 协议中最复杂的数据交换格式。它要求先发送列数， 再逐个发送列定义，最后发送行数据，每段都需要 EOF 包作为结束符。 WHAT: 将二维字符串矩阵（rows）包装为标准 ResultSet 包流发送给客户端。 HOW:</p><ol type="1">
+<li>发送 Column Count Packet：标记结果集有多少列。</li>
+<li>遍历 columns 列表：为每一列发送 Column Definition Packet，包含类型（VARCHAR）、字符集等元数据。</li>
+<li>发送 EOF Packet：标记元数据段结束。</li>
+<li>遍历 rows 列表：将每一行的数据作为一系列“长度编码字符串”发送。</li>
+<li>发送最终 EOF Packet：标记数据段结束，恢复到空闲状态。 </li>
+</ol>
 
 </div>
 </div>

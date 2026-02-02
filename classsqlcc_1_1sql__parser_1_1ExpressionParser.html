@@ -83,13 +83,16 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>SQL 表达式解析器 - 实现基于算术和逻辑优先级的递归下降分析  
+ <a href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="expression__parser_8h_source.html">expression_parser.h</a>&gt;</code></p>
 <div class="dynheader">
 sqlcc::sql_parser::ExpressionParser 的协作图:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsqlcc_1_1sql__parser_1_1ExpressionParser__coll__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1ExpressionParser_coll__map" alt="Collaboration graph"/></div>
 <map name="asqlcc_1_1sql__parser_1_1ExpressionParser_coll__map" id="asqlcc_1_1sql__parser_1_1ExpressionParser_coll__map">
-<area shape="rect" title=" " alt="" coords="87,240,225,280"/>
+<area shape="rect" title="SQL 表达式解析器 &#45; 实现基于算术和逻辑优先级的递归下降分析" alt="" coords="87,240,225,280"/>
 <area shape="rect" href="classsqlcc_1_1sql__parser_1_1TokenStream.html" title="Token流管理类 &#45; 负责词法分析器的token流管理" alt="" coords="87,137,225,177"/>
 <area shape="poly" title=" " alt="" coords="159,191,159,240,153,240,153,191"/>
 <area shape="rect" href="classsqlcc_1_1sql__parser_1_1Lexer.html" title="SQL词法分析器类" alt="" coords="5,5,144,45"/>
@@ -141,8 +144,17 @@ Private 属性</h2></td></tr>
 <tr class="separator:a452441910e21b1065bc52e387ee4971e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html">ExpressionParser</a> - SQL表达式解析器</p>
-<p>专门负责解析SQL中的各种表达式类型，实现单一职责原则。 通过依赖注入接收TokenStream，确保松耦合和高可测试性。 </p>
+<div class="textblock"><p>SQL 表达式解析器 - 实现基于算术和逻辑优先级的递归下降分析 </p>
+<p><a class="el" href="classsqlcc_1_1sql__parser_1_1ExpressionParser.html" title="SQL 表达式解析器 - 实现基于算术和逻辑优先级的递归下降分析">ExpressionParser</a> - SQL表达式解析器</p>
+<p>专门负责解析SQL中的各种表达式类型，实现单一职责原则。 通过依赖注入接收TokenStream，确保松耦合和高可测试性。</p>
+<p>WHY层 - 设计意图： SQL 表达式（如 a + b * c &gt; 10 AND d IS NULL）具有复杂的优先级和结合性规则。 直接解析极易出错且难以扩展。ExpressionParser 通过实现“优先级爬升”或“分层递归”算法， 能够将扁平的 <a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html" title="Token类">Token</a> 流正确地嵌套为具有层次结构的二叉树，为后续的表达式评估（Evaluation）打下基础。</p>
+<p>WHAT层 - 功能说明： 解析算术运算（+, -, *, /）、逻辑运算（AND, OR, NOT）和比较运算（=, &lt;, &gt;）。 支持字面量（Numeric, String, Null）、标识符（Columns）以及函数调用。 处理括号表达式以手动改变优先级。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>优先级驱动：parseBinaryExpression 使用 minPrecedence 算法，通过 while 循环处理同级或更高级操作符。</li>
+<li>分层递归：逻辑层级为 Or -&gt; And -&gt; Equality -&gt; Comparison -&gt; Term (+/-) -&gt; Factor (* /) -&gt; Unary -&gt; Primary。</li>
+<li>终结符处理：parsePrimary 处理最基础的 Token（字面量、标识符、括号），它是递归的基准出口。</li>
+<li>AST 映射：为每种运算创建对应的 BinaryExpression 或 <a class="el" href="classsqlcc_1_1sql__parser_1_1FunctionCallExpression.html" title="函数调用表达式">FunctionCallExpression</a> 节点。 </li>
+</ol>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="aab40e71ab9a2535754fcc07a7b55c2ee" name="aab40e71ab9a2535754fcc07a7b55c2ee"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aab40e71ab9a2535754fcc07a7b55c2ee">&#9670;&#160;</a></span>ExpressionParser()</h2>

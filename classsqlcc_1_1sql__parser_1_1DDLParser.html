@@ -83,13 +83,16 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>数据定义语言（DDL）解析器 - 负责表、数据库、索引等架构对象的解析  
+ <a href="classsqlcc_1_1sql__parser_1_1DDLParser.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="ddl__parser_8h_source.html">ddl_parser.h</a>&gt;</code></p>
 <div class="dynheader">
 sqlcc::sql_parser::DDLParser 的协作图:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsqlcc_1_1sql__parser_1_1DDLParser__coll__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1DDLParser_coll__map" alt="Collaboration graph"/></div>
 <map name="asqlcc_1_1sql__parser_1_1DDLParser_coll__map" id="asqlcc_1_1sql__parser_1_1DDLParser_coll__map">
-<area shape="rect" title=" " alt="" coords="87,123,225,163"/>
+<area shape="rect" title="数据定义语言（DDL）解析器 &#45; 负责表、数据库、索引等架构对象的解析" alt="" coords="87,123,225,163"/>
 <area shape="rect" href="classsqlcc_1_1sql__parser_1_1Lexer.html" title="SQL词法分析器类" alt="" coords="5,5,144,45"/>
 <area shape="poly" title=" " alt="" coords="98,55,145,121,140,124,94,59"/>
 <area shape="rect" href="classsqlcc_1_1sql__parser_1_1Token.html" title="Token类" alt="" coords="168,5,307,45"/>
@@ -169,12 +172,24 @@ Private 属性</h2></td></tr>
 <tr class="separator:a268591a0a5cd4d7f1ed936c7a3da1938"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p><a class="el" href="classsqlcc_1_1sql__parser_1_1DDLParser.html">DDLParser</a> - 数据定义语言解析器</p>
-<p>负责解析SQL的DDL语句：</p><ul>
-<li>CREATE TABLE/DATABASE/INDEX/USER/PROCEDURE/TRIGGER/VIEW</li>
-<li>ALTER TABLE</li>
-<li>DROP TABLE/DATABASE/INDEX/USER/PROCEDURE/TRIGGER/VIEW </li>
-</ul>
+<div class="textblock"><p>数据定义语言（DDL）解析器 - 负责表、数据库、索引等架构对象的解析 </p>
+<p>数据定义语言（DDL）解析器 - 实现数据库模式结构的定义与维护</p>
+<p>WHY层 - 设计意图： DDL 语句定义了数据库的物理和逻辑结构。 <a class="el" href="classsqlcc_1_1sql__parser_1_1DDLParser.html" title="数据定义语言（DDL）解析器 - 负责表、数据库、索引等架构对象的解析">DDLParser</a> 必须支持复杂的列定义、约束（主键、外键、唯一性）以及索引选项， 确保解析出的架构定义能够准确传达给存储引擎进行物理空间分配。</p>
+<p>WHAT层 - 功能说明： 解析 CREATE TABLE, CREATE DATABASE, CREATE INDEX, DROP TABLE 等语句。 处理细粒度的列属性（Data Type, Not Null, Default, Auto Increment）。 构建 <a class="el" href="classsqlcc_1_1sql__parser_1_1CreateStatement.html">CreateStatement</a> 和 <a class="el" href="classsqlcc_1_1sql__parser_1_1DropStatement.html">DropStatement</a> 等 AST 节点。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>模式分发：parseCreateStatement 基于关键字进入不同的子流程（Table/Database/Index）。</li>
+<li>列表递归：parseColumnDefinitions 循环解析逗号分隔的列定义，直到遇到右括号。</li>
+<li>状态机：使用 lookaheadToken_ 实现单步预读，解决标识符与关键字的歧义。</li>
+<li>类型映射：parseDataType 将 SQL 关键字（如 VARCHAR）转换为内部数据类型表示。</li>
+</ol>
+<p>WHY层 - 设计意图： 数据库系统不仅需要处理数据，还需要定义数据的“形状”。DDL 语句用于创建和修改数据库的 物理与逻辑结构。DDLParser 的存在是为了将结构化的 SQL 语句转换为抽象语法树（AST）， 从而让执行引擎知道如何创建表、分配存储空间或建立索引。</p>
+<p>WHAT层 - 功能说明： 支持解析 CREATE（创建）、ALTER（修改）、DROP（删除）三大类操作。 解析对象涵盖：DATABASE, TABLE, INDEX, VIEW, USER, PROCEDURE, TRIGGER。 处理复杂的列定义（Column Definitions），包括数据类型、NULL/NOT NULL 约束、DEFAULT 值。 支持表级约束解析，如 PRIMARY KEY, FOREIGN KEY。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>递归下降解析：采用标准自顶向下的递归算法，基于 <a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html" title="Token类">Token</a> 预测分支。</li>
+<li>共享状态：通过引用共享 <a class="el" href="classsqlcc_1_1sql__parser_1_1Lexer.html" title="SQL词法分析器类">Lexer</a> 的当前 <a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html" title="Token类">Token</a> 和 Lookahead Token，实现高效的零拷贝扫描。</li>
+<li>错误恢复：在解析列列表等重复项时，具备基本的同步点（Synchronization Points）以捕获局部语法错误。</li>
+<li>AST 节点工厂：将解析出的元数据（如列名、类型大小）封装为对应的 <a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html">ASTNode</a> 智能指针返回。 </li>
+</ol>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a0e176fa326d438ed21f434cb08960fd0" name="a0e176fa326d438ed21f434cb08960fd0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0e176fa326d438ed21f434cb08960fd0">&#9670;&#160;</a></span>DDLParser()</h2>

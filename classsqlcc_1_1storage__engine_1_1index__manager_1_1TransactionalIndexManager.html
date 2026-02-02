@@ -82,6 +82,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>事务型索引管理器 - 实现索引 DDL 操作的 ACID 语义与回滚机制  
+ <a href="classsqlcc_1_1storage__engine_1_1index__manager_1_1TransactionalIndexManager.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="transactional__index__manager_8h_source.html">transactional_index_manager.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -108,7 +111,16 @@ Private 属性</h2></td></tr>
 <tr class="memitem:a0b5389df76b403f14c57035f1a3d5f0b" id="r_a0b5389df76b403f14c57035f1a3d5f0b"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1BPlusTreeIndex.html">BPlusTreeIndex</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1storage__engine_1_1index__manager_1_1TransactionalIndexManager.html#a0b5389df76b403f14c57035f1a3d5f0b">pending_deletions_</a></td></tr>
 <tr class="separator:a0b5389df76b403f14c57035f1a3d5f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>事务型索引管理器 - 实现索引 DDL 操作的 ACID 语义与回滚机制 </p>
+<p>WHY层 - 设计意图： 传统的 DDL 操作（如 CREATE INDEX）通常是不支持回滚的。 但在复杂的分布式系统或长事务中，如果事务在中途失败，必须撤销已经建立的物理索引结构， 否则会导致数据字典与物理文件之间的状态不一致。 该类通过引入“事务日志”和“延迟物理删除”，实现了索引操作的原子性。</p>
+<p>WHAT层 - 功能说明： 执行事务隔离的索引创建（CreateIndexInTransaction）和删除（DropIndexInTransaction）。 维护 transaction_log_，记录每个事务 ID 对应的 DDL 操作序列。 管理 pending_deletions_，存储已被逻辑删除但物理仍存在的索引对象。 提供 Commit 和 Rollback 钩子函数。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>记录重做/回滚信息：在执行物理操作前，先在 transaction_log_ 中追加 IndexOperation。</li>
+<li>两阶段提交：Commit 时正式清理待删记录；Rollback 时则逆序执行补偿操作（如物理删除新创索引）。</li>
+<li>逻辑遮蔽：Drop 操作后，索引进入 pending_deletions_，对其他事务逻辑不可见，但仍物理存在直至 Commit。 </li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="ab717881d972b23791322af87e547a5a5" name="ab717881d972b23791322af87e547a5a5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab717881d972b23791322af87e547a5a5">&#9670;&#160;</a></span>TransactionalIndexManager()</h2>
 

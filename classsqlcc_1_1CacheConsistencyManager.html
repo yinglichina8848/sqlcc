@@ -85,13 +85,16 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>缓存一致性管理器 - 协调缓冲池中的页面版本与磁盘状态，保证并发访问的原子性和一致性  
+ <a href="classsqlcc_1_1CacheConsistencyManager.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="storage_2cache__consistency__manager_8h_source.html">cache_consistency_manager.h</a>&gt;</code></p>
 <div class="dynheader">
 sqlcc::CacheConsistencyManager 的协作图:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsqlcc_1_1CacheConsistencyManager__coll__graph.png" border="0" usemap="#asqlcc_1_1CacheConsistencyManager_coll__map" alt="Collaboration graph"/></div>
 <map name="asqlcc_1_1CacheConsistencyManager_coll__map" id="asqlcc_1_1CacheConsistencyManager_coll__map">
-<area shape="rect" title=" " alt="" coords="5,108,244,133"/>
+<area shape="rect" title="缓存一致性管理器 &#45; 协调缓冲池中的页面版本与磁盘状态，保证并发访问的原子性和一致性" alt="" coords="5,108,244,133"/>
 <area shape="rect" href="structsqlcc_1_1CacheConsistencyManager_1_1ConsistencyStats.html" title=" " alt="" coords="5,5,244,45"/>
 <area shape="poly" title=" " alt="" coords="127,59,127,108,122,108,122,59"/>
 </map>
@@ -312,7 +315,17 @@ Private 属性</h2></td></tr>
 <tr class="memitem:a41c4ef3733e8d0484e7385eb67d75c97" id="r_a41c4ef3733e8d0484e7385eb67d75c97"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#ac81cecfa713692295573602337c96c4e">VersionUpdateCallback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1CacheConsistencyManager.html#a41c4ef3733e8d0484e7385eb67d75c97">version_callback_</a></td></tr>
 <tr class="separator:a41c4ef3733e8d0484e7385eb67d75c97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">成员类型定义说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>缓存一致性管理器 - 协调缓冲池中的页面版本与磁盘状态，保证并发访问的原子性和一致性 </p>
+<p>WHY层 - 设计意图： 在分布式或多线程数据库中，缓冲池是状态的来源。如果多个事务并发修改同一页面且没有版本控制， 会导致数据覆盖或不一致读。一致性管理器通过引入“页面版本”和“分层锁”来解决这一问题。</p>
+<p>WHAT层 - 功能说明： 实现读写一致性检查（CheckReadConsistency, CheckWriteConsistency）。 管理页面级别的共享锁和排他锁。 追踪页面版本号（Version），支持检测脏页冲突。 提供失效通知机制（Page Invalidation）。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>版本表管理：维护 page_versions_ 哈希表，记录每个页面的 version, writer_id 和读者列表。</li>
+<li>锁集成：通过 page_locks_ 维护每个页面的 mutex，并提供带超时的获取接口。</li>
+<li>策略模式：支持 STRICT_CONSISTENCY (强一致性) 等多种预设策略。</li>
+<li>原子更新：使用版本号递增来标记页面的每一次逻辑修改。 </li>
+</ol>
+</div><h2 class="groupheader">成员类型定义说明</h2>
 <a id="a1ccd1c338414dc5e627d7b47177982c7" name="a1ccd1c338414dc5e627d7b47177982c7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1ccd1c338414dc5e627d7b47177982c7">&#9670;&#160;</a></span>ConsistencyViolationCallback <span class="overload">[1/2]</span></h2>
 

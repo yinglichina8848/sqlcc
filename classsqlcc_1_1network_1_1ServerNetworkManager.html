@@ -93,7 +93,7 @@ sqlcc::network::ServerNetworkManager 的协作图:</div>
 <div class="center"><img src="classsqlcc_1_1network_1_1ServerNetworkManager__coll__graph.png" border="0" usemap="#asqlcc_1_1network_1_1ServerNetworkManager_coll__map" alt="Collaboration graph"/></div>
 <map name="asqlcc_1_1network_1_1ServerNetworkManager_coll__map" id="asqlcc_1_1network_1_1ServerNetworkManager_coll__map">
 <area shape="rect" title="服务端网络管理器类" alt="" coords="5,93,227,133"/>
-<area shape="rect" href="classsqlcc_1_1utils_1_1ThreadPool.html" title="线程池实现 &#45; 支持任务提交和异步执行" alt="" coords="30,5,202,31"/>
+<area shape="rect" href="classsqlcc_1_1utils_1_1ThreadPool.html" title="通用工作线程池 &#45; 实现多核并发处理和任务调度" alt="" coords="30,5,202,31"/>
 <area shape="poly" title=" " alt="" coords="119,44,119,93,113,93,113,44"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">图例</a>]</span></center></div>
@@ -160,13 +160,23 @@ Private 属性</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>服务端网络管理器类 </p>
+<p>服务端网络管理器 - 负责 TCP 连接的监听、分发和加密通信</p>
 <p>ServerNetworkManager类负责服务端的网络监听和管理，包括：</p><ul>
 <li>TCP监听socket的管理</li>
 <li>客户端连接的接受和处理</li>
 <li>epoll事件循环的管理</li>
 <li>TLS/SSL连接的支持</li>
-<li>连接池的管理 </li>
+<li>连接池的管理</li>
 </ul>
+<p>WHY层 - 设计意图： 作为数据库系统的流量入口，ServerNetworkManager 必须支持高并发连接且保证数据传输的安全性。 采用 epoll (Linux) 异步 I/O 架构，能够以极低的资源消耗管理数千个活跃会话， 并通过 TLS/SSL 加密防止网络嗅探。</p>
+<p>WHAT层 - 功能说明： 绑定监听端口，处理客户端握手请求（Accept）。 集成会话管理 (<a class="el" href="classsqlcc_1_1network_1_1SessionManager.html" title="会话管理器类，负责管理所有客户端会话">SessionManager</a>) 和身份认证 (<a class="el" href="classsqlcc_1_1UserManager.html" title="用户管理器类。">UserManager</a>)。 支持非阻塞的 epoll 事件循环，实现 I/O 多路复用。 提供可选的 TLS 加密链路层支持。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>基础架构：创建非阻塞监听 Socket 并加入 epoll 监听列表。</li>
+<li>事件循环：ProcessEvents 周期性调用 epoll_wait 获取就绪文件描述符。</li>
+<li>连接处理：新连接触发 AcceptConnection，实例化 ConnectionHandler。</li>
+<li>加密集成：使用 OpenSSL 库，根据配置加载证书并在 Accept 时执行 SSL 握手。</li>
+<li>异常安全：使用 <a class="el" href="classsqlcc_1_1FileDescriptor.html" title="RAII wrapper for file descriptors">FileDescriptor</a> (RAII) 包装原生 FD，确保资源自动回收。 </li>
+</ol>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a284afe94a64879cf433009bb1c11d6eb" name="a284afe94a64879cf433009bb1c11d6eb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a284afe94a64879cf433009bb1c11d6eb">&#9670;&#160;</a></span>ServerNetworkManager()</h2>

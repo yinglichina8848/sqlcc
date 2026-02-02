@@ -220,7 +220,6 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:a2b4a0da34d366cb31225be8a14e7921c" id="r_a2b4a0da34d366cb31225be8a14e7921c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeIndex.html#a2b4a0da34d366cb31225be8a14e7921c">Insert</a> (const std::string &amp;key, int32_t page_id, size_t offset)</td></tr>
 <tr class="separator:a2b4a0da34d366cb31225be8a14e7921c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98f4a0b0a0b7527895623a158987aba7" id="r_a98f4a0b0a0b7527895623a158987aba7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeIndex.html#a98f4a0b0a0b7527895623a158987aba7">Delete</a> (const std::string &amp;key)</td></tr>
-<tr class="memdesc:a98f4a0b0a0b7527895623a158987aba7"><td class="mdescLeft">&#160;</td><td class="mdescRight">删除键  <br /></td></tr>
 <tr class="separator:a98f4a0b0a0b7527895623a158987aba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb888aac0cc49d13b6fc287632880426" id="r_abb888aac0cc49d13b6fc287632880426"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1BPlusTreeIndex.html#abb888aac0cc49d13b6fc287632880426">Lookup</a> (const std::string &amp;key, int32_t &amp;page_id, size_t &amp;offset) const</td></tr>
 <tr class="memdesc:abb888aac0cc49d13b6fc287632880426"><td class="mdescLeft">&#160;</td><td class="mdescRight">查找键  <br /></td></tr>
@@ -985,6 +984,19 @@ Private 属性</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>WHAT: CreateNewNode - 创建新的B+树节点</p>
+<p>WHY: 在B+树的动态操作（如插入导致节点分裂，或树的高度增加）中，需要分配新的节点。 此方法封装了从<code><a class="el" href="classsqlcc_1_1StorageEngine.html" title="存储引擎类，封装磁盘管理和缓冲池功能">StorageEngine</a></code>获取一个新的空闲页面，并将其初始化为B+树内部节点或叶子节点的逻辑。 WHAT: 此方法负责分配一个新的物理页面，并根据<code>is_leaf</code>参数将其初始化为<code>InternalNode</code>或<code>LeafNode</code>。 HOW:</p><ol type="1">
+<li><b>分配新页面</b>: 调用<code>storage_engine_-&gt;NewPage()</code>从存储引擎获取一个可用的新页面ID。</li>
+<li><b>初始化节点</b>: 根据<code>is_leaf</code>的值，构造一个新的<code>InternalNode</code>或<code>LeafNode</code>对象。 这些新节点将使用刚分配的<code>page_id</code>，并设置其初始元数据（例如，父节点ID，是否为根节点等）。</li>
+<li><b>返回节点</b>: 返回一个<code>std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1BPlusTreeNode.html" title="B+树节点基类">BPlusTreeNode</a>&gt;</code>指向新创建的节点。</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">is_leaf</td><td><code>true</code>表示创建叶子节点，<code>false</code>表示创建内部节点。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>包含新创建B+树节点的<code>std::unique_ptr</code>。 </dd></dl>
 
 </div>
 </div>
@@ -1087,8 +1099,15 @@ B+树通过合并操作保持空间利用率 </dd>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>删除键 </p>
+<p>WHAT: Delete - B+树删除操作</p>
+<p>从B+树索引中删除指定的键，并维护树的平衡性。 如果节点下溢，会触发合并或重新分配操作。</p>
+<p>HOW: 递归删除算法</p><ol type="1">
+<li>查找目标键所在的叶子节点。</li>
+<li>从叶子节点中删除指定的键值对。</li>
+<li>如果叶子节点在删除后发生下溢（即键的数量低于最小阈值）： a. 尝试从左兄弟节点或右兄弟节点重新分配键。 b. 如果无法重新分配（兄弟节点也处于最小键数），则将该叶子节点与一个兄弟节点合并。</li>
+<li>如果合并操作导致父节点中的键或指针数量发生变化（例如，某个子节点被移除）， 则需要递归地检查父节点是否发生下溢，并重复步骤3。</li>
+<li>如果根节点因合并而只剩下一个子节点，则将根节点设置为其唯一子节点，树的高度降低。</li>
+</ol>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>键 </td></tr>
@@ -1198,6 +1217,21 @@ B+树通过合并操作保持空间利用率 </dd>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>WHAT: Delete (Recursive) - B+树递归删除操作</p>
+<p>WHY: B+树的删除操作通常通过递归方式实现，从根节点向下查找正确的叶子节点进行删除， 并处理可能发生的节点下溢和合并，将下溢信息逐级向上汇报。这个私有方法是公共<code>Delete</code>方法 的递归实现核心，它处理了单个节点层面的删除逻辑。 WHAT: 此方法负责在给定的<code>node</code>中删除<code>key</code>。 它会确定正确的子节点（如果<code>node</code>是内部节点），并递归调用自身。 如果删除导致<code>node</code>下溢，它会触发节点重新分配或合并，并向上级调用返回下溢信息。 HOW:</p><ol type="1">
+<li><b>查找删除位置</b>: 在当前<code>node</code>中查找<code>key</code>的正确删除位置。</li>
+<li><b>递归向下</b>: 如果<code>node</code>是内部节点，递归调用<code>Delete</code>方法处理子节点。 如果<code>node</code>是叶子节点，则直接删除键值对。</li>
+<li><b>处理下溢</b>: 如果递归调用返回了下溢信息（即子节点发生了下溢），<code>node</code>需要处理 对子节点的重新分配或合并操作，并更新其键和子节点指针。如果<code>node</code>因此也发生下溢， 则向上返回下溢信息。</li>
+<li><b>根节点下溢</b>: 如果根节点因合并而只剩下一个子节点，则将根节点设置为其唯一子节点， 树的高度降低，<code>root_page_id_</code>需要更新。</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>待删除的键。 </td></tr>
+    <tr><td class="paramname">node</td><td>当前操作的B+树节点。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>删除操作是否成功。 </dd></dl>
 
 </div>
 </div>
@@ -1312,6 +1346,14 @@ B+树通过合并操作保持空间利用率 </dd>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>WHAT: DeleteNode - 从磁盘删除B+树节点</p>
+<p>WHY: 当B+树节点因合并（merge）操作而不再需要时，其占用的物理页面应该被回收。 释放这些页面是有效的存储空间管理的关键，可以防止磁盘空间泄露。 WHAT: 此方法负责通知<code><a class="el" href="classsqlcc_1_1StorageEngine.html" title="存储引擎类，封装磁盘管理和缓冲池功能">StorageEngine</a></code>释放指定<code>page_id</code>的物理页面。 HOW: 调用<code>storage_engine_-&gt;DeletePage(page_id)</code>来将该页面标记为可用， 从而允许<code><a class="el" href="classsqlcc_1_1StorageEngine.html" title="存储引擎类，封装磁盘管理和缓冲池功能">StorageEngine</a></code>在未来将此页面重新分配给新的节点或数据。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>待删除节点的页面ID。 </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1771,6 +1813,19 @@ B+树通过合并操作保持空间利用率 </dd>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>WHAT: GetNode - 获取B+树节点（可能从缓存）</p>
+<p>WHY: 为了优化性能，B+树的节点（页面）通常会驻留在内存缓冲区（Buffer Pool）中。 此方法提供了一个统一的接口来获取指定<code>page_id</code>的节点，它可能首先尝试从缓存中获取， 如果缓存中没有，则通过<code>LoadNode</code>从磁盘加载。 WHAT: 此方法负责从内存或磁盘中获取指定<code>page_id</code>的B+树节点，并返回其智能指针。 HOW:</p><ol type="1">
+<li><b>缓存查找</b>: 首先在本地缓存（如果<code><a class="el" href="classsqlcc_1_1BPlusTreeIndex.html" title="B+树索引类">BPlusTreeIndex</a></code>内部有）或<code><a class="el" href="classsqlcc_1_1StorageEngine.html" title="存储引擎类，封装磁盘管理和缓冲池功能">StorageEngine</a></code>的Buffer Pool中查找该<code>page_id</code>对应的页面。</li>
+<li><b>加载节点</b>: 如果节点不在缓存中，则调用<code>LoadNode(page_id)</code>从磁盘加载。</li>
+<li><b>错误处理</b>: 如果无法加载节点（例如，<code>page_id</code>无效），则抛出异常或返回<code>nullptr</code>。</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>待获取节点的页面ID。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>包含B+树节点的<code>std::unique_ptr</code>。 </dd></dl>
 
 </div>
 </div>
@@ -2490,6 +2545,24 @@ B+树通过合并操作保持空间利用率 </dd>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>WHAT: Insert (Recursive) - B+树递归插入操作</p>
+<p>WHY: B+树的插入操作通常通过递归方式实现，从根节点向下查找正确的叶子节点进行插入， 并处理可能发生的节点分裂，将分裂信息逐级向上汇报。这个私有方法是公共<code>Insert</code>方法 的递归实现核心，它处理了单个节点层面的插入逻辑。 WHAT: 此方法负责在给定的<code>node</code>中插入<code>key</code>和其对应的<code>page_id/offset</code>值。 它会确定正确的子节点（如果<code>node</code>是内部节点），并递归调用自身。 如果插入导致<code>node</code>溢出，它会触发节点分裂，并向上级调用返回分裂信息。 HOW:</p><ol type="1">
+<li><b>查找插入位置</b>: 在当前<code>node</code>中查找<code>key</code>的正确插入位置。</li>
+<li><b>递归向下</b>: 如果<code>node</code>是内部节点，递归调用<code>Insert</code>方法处理子节点。 如果<code>node</code>是叶子节点，则直接插入键值对。</li>
+<li><b>处理分裂</b>: 如果递归调用返回了分裂信息（即子节点发生了分裂），<code>node</code>需要处理 中间键的插入和新子节点指针的添加。如果<code>node</code>因此也发生分裂，则向上返回分裂信息。</li>
+<li><b>根节点分裂</b>: 如果根节点发生分裂，树的高度会增加，<code>root_page_id_</code>需要更新。</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>待插入的键。 </td></tr>
+    <tr><td class="paramname">page_id</td><td>键对应的数据页面ID。 </td></tr>
+    <tr><td class="paramname">offset</td><td>键对应的数据在页面中的偏移量。 </td></tr>
+    <tr><td class="paramname">node</td><td>当前操作的B+树节点。 </td></tr>
+    <tr><td class="paramname">recursion_depth</td><td>当前递归的深度，用于调试或特定优化。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>插入操作是否成功。 </dd></dl>
 
 </div>
 </div>
@@ -2672,6 +2745,12 @@ B+树通过合并操作保持空间利用率 </dd>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>WHAT: LoadMetadata - 加载B+树索引元数据</p>
+<p>WHY: B+树索引是持久化的数据结构。当数据库启动或索引被打开时，需要从持久化存储中 加载其关键元数据（例如，根节点的<code>page_id</code>、它索引的表名和列名），以便<code><a class="el" href="classsqlcc_1_1BPlusTreeIndex.html" title="B+树索引类">BPlusTreeIndex</a></code> 对象能够正确地初始化和操作。 WHAT: 此方法负责从磁盘上的某个位置（例如，系统目录表或一个专用的索引元数据页面） 读取B+树索引的<code>root_page_id_</code>、<code>table_name_</code>和<code>column_name_</code>。 HOW:</p><ol type="1">
+<li><b>确定元数据位置</b>: 元数据可能存储在<code><a class="el" href="classsqlcc_1_1SystemDatabase.html" title="系统数据库管理类">SystemDatabase</a></code>的<code>sys_indexes</code>表中， 或者在一个由<code>storage_engine_</code>管理的特殊页面中。</li>
+<li><b>读取元数据</b>: 通过调用<code><a class="el" href="classsqlcc_1_1StorageEngine.html" title="存储引擎类，封装磁盘管理和缓冲池功能">StorageEngine</a></code>的接口（或<code><a class="el" href="classsqlcc_1_1SystemDatabase.html" title="系统数据库管理类">SystemDatabase</a></code>的接口） 来读取这些元数据字段的值。</li>
+<li><b>初始化成员变量</b>: 将读取到的值赋给<code>root_page_id_</code>、<code>table_name_</code>和<code>column_name_</code>成员变量。 如果这是第一次创建索引，元数据可能不存在，此时需要初始化为默认值。 </li>
+</ol>
 
 </div>
 </div>
@@ -2750,6 +2829,20 @@ B+树通过合并操作保持空间利用率 </dd>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>WHAT: LoadNode - 从磁盘加载B+树节点</p>
+<p>WHY: B+树节点通常存储在磁盘页面中。为了操作这些节点（例如，在插入/删除/查找过程中）， 它们必须从<code><a class="el" href="classsqlcc_1_1StorageEngine.html" title="存储引擎类，封装磁盘管理和缓冲池功能">StorageEngine</a></code>中加载到内存。此方法封装了从给定<code>page_id</code>获取页面， 并将页面数据解释为正确的B+树节点类型（内部节点或叶子节点）的逻辑。 HOW:</p><ol type="1">
+<li><b>获取页面</b>: 调用<code>storage_engine_-&gt;GetPage(page_id)</code>从存储引擎获取指定<code>page_id</code>的页面。</li>
+<li><b>验证页面</b>: 检查获取到的页面是否有效。</li>
+<li><b>判断节点类型</b>: 根据页面头部（例如，通过<code>Page::GetPageType()</code>或页面中存储的元数据） 判断该页面是B+树的内部节点还是叶子节点。</li>
+<li><b>构建节点对象</b>: 根据节点类型，使用页面数据构造并返回一个<code>std::unique_ptr&lt;<a class="el" href="classsqlcc_1_1BPlusTreeNode.html" title="B+树节点基类">BPlusTreeNode</a>&gt;</code> 指向正确的具体子类实例（<code>InternalNode</code>或<code>LeafNode</code>）。</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page_id</td><td>待加载节点的页面ID。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>包含B+树节点的<code>std::unique_ptr</code>。 </dd></dl>
 
 </div>
 </div>
@@ -3031,6 +3124,22 @@ B+树通过合并操作保持空间利用率 </dd>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>WHAT: Lookup (Recursive) - B+树递归查找操作</p>
+<p>WHY: B+树的核心功能之一是高效的单键查找。此递归方法负责在给定节点及其子树中查找指定的键， 并返回键值对所在的页面ID和偏移量。它支持从根节点到叶子节点的快速导航。 WHAT: 此方法负责在给定的<code>node</code>中查找<code>key</code>。 它会确定正确的子节点（如果<code>node</code>是内部节点），并递归调用自身，直到到达包含<code>key</code>的叶子节点。 HOW:</p><ol type="1">
+<li><b>在节点中查找</b>: 在当前<code>node</code>中执行二分查找，确定<code>key</code>可能存在的子节点范围（对于内部节点） 或<code>key</code>在当前节点中的位置（对于叶子节点）。</li>
+<li><b>递归向下</b>: 如果<code>node</code>是内部节点，递归调用<code>Lookup</code>方法处理正确的子节点。</li>
+<li><b>返回结果</b>: 如果<code>node</code>是叶子节点，且找到匹配的<code>key</code>，则设置<code>page_id</code>和<code>offset</code>输出参数，并返回<code>true</code>。 如果未找到，则返回<code>false</code>。</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>待查找的键。 </td></tr>
+    <tr><td class="paramname">page_id</td><td>输出参数：如果找到，返回键值对所在的页面ID。 </td></tr>
+    <tr><td class="paramname">offset</td><td>输出参数：如果找到，返回键值对在页面中的偏移量。 </td></tr>
+    <tr><td class="paramname">node</td><td>当前操作的B+树节点。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>如果找到键则返回<code>true</code>，否则返回<code>false</code>。 </dd></dl>
 
 </div>
 </div>
@@ -3109,6 +3218,15 @@ B+树通过合并操作保持空间利用率 </dd>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>WHAT: NeedMerge - 检查B+树节点是否需要合并或重新分配</p>
+<p>WHY: 在B+树的删除操作中，如果一个节点的键数量过少（低于其最小填充因子）， 就会发生“下溢”（underflow）。下溢会导致树的存储效率下降和高度增加的风险。 此函数用于判断一个节点是否处于这种下溢状态，从而触发后续的合并或重新分配操作， 以维护树的平衡性和性能。 WHAT: 此方法负责检查给定的B+树节点的键数量是否低于最小阈值。 HOW: 比较节点的当前键数量与预定义的最小键数量（例如，<code>node-&gt;GetMinKeys()</code>）。 对于内部节点和叶子节点，最小键数量的计算规则可能略有不同（例如，通常是阶数m的一半）。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>待检查的B+树节点。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>如果节点下溢则返回<code>true</code>，否则返回<code>false</code>。 </dd></dl>
 
 </div>
 </div>
@@ -3351,6 +3469,23 @@ B+树通过合并操作保持空间利用率 </dd>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>WHAT: RangeLookup (Recursive) - B+树递归范围查找数据记录指针</p>
+<p>WHY: 与<code>SearchRange</code>类似，此方法也执行范围查询。但是，<code>RangeLookup</code>通常用于返回 实际数据记录的物理位置（<code>page_id</code>和<code>offset</code>），而不是<code><a class="el" href="structsqlcc_1_1IndexEntry.html" title="索引条目结构体">IndexEntry</a></code>对象（它可能包含键）。 这在需要直接访问数据页以检索完整记录的场景中非常有用。 WHAT: 此方法负责在给定的<code>node</code>中递归搜索<code>start_key</code>和<code>end_key</code>之间的所有数据记录指针。 HOW:</p><ol type="1">
+<li><b>查找起始位置</b>: 在当前<code>node</code>中查找<code>start_key</code>的起始位置。</li>
+<li><b>递归向下</b>: 如果<code>node</code>是内部节点，递归调用<code>RangeLookup</code>方法处理正确的子节点，直到到达叶子节点。</li>
+<li><b>遍历叶子链表</b>: 从找到的叶子节点开始，沿叶子节点的双向链表向右遍历。</li>
+<li><b>收集结果</b>: 收集所有键值在<code>[start_key, end_key]</code>范围内的<code>std::pair&lt;int32_t, size_t&gt;</code>。</li>
+<li><b>停止条件</b>: 当遇到超出<code>end_key</code>的键或到达叶子链表末尾时停止遍历。</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">start_key</td><td>范围的起始键。 </td></tr>
+    <tr><td class="paramname">end_key</td><td>范围的结束键。 </td></tr>
+    <tr><td class="paramname">node</td><td>当前操作的B+树节点。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>包含所有匹配数据记录指针的<code>std::vector&lt;std::pair&lt;int32_t, size_t&gt;&gt;</code>。 </dd></dl>
 
 </div>
 </div>
@@ -3426,6 +3561,12 @@ B+树通过合并操作保持空间利用率 </dd>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>WHAT: SaveMetadata - 保存B+树索引元数据</p>
+<p>WHY: B+树索引的关键元数据（例如，根节点的<code>page_id</code>，因为树结构变化根节点可能会变） 必须持久化到磁盘，以确保索引在数据库关闭和重启后能够被正确加载和使用。 如果不保存这些元数据，索引的状态将丢失。 WHAT: 此方法负责将<code><a class="el" href="classsqlcc_1_1BPlusTreeIndex.html" title="B+树索引类">BPlusTreeIndex</a></code>对象的<code>root_page_id_</code>、<code>table_name_</code>和<code>column_name_</code>等元数据 写入磁盘上的指定位置（例如，系统目录表或一个专用的索引元数据页面）。 HOW:</p><ol type="1">
+<li><b>确定元数据位置</b>: 与<code>LoadMetadata</code>对应，元数据将写入<code><a class="el" href="classsqlcc_1_1SystemDatabase.html" title="系统数据库管理类">SystemDatabase</a></code>的<code>sys_indexes</code>表， 或者由<code>storage_engine_</code>管理的特定页面。</li>
+<li><b>写入元数据</b>: 通过调用<code><a class="el" href="classsqlcc_1_1StorageEngine.html" title="存储引擎类，封装磁盘管理和缓冲池功能">StorageEngine</a></code>的接口（或<code><a class="el" href="classsqlcc_1_1SystemDatabase.html" title="系统数据库管理类">SystemDatabase</a></code>的接口） 来更新或插入这些元数据字段的值。</li>
+<li><b>持久化</b>: 确保这些元数据写入是持久的（例如，通过日志和刷盘机制）。 </li>
+</ol>
 
 </div>
 </div>
@@ -3504,6 +3645,17 @@ B+树通过合并操作保持空间利用率 </dd>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>WHAT: SaveNode - 将B+树节点写回磁盘</p>
+<p>WHY: 当B+树节点在内存中被修改后（例如，插入新键、删除旧键、节点分裂或合并）， 必须将这些更改持久化到磁盘，以确保数据的完整性和持久性。 WHAT: 此方法负责将一个已修改的B+树节点所关联的内存页面标记为脏（dirty）， 并指示<code><a class="el" href="classsqlcc_1_1StorageEngine.html" title="存储引擎类，封装磁盘管理和缓冲池功能">StorageEngine</a></code>将其内容写回磁盘。 HOW:</p><ol type="1">
+<li><b>标记脏页</b>: 调用<code>page-&gt;SetDirty(true)</code>将页面标记为已修改。</li>
+<li><b>写回磁盘</b>: <code><a class="el" href="classsqlcc_1_1StorageEngine.html" title="存储引擎类，封装磁盘管理和缓冲池功能">StorageEngine</a></code>的缓冲区管理器（Buffer Pool Manager）会周期性地 或在特定事件（例如，LRU替换策略驱逐页面、检查点）时，将所有脏页写回磁盘。 此方法本身通常不直接执行物理I/O，而是委托给<code><a class="el" href="classsqlcc_1_1StorageEngine.html" title="存储引擎类，封装磁盘管理和缓冲池功能">StorageEngine</a></code>的策略。</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">page</td><td>待保存节点的内存页面。 </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -3743,6 +3895,20 @@ B+树通过合并操作保持空间利用率 </dd>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>WHAT: Search (Recursive) - B+树递归搜索操作</p>
+<p>WHY: 在某些场景下，我们可能需要查找所有与给定键匹配的索引条目。 虽然B+树内部节点通常只存储唯一键用于导航，但叶子节点可能指向多个数据记录（例如，如果索引允许重复键， 或者键实际上是组合键的一部分，但搜索只提供了部分键）。此方法用于收集所有匹配的<code><a class="el" href="structsqlcc_1_1IndexEntry.html" title="索引条目结构体">IndexEntry</a></code>。 WHAT: 此方法负责在给定的<code>node</code>中递归搜索<code>key</code>，并返回一个包含所有匹配<code><a class="el" href="structsqlcc_1_1IndexEntry.html" title="索引条目结构体">IndexEntry</a></code>的向量。 HOW:</p><ol type="1">
+<li><b>在节点中搜索</b>: 在当前<code>node</code>中查找<code>key</code>。</li>
+<li><b>递归向下</b>: 如果<code>node</code>是内部节点，递归调用<code>Search</code>方法处理正确的子节点。</li>
+<li><b>收集结果</b>: 如果<code>node</code>是叶子节点，则收集所有与<code>key</code>匹配的<code><a class="el" href="structsqlcc_1_1IndexEntry.html" title="索引条目结构体">IndexEntry</a></code>。</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>待搜索的键。 </td></tr>
+    <tr><td class="paramname">node</td><td>当前操作的B+树节点。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>包含所有匹配<code><a class="el" href="structsqlcc_1_1IndexEntry.html" title="索引条目结构体">IndexEntry</a></code>的<code>std::vector</code>。 </dd></dl>
 
 </div>
 </div>
@@ -4092,6 +4258,23 @@ B+树通过合并操作保持空间利用率 </dd>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>WHAT: SearchRange (Recursive) - B+树递归范围搜索操作</p>
+<p>WHY: 范围查询是数据库索引最常用的功能之一。B+树的叶子节点通过双向链表连接， 使得一旦找到范围的起始点，就可以非常高效地遍历所有位于指定范围内的键。 此递归方法用于从根节点开始，找到范围的起始叶子节点，然后沿叶子节点链表收集所有匹配的条目。 WHAT: 此方法负责在给定的<code>node</code>中递归搜索<code>lower_bound</code>和<code>upper_bound</code>之间的所有<code><a class="el" href="structsqlcc_1_1IndexEntry.html" title="索引条目结构体">IndexEntry</a></code>。 HOW:</p><ol type="1">
+<li><b>查找起始位置</b>: 在当前<code>node</code>中查找<code>lower_bound</code>的起始位置。</li>
+<li><b>递归向下</b>: 如果<code>node</code>是内部节点，递归调用<code>SearchRange</code>方法处理正确的子节点，直到到达叶子节点。</li>
+<li><b>遍历叶子链表</b>: 从找到的叶子节点开始，沿叶子节点的双向链表向右遍历。</li>
+<li><b>收集结果</b>: 收集所有键值在<code>[lower_bound, upper_bound]</code>范围内的<code><a class="el" href="structsqlcc_1_1IndexEntry.html" title="索引条目结构体">IndexEntry</a></code>。</li>
+<li><b>停止条件</b>: 当遇到超出<code>upper_bound</code>的键或到达叶子链表末尾时停止遍历。</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lower_bound</td><td>范围的下界键。 </td></tr>
+    <tr><td class="paramname">upper_bound</td><td>范围的上界键。 </td></tr>
+    <tr><td class="paramname">node</td><td>当前操作的B+树节点。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>包含所有匹配<code><a class="el" href="structsqlcc_1_1IndexEntry.html" title="索引条目结构体">IndexEntry</a></code>的<code>std::vector</code>。 </dd></dl>
 
 </div>
 </div>

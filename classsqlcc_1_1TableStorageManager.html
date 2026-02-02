@@ -83,6 +83,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>表存储管理器 - 实现堆表（Heap Table）的物理组织与记录管理  
+ <a href="classsqlcc_1_1TableStorageManager.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="table__storage_8h_source.html">table_storage.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -92,6 +95,7 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:a4242d1898540f4f12379cce2d5a07547" id="r_a4242d1898540f4f12379cce2d5a07547"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TableStorageManager.html#a4242d1898540f4f12379cce2d5a07547">~TableStorageManager</a> ()</td></tr>
 <tr class="separator:a4242d1898540f4f12379cce2d5a07547"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b3276273c409a88443d58dbfa1fbdf8" id="r_a4b3276273c409a88443d58dbfa1fbdf8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TableStorageManager.html#a4b3276273c409a88443d58dbfa1fbdf8">CreateTable</a> (const std::string &amp;table_name, const std::vector&lt; <a class="el" href="structsqlcc_1_1TableColumn.html">TableColumn</a> &gt; &amp;columns)</td></tr>
+<tr class="memdesc:a4b3276273c409a88443d58dbfa1fbdf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建表存储  <br /></td></tr>
 <tr class="separator:a4b3276273c409a88443d58dbfa1fbdf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b4721f101f6fe4620dba1c1f6ef272f" id="r_a3b4721f101f6fe4620dba1c1f6ef272f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TableStorageManager.html#a3b4721f101f6fe4620dba1c1f6ef272f">DropTable</a> (const std::string &amp;table_name)</td></tr>
 <tr class="separator:a3b4721f101f6fe4620dba1c1f6ef272f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -100,10 +104,13 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:a3fb03637b19787f0387c963f0fb0ce3d" id="r_a3fb03637b19787f0387c963f0fb0ce3d"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1TableMetadata.html">TableMetadata</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TableStorageManager.html#a3fb03637b19787f0387c963f0fb0ce3d">GetTableMetadata</a> (const std::string &amp;table_name) const</td></tr>
 <tr class="separator:a3fb03637b19787f0387c963f0fb0ce3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa336373b519db2081bc1302f1195312" id="r_aaa336373b519db2081bc1302f1195312"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TableStorageManager.html#aaa336373b519db2081bc1302f1195312">InsertRecord</a> (const std::string &amp;table_name, const std::vector&lt; std::string &gt; &amp;values, int32_t &amp;page_id, size_t &amp;offset)</td></tr>
+<tr class="memdesc:aaa336373b519db2081bc1302f1195312"><td class="mdescLeft">&#160;</td><td class="mdescRight">插入新记录  <br /></td></tr>
 <tr class="separator:aaa336373b519db2081bc1302f1195312"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abfdc5e3fd132fbd1a199cdae95900098" id="r_abfdc5e3fd132fbd1a199cdae95900098"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TableStorageManager.html#abfdc5e3fd132fbd1a199cdae95900098">UpdateRecord</a> (const std::string &amp;table_name, int32_t page_id, size_t offset, const std::vector&lt; std::string &gt; &amp;new_values)</td></tr>
+<tr class="memdesc:abfdc5e3fd132fbd1a199cdae95900098"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新现有记录  <br /></td></tr>
 <tr class="separator:abfdc5e3fd132fbd1a199cdae95900098"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38dd32b189c5838e4f64596344c42d1f" id="r_a38dd32b189c5838e4f64596344c42d1f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TableStorageManager.html#a38dd32b189c5838e4f64596344c42d1f">DeleteRecord</a> (const std::string &amp;table_name, int32_t page_id, size_t offset)</td></tr>
+<tr class="memdesc:a38dd32b189c5838e4f64596344c42d1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">逻辑删除记录  <br /></td></tr>
 <tr class="separator:a38dd32b189c5838e4f64596344c42d1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a136161c574ca4b3688cdaf38179744" id="r_a4a136161c574ca4b3688cdaf38179744"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TableStorageManager.html#a4a136161c574ca4b3688cdaf38179744">GetRecord</a> (const std::string &amp;table_name, int32_t page_id, size_t offset) const</td></tr>
 <tr class="separator:a4a136161c574ca4b3688cdaf38179744"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,7 +161,17 @@ Private 属性</h2></td></tr>
 <tr class="memitem:aa81a1a04056143060ca7aca16aeb898b" id="r_aa81a1a04056143060ca7aca16aeb898b"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::shared_ptr&lt; <a class="el" href="structsqlcc_1_1TableMetadata.html">TableMetadata</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TableStorageManager.html#aa81a1a04056143060ca7aca16aeb898b">table_metadata_</a></td></tr>
 <tr class="separator:aa81a1a04056143060ca7aca16aeb898b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>表存储管理器 - 实现堆表（Heap Table）的物理组织与记录管理 </p>
+<p>WHY层 - 设计意图： 数据库需要将逻辑上的“行（Rows）”转换为物理上的“字节（Bytes）”。 <a class="el" href="classsqlcc_1_1TableStorageManager.html" title="表存储管理器 - 实现堆表（Heap Table）的物理组织与记录管理">TableStorageManager</a> 负责管理跨多个页面的记录存储，解决页面内空间分配（Slotted Pages）、 记录跨页（Spanning - 简化版暂不支持）以及删除记录后的空间回收问题。</p>
+<p>WHAT层 - 功能说明： 实现 CRUD 操作：InsertRecord, UpdateRecord, DeleteRecord, GetRecord。 支持全表扫描（ScanTable），返回所有活跃记录的物理位置（RID: PageID + Offset）。 管理表元数据（TableMetadata）和相关的 B+ 树索引。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>槽位管理：采用 Slotted <a class="el" href="classsqlcc_1_1Page.html" title="数据库页面类，表示一个8KB的定长页面">Page</a> 架构，页面头部维护槽数组，每个槽记录对应记录在页内的偏移量。</li>
+<li>顺序扫描：ScanTable 通过遍历页面的 NextPageID 链表并解析每页的槽数组实现。</li>
+<li>序列化：根据 <a class="el" href="structsqlcc_1_1TableMetadata.html">TableMetadata</a> 定义的 Schema，将字符串数组转换为紧凑的二进制表示。</li>
+<li>空间复用：DeleteRecord 仅标记 is_deleted 位，后续插入操作可重用这些空隙。 </li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="aa67e0071b4eda70f0e373ff2df729e2d" name="aa67e0071b4eda70f0e373ff2df729e2d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa67e0071b4eda70f0e373ff2df729e2d">&#9670;&#160;</a></span>TableStorageManager()</h2>
 
@@ -307,6 +324,13 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>创建表存储 </p>
+<p>WHY: 在存储引擎中建立表与列的映射关系，预估存储开销。 WHAT: 初始化 <a class="el" href="structsqlcc_1_1TableMetadata.html">TableMetadata</a> 对象并注册到内存。 HOW:</p><ol type="1">
+<li>遍历列定义，区分定长（INT, FLOAT）和变长（VARCHAR, TEXT）类型。</li>
+<li>预计算 record_size 开销（包含 RecordHeader）。</li>
+<li>建立列名到索引的快速查找表（column_index_map）。 </li>
+</ol>
+
 </div>
 </div>
 <a id="a38dd32b189c5838e4f64596344c42d1f" name="a38dd32b189c5838e4f64596344c42d1f"></a>
@@ -340,6 +364,13 @@ Private 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>逻辑删除记录 </p>
+<p>WHY: 移除指定物理位置的数据行。 WHAT: 在 <a class="el" href="structsqlcc_1_1RecordHeader.html">RecordHeader</a> 中设置删除位（Tombstone）。 HOW:</p><ol type="1">
+<li>FetchPage 定位。</li>
+<li>找到 slot 头部标记 is_deleted = true。</li>
+<li>将该空间链接至页内的 Free List，以便后续 Insert 重用。 </li>
+</ol>
 
 </div>
 </div>
@@ -707,6 +738,14 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>插入新记录 </p>
+<p>WHY: 表存储的核心接口，负责数据落地的“最后一公里”。 WHAT: 将逻辑字段值列表写入物理磁盘页面。 HOW:</p><ol type="1">
+<li><a class="el" href="structsqlcc_1_1Schema.html">Schema</a> 校验：通过 RecordValidator 验证数据类型和数量的一致性。</li>
+<li>页面寻址：调用 AllocateNewPage 寻找具有足够剩余空间的页面。</li>
+<li>序列化：将字符串数据转换为二进制流并拷贝至页面的 slot 对应偏移处。</li>
+<li>RID 生成：返回该记录成功插入后的 page_id 和 offset。 </li>
+</ol>
+
 </div>
 </div>
 <a id="a18d23fa1d10f893bed72c6cbfaa0c62a" name="a18d23fa1d10f893bed72c6cbfaa0c62a"></a>
@@ -892,6 +931,13 @@ Private 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>更新现有记录 </p>
+<p>WHY: 修改特定物理位置（RID）的数据。 WHAT: 将新值覆盖回原有页面。 HOW:</p><ol type="1">
+<li>定位页面：调用 FetchPage 将物理页载入内存。</li>
+<li>空间验证：若新记录大于旧记录且超过 slot 限制，可能需迁移（当前简化为就地更新）。</li>
+<li>标记脏页：更新成功后 UnpinPage(true) 确保后台写回。 </li>
+</ol>
 
 </div>
 </div>

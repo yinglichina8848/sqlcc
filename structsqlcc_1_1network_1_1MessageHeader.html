@@ -120,6 +120,13 @@ Public 属性</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>消息头结构 </p>
+<p>通用消息头结构 - 定义 SQLCC 内部协议的帧结构</p>
+<p>WHY层 - 设计意图： 网络传输的原始字节流是无界的（Stream-oriented）。为了能够从 TCP 流中准确拆分出完整的消息包， 必须定义一个固定格式的头部。魔数（Magic Number）用于过滤非法连接，长度字段用于界定包边界， 序列号则用于请求-响应配对及丢包检测。</p>
+<p>WHAT层 - 功能说明： magic: 协议识别码，验证数据源是否来自 SQLCC 客户端。 length: 指明紧随其后的 Payload 数据长度（不含头部本身）。 type: 消息功能分类（见 MessageType 枚举）。 flags: 位掩码，支持压缩、加密、分片等扩展特性。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>内存布局：使用 #pragma pack(push, 1) 强制 1 字节对齐，防止编译器插入 Padding 导致跨平台不兼容。</li>
+<li>校验逻辑：服务端读取首 4 字节并与常量匹配，若不符则立即断开连接以防御探测。 </li>
+</ol>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a677aaafe9c5761ccbedc65d88ff374dc" name="a677aaafe9c5761ccbedc65d88ff374dc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a677aaafe9c5761ccbedc65d88ff374dc">&#9670;&#160;</a></span>MessageHeader()</h2>

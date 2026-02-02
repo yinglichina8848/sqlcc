@@ -83,13 +83,16 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>SQL 解析器门面类 - 实现 SQL 脚本的完整生命周期解析  
+ <a href="classsqlcc_1_1sql__parser_1_1Parser.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="parser_8h_source.html">parser.h</a>&gt;</code></p>
 <div class="dynheader">
 类 sqlcc::sql_parser::Parser 继承关系图:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsqlcc_1_1sql__parser_1_1Parser__inherit__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1Parser_inherit__map" alt="Inheritance graph"/></div>
 <map name="asqlcc_1_1sql__parser_1_1Parser_inherit__map" id="asqlcc_1_1sql__parser_1_1Parser_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,93,144,133"/>
+<area shape="rect" title="SQL 解析器门面类 &#45; 实现 SQL 脚本的完整生命周期解析" alt="" coords="5,93,144,133"/>
 <area shape="rect" href="classsqlcc_1_1sql__parser_1_1ParserCore.html" title=" " alt="" coords="5,5,144,45"/>
 <area shape="poly" title=" " alt="" coords="77,59,77,93,72,93,72,59"/>
 </map>
@@ -99,7 +102,7 @@ sqlcc::sql_parser::Parser 的协作图:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsqlcc_1_1sql__parser_1_1Parser__coll__graph.png" border="0" usemap="#asqlcc_1_1sql__parser_1_1Parser_coll__map" alt="Collaboration graph"/></div>
 <map name="asqlcc_1_1sql__parser_1_1Parser_coll__map" id="asqlcc_1_1sql__parser_1_1Parser_coll__map">
-<area shape="rect" title=" " alt="" coords="733,40,872,80"/>
+<area shape="rect" title="SQL 解析器门面类 &#45; 实现 SQL 脚本的完整生命周期解析" alt="" coords="733,40,872,80"/>
 <area shape="rect" href="classsqlcc_1_1sql__parser_1_1ParserCore.html" title=" " alt="" coords="545,108,684,148"/>
 <area shape="poly" title=" " alt="" coords="682,101,746,78,747,83,684,106"/>
 <area shape="rect" href="classsqlcc_1_1sql__parser_1_1TokenStream.html" title="Token流管理类 &#45; 负责词法分析器的token流管理" alt="" coords="304,72,443,112"/>
@@ -237,7 +240,8 @@ Private 属性</h2></td></tr>
 <tr class="separator:a579ee5a5a9247b5cae7bc2ee5479e7e7 inherit pro_attribs_classsqlcc_1_1sql__parser_1_1ParserCore"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>WHY: 为什么选择递归下降解析器？</p>
+<div class="textblock"><p>SQL 解析器门面类 - 实现 SQL 脚本的完整生命周期解析 </p>
+<p>WHY: 为什么选择递归下降解析器？</p>
 <p>数据库系统需要处理复杂的SQL语法，支持递归嵌套结构（如子查询、嵌套表达式）。 递归下降解析器具有以下优势：</p><ol type="1">
 <li>代码结构清晰，每个非终结符对应一个函数</li>
 <li>错误恢复能力强，便于提供精确的错误信息</li>
@@ -252,7 +256,16 @@ Private 属性</h2></td></tr>
 <p>🛡️ 架构安全措施：</p><ul>
 <li>final关键字：防止继承，避免通过继承绕过架构防护</li>
 <li>多层防护：编译时、运行时、代码结构、构建系统四层防护</li>
-<li>强制ExpressionParser：所有表达式解析必须通过ExpressionParser统一处理 </li>
+<li><p class="startli">强制ExpressionParser：所有表达式解析必须通过ExpressionParser统一处理</p>
+<p class="startli">WHY层 - 设计意图： 一个 SQL 脚本可能包含多个不同类型的语句（DDL, DML 等）。 <a class="el" href="classsqlcc_1_1sql__parser_1_1Parser.html" title="SQL 解析器门面类 - 实现 SQL 脚本的完整生命周期解析">Parser</a> 作为主控制器，负责协调各个子解析器，并提供统一的错误同步机制， 确保即使脚本中某个语句有误，也能尝试继续解析后续语句，提升解析效率和容错性。</p>
+<p class="startli">WHAT层 - 功能说明： coordinators 词法分析 (<a class="el" href="classsqlcc_1_1sql__parser_1_1Lexer.html" title="SQL词法分析器类">Lexer</a>) 和标记流 (<a class="el" href="classsqlcc_1_1sql__parser_1_1TokenStream.html" title="Token流管理类 - 负责词法分析器的token流管理">TokenStream</a>) 的集成。 主入口 <a class="el" href="classsqlcc_1_1sql__parser_1_1Parser.html#ab788fb554022bdcab961d7baa2848894">parse()</a> 循环解析完整的 SQL 文本并返回 AST 语句列表。 <a class="el" href="classsqlcc_1_1sql__parser_1_1Parser.html#a114be7867b37cead44eee14330856de9">parseStatement()</a> 负责基于首标记（Lookahead）分发到对应的 DDL/DML/DCL/TCL 子解析器。 实现恐慌模式（Panic Mode）下的自动同步（Synchronize）。</p>
+<p class="startli">HOW层 - 实现机制：</p><ol type="1">
+<li>组合模式：持有 <a class="el" href="classsqlcc_1_1sql__parser_1_1ParserDDL.html">ParserDDL</a>, <a class="el" href="classsqlcc_1_1sql__parser_1_1ParserDML.html">ParserDML</a> 等专项解析器的 unique_ptr。</li>
+<li>递归下降：按照 SQL 文法从高层语句向下递归。</li>
+<li>错误同步：initializeSyncTokens 定义了语句边界标记（如分号或关键字），同步逻辑跳过错误 <a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html" title="Token类">Token</a> 直至这些安全点。</li>
+<li>PIMPL 风格：核心逻辑委托给 <a class="el" href="classsqlcc_1_1sql__parser_1_1ParserCore.html">ParserCore</a> 基类和子解析器实现。 </li>
+</ol>
+</li>
 </ul>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a8794267776af0467450e3fef59d229a7" name="a8794267776af0467450e3fef59d229a7"></a>

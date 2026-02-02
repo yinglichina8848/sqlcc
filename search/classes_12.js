@@ -25,7 +25,7 @@ var searchData=
   ['smartconfigmanager_22',['SmartConfigManager',['../classsqlcc_1_1SmartConfigManager.html',1,'sqlcc']]],
   ['smartindexcache_23',['smartindexcache',['../classsqlcc_1_1SmartIndexCache.html',1,'sqlcc::SmartIndexCache'],['../classsqlcc_1_1storage__engine_1_1index__manager_1_1SmartIndexCache.html',1,'sqlcc::storage_engine::index_manager::SmartIndexCache']]],
   ['smartindexfactory_24',['smartindexfactory',['../classsqlcc_1_1SmartIndexFactory.html',1,'sqlcc::SmartIndexFactory'],['../classsqlcc_1_1storage__engine_1_1index__manager_1_1SmartIndexFactory.html',1,'sqlcc::storage_engine::index_manager::SmartIndexFactory']]],
-  ['smartptrlifetimemanager_25',['SmartPtrLifetimeManager',['../classsqlcc_1_1SmartPtrLifetimeManager.html',1,'sqlcc']]],
+  ['smartptrlifetimemanager_25',['smartptrlifetimemanager',['../classsqlcc_1_1SmartPtrLifetimeManager.html',1,'sqlcc::SmartPtrLifetimeManager'],['../classsqlcc_1_1storage__engine_1_1index__manager_1_1SmartPtrLifetimeManager.html',1,'sqlcc::storage_engine::index_manager::SmartPtrLifetimeManager']]],
   ['snapshotmetadata_26',['SnapshotMetadata',['../structsqlcc_1_1ConfigSnapshot_1_1SnapshotMetadata.html',1,'sqlcc::ConfigSnapshot']]],
   ['sourcelocation_27',['SourceLocation',['../structsqlcc_1_1sql__parser_1_1ast_1_1SourceLocation.html',1,'sqlcc::sql_parser::ast']]],
   ['spacestats_28',['SpaceStats',['../structsqlcc_1_1DiskSpaceManager_1_1SpaceStats.html',1,'sqlcc::DiskSpaceManager']]],

@@ -82,6 +82,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>并发访问控制验证器 - 确保单条记录的操作符合事务隔离级别和锁定规则  
+ <a href="classsqlcc_1_1ConcurrentAccessControlValidator.html#details">更多...</a></p>
+
 <p><code>#include &lt;<a class="el" href="storage_2record__boundary__validator_8h_source.html">record_boundary_validator.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -126,7 +129,16 @@ Private 属性</h2></td></tr>
 <tr class="memitem:aea90db3e96117456ab09107b05deb4f2" id="r_aea90db3e96117456ab09107b05deb4f2"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1ConcurrentAccessControlValidator.html#aea90db3e96117456ab09107b05deb4f2">validator_mutex_</a></td></tr>
 <tr class="separator:aea90db3e96117456ab09107b05deb4f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">构造及析构函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>并发访问控制验证器 - 确保单条记录的操作符合事务隔离级别和锁定规则 </p>
+<p>WHY层 - 设计意图： 在多用户并发环境下，多个事务可能同时竞争同一行数据。 该验证器作为防护层，确保读写操作在当前事务的上下文是安全的。</p>
+<p>WHAT层 - 功能说明： 验证事务的隔离级别（如 Read Committed vs Serializable）。 检查当前记录是否存在写锁冲突。 执行 MVCC 版本可见性检查。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>依赖 <a class="el" href="classsqlcc_1_1TransactionManager.html" title="事务管理器类 - SQLCC数据库系统的ACID属性实现核心">TransactionManager</a> 提供的全局事务状态。</li>
+<li>查询锁定状态：检查 record_id 是否被其他事务独占。</li>
+<li>版本对比：对于乐观锁或 MVCC，比较 expected_version 与记录头部的版本号。 </li>
+</ol>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="ae8f7857c3e74113b57b4012eec896708" name="ae8f7857c3e74113b57b4012eec896708"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae8f7857c3e74113b57b4012eec896708">&#9670;&#160;</a></span>ConcurrentAccessControlValidator() <span class="overload">[1/2]</span></h2>
 

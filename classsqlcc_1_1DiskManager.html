@@ -84,7 +84,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>磁盘管理器类  
+<p>磁盘管理器 - 实现数据库文件与物理磁盘之间的底层 I/O 通信  
  <a href="classsqlcc_1_1DiskManager.html#details">更多...</a></p>
 
 <p><code>#include &lt;<a class="el" href="storage_2disk__manager_8h_source.html">disk_manager.h</a>&gt;</code></p>
@@ -93,7 +93,7 @@ sqlcc::DiskManager 的协作图:</div>
 <div class="dyncontent">
 <div class="center"><img src="classsqlcc_1_1DiskManager__coll__graph.png" border="0" usemap="#asqlcc_1_1DiskManager_coll__map" alt="Collaboration graph"/></div>
 <map name="asqlcc_1_1DiskManager_coll__map" id="asqlcc_1_1DiskManager_coll__map">
-<area shape="rect" title="磁盘管理器类" alt="" coords="87,93,236,119"/>
+<area shape="rect" title="磁盘管理器 &#45; 实现数据库文件与物理磁盘之间的底层 I/O 通信" alt="" coords="87,93,236,119"/>
 <area shape="rect" href="structsqlcc_1_1DiskIOStats.html" title="磁盘I/O统计信息" alt="" coords="5,5,144,31"/>
 <area shape="poly" title=" " alt="" coords="98,38,151,91,147,95,94,42"/>
 <area shape="rect" href="classsqlcc_1_1ConfigManager.html" title=" " alt="" coords="169,5,330,31"/>
@@ -178,8 +178,15 @@ Private 属性</h2></td></tr>
 <tr class="separator:a34c40b40c26fccabc8c98aa4343497cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p>磁盘管理器类 </p>
-<p>负责数据库文件的磁盘I/O操作，包括页面读取、写入、分配和释放等功能。 提供线程安全的磁盘操作和I/O统计信息收集。 </p>
+<div class="textblock"><p>磁盘管理器 - 实现数据库文件与物理磁盘之间的底层 I/O 通信 </p>
+<p>WHY层 - 设计意图： 数据库是持久化系统。内存数据如果不写入磁盘，在断电或进程重启时将永久丢失。 <a class="el" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器 - 实现数据库文件与物理磁盘之间的底层 I/O 通信">DiskManager</a> 作为存储引擎的最底层组件，屏蔽了操作系统文件系统的复杂性， 提供了一种以“固定大小页面（8KB）”为单位的逻辑磁盘访问模型， 支持快速定位、空间分配和数据持久化保障。</p>
+<p>WHAT层 - 功能说明： 实现页面的物理读写（ReadPage, WritePage），映射 page_id 到文件的物理偏移量（Offset = page_id * PAGE_SIZE）。 管理数据库文件的增长与收缩（AllocatePage, DeallocatePage）。 提供异步预读支持（PrefetchPage）以优化顺序扫描性能。 支持强制落盘（Sync/fsync）确保事务的持久性（Durability）。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>文件指针操作：使用 std::fstream 并配合 seekp/seekg 实现随机访问。</li>
+<li>空间分配：维护一个简单的 Atomic 计数器（next_page_id_）和空闲列表（free_pages_）实现 O(1) 分配。</li>
+<li>线程安全：使用 recursive_timed_mutex 保护文件流指针，防止并发读写导致的数据竞争。</li>
+<li>错误容忍：集成了模拟故障机制（simulate_failure_），便于在测试环境下验证系统在磁盘损坏时的恢复能力。 </li>
+</ol>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a63a61d43379bc12a46574e981fd3b3d0" name="a63a61d43379bc12a46574e981fd3b3d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a63a61d43379bc12a46574e981fd3b3d0">&#9670;&#160;</a></span>DiskManager()</h2>

@@ -305,6 +305,7 @@ Private 属性</h2></td></tr>
 </div><div class="memdoc">
 
 <p>删除页面 </p>
+<p>物理删除页面</p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
@@ -312,7 +313,8 @@ Private 属性</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>操作是否成功</dd></dl>
-<p>Why: 当数据不再需要时，需要释放页面空间，例如删除记录或索引 What: DeletePage方法从缓冲池和磁盘中删除指定页面 How: 调用缓冲池的DeletePage方法，由缓冲池协调与磁盘管理器的交互 </p>
+<p>Why: 当数据不再需要时，需要释放页面空间，例如删除记录或索引 What: DeletePage方法从缓冲池和磁盘中删除指定页面 How: 调用缓冲池的DeletePage方法，由缓冲池协调与磁盘管理器的交互</p>
+<p>WHY: 当表被 DROP 或索引被移除时，需要回收磁盘空间。 WHAT: 从缓冲池和磁盘文件中同时移除指定页面。 HOW: 释放 ID 至 <a class="el" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器 - 实现数据库文件与物理磁盘之间的底层 I/O 通信">DiskManager</a> 的空闲列表，并在缓冲池中标记该槽位为可用。 </p>
 
 </div>
 </div>
@@ -333,6 +335,7 @@ Private 属性</h2></td></tr>
 </div><div class="memdoc">
 
 <p>获取页面 </p>
+<p>获取指定页面</p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
@@ -340,7 +343,12 @@ Private 属性</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>页面智能指针，如果失败返回nullptr</dd></dl>
-<p>Why: 需要访问存储在磁盘上的页面数据，例如查询记录或更新数据 What: FetchPage方法根据页面ID获取页面对象，如果页面不在内存中则从磁盘加载 How: 通过缓冲池获取页面，如果页面不在内存中则通过磁盘管理器从磁盘加载 </p>
+<p>Why: 需要访问存储在磁盘上的页面数据，例如查询记录或更新数据 What: FetchPage方法根据页面ID获取页面对象，如果页面不在内存中则从磁盘加载 How: 通过缓冲池获取页面，如果页面不在内存中则通过磁盘管理器从磁盘加载</p>
+<p>WHY: 上层组件（如 B+ 树或记录管理器）需要访问磁盘上的特定数据块。 WHAT: 根据 page_id 返回对应的页面对象。如果页面不在内存，则触发磁盘 I/O。 HOW:</p><ol type="1">
+<li>检查缓冲池缓存。</li>
+<li>若命中，直接返回内存地址。</li>
+<li>若未命中，通过 <a class="el" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器 - 实现数据库文件与物理磁盘之间的底层 I/O 通信">DiskManager</a> 读取物理文件，并应用页面替换策略（如 LRU）载入。 </li>
+</ol>
 
 </div>
 </div>
@@ -360,7 +368,9 @@ Private 属性</h2></td></tr>
 </div><div class="memdoc">
 
 <p>刷新所有页面到磁盘 </p>
-<p>Why: 在系统关闭或检查点时，需要将所有修改过的页面写入磁盘，保证数据持久性 What: FlushAllPages方法将缓冲池中所有脏页写入磁盘 How: 调用缓冲池的FlushAllPages方法，由缓冲池协调与磁盘管理器的交互 </p>
+<p>全量刷盘</p>
+<p>Why: 在系统关闭或检查点时，需要将所有修改过的页面写入磁盘，保证数据持久性 What: FlushAllPages方法将缓冲池中所有脏页写入磁盘 How: 调用缓冲池的FlushAllPages方法，由缓冲池协调与磁盘管理器的交互</p>
+<p>WHY: 在系统正常关闭、执行检查点（Checkpoint）或事务提交时，需确保所有修改落地。 WHAT: 遍历缓冲池中所有的脏页并一次性同步到磁盘。 HOW: 循环调用各分片的同步逻辑，利用磁盘的顺序写入特性提升效率。 </p>
 
 </div>
 </div>
@@ -388,7 +398,8 @@ Private 属性</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>操作是否成功</dd></dl>
-<p>Why: 需要将修改后的页面数据持久化到磁盘，保证数据的持久性和一致性 What: FlushPage方法将指定页面的数据写入磁盘文件 How: 调用缓冲池的FlushPage方法，由缓冲池协调与磁盘管理器的交互 </p>
+<p>Why: 需要将修改后的页面数据持久化到磁盘，保证数据的持久性和一致性 What: FlushPage方法将指定页面的数据写入磁盘文件 How: 调用缓冲池的FlushPage方法，由缓冲池协调与磁盘管理器的交互</p>
+<p>WHY: 确保脏页（Dirty Pages）在内存中的修改被持久化，满足 ACID 的持久性要求。 WHAT: 强制将指定 page_id 的内容写入磁盘文件。 HOW: 委托磁盘管理器执行物理 Write 操作，并重置缓冲池中的脏标志。 </p>
 
 </div>
 </div>
@@ -579,7 +590,12 @@ Private 属性</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>页面智能指针，如果失败返回nullptr</dd></dl>
-<p>Why: 数据库需要新的存储空间来存储数据，例如插入新记录或创建索引 What: NewPage方法在数据库中分配一个新的页面，返回指向该页面的智能指针 How: 通过磁盘管理器分配新的页面ID，通过缓冲池创建页面对象，将页面标记为脏页 </p>
+<p>Why: 数据库需要新的存储空间来存储数据，例如插入新记录或创建索引 What: NewPage方法在数据库中分配一个新的页面，返回指向该页面的智能指针 How: 通过磁盘管理器分配新的页面ID，通过缓冲池创建页面对象，将页面标记为脏页</p>
+<p>WHY: 数据库需要扩展物理存储空间以承纳新数据（如 INSERT 操作或索引分裂）。 WHAT: 在磁盘文件中预留 8KB 空间，并在内存缓冲池中同步创建一个活跃页面对象。 HOW:</p><ol type="1">
+<li>委托分片缓冲池（BufferPoolSharded）执行 NewPage 操作。</li>
+<li>缓冲池内部会通过 <a class="el" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器 - 实现数据库文件与物理磁盘之间的底层 I/O 通信">DiskManager</a> 分配一个新的 page_id。</li>
+<li>自动将该页面 Pin 在内存中，防止立即被回收。 </li>
+</ol>
 
 </div>
 </div>
@@ -639,6 +655,7 @@ Private 属性</h2></td></tr>
 </div><div class="memdoc">
 
 <p>取消固定页面 </p>
+<p>释放页面固定</p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">page_id</td><td>页面ID </td></tr>
@@ -647,7 +664,8 @@ Private 属性</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>操作是否成功</dd></dl>
-<p>Why: 当页面使用完毕后，需要通知缓冲池该页面可以被替换，同时标记页面是否被修改 What: UnpinPage方法减少页面的固定计数，如果页面被修改则标记为脏页 How: 调用缓冲池的UnpinPage方法，传递页面ID和脏页标记 </p>
+<p>Why: 当页面使用完毕后，需要通知缓冲池该页面可以被替换，同时标记页面是否被修改 What: UnpinPage方法减少页面的固定计数，如果页面被修改则标记为脏页 How: 调用缓冲池的UnpinPage方法，传递页面ID和脏页标记</p>
+<p>WHY: 页面访问完成后必须释放 Pin 状态，否则该页面将永远占据缓冲池空间，导致缓存失效。 WHAT: 减少页面的引用计数，并可选地标记其为“脏页”。 HOW: 调用缓冲池的 UnpinPage 接口，若 is_dirty 为 true，该页将在后续被写回磁盘。 </p>
 
 </div>
 </div>

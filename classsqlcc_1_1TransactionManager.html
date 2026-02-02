@@ -114,10 +114,10 @@ Public 成员函数</h2></td></tr>
 <tr class="memdesc:a6bc444d66f238d3722c05806e4608693"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the <a class="el" href="classsqlcc_1_1TransactionManager.html" title="事务管理器类 - SQLCC数据库系统的ACID属性实现核心">TransactionManager</a>. Cleans up any resources if necessary (e.g., stopping background threads).  <br /></td></tr>
 <tr class="separator:a6bc444d66f238d3722c05806e4608693"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05db25198754abcea8b19c81ae54fe99" id="r_a05db25198754abcea8b19c81ae54fe99"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a05db25198754abcea8b19c81ae54fe99">begin_transaction</a> (<a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5">IsolationLevel</a> isolation_level=<a class="el" href="namespacesqlcc.html#a91ca65c8871779ea0f361a427df0b8b5a51dd037c6fc783bfbbb79a401342750b">IsolationLevel::READ_COMMITTED</a>)</td></tr>
-<tr class="memdesc:a05db25198754abcea8b19c81ae54fe99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initiates a new transaction with the specified isolation level.  <br /></td></tr>
+<tr class="memdesc:a05db25198754abcea8b19c81ae54fe99"><td class="mdescLeft">&#160;</td><td class="mdescRight">启动新事务  <br /></td></tr>
 <tr class="separator:a05db25198754abcea8b19c81ae54fe99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb51a287c89b54b34e9d4fe00c74ddf4" id="r_adb51a287c89b54b34e9d4fe00c74ddf4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#adb51a287c89b54b34e9d4fe00c74ddf4">commit_transaction</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id)</td></tr>
-<tr class="memdesc:adb51a287c89b54b34e9d4fe00c74ddf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Commits an active transaction, making its changes permanent.  <br /></td></tr>
+<tr class="memdesc:adb51a287c89b54b34e9d4fe00c74ddf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">提交事务  <br /></td></tr>
 <tr class="separator:adb51a287c89b54b34e9d4fe00c74ddf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e48b65d6115edc02d54f1fb347c0b85" id="r_a8e48b65d6115edc02d54f1fb347c0b85"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1TransactionManager.html#a8e48b65d6115edc02d54f1fb347c0b85">rollback_transaction</a> (<a class="el" href="classsqlcc_1_1TransactionId.html">TransactionId</a> txn_id)</td></tr>
 <tr class="memdesc:a8e48b65d6115edc02d54f1fb347c0b85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rolls back an active transaction, undoing all its changes.  <br /></td></tr>
@@ -364,7 +364,14 @@ Private 属性</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Attempts to acquire a lock on a specified resource for a transaction. This is a simplified implementation of a lock manager. </p>
-<p>获取锁 </p><dl class="params"><dt>参数</dt><dd>
+<p>WHAT: acquire_lock - 申请资源锁</p>
+<p>WHY: 锁是实现事务隔离性（Isolation）和防止“更新丢失”等并发问题的核心工具。 HOW:</p><ol type="1">
+<li>查找 lock_table_ 确认资源当前锁定状态。</li>
+<li>执行兼容性检查（Compatibility Check）：如 S 锁可共存，X 锁需独占。</li>
+<li>支持锁升级（Upgrade）：允许将已持有的 S 锁提升为 X 锁。</li>
+<li>更新 wait_graph_：若需等待，记录事务间的依赖关系以供死锁检测。</li>
+</ol>
+<dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
     <tr><td class="paramname">resource</td><td>资源标识 </td></tr>
@@ -437,7 +444,7 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initiates a new transaction with the specified isolation level. </p>
+<p>启动新事务 </p>
 <p>开始新事务 </p><dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">isolation_level</td><td>隔离级别 </td></tr>
@@ -445,13 +452,12 @@ Private 属性</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>事务ID</dd></dl>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">isolation_level</td><td>The desired isolation level for the new transaction. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>The <code><a class="el" href="classsqlcc_1_1TransactionId.html" title="事务ID类型 - 唯一标识一个事务">TransactionId</a></code> of the newly created transaction. </dd></dl>
+<p>WHY: 开启一个新的原子操作单元，作为并发控制和故障恢复的上下文。 WHAT: 生成唯一 ID，初始化事务状态，并注册到全局管理表中。 HOW:</p><ol type="1">
+<li>获取全局管理器互斥锁 mutex_。</li>
+<li>调用 <a class="el" href="classsqlcc_1_1TransactionManager.html#adbe345c0242744f4192b0a69cc30875c" title="Generates and returns a new unique transaction ID. Uses an atomic operation to ensure thread-safe,...">next_transaction_id()</a> 获取单调递增的原子 ID。</li>
+<li>实例化 <a class="el" href="classsqlcc_1_1Transaction.html" title="事务信息结构体 - 事务元数据的完整描述">Transaction</a> 对象并设置 IsolationLevel。</li>
+<li>将其存入 transactions_ 哈希映射。 </li>
+</ol>
 
 </div>
 </div>
@@ -657,7 +663,7 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Commits an active transaction, making its changes permanent. </p>
+<p>提交事务 </p>
 <p>提交事务 </p><dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
@@ -665,13 +671,12 @@ Private 属性</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>返回</dt><dd>是否成功</dd></dl>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">txn_id</td><td>The ID of the transaction to commit. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>True if the transaction was successfully committed, false otherwise. </dd></dl>
+<p>WHY: 将事务在内存中的修改正式生效，并持久化到磁盘，确保 ACID 的 Durable 特性。 WHAT: 校验状态，触发日志刷盘，并释放该事务持有的所有锁。 HOW:</p><ol type="1">
+<li>查找 transactions_ 表确认事务存在且处于 ACTIVE 状态。</li>
+<li>将状态变更为 COMMITTED。</li>
+<li>调用 release_all_locks_internal 释放相关资源，唤醒等待者。</li>
+<li>从死锁检测图（wait_graph_）中移除对应节点。 </li>
+</ol>
 
 </div>
 </div>
@@ -738,13 +743,8 @@ Private 属性</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Detects deadlocks in the system using a wait-for graph. </p>
-<p>检测死锁 </p><dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>是否存在死锁</dd></dl>
+<p>WHAT: detect_deadlock - 死锁环路检测</p>
+<p>WHY: 当多个事务循环等待彼此持有的锁时，系统将陷入永久停滞。 HOW: 采用 DFS（深度优先搜索）算法扫描 wait_graph_，寻找有向环。</p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">txn_id</td><td>The ID of the transaction that initiated the deadlock detection (can be any active transaction). </td></tr>
@@ -1045,10 +1045,10 @@ A unique <code><a class="el" href="classsqlcc_1_1TransactionId.html" title="事�
 </div><div class="memdoc">
 
 <p>Releases a specific lock held by a transaction on a resource. </p>
-<p>释放锁 </p><dl class="params"><dt>参数</dt><dd>
+<p>WHAT: release_lock - 显式释放锁</p>
+<p>WHY: 允许非两阶段锁（如短期锁）或在特定优化场景下提前释放资源。 HOW: 从映射中移除 LockEntry，并唤醒处于该资源等待队列中的事务。</p>
+<dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">txn_id</td><td>事务ID </td></tr>
-    <tr><td class="paramname">resource</td><td>资源标识</td></tr>
     <tr><td class="paramname">txn_id</td><td>The ID of the transaction releasing the lock. </td></tr>
     <tr><td class="paramname">resource</td><td>The identifier of the resource whose lock is to be released. </td></tr>
   </table>

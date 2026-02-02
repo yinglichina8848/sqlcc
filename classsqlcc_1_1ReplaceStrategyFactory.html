@@ -115,6 +115,13 @@ Public 类型</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>替换策略工厂 </p>
+<p>WHY层 - 设计意图： 系统需要支持多种缓存置换算法以应对不同的部署环境（如嵌入式 vs 云端高并发）。 <a class="el" href="classsqlcc_1_1ReplaceStrategyFactory.html" title="替换策略工厂">ReplaceStrategyFactory</a> 隔离了各种具体策略类的实例化逻辑， 使 BufferPool 能够根据配置文件动态加载所需的算法，实现了真正的“算法插件化”。</p>
+<p>WHAT层 - 功能说明： 根据 StrategyType 或 字符串名称 创建对应的具体策略子类实例（std::unique_ptr）。 提供策略类型与人类可读名称之间的转换支持。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>简单工厂模式：CreateStrategy 方法内部使用 switch-case 结构分发实例化。</li>
+<li>配置映射：GetStrategyType 实现了不区分大小写的字符串匹配逻辑（如 "lru" -&gt; StrategyType::LRU）。</li>
+<li>零状态接口：所有方法均为 static，作为纯工具类提供服务。 </li>
+</ol>
 </div><h2 class="groupheader">成员枚举类型说明</h2>
 <a id="aed3e2e345ce53dba81fb926ad4579ed1" name="aed3e2e345ce53dba81fb926ad4579ed1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aed3e2e345ce53dba81fb926ad4579ed1">&#9670;&#160;</a></span>StrategyType</h2>

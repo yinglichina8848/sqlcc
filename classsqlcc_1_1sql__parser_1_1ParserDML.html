@@ -124,6 +124,7 @@ Public 成员函数</h2></td></tr>
 <tr class="memdesc:a02cb8d81c01c6bfae39853a958f88a15"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
 <tr class="separator:a02cb8d81c01c6bfae39853a958f88a15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43fdf9f317f84d9e03ea999713c20a3c" id="r_a43fdf9f317f84d9e03ea999713c20a3c"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ParserDML.html#a43fdf9f317f84d9e03ea999713c20a3c">parseSelectStatement</a> ()</td></tr>
+<tr class="memdesc:a43fdf9f317f84d9e03ea999713c20a3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">解析 SELECT 语句  <br /></td></tr>
 <tr class="separator:a43fdf9f317f84d9e03ea999713c20a3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a780a538d7de74c2688b2c209bdaee99c" id="r_a780a538d7de74c2688b2c209bdaee99c"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html">ASTNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ParserDML.html#a780a538d7de74c2688b2c209bdaee99c">parseInsertStatement</a> ()</td></tr>
 <tr class="separator:a780a538d7de74c2688b2c209bdaee99c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,6 +133,7 @@ Public 成员函数</h2></td></tr>
 <tr class="memitem:a41088dc8cc8b6f59d5ca4aa96ccc67cc" id="r_a41088dc8cc8b6f59d5ca4aa96ccc67cc"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html">ASTNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ParserDML.html#a41088dc8cc8b6f59d5ca4aa96ccc67cc">parseDeleteStatement</a> ()</td></tr>
 <tr class="separator:a41088dc8cc8b6f59d5ca4aa96ccc67cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a015d0ea70566e2866431ed352a50d925" id="r_a015d0ea70566e2866431ed352a50d925"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1ASTNode.html">ASTNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ParserDML.html#a015d0ea70566e2866431ed352a50d925">parseCompositeSelectStatement</a> ()</td></tr>
+<tr class="memdesc:a015d0ea70566e2866431ed352a50d925"><td class="mdescLeft">&#160;</td><td class="mdescRight">解析复合 SELECT 语句（集合操作）  <br /></td></tr>
 <tr class="separator:a015d0ea70566e2866431ed352a50d925"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5080b9e60388e7b88edb4dfbe8184d65" id="r_a5080b9e60388e7b88edb4dfbe8184d65"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classsqlcc_1_1sql__parser_1_1WhereClause.html">WhereClause</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsqlcc_1_1sql__parser_1_1ParserDML.html#a5080b9e60388e7b88edb4dfbe8184d65">parseWhereClause</a> ()</td></tr>
 <tr class="separator:a5080b9e60388e7b88edb4dfbe8184d65"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -305,6 +307,13 @@ Private 属性</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>解析复合 SELECT 语句（集合操作） </p>
+<p>WHY: 支持 UNION, INTERSECT, EXCEPT 等集合运算以组合多个查询结果。 WHAT: 递归解析左侧 SELECT，识别操作符，解析右侧 SELECT，并构建集合操作树。 HOW:</p><ol type="1">
+<li>调用 parseSelectStatement 获取左子树。</li>
+<li>预读 <a class="el" href="classsqlcc_1_1sql__parser_1_1Token.html" title="Token类">Token</a> 检查是否存在集合操作关键字。</li>
+<li>若存在，则递归解析右子树并封装为 <a class="el" href="classsqlcc_1_1sql__parser_1_1SetOperation.html">SetOperation</a> 节点。 </li>
+</ol>
+
 </div>
 </div>
 <a id="a41088dc8cc8b6f59d5ca4aa96ccc67cc" name="a41088dc8cc8b6f59d5ca4aa96ccc67cc"></a>
@@ -440,6 +449,9 @@ Private 属性</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>解析 SELECT 语句 </p>
+<p>WHY: SELECT 是 DML 中最复杂的语句，涉及投影、过滤、连接等多个环节。 WHAT: 将标准的 SELECT 文本转换为 <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectStatement.html">SelectStatement</a> 对象。 HOW: 委托给内部的 <a class="el" href="classsqlcc_1_1sql__parser_1_1SelectParser.html" title="SELECT 语句专用解析器 - 实现复杂的 DML 查询语法分析">SelectParser</a> (select_parser_) 进行专业化子句解析。 </p>
 
 </div>
 </div>

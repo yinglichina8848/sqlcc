@@ -96,7 +96,7 @@ sqlcc::LazyWriter 的协作图:</div>
 <area shape="rect" title="延迟写入器类" alt="" coords="214,196,347,221"/>
 <area shape="rect" href="classsqlcc_1_1ConfigManager.html" title=" " alt="" coords="5,5,167,31"/>
 <area shape="poly" title=" " alt="" coords="79,44,70,88,71,111,80,132,107,159,141,179,178,192,214,200,213,205,176,197,139,184,104,163,76,135,66,112,64,88,74,43"/>
-<area shape="rect" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器类" alt="" coords="206,101,355,126"/>
+<area shape="rect" href="classsqlcc_1_1DiskManager.html" title="磁盘管理器 &#45; 实现数据库文件与物理磁盘之间的底层 I/O 通信" alt="" coords="206,101,355,126"/>
 <area shape="poly" title=" " alt="" coords="113,37,161,67,201,85,241,98,239,103,199,89,158,72,110,41"/>
 <area shape="poly" title=" " alt="" coords="283,140,283,196,278,196,278,140"/>
 <area shape="rect" href="structsqlcc_1_1DiskIOStats.html" title="磁盘I/O统计信息" alt="" coords="211,5,350,31"/>
@@ -245,7 +245,16 @@ Private 属性</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>延迟写入器类 </p>
-<p>负责将脏页异步批量写入磁盘，减少I/O等待时间 </p>
+<p>延迟写入器 - 实现缓冲池脏页的高效后台异步落盘</p>
+<p>负责将脏页异步批量写入磁盘，减少I/O等待时间</p>
+<p>WHY层 - 设计意图： 在 Buffer Pool 中，被修改的页面（脏页）不应立即同步写入磁盘，以免阻塞主流程。 <a class="el" href="classsqlcc_1_1LazyWriter.html" title="延迟写入器类">LazyWriter</a> 作为后台工作者，负责平滑处理这些脏页，防止因内存不足而导致的突发性大量 I/O 峰值， 同时利用磁盘的批量写入特性提高效率。</p>
+<p>WHAT层 - 功能说明： 维护脏页列表（dirty_pages_）和数据缓存。 根据时间（max_dirty_age_）和数量（max_dirty_pages_）阈值自动触发批量写入。 支持强制全量刷盘（ForceFlush）。 提供 I/O 统计信息用于系统调优。</p>
+<p>HOW层 - 实现机制：</p><ol type="1">
+<li>异步架构：使用独立的工作线程 LazyWriteWorker 执行写盘循环。</li>
+<li>排序优化：GetPagesToFlush 按照修改时间（Last Modified）排序，优先刷写最旧的页面（Checkpoint 推进）。</li>
+<li>锁隔离：分别使用 dirty_mutex_ 保护数据列表，使用 flush_mutex_ 协调线程同步。</li>
+<li>原子状态：运行状态（running_）和开关（enabled_）使用 std::atomic 实现无锁检查。 </li>
+</ol>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a524b9de05ae892c85dd1d5ef47a4f91a" name="a524b9de05ae892c85dd1d5ef47a4f91a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a524b9de05ae892c85dd1d5ef47a4f91a">&#9670;&#160;</a></span>LazyWriter() <span class="overload">[1/2]</span></h2>
