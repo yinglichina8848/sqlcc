@@ -1,9 +1,64 @@
 # SQLCC - SQL Cloud Computing Database System
 
-## 🚀 最新版本：v1.3.9 - Level 1 Foundation 完整单元测试完成 ✅
+## 🚀 最新版本：v1.3.10 - 规范驱动开发 (SDD) 体系 ⭐NEW
 
-**发布日期**: 2026-01-30  
+**发布日期**: 2026-02-02
 **版本状态**: ✅ 正式发布
+**版本亮点**: **规范驱动开发 (SDD) 体系** - C++ 开发规范、SDD 模板、TDD 最佳实践
+
+---
+
+## 🌟 规范驱动开发 (SDD) ⭐NEW
+
+### 什么是 SDD?
+
+**规范驱动开发 (Spec-Driven Development, SDD)** 是一种以规范文档为核心驱动力的软件开发方法论。
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         SDD 核心流程                                     │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│   spec-init      spec-requirements      spec-design      spec-tasks    │
+│       │                │                    │                │         │
+│       ▼                ▼                    ▼                ▼         │
+│   ┌─────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────┐    │
+│   │ 功能定义 │───▶│  EARS 格式  │───▶│  Mermaid    │───▶│ 任务    │    │
+│   │         │    │   需求规范   │    │   架构图    │    │ 分解    │    │
+│   └─────────┘    └─────────────┘    └─────────────┘    └─────────┘    │
+│                                                                    │    │
+│                                                                    ▼    │
+│                                                            ┌─────────────┐│
+│                                                            │  spec-impl  ││
+│                                                            │   代码实现   ││
+│                                                            └─────────────┘│
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### SDD 核心原则
+
+| 原则 | 说明 |
+|------|------|
+| **规范优先** | 任何代码变更都应从规范更新开始 |
+| **渐进式精化** | 从需求到设计到实现逐步细化 |
+| **规范即契约** | 规范是开发团队的共同语言 |
+| **文档即代码** | 规范使用 Markdown 编写，版本化管理 |
+
+### SDD 文档模板
+
+| 模板 | 用途 | 路径 |
+|------|------|------|
+| **需求模板** | EARS 格式需求规范 | `docs/sdd/templates/requirements_template.md` |
+| **设计模板** | Mermaid 架构图 | `docs/sdd/templates/design_template.md` |
+| **任务模板** | 带依赖的任务清单 | `docs/sdd/templates/tasks_template.md` |
+
+### SDD 实施指南
+
+- [**SDD 使用指南**](docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md) - 完整的 SDD 方法论和实施流程
+- [**C++ 开发规范**](docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md) - C++ 开发、测试与重构规范
+- [**BUILD 文件规范**](docs/ai_tools/BUILD_FILE_SPECIFICATION.md) - Bazel BUILD 编写规范（含头文件规范）
+- [**AI 开发规范**](docs/ai_tools/AI_DEVELOPMENT_GUIDELINES.md) - AI Agent 开发规范 (FIRST 原则)
 
 ---
 
@@ -54,6 +109,61 @@
 - **覆盖率工具**: LLVM 20 + Clang 20 覆盖率工具链
 - **编程语言**: C++20标准
 - **测试分类**: 单元测试、集成测试、网络测试、性能测试、SQL测试
+- **测试规范**: [C++ 开发规范 - TDD章节](docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md#测试驱动开发-tdd)
+
+### TDD 最佳实践
+
+SQLCC 采用 **测试驱动开发 (TDD)** 方法论：
+
+```
+Red (失败测试) → Green (最小实现) → Refactor (重构)
+
+✅ 每次提交都有测试覆盖
+✅ 测试先于代码编写
+✅ 规范定义测试用例
+```
+
+---
+
+## 📋 v1.3.10 版本变更摘要 ⭐NEW
+
+### 🎯 主要变更
+
+1. **规范驱动开发 (SDD) 体系**
+   - 创建 SDD 使用指南（规范驱动开发方法论）
+   - 创建 SDD 模板（需求、设计、任务）
+   - 集成 cc-sdd 最佳实践
+
+2. **C++ 开发规范**
+   - 创建完整的 C++ 开发、测试与重构规范
+   - 集成 TDD（测试驱动开发）最佳实践
+   - 集成 GoogleTest 框架使用规范
+
+3. **BUILD 文件规范增强**
+   - 集成头文件引用规范
+   - 完善 strip_include_prefix 配置说明
+   - 添加前向声明使用指南
+
+### 📊 变更统计
+
+- **新增文档**: 5个
+  - `docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md`
+  - `docs/sdd/templates/requirements_template.md`
+  - `docs/sdd/templates/design_template.md`
+  - `docs/sdd/templates/tasks_template.md`
+  - `docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md`
+
+- **更新文档**: 4个
+  - `docs/ai_tools/BUILD_FILE_SPECIFICATION.md`
+  - `docs/ai_tools/index.md`
+  - `docs/index.md`
+  - `README.md`
+
+### 🔗 详细文档
+
+- [SDD 使用指南](docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md)
+- [C++ 开发规范](docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md)
+- [版本文档目录](docs/project/versions/v1.3.10/)
 
 ---
 
@@ -74,19 +184,6 @@
    - 合并level2_core和level2_core_services测试目录
    - 每个模块有独立的BUILD.bazel文件
    - 头文件规范修复，严格遵守include规范
-
-### 📊 变更统计
-
-- **测试用例数量**: ~160个
-- **修复文件**: 15+个头文件
-- **删除文件**: 6个重复测试文件
-- **新增组件**: permission_validator测试组件
-
-### 🔗 详细文档
-
-- [完整Release Notes](docs/releases/RELEASE_NOTES_v1.3.9.md)
-- [详细ChangeLog](docs/releases/CHANGELOG_v1.3.9.md)
-- [版本文档目录](docs/project/versions/v1.3.9/)
 
 ---
 
@@ -189,9 +286,45 @@ bazel coverage //...
 
 - **Gitee仓库**: https://gitee.com/yinglichina/sqlcc
 - **项目文档**: [docs/index.md](docs/index.md)
-- **问题反馈**: 通过Gitee Issues提交
+- **SDD 规范**: [docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md](docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md)
+- **问题反馈**: 通过 Gitee Issues 提交
 
 ---
 
-*最后更新: 2026-01-30*  
-*版本: v1.3.9*
+## 📚 规范文档体系 ⭐NEW
+
+SQLCC 项目建立了完整的规范文档体系，指导开发、测试和重构：
+
+### 核心规范
+
+| 规范 | 文件 | 版本 | 说明 |
+|------|------|------|------|
+| **SDD 规范** | `docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md` | v1.3.10 | 规范驱动开发方法论 |
+| **C++ 开发规范** | `docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md` | v1.3.10 | C++ 开发、测试与重构 |
+| **AI 开发规范** | `docs/ai_tools/AI_DEVELOPMENT_GUIDELINES.md` | v1.3.9 | AI Agent 开发规范 |
+| **BUILD 规范** | `docs/ai_tools/BUILD_FILE_SPECIFICATION.md` | v1.3.10 | Bazel 构建规范 |
+| **测试规范** | `docs/ai_tools/improvement_guide.md` | v1.3.9 | 测试开发规范 |
+| **重构规范** | `docs/ai_tools/systematic_refactoring_knowledge_base.md` | v1.3.9 | 系统化重构方法 |
+
+### 规范使用流程
+
+```
+1. 新功能开发
+   ├── 需求定义 → docs/sdd/templates/requirements_template.md
+   ├── 架构设计 → docs/sdd/templates/design_template.md
+   └── 任务分解 → docs/sdd/templates/tasks_template.md
+
+2. 代码实现
+   ├── 遵循 C++ 开发规范
+   ├── 遵循 BUILD 文件规范
+   └── 遵循测试规范
+
+3. 重构优化
+   ├── 使用重构规范
+   └── 验证质量门禁
+```
+
+---
+
+*最后更新: 2026-02-02*
+*版本: v1.3.10*

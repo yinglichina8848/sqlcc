@@ -1,9 +1,8 @@
 #include "dml_execution_strategy.h"
 #include "core/execution_result.h"
-#include "core/permissions.h"
 #include "sql_parser/ast/ast_nodes.h"
 #include "core/core_database_manager.h"
-#include "execution_context.h"
+#include "../core/execution_context.h"
 #include <iostream>
 #include <memory>
 #include <sstream>
