@@ -600,6 +600,299 @@ storage_engine <--> core
 
 ---
 
+## 8. 详细源码分析报告 (v1.3.9.1 补充)
+
+### 8.1 Level 2 模块源码结构概览
+
+#### 8.1.1 Core 模块 (`src/core/`)
+
+| 文件 | 大小 | 主要类/功能 | 问题状态 |
+|------|------|------------|----------|
+| `core_database_manager.cpp` | 36KB | DatabaseManager | ⚠️ 需要验证 |
+| `user_manager.cpp` | 70KB | UserManager | ✅ 已修复 |
+| `permission_validator.cpp` | 17KB | PermissionValidator | ⚠️ 依赖验证 |
+| `sql_executor.cpp` | 3KB | SqlExecutor | ⚠️ 基础框架 |
+| `execution_context.cpp` | 16KB | ExecutionContext | ✅ 正常 |
+| `system_database.cpp` | 743B | SystemDatabase | ✅ 正常 |
+
+#### 8.1.2 Execution 模块 (`src/execution/`)
+
+| 文件 | 大小 | 主要类/功能 | 问题状态 |
+|------|------|------------|----------|
+| `dcl_execution_strategy.cpp` | 8KB | DCLExecutionStrategy | ⚠️ API混合 |
+| `ddl_execution_strategy.cpp` | 11KB | DDLExecutionStrategy | ⚠️ API混合 |
+| `dml_execution_strategy.cpp` | 12KB | DMLExecutionStrategy | ⚠️ API混合 |
+| `unified_executor.cpp` | 9KB | UnifiedExecutor | ⚠️ 需要完整实现 |
+| `subquery_executor.cpp` | 9KB | SubqueryExecutor | ⚠️ 需要验证 |
+| `set_operation_executor.cpp` | 17KB | SetOperationExecutor | ✅ 已修复 |
+| `recursive_query_executor.cpp` | 15KB | RecursiveQueryExecutor | ⚠️ 需要验证 |
+
+#### 8.1.3 Storage Engine Index Manager 模块
+
+| 文件 | 大小 | 主要类/功能 | 问题状态 |
+|------|------|------------|----------|
+| `enhanced_index_manager.cpp` | 7KB | EnhancedIndexManager | ⚠️ 命名空间 |
+| `index_manager.cpp` | 9KB | IndexManager | ⚠️ 构造函数 |
+| `smart_index_cache.cpp` | 10KB | SmartIndexCache | ✅ 已修复 |
+| `transactional_index_manager.cpp` | 5KB | TransactionalIndexManager | ✅ 已修复 |
+
+---
+
+### 8.2 问题详细分析
+
+#### 8.2.1 Include 路径问题 (问题 I-003: 64处 ast_nodes.h 引用)
+
+**现状**: 64个文件引用了错误的路径 `sql_parser/ast_nodes.h`
+
+**正确路径**: `sql_parser/ast/ast_nodes.h`
+
+**受影响的文件类别**:
+
+| 模块 | 引用数量 | 严重程度 |
+|------|----------|----------|
+| src/execution/ | 18 | 🔴 高 |
+| src/sql_executor/ | 12 | 🔴 高 |
+| src/core/ | 8 | 🟠 中 |
+| src/execution_ast/ | 5 | 🟠 中 |
+| 其他 | 21 | 🟡 低 |
+
+**具体修复方案**:
+```bash
+# 批量修复命令
+find /home/liying/sqlcc/src -name "*.cpp" -o -name "*.h" | xargs sed -i 's|#include "sql_parser/ast_nodes.h"|#include "sql_parser/ast/ast_nodes.h"|g'
+```
+
+---
+
+#### 8.2.2 API 不一致性 (问题 A-004: DDL/DML 策略混合使用新旧 API)
+
+**现状分析**:
+
+| 文件 | 新API使用 | 旧API使用 | 混合程度 |
+|------|----------|----------|----------|
+| `ddl_execution_strategy.cpp` | 6处 | 10处 | 🔴 高 |
+| `dml_execution_strategy.cpp` | 0处 | 8处 | 🔴 高 |
+| `dcl_execution_strategy.cpp` | 8处 | 0处 | ✅ 已修复 |
+
+**需要修改的代码位置**:
+
+```cpp
+// ddl_execution_strategy.cpp 第60-127行
+case sql_parser::StatementType::CREATE_TABLE_STATEMENT:  // 旧
+    // 应改为
+case sql_parser::Statement::Type::CREATE_TABLE:  // 新
+
+// dml_execution_strategy.cpp 第66-125行
+case sql_parser::StatementType::INSERT_STATEMENT:  // 旧
+    // 应改为
+case sql_parser::Statement::Type::INSERT:  // 新
+```
+
+---
+
+#### 8.2.3 命名空间嵌套问题 (问题 N-003)
+
+**当前命名空间结构**:
+
+```cpp
+// src/storage_engine/index_manager/transactional_index_manager.h
+namespace sqlcc {
+namespace storage_engine {
+namespace index_manager {
+    class TransactionalIndexManager { ... };  // 过度嵌套
+}}}
+```
+
+**建议的扁平化结构**:
+
+```cpp
+namespace sqlcc {
+    namespace storage {  // 扁平化
+        class IndexManager { ... };
+    }
+}
+```
+
+---
+
+#### 8.2.4 UnifiedExecutor 完整性问题
+
+**当前状态**:
+- ✅ `initializeStrategies()` - 已实现
+- ✅ `initializeOptimizer()` - 已实现
+- ⚠️ 构造函数不匹配 - 需要检查
+
+**检查结果**:
+```cpp
+// unified_executor.h
+UnifiedExecutor(std::shared_ptr<DatabaseManager> db_manager,
+                std::shared_ptr<UserManager> user_manager,
+                std::shared_ptr<SystemDatabase> system_db);
+
+// unified_executor.cpp
+UnifiedExecutor::UnifiedExecutor(...) { ... }
+```
+
+**状态**: ✅ 基本完整，需要进一步验证
+
+---
+
+### 8.3 重构 TODO 清单 (详细版)
+
+#### Phase 1: 阻塞性问题修复 (P0)
+
+| 任务ID | 任务描述 | 文件数量 | 优先级 | 预估工时 | 验收标准 |
+|--------|----------|----------|--------|----------|----------|
+| P0-001 | 修复 64 处 `ast_nodes.h` 引用路径 | 64 | 🔴 阻塞 | 2h | `bazel build //src/...` 无相关错误 |
+| P0-002 | 统一 DDLExecutionStrategy API | 1 | 🔴 阻塞 | 4h | 所有 switch 语句使用 `getType()` |
+| P0-003 | 统一 DMLExecutionStrategy API | 1 | 🔴 阻塞 | 4h | 所有 switch 语句使用 `getType()` |
+| P0-004 | 验证 storage_engine 构建 | 1 | 🔴 阻塞 | 1h | `bazel build //src/storage_engine:storage_engine` 成功 |
+
+**小计**: 11h
+
+---
+
+#### Phase 2: 严重性问题修复 (P1)
+
+| 任务ID | 任务描述 | 文件数量 | 优先级 | 预估工时 | 验收标准 |
+|--------|----------|----------|--------|----------|----------|
+| P1-001 | 验证核心模块构建 | 1 | 🟠 严重 | 2h | `bazel build //src/core:core` 成功 |
+| P1-002 | 验证 execution 模块构建 | 1 | 🟠 严重 | 2h | `bazel build //src/execution:execution` 成功 |
+| P1-003 | 检查 UnifiedExecutor 构造函数 | 2 | 🟠 严重 | 1h | 所有构造函数调用成功 |
+| P1-004 | 修复 SubqueryExecutor getTableName | 1 | 🟠 严重 | 1h | `SelectStatement::getTableName()` 可用 |
+| P1-005 | 修复 SetOperationExecutor getTableName | 1 | 🟠 严重 | 1h | Statement getTableName 可用 |
+
+**小计**: 7h
+
+---
+
+#### Phase 3: 中等问题修复 (P2)
+
+| 任务ID | 任务描述 | 文件数量 | 优先级 | 预估工时 | 验收标准 |
+|--------|----------|----------|--------|----------|----------|
+| P2-001 | 创建 namespace_checker.py 工具 | 1 | 🟡 中 | 4h | 工具能检测命名空间问题 |
+| P2-002 | 创建 include_path_checker.py | 1 | 🟡 中 | 2h | 工具能检测路径问题 |
+| P2-003 | 修复 load_data_executor.h 引用 | 1 | 🟡 中 | 0.5h | 无 include 错误 |
+| P2-004 | 验证所有 Level 1 测试通过 | 9 | 🟡 中 | 2h | 9/9 测试 PASS |
+
+**小计**: 8.5h
+
+---
+
+#### Phase 4: 长期改进 (P3)
+
+| 任务ID | 任务描述 | 优先级 | 预估工时 | 验收标准 |
+|--------|----------|--------|----------|----------|
+| P3-001 | 命名空间扁平化重构 | 🟢 低 | 16h | 命名深度 ≤ 2 |
+| P3-002 | 建立 API 设计规范文档 | 🟢 低 | 8h | 文档完成并评审 |
+| P3-003 | 集成 Clang-Tidy 到 CI | 🟢 低 | 4h | CI 中运行无错误 |
+| P3-004 | 创建每日技术债务检查 | 🟢 低 | 2h | 自动化报告生成 |
+
+**小计**: 30h
+
+---
+
+### 8.4 重构优先级排序
+
+```
+紧急 (本周完成):
+├── P0-001: 修复 ast_nodes.h 路径 (2h)
+├── P0-002: 统一 DDL API (4h)
+└── P0-003: 统一 DML API (4h)
+
+重要 (本周完成):
+├── P1-001: 验证 storage_engine 构建 (2h)
+└── P1-002: 验证 core 构建 (2h)
+
+常规 (本月完成):
+├── P2-001: 创建 namespace_checker (4h)
+├── P2-002: 创建 include_path_checker (2h)
+└── P2-003: 验证所有 Level1 测试 (2h)
+```
+
+---
+
+### 8.5 验证检查清单
+
+#### 编译验证
+
+- [ ] `bazel build //src/core:core` 成功
+- [ ] `bazel build //src/execution:execution` 成功
+- [ ] `bazel build //src/storage_engine:storage_engine` 成功
+- [ ] `bazel build //src:wal_manager` 成功
+
+#### 测试验证
+
+- [ ] Level 1 Foundation 测试 (9/9 PASS)
+- [ ] Level 2 Core Services 构建成功
+- [ ] Level 2 Storage Engine 构建成功
+
+#### 代码质量验证
+
+- [ ] 无 `using namespace` 在头文件中
+- [ ] 所有 include 路径使用 `../` 相对路径
+- [ ] 所有 API 使用一致的命名规范
+
+---
+
+### 8.6 风险缓解措施
+
+| 风险 | 影响 | 概率 | 缓解措施 |
+|------|------|------|----------|
+| 批量修改引入新错误 | 高 | 中 | 分批修改，每批后运行测试 |
+| API 变更破坏现有功能 | 高 | 中 | 使用 `#ifdef` 兼容旧代码 |
+| 构建时间增加 | 低 | 低 | 使用增量构建 |
+| 开发者适应成本 | 低 | 低 | 提供详细文档和示例 |
+
+---
+
+### 8.7 下一步行动
+
+1. **立即执行 P0 任务** (优先级最高)
+   - 修复 ast_nodes.h 路径
+   - 统一 DDL/DML API
+
+2. **验证构建** (每个任务后)
+   - 运行 `bazel build //src/...`
+   - 确认无编译错误
+
+3. **提交代码** (每批次)
+   - 创建 PR
+   - 代码审查
+   - 合并到 main
+
+---
+
+## 9. 总结
+
+本补充报告详细分析了 Level 2 模块的技术债务现状，并制定了具体的重构 TODO 清单。
+
+### 关键发现
+
+1. **Include 路径问题**: 64 处需要修复
+2. **API 不一致**: DDL/DML 策略混合使用新旧 API
+3. **命名空间嵌套**: 需要长期重构
+4. **测试缺失**: Level 2 测试长期未维护
+
+### 重构时间线
+
+| 阶段 | 时间 | 任务数 |
+|------|------|--------|
+| Phase 1 (P0) | 11h | 4 |
+| Phase 2 (P1) | 7h | 5 |
+| Phase 3 (P2) | 8.5h | 4 |
+| Phase 4 (P3) | 30h | 4 |
+| **总计** | **56.5h** | **17** |
+
+### 预期结果
+
+- ✅ Level 2 核心模块可编译
+- ✅ Level 2 测试覆盖率 > 60%
+- ✅ 建立代码规范检查机制
+- ✅ 防止新问题产生
+
+---
+
 **报告编写**: AI Assistant  
-**最后更新**: 2026-01-31  
-**版本**: 1.0
+**最后更新**: 2026-02-02  
+**版本**: 1.1 (补充版)
