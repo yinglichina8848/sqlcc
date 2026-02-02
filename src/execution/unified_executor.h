@@ -42,13 +42,13 @@
 #ifndef SQLCC_UNIFIED_EXECUTOR_H
 #define SQLCC_UNIFIED_EXECUTOR_H
 
-#include "../core/execution_context.h" // Centralized definition for ExecutionContext
+#include "core/execution_context.h" // Centralized definition for ExecutionContext
 #include "execution_engine.h"
 #include "execution_plan_generator.h"
 #include "query_optimizer.h"
-#include "../sql_parser/ast/ast_nodes.h"
-#include "../core/system_database.h"
-#include "../core/user_manager.h"
+#include "sql_parser/ast/ast_nodes.h"
+#include "core/system_database.h"
+#include "core/user_manager.h"
 #include <functional>
 #include <map>
 #include <memory>

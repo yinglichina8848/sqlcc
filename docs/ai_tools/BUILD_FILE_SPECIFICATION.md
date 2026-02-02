@@ -1,7 +1,7 @@
-# SQLCC BUILD.bazel 文件编写规范 v1.3.9
+# SQLCC BUILD.bazel 文件编写规范 v1.3.10
 
-**版本**: 1.3.9  
-**生效日期**: 2026-01-30  
+**版本**: 1.3.10
+**生效日期**: 2026-02-02
 **适用范围**: 所有 SQLCC 模块的 Bazel 构建配置
 
 ---
@@ -9,13 +9,15 @@
 ## 📋 目录
 
 1. [核心原则](#核心原则)
-2. [文件基本结构](#文件基本结构)
-3. [目标类型规范](#目标类型规范)
-4. [依赖声明规范](#依赖声明规范)
-5. [标签路径规范](#标签路径规范)
-6. [测试配置规范](#测试配置规范)
-7. [常见错误与修复](#常见错误与修复)
-8. [模板示例](#模板示例)
+2. [头文件引用规范](#头文件引用规范)
+3. [文件基本结构](#文件基本结构)
+4. [目标类型规范](#目标类型规范)
+5. [依赖声明规范](#依赖声明规范)
+6. [标签路径规范](#标签路径规范)
+7. [头文件配置规范](#头文件配置规范)
+8. [测试配置规范](#测试配置规范)
+9. [常见错误与修复](#常见错误与修复)
+10. [模板示例](#模板示例)
 
 ---
 
@@ -35,6 +37,241 @@
 - **注释清晰**: 复杂依赖必须注释说明
 - **分组管理**: 按功能分组组织源文件
 - **避免重复**: 使用变量和宏减少重复代码
+
+---
+
+## 头文件引用规范
+
+### 1. 头文件路径语法
+
+Bazel 构建系统要求使用**逻辑路径**而非**文件系统相对路径**。
+
+#### C++ 源文件中的 #include 语法
+
+**正确写法**:
+```cpp
+#include "storage_engine/buffer_pool.h"    // 模块/头文件
+#include "exception/exception.h"           // 模块/头文件
+#include "utils/config_manager.h"          // 模块/头文件
+```
+
+**错误写法**:
+```cpp
+#include "../../include/page.h"            // ❌ 禁止使用相对路径
+#include "../disk_manager.h"               // ❌ 禁止使用相对路径
+#include "src/core/user_manager.h"         // ❌ 不需要 src/ 前缀
+```
+
+### 2. 头文件组织结构
+
+```
+sqlcc/
+├── include/                    # 头文件目录
+│   ├── core/                  # 核心组件头文件
+│   │   ├── user_manager.h
+│   │   └── permission_validator.h
+│   ├── sql_parser/            # SQL解析器头文件
+│   ├── storage_engine/        # 存储引擎头文件
+│   ├── execution/             # 执行引擎头文件
+│   ├── transaction/           # 事务管理头文件
+│   ├── network/               # 网络通信头文件
+│   ├── exception/             # 异常处理头文件
+│   ├── utils/                 # 工具类头文件
+│   └── types/                 # 数据类型头文件
+├── src/                       # 源代码目录
+│   ├── core/
+│   ├── storage_engine/
+│   └── ...
+└── tests/                     # 测试目录
+```
+
+**关键规则**:
+- 头文件路径: `include/<module>/<file>.h`
+- 源文件路径: `src/<module>/<file>.cpp`
+- 引用时使用 Bazel 逻辑路径，不含 `include/` 前缀
+
+### 3. 头文件保护
+
+优先使用 `#pragma once`，或使用传统宏保护：
+
+```cpp
+#pragma once
+
+/**
+ * @file buffer_pool.h
+ * @brief 缓冲池管理器
+ * @author SQLCC Team
+ * @date 2026-01-30
+ */
+
+// 传统宏保护（备选方案）
+#ifndef SQLCC_BUFFER_POOL_H
+#define SQLCC_BUFFER_POOL_H
+
+// 头文件内容...
+
+#endif  // SQLCC_BUFFER_POOL_H
+```
+
+### 4. Include 顺序规范
+
+按以下顺序组织 `#include` 语句：
+
+```cpp
+// 1. 对应的头文件（对于 .cpp 文件）
+#include "storage_engine/buffer_pool.h"
+
+// 2. 项目头文件（使用引号，按模块分组）
+#include "exception/exception.h"
+#include "utils/config_manager.h"
+#include "types/value.h"
+
+// 3. 第三方头文件（使用尖括号）
+#include <gtest/gtest.h>
+#include <spdlog/spdlog.h>
+
+// 4. 系统头文件（使用尖括号）
+#include <memory>
+#include <vector>
+#include <string>
+```
+
+**注意**: 严格遵守 include 规范，禁止引用 `src/` 目录外部的头文件，避免循环依赖。
+
+### 5. 前向声明使用
+
+在头文件中优先使用前向声明，减少编译依赖：
+
+```cpp
+// 前向声明（在头文件中使用）
+class BufferPool;
+class DiskManager;
+
+// 当需要智能指针时
+#include <memory>
+
+// 前向声明 + unique_ptr
+class TableMetadata;
+std::unique_ptr<TableMetadata> CreateTable(const std::string& name);
+
+// 前向声明 + shared_ptr
+class QueryExecutor;
+std::shared_ptr<QueryExecutor> GetExecutor();
+
+// 使用 weak_ptr 打破循环引用
+class BufferPool;
+class BufferPoolStats;
+std::weak_ptr<BufferPoolStats> stats_;  // 打破循环引用
+```
+
+**何时使用前向声明**:
+- 仅使用指针或引用类型
+- 不需要知道类型的大小
+- 不需要调用类型的成员函数
+
+**何时需要完整 include**:
+- 需要知道类型的大小
+- 需要调用成员函数
+- 需要创建对象实例
+- 使用模板类型（需要完整类型）
+
+### 6. Bazel 头文件导出配置
+
+#### include/ 目录的 BUILD.bazel
+
+```bazel
+# include/core/BUILD.bazel
+package(default_visibility = ["//visibility:public"])
+
+# 导出所有头文件
+cc_library(
+    name = "headers",
+    hdrs = glob(["*.h"]),
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)
+
+# 子目录头文件导出（如有需要）
+cc_library(
+    name = "submodule_headers",
+    hdrs = glob(["submodule/*.h"]),
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)
+```
+
+#### strip_include_prefix 配置
+
+```bazel
+# src/storage_engine/disk_manager/BUILD.bazel
+cc_library(
+    name = "disk_manager",
+    srcs = ["disk_manager.cpp"],
+    hdrs = ["disk_manager.h"],
+    # 关键配置：strip 后编译时可直接使用 "storage_engine/disk_manager/disk_manager.h"
+    strip_include_prefix = "src/storage_engine/disk_manager",
+    include_prefix = "",  # 或设置为 "storage_engine"
+    visibility = ["//visibility:public"],
+    deps = [
+        "//src/storage_engine:storage_engine_headers",
+        "//src/exception:exception_headers",
+    ],
+)
+```
+
+**配置说明**:
+- `strip_include_prefix`: 从编译路径中移除此前缀
+- `include_prefix`: 添加此前缀到 include 路径
+- 两者配合使用，控制编译时头文件的查找路径
+
+### 7. 头文件依赖原则
+
+#### 依赖方向
+
+```
+高层模块 → 低层模块（依赖抽象，而非具体）
+```
+
+示例依赖关系:
+```
+execution/          (高层)
+    ↓ depends on
+sql_parser/         (中层)
+    ↓ depends on
+types/              (低层)
+    ↓ depends on
+exception/          (基础)
+```
+
+#### 避免循环依赖
+
+```bazel
+# 错误：A 依赖 B，B 依赖 A
+# //src/core/BUILD.bazel
+deps = ["//src/execution:execution"]  # ❌ 循环依赖
+
+# 正确：提取公共接口到独立模块
+# //src/core/BUILD.bazel
+deps = [
+    "//src/core:core_interface",  # ✅ 依赖抽象接口
+]
+```
+
+### 8. 头文件工具脚本
+
+```bash
+# 检查头文件路径
+python3 tools/bazel_include_fixer.py
+
+# 修复标签问题
+python3 tools/bazel_label_fixer_enhanced.py
+
+# 系统性修复依赖
+python3 tools/bazel_dep_fixer_enhanced.py .
+
+# 验证头文件配置
+python3 tools/bazel_code_checker.py
+```
 
 ---
 
@@ -275,6 +512,77 @@ deps = [
 | 子目录 | `//src/core/utils:utils` | `//src/core:utils/target` |
 
 ### 路径映射示例
+
+```
+目录结构:              Bazel 标签:
+include/
+  core/
+    user_manager.h  -> //include/core:headers
+
+src/
+  core/
+    user_manager.cpp -> //src/core:core
+    BUILD.bazel
+
+tests/
+  level1_foundation/
+    exception/
+      exception_test.cpp -> //tests/level1_foundation/exception:exception_test
+```
+
+---
+
+## 头文件配置规范
+
+### 1. 头文件导出配置
+
+在 `include/` 目录下，需要导出所有头文件供其他模块引用：
+
+```bazel
+# include/core/BUILD.bazel
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "headers",
+    hdrs = glob(["*.h"]),
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "submodule_headers",
+    hdrs = glob(["submodule/*.h"]),
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)
+```
+
+### 2. strip_include_prefix 配置
+
+用于控制编译时头文件的查找路径：
+
+```bazel
+# src/storage_engine/disk_manager/BUILD.bazel
+cc_library(
+    name = "disk_manager",
+    srcs = ["disk_manager.cpp"],
+    hdrs = ["disk_manager.h"],
+    strip_include_prefix = "src/storage_engine/disk_manager",
+    include_prefix = "",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//src/storage_engine:storage_engine_headers",
+        "//src/exception:exception_headers",
+    ],
+)
+```
+
+**配置说明**:
+- `strip_include_prefix`: 从编译路径中移除此前缀
+- `include_prefix`: 添加此前缀到 include 路径
+- 两者配合使用，控制编译时头文件的查找路径
+
+### 3. 路径映射示例
 
 ```
 目录结构:              Bazel 标签:
@@ -580,6 +888,6 @@ bazel test //tests/<level>/<module>:all
 
 ---
 
-**维护者**: SQLCC 开发团队  
-**最后更新**: 2026-01-30  
-**版本**: v1.3.9
+**维护者**: SQLCC 开发团队
+**最后更新**: 2026-02-02
+**版本**: v1.3.10

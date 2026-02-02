@@ -80,18 +80,18 @@
  * @date 2025-12-24
  */
 
-#include "../sql_parser/ast/ast_node.h"
+#include "sql_parser/ast/ast_node.h"
 #ifndef SQLCC_EXECUTION_ENGINE_H
 #define SQLCC_EXECUTION_ENGINE_H
 
-#include "../core/execution_context.h" // 包含ExecutionContext定义
-#include "../core/execution_result.h"  // 包含完整的ExecutionResult定义
-#include "../core/system_database.h"
-#include "../core/user_manager.h"
-#include "../sql_parser/ast/ast_nodes.h"
-#include "../storage_engine/b_plus_tree.h"
-#include "../storage_engine/table_storage.h"
-#include "../storage_engine/storage_engine.h"
+#include "core/execution_context.h" // 包含ExecutionContext定义
+#include "core/execution_result.h"  // 包含完整的ExecutionResult定义
+#include "core/system_database.h"
+#include "core/user_manager.h"
+#include "sql_parser/ast/ast_nodes.h"
+#include "storage_engine/b_plus_tree.h"
+#include "storage_engine/table_storage.h"
+#include "storage_engine/storage_engine.h"
 #include <memory>
 #include <string>
 #include <unordered_map>

@@ -66,7 +66,7 @@ bool EnhancedIndexManager::CreateIndex(const std::string& index_name,
 
     bool success = false;
     if (transactional && transaction_id >= 0) {
-        success = tx_manager_->CreateIndexTransactional(index_name, table_name,
+        success = tx_manager_->CreateIndexInTransaction(index_name, table_name,
                                                        column_name, transaction_id);
     } else {
         auto index = std::make_unique<BPlusTreeIndex>(storage_engine_, table_name, column_name);
@@ -100,7 +100,9 @@ bool EnhancedIndexManager::DropIndex(const std::string& index_name,
 
     bool success = false;
     if (transactional && transaction_id >= 0) {
-        success = tx_manager_->DropIndexTransactional(index_name, table_name, transaction_id);
+        // 简化的处理：暂时跳过事务性删除
+        SQLCC_LOG_WARN("Transactional drop not fully implemented, falling back to non-transactional");
+        success = smart_cache_->RemoveIndex(index_name);
     } else {
         success = smart_cache_->RemoveIndex(index_name);
     }
@@ -172,11 +174,10 @@ std::unordered_map<std::string, double> EnhancedIndexManager::GetPerformanceStat
     std::unordered_map<std::string, double> stats;
     auto cache_stats = smart_cache_->GetEnhancedCacheStats();
 
-    stats["cache_hits"] = static_cast<double>(cache_stats.cache_hits);
-    stats["cache_misses"] = static_cast<double>(cache_stats.cache_misses);
-    stats["hit_rate"] = cache_stats.hit_rate;
-    stats["active_indexes"] = cache_stats.active_indexes;
-    stats["expired_indexes"] = cache_stats.expired_indexes;
+    stats["total_indexes"] = static_cast<double>(cache_stats.total_indexes);
+    stats["expired_entries"] = static_cast<double>(cache_stats.expired_entries);
+    stats["high_priority_entries"] = static_cast<double>(cache_stats.high_priority_entries);
+    stats["average_access_frequency"] = cache_stats.average_access_frequency;
 
     return stats;
 }

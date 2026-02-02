@@ -177,7 +177,7 @@
  * - 可视化工具：导入过程和结果的可视化展示
  */
 
-#include "sql_parser/ast_nodes.h"
+#include "sql_parser/ast/ast_nodes.h"
 #pragma once
 
 #include <memory>
@@ -186,9 +186,9 @@
 #include <fstream>
 #include <sstream>
 #include "core/execution_result.h"
-#include "sql_parser/load_data_ast.h"
-#include "../storage_engine/storage_engine.h"
-#include "../sql_executor.h"
+#include "sql_parser/ast/load_data_ast.h"
+#include "storage_engine/storage_engine.h"
+#include "sql_executor.h"
 
 namespace sqlcc {
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "transaction_manager.h"
+#include "../transaction_manager/transaction_manager.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -91,5 +91,3 @@ private:
 
 } // namespace mocks
 } // namespace sqlcc
-
-#endif // SQLCC_MOCKS_TRANSACTION_MANAGER_MOCK_H

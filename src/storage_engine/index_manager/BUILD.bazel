@@ -25,6 +25,28 @@ cc_library(
     ],
 )
 
+# 事务性索引管理器库
+cc_library(
+    name = "transactional_index_manager",
+    srcs = ["transactional_index_manager.cpp"],
+    hdrs = ["transactional_index_manager.h"],
+    deps = [
+        "//src/utils:utils",
+        "//src/storage_engine:storage_engine_headers",
+        "//src/storage_engine/b_plus_tree:b_plus_tree",
+        "//src/transaction:transaction",
+        "//src/exception:exception",
+    ],
+    copts = [
+        "-std=c++20",
+        "-stdlib=libc++",
+    ],
+    linkopts = [
+        "-stdlib=libc++",
+        "-lc++abi",
+    ],
+)
+
 # 智能索引工厂库
 cc_library(
     name = "smart_index_factory",
@@ -32,6 +54,7 @@ cc_library(
     hdrs = ["smart_index_factory.h", "enhanced_index_manager.h"],
     deps = [
         ":smart_index_cache",
+        ":transactional_index_manager",
         "//src/exception:exception",
         "//src/storage_engine/b_plus_tree/index:bptree_index",
     ],
@@ -65,6 +88,7 @@ cc_library(
     deps = [
         ":smart_index_cache",
         ":smart_index_factory",
+        ":transactional_index_manager",
         "//src/exception:exception",
         "//src/utils:utils",
         "//src/storage_engine:storage_engine_headers",

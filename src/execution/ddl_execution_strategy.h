@@ -226,14 +226,14 @@
  #ifndef SQLCC_EXECUTION_DDL_EXECUTION_STRATEGY_H
  #define SQLCC_EXECUTION_DDL_EXECUTION_STRATEGY_H
  
- #include "../sql_parser/ast/ast_node.h"
-#include "../sql_parser/ast/ast_nodes.h"
+ #include "sql_parser/ast/ast_node.h"
+#include "sql_parser/ast/ast_nodes.h"
 #include <memory>
 #include <string>
 
 #include "execution_strategy.h"
-#include "../core/execution_result.h"
-#include "../core/execution_context.h"
+#include "core/execution_result.h"
+#include "core/execution_context.h"
 
 namespace sqlcc {
 

@@ -14,7 +14,7 @@
 #include <vector>
 #include <exception>
 #include "procedure_parser.h"
-#include "../sql_executor_interface.h"
+#include "../core/sql_executor_interface.h"
 
 namespace sqlcc {
 namespace procedure {

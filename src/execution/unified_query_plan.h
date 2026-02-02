@@ -153,8 +153,8 @@
 #include <vector>
 
 // 使用正确的头文件路径
-#include "../sql_parser/ast/ast_node.h"
-#include "../sql_parser/ast/statement.h"
+#include "sql_parser/ast/ast_node.h"
+#include "sql_parser/ast/statement.h"
 
 namespace sqlcc {
 

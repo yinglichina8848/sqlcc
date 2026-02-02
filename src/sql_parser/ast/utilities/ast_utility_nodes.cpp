@@ -187,15 +187,6 @@ bool ShowStatement::hasFromDatabase() const {
   return hasFromDb_;
 }
 
-// ==================== LoadDataStatement ====================
-
-LoadDataStatement::LoadDataStatement() : Statement(Type::LOAD_DATA) {}
-
-LoadDataStatement::~LoadDataStatement() {}
-
-void LoadDataStatement::accept(NodeVisitor &visitor) {
-  visitor.visit(*this);
-}
 
 } // namespace sql_parser
 } // namespace sqlcc

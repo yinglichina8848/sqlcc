@@ -58,9 +58,6 @@ void SelectStatement::setOrderBy(std::vector<std::unique_ptr<Expression>> orderB
     orderBy_ = std::move(orderBy);
 }
 
-void SelectStatement::addJoinClause(std::unique_ptr<JoinClause> join) {
-  joinClauses_.push_back(std::move(join));
-}
 
 void SelectStatement::accept(ast::NodeVisitor &visitor) {
   visitor.visit(*this);

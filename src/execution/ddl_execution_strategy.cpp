@@ -1,9 +1,9 @@
 #include "ddl_execution_strategy.h"
-#include "../core/execution_result.h"
-#include "../core/execution_context.h"
-#include "../core/permission_validator.h"
-#include "../sql_parser/ast/ast_nodes.h"
-#include "../core/core_database_manager.h"
+#include "core/execution_result.h"
+#include "core/execution_context.h"
+#include "core/permission_validator.h"
+#include "sql_parser/ast/ast_nodes.h"
+#include "core/core_database_manager.h"
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -57,19 +57,19 @@ bool DDLExecutionStrategy::checkPermission(const sql_parser::Statement& stmt,
                                          const ExecutionContext& context) {
     // 根据DDL语句类型调用相应的权限检查方法
     switch (stmt.type) {
-        case sql_parser::StatementType::CREATE_TABLE_STATEMENT:
+        case sql_parser::Statement::Type::CREATE_TABLE:
             // TODO(#DDL-001): checkCreateTablePermission需要从CreateTableStatement中获取表名等信息
             return hasCreateTablePermission(context); 
-        case sql_parser::StatementType::DROP_TABLE_STATEMENT:
+        case sql_parser::Statement::Type::DROP_TABLE:
             // TODO(#DDL-002): checkDropTablePermission需要从DropTableStatement中获取表名
             return hasDropTablePermission("dummy_table_name", context); 
-        case sql_parser::StatementType::ALTER_TABLE_STATEMENT:
+        case sql_parser::Statement::Type::ALTER_TABLE:
             // TODO(#DDL-003): checkAlterTablePermission需要从AlterTableStatement中获取表名
             return hasAlterTablePermission("dummy_table_name", context); 
-        case sql_parser::StatementType::CREATE_INDEX_STATEMENT:
+        case sql_parser::Statement::Type::CREATE_INDEX:
             // TODO(#DDL-004): checkCreateIndexPermission需要从CreateIndexStatement中获取表名
             return hasCreateIndexPermission(context); 
-        case sql_parser::StatementType::DROP_INDEX_STATEMENT:
+        case sql_parser::Statement::Type::DROP_INDEX:
             // TODO(#DDL-005): checkDropIndexPermission需要从DropIndexStatement中获取索引名和表名
             return hasDropIndexPermission("dummy_index_name", context); 
         default:
@@ -86,7 +86,7 @@ bool DDLExecutionStrategy::validate(const sql_parser::Statement& stmt,
     }
 
     switch (stmt.type) {
-        case sql_parser::StatementType::CREATE_TABLE_STATEMENT: {
+        case sql_parser::Statement::Type::CREATE_TABLE: {
             const auto& create_table_stmt = dynamic_cast<const sql_parser::CreateTableStatement&>(stmt);
             // 验证表名是否已存在
             if (context.db_manager->GetTableMetadata(create_table_stmt.table_name)) {
@@ -100,7 +100,7 @@ bool DDLExecutionStrategy::validate(const sql_parser::Statement& stmt,
             }
             return true;
         }
-        case sql_parser::StatementType::DROP_TABLE_STATEMENT: {
+        case sql_parser::Statement::Type::DROP_TABLE: {
             const auto& drop_table_stmt = dynamic_cast<const sql_parser::DropTableStatement&>(stmt);
             // 验证表是否存在
             if (!context.db_manager->GetTableMetadata(drop_table_stmt.table_name)) {
@@ -108,7 +108,7 @@ bool DDLExecutionStrategy::validate(const sql_parser::Statement& stmt,
             }
             return true;
         }
-        case sql_parser::StatementType::ALTER_TABLE_STATEMENT: {
+        case sql_parser::Statement::Type::ALTER_TABLE: {
             const auto& alter_table_stmt = dynamic_cast<const sql_parser::AlterTableStatement&>(stmt);
             // 验证表是否存在
             if (!context.db_manager->GetTableMetadata(alter_table_stmt.table_name)) {
@@ -116,7 +116,7 @@ bool DDLExecutionStrategy::validate(const sql_parser::Statement& stmt,
             }
             return true;
         }
-        case sql_parser::StatementType::CREATE_INDEX_STATEMENT: {
+        case sql_parser::Statement::Type::CREATE_INDEX: {
             const auto& create_index_stmt = dynamic_cast<const sql_parser::CreateIndexStatement&>(stmt);
             // 验证表是否存在
             if (!context.db_manager->GetTableMetadata(create_index_stmt.table_name)) {
@@ -124,7 +124,7 @@ bool DDLExecutionStrategy::validate(const sql_parser::Statement& stmt,
             }
             return true;
         }
-        case sql_parser::StatementType::DROP_INDEX_STATEMENT: {
+        case sql_parser::Statement::Type::DROP_INDEX: {
             const auto& drop_index_stmt = dynamic_cast<const sql_parser::DropIndexStatement&>(stmt);
             // 验证索引是否存在（这里简化处理）
             return true;

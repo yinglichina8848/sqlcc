@@ -191,7 +191,7 @@
  * - 可视化工具：JOIN执行过程和结果的可视化展示
  */
 
-#include "sql_parser/ast_nodes.h"
+#include "sql_parser/ast/ast_nodes.h"
 #pragma once
 
 #include <memory>
@@ -199,8 +199,8 @@
 #include <unordered_map>
 #include <string>
 #include <functional>
-#include "sql_parser/ast_nodes.h"
-#include "storage/table_storage.h"
+#include "sql_parser/ast/ast_nodes.h"
+#include "storage_engine/table_storage.h"
 
 namespace sqlcc {
 namespace execution {
@@ -232,7 +232,7 @@ public:
   JoinConditionEvaluator(
       const std::unordered_map<std::string, size_t>& left_columns,
       const std::unordered_map<std::string, size_t>& right_columns,
-      std::unique_ptr<sql_parser::Expression> condition);
+      std::unique_ptr<sql_parser::ast::Expression> condition);
 
   /**
    * @brief 评估JOIN条件
@@ -246,7 +246,7 @@ public:
 private:
   std::unordered_map<std::string, size_t> left_columns_;
   std::unordered_map<std::string, size_t> right_columns_;
-  std::unique_ptr<sql_parser::Expression> condition_;
+  std::unique_ptr<sql_parser::ast::Expression> condition_;
 
   // 简化条件评估（实际应使用完整的表达式求值器）
   bool evaluateSimpleCondition(const std::vector<std::string>& left_row,

@@ -8,7 +8,7 @@
 #include <atomic>
 
 #include "../utils/config_manager.h"
-#include "sql_parser/ast_nodes.h"
+#include "sql_parser/ast/ast_nodes.h"
 
 namespace sqlcc {
 

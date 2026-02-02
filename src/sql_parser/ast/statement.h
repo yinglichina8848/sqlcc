@@ -47,6 +47,7 @@ public:
         DROP_ROLE,  // 删除角色语句
         GRANT_ROLE,  // 授予角色语句
         REVOKE_ROLE,  // 撤销角色语句
+        LOAD_DATA,  // LOAD DATA 语句
     };
 
     explicit Statement(Type type) : type_(type) {}

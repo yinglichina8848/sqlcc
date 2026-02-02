@@ -1,5 +1,5 @@
 #include "smart_index_cache.h"
-#include "../b_plus_tree/index/b_plus_tree_index.h"
+#include "../b_plus_tree.h"
 #include <algorithm>
 #include <chrono>
 #include <iostream>

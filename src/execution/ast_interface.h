@@ -6,7 +6,7 @@
 #include <unordered_map>
 
 #include "sql_parser/ast/ast_node.h"
-#include "sql_parser/ast_nodes.h"
+#include "sql_parser/ast/ast_nodes.h"
 
 namespace sqlcc {
 namespace execution_ast {
