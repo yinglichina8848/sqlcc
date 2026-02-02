@@ -1,3 +1,42 @@
+/**
+ * @file stored_procedure_manager.h
+ * @brief SQLCC存储过程与触发器管理器 - 数据库服务端编程逻辑核心
+ *
+ * StoredProcedureManager 是数据库系统支持服务端编程（Server-Side Programming）
+ * 的核心组件。它管理着所有的存储过程（Stored Procedure）和触发器（Trigger），
+ * 允许用户将复杂的业务逻辑封装在数据库内部执行，从而减少网络往返，提高性能，
+ * 并保证数据完整性。
+ *
+ * 📚 配套教材参考：
+ * - [第4章：SQL数据操作](../../textbook/《数据库系统原理与开发实践》.md#第四章sql数据操作)
+ * - [4.4 存储过程与函数](../../textbook/《数据库系统原理与开发实践》.md#44-存储过程与函数)
+ * - [4.5 触发器](../../textbook/《数据库系统原理与开发实践》.md#45-触发器)
+ *
+ * WHY层 - 设计意图：
+ *   1. **逻辑封装**：将业务逻辑下沉到数据库层，提供统一的 API 接口，实现业务与数据解耦。
+ *   2. **性能优化**：减少客户端与服务器之间的网络通信（例如，一个过程调用代替多次 SQL 交互）。
+ *   3. **数据完整性**：通过触发器自动执行约束检查、审计日志记录或级联更新，防止逻辑漏洞。
+ *   4. **安全性**：通过授予执行存储过程的权限而不是直接访问表的权限，实现细粒度的访问控制。
+ *
+ * WHAT层 - 功能说明：
+ *   - 过程管理：Create/Drop/Get 存储过程，支持参数定义和 SQL 体。
+ *   - 触发器管理：Create/Drop/Enable/Disable 触发器，支持 BEFORE/AFTER/INSTEAD OF 时机。
+ *   - 执行引擎：提供 `ExecuteProcedure` 接口，解析参数并调用 SqlExecutor 执行过程体。
+ *   - 事件分发：提供 `ExecuteTrigger` 接口，在 INSERT/UPDATE/DELETE 操作前后自动触发相关逻辑。
+ *   - 元数据同步：将过程和触发器的定义持久化到系统表。
+ *
+ * HOW层 - 实现机制：
+ *   - **内存缓存**：使用 `unordered_map` 缓存编译好的过程和触发器对象，加速查找和执行。
+ *   - **参数绑定**：在执行时，将传入的实参绑定到过程体中的形参变量。
+ *   - **触发器链**：同一事件可能有多个触发器，管理器负责按定义顺序依次执行。
+ *   - **递归控制**：虽然本类不直接处理，但通常需配合执行器防止触发器无限递归。
+ *   - **原子性**：过程和触发器的执行通常在调用者的事务上下文中运行，保证 ACID 属性。
+ *
+ * @author SQLCC技术委员会
+ * @version 1.2.6
+ * @date 2026-02-02
+ */
+
 #pragma once
 
 #include <memory>
@@ -16,28 +55,30 @@ class DatabaseManager;
 class SqlExecutor;
 
 /**
- * @brief 存储过程参数信息
+ * @struct ProcedureParameter
+ * @brief 存储过程参数元数据
  */
 struct ProcedureParameter {
-  std::string name;
-  std::string type;
-  bool is_output;
-  std::string default_value;
+  std::string name;           ///< 参数名（如 @p_id）
+  std::string type;           ///< 数据类型（INT, VARCHAR...）
+  bool is_output;             ///< 是否为输出参数 (OUT/INOUT)
+  std::string default_value;  ///< 默认值表达式
 
   ProcedureParameter(const std::string& n, const std::string& t, bool out = false, const std::string& def = "")
       : name(n), type(t), is_output(out), default_value(def) {}
 };
 
 /**
- * @brief 存储过程定义
+ * @struct StoredProcedure
+ * @brief 存储过程定义对象
  */
 struct StoredProcedure {
-  std::string name;
-  std::string schema;
-  std::vector<ProcedureParameter> parameters;
-  std::string body;  // SQL语句体
-  std::string language;  // 过程语言 (SQL, PL/SQL等)
-  std::string owner;
+  std::string name;           ///< 过程名
+  std::string schema;         ///< 所属模式
+  std::vector<ProcedureParameter> parameters; ///< 参数列表
+  std::string body;           ///< 过程体（SQL语句块）
+  std::string language;       ///< 实现语言 (SQL, PL/SQL, Java...)
+  std::string owner;          ///< 所有者
   std::chrono::system_clock::time_point created_at;
   std::chrono::system_clock::time_point modified_at;
 
@@ -48,19 +89,20 @@ struct StoredProcedure {
 };
 
 /**
- * @brief 触发器定义
+ * @struct Trigger
+ * @brief 触发器定义对象
  */
 struct Trigger {
-  std::string name;
-  std::string table_name;
-  std::string event;  // INSERT, UPDATE, DELETE
-  std::string timing; // BEFORE, AFTER, INSTEAD OF
-  std::vector<std::string> columns;  // 对于列级触发器
-  std::string condition; // WHEN条件
-  std::string body;     // 触发器执行体
-  std::string language; // 触发器语言
-  bool enabled;
-  std::string owner;
+  std::string name;           ///< 触发器名
+  std::string table_name;     ///< 绑定的表名
+  std::string event;          ///< 触发事件 (INSERT, UPDATE, DELETE)
+  std::string timing;         ///< 触发时机 (BEFORE, AFTER, INSTEAD OF)
+  std::vector<std::string> columns;  ///< 关注的列（仅 UPDATE OF col）
+  std::string condition;      ///< 触发条件 (WHEN 子句)
+  std::string body;           ///< 执行体
+  std::string language;       ///< 实现语言
+  bool enabled;               ///< 启用状态
+  std::string owner;          ///< 所有者
   std::chrono::system_clock::time_point created_at;
 
   Trigger(const std::string& n, const std::string& table, const std::string& evt)
@@ -71,14 +113,13 @@ struct Trigger {
 };
 
 /**
- * @brief 存储过程和触发器管理器
- *
- * 负责存储过程和触发器的创建、修改、删除和执行
+ * @class StoredProcedureManager
+ * @brief 存储过程与触发器管理中心
  */
 class StoredProcedureManager {
 public:
   /**
-   * @brief 统计信息
+   * @brief 运行时统计信息
    */
   struct SPMStats {
     std::atomic<size_t> total_procedures{0};
@@ -92,84 +133,71 @@ public:
 
   /**
    * @brief 构造函数
-   * @param config_manager 配置管理器引用
-   * @param database_manager 数据库管理器引用
    */
   StoredProcedureManager(ConfigManager& config_manager, DatabaseManager& database_manager);
 
-  /**
-   * @brief 析构函数
-   */
   ~StoredProcedureManager();
 
+  // --- 存储过程管理 ---
+
   /**
-   * @brief 创建存储过程
-   * @param procedure 存储过程定义
-   * @return 是否成功
+   * @brief 注册新的存储过程
+   * 
+   * 将过程定义保存到内存和持久化存储中。
+   * @return true 若成功
    */
   bool CreateProcedure(const StoredProcedure& procedure);
 
   /**
    * @brief 删除存储过程
-   * @param schema 模式名
-   * @param name 过程名
-   * @return 是否成功
    */
   bool DropProcedure(const std::string& schema, const std::string& name);
 
   /**
-   * @brief 获取存储过程定义
-   * @param schema 模式名
-   * @param name 过程名
-   * @return 存储过程定义，如果不存在返回nullptr
+   * @brief 查找存储过程定义
    */
   std::shared_ptr<StoredProcedure> GetProcedure(const std::string& schema, const std::string& name);
 
   /**
    * @brief 执行存储过程
-   * @param schema 模式名
-   * @param name 过程名
-   * @param parameters 参数值
-   * @param executor SQL执行器
-   * @return 执行结果
+   * 
+   * HOW:
+   * 1. 查找过程定义。
+   * 2. 绑定输入参数。
+   * 3. 在当前或新的执行上下文中运行过程体。
+   * 4. 收集输出参数和结果集。
+   * 
+   * @param parameters 实参映射表
+   * @param executor 执行上下文的 SQL 执行器
    */
   std::vector<std::vector<std::string>> ExecuteProcedure(
       const std::string& schema, const std::string& name,
       const std::unordered_map<std::string, std::string>& parameters,
       SqlExecutor& executor);
 
+  // --- 触发器管理 ---
+
   /**
-   * @brief 创建触发器
-   * @param trigger 触发器定义
-   * @return 是否成功
+   * @brief 注册新触发器
    */
   bool CreateTrigger(const Trigger& trigger);
 
-  /**
-   * @brief 删除触发器
-   * @param schema 模式名
-   * @param name 触发器名
-   * @return 是否成功
-   */
   bool DropTrigger(const std::string& schema, const std::string& name);
 
   /**
-   * @brief 启用/禁用触发器
-   * @param schema 模式名
-   * @param name 触发器名
-   * @param enabled 是否启用
-   * @return 是否成功
+   * @brief 动态启用/禁用触发器
+   * 
+   * 用于在数据导入（Bulk Load）或维护期间临时关闭触发器。
    */
   bool SetTriggerEnabled(const std::string& schema, const std::string& name, bool enabled);
 
   /**
-   * @brief 执行触发器
-   * @param trigger 触发器定义
-   * @param event_type 事件类型
-   * @param old_row 旧行数据（用于UPDATE和DELETE）
-   * @param new_row 新行数据（用于INSERT和UPDATE）
-   * @param executor SQL执行器
-   * @return 是否成功
+   * @brief 触发事件处理逻辑
+   * 
+   * 当 SQL 执行器进行 DML 操作时调用。
+   * @param event_type INSERT/UPDATE/DELETE
+   * @param old_row 更新前的行数据 (OLD.*)
+   * @param new_row 更新后的行数据 (NEW.*)
    */
   bool ExecuteTrigger(const Trigger& trigger, const std::string& event_type,
                      const std::vector<std::string>& old_row,
@@ -177,84 +205,42 @@ public:
                      SqlExecutor& executor);
 
   /**
-   * @brief 获取指定表的触发器
-   * @param table_name 表名
-   * @param event_type 事件类型
-   * @return 触发器列表
+   * @brief 获取表的相关触发器列表
+   * 
+   * 用于 DML 执行器在操作前预加载相关触发器。
    */
   std::vector<std::shared_ptr<Trigger>> GetTriggersForTable(
       const std::string& table_name, const std::string& event_type);
 
-  /**
-   * @brief 获取统计信息
-   * @return 统计信息
-   */
-  SPMStats GetStats() const;
+  // --- 统计与查询 ---
 
-  /**
-   * @brief 重置统计信息
-   */
+  SPMStats GetStats() const;
   void ResetStats();
 
-  /**
-   * @brief 列出所有存储过程
-   * @param schema 模式名（可选）
-   * @return 存储过程列表
-   */
   std::vector<std::shared_ptr<StoredProcedure>> ListProcedures(const std::string& schema = "");
-
-  /**
-   * @brief 列出所有触发器
-   * @param schema 模式名（可选）
-   * @return 触发器列表
-   */
   std::vector<std::shared_ptr<Trigger>> ListTriggers(const std::string& schema = "");
 
 private:
-  /**
-   * @brief 验证存储过程定义
-   * @param procedure 存储过程定义
-   * @return 是否有效
-   */
   bool ValidateProcedure(const StoredProcedure& procedure);
-
-  /**
-   * @brief 验证触发器定义
-   * @param trigger 触发器定义
-   * @return 是否有效
-   */
   bool ValidateTrigger(const Trigger& trigger);
-
-  /**
-   * @brief 解析存储过程参数
-   * @param param_str 参数字符串
-   * @return 参数列表
-   */
   std::vector<ProcedureParameter> ParseProcedureParameters(const std::string& param_str);
-
-  /**
-   * @brief 编译存储过程体
-   * @param procedure 存储过程定义
-   * @return 编译后的执行计划
-   */
   bool CompileProcedure(StoredProcedure& procedure);
 
-  // 配置和依赖
   ConfigManager& config_manager_;
   DatabaseManager& database_manager_;
 
-  // 数据存储
+  // 元数据缓存
   std::unordered_map<std::string, std::shared_ptr<StoredProcedure>> procedures_;
   std::unordered_map<std::string, std::shared_ptr<Trigger>> triggers_;
-  std::unordered_map<std::string, std::vector<std::shared_ptr<Trigger>>> table_triggers_; // 表->触发器映射
+  
+  // 索引：表名 -> 触发器列表，加速 DML 时的查找
+  std::unordered_map<std::string, std::vector<std::shared_ptr<Trigger>>> table_triggers_;
 
-  // 并发控制
   mutable std::mutex procedures_mutex_;
   mutable std::mutex triggers_mutex_;
-
-  // 统计信息
   mutable std::mutex stats_mutex_;
   SPMStats stats_;
 };
 
 } // namespace sqlcc
+
