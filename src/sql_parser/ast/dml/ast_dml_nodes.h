@@ -83,6 +83,7 @@ public:
   void accept(ast::NodeVisitor& visitor) override;
   
   // Getters
+  const std::string &getTableName() const { return tableName_; }
   const std::vector<std::unique_ptr<Expression>> &getSelectList() const { return selectList_; }
   const std::vector<std::string> &getFromTables() const { return fromTables_; }
   const std::unique_ptr<WhereClause> &getWhereClause() const { return whereClause_; }

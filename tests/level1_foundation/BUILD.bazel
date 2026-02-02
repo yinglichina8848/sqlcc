@@ -15,6 +15,41 @@ test_suite(
         "//tests/level1_foundation/config:config_test",
         "//tests/level1_foundation/basic:basic_test",
         "//tests/level1_foundation/utils:utils_test",
+        "//tests/level1_foundation/utils:file_descriptor_version_test",
+        "//tests/level1_foundation/utils:ssl_connection_pool_test",
+        "//tests/level1_foundation/utils:smart_config_test",
     ],
     tags = ["level1", "foundation"],
+)
+
+# Alias for all level1 tests including utils sub-tests
+test_suite(
+    name = "level1_all_tests",
+    tests = [
+        ":level1_foundation_tests",
+        "//tests/level1_foundation/utils:file_descriptor_version_test",
+        "//tests/level1_foundation/utils:ssl_connection_pool_test",
+        "//tests/level1_foundation/utils:smart_config_test",
+    ],
+    tags = ["level1", "all"],
+)
+
+# Coverage report generation target
+# 运行此目标生成完整的 Level 1 覆盖率报告
+# 用法: bazel run //tests/level1_foundation:coverage_report
+sh_binary(
+    name = "coverage_report",
+    srcs = ["coverage_report.sh"],
+    data = [
+        "//tests/level1_foundation/exception:exception_test",
+        "//tests/level1_foundation/types:types_test",
+        "//tests/level1_foundation/logger:logger_test",
+        "//tests/level1_foundation/config:config_test",
+        "//tests/level1_foundation/basic:basic_test",
+        "//tests/level1_foundation/utils:utils_test",
+        "//tests/level1_foundation/utils:file_descriptor_version_test",
+        "//tests/level1_foundation/utils:ssl_connection_pool_test",
+        "//tests/level1_foundation/utils:smart_config_test",
+    ],
+    tags = ["coverage", "level1"],
 )

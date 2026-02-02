@@ -246,48 +246,165 @@ class CreateIndexStatement;
 class DropIndexStatement;
 } // namespace sql_parser
 
-// DDL执行策略 - 处理数据定义语言语句
+/**
+ * @brief DDL执行策略 - 处理数据定义语言语句。
+ * @details 该策略负责解析并执行CREATE、DROP、ALTER等DDL语句，管理数据库Schema的变更。
+ * 它继承自ExecutionStrategy，并实现了具体的DDL操作逻辑、权限检查和验证。
+ */
 class DDLExecutionStrategy : public ExecutionStrategy {
 public:
+    /**
+     * @brief 构造DDLExecutionStrategy实例。
+     */
     DDLExecutionStrategy();
+    /**
+     * @brief 销毁DDLExecutionStrategy实例。
+     */
     ~DDLExecutionStrategy() override = default;
 
-    // 执行DDL语句
+    /**
+     * @brief 执行DDL语句的核心方法。
+     * @param stmt 待执行的DDL语句AST。
+     * @param context 执行上下文。
+     * @return 执行结果。
+     */
     ExecutionResult execute(std::unique_ptr<sql_parser::Statement> stmt,
                            ExecutionContext& context) override;
+    /**
+     * @brief 检查用户是否有权限执行DDL语句。
+     * @param stmt 待检查的DDL语句AST。
+     * @param context 执行上下文。
+     * @return 如果有权限返回true，否则返回false。
+     */
     bool checkPermission(const sql_parser::Statement& stmt,
                         const ExecutionContext& context) override;
+    /**
+     * @brief 验证DDL语句的合法性。
+     * @param stmt 待验证的DDL语句AST。
+     * @param context 执行上下文。
+     * @return 如果语句合法返回true，否则返回false。
+     */
     bool validate(const sql_parser::Statement& stmt,
                  const ExecutionContext& context) override;
+    /**
+     * @brief 获取策略名称。
+     * @return 策略名称字符串。
+     */
     std::string getStrategyName() const override;
 
 private:
-    // DDL语句处理
+    // --- DDL语句具体处理方法 ---
+    /**
+     * @brief 执行CREATE TABLE语句。
+     * @param stmt CREATE TABLE语句AST。
+     * @param context 执行上下文。
+     * @return 执行结果。
+     */
     ExecutionResult executeCreateTable(const sql_parser::CreateTableStatement& stmt,
                                       ExecutionContext& context);
+    /**
+     * @brief 执行DROP TABLE语句。
+     * @param stmt DROP TABLE语句AST。
+     * @param context 执行上下文。
+     * @return 执行结果。
+     */
     ExecutionResult executeDropTable(const sql_parser::DropTableStatement& stmt,
                                     ExecutionContext& context);
+    /**
+     * @brief 执行ALTER TABLE语句。
+     * @param stmt ALTER TABLE语句AST。
+     * @param context 执行上下文。
+     * @return 执行结果。
+     */
     ExecutionResult executeAlterTable(const sql_parser::AlterTableStatement& stmt,
                                      ExecutionContext& context);
+    /**
+     * @brief 执行CREATE INDEX语句。
+     * @param stmt CREATE INDEX语句AST。
+     * @param context 执行上下文。
+     * @return 执行结果。
+     */
     ExecutionResult executeCreateIndex(const sql_parser::CreateIndexStatement& stmt,
                                       ExecutionContext& context);
+    /**
+     * @brief 执行DROP INDEX语句。
+     * @param stmt DROP INDEX语句AST。
+     * @param context 执行上下文。
+     * @return 执行结果。
+     */
     ExecutionResult executeDropIndex(const sql_parser::DropIndexStatement& stmt,
                                     ExecutionContext& context);
 
-    // 验证方法
+    // --- 验证方法 ---
+    /**
+     * @brief 验证表名是否存在或合法。
+     * @param table_name 待验证的表名。
+     * @param context 执行上下文。
+     * @return 如果表名有效返回true，否则返回false。
+     */
     bool validateTableName(const std::string& table_name, const ExecutionContext& context) const;
+    /**
+     * @brief 验证索引名是否存在或合法。
+     * @param index_name 待验证的索引名。
+     * @param context 执行上下文。
+     * @return 如果索引名有效返回true，否则返回false。
+     */
     bool validateIndexName(const std::string& index_name, const ExecutionContext& context) const;
+    /**
+     * @brief 验证列定义列表是否合法。
+     * @param columns 列定义列表。
+     * @return 如果列定义合法返回true，否则返回false。
+     */
     bool validateColumnDefinitions(const std::vector<sql_parser::ColumnDefinition>& columns) const;
+    /**
+     * @brief 检查表是否存在。
+     * @param table_name 待检查的表名。
+     * @param context 执行上下文。
+     * @return 如果表存在返回true，否则返回false。
+     */
     bool checkTableExists(const std::string& table_name, const ExecutionContext& context) const;
+    /**
+     * @brief 检查索引是否存在。
+     * @param index_name 待检查的索引名。
+     * @param context 执行上下文。
+     * @return 如果索引存在返回true，否则返回false。
+     */
     bool checkIndexExists(const std::string& index_name, const ExecutionContext& context) const;
 
-    // 权限检查
+    // --- 权限检查方法 ---
+    /**
+     * @brief 检查用户是否有CREATE TABLE权限。
+     * @param context 执行上下文。
+     * @return 如果有权限返回true，否则返回false。
+     */
     bool hasCreateTablePermission(const ExecutionContext& context) const;
+    /**
+     * @brief 检查用户是否有DROP TABLE权限。
+     * @param table_name 待删除的表名。
+     * @param context 执行上下文。
+     * @return 如果有权限返回true，否则返回false。
+     */
     bool hasDropTablePermission(const std::string& table_name, const ExecutionContext& context) const;
+    /**
+     * @brief 检查用户是否有ALTER TABLE权限。
+     * @param table_name 待修改的表名。
+     * @param context 执行上下文。
+     * @return 如果有权限返回true，否则返回false。
+     */
     bool hasAlterTablePermission(const std::string& table_name, const ExecutionContext& context) const;
+    /**
+     * @brief 检查用户是否有CREATE INDEX权限。
+     * @param context 执行上下文。
+     * @return 如果有权限返回true，否则返回false。
+     */
     bool hasCreateIndexPermission(const ExecutionContext& context) const;
+    /**
+     * @brief 检查用户是否有DROP INDEX权限。
+     * @param index_name 待删除的索引名。
+     * @param context 执行上下文。
+     * @return 如果有权限返回true，否则返回false。
+     */
     bool hasDropIndexPermission(const std::string& index_name, const ExecutionContext& context) const;
-};
 
 } // namespace sqlcc
 

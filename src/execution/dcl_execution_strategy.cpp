@@ -16,7 +16,7 @@ ExecutionResult DCLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statem
         return createErrorResult("Statement is null");
     }
 
-    switch (stmt->type_) {
+    switch (stmt->getType()) {
         case sql_parser::Statement::Type::CREATE_USER: {
             auto create_stmt = dynamic_cast<sql_parser::CreateUserStatement*>(stmt.get());
             if (create_stmt) {
@@ -75,7 +75,7 @@ bool DCLExecutionStrategy::checkPermission(const sql_parser::Statement& stmt,
 bool DCLExecutionStrategy::validate(const sql_parser::Statement& stmt,
                                   const ExecutionContext &context) {
     // 验证DCL语句的基本有效性
-    switch (stmt.type_) {
+    switch (stmt.getType()) {
         case sql_parser::Statement::Type::CREATE_USER:
         case sql_parser::Statement::Type::DROP_USER:
         case sql_parser::Statement::Type::GRANT:
@@ -88,8 +88,7 @@ bool DCLExecutionStrategy::validate(const sql_parser::Statement& stmt,
 
 ExecutionResult DCLExecutionStrategy::executeCreateUser(const sql_parser::CreateUserStatement& stmt,
                                                       ExecutionContext &context) {
-    if (auto db_manager = context.get_db_manager()) {
-        auto userManager = db_manager->getUserManager();
+    if (auto userManager = context.get_user_manager()) {
         if (userManager) {
             // 创建新用户
             if (userManager->CreateUser(stmt.getUserName(), stmt.getPassword())) {
@@ -104,8 +103,7 @@ ExecutionResult DCLExecutionStrategy::executeCreateUser(const sql_parser::Create
 
 ExecutionResult DCLExecutionStrategy::executeDropUser(const sql_parser::DropUserStatement& stmt,
                                                      ExecutionContext &context) {
-    if (auto db_manager = context.get_db_manager()) {
-        auto userManager = db_manager->getUserManager();
+    if (auto userManager = context.get_user_manager()) {
         if (userManager) {
             if (userManager->DropUser(stmt.getUserName())) {
                 return createSuccessResult("User dropped successfully");
@@ -119,16 +117,15 @@ ExecutionResult DCLExecutionStrategy::executeDropUser(const sql_parser::DropUser
 
 ExecutionResult DCLExecutionStrategy::executeGrant(const sql_parser::GrantStatement& stmt,
                                                   ExecutionContext &context) {
-    if (auto db_manager = context.get_db_manager()) {
-        auto userManager = db_manager->getUserManager();
+    if (auto userManager = context.get_user_manager()) {
         if (userManager) {
             // 处理GRANT语句
-            const auto& users = stmt.getUsers();
+            const auto& grantee = stmt.getGrantee();
             const auto& privileges = stmt.getPrivileges();
             const auto& objectType = stmt.getObjectType();
             const auto& objectName = stmt.getObjectName();
 
-            for (const auto& user : users) {
+            {
                 for (const auto& privilege : privileges) {
                     if (objectType == "TABLE") {
                         // 解析表名，格式可能是 "database.table" 或 "table"
@@ -141,12 +138,12 @@ ExecutionResult DCLExecutionStrategy::executeGrant(const sql_parser::GrantStatem
                             table = objectName.substr(dotPos + 1);
                         }
 
-                        if (!userManager->GrantPrivilege(user, database, table, privilege)) {
-                            return createErrorResult("Failed to grant privilege to user " + user);
+                        if (!userManager->GrantPrivilege(grantee, database, table, privilege)) {
+                            return createErrorResult("Failed to grant privilege to user " + grantee);
                         }
                     } else if (objectType == "DATABASE") {
-                        if (!userManager->GrantPrivilege(user, objectName, "", privilege)) {
-                            return createErrorResult("Failed to grant privilege to user " + user);
+                        if (!userManager->GrantPrivilege(grantee, objectName, "", privilege)) {
+                            return createErrorResult("Failed to grant privilege to user " + grantee);
                         }
                     } else {
                         return createErrorResult("Unsupported object type: " + objectType);
@@ -162,16 +159,15 @@ ExecutionResult DCLExecutionStrategy::executeGrant(const sql_parser::GrantStatem
 
 ExecutionResult DCLExecutionStrategy::executeRevoke(const sql_parser::RevokeStatement& stmt,
                                                    ExecutionContext &context) {
-    if (auto db_manager = context.get_db_manager()) {
-        auto userManager = db_manager->getUserManager();
+    if (auto userManager = context.get_user_manager()) {
         if (userManager) {
             // 处理REVOKE语句
-            const auto& users = stmt.getUsers();
+            const auto& grantee = stmt.getGrantee();
             const auto& privileges = stmt.getPrivileges();
             const auto& objectType = stmt.getObjectType();
             const auto& objectName = stmt.getObjectName();
 
-            for (const auto& user : users) {
+            {
                 for (const auto& privilege : privileges) {
                     if (objectType == "TABLE") {
                         // 解析表名，格式可能是 "database.table" 或 "table"
@@ -184,12 +180,12 @@ ExecutionResult DCLExecutionStrategy::executeRevoke(const sql_parser::RevokeStat
                             table = objectName.substr(dotPos + 1);
                         }
 
-                        if (!userManager->RevokePrivilege(user, database, table, privilege)) {
-                            return createErrorResult("Failed to revoke privilege from user " + user);
+                        if (!userManager->RevokePrivilege(grantee, database, table, privilege)) {
+                            return createErrorResult("Failed to revoke privilege from user " + grantee);
                         }
                     } else if (objectType == "DATABASE") {
-                        if (!userManager->RevokePrivilege(user, objectName, "", privilege)) {
-                            return createErrorResult("Failed to revoke privilege from user " + user);
+                        if (!userManager->RevokePrivilege(grantee, objectName, "", privilege)) {
+                            return createErrorResult("Failed to revoke privilege from user " + grantee);
                         }
                     } else {
                         return createErrorResult("Unsupported object type: " + objectType);

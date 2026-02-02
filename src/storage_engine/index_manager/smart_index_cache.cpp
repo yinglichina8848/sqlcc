@@ -8,6 +8,28 @@ namespace sqlcc {
 namespace storage_engine {
 namespace index_manager {
 
+/**
+ * @class SmartIndexCache
+ * @brief 智能索引对象缓存 - 实现索引句柄的 LRU 内存管理与自动生命周期控制
+ *
+ * WHY层 - 设计意图：
+ *   B+ 树索引对象（Index Handles）的实例化涉及解析元数据和分配初始内存。
+ *   如果每次查询都重新创建索引对象，会产生巨大的 CPU 和内存开销。
+ *   SmartIndexCache 通过常驻内存缓存，支持“即取即用”，
+ *   并通过智能淘汰算法（Intelligent Cleanup）确保缓存不致撑爆内存。
+ *
+ * WHAT层 - 功能说明：
+ *   提供索引对象的异步缓存（CacheIndex）和受控访问（GetIndex）。
+ *   支持 TTL (Time-To-Live) 过期机制，自动清理陈旧索引。
+ *   基于访问频率（Access Frequency）和优先级（Priority）的多维度淘汰算法。
+ *   提供缓存命中率和负载统计信息。
+ *
+ * HOW层 - 实现机制：
+ *   1. 存储结构：index_cache_ (unordered_map) 存储索引名到 CacheEntry 的映射。
+ *   2. 命中追踪：每次 GetIndex 自动更新 access_count 和 last_access 时间。
+ *   3. 混合淘汰：EvictCacheEntries 使用 LFU 算法选择牺牲者；IntelligentCleanup 则结合 TTL 和优先级进行深度清理。
+ *   4. 线程安全：使用 cache_mutex_ 保护所有状态修改，确保在多查询并发下的正确性。
+ */
 SmartIndexCache::SmartIndexCache(size_t max_cache_size, std::chrono::minutes default_ttl)
     : max_cache_size_(max_cache_size), default_ttl_(default_ttl) {}
 

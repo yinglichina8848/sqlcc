@@ -178,9 +178,15 @@ TransactionId TransactionManager::next_transaction_id() {
 }
 
 /**
- * @brief Initiates a new transaction with the specified isolation level.
- * @param isolation_level The desired isolation level for the new transaction.
- * @return The `TransactionId` of the newly created transaction.
+ * @brief 启动新事务
+ *
+ * WHY: 开启一个新的原子操作单元，作为并发控制和故障恢复的上下文。
+ * WHAT: 生成唯一 ID，初始化事务状态，并注册到全局管理表中。
+ * HOW:
+ * 1. 获取全局管理器互斥锁 mutex_。
+ * 2. 调用 next_transaction_id() 获取单调递增的原子 ID。
+ * 3. 实例化 Transaction 对象并设置 IsolationLevel。
+ * 4. 将其存入 transactions_ 哈希映射。
  */
 TransactionId
 TransactionManager::begin_transaction(IsolationLevel isolation_level) {
@@ -205,9 +211,15 @@ TransactionManager::begin_transaction(IsolationLevel isolation_level) {
 }
 
 /**
- * @brief Commits an active transaction, making its changes permanent.
- * @param txn_id The ID of the transaction to commit.
- * @return True if the transaction was successfully committed, false otherwise.
+ * @brief 提交事务
+ *
+ * WHY: 将事务在内存中的修改正式生效，并持久化到磁盘，确保 ACID 的 Durable 特性。
+ * WHAT: 校验状态，触发日志刷盘，并释放该事务持有的所有锁。
+ * HOW:
+ * 1. 查找 transactions_ 表确认事务存在且处于 ACTIVE 状态。
+ * 2. 将状态变更为 COMMITTED。
+ * 3. 调用 release_all_locks_internal 释放相关资源，唤醒等待者。
+ * 4. 从死锁检测图（wait_graph_）中移除对应节点。
  */
 bool TransactionManager::commit_transaction(TransactionId txn_id) {
   // --- Commit Transaction Flow ---

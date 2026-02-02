@@ -45,6 +45,14 @@ ParserDML::~ParserDML() = default;
 // ==================== INSERT语句解析 ====================
 
 std::unique_ptr<ASTNode> ParserDML::parseInsertStatement() {
+    // WHY: INSERT 语句负责向表添加新数据。解析器必须准确识别目标表、目标列及对应的值。
+    // WHAT: 解析 INSERT INTO <table> (cols...) VALUES (vals...) 结构。
+    // HOW:
+    // 1. 消费 INSERT 和 INTO 关键字。
+    // 2. 提取表名标识符。
+    // 3. （可选）解析圆括号内的列名列表。
+    // 4. 消费 VALUES 关键字。
+    // 5. 解析圆括号内的字面量列表，并校验其类型。
     std::cout << "[PARSER DEBUG] parseInsertStatement() called" << std::endl;
     
     consume(Type::KEYWORD_INSERT);
@@ -106,6 +114,12 @@ std::unique_ptr<ASTNode> ParserDML::parseUpdateStatement() {
 // ==================== DELETE语句解析 ====================
 
 std::unique_ptr<ASTNode> ParserDML::parseDeleteStatement() {
+    // WHY: DELETE 语句用于移除表中满足条件的记录。
+    // WHAT: 解析 DELETE FROM <table> WHERE <expr> 结构。
+    // HOW:
+    // 1. 消费 DELETE 和 FROM 关键字。
+    // 2. 提取目标表名。
+    // 3. （可选）解析 WHERE 子句中的过滤表达式（目前待完整 Expression 架构接入）。
     std::cout << "[PARSER DEBUG] parseDeleteStatement() called" << std::endl;
     
     consume(Type::KEYWORD_DELETE);
@@ -127,11 +141,28 @@ std::unique_ptr<ASTNode> ParserDML::parseDeleteStatement() {
 
 // ==================== SELECT语句解析 ====================
 
+/**
+ * @brief 解析 SELECT 语句
+ *
+ * WHY: SELECT 是 DML 中最复杂的语句，涉及投影、过滤、连接等多个环节。
+ * WHAT: 将标准的 SELECT 文本转换为 SelectStatement 对象。
+ * HOW: 委托给内部的 SelectParser (select_parser_) 进行专业化子句解析。
+ */
 std::unique_ptr<SelectStatement> ParserDML::parseSelectStatement() {
     std::cout << "[PARSER DEBUG] ParserDML::parseSelectStatement() called" << std::endl;
     return impl_->parseSelectStatement();
 }
 
+/**
+ * @brief 解析复合 SELECT 语句（集合操作）
+ *
+ * WHY: 支持 UNION, INTERSECT, EXCEPT 等集合运算以组合多个查询结果。
+ * WHAT: 递归解析左侧 SELECT，识别操作符，解析右侧 SELECT，并构建集合操作树。
+ * HOW:
+ * 1. 调用 parseSelectStatement 获取左子树。
+ * 2. 预读 Token 检查是否存在集合操作关键字。
+ * 3. 若存在，则递归解析右子树并封装为 SetOperation 节点。
+ */
 std::unique_ptr<ASTNode> ParserDML::parseCompositeSelectStatement() {
     auto left = parseSelectStatement();
     if (!left) return nullptr;

@@ -109,7 +109,17 @@ DatabaseManager::DatabaseManager(const std::string &db_path,
 
 DatabaseManager::~DatabaseManager() { Close(); }
 
-// 数据库管理方法
+/**
+ * @brief 创建数据库
+ *
+ * WHY: 数据库是对象的逻辑容器（Namespace）。物理上，它对应一个独立的磁盘目录，
+ *      这有助于数据的物理隔离和跨盘挂载（TableSpace 雏形）。
+ * WHAT: 创建物理目录并初始化该库的元数据映射。
+ * HOW:
+ * 1. 检查 database_tables_ 确保不重名。
+ * 2. 调用 std::filesystem::create_directories 创建物理路径。
+ * 3. 自动创建一个隐式的系统表（__tables__）用于记录该库下的表清单。
+ */
 bool DatabaseManager::CreateDatabase(const std::string &db_name) {
   std::lock_guard<std::mutex> lock(mutex_);
 
@@ -188,6 +198,17 @@ bool DatabaseManager::DropDatabase(const std::string &db_name) {
   }
 }
 
+/**
+ * @brief 切换当前活动数据库
+ *
+ * WHY: 所有的后续操作（CREATE TABLE, SELECT 等）均需基于某个上下文。
+ *      UseDatabase 设置了会话级的当前库变量。
+ * WHAT: 更新 current_database_ 并触发该库元数据的加载。
+ * HOW:
+ * 1. 检查物理目录是否存在。
+ * 2. 扫描该目录下的所有 .table 文件，重建内存中的表清单索引。
+ * 3. 更新 current_database_ 变量。
+ */
 bool DatabaseManager::UseDatabase(const std::string &db_name) {
   std::lock_guard<std::mutex> lock(mutex_);
 
@@ -251,7 +272,17 @@ std::string DatabaseManager::GetCurrentDatabase() const {
   return current_database_;
 }
 
-// 表管理方法
+/**
+ * @brief 创建新表
+ *
+ * WHY: 表是数据库存储的核心结构。需要将逻辑列定义转换为持久化的元数据。
+ * WHAT: 在当前库目录下创建一个 .table 文件，记录 Schema 信息。
+ * HOW:
+ * 1. 检查数据库是否存在。
+ * 2. 检查表是否已存在。
+ * 3. 序列化列名和类型为 JSON 格式并写入文件。
+ * 4. 在内存缓存 database_tables_ 中注册该表。
+ */
 bool DatabaseManager::CreateTable(
     const std::string &db_name, const std::string &table_name,
     const std::vector<std::pair<std::string, std::string>> &columns) {
@@ -619,7 +650,17 @@ bool DatabaseManager::AddConstraint(const std::string &table_name,
   }
 }
 
-// 数据操作方法（基础实现）
+/**
+ * @brief 插入记录
+ *
+ * WHY: 实现数据的持久化存储。这是 DML 操作的核心部分。
+ * WHAT: 将一组逻辑值插入到指定的物理表中。
+ * HOW:
+ * 1. 路由：查找 table_name 对应的 TableStorage 实例。
+ * 2. 验证：调用 RecordValidator 检查类型和大小。
+ * 3. 物理写入：通过存储管理器分配槽位并写入字节流。
+ * 4. 索引维护：同步更新该表关联的所有 B+ 树索引。
+ */
 bool DatabaseManager::InsertRecord(const std::string &table_name,
                                   const std::vector<std::string> &values) {
   std::lock_guard<std::mutex> lock(mutex_);
@@ -654,6 +695,16 @@ bool DatabaseManager::InsertRecord(const std::string &table_name,
   }
 }
 
+/**
+ * @brief 更新记录
+ *
+ * WHY: 修改现有数据以反映业务状态变化。
+ * WHAT: 根据条件（Condition）筛选并修改匹配的行。
+ * HOW:
+ * 1. 扫描：执行过滤条件筛选出待更新的记录位置。
+ * 2. 修改：在内存页中就地更新（In-place）或标记删除并重插（若大小变化）。
+ * 3. 锁控制：获取 X 锁确保并发修改的原子性。
+ */
 bool DatabaseManager::UpdateRecords(const std::string &table_name,
                                    const std::map<std::string, std::string> &updates,
                                    const std::string &condition) {
@@ -689,6 +740,16 @@ bool DatabaseManager::UpdateRecords(const std::string &table_name,
   }
 }
 
+/**
+ * @brief 删除记录
+ *
+ * WHY: 移除不再需要的数据。
+ * WHAT: 根据条件物理或逻辑删除匹配的行。
+ * HOW:
+ * 1. 定位：通过索引或全表扫描找到目标行。
+ * 2. 标记：在 RecordHeader 中设置 is_deleted 标志。
+ * 3. 资源清理：更新 B+ 树移除对应条目，并递减页面的元组计数。
+ */
 bool DatabaseManager::DeleteRecords(const std::string &table_name,
                                    const std::string &condition) {
   std::lock_guard<std::mutex> lock(mutex_);
@@ -790,7 +851,15 @@ std::vector<std::string> DatabaseManager::ListTables() {
   return database_tables_[current_database_];
 }
 
-// 事务相关方法
+/**
+ * @brief 开启新事务
+ *
+ * WHY: 保证一组数据库操作的 ACID 特性。
+ * WHAT: 向 TransactionManager 申请并初始化一个新的事务上下文。
+ * HOW:
+ * 1. 委托给文件管理器 db_file_manager_ 执行 Begin。
+ * 2. 返回全局唯一的 TransactionId 用于后续操作关联。
+ */
 TransactionId DatabaseManager::BeginTransaction(IsolationLevel isolation_level) {
   std::lock_guard<std::mutex> lock(mutex_);
   if (is_closed_) {

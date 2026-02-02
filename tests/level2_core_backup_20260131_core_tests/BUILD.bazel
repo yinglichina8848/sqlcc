@@ -1,0 +1,64 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
+cc_library(
+    name = "core_test_utils",
+    srcs = ["core_test_utils.cpp"],
+    hdrs = ["core_test_utils.h"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//src/core:core",
+        "//src/logger:logger",
+    ],
+)
+
+cc_test(
+    name = "user_manager_test",
+    srcs = ["user_manager_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "//src/exception:exception",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    tags = ["foundation", "core"],
+)
+
+cc_test(
+    name = "permission_validator_test",
+    srcs = ["permission_validator_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "//src/exception:exception",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    tags = ["foundation", "core"],
+)
+
+cc_test(
+    name = "execution_context_test",
+    srcs = ["execution_context_test.cpp"],
+    deps = [
+        "//src/core:core",
+        "//src/exception:exception",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    tags = ["foundation", "core"],
+)
+
+cc_test(
+    name = "core_all_tests",
+    srcs = [
+        "user_manager_test.cpp",
+        "permission_validator_test.cpp",
+        "execution_context_test.cpp",
+    ],
+    deps = [
+        "//src/core:core",
+        "//src/exception:exception",
+        "//src/logger:logger",
+        "@com_google_googletest//:gtest_main",
+    ],
+    tags = ["foundation", "core"],
+)

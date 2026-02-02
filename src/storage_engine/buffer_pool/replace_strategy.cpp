@@ -432,5 +432,44 @@ int32_t ARCReplaceStrategy::SelectVictim() {
     if (victim != -1) RemovePage(victim);
     return victim;
 }
-// ... rest of the file
+
+// --- AbstractReplaceStrategy Additional Implementations ---
+
+void AbstractReplaceStrategy::CleanPage(int32_t page_id) {
+    std::unique_lock<std::mutex> lock(page_info_mutex_);
+    auto it = page_info_.find(page_id);
+    if (it != page_info_.end()) {
+        it->second.is_dirty = false;
+    }
+}
+
+void AbstractReplaceStrategy::AddPage(int32_t page_id) {
+    std::unique_lock<std::mutex> lock(page_info_mutex_);
+    page_info_.try_emplace(page_id, page_id);
+}
+
+void AbstractReplaceStrategy::RemovePage(int32_t page_id) {
+    std::unique_lock<std::mutex> lock(page_info_mutex_);
+    page_info_.erase(page_id);
+}
+
+AbstractReplaceStrategy::PageAccessInfo* AbstractReplaceStrategy::GetPageInfo(int32_t page_id) {
+    std::unique_lock<std::mutex> lock(page_info_mutex_);
+    auto it = page_info_.find(page_id);
+    if (it != page_info_.end()) {
+        return &(it->second);
+    }
+    return nullptr;
+}
+
+AbstractReplaceStrategy::StrategyStats AbstractReplaceStrategy::GetStats() const {
+    std::unique_lock<std::mutex> lock(stats_mutex_);
+    return stats_;
+}
+
+void AbstractReplaceStrategy::ResetStats() {
+    std::unique_lock<std::mutex> lock(stats_mutex_);
+    stats_ = StrategyStats();
+}
+
 } // namespace sqlcc

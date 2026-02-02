@@ -43,6 +43,27 @@ static_assert(!std::is_abstract_v<sqlcc::sql_parser::Parser>,
 namespace sqlcc {
 namespace sql_parser {
 
+/**
+ * @class Parser
+ * @brief SQL 解析器门面类 - 实现 SQL 脚本的完整生命周期解析
+ *
+ * WHY层 - 设计意图：
+ *   一个 SQL 脚本可能包含多个不同类型的语句（DDL, DML 等）。
+ *   Parser 作为主控制器，负责协调各个子解析器，并提供统一的错误同步机制，
+ *   确保即使脚本中某个语句有误，也能尝试继续解析后续语句，提升解析效率和容错性。
+ *
+ * WHAT层 - 功能说明：
+ coordinators 词法分析 (Lexer) 和标记流 (TokenStream) 的集成。
+ *   主入口 parse() 循环解析完整的 SQL 文本并返回 AST 语句列表。
+ *   parseStatement() 负责基于首标记（Lookahead）分发到对应的 DDL/DML/DCL/TCL 子解析器。
+ *   实现恐慌模式（Panic Mode）下的自动同步（Synchronize）。
+ *
+ * HOW层 - 实现机制：
+ *   1. 组合模式：持有 ParserDDL, ParserDML 等专项解析器的 unique_ptr。
+ *   2. 递归下降：按照 SQL 文法从高层语句向下递归。
+ *   3. 错误同步：initializeSyncTokens 定义了语句边界标记（如分号或关键字），同步逻辑跳过错误 Token 直至这些安全点。
+ *   4. PIMPL 风格：核心逻辑委托给 ParserCore 基类和子解析器实现。
+ */
 Parser::Parser(const std::string& input)
     : ParserCore(tokenStream_), 
       lexer_(input), 

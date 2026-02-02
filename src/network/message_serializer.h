@@ -11,13 +11,25 @@ namespace sqlcc {
 namespace network {
 
 /**
- * @brief 消息序列化器类
+ * @class MessageSerializer
+ * @brief 通用消息序列化器 - 实现 SQLCC 内部协议的二进制封包与解包
  *
- * MessageSerializer类负责消息的序列化和反序列化，包括：
- * - 消息头的序列化/反序列化
- * - 消息体的序列化/反序列化
- * - 字节序转换
- * - 数据校验和验证
+ * WHY层 - 设计意图：
+ *   在分布式数据库或 C/S 架构中，复杂的内存对象（如查询结果、错误信息）无法直接在网络上传输。
+ *   MessageSerializer 统一了数据的“物理表达”规范，解决了不同架构（如 x86 vs ARM）之间的
+ *   字节序（Endianness）问题，并通过 CRC 校验确保了数据在不稳定的网络链路上的完整性。
+ *
+ * WHAT层 - 功能说明：
+ *   提供结构化数据到 std::vector<char> 字节流的双向转换。
+ *   处理 MessageHeader（包含类型、标志、序列号、载荷长度）的固定格式封装。
+ *   实现基于 CRC32 算法的数据校验和计算与验证。
+ *   支持网络字节序（Big-Endian）与主机字节序的自动转换。
+ *
+ * HOW层 - 实现机制：
+ *   1. 协议头封装：Serialize 方法预留固定长度头部，填充长度字段和序列号。
+ *   2. 字节流对齐：通过位移运算（Shift & Mask）实现跨平台的整数序列化。
+ *   3. 查表法优化：InitializeCRC32Table 预计算 256 字节查找表，将校验速度提升一个数量级。
+ *   4. 原子状态：crc32_table_initialized_ 保证全局查找表仅初始化一次。
  */
 class MessageSerializer {
 public:

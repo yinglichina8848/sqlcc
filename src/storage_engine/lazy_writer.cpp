@@ -4,6 +4,27 @@
 
 namespace sqlcc {
 
+/**
+ * @class LazyWriter
+ * @brief 延迟写入器 - 实现缓冲池脏页的高效后台异步落盘
+ *
+ * WHY层 - 设计意图：
+ *   在 Buffer Pool 中，被修改的页面（脏页）不应立即同步写入磁盘，以免阻塞主流程。
+ *   LazyWriter 作为后台工作者，负责平滑处理这些脏页，防止因内存不足而导致的突发性大量 I/O 峰值，
+ *   同时利用磁盘的批量写入特性提高效率。
+ *
+ * WHAT层 - 功能说明：
+ *   维护脏页列表（dirty_pages_）和数据缓存。
+ *   根据时间（max_dirty_age_）和数量（max_dirty_pages_）阈值自动触发批量写入。
+ *   支持强制全量刷盘（ForceFlush）。
+ *   提供 I/O 统计信息用于系统调优。
+ *
+ * HOW层 - 实现机制：
+ *   1. 异步架构：使用独立的工作线程 LazyWriteWorker 执行写盘循环。
+ *   2. 排序优化：GetPagesToFlush 按照修改时间（Last Modified）排序，优先刷写最旧的页面（Checkpoint 推进）。
+ *   3. 锁隔离：分别使用 dirty_mutex_ 保护数据列表，使用 flush_mutex_ 协调线程同步。
+ *   4. 原子状态：运行状态（running_）和开关（enabled_）使用 std::atomic 实现无锁检查。
+ */
 LazyWriter::LazyWriter(ConfigManager &config_manager, DiskManager &disk_manager)
     : config_manager_(config_manager), disk_manager_(disk_manager),
       running_(false), enabled_(true),

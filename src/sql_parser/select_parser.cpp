@@ -13,6 +13,26 @@
 namespace sqlcc {
 namespace sql_parser {
 
+/**
+ * @class SelectParser
+ * @brief SELECT 语句专用解析器 - 实现复杂的 DML 查询语法分析
+ *
+ * WHY层 - 设计意图：
+ *   SELECT 是 SQL 中最复杂、子句最多的语句。
+ *   为了保证代码的可读性和可维护性，SelectParser 采用“分治法”，
+ *   将一个巨大的查询语句拆解为 SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY 六个标准子句进行独立解析。
+ *
+ * WHAT层 - 功能说明：
+ *   解析标准的 SELECT 查询，包括聚合函数、多表 JOIN、嵌套过滤条件。
+ *   构建 SelectStatement AST 节点，并填充各个子句的属性。
+ *   集成 ExpressionParser 递归解析 WHERE 和 ON 子句中的布尔表达式。
+ *
+ * HOW层 - 实现机制：
+ *   1. 顺序解析：parse() 方法按照 SQL 标准子句的物理出现顺序依次调用对应的私有解析函数。
+ *   2. 递归下降：对于嵌套查询或复杂表达式，递归调用 ExpressionParser 保持上下文。
+ *   3. 状态感知：利用 TokenStream 的 check 和 expect 机制进行语法断言。
+ *   4. 别名处理：parseSelectItem 处理列别名（AS），parseFromClause 处理表别名和连接类型。
+ */
 SelectParser::SelectParser(TokenStream& tokens, ExpressionParser& expr_parser)
     : tokens_(tokens), expr_parser_(expr_parser) {
   std::cout << "[SELECT_PARSER] SelectParser initialized" << std::endl;

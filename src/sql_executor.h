@@ -6,9 +6,10 @@
 #include "core/system_database.h"
 #include "core/user_manager.h"
 #include "core/core_database_manager.h"
+#include "core/execution_result.h"
+#include "core/execution_context.h"
 #include "sql_parser/parser.h"
-#include "sql_parser/parser.h"
-#include "unified_query_plan.h"
+#include "execution/unified_query_plan.h"
 #include "view_manager.h"
 #include <memory>
 #include <string>

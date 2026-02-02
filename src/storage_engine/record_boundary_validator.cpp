@@ -45,12 +45,37 @@ const std::regex FieldTypeValidation::TIME_PATTERN(
 const std::regex FieldTypeValidation::DATETIME_PATTERN(
     R"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(\.\d{1,6})?)");
 
-// 记录大小验证器实现
+/**
+ * @class RecordSizeValidator
+ * @brief 记录大小验证器 - 确保数据记录在物理页面的存储限制内
+ *
+ * WHY层 - 设计意图：
+ *   数据库页面大小是固定的（通常为8KB）。如果记录大小超过限制，会导致插入失败或页面分裂。
+ *   提前验证记录大小可以防止无效的I/O操作，并确保数据的紧凑存储。
+ *
+ * WHAT层 - 功能说明：
+ *   计算单个字段及整条记录的预期存储字节数。
+ *   根据表元数据验证记录是否满足最大页长限制。
+ *   支持变长字段（VARCHAR, TEXT）的动态大小计算。
+ *
+ * HOW层 - 实现机制：
+ *   1. 遍历记录的所有字段。
+ *   2. 根据数据类型应用不同的计算规则（如INT固定4字节，VARCHAR按长度+前缀）。
+ *   3. 累加字段大小并加上RecordHeader的固定开销。
+ *   4. 与配置的 max_record_size_ 进行比较。
+ */
 RecordSizeValidator::RecordSizeValidator()
     : max_record_size_(RecordSizeLimits::DEFAULT_MAX_RECORD_SIZE),
       strict_mode_(true) {
 }
 
+/**
+ * @brief 验证记录的总大小是否合法
+ * 
+ * WHY: 物理页面的剩余空间必须大于记录的序列化大小。
+ * WHAT: 检查给定的字节数是否在 [1, max_size] 范围内。
+ * HOW: 进行简单的数值边界检查，并区分一般性大小错误和严重的边界违反。
+ */
 ValidationResult RecordSizeValidator::ValidateRecordSize(size_t record_size, size_t max_size) const {
     if (record_size == 0) {
         return INVALID_SIZE;
@@ -173,9 +198,34 @@ size_t RecordSizeValidator::GetMaxRecordSize() const {
     return max_record_size_;
 }
 
-// 字段类型边界验证器实现
+/**
+ * @class FieldTypeBoundaryValidator
+ * @brief 字段类型边界验证器 - 确保具体数值在SQL数据类型的逻辑边界内
+ *
+ * WHY层 - 设计意图：
+ *   SQL类型如 INT, FLOAT, DATE 有明确的定义域。例如 INT 不能存超过 2^31-1 的值。
+ *   在写入前进行格式和数值校验，可以避免底层存储时的溢出错误或解析失败。
+ *
+ * WHAT层 - 功能说明：
+ *   验证整型、浮点型、日期时间、布尔、UUID、Email、JSON等格式的有效性。
+ *   对数值类型进行下限和上限检查（Range Check）。
+ *   使用正则表达式对复杂字符串格式进行模式匹配。
+ *
+ * HOW层 - 实现机制：
+ *   1. 使用 std::stoll/std::stod 进行字符串到数值的转换。
+ *   2. 捕获 std::out_of_range 等异常以识别边界冲突。
+ *   3. 利用预编译的 std::regex 模式（如 EMAIL_PATTERN）执行快速格式校验。
+ *   4. 特殊处理日期时间，结合 sscanf 和闰年规则进行深度有效性验证。
+ */
 FieldTypeBoundaryValidator::FieldTypeBoundaryValidator() = default;
 
+/**
+ * @brief 验证整数是否在类型允许范围内
+ * 
+ * WHY: 防止 32位 INT 存储 64位 BIGINT 的值导致截断。
+ * WHAT: 将字符串转为 long long 并与该类型的常量最小值/最大值比较。
+ * HOW: 使用 stoll 解析，并检查 stoll 是否抛出解析或溢出异常。
+ */
 ValidationResult FieldTypeBoundaryValidator::ValidateInteger(const std::string& value, bool is_bigint) const {
     if (!IsValidIntegerFormat(value)) {
         return INVALID_FORMAT;
@@ -563,7 +613,25 @@ std::string FieldTypeBoundaryValidator::TrimWhitespace(const std::string& value)
     return value.substr(start, end - start + 1);
 }
 
-// 数据完整性约束验证器实现
+/**
+ * @class DataIntegrityConstraintValidator
+ * @brief 数据完整性约束验证器 - 维护数据库定义的实体完整性、参照完整性和用户定义完整性
+ *
+ * WHY层 - 设计意图：
+ *   约束（Constraint）是数据库保证数据正确性的最后防线。
+ *   即使上层业务逻辑有误，存储层的约束验证也能确保数据库状态的合法性（如主键不重复、外键存在）。
+ *
+ * WHAT层 - 功能说明：
+ *   执行 NOT NULL, UNIQUE, CHECK, FOREIGN KEY 约束校验。
+ *   支持默认值的应用逻辑。
+ *   管理针对不同表的验证规则列表。
+ *
+ * HOW层 - 实现机制：
+ *   1. 唯一性检查：通过 unique_value_cache_ 或查询对应索引进行排他性验证。
+ *   2. 非空检查：简单的字符串空值判断。
+ *   3. 外键检查：(简化实现) 调用 ForeignKeyExists 接口确认引用的父记录存在。
+ *   4. Check约束：(计划中) 调用 SQL 表达式引擎评估布尔表达式。
+ */
 DataIntegrityConstraintValidator::DataIntegrityConstraintValidator(std::shared_ptr<StorageEngine> storage_engine)
     : storage_engine_(std::move(storage_engine)) {
 }
@@ -778,7 +846,24 @@ void DataIntegrityConstraintValidator::UpdateUniqueValueCache(const std::string&
     }
 }
 
-// 并发访问控制验证器实现
+/**
+ * @class ConcurrentAccessControlValidator
+ * @brief 并发访问控制验证器 - 确保单条记录的操作符合事务隔离级别和锁定规则
+ *
+ * WHY层 - 设计意图：
+ *   在多用户并发环境下，多个事务可能同时竞争同一行数据。
+ *   该验证器作为防护层，确保读写操作在当前事务的上下文是安全的。
+ *
+ * WHAT层 - 功能说明：
+ *   验证事务的隔离级别（如 Read Committed vs Serializable）。
+ *   检查当前记录是否存在写锁冲突。
+ *   执行 MVCC 版本可见性检查。
+ *
+ * HOW层 - 实现机制：
+ *   1. 依赖 TransactionManager 提供的全局事务状态。
+ *   2. 查询锁定状态：检查 record_id 是否被其他事务独占。
+ *   3. 版本对比：对于乐观锁或 MVCC，比较 expected_version 与记录头部的版本号。
+ */
 ConcurrentAccessControlValidator::ConcurrentAccessControlValidator(
     std::shared_ptr<TransactionManager> transaction_manager)
     : transaction_manager_(std::move(transaction_manager)) {

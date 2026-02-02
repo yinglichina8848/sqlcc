@@ -61,7 +61,7 @@
  */
 
 #include "../sql_executor.h"
-#include "sql_parser/parser.h"
+#include "../sql_parser/parser.h"
 #include "../storage_engine/storage_engine.h"
 #include "../transaction_manager/transaction_manager.h"
 #include "../execution_context.h"
@@ -128,7 +128,17 @@ void SqlExecutor::initializeComponents() {
   std::cout << "[SQLEXECUTOR] Components initialized successfully" << std::endl;
 }
 
-// 执行SQL语句（字符串版本）
+/**
+ * @brief 执行 SQL 语句（字符串接口）
+ *
+ * WHY: 应用程序通常通过文本协议发送 SQL 请求。执行器必须能够解析任意 SQL 文本并调度到正确。
+ * WHAT: 实现一个完整的“文本解析 -> 语义路由 -> 物理执行”流水线。
+ * HOW:
+ * 1. 预处理：将 SQL 统一转为大写并去除首尾空格，简化正则匹配。
+ * 2. 路由分发：基于正则表达式快速识别关键字（CREATE, SELECT, INSERT 等）。
+ * 3. 专项执行：根据识别出的类型，调用对应的私有处理函数（如 ExecuteCreateTable）。
+ * 4. 容错：若不匹配任何已知模式，返回带有详细提示的错误信息。
+ */
 std::string SqlExecutor::Execute(const std::string &sql) {
   // 转换为大写进行模式匹配
   std::string upper_sql = sql;

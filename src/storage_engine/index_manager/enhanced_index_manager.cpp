@@ -2,7 +2,7 @@
 #include "smart_index_cache.h"
 #include "transactional_index_manager.h"
 #include "../b_plus_tree.h"
-#include "logger/logger.h"
+#include "../../logger/logger.h"
 #include <thread>
 #include <chrono>
 
@@ -10,6 +10,27 @@ namespace sqlcc {
 namespace storage_engine {
 namespace index_manager {
 
+/**
+ * @class EnhancedIndexManager
+ * @brief 增强型索引管理器 - 提供带缓存和事务支持的 B+ 树索引生命周期管理
+ *
+ * WHY层 - 设计意图：
+ *   索引操作（创建、删除）是代价昂贵的操作，且直接影响查询计划的生成。
+ *   EnhancedIndexManager 通过引入"智能缓存"和"事务感知"能力，
+ *   解决了索引在并发 DDL 场景下的不一致问题，并优化了索引查找的延迟。
+ *
+ * WHAT层 - 功能说明：
+ *   提供线程安全的索引创建（CreateIndex）和删除（DropIndex）。
+ *   集成 SmartIndexCache，实现索引对象的 LRU 缓存和过期清理。
+ *   集成 TransactionalIndexManager，支持在未提交事务中可见的索引修改。
+ *   后台自动维护：定期执行过期缓存清理。
+ *
+ * HOW层 - 实现机制：
+ *   1. 职责分离：管理逻辑委托给 smart_cache_ (缓存) 和 tx_manager_ (事务逻辑)。
+ *   2. 延迟加载：索引对象在首次使用时被实例化并加入缓存。
+ *   3. 异步清理：启动后台线程 cleanup_thread_，每 10 分钟扫描一次超过 1 小时未使用的索引。
+ *   4. 指标统计：收集缓存命中率等性能指标供 DBA 调优。
+ */
 EnhancedIndexManager::EnhancedIndexManager(std::shared_ptr<StorageEngine> storage_engine,
                                           std::shared_ptr<TransactionManager> transaction_manager)
     : storage_engine_(storage_engine),
@@ -116,7 +137,7 @@ void EnhancedIndexManager::RollbackTransaction(int32_t transaction_id) {
     tx_manager_->RollbackTransaction(transaction_id);
 }
 
-SmartIndexCache::EnhancedCacheStats EnhancedIndexManager::GetCacheStats() const {
+EnhancedCacheStats EnhancedIndexManager::GetCacheStats() const {
     return smart_cache_->GetEnhancedCacheStats();
 }
 
@@ -127,12 +148,23 @@ void EnhancedIndexManager::CleanupExpiredCache(std::chrono::minutes max_age) {
 bool EnhancedIndexManager::RebuildIndex(const std::string& index_name) {
     SQLCC_LOG_INFO("Rebuilding index: " + index_name);
     // 简化的重建实现
-    return true;
+    auto index = smart_cache_->GetIndex(index_name);
+    if (!index) {
+        SQLCC_LOG_WARN("Index not found for rebuilding: " + index_name);
+        return false;
+    }
+
+    // 简化：仅删除并重新创建索引
+    if (DropIndex(index_name, "", false, -1)) {
+        return CreateIndex(index_name, "", "", false, -1);
+    }
+    return false;
 }
 
 bool EnhancedIndexManager::OptimizeIndex(const std::string& index_name) {
     SQLCC_LOG_INFO("Optimizing index: " + index_name);
     // 简化的优化实现
+    (void)index_name;
     return true;
 }
 
@@ -140,9 +172,11 @@ std::unordered_map<std::string, double> EnhancedIndexManager::GetPerformanceStat
     std::unordered_map<std::string, double> stats;
     auto cache_stats = smart_cache_->GetEnhancedCacheStats();
 
-    stats["cache_hit_rate"] = cache_stats.hit_rate;
-    stats["average_access_frequency"] = cache_stats.average_access_frequency;
-    stats["total_indexes"] = static_cast<double>(cache_stats.total_indexes);
+    stats["cache_hits"] = static_cast<double>(cache_stats.cache_hits);
+    stats["cache_misses"] = static_cast<double>(cache_stats.cache_misses);
+    stats["hit_rate"] = cache_stats.hit_rate;
+    stats["active_indexes"] = cache_stats.active_indexes;
+    stats["expired_indexes"] = cache_stats.expired_indexes;
 
     return stats;
 }
@@ -153,7 +187,7 @@ void EnhancedIndexManager::StartCacheCleanupTimer() {
         while (cleanup_timer_running_) {
             std::this_thread::sleep_for(std::chrono::minutes(10));
             if (cleanup_timer_running_) {
-                smart_cache_->CleanupExpiredCache(std::chrono::minutes(60));
+                CleanupExpiredCache(std::chrono::hours(1));
             }
         }
     });

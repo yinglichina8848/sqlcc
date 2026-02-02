@@ -8,6 +8,27 @@
 
 namespace sqlcc {
 
+/**
+ * @class WALBuffer
+ * @brief WAL 日志缓冲区 - 实现日志的内存聚合与高性能异步刷盘
+ *
+ * WHY层 - 设计意图：
+ *   磁盘 I/O 是数据库操作中最慢的部分。直接为每个事务执行 fsync 会导致吞吐量急剧下降。
+ *   WALBuffer 通过在内存中缓存日志记录，将随机的小 I/O 合并为大的顺序 I/O，
+ *   并通过后台线程实现异步落盘，在保证持久性的前提下最大化系统吞吐量。
+ *
+ * WHAT层 - 功能说明：
+ *   管理日志记录的内存队列（buffer_）。
+ *   分配全局唯一的日志序列号（LSN）。
+ *   监控缓冲区水位线（Utilization），并在超过阈值时触发自动刷盘。
+ *   支持手动强制刷盘（ForceFlush）以满足事务提交的要求。
+ *
+ * HOW层 - 实现机制：
+ *   1. 双缓冲区思想：Flush 操作时将 buffer_ 内容移入临时容器并立即清空原 buffer_，减少主线程锁阻塞。
+ *   2. 后台工作者：BackgroundFlushWorker 线程根据时间间隔或 flush_cv_ 信号唤醒执行 I/O。
+ *   3. 批量写入：每次 Flush 都会聚合多条记录，调用 wal_writer_ 的 WriteRecords 接口。
+ *   4. 指标驱动：通过 WALBufferStats 实时反馈缓冲区状态和刷盘效率。
+ */
 WALBuffer::WALBuffer(ConfigManager& config_manager, size_t buffer_size)
     : wal_writer_(nullptr),
       config_manager_(config_manager),

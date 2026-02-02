@@ -181,6 +181,18 @@ bool WALWriter::TruncateToLSN(uint64_t target_lsn) {
   }
 }
 
+/**
+ * @brief WAL 写入工作线程
+ * 
+ * WHY: 磁盘写入是阻塞且缓慢的。为了防止 fsync 拖慢正常的事务处理流程，
+ *      必须使用独立的后台线程来负责物理 I/O。
+ * WHAT: 实现一个“消费循环”，从待写入队列中提取批次并顺序落盘。
+ * HOW:
+ * 1. 挂起等待：使用 write_cv_ 在没有任务时进入低功耗休眠。
+ * 2. 批量提取：一旦被唤醒，使用 swap 技术一次性提取 write_queue_ 中积累的所有批次。
+ * 3. 顺序落盘：遍历批次，调用 PerformWrite 将数据流式写入文件。
+ * 4. 退出协议：当 running_ 为 false 时，必须先处理完剩余的所有队列数据再安全退出。
+ */
 void WALWriter::WALWriteWorker() {
   while (running_) {
     std::vector<std::vector<std::unique_ptr<WALBuffer::WALRecord>>> current_queue;

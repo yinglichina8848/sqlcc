@@ -12,7 +12,7 @@ using namespace sqlcc::sql_parser::ast;
 // 简单 DebugPrintVisitor，只输出 BinaryExpression 操作符
 class TestPrintVisitor : public NodeVisitor {
 public:
-    void visitBinaryExpression(BinaryExpression& expr) override {
+    void visit(BinaryExpression& expr) override {
         std::cout << "BinaryExpression(";
         switch(expr.getOperator()) {
             case OperatorKind::Add: std::cout << "Add"; break;
@@ -30,7 +30,7 @@ int main() {
     auto lhs = std::make_unique<NumericLiteralExpression>(1.0);
     auto rhs = std::make_unique<NumericLiteralExpression>(2.0);
 
-    BinaryExpression expr(std::move(lhs), OperatorKind::Add, std::move(rhs));
+    BinaryExpression expr(std::move(lhs), std::move(rhs), OperatorKind::Add);
 
     // 调试输出
     TestPrintVisitor visitor;

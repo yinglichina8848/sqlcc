@@ -134,6 +134,16 @@ void TableStorageManager::WritePageHeader(Page* page, const PageHeader& header) 
     (void)header; // 避免未使用参数警告
 }
 
+/**
+ * @brief 创建表存储
+ *
+ * WHY: 在存储引擎中建立表与列的映射关系，预估存储开销。
+ * WHAT: 初始化 TableMetadata 对象并注册到内存。
+ * HOW:
+ * 1. 遍历列定义，区分定长（INT, FLOAT）和变长（VARCHAR, TEXT）类型。
+ * 2. 预计算 record_size 开销（包含 RecordHeader）。
+ * 3. 建立列名到索引的快速查找表（column_index_map）。
+ */
 bool TableStorageManager::CreateTable(const std::string &table_name,
                                       const std::vector<TableColumn> &columns) {
     // 增强的参数验证
@@ -257,6 +267,17 @@ TableStorageManager::GetTableMetadata(const std::string &table_name) const {
     return nullptr;
 }
 
+/**
+ * @brief 插入新记录
+ *
+ * WHY: 表存储的核心接口，负责数据落地的“最后一公里”。
+ * WHAT: 将逻辑字段值列表写入物理磁盘页面。
+ * HOW:
+ * 1. Schema 校验：通过 RecordValidator 验证数据类型和数量的一致性。
+ * 2. 页面寻址：调用 AllocateNewPage 寻找具有足够剩余空间的页面。
+ * 3. 序列化：将字符串数据转换为二进制流并拷贝至页面的 slot 对应偏移处。
+ * 4. RID 生成：返回该记录成功插入后的 page_id 和 offset。
+ */
 bool TableStorageManager::InsertRecord(const std::string &table_name,
                                        const std::vector<std::string> &values,
                                        int32_t &page_id, size_t &offset) {
@@ -321,6 +342,16 @@ bool TableStorageManager::InsertRecord(const std::string &table_name,
     }
 }
 
+/**
+ * @brief 更新现有记录
+ *
+ * WHY: 修改特定物理位置（RID）的数据。
+ * WHAT: 将新值覆盖回原有页面。
+ * HOW:
+ * 1. 定位页面：调用 FetchPage 将物理页载入内存。
+ * 2. 空间验证：若新记录大于旧记录且超过 slot 限制，可能需迁移（当前简化为就地更新）。
+ * 3. 标记脏页：更新成功后 UnpinPage(true) 确保后台写回。
+ */
 bool TableStorageManager::UpdateRecord(
     const std::string &table_name, int32_t page_id, size_t offset,
     const std::vector<std::string> &new_values) {
@@ -381,6 +412,16 @@ bool TableStorageManager::UpdateRecord(
     }
 }
 
+/**
+ * @brief 逻辑删除记录
+ *
+ * WHY: 移除指定物理位置的数据行。
+ * WHAT: 在 RecordHeader 中设置删除位（Tombstone）。
+ * HOW:
+ * 1. FetchPage 定位。
+ * 2. 找到 slot 头部标记 is_deleted = true。
+ * 3. 将该空间链接至页内的 Free List，以便后续 Insert 重用。
+ */
 bool TableStorageManager::DeleteRecord(const std::string &table_name,
                                        int32_t page_id, size_t offset) {
     try {

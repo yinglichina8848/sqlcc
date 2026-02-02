@@ -33,8 +33,25 @@ struct HandshakeV10 {
 };
 
 /**
- * MySQL协议处理器接口
- * 用于双协议共存支持
+ * @class MySQLProtocolHandler
+ * @brief MySQL 协议兼容层处理器 - 实现 SQLCC 与标准 MySQL 客户端的无缝对接
+ *
+ * WHY层 - 设计意图：
+ *   为了降低用户的迁移成本，SQLCC 必须兼容主流的数据库客户端工具（如 MySQL Workbench, Navicat）。
+ *   MySQL 协议是一种基于 TCP 的有状态二进制协议。通过实现该协议，SQLCC 能够伪装成一个
+ *   标准的 MySQL 服务器，允许用户使用现有的驱动程序（如 JDBC, PyMySQL）直接连接。
+ *
+ * WHAT层 - 功能说明：
+ *   实现 MySQL 经典的四阶段握手（Handshake V10）。
+ *   解析 HandshakeResponse41 包，提取用户名、数据库名及加密后的认证数据（Scramble）。
+ *   封装并发送查询结果集（ResultSet），包括列定义（Column Definition）和行数据（Text Resultset Row）。
+ *   管理数据包序列号（Sequence ID），确保数据包在 TCP 链路上的顺序一致性。
+ *
+ * HOW层 - 实现机制：
+ *   1. 二进制序列化：按照 MySQL 官方文档定义的字节序（小端序为主）手动构建 Data Payload。
+ *   2. 变长编码：实现“长度编码整数（Length Encoded Integer）”算法，以节省元数据传输空间。
+ *   3. 状态维护：next_sequence_id_ 记录当前会话的包编号，每发送/接收一个完整包则自增。
+ *   4. 安全集成：利用 handshake_.scramble_buf 生成随机盐值，支持 mysql_native_password 认证方式。
  */
 class MySQLProtocolHandler {
 public:

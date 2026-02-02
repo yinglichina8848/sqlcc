@@ -17,12 +17,7 @@ namespace sql_parser {
 
 // ==================== GrantStatement ====================
 
-GrantStatement::GrantStatement(const std::vector<std::string> &privileges,
-                               const std::string &objectType,
-                               const std::string &objectName,
-                               const std::string &userName)
-    : Statement(GRANT), privileges_(privileges), objectType_(objectType),
-      objectName_(objectName), userName_(userName) {}
+GrantStatement::GrantStatement() : Statement(GRANT) {}
 
 GrantStatement::~GrantStatement() {}
 
@@ -30,30 +25,45 @@ void GrantStatement::accept(NodeVisitor &visitor) {
   visitor.visit(*this);
 }
 
+void GrantStatement::addPrivilege(const std::string &privilege) {
+  privileges_.push_back(privilege);
+}
+
 const std::vector<std::string> &GrantStatement::getPrivileges() const {
   return privileges_;
+}
+
+void GrantStatement::setObjectType(const std::string &objectType) {
+  objectType_ = objectType;
 }
 
 const std::string &GrantStatement::getObjectType() const {
   return objectType_;
 }
 
+void GrantStatement::setObjectName(const std::string &objectName) {
+  objectName_ = objectName;
+}
+
 const std::string &GrantStatement::getObjectName() const {
   return objectName_;
 }
 
-const std::string &GrantStatement::getUserName() const {
-  return userName_;
+void GrantStatement::setGrantee(const std::string &grantee) {
+  grantee_ = grantee;
+}
+
+const std::string &GrantStatement::getGrantee() const {
+  return grantee_;
+}
+
+std::string GrantStatement::getGrantee() {
+  return grantee_;
 }
 
 // ==================== RevokeStatement ====================
 
-RevokeStatement::RevokeStatement(const std::vector<std::string> &privileges,
-                                 const std::string &objectType,
-                                 const std::string &objectName,
-                                 const std::string &userName)
-    : Statement(REVOKE), privileges_(privileges), objectType_(objectType),
-      objectName_(objectName), userName_(userName) {}
+RevokeStatement::RevokeStatement() : Statement(REVOKE) {}
 
 RevokeStatement::~RevokeStatement() {}
 
@@ -61,20 +71,40 @@ void RevokeStatement::accept(NodeVisitor &visitor) {
   visitor.visit(*this);
 }
 
+void RevokeStatement::addPrivilege(const std::string &privilege) {
+  privileges_.push_back(privilege);
+}
+
 const std::vector<std::string> &RevokeStatement::getPrivileges() const {
   return privileges_;
+}
+
+void RevokeStatement::setObjectType(const std::string &objectType) {
+  objectType_ = objectType;
 }
 
 const std::string &RevokeStatement::getObjectType() const {
   return objectType_;
 }
 
+void RevokeStatement::setObjectName(const std::string &objectName) {
+  objectName_ = objectName;
+}
+
 const std::string &RevokeStatement::getObjectName() const {
   return objectName_;
 }
 
-const std::string &RevokeStatement::getUserName() const {
-  return userName_;
+void RevokeStatement::setGrantee(const std::string &grantee) {
+  grantee_ = grantee;
+}
+
+const std::string &RevokeStatement::getGrantee() const {
+  return grantee_;
+}
+
+std::string RevokeStatement::getGrantee() {
+  return grantee_;
 }
 
 // ==================== CommitStatement ====================
@@ -124,7 +154,7 @@ const std::string &UseStatement::getDatabaseName() const {
 
 // ==================== ShowStatement ====================
 
-ShowStatement::ShowStatement() : Statement(SHOW) {}
+ShowStatement::ShowStatement(ShowType type) : Statement(SHOW), type_(type) {}
 
 ShowStatement::~ShowStatement() {}
 
@@ -132,9 +162,34 @@ void ShowStatement::accept(NodeVisitor &visitor) {
   visitor.visit(*this);
 }
 
+ShowStatement::ShowType ShowStatement::getShowType() const {
+  return type_;
+}
+
+void ShowStatement::setTargetObject(const std::string &target) {
+  targetObject_ = target;
+}
+
+const std::string &ShowStatement::getTargetObject() const {
+  return targetObject_;
+}
+
+void ShowStatement::setFromDatabase(const std::string &dbName) {
+  fromDatabase_ = dbName;
+  hasFromDb_ = true;
+}
+
+const std::string &ShowStatement::getFromDatabase() const {
+  return fromDatabase_;
+}
+
+bool ShowStatement::hasFromDatabase() const {
+  return hasFromDb_;
+}
+
 // ==================== LoadDataStatement ====================
 
-LoadDataStatement::LoadDataStatement() : Statement(LOAD_DATA) {}
+LoadDataStatement::LoadDataStatement() : Statement(Type::LOAD_DATA) {}
 
 LoadDataStatement::~LoadDataStatement() {}
 

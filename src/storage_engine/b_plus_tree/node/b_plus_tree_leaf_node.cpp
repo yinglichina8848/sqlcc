@@ -13,6 +13,27 @@
 
 namespace sqlcc {
 
+/**
+ * @class BPlusTreeLeafNode
+ * @brief B+ 树叶子节点 - 存储实际的索引项并维护双向链表
+ *
+ * WHY层 - 设计意图：
+ *   在 B+ 树中，所有的实际数据（或指向数据的指针 RID）都存储在叶子节点。
+ *   叶子节点之间通过 next_page_id 链接，使得范围查询（Range Scan）只需一次点查找定位起点，
+ *   随后即可进行高效的线性遍历，无需回溯父节点。
+ *
+ * WHAT层 - 功能说明：
+ *   存储排序后的 IndexEntry 列表。
+ *   实现单键查找（Search）、范围查找（SearchRange）。
+ *   处理节点的横向分裂（Split）和合并（Merge）。
+ *   提供序列化/反序列化逻辑，将内存中的 entry 列表转为页面二进制格式。
+ *
+ * HOW层 - 实现机制：
+ *   1. 排序保证：Insert 操作使用 std::lower_bound 确定位置，确保 entries_ 始终有序。
+ *   2. 链表维护：Split 时自动更新新旧节点的 next_page_id，形成单向（或双向）链表。
+ *   3. 紧凑存储：SerializeToPage 将变长的 string key 和固定长的 page_id/offset 紧密排列。
+ *   4. 元数据头：页面首字节标记为 1，随后存储 entry_count, parent_id 和 next_id。
+ */
 BPlusTreeLeafNode::BPlusTreeLeafNode(std::shared_ptr<StorageEngine> storage_engine, int32_t page_id)
     : BPlusTreeNode(storage_engine, page_id, true), next_page_id_(-1) {
   SQLCC_LOG_DEBUG("BPlusTreeLeafNode constructor: is_leaf_ should be true, actual value: " + std::to_string(is_leaf_));

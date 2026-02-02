@@ -299,7 +299,19 @@ bool MySQLProtocolHandler::send_auth_error(const std::string& error_message) {
   return send_packet(err_packet.data(), err_packet.size(), 2);
 }
 
-// 发送查询结果
+/**
+ * @brief 发送查询结果集
+ * 
+ * WHY: 查询结果集是 MySQL 协议中最复杂的数据交换格式。它要求先发送列数，
+ *      再逐个发送列定义，最后发送行数据，每段都需要 EOF 包作为结束符。
+ * WHAT: 将二维字符串矩阵（rows）包装为标准 ResultSet 包流发送给客户端。
+ * HOW:
+ * 1. 发送 Column Count Packet：标记结果集有多少列。
+ * 2. 遍历 columns 列表：为每一列发送 Column Definition Packet，包含类型（VARCHAR）、字符集等元数据。
+ * 3. 发送 EOF Packet：标记元数据段结束。
+ * 4. 遍历 rows 列表：将每一行的数据作为一系列“长度编码字符串”发送。
+ * 5. 发送最终 EOF Packet：标记数据段结束，恢复到空闲状态。
+ */
 bool MySQLProtocolHandler::send_query_result(const std::vector<std::vector<std::string>>& rows,
                                            const std::vector<std::string>& columns) {
   try {

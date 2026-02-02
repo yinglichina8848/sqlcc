@@ -17,6 +17,20 @@ namespace sqlcc {
 
 /**
  * @brief LRU（最近最少使用）替换策略
+ *
+ * WHY层 - 设计意图：
+ *   LRU 基于“最近被访问过的数据在未来更有可能被再次访问”的假设。
+ *   它能有效应对具有时间局部性（Temporal Locality）的工作负载，
+ *   是数据库缓冲池最常用、最高效的通用平衡算法。
+ *
+ * WHAT层 - 功能说明：
+ *   实现基于顺序的时间戳置换逻辑。
+ *   维护一个活跃页面的排序队列，头部为最常访问，尾部为最久未访问。
+ *
+ * HOW层 - 实现机制：
+ *   1. 核心结构：使用 std::list 记录顺序，使用 std::unordered_map 存储迭代器实现 O(1) 定位。
+ *   2. 命中更新：每次 RecordAccess，若命正则将该 page_id 移动到 list 头部。
+ *   3. 牺牲者选择：SelectVictim 从 list 尾部向前扫描，返回首个 pin_count 为 0 的页面。
  */
 class LRUReplaceStrategy : public AbstractReplaceStrategy {
 public:

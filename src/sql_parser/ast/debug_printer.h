@@ -11,42 +11,42 @@ public:
   explicit DebugPrintVisitor(std::ostream& os = std::cout)
       : os_(os) {}
 
-  void visit(NumericLiteralExpression& expr) override {
+  void visit(const NumericLiteralExpression& expr) override {
     indent();
-    os_ << "NumericLiteral(" << expr.value() << ")\n";
+    os_ << "NumericLiteral(" << expr.getValue() << ")\n";
   }
 
-  void visit(StringLiteralExpression& expr) override {
+  void visit(const StringLiteralExpression& expr) override {
     indent();
-    os_ << "StringLiteral(\"" << expr.value() << "\")\n";
+    os_ << "StringLiteral(\"" << expr.getValue() << "\")\n";
   }
 
-  void visit(BooleanLiteralExpression& expr) override {
+  void visit(const BooleanLiteralExpression& expr) override {
     indent();
-    os_ << "BooleanLiteral(" << (expr.value() ? "true" : "false") << ")\n";
+    os_ << "BooleanLiteral(" << (expr.getValue() ? "true" : "false") << ")\n";
   }
 
-  void visit(NullLiteralExpression&) override {
+  void visit(const NullLiteralExpression&) override {
     indent();
     os_ << "NullLiteral\n";
   }
 
-  void visit(IdentifierExpression& expr) override {
+  void visit(const IdentifierExpression& expr) override {
     indent();
-    os_ << "Identifier(" << expr.name() << ")\n";
+    os_ << "Identifier(" << expr.getName() << ")\n";
   }
 
-  void visit(FunctionCallExpression& expr) override {
+  void visit(const FunctionCallExpression& expr) override {
     indent();
-    os_ << "FunctionCall(" << expr.name() << ")\n";
+    os_ << "FunctionCall(" << expr.getName() << ")\n";
     ++indent_;
-    for (auto& arg : expr.arguments()) {
+    for (const auto& arg : expr.getArguments()) {
       arg->accept(*this);
     }
     --indent_;
   }
 
-  void visit(BinaryExpression& expr) override {
+  void visit(const BinaryExpression& expr) override {
     indent();
     os_ << "BinaryExpression(";
     switch (expr.getOperator()) {

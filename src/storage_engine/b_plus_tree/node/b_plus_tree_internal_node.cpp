@@ -6,6 +6,27 @@
 
 namespace sqlcc {
 
+/**
+ * @class BPlusTreeInternalNode
+ * @brief B+ 树内部节点 - 存储路由键并引导搜索流量至正确的子节点
+ *
+ * WHY层 - 设计意图：
+ *   内部节点是 B+ 树的“路标”。它们不存储实际数据，只存储键（Keys）和子节点指针（Child IDs）。
+ *   通过维持多路平衡结构，内部节点保证了树的高度始终处于对数级（O(log N)），
+ *   从而确保即便在海量数据下，任何点查询的 I/O 次数也是稳定且极少的。
+ *
+ * WHAT层 - 功能说明：
+ *   维护 n 个键和 n+1 个子节点指针的映射关系。
+ *   提供快速路由（FindChildPageId），定位给定键应进入哪个子页面。
+ *   支持垂直分裂（Split）和合并（Merge）操作，维护树的平衡性。
+ *   实现内部结构的二进制序列化（SerializeToPage）。
+ *
+ * HOW层 - 实现机制：
+ *   1. 范围映射：内部节点遵循 child[i] < key[i] <= child[i+1] 的逻辑。
+ *   2. 二分查找：FindChildPageId 使用 std::lower_bound 在有序的 keys_ 向量中搜索，减少 CPU 开销。
+ *   3. 动态扩展：Split 时将中间键（Middle Key）向上推送到父节点，实现树的向上生长。
+ *   4. 内存布局：序列化时，键长度、键内容和子 ID 紧凑存储，最大限度利用 8KB 页面空间。
+ */
 BPlusTreeInternalNode::BPlusTreeInternalNode(std::shared_ptr<StorageEngine> storage_engine, int32_t page_id, bool is_new)
     : BPlusTreeNode(storage_engine, page_id, false) {
   // 如果是新节点，清零页面数据；否则保留现有数据

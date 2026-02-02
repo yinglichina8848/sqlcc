@@ -654,7 +654,20 @@ void Lexer::reportError(const std::string &message) {
   throw std::runtime_error(errorMsg);
 }
 
-// Main tokenization method
+/**
+ * @brief 提取下一个词法单元
+ *
+ * WHY: 语法分析器（Parser）不直接处理字符流，而是处理具有语义含义的标记（Token）。
+ *      nextToken 是连接原始字符串与结构化 AST 的核心纽带。
+ * WHAT: 实现一个基于 DFA 的状态机，跳过空白和注释，识别并返回下一个有效的 Token。
+ * HOW:
+ * 1. 初始化状态为 START。
+ * 2. 预处理：跳过 whitespace 字符。
+ * 3. 递归处理：识别 SQL 注释（-- 或 /*）并递归调用自身跳过它们。
+ * 4. 状态转移：根据首字符查找 transitions_ 表进入对应状态（IDENTIFIER, NUMBER 等）。
+ * 5. 贪婪匹配：在 switch-case 中循环 advance 字符，直到不再满足当前状态的转移条件。
+ * 6. 工厂构造：调用 createToken 将识别出的字符串片段（Lexeme）封装为对象。
+ */
 Token Lexer::nextToken() {
   // Reset state for new token
   current_state_ = LexerState::START;

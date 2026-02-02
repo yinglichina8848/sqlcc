@@ -69,7 +69,26 @@ struct TableMetadata {
     bool is_fixed_length;                       // 是否为定长记录
 };
 
-// 表存储管理器
+/**
+ * @class TableStorageManager
+ * @brief 表存储管理器 - 实现堆表（Heap Table）的物理组织与记录管理
+ *
+ * WHY层 - 设计意图：
+ *   数据库需要将逻辑上的“行（Rows）”转换为物理上的“字节（Bytes）”。
+ *   TableStorageManager 负责管理跨多个页面的记录存储，解决页面内空间分配（Slotted Pages）、
+ *   记录跨页（Spanning - 简化版暂不支持）以及删除记录后的空间回收问题。
+ *
+ * WHAT层 - 功能说明：
+ *   实现 CRUD 操作：InsertRecord, UpdateRecord, DeleteRecord, GetRecord。
+ *   支持全表扫描（ScanTable），返回所有活跃记录的物理位置（RID: PageID + Offset）。
+ *   管理表元数据（TableMetadata）和相关的 B+ 树索引。
+ *
+ * HOW层 - 实现机制：
+ *   1. 槽位管理：采用 Slotted Page 架构，页面头部维护槽数组，每个槽记录对应记录在页内的偏移量。
+ *   2. 顺序扫描：ScanTable 通过遍历页面的 NextPageID 链表并解析每页的槽数组实现。
+ *   3. 序列化：根据 TableMetadata 定义的 Schema，将字符串数组转换为紧凑的二进制表示。
+ *   4. 空间复用：DeleteRecord 仅标记 is_deleted 位，后续插入操作可重用这些空隙。
+ */
 class TableStorageManager {
 public:
     TableStorageManager(std::shared_ptr<StorageEngine> storage_engine);

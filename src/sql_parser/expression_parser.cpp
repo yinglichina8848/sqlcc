@@ -20,6 +20,26 @@
 namespace sqlcc {
 namespace sql_parser {
 
+/**
+ * @class ExpressionParser
+ * @brief SQL 表达式解析器 - 实现基于算术和逻辑优先级的递归下降分析
+ *
+ * WHY层 - 设计意图：
+ *   SQL 表达式（如 a + b * c > 10 AND d IS NULL）具有复杂的优先级和结合性规则。
+ *   直接解析极易出错且难以扩展。ExpressionParser 通过实现“优先级爬升”或“分层递归”算法，
+ *   能够将扁平的 Token 流正确地嵌套为具有层次结构的二叉树，为后续的表达式评估（Evaluation）打下基础。
+ *
+ * WHAT层 - 功能说明：
+ *   解析算术运算（+, -, *, /）、逻辑运算（AND, OR, NOT）和比较运算（=, <, >）。
+ *   支持字面量（Numeric, String, Null）、标识符（Columns）以及函数调用。
+ *   处理括号表达式以手动改变优先级。
+ *
+ * HOW层 - 实现机制：
+ *   1. 优先级驱动：parseBinaryExpression 使用 minPrecedence 算法，通过 while 循环处理同级或更高级操作符。
+ *   2. 分层递归：逻辑层级为 Or -> And -> Equality -> Comparison -> Term (+/-) -> Factor (* /) -> Unary -> Primary。
+ *   3. 终结符处理：parsePrimary 处理最基础的 Token（字面量、标识符、括号），它是递归的基准出口。
+ *   4. AST 映射：为每种运算创建对应的 BinaryExpression 或 FunctionCallExpression 节点。
+ */
 ExpressionParser::ExpressionParser(TokenStream& tokens)
     : tokens_(tokens) {
   std::cout << "[EXPRESSION_PARSER] ExpressionParser initialized" << std::endl;

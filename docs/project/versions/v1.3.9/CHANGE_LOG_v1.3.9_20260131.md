@@ -147,5 +147,64 @@ f42bb0b0 fix: 修复ConfigManager死锁问题
 
 ---
 
+## 2026-01-31 追加变更
+
+### 6. Level 1 Utils 模块覆盖率提升
+
+#### 新增测试用例
+
+**ssl_connection_pool_test.cpp 新增 13 个测试用例**:
+
+| 测试名称 | 描述 | 状态 |
+|---------|------|------|
+| `AcquireTimeout` | 测试获取连接超时行为 | ✅ PASSED |
+| `FactoryExceptionHandling` | 测试工厂异常处理 | ✅ PASSED |
+| `HitRateCalculation` | 测试命中率计算 | ✅ PASSED |
+| `NoAcquireAfterShutdown` | 测试关闭后状态 | ✅ PASSED |
+| `MaintainMinimumConnections` | 测试最小连接数维护 | ✅ PASSED |
+| `SSLContextResetSameValue` | 测试reset相同值 | ✅ PASSED |
+| `SSLContextResetNull` | 测试reset为null | ✅ PASSED |
+| `SSLSocketResetNull` | 测试SSLSocket reset | ✅ PASSED |
+| `SSLContextValidateConfigurationNoKey` | 测试配置验证 | ✅ PASSED |
+| `SSLContextResetWithException` | 测试reset异常处理 | ✅ PASSED |
+| `SSLContextMoveOriginalNull` | 测试移动后原始对象 | ✅ PASSED |
+| `SSLContextRepeatedMoveAssignment` | 测试重复移动赋值 | ✅ PASSED |
+| `SSLSocketMoveOriginalNull` | 测试SSLSocket移动 | ✅ PASSED |
+
+**修改文件**:
+- `tests/level1_foundation/utils/ssl_connection_pool_test.cpp` - 添加13个测试用例
+
+**测试结果**:
+```
+//tests/level1_foundation/utils:ssl_connection_pool_test  PASSED (42/42)
+```
+
+#### 覆盖率提升
+
+| 源文件 | 之前 | 现在 | 提升 |
+|--------|------|------|------|
+| `ssl_wrapper.h` | 79.77% | **80.70%** | +0.93% |
+| `file_descriptor.h` | - | **100%** | 新增 |
+| `version.h` | - | **100%** | 新增 |
+| `smart_config_manager.h` | - | **100%** | 新增 |
+
+**新增代码总体覆盖率**: **79.11%** (318/402 行)
+
+**测试统计**:
+- ssl_connection_pool_test: 42/42 ✅ PASSED
+- smart_config_test: 15/15 ✅ PASSED
+- file_descriptor_version_test: 13/13 ✅ PASSED
+- **总计**: 70/70 ✅ 100%
+
+#### 生成报告
+
+**修改文件**:
+- `tests/level1_foundation/utils/COVERAGE_ANALYSIS.md` - 覆盖率分析报告
+
+**数据位置**:
+- `coverage_report_l1_complete/utils_new_tests/` - profdata 文件
+
+---
+
 **维护者**: SQLCC 开发团队  
 **日期**: 2026-01-31

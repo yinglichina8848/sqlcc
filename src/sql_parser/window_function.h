@@ -204,7 +204,7 @@ public:
 
     // 实现基类方法
     std::string getTypeName() const override { return "WindowFunction"; }
-    void accept(ast::NodeVisitor& visitor) override;
+    void accept(ast::NodeVisitor& visitor) const override;
     ast::ExpressionType getType() const override { return ast::ExpressionType::FunctionCall; }
 
     // 窗口函数特定方法
