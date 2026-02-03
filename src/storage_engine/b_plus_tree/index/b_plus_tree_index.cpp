@@ -7,9 +7,7 @@
  * 并发控制：通过节点级锁实现多线程安全访问
  */
 
-#include "b_plus_tree_index.h"
-#include "../node/b_plus_tree_internal_node.h"
-#include "../node/b_plus_tree_leaf_node.h"
+#include "../../b_plus_tree.h"
 #include "../../storage_engine.h"
 #include "../../../logger/logger.h"
 

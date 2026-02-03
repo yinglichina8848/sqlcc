@@ -1,5 +1,138 @@
 # SQLCC ChangeLog
 
+## [v1.3.10] - 2026-02-02
+
+### 🌟 规范驱动开发 (SDD) 体系 ✅ COMPLETED
+
+#### 新增 SDD 核心文档 ✅ COMPLETED
+
+##### SDD 使用指南 ✅ COMPLETED
+- **文件**: `docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md`
+- **内容**:
+  - SDD 核心概念和原则
+  - SDD 工作流程 (spec-init → spec-requirements → spec-design → spec-tasks → spec-impl)
+  - 与其他规范的关系和层级
+  - 最佳实践
+
+##### SDD 模板 ✅ COMPLETED
+- **需求模板**: `docs/sdd/templates/requirements_template.md`
+  - EARS 格式需求定义
+  - 测试用例定义
+  - 验收标准
+
+- **设计模板**: `docs/sdd/templates/design_template.md`
+  - 架构决策记录 (ADR)
+  - Mermaid 图表 (类图、时序图、状态图)
+  - BUILD 配置示例
+
+- **任务模板**: `docs/sdd/templates/tasks_template.md`
+  - 任务列表和依赖关系
+  - 燃尽图数据
+  - 风险跟踪
+
+#### 新增 C++ 开发规范 ✅ COMPLETED
+
+##### C++ 开发、测试与重构规范 ✅ COMPLETED
+- **文件**: `docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md`
+- **版本**: v1.3.10
+- **内容**:
+  - FIRST 原则和约束条件
+  - 代码质量工具链
+  - 命名规范和语法规范
+  - 测试驱动开发 (TDD) 流程
+  - GoogleTest 框架使用
+  - Bazel + Clang-20 构建规范
+  - 重构原则和模式
+  - 质量门禁和覆盖率要求
+
+#### BUILD 文件规范增强 ✅ COMPLETED
+
+##### 头文件引用规范 ✅ COMPLETED
+- **文件**: `docs/ai_tools/BUILD_FILE_SPECIFICATION.md`
+- **新增内容**:
+  - 头文件路径语法（逻辑路径 vs 相对路径）
+  - 头文件组织结构
+  - Include 顺序规范
+  - 前向声明使用
+  - strip_include_prefix 配置
+  - 头文件依赖原则
+
+#### 文档索引更新 ✅ COMPLETED
+
+##### AI 工具索引更新 ✅ COMPLETED
+- **文件**: `docs/ai_tools/index.md`
+- **更新**:
+  - 添加 C++ 开发规范索引
+  - 添加 SDD 规范索引
+  - 更新文档关系图
+
+##### 项目文档索引更新 ✅ COMPLETED
+- **文件**: `docs/index.md`
+- **更新**:
+  - 添加 SDD 规范链接
+  - 更新文档架构
+  - 添加规范文档链接
+
+##### README 更新 ✅ COMPLETED
+- **文件**: `README.md`
+- **更新**:
+  - 版本更新到 v1.3.10
+  - 添加 SDD 概念介绍
+  - 添加规范文档体系
+  - 添加 TDD 最佳实践
+
+---
+
+## [v1.3.9] - 2026-02-02
+
+### 🎯 ThreadPool 单元测试与覆盖率完善 ✅ COMPLETED
+
+#### ThreadPool 测试套件新增 ✅ COMPLETED
+- **文件**: `tests/level1_foundation/utils/thread_pool_test.cpp`
+- **测试用例**: 33 个测试用例
+  - ThreadPoolBasicTest: 25 个基础功能测试
+  - ThreadPoolStressTest: 4 个压力测试
+  - ThreadPoolEdgeCaseTest: 4 个边界测试
+- **测试覆盖**:
+  - 构造函数和析构函数
+  - 任务提交和执行
+  - 任务返回值处理
+  - 线程安全验证
+  - 并发执行测试
+  - 关闭和清理测试
+
+#### 头文件路径重构 ✅ COMPLETED
+- **变更范围**: `src/execution/` 目录下所有文件
+- **变更内容**: `../xxx` → `xxx` 格式统一
+- **影响文件数**: 32 个文件
+- **验证结果**: 编译成功，测试通过
+
+#### 覆盖率测试修复 ✅ COMPLETED
+
+##### SmartConfig 测试覆盖率修复 ✅ COMPLETED
+- **问题**: utils 模块覆盖率报告显示 0%
+- **根因**: Bazel profdata 与对象文件 build ID 不匹配
+- **解决方案**: 使用测试二进制文件生成覆盖率报告
+- **覆盖率结果**:
+  - config_lifecycle.h: 90.91% 函数覆盖率
+  - config_snapshot.h: 100.00% 函数覆盖率
+  - smart_config_manager.h: 100.00% 函数覆盖率
+  - 总体函数覆盖率: 97.28%
+  - 总体行覆盖率: 92.29%
+
+##### B+树索引模块优化 ✅ COMPLETED
+- **删除文件**: `src/storage_engine/b_plus_tree/core/b_plus_tree.h`
+- **保留文件**: `src/storage_engine/b_plus_tree/core/b_plus_tree.cpp`
+- **变更内容**: 移除重复的头文件声明，优化索引结构
+
+#### 统计指标 ✅ COMPLETED
+- **变更文件数**: 106 个文件
+- **代码行变更**: +3236 / -1668 行
+- **测试用例新增**: 33 个 ThreadPool 测试
+- **覆盖率提升**: utils 模块达到 95%+ 函数覆盖率
+
+---
+
 ## [v1.4.0] - 2026-01-31
 
 ### 🎯 Level 1 覆盖率测试完善与配置方法论建立 ✅ COMPLETED

@@ -403,8 +403,8 @@ bool UserManager::AlterRole(const std::string &role_name,
     // 4. 尝试持久化数据。
     return SaveToFileInternal(); // WHY: 任何对用户或权限状态的修改都必须持久化到磁盘，以确保数据的安全性和一致性。
                                  // WHAT: 将内存中的当前用户、角色和权限数据写入到文件。
-                                 // HOW: `SaveToFileInternal`负责实际的序列化和文件写入。}
-/**
+                                 // HOW: `SaveToFileInternal`负责实际的序列化和文件写入。
+}/**
  * @brief 为指定用户设置当前激活的角色。
  * @details 允许用户在会话期间切换其活动角色，影响其权限集合。
  * 检查用户和角色是否存在。此操作仅在内存中更新用户的`current_role`。

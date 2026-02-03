@@ -6,7 +6,7 @@
 #include <map>
 #include <cstdint>
 
-#include "../b_plus_tree/index/b_plus_tree_index.h"
+#include "../b_plus_tree.h"
 
 namespace sqlcc {
 

@@ -1,3 +1,40 @@
+/**
+ * @file buffer_pool_sharded.h
+ * @brief SQLCC分段缓冲池管理器 - 高并发内存管理中枢
+ *
+ * BufferPoolSharded 是数据库系统的“心脏缓冲区”，负责管理磁盘页面在内存中的缓存。
+ * 它通过分段（Sharding）设计，极大地缓解了多线程环境下的锁竞争压力，是系统支持
+ * 高吞吐量并发访问的关键。
+ *
+ * 📚 配套教材参考：
+ * - [第7章：缓冲区管理](../../textbook/《数据库系统原理与开发实践》.md#第七章缓冲区管理)
+ * - [7.1 缓冲区管理机制](../../textbook/《数据库系统原理与开发实践》.md#71-缓冲区管理机制)
+ * - [7.2 置换算法（LRU, Clock）](../../textbook/《数据库系统原理与开发实践》.md#72-置换算法lruclock)
+ * - [7.3 并发访问与锁优化](../../textbook/《数据库系统原理与开发实践》.md#73-并发访问与锁优化)
+ *
+ * WHY层 - 设计意图：
+ *   1. **消除I/O瓶颈**：通过内存缓存减少物理磁盘读写。
+ *   2. **高并发支持**：传统的单锁缓冲池在多核CPU下会成为瓶颈，分段设计将锁粒度降至 1/N。
+ *   3. **数据一致性**：作为 Page 的托管中心，负责协调脏页刷盘与日志同步（WAL）。
+ *   4. **资源公平性**：通过 LRU 算法确保热点数据常驻内存，冷数据及时淘汰。
+ *
+ * WHAT层 - 功能说明：
+ *   - 页面生命周期：FetchPage (从磁盘加载/内存获取), UnpinPage (释放使用权), NewPage (空间分配)。
+ *   - 分段架构：通过哈希 page_id 路由到不同的 Shard，支持 2^n 个独立锁分区。
+ *   - 置换策略：实现标准 LRU (Least Recently Used) 算法进行内存淘汰。
+ *   - 统计监控：实时跟踪缓存命中率 (Hit Rate)、淘汰次数 (Evictions) 等关键性能指标。
+ *
+ * HOW层 - 实现机制：
+ *   - 路由：`shard_index = page_id & (num_shards - 1)`，采用位运算代替模运算优化。
+ *   - 引用计数：每个 PageWrapper 维护 ref_count，确保被“固定”的页面不会被淘汰。
+ *   - 脏页管理：Unpin 时标记 is_dirty，后台线程或淘汰时触发物理刷盘。
+ *   - 智能替换：当 Shard 满载时，扫描 LRU 链表，选择 ref_count=0 的页面进行牺牲。
+ *
+ * ⚡ 架构协作说明：
+ *   - **与 WAL 协作**：在刷新脏页到磁盘前，必须确保对应的重做日志（Redo Log）已持久化（Write-Ahead Logging）。
+ *   - **与 Executor 协作**：执行器通过获取独占锁（exclusive=true）来保证页面修改的原子性。
+ */
+
 #ifndef SQLCC_BUFFER_POOL_SHARDED_H
 #define SQLCC_BUFFER_POOL_SHARDED_H
 
@@ -20,223 +57,140 @@
 namespace sqlcc {
 
 /**
- * WHY: 为什么需要分片缓冲池而不是单锁设计？
- *
- * 传统缓冲池使用单一互斥锁保护所有操作，导致高并发场景下的锁竞争激烈。
- * 分片设计通过以下方式解决性能瓶颈：
- *
- * 设计原理：
- * 1. 将缓冲池分为16个独立分片
- * 2. 每个分片有独立的锁和LRU队列
- * 3. 使用page_id % 16进行分片定位
- * 4. 减少锁粒度，提高并发性能
- *
- * 性能提升：
- * - 并发读操作：几乎无锁竞争
- * - 写操作：锁竞争减少到1/16
- * - 内存局部性：相邻页面倾向于同一分片
- * - 扩展性：可通过增加分片数进一步提升性能
- *
- * 权衡考虑：
- * - 内存开销：增加分片管理 overhead
- * - 复杂性：并发控制逻辑更复杂
- * - 适用场景：高并发读写负载
- *
- * ⚡ 性能优化：分片缓冲池的性能优势分析
- *
- * 性能瓶颈分析：
- * - 传统单锁缓冲池：锁竞争导致并发性能下降90%+
- * - 分片设计：将锁竞争从全局减少到1/16
- *
- * 性能提升量化：
- * - 并发读操作：性能提升8-10倍
- * - 写操作：性能提升3-5倍
- * - 内存局部性：缓存命中率提升15-20%
- * - 扩展性：支持更高并发负载
- *
- * 内存开销分析：
- * - 额外开销：每个分片的管理结构（约256字节）
- * - 16分片总开销：约4KB（相对于100MB缓冲池可忽略）
- * - LRU链表：每个页面8字节指针开销
- *
- * WHAT: 基于RocksDB风格的Sharded Buffer Pool实现
- * 特点：
- * 1. 按2^n分shard，使用page_id哈希取模定位shard
- * 2. 每个shard独立LRU + 独立mutex
- * 3. 支持高并发访问
+ * @class BufferPoolSharded
+ * @brief 分片缓冲池 - 现代多核数据库的标配实现
  */
 class BufferPoolSharded {
 public:
     /**
-     * 构造函数
-     * @param disk_manager 磁盘管理器智能指针
-     * @param config_manager 配置管理器实例
-     * @param pool_size 缓冲池大小
-     * @param num_shards shard数量（必须是2的幂）
+     * @brief 构造函数
+     * @param disk_manager 存储引擎底层的磁盘读写组件
+     * @param config_manager 系统配置管理器
+     * @param pool_size 总内存容量（页面数）
+     * @param num_shards 分片数量，必须是2的幂（如 8, 16, 32）
      */
     BufferPoolSharded(std::shared_ptr<DiskManager> disk_manager, ConfigManager& config_manager, 
                      size_t pool_size, size_t num_shards = 16);
 
-    /**
-     * 析构函数
-     */
     ~BufferPoolSharded();
 
     /**
-     * WHAT: FetchPage - 分片缓冲池页面获取
-     *
-     * 根据页面ID从缓冲池获取页面，支持并发访问。
-     * 如果页面不在内存中，会从磁盘加载。
-     *
-     * HOW: 分片并发访问算法
-     * 1. 计算分片索引：page_id % num_shards
-     * 2. 获取对应分片的读锁（或写锁）
-     * 3. 在分片内查找页面：
-     *    - 找到：更新LRU位置，返回页面
-     *    - 未找到：从磁盘加载，插入LRU
-     * 4. 处理页面固定计数
-     * 5. 释放锁，返回页面
-     *
-     * 并发优化：
-     * - 读锁允许多个并发读取
-     * - 写锁确保独占访问
-     * - 分片锁减少竞争
-     *
-     * @param page_id 页面ID
-     * @param exclusive 是否需要独占锁
-     * @return 页面智能指针，失败时返回nullptr
+     * @brief 获取页面 - 缓冲池最频繁的操作
+     * 
+     * WHY: 它是所有数据访问的入口。
+     * HOW:
+     * 1. 哈希路由到特定 Shard。
+     * 2. 加锁查询哈希表。
+     * 3. 命中则移动 LRU 到头部，返回。
+     * 4. 未命中则申请牺牲页，从磁盘 ReadPage。
+     * 
+     * @param page_id 目标页面ID
+     * @param exclusive 是否需要获取独占权限（用于写操作）
+     * @return std::unique_ptr<Page> 页面包装后的指针
      */
     std::unique_ptr<Page> FetchPage(int32_t page_id, bool exclusive = false);
 
     /**
-     * 创建新页面
-     * @param page_id 输出参数，页面ID
-     * @return 页面智能指针，失败时返回nullptr
+     * @brief 分配并初始化新页面
+     * 
+     * WHAT: 在磁盘分配 page_id 的同时，在内存中为其预留空间并固定（Pin）。
+     * @param page_id [out] 输出新分配的页面ID
      */
     std::unique_ptr<Page> NewPage(int32_t* page_id);
 
     /**
-     * 刷新页面到磁盘
-     * @param page_id 页面ID
-     * @return 是否刷新成功
+     * @brief 强制将指定脏页刷盘
      */
     bool FlushPage(int32_t page_id);
 
     /**
-     * 刷新所有页面到磁盘
+     * @brief 关机或检查点时刷新所有内存数据
      */
     void FlushAllPages();
 
     /**
-     * 删除页面
-     * @param page_id 页面ID
-     * @return 是否删除成功
+     * @brief 销毁页面资源
      */
     bool DeletePage(int32_t page_id);
 
     /**
-     * WHAT: UnpinPage - 页面固定解除和LRU管理
-     *
-     * 减少页面的固定计数，当计数为0时将页面加入LRU替换候选列表。
-     * 支持标记页面为脏页，需要写入磁盘。
-     *
-     * HOW: 引用计数和LRU管理算法
-     * 1. 计算分片索引，获取分片锁
-     * 2. 查找页面包装对象
-     * 3. 减少引用计数（ref_count--）
-     * 4. 如果is_dirty为true，标记页面为脏页
-     * 5. 当引用计数为0时：
-     *    - 将页面加入LRU链表头部
-     *    - 记录LRU位置信息
-     * 6. 释放锁，返回成功状态
-     *
-     * LRU策略：
-     * - 固定页面（ref_count > 0）：不受LRU替换
-     * - 非固定页面（ref_count = 0）：可被LRU替换
-     * - 脏页优先：脏页在LRU中保持更久
-     *
-     * @param page_id 页面ID
-     * @param is_dirty 是否为脏页
-     * @return 是否解除成功
+     * @brief 释放页面使用权（解除 Pin）
+     * 
+     * WHY: 页面使用完必须释放，否则缓冲池会因“全固定”而无法进行新页面换入（Deadlock）。
+     * WHAT: 减少引用计数，标记脏页位，并可能将其放入 LRU 淘汰序列。
+     * 
+     * @param page_id 目标页面ID
+     * @param is_dirty 本次使用是否修改了页面内容
      */
     bool UnpinPage(int32_t page_id, bool is_dirty);
 
     /**
-     * 获取缓冲池统计信息
-     * @return 统计信息哈希表
+     * @brief 获取系统统计信息
+     * 返回 Hit Rate, Misses, Load Factor 等。
      */
     std::unordered_map<std::string, double> GetStats() const;
 
-    /**
-     * 获取缓冲池大小
-     * @return 缓冲池大小
-     */
     size_t GetPoolSize() const { return pool_size_; }
-
-    /**
-     * 获取当前页面数量
-     * @return 当前页面数量
-     */
     size_t GetCurrentPageCount() const;
 
 private:
-    // 页面对象包装类
+    /**
+     * @struct PageWrapper
+     * @brief 页面容器，维护 Page 的元数据状态
+     */
     struct PageWrapper {
-        std::unique_ptr<Page> page;           // 页面对象智能指针
-        int ref_count;                       // 引用计数
-        bool is_dirty;                       // 脏页标记
-        std::list<int32_t>::iterator lru_iter; // LRU链表迭代器
-        bool is_in_lru;                      // 是否在LRU链表中
+        std::unique_ptr<Page> page;           ///< 物理页面数据
+        int ref_count;                       ///< 引用计数（固定计数）
+        bool is_dirty;                       ///< 是否被修改（待刷盘）
+        std::list<int32_t>::iterator lru_iter; ///< 在 LRU 链表中的位置
+        bool is_in_lru;                      ///< 标记是否处于可置换状态
 
         PageWrapper(std::unique_ptr<Page> page_ptr = nullptr)
             : page(std::move(page_ptr)), ref_count(0), is_dirty(false), is_in_lru(false) {}
-
-        // 不再需要显式析构函数，unique_ptr会自动管理内存
     };
 
-    // 单个Shard的实现
+    /**
+     * @struct Shard
+     * @brief 独立的分片分区，拥有自己的锁和管理结构
+     */
     struct Shard {
-        std::mutex mutex;                                // 每个shard独立的互斥锁
-        std::unordered_map<int32_t, std::shared_ptr<PageWrapper>> page_table; // 页面表
-        std::list<int32_t> lru_list;                      // LRU列表
-        std::unordered_map<int32_t, std::list<int32_t>::iterator> lru_map; // LRU映射
-        size_t current_size;                             // 当前页面数量
-        size_t max_size;                                 // 最大页面数量
+        std::mutex mutex;                                ///< 分片级互斥锁
+        std::unordered_map<int32_t, std::shared_ptr<PageWrapper>> page_table; ///< 逻辑ID到包装器的映射
+        std::list<int32_t> lru_list;                      ///< LRU 置换链表
+        std::unordered_map<int32_t, std::list<int32_t>::iterator> lru_map; ///< 加速 LRU 定位
+        size_t current_size;                             ///< 本分片承载的页面数
+        size_t max_size;                                 ///< 本分片额定容量
 
         Shard(size_t max_size = 0) : current_size(0), max_size(max_size) {}
     };
 
-    // 根据页面ID获取对应的shard索引
+    /**
+     * @brief 快速哈希路由
+     * 要求 num_shards_ 必须是 2 的幂，利用 & 位运算代替 %。
+     */
     inline size_t GetShardIndex(int32_t page_id) const {
-        // 使用哈希分片，确保是2的幂时快速取模
         return (static_cast<size_t>(page_id) & (num_shards_ - 1));
     }
 
-    // 在指定shard中替换页面
+    /**
+     * @brief 页面置换算法核心
+     * 从 Shard 中挑选一个牺牲者并移除。
+     */
     int32_t ReplacePage(Shard& shard);
 
-    // 将页面移动到LRU链表头部
     void MoveToHead(Shard& shard, int32_t page_id);
-
-    // 从LRU链表中移除页面
     void RemoveFromLRU(Shard& shard, int32_t page_id);
 
-    // 磁盘管理器智能指针
     std::shared_ptr<DiskManager> disk_manager_;
-
-    // 配置管理器引用
     ConfigManager& config_manager_;
-
-    // 缓冲池大小
     size_t pool_size_;
-
-    // shard数量（必须是2的幂）
     size_t num_shards_;
-
-    // shard数组
     std::vector<std::unique_ptr<Shard>> shards_;
 
-    // 统计信息
+    /**
+     * @struct Stats
+     * @brief 原子性能统计指标
+     */
     struct Stats {
         std::atomic<size_t> total_accesses{0};
         std::atomic<size_t> total_hits{0};
@@ -244,14 +198,12 @@ private:
         std::atomic<size_t> total_evictions{0};
     } stats_;
 
-    // 已分配的页面集合，用于快速检查页面ID是否有效
     std::unordered_set<int32_t> allocated_pages_;
     mutable std::mutex allocated_pages_mutex_;
-
-    // 页面ID生成器
     std::atomic<int32_t> next_page_id_;
 };
 
 }  // namespace sqlcc
 
 #endif  // SQLCC_BUFFER_POOL_SHARDED_H
+

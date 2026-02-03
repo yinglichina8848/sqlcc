@@ -76,78 +76,6 @@ namespace sqlcc {
  * @brief 定义了WAL日志记录的类型。
  * 这些类型对应数据库操作（如BEGIN/COMMIT/ABORT事务控制，UPDATE/INSERT/DELETE数据修改）或内部恢复机制（如COMPENSATE）。
  */
-enum class LogRecordType {
-  BEGIN,      ///< 事务开始
-  COMMIT,     ///< 事务提交
-  ABORT,      ///< 事务中止
-  UPDATE,     ///< 数据更新操作
-  INSERT,     ///< 数据插入操作
-  DELETE,     ///< 数据删除操作
-  COMPENSATE, ///< 补偿日志记录，用于恢复操作
-};
-
-/**
- * @brief 单条WAL日志记录的结构体。
- * 每条记录都包含必要的元数据和操作详情，以便在崩溃恢复时进行重做或撤销。
- */
-struct LogRecord {
-  uint64_t lsn;         ///< 日志序列号 (Log Sequence Number)，唯一且递增
-  TransactionId txn_id; ///< 事务ID
-  LogRecordType type;   ///< 日志记录类型
-  std::string key;      ///< 涉及的数据键（例如表名+主键）
-  std::string old_value;///< 操作前的数据旧值（序列化形式），用于UNDO操作。
-  std::string new_value;///< 操作后的数据新值（序列化形式），用于REDO操作。
-  std::chrono::system_clock::time_point timestamp; ///< 记录生成时间戳
-
-  /**
-   * @brief 将日志记录转换为可读字符串，用于调试和日志输出。
-   * @return LogRecord的字符串表示。
-   */
-  std::string ToString() const {
-    std::stringstream ss;
-    ss << "[" << lsn << "] ";
-    ss << "Txn" << txn_id << " ";
-    ss << "Type:";
-
-    switch (type) {
-    case LogRecordType::BEGIN:
-      ss << "BEGIN";
-      break;
-    case LogRecordType::COMMIT:
-      ss << "COMMIT";
-      break;
-    case LogRecordType::ABORT:
-      ss << "ABORT";
-      break;
-    case LogRecordType::UPDATE:
-      ss << "UPDATE";
-      ss << " Key:'" << key << "'";
-      ss << " Old:'" << old_value << "'"; // 显示旧值
-      ss << " New:'" << new_value << "'"; // 显示新值
-      break;
-    case LogRecordType::INSERT:
-      ss << "INSERT";
-      ss << " Key:'" << key << "'";
-      ss << " Value:'" << new_value << "'"; // 插入操作只有新值
-      break;
-    case LogRecordType::DELETE:
-      ss << "DELETE";
-      ss << " Key:'" << key << "'";
-      ss << " Old:'" << old_value << "'"; // 删除操作只有旧值
-      break;
-    case LogRecordType::COMPENSATE:
-      ss << "COMPENSATE";
-      break;
-    }
-
-    auto timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                            timestamp.time_since_epoch())
-                            .count();
-    ss << " TS:" << timestamp_ms;
-
-    return ss.str();
-  }
-};
 // ================== WALManager 实现 ==================
 /**
  * @brief 构造WALManager实例。
@@ -421,7 +349,7 @@ std::unordered_map<std::string, std::string> WALManager::AnalyzeLog() const {
   // 4. **确定Redo起点**: 分析阶段的最终结果是确定一个Redo LSN，即从该LSN开始，
   //    所有需要重做的操作都将发生。这个LSN通常是DPT中最小的RecLSN（最近一次将脏页写入磁盘的LSN）。
 
-  LOG_INFO("WALManager::AnalyzeLog - 开始分析日志进行恢复。");
+  SQLCC_LOG_INFO("WALManager::AnalyzeLog - 开始分析日志进行恢复。");
   // 实际的日志分析需要遍历日志文件，并且需要一个更复杂的机制来构建ATT和DPT。
   // 以下为简化演示，仅输出信息。
   // TODO: (#WAL-003-IMPL) 在实际实现中，需要通过`ReadRecordFromDisk`迭代读取日志记录，
@@ -765,7 +693,7 @@ size_t WALManager::CompactLog(uint64_t keep_lsn) {
   // 5.  **检查点**: 压缩的起点通常会关联到最近的检查点，因为检查点提供了一个安全点，
   //     表明其之前的更改大部分都已持久化。
 
-  LOG_INFO("WALManager::CompactLog - 日志整理请求，保留LSN >= %llu (简化实现，未实际压缩)", keep_lsn);
+  SQLCC_LOG_INFO("WALManager::CompactLog - 日志整理请求，保留LSN >= %llu (简化实现，未实际压缩)", keep_lsn);
   // TODO: (#WAL-011-IMPL) 实现真正的日志压缩逻辑。
   return 0; // 未实际压缩
 }
@@ -787,7 +715,7 @@ bool WALManager::VerifyLogIntegrity() const {
   // 4.  **记录格式验证**: 检查每条日志记录的头部和长度字段是否有效，以确保其符合预期的格式。
   // 5.  **文件一致性**: 确保日志文件没有意外截断或意外的额外数据。
 
-  LOG_INFO("WALManager::VerifyLogIntegrity - 开始验证日志文件完整性 (简化实现)");
+  SQLCC_LOG_INFO("WALManager::VerifyLogIntegrity - 开始验证日志文件完整性 (简化实现)");
   // TODO: (#WAL-012-IMPL) 实现日志完整性验证逻辑。
   // 这会涉及扫描日志文件，检查每条记录的头部、校验和、LSN顺序等。
   return true; // 暂未实际验证，返回true。
@@ -872,8 +800,8 @@ size_t WALManager::WriteRecordsToDisk(const std::vector<LogRecord> &records) {
 
     uint8_t record_type = static_cast<uint8_t>(record.type);
     uint32_t key_length = record.key.length();
-    uint32_t old_value_length = record.old_value.length();
-    uint32_t new_value_length = record.new_value.length();
+    uint32_t old_value_length = (record.old_value.type == Value::Type::STRING) ? record.old_value.str_val.length() : 0;
+    uint32_t new_value_length = (record.new_value.type == Value::Type::STRING) ? record.new_value.str_val.length() : 0;
     std::chrono::system_clock::rep timestamp_count = record.timestamp.time_since_epoch().count();
 
     log_file.write(reinterpret_cast<const char *>(&record.lsn),
@@ -892,13 +820,17 @@ size_t WALManager::WriteRecordsToDisk(const std::vector<LogRecord> &records) {
     log_file.write(reinterpret_cast<const char *>(&old_value_length),
                    sizeof(old_value_length));
     if (old_value_length > 0) {
-      log_file.write(record.old_value.data(), old_value_length);
+      if (record.old_value.type == Value::Type::STRING) {
+        log_file.write(record.old_value.str_val.data(), old_value_length);
+      }
     }
 
     log_file.write(reinterpret_cast<const char *>(&new_value_length),
                    sizeof(new_value_length));
     if (new_value_length > 0) {
-      log_file.write(record.new_value.data(), new_value_length);
+      if (record.new_value.type == Value::Type::STRING) {
+        log_file.write(record.new_value.str_val.data(), new_value_length);
+      }
     }
 
     log_file.write(reinterpret_cast<const char *>(&timestamp_count),
@@ -1011,8 +943,8 @@ LogRecord WALManager::ReadRecordFromDisk(uint64_t lsn_to_read) {
       record.txn_id = txn_id;
       record.type = static_cast<LogRecordType>(record_type_val);
       record.key = key_data;
-      record.old_value = old_value_data;
-      record.new_value = new_value_data;
+      record.old_value = Value(old_value_data);
+      record.new_value = Value(new_value_data);
       record.timestamp = std::chrono::system_clock::time_point(
           std::chrono::system_clock::duration(timestamp_count));
       return record;

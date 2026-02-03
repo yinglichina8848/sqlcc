@@ -6,13 +6,13 @@
 #ifndef SQLCC_EXECUTION_AGGREGATE_ENGINE_H
 #define SQLCC_EXECUTION_AGGREGATE_ENGINE_H
 
-#include "../sql_parser/ast/ast_node.h"
-#include "../sql_parser/ast/ast_nodes.h"
+#include "sql_parser/ast/ast_node.h"
+#include "sql_parser/ast/ast_nodes.h"
 #include <vector>
 #include <memory>
 #include <unordered_map>
 
-#include "../core/execution_strategy.h"
+#include "core/execution_strategy.h"
 #include "../execution_result.h"
 
 namespace sqlcc {

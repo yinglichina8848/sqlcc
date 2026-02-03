@@ -10,9 +10,9 @@
 #include <memory>
 
 #include "execution_strategy.h"
-#include "../core/execution_result.h"
-#include "../core/execution_context.h"
-#include "../sql_parser/ast/ast_nodes.h"
+#include "core/execution_result.h"
+#include "core/execution_context.h"
+#include "sql_parser/ast/ast_nodes.h"
 
 namespace sqlcc {
 

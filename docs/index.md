@@ -19,7 +19,11 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 ### 🤖 AI辅助开发
 - [**AI工具使用指南**](ai_tools/AI_TOOLS_USAGE_GUIDE.md) - AI工具最佳实践
 - [**AI开发原则**](development/ai_development_principles.md) - AI辅助软件工程理念
+- [**AI开发规范 ⭐新增**](ai_tools/AI_DEVELOPMENT_GUIDELINES.md) - AI Agent 开发规范 (FIRST 原则)
+- [**🤖 多Agent跨平台协作开发 ⭐⭐⭐必读⭐⭐⭐**](ai_tools/MULTI_AGENT_COLLABORATION_GUIDE.md) - **所有AI Agent进入项目必须阅读的第一份文档！**
+- [**C++开发规范 ⭐新增**](ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md) - C++ 开发、测试与重构规范
 - [**测试驱动开发**](development/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md) - TDD理念与实践
+- [**规范驱动开发 (SDD) ⭐新增**](sdd/SPEC_DRIVEN_DEVELOPMENT.md) - 规范驱动开发方法论
 
 ## 🏗️ 架构与设计
 
@@ -82,6 +86,13 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 - [**Bazel工具手册**](ai_tools/bazel_tools_manual.md) - 构建工具使用
 - [**Bazel知识库**](ai_tools/bazel_knowledge_base.md) - 构建系统知识
 - [**开发指南**](development/guides/) - 开发指南集合
+
+### 📐 开发规范 ⭐新增
+- [**SDD 模板 - 需求规范**](sdd/templates/requirements_template.md) - EARS 格式需求模板
+- [**SDD 模板 - 架构设计**](sdd/templates/design_template.md) - Mermaid 图表设计模板
+- [**SDD 模板 - 任务清单**](sdd/templates/tasks_template.md) - 带依赖的任务模板
+- [**BUILD文件规范**](ai_tools/BUILD_FILE_SPECIFICATION.md) - Bazel BUILD 编写规范
+- [**重构知识库**](ai_tools/systematic_refactoring_knowledge_base.md) - 系统化重构方法
 
 ## 🚀 项目管理
 
@@ -242,6 +253,12 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 docs/
 ├── index.md                    # 📖 文档导航索引（本文件）
 ├── ai_tools/                   # 🤖 AI开发工具
+├── sdd/                        # 🌟 规范驱动开发 (SDD) ⭐新增
+│   ├── SPEC_DRIVEN_DEVELOPMENT.md  # SDD 使用指南
+│   └── templates/              # SDD 模板
+│       ├── requirements_template.md
+│       ├── design_template.md
+│       └── tasks_template.md
 ├── api/                        # 🔌 API文档
 ├── design/                     # 🏗️ 架构设计
 │   ├── architecture/           # 架构文档
@@ -273,6 +290,6 @@ docs/
 
 **📖 快速导航**: [项目概述](../README.md) • [开发者指南](development/guides/) • [API文档](api/) • [架构设计](design/)
 
-**🆕 最新更新**: v1.3.9 发布 • Level 1 Foundation完整单元测试 • 文档索引更新
+**🆕 最新更新 (v1.3.10)**: 规范驱动开发 (SDD) 体系 • C++ 开发规范 • SDD 模板
 
-*最后更新: 2026-01-30*
+*最后更新: 2026-02-02*

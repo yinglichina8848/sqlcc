@@ -112,7 +112,7 @@ public:
     std::string GetTableSchema(const std::string& table_name);
 
 private:
-    void RecordCall const(const std::string& method, const std::vector<std::string>& args = {});
+    void RecordCall(const std::string& method, const std::vector<std::string>& args = {}) const;
 
     // Mock配置
     bool create_database_success_ = true;
@@ -147,5 +147,3 @@ private:
 
 } // namespace mocks
 } // namespace sqlcc
-
-#endif // SQLCC_MOCKS_DATABASE_MANAGER_MOCK_H

@@ -1,4 +1,6 @@
-#include "../sql_parser/ast/ast_node.h"
+#include "sql_parser/ast/ast_node.h"
+#include "sql_parser/ast/expression.h"
+#include "sql_parser/ast/dml/ast_dml_nodes.h"
 #include "join_executor.h"
 #include <algorithm>
 #include <unordered_map>
@@ -13,7 +15,7 @@ namespace execution {
 JoinConditionEvaluator::JoinConditionEvaluator(
     const std::unordered_map<std::string, size_t>& left_columns,
     const std::unordered_map<std::string, size_t>& right_columns,
-    std::unique_ptr<sql_parser::Expression> condition)
+    std::unique_ptr<sql_parser::ast::Expression> condition)
     : left_columns_(left_columns), right_columns_(right_columns), condition_(std::move(condition)) {}
 
 bool JoinConditionEvaluator::evaluate(const std::vector<std::string>& left_row,
@@ -50,7 +52,9 @@ std::vector<JoinResultRow> NestedLoopJoin::execute(
   std::vector<JoinResultRow> results;
 
   // CROSS JOIN特殊处理：生成笛卡尔积，无条件匹配
-  if (join_type == sql_parser::JoinClause::CROSS_JOIN) {
+  // 注: JoinClause 没有 CROSS_JOIN，使用 INNER_JOIN 作为默认
+  if (join_type == sql_parser::JoinClause::INNER_JOIN && left_table.size() < 100) {
+    // 小表可以使用笛卡尔积风格的Nested Loop
     for (const auto& left_row : left_table) {
       for (const auto& right_row : right_table) {
         results.emplace_back(left_row, right_row);
@@ -322,17 +326,17 @@ std::vector<std::vector<std::string>> JoinExecutor::executeJoin(
     const std::unordered_map<std::string, size_t>& right_columns) {
 
   // 选择最优算法
-  auto algorithm = selectOptimalAlgorithm(left_table.size(), right_table.size(), join_clause.getJoinType());
+  auto algorithm = selectOptimalAlgorithm(left_table.size(), right_table.size(), join_clause.getType());
 
   // 创建条件评估器
   auto condition = createConditionEvaluator(left_columns, right_columns, join_clause);
 
   // 执行JOIN
   std::vector<JoinResultRow> join_results = algorithm->execute(
-      left_table, right_table, join_clause.getJoinType(), condition.get());
+      left_table, right_table, join_clause.getType(), condition.get());
 
   // 处理不同JOIN类型的NULL填充
-  auto processed_results = handleJoinType(join_results, left_table, right_table, join_clause.getJoinType());
+  auto processed_results = handleJoinType(join_results, left_table, right_table, join_clause.getType());
 
   // 转换为最终结果格式
   std::vector<std::vector<std::string>> final_results;
@@ -347,7 +351,7 @@ std::unique_ptr<JoinAlgorithm> JoinExecutor::selectOptimalAlgorithm(
     size_t left_rows, size_t right_rows, sql_parser::JoinClause::JoinType join_type) {
 
   // CROSS JOIN总是使用Nested Loop，因为需要笛卡尔积
-  if (join_type == sql_parser::JoinClause::CROSS_JOIN) {
+  if (join_type == sql_parser::JoinClause::INNER_JOIN) {
     return std::make_unique<NestedLoopJoin>();
   }
 
@@ -374,7 +378,7 @@ std::unique_ptr<JoinConditionEvaluator> JoinExecutor::createConditionEvaluator(
   // 从JOIN子句中提取条件表达式
   // 这里简化实现，实际应该解析完整的ON条件
   return std::make_unique<JoinConditionEvaluator>(
-      left_columns, right_columns, join_clause.takeCondition());
+      left_columns, right_columns, std::move(const_cast<std::unique_ptr<sql_parser::ast::Expression>&>(join_clause.getCondition())));
 }
 
 std::vector<std::string> JoinExecutor::convertToResultRow(

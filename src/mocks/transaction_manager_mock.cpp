@@ -115,7 +115,7 @@ TransactionId TransactionManagerMock::next_transaction_id() {
     return next_transaction_id_result_;
 }
 
-void TransactionManagerMock::RecordCall(const std::string& method, const std::vector<std::string>& args) {
+void TransactionManagerMock::RecordCall(const std::string& method, const std::vector<std::string>& args) const {
     CallRecord record;
     record.method_name = method;
 

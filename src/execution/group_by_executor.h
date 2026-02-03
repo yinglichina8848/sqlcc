@@ -6,8 +6,8 @@
 #ifndef SQLCC_EXECUTION_GROUP_BY_EXECUTOR_H
 #define SQLCC_EXECUTION_GROUP_BY_EXECUTOR_H
 
-#include "../sql_parser/ast/ast_node.h"
-#include "../sql_parser/ast/ast_nodes.h"
+#include "sql_parser/ast/ast_node.h"
+#include "sql_parser/ast/ast_nodes.h"
 #include <vector>
 #include <memory>
 #include <unordered_map>
