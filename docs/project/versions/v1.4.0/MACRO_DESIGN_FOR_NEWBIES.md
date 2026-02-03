@@ -793,6 +793,58 @@ flowchart TB
 
 ---
 
+## 验证命令
+
+### 编译验证
+
+```bash
+# 编译整个项目
+cd ~/sqlcc
+bazel build //...
+
+# 编译接口库
+bazel build //src/storage_engine/buffer_pool:i_buffer_pool
+
+# 期望: INFO: Build completed successfully, exit code 0
+```
+
+### 测试验证
+
+```bash
+# 运行所有测试
+bazel test //...
+
+# 运行特定测试
+bazel test //src/storage_engine/buffer_pool:buffer_pool_manager_test
+
+# 期望: PASSED
+```
+
+### 依赖检查
+
+```bash
+# 检查 Core 模块的依赖
+bazel query "deps(//src/core:core)" --output=graph | grep storage
+
+# 期望: 应该只看到接口，不应该看到具体实现
+
+# 检查循环依赖
+bazel query "filter(//src/core/..., deps(//src/execution/...))"
+#  deps(//src期望: 无输出
+```
+
+### 代码检查
+
+```bash
+# 检查 Core 包含 Storage 实现
+grep -rn "BufferPoolShard\|DiskManager\|TableStorage" src/core/*.h
+# 期望: 无输出
+
+# 检查 Execution 包含 Core 实现
+grep -rn "core_database_manager.h\|execution_context.h" src/execution/*.cpp
+# 期望: 无输出
+```
+
 **文档版本**: 1.0  
 **创建时间**: 2026-02-03  
 **最后更新**: 2026-02-03  
