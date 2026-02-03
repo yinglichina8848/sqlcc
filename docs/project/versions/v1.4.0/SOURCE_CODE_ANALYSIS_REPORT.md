@@ -281,6 +281,27 @@ private:
 };
 ```
 
+**IBufferPool 接口方法签名**:
+
+| 方法 | 签名 | 说明 |
+|------|------|------|
+| FetchPage | `Page* FetchPage(PageId id)` | 获取页面 |
+| UnpinPage | `bool UnpinPage(PageId id, bool dirty)` | 释放页面 |
+| AllocatePage | `PageId AllocatePage()` | 分配新页面 |
+| DeallocatePage | `bool DeallocatePage(PageId id)` | 释放页面 |
+| FlushAll | `bool FlushAll()` | 刷新所有脏页 |
+| Shutdown | `void Shutdown()` | 关闭 |
+
+**ITableStorage 接口方法签名**:
+
+| 方法 | 签名 | 说明 |
+|------|------|------|
+| Insert | `bool Insert(const Record& record)` | 插入记录 |
+| Update | `bool Update(const std::string& key, const Record& record)` | 更新记录 |
+| Delete | `bool Delete(const std::string& key)` | 删除记录 |
+| Scan | `std::vector<Record> Scan()` | 扫描所有记录 |
+| Select | `std::vector<Record> Select(const Predicate& predicate)` | 按条件查询 |
+
 **存储结构**:
 
 ```
@@ -341,6 +362,16 @@ private:
     std::unique_ptr<TransactionLog> log_;       // 事务日志
 };
 ```
+
+**ITransactionManager 接口方法签名**:
+
+| 方法 | 签名 | 说明 |
+|------|------|------|
+| Begin | `TransactionId Begin()` | 开始事务 |
+| Commit | `bool Commit(TransactionId id)` | 提交事务 |
+| Rollback | `bool Rollback(TransactionId id)` | 回滚事务 |
+| Lock | `bool Lock(TransactionId id, uint64_t resource)` | 获取锁 |
+| Unlock | `void Unlock(TransactionId id)` | 释放锁 |
 
 **ACID 实现**:
 
