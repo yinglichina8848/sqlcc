@@ -31,32 +31,38 @@
 
 ### 1.1 现状问题
 
-**问题 1：Core 包含 Storage 具体实现**
+**问题 1：Core 包含 Storage 具体实现** `src/core/core_database_manager.h:15`
 
 ```cpp
-// core/core_database_manager.h
-#include "../../src/storage_engine/buffer_pool/buffer_pool_sharded.h"  // 具体实现
-
-class DatabaseManager {
-private:
-    BufferPoolShard* buffer_pool_;  // 直接使用具体类
-};
+ 1 | // core/core_database_manager.h
+ 2 | #include "../../src/storage_engine/buffer_pool/buffer_pool_sharded.h"  // 具体实现
+ 3 | 
+ 4 | class DatabaseManager {
+ 5 | private:
+ 6 |     BufferPoolShard* buffer_pool_;  // 直接使用具体类
+ 7 | };
 ```
 
 **后果**: Core 和 Storage 紧耦合，修改 Storage 会影响 Core。
 
-**问题 2：Execution 引用 Core 具体类**
+**验证命令**:
+```bash
+# 搜索包含 Storage 实现的头文件
+grep -r "buffer_pool_sharded" src/core/
+```
+
+**问题 2：Execution 引用 Core 具体类** `src/execution/unified_executor.cpp:23`
 
 ```cpp
-// execution/unified_executor.cpp
-#include "core/execution_context.h"  // 具体类
-#include "core/core_database_manager.h"  // 具体类
-
-class UnifiedExecutor {
-private:
-    ExecutionContext* context_;  // 直接使用具体类
-    DatabaseManager* db_;  // 直接使用具体类
-};
+ 1 | // execution/unified_executor.cpp
+ 2 | #include "core/execution_context.h"  // 具体类
+ 3 | #include "core/core_database_manager.h"  // 具体类
+ 4 | 
+ 5 | class UnifiedExecutor {
+ 6 | private:
+ 7 |     ExecutionContext* context_;  // 直接使用具体类
+ 8 |     DatabaseManager* db_;  // 直接使用具体类
+ 9 | };
 ```
 
 **后果**: Execution 和 Core 紧耦合，修改 Core 会影响 Execution。
@@ -124,41 +130,41 @@ Core → Execution (BUILD.bazel 依赖)
 **例子 1：DatabaseManager 需要缓冲区管理**
 
 ```cpp
-// ❌ 错误：依赖具体实现
-class DatabaseManager {
-private:
-    BufferPoolShard* buffer_pool_;  // 依赖具体类
-};
-
-// 缺点：想换一种缓冲区实现，必须修改 DatabaseManager
+ 1 | // ❌ 错误：依赖具体实现
+ 2 | class DatabaseManager {
+ 3 | private:
+ 4 |     BufferPoolShard* buffer_pool_;  // 依赖具体类
+ 5 | };
+ 6 | 
+ 7 | // 缺点：想换一种缓冲区实现，必须修改 DatabaseManager
 ```
 
 ```cpp
-// ✅ 正确：依赖接口
-class DatabaseManager {
-private:
-    IBufferPool* buffer_pool_;  // 依赖接口
-};
-
-// 优点：换缓冲区实现时，不需要修改 DatabaseManager
+ 1 | // ✅ 正确：依赖接口
+ 2 | class DatabaseManager {
+ 3 | private:
+ 4 |     IBufferPool* buffer_pool_;  // 依赖接口
+ 5 | };
+ 6 | 
+ 7 | // 优点：换缓冲区实现时，不需要修改 DatabaseManager
 ```
 
 **例子 2：Execution 需要执行 SQL**
 
 ```cpp
-// ❌ 错误：依赖具体执行器
-class UnifiedExecutor {
-private:
-    DDLExecutor* ddl_;  // 依赖具体类
-};
+ 1 | // ❌ 错误：依赖具体执行器
+ 2 | class UnifiedExecutor {
+ 3 | private:
+ 4 |     DDLExecutor* ddl_;  // 依赖具体类
+ 5 | };
 ```
 
 ```cpp
-// ✅ 正确：依赖接口
-class UnifiedExecutor {
-private:
-    IExecutor* executor_;  // 依赖接口
-};
+ 1 | // ✅ 正确：依赖接口
+ 2 | class UnifiedExecutor {
+ 3 | private:
+ 4 |     IExecutor* executor_;  // 依赖接口
+ 5 | };
 ```
 
 ### 2.3 为什么拆分职责？
@@ -166,24 +172,24 @@ private:
 **ExecutionContext 职责过多**
 
 ```cpp
-// 当前：ExecutionContext 做了太多事情
-class ExecutionContext {
-private:
-    UserManager* user_;           // 用户管理
-    DatabaseManager* db_;          // 数据库管理
-    PermissionValidator* perm_;    // 权限验证
-    Transaction* txn_;             // 事务管理
-    // ... 还有更多
-};
+ 1 | // 当前：ExecutionContext 做了太多事情
+ 2 | class ExecutionContext {
+ 3 | private:
+ 4 |     UserManager* user_;           // 用户管理
+ 5 |     DatabaseManager* db_;          // 数据库管理
+ 6 |     PermissionValidator* perm_;    // 权限验证
+ 7 |     Transaction* txn_;             // 事务管理
+ 8 |     // ... 还有更多
+ 9 | };
 ```
 
 **拆分后：每个类只做一件事**
 
 ```cpp
-// 拆分后：职责单一
-class UserContext { ... }           // 只管用户
-class DatabaseOperations { ... }    // 只管数据库操作
-class TransactionContext { ... }    // 只管事务
+ 1 | // 拆分后：职责单一
+ 2 | class UserContext { ... }           // 只管用户
+ 3 | class DatabaseOperations { ... }    // 只管数据库操作
+ 4 | class TransactionContext { ... }    // 只管事务
 ```
 
 ### 2.4 为什么需要测试隔离？
@@ -239,61 +245,61 @@ class TransactionContext { ... }    // 只管事务
 **IBufferPool 接口**
 
 ```cpp
-// storage_engine/buffer_pool/buffer_pool_interface.h
-
-/**
- * What: 管理数据库页面的缓存
- * Why: 为 DatabaseManager 提供缓冲区功能，不暴露具体实现
- * How: 定义 6 个抽象方法，由 BufferPoolManager 实现
- */
-class IBufferPool {
-public:
-    virtual ~IBufferPool() = default;
-    
-    // 获取页面
-    virtual std::unique_ptr<Page> FetchPage(PageId id) = 0;
-    
-    // 释放页面
-    virtual bool UnpinPage(PageId id, bool dirty) = 0;
-    
-    // 分配页面
-    virtual PageId AllocatePage() = 0;
-    
-    // 释放页面
-    virtual bool DeallocatePage(PageId id) = 0;
-    
-    // 刷新所有脏页
-    virtual bool FlushAll() = 0;
-    
-    // 关闭
-    virtual void Shutdown() = 0;
-};
+ 1 | // storage_engine/buffer_pool/buffer_pool_interface.h
+ 2 | 
+ 3 | /**
+ 4 |  * What: 管理数据库页面的缓存
+ 5 |  * Why: 为 DatabaseManager 提供缓冲区功能，不暴露具体实现
+ 6 |  * How: 定义 6 个抽象方法，由 BufferPoolManager 实现
+ 7 |  */
+ 8 | class IBufferPool {
+ 9 | public:
+10 |     virtual ~IBufferPool() = default;
+11 |     
+12 |     // 获取页面
+13 |     virtual std::unique_ptr<Page> FetchPage(PageId id) = 0;
+14 |     
+15 |     // 释放页面
+16 |     virtual bool UnpinPage(PageId id, bool dirty) = 0;
+17 |     
+18 |     // 分配页面
+19 |     virtual PageId AllocatePage() = 0;
+20 |     
+21 |     // 释放页面
+22 |     virtual bool DeallocatePage(PageId id) = 0;
+23 |     
+24 |     // 刷新所有脏页
+25 |     virtual bool FlushAll() = 0;
+26 |     
+27 |     // 关闭
+28 |     virtual void Shutdown() = 0;
+29 | };
 ```
 
 **BufferPoolManager 实现接口**
 
 ```cpp
-// storage_engine/buffer_pool/buffer_pool.h
-
-/**
- * What: 实现 IBufferPool 接口
- * Why: 提供具体的缓冲区管理功能
- * How: 使用 LRU 缓存策略管理页面
- */
-class BufferPoolManager : public IBufferPool {
-public:
-    // 实现 IBufferPool 接口
-    std::unique_ptr<Page> FetchPage(PageId id) override;
-    bool UnpinPage(PageId id, bool dirty) override;
-    PageId AllocatePage() override;
-    bool DeallocatePage(PageId id) override;
-    bool FlushAll() override;
-    void Shutdown() override;
-    
-private:
-    // 内部实现细节
-    std::vector<std::unique_ptr<BufferPoolShard>> shards_;
-};
+ 1 | // storage_engine/buffer_pool/buffer_pool.h
+ 2 | 
+ 3 | /**
+ 4 |  * What: 实现 IBufferPool 接口
+ 5 |  * Why: 提供具体的缓冲区管理功能
+ 6 |  * How: 使用 LRU 缓存策略管理页面
+ 7 |  */
+ 8 | class BufferPoolManager : public IBufferPool {
+ 9 | public:
+10 |     // 实现 IBufferPool 接口
+11 |     std::unique_ptr<Page> FetchPage(PageId id) override;
+12 |     bool UnpinPage(PageId id, bool dirty) override;
+13 |     PageId AllocatePage() override;
+14 |     bool DeallocatePage(PageId id) override;
+15 |     bool FlushAll() override;
+16 |     void Shutdown() override;
+17 |     
+18 | private:
+19 |     // 内部实现细节
+20 |     std::vector<std::unique_ptr<BufferPoolShard>> shards_;
+21 | };
 ```
 
 ### 3.3 Core 模块修改示例
@@ -301,24 +307,24 @@ private:
 **DatabaseManager 使用接口**
 
 ```cpp
-// core/database_manager.h
-
-/**
- * What: 管理数据库和表的创建、查询等操作
- * Why: 为上层提供统一的数据库操作接口
- * How: 组合 IBufferPool 和 ITransactionManager 接口
- */
-class DatabaseManager {
-public:
-    // 使用接口，不再依赖具体实现
-    DatabaseManager(IBufferPool* buffer_pool,
-                   ITransactionManager* txn_mgr);
-    
-private:
-    // 依赖接口，不是具体类
-    IBufferPool* buffer_pool_;
-    ITransactionManager* txn_manager_;
-};
+ 1 | // core/database_manager.h
+ 2 | 
+ 3 | /**
+ 4 |  * What: 管理数据库和表的创建、查询等操作
+ 5 |  * Why: 为上层提供统一的数据库操作接口
+ 6 |  * How: 组合 IBufferPool 和 ITransactionManager 接口
+ 7 |  */
+ 8 | class DatabaseManager {
+ 9 | public:
+10 |     // 使用接口，不再依赖具体实现
+11 |     DatabaseManager(IBufferPool* buffer_pool,
+12 |                    ITransactionManager* txn_mgr);
+13 |     
+14 | private:
+15 |     // 依赖接口，不是具体类
+16 |     IBufferPool* buffer_pool_;
+17 |     ITransactionManager* txn_manager_;
+18 | };
 ```
 
 ### 3.4 依赖关系变化
