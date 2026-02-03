@@ -67,9 +67,18 @@ grep -r "buffer_pool_sharded" src/core/
 
 **后果**: Execution 和 Core 紧耦合，修改 Core 会影响 Execution。
 
+**验证命令**:
+```bash
+# 检查 Execution 模块对 Core 模块的直接引用
+grep -r "core_database_manager.h\|execution_context.h" src/execution/
+```
+
 **问题 3：循环依赖**
 
 ```
+// src/core/BUILD.bazel:42
+// src/execution/BUILD.bazel:38
+
 Core → Execution (BUILD.bazel 依赖)
     ↑    ↓
     └─────┘ (循环!)
@@ -79,6 +88,12 @@ Core → Execution (BUILD.bazel 依赖)
 - 编译顺序敏感
 - 无法增量编译
 - 错误会在模块间传播
+
+**验证命令**:
+```bash
+# 检查是否存在从 Execution 到 Core 的跨层依赖（循环依赖）
+bazel query "filter(//src/core/..., deps(//src/execution/...))"
+```
 
 ### 1.2 造成的后果
 
