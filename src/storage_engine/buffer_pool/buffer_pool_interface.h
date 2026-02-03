@@ -9,7 +9,8 @@ namespace sqlcc {
 namespace storage {
 
 class Page;
-using PageId = uint64_t;
+// PageId 保持与现有实现一致
+using PageId = int32_t;
 
 /**
  * IBufferPool - 缓冲区管理接口
