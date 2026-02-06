@@ -87,5 +87,37 @@
 
 ---
 
+## 2026-02-04 文档维护记录（Codex）
+
+**身份**: Codex 项目负责人（与 OpenClaw 高小原平级协作）  
+**方式**: Issue/PR/文档同步
+
+**完成事项**:
+- 新增协作规范文档 `docs/ISSUE_MULTI_AGENT_COLLABORATION.md`，加入 Codex 身份与职责说明
+- 更新 `AGENTS.md` 与 `docs/index.md`，添加维护者与协作入口
+- 统一架构文档入口为 `docs/design/Architecture.md`，移除大小写冲突的 `docs/design/architecture.md`
+- 更新架构文档，标注现状/规划提示
+- 修正 TDD/SDD 文档与测试目录结构、工具链一致性（v1.4.0 记录）
+- 将 Level2 覆盖率计划归档到 v1.4.0 目录
+- 修正 TDD 分析报告中不可核验的覆盖率/测试统计并标注为待核验
+
+**涉及文档**:
+- `AGENTS.md`
+- `docs/index.md`
+- `docs/ISSUE_MULTI_AGENT_COLLABORATION.md`
+- `docs/design/Architecture.md`
+- `docs/TDD_GUIDE.md`
+- `docs/TDD_SDD_FRAMEWORK.md`
+- `docs/reports/TDD_ANALYSIS_REPORT.md`
+- `docs/reports/TDD_ANALYSIS_REPORT_DETAILED.md`
+- `docs/project/versions/v1.4.0/level2_coverage_plan.md`
+- `docs/project/versions/v1.4.0/SDD.md`
+- `docs/project/versions/v1.4.0/REFACTOR_DESIGN.md`
+- `docs/project/versions/v1.4.0/IBUFFERPOOL_SDD_TDD.md`
+- `docs/project/versions/v1.4.0/HANDOFF_TO_GAOXIAOYUAN.md`
+- `docs/reports/DOCS_FILE_INDEX_v1.4.0.md`
+
+---
+
 **创建时间**: 2026-02-03 11:00  
-**最后更新**: 2026-02-03 11:25
+**最后更新**: 2026-02-04 11:30

@@ -219,3 +219,31 @@ private:
 互斥锁：
 
 1. 保护事务管理器的并发访问
+
+---
+
+## 接口与依赖
+
+**核心接口**:
+- TransactionManager: 事务生命周期管理
+- WAL: 日志写入与恢复
+- LockManager: 并发控制
+
+**关键依赖**:
+- storage_engine
+- utils / exception
+
+---
+
+## 验证方式
+
+- 编译验证: `bazel build //src/transaction:transaction`
+- 测试验证: `bazel test //tests/level3_transaction_manager/... --test_output=errors`
+- 覆盖率验证: `bazel coverage //tests/level3_transaction_manager/...`
+
+---
+
+## 风险与权衡
+
+- 风险: 锁竞争与死锁导致吞吐下降
+- 权衡: 一致性优先，逐步优化并发性能

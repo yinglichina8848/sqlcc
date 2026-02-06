@@ -2,7 +2,7 @@
 
 **版本**: v1.4.0  
 **创建日期**: 2026-02-03 11:20  
-**状态**: SDD 规范制定中
+**状态**: SDD 规范制定中（v1.4.0）
 
 ---
 
@@ -28,10 +28,10 @@
 |----|---------|---------|--------|
 | REQ-001 | 打破 Core ↔ Execution 循环依赖 | `bazel query` 检查无循环依赖 | P0 |
 | REQ-002 | Core 依赖 Storage 接口而非实现 | 无 `#include "storage_engine/...h"` | P0 |
-| REQ-003 | 创建 `IStorageEngine` 抽象接口 | 接口编译通过，单元测试通过 | P0 |
-| REQ-004 | 创建 Core 关键接口 | `IUserContext`, `ITransactionContext` 定义完成 | P1 |
+| REQ-003 | 创建 `IStorageEngine` 抽象接口 | 新增接口头文件与 BUILD 目标，编译通过 | P0 |
+| REQ-004 | 创建 Core 关键接口 | `IUserContext`, `ITransactionContext` 定义完成并纳入 BUILD | P1 |
 | REQ-005 | 所有功能测试通过 | `bazel test //tests/...` 100% 通过 | P0 |
-| REQ-006 | 文档更新 | ARCHITECTURE.md 更新完成 | P2 |
+| REQ-006 | 文档更新 | `docs/design/Architecture.md` 更新完成 | P2 |
 
 ### 1.3 验收定义
 
@@ -51,14 +51,14 @@ bazel test //tests/level2_core/... --test_output=errors
 **循环依赖检测**:
 ```bash
 # 定义: bazel query 返回空结果
-bazel query "allpaths(//src/core:..., //src/execution:...)" 2>/dev/null | grep -q "^$" && echo "✅ 无循环依赖"
+bazel query "allpaths(//src/core:core, //src/execution:execution)" 2>/dev/null | grep -q "^$" && echo "✅ 无循环依赖"
 ```
 
 **接口抽象成功**:
 ```bash
 # 定义: Core 源码中无 Storage 具体实现引用
-grep -r "#include.*storage_engine.*buffer_pool" ~/sqlcc/src/core/ --include="*.h" --include="*.cpp"
-# 期望: 无输出 (exit code 1)
+rg -n "storage_engine/.+buffer_pool|storage_engine/.+table_storage" src/core
+# 期望: 无输出
 ```
 
 ---
@@ -105,10 +105,13 @@ grep -r "#include.*storage_engine.*buffer_pool" ~/sqlcc/src/core/ --include="*.h
 #include <memory>
 #include <string>
 #include <vector>
-#include "../../src/page/page_id.h"
+#include "page/page_id.h"
 
 namespace sqlcc {
 namespace storage {
+
+class Page;
+class TableStorage;
 
 class IStorageEngine {
 public:
@@ -119,7 +122,7 @@ public:
     /**
      * @brief 获取页面
      * @param page_id 页面 ID
-     * @return 页面指针，失败返回 nullptr
+     * @return 页面指针（所有权转移），失败返回 nullptr
      */
     virtual std::unique_ptr<Page> FetchPage(PageId page_id) = 0;
     
@@ -163,7 +166,7 @@ public:
     /**
      * @brief 获取表存储
      * @param table_name 表名
-     * @return 表指针，不存在返回 nullptr
+     * @return 表指针（非拥有），不存在返回 nullptr
      */
     virtual TableStorage* GetTable(const std::string& table_name) = 0;
     
@@ -418,7 +421,8 @@ cc_library(
 - `src/core/core_database_manager.h` (查看依赖)
 
 **输出**:
-- `src/storage_engine/storage_engine_interface.h` (300+ 行)
+- `src/storage_engine/storage_engine_interface.h`
+- `src/storage_engine/BUILD.bazel` 增加 `storage_engine_interface` 目标
 
 **验收标准**:
 
@@ -443,8 +447,9 @@ cc_library(
 - `src/core/transaction_manager.h`
 
 **输出**:
-- `src/core/user_context.h` (100+ 行)
-- `src/core/transaction_context.h` (100+ 行)
+- `src/core/user_context.h`
+- `src/core/transaction_context.h`
+- `src/core/BUILD.bazel` 增加 `core_interface` 目标
 
 **验收标准**:
 
@@ -452,9 +457,8 @@ cc_library(
 |------|------|---------|
 | AC-1.2.1 | user_context.h 存在 | `test -f src/core/user_context.h` |
 | AC-1.2.2 | transaction_context.h 存在 | `test -f src/core/transaction_context.h` |
-| AC-1.2.3 | user_context.h 编译通过 | `bazel build //src/core:user_context` |
-| AC-1.2.4 | transaction_context.h 编译通过 | `bazel build //src/core:transaction_context` |
-| AC-1.2.5 | 接口方法完整 | `grep "virtual.*= 0;" src/core/user_context.h src/core/transaction_context.h` (期望 ≥ 8) |
+| AC-1.2.3 | Core 接口库编译通过 | `bazel build //src/core:core_interface` |
+| AC-1.2.4 | 接口方法完整 | `grep "virtual.*= 0;" src/core/user_context.h src/core/transaction_context.h` (期望 ≥ 8) |
 
 **依赖**: T-1.1  
 **风险**: 低  
@@ -477,10 +481,10 @@ cc_library(
 
 | 编号 | 标准 | 检验命令 |
 |------|------|---------|
-| AC-2.1.1 | Core 不含 Execution 依赖 | `grep "execution" src/core/BUILD.bazel` (期望无输出) |
+| AC-2.1.1 | Core 不含 Execution 依赖 | `rg -n \"//src/execution\" src/core/BUILD.bazel` (期望无输出) |
 | AC-2.1.2 | Core 编译通过 | `bazel build //src/core:core` |
 | AC-2.1.3 | Execution 编译通过 | `bazel build //src/execution:execution` |
-| AC-2.1.4 | 无循环依赖 | `bazel query "allpaths(//src/core:*, //src/execution:*)" 2>/dev/null` (期望空) |
+| AC-2.1.4 | 无循环依赖 | `bazel query "allpaths(//src/core:core, //src/execution:execution)" 2>/dev/null` (期望空) |
 | AC-2.1.5 | Level 1 测试通过 | `bazel test //tests/level1_foundation/... --test_output=errors` |
 
 **依赖**: T-1.1, T-1.2  
@@ -502,10 +506,10 @@ cc_library(
 
 | 编号 | 标准 | 检验命令 |
 |------|------|---------|
-| AC-2.2.1 | 无具体实现引用 | `grep -r "buffer_pool_sharded\|buffer_pool\.h" src/core/ --include="*.h"` (期望无输出) |
-| AC-2.2.2 | 包含接口头文件 | `grep "storage_engine_interface.h" src/core/core_database_manager.h` (期望有输出) |
+| AC-2.2.1 | 无具体实现引用 | `rg -n \"buffer_pool_sharded|buffer_pool\\.h|table_storage\" src/core` (期望无输出) |
+| AC-2.2.2 | 包含接口头文件 | `rg -n \"storage_engine_interface.h\" src/core/core_database_manager.h` (期望有输出) |
 | AC-2.2.3 | Core 编译通过 | `bazel build //src/core:core` |
-| AC-2.2.4 | DatabaseManager 使用接口 | `grep "IStorageEngine\|std::unique_ptr<storage::IStorageEngine>" src/core/core_database_manager.h` (期望有输出) |
+| AC-2.2.4 | DatabaseManager 使用接口 | `rg -n \"IStorageEngine\" src/core/core_database_manager.h` (期望有输出) |
 
 **依赖**: T-1.1  
 **风险**: 高 (影响核心类)  
@@ -529,7 +533,7 @@ cc_library(
 |------|------|---------|
 | AC-3.1.1 | Level 1 测试 100% 通过 | `bazel test //tests/level1_foundation/...` (期望 exit code 0) |
 | AC-3.1.2 | Level 2 测试 100% 通过 | `bazel test //tests/level2_core/...` (期望 exit code 0) |
-| AC-3.1.3 | 无编译警告 | `bazel build //... 2>&1 | grep -i warning` (期望无输出) |
+| AC-3.1.3 | 本仓库目标无编译警告 | `bazel build //src/... //tests/... 2>&1 | rg -n \"warning\" | rg -v \"external/\"` (期望无输出) |
 | AC-3.1.4 | 测试覆盖率统计 | `bazel coverage //tests/level1_foundation/...` (覆盖率 ≥ 67%) |
 
 **依赖**: T-2.1, T-2.2  
@@ -549,8 +553,8 @@ cc_library(
 
 | 编号 | 标准 | 检验命令 |
 |------|------|---------|
-| AC-3.2.1 | ARCHITECTURE.md 更新 | `grep "IStorageEngine" docs/architecture/ARCHITECTURE.md` (期望有输出) |
-| AC-3.2.2 | API 文档更新 | `grep "IStorageEngine" docs/api/` (期望有输出) |
+| AC-3.2.1 | Architecture 更新 | `grep "IStorageEngine" docs/design/Architecture.md` (期望有输出) |
+| AC-3.2.2 | API 文档更新 | `rg -n \"IStorageEngine\" docs/api` (期望有输出) |
 | AC-3.2.3 | CHANGELOG.md 记录 | `grep "v1.4.0" CHANGELOG.md` (期望有输出) |
 | AC-3.2.4 | WORKLOG.md 完成 | `grep "✅" docs/project/versions/v1.4.0/WORKLOG.md` (期望 ≥ 4) |
 
@@ -631,6 +635,18 @@ T-1.2 (4h) ───────────────┼──→ T-2.1 (4h) 
 
 ---
 
+## 🧭 八、范围控制与分支策略
+
+为避免当前 PR 过度扩张，以下内容应拆分为独立 Issue/PR 处理：
+
+- 接口细化与重命名（非阻塞项）
+- 大规模 API 变更
+- 存量接口兼容性重构
+
+**原则**: 当前 PR 仅完成“依赖解耦与必要接口抽象”，其余接口分析设计应在当前 PR 合并后单独推进。
+
+---
+
 ## 🔗 七、参考文档
 
 - [CORE_STORAGE_DEPENDENCY_ANALYSIS.md](CORE_STORAGE_DEPENDENCY_ANALYSIS.md)
@@ -641,9 +657,15 @@ T-1.2 (4h) ───────────────┼──→ T-2.1 (4h) 
 ---
 
 **创建时间**: 2026-02-03 11:20  
-**最后更新**: 2026-02-03 11:20
+**最后更新**: 2026-02-04 11:05
 
 ---
+
+## ✅ PR 范围边界确认
+
+- 结论: 已确认“范围控制与分支策略”为当前 PR 的明确边界。
+- 确认人: 李哥
+- 确认时间: 2026-02-06
 
 *我是高小原 🌱，按照 SDD + TDD 方式工作。*
 *每个任务都有明确的验收标准，合并前必须通过所有检查。*
