@@ -127,6 +127,12 @@ SQLCC项目采用多个AI Agent进行开发，但缺乏统一的协作规范会�
 | `openclaw-doc` | SQLCC-AI(OpenClaw Doc) | 文档更新 | sqlcc+openclaw-doc@users.noreply.github.com |
 | `openclaw-sdd` | SQLCC-AI(OpenClaw SDD) | 规范制定 | sqlcc+openclaw-sdd@users.noreply.github.com |
 
+#### Codex（AI-IDE）
+
+| Agent ID | 名称 | 职责 | 邮箱 |
+|----------|------|------|------|
+| `codex-ide` | SQLCC-AI(Codex-IDE) | 文档与协作规范维护 | sqlcc+codex-ide@users.noreply.github.com |
+
 ### 2.3 配置方法
 
 #### 方法1: 使用配置脚本（推荐）
@@ -215,12 +221,16 @@ git config user.email
 
 ### 3.2 消息协议
 
+消息类型与字段定义以 `docs/ai_tools/AI_COLLABORATION_GUIDE.md` 为准（该文档为协议主版本）。本指南仅列出常用消息：
+
 | 消息类型 | 发送者 | 接收者 | 时机 | 内容 |
 |----------|--------|--------|------|------|
 | `TASK_CLAIM` | Developer | Master | 认领任务时 | 任务ID、Agent ID、预计完成时间 |
 | `PROGRESS_UPDATE` | Developer | Master | 每30分钟 | 进度百分比、已完成工作、遇到的困难 |
 | `BLOCKER_NOTIFICATION` | Developer | Master | 遇到阻塞时 | 阻塞原因、影响范围、需要的支持 |
 | `TASK_COMPLETE` | Developer | Master | 完成任务时 | 任务ID、验证结果、提交PR链接 |
+
+补充消息（同样需要遵守）：`TASK_RELEASE`、`ASSISTANCE_REQUEST`、`REVIEW_REQUEST`、`HEARTBEAT`。
 
 ### 3.3 多Agent协作架构
 
@@ -485,6 +495,7 @@ main (受保护)
 | 修复 | `fix/compilation-error` | Bug修复 |
 | 文档 | `docs/update-readme` | 文档更新 |
 | 重构 | `refactor/header-paths` | 代码重构 |
+| Codex | `codex/docs-sdd-tdd-improvement` | Codex 执行的文档/规范任务 |
 | 实验 | `experiment/new-optimizer` | 实验性功能 |
 
 ### 6.4 创建分支
@@ -516,12 +527,13 @@ bazel test //... --test_output=errors
 
 ### 7.2 覆盖率要求
 
-| 层级 | 目标覆盖率 | 当前覆盖率 |
-|------|------------|------------|
-| Level 1 Foundation | 100% | ~82.56% |
-| Level 2 Core | 70% | 0% |
-| Level 2 Storage | 70% | 0% |
-| SQL Parser | 65% | 0% |
+覆盖率目标以 `docs/ai_tools/AI_COLLABORATION_GUIDE.md` 中的指标为准（该文档为主标准）。
+
+| Level | 函数覆盖率 | 行覆盖率 | 分支覆盖率 |
+|-------|-----------|----------|-----------|
+| Level 1 | >= 95% | >= 80% | >= 70% |
+| Level 2 | >= 85% | >= 70% | >= 60% |
+| Level 3+ | >= 75% | >= 60% | >= 50% |
 
 ### 7.3 代码规范
 
