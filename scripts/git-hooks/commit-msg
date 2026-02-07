@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+msg_file="$1"
+
+require_fields=("Agent:" "Scope:" "Refs:")
+
+missing=0
+for field in "${require_fields[@]}"; do
+  if ! rg -q "^${field}" "$msg_file"; then
+    echo "Missing required commit field: $field" >&2
+    missing=1
+  fi
+done
+
+if [ "$missing" -ne 0 ]; then
+  echo "Commit message must include Agent:, Scope:, Refs:" >&2
+  exit 1
+fi

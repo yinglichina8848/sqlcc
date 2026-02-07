@@ -353,7 +353,7 @@ fix: 修复问题
 
 ### 4.4 Commit Hook
 
-项目已部署 `.git/hooks/commit-msg` 钩子，自动检查：
+项目提供提交钩子模板 `scripts/git-hooks/commit-msg`，可按需安装到本地 `.git/hooks/commit-msg`：
 
 ✅ **必须包含**:
 - `Agent:` - Agent身份标识
@@ -364,6 +364,12 @@ fix: 修复问题
 - 直接提交到 main / release/*
 - vibe commit（无描述）
 - 无文件更改的提交
+
+**安装方式**:
+```bash
+cp scripts/git-hooks/commit-msg .git/hooks/commit-msg
+chmod +x .git/hooks/commit-msg
+```
 
 ---
 
@@ -642,6 +648,10 @@ A: 重新执行配置脚本：`source scripts/sqlcc-agent-config.sh <new-agent-i
 
 A: 查看Reviewer的反馈，修复问题后重新提交。
 
+### Q8: 历史报告中存在大量 TODO 是否必须清理？
+
+A: 不要求。历史报告保留当时的 TODO/占位说明用于审计与回溯。仅对当前版本的规范性文档（SDD/TDD/协作规范等）要求清理与一致性。
+
 ---
 
 ## 10. 相关文档
@@ -654,7 +664,7 @@ A: 查看Reviewer的反馈，修复问题后重新提交。
 | **快速配置脚本** | `scripts/sqlcc-agent-config.sh` | Agent身份配置 |
 | **Agent身份配置** | `~/.gitconfig.d/agents.conf` | Agent身份定义 |
 | **PR模板** | `.github/pull_request_template.md` | PR强制模板 |
-| **提交钩子** | `.git/hooks/commit-msg` | 提交规范检查 |
+| **提交钩子模板** | `scripts/git-hooks/commit-msg` | 提交规范检查模板（需本地安装） |
 | **项目编码指南** | `AGENTS.md` | 整体编码规范 |
 | **SDD规范** | `docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md` | 规范驱动开发 |
 | **AI协作指南** | `docs/ai_tools/AI_COLLABORATION_GUIDE.md` | AI协作流程 |
