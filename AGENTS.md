@@ -165,7 +165,66 @@ Agent: <Agent名称>
 - **状态变更**: 状态切换时立即更新
 - **每日总结**: 每日结束时提交进度总结
 
-#### 8. 代码提交规范
+#### 8. 提交前本地验证（强制）
+
+**⚠️ 关键原则：任何代码提交到 GitHub 之前，必须先在本地完成测试和验证！**
+
+**必须执行的步骤**：
+
+1. **编译验证**
+   ```bash
+   # 必须能够编译通过
+   bazel build //src/<modified_module>:<target>
+   
+   # 示例
+   bazel build //src/core:core
+   bazel build //src/core/interfaces:interfaces
+   ```
+
+2. **语法检查**（如果无法编译）
+   ```bash
+   # 对修改的头文件进行语法检查
+   clang++ -std=c++20 -fsyntax-only <modified_file>
+   ```
+
+3. **自我检查清单**（Self-Check Checklist）
+   提交前必须完成以下检查：
+   - [ ] **类型一致性**: 检查类型定义是否一致（如 TransactionId）
+   - [ ] **命名规范**: 是否符合 PascalCase / snake_case 规范
+   - [ ] **注释完整**: 是否包含 @file, @brief, 参数, 返回值说明
+   - [ ] **头文件保护**: 是否有 #pragma once 或宏保护
+   - [ ] **包含顺序**: 是否符合规范（对应头文件 → 项目头文件 → 第三方 → 系统）
+   - [ ] **接口一致性**: 虚函数是否正确标记 override
+   - [ ] **内存安全**: 是否使用智能指针而非裸指针
+   - [ ] **常量正确性**: 查询方法是否标记 const
+
+4. **代码审查预览**
+   ```bash
+   # 查看修改内容
+   git diff --stat
+   git diff <modified_files>
+   
+   # 确认没有意外修改
+   # 确认没有遗漏文件
+   ```
+
+5. **测试运行**（如有测试）
+   ```bash
+   # 运行相关测试
+   bazel test //tests/<relevant_tests>:all --test_output=errors
+   ```
+
+**禁止行为**：
+- ❌ **严禁** 不经过本地验证就推送到 GitHub
+- ❌ **严禁** 在提交信息中虚假声称"编译通过"或"测试通过"
+- ❌ **严禁** 提交未完成的代码（WIP 状态除外，但必须明确标注）
+
+**如果本地环境无法编译**：
+1. 在提交信息中明确说明："本地环境缺少 XXX，待 CI 验证"
+2. 在 PR 描述中说明环境限制
+3. 等待 CI 结果后再标记为"准备合并"
+
+#### 9. 代码提交规范
 
 ```
 <type>(<scope>): <subject>
