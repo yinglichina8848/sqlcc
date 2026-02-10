@@ -1,3 +1,15 @@
+/**
+ * @file core_database_manager.h
+ * @brief SQLCC核心数据库管理器
+ * @author SQLCC Team
+ * @date 2026-02-11
+ * @copyright Copyright (c) 2026
+ *
+ * 文件用途说明：
+ * 本文件定义了核心数据库管理器接口，负责数据库系统的统一管理。
+ * 采用前置声明模式减少头文件依赖，提高编译速度。
+ */
+
 #ifndef SQLCC_CORE_DATABASE_MANAGER_H
 #define SQLCC_CORE_DATABASE_MANAGER_H
 
@@ -7,11 +19,10 @@
 #include <mutex>
 #include <unordered_map>
 #include <map>
-#include "../../src/storage_engine/buffer_pool/buffer_pool_sharded.h"
 
 namespace sqlcc {
 
-// 前向声明
+// 前向声明 - 使用前置声明替代直接包含，降低编译依赖
 class DatabaseFileManager;
 class ConfigManager;
 class StorageEngine;
