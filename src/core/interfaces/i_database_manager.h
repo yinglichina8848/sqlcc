@@ -65,13 +65,43 @@ using TransactionId = uint64_t;
 
 /**
  * @brief 表元数据接口
+ *
+ * WHY: 为什么需要表元数据接口？
+ * 数据库系统需要统一的表结构描述方式，用于：
+ * - 查询优化器获取表结构信息
+ * - 执行器验证列存在性和类型
+ * - 存储引擎管理表的生命周期
+ *
+ * WHAT: 表元数据的核心信息
+ * - 表名标识
+ * - 列定义（名称、类型）
+ * - 主键信息
+ *
+ * HOW: 使用接口而非具体实现
+ * - 支持不同类型的表（普通表、视图、临时表）
+ * - 便于 Mock 测试
+ * - 支持未来扩展（分区信息、约束等）
  */
 class ITableMetadata {
 public:
     virtual ~ITableMetadata() = default;
-    
+
+    /**
+     * @brief 获取表名
+     * @return 表名
+     */
     virtual std::string GetTableName() const = 0;
+
+    /**
+     * @brief 获取列定义
+     * @return 列定义列表，格式为 [(列名, 类型), ...]
+     */
     virtual std::vector<std::pair<std::string, std::string>> GetColumns() const = 0;
+
+    /**
+     * @brief 获取主键列名
+     * @return 主键列名，如果没有主键返回空字符串
+     */
     virtual std::string GetPrimaryKey() const = 0;
 };
 

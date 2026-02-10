@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <cstdint>
 
 namespace sqlcc {
 namespace core {
@@ -22,6 +23,9 @@ namespace interfaces {
 // 前向声明
 class IDatabaseManager;
 class IUserManager;
+
+// 事务 ID 类型定义
+using TransactionId = uint64_t;
 
 /**
  * WHY: 为什么需要执行上下文接口？
@@ -92,15 +96,15 @@ public:
     
     /**
      * @brief 获取事务 ID
-     * @return 事务 ID，如果不在事务中返回空字符串
+     * @return 事务 ID，如果不在事务中返回 0
      */
-    virtual std::string GetTransactionId() const = 0;
-    
+    virtual TransactionId GetTransactionId() const = 0;
+
     /**
      * @brief 设置事务 ID
      * @param transaction_id 事务 ID
      */
-    virtual void SetTransactionId(const std::string& transaction_id) = 0;
+    virtual void SetTransactionId(TransactionId transaction_id) = 0;
     
     /**
      * @brief 检查是否为只读执行
