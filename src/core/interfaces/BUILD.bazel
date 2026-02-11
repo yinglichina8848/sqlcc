@@ -1,0 +1,69 @@
+# src/core/interfaces/BUILD.bazel - SQLCC Core 模块接口层
+#
+# WHY: 为什么需要独立的接口库？
+# - 解耦 Core 模块与其他模块的依赖
+# - 支持依赖注入和 Mock 测试
+# - 减少编译依赖，提高编译速度
+#
+# WHAT: 本 BUILD 文件定义 Core 模块的公共接口
+# - IDatabaseManager: 数据库管理器接口
+# - IExecutionContext: 执行上下文接口
+# - IUserManager: 用户管理器接口
+#
+# HOW: 作为头文件库（hdrs only）
+# - 纯接口定义，无实现代码
+# - 其他模块依赖此库而非具体实现
+# - 实现类在 //src/core:core 中
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "interfaces",
+    hdrs = [
+        "core_interfaces.h",
+        "i_database_manager.h",
+        "i_execution_context.h",
+        "i_user_manager.h",
+    ],
+    # 接口层依赖标准库和项目通用定义
+    deps = [
+        "//src/utils:utils",  # 可能需要通用工具
+    ],
+    # 接口层不依赖具体实现，避免循环依赖
+    visibility = [
+        "//src/core:__pkg__",          # Core 实现模块
+        "//src/sql_parser:__pkg__",    # SQL 解析器
+        "//src/execution:__pkg__",     # 执行引擎
+        "//tests:__subpackages__",     # 所有测试
+    ],
+)
+
+# 单独导出每个接口（便于选择性依赖）
+cc_library(
+    name = "i_database_manager",
+    hdrs = ["i_database_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "i_execution_context",
+    hdrs = ["i_execution_context.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "i_user_manager",
+    hdrs = ["i_user_manager.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "core_interfaces",
+    hdrs = ["core_interfaces.h"],
+    deps = [
+        ":i_database_manager",
+        ":i_execution_context",
+        ":i_user_manager",
+    ],
+    visibility = ["//visibility:public"],
+)
