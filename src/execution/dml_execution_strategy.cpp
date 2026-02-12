@@ -197,15 +197,24 @@ ExecutionResult DMLExecutionStrategy::executeSelect(const sql_parser::SelectStat
     }
 
     // 根据SELECT语句的复杂程度选择不同的执行方法
-    if (stmt.join_clause.has_value()) {
+    if (!stmt.getJoinClauses().empty()) {
         return executeJoinSelect(stmt, context);
-    } else if (stmt.group_by_clause.has_value()) {
+    } else if (!stmt.getGroupBy().empty()) {
         return executeGroupBySelect(stmt, context);
-    } else if (stmt.aggregate_functions.size() > 0) {
-        return executeAggregateSelect(stmt, context);
     } else {
-        return executeSimpleSelect(stmt, context);
+        // 检查是否有聚合函数
+        bool hasAggregate = false;
+        for (const auto& expr : stmt.getSelectList()) {
+            if (expr && expr->isAggregateFunction()) {
+                hasAggregate = true;
+                break;
+            }
+        }
+        if (hasAggregate) {
+            return executeAggregateSelect(stmt, context);
+        }
     }
+    return executeSimpleSelect(stmt, context);
 }
 
 ExecutionResult DMLExecutionStrategy::executeJoinSelect(const sql_parser::SelectStatement& stmt,

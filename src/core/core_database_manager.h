@@ -21,6 +21,11 @@ class IndexManager;
 class TableStorage;
 struct TableMetadata;
 class Page;
+class ExecutionResult;
+
+namespace sql_parser {
+class SelectStatement;
+}
 
 using TransactionId = uint64_t;
 
@@ -190,6 +195,11 @@ public:
     bool Execute(const std::string& sql);
     std::vector<std::string> GetTableNames();
     std::string GetTableSchema(const std::string& table_name);
+
+    // JOIN/GROUP BY/聚合查询方法 (存根)
+    ExecutionResult ExecuteJoinQuery(const sql_parser::SelectStatement& stmt);
+    ExecutionResult ExecuteGroupByQuery(const sql_parser::SelectStatement& stmt);
+    ExecutionResult ExecuteAggregateQuery(const sql_parser::SelectStatement& stmt);
 
 private:
     // 私有辅助方法

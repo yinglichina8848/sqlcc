@@ -1,11 +1,13 @@
 #include "core_database_manager.h"
 #include "database_file_manager.h"
 #include "database_exceptions.h"
+#include "execution_result.h"
 #include "../storage_engine/index_manager.h"
 #include "../storage_engine/buffer_pool/buffer_pool_sharded.h"
 #include "../storage_engine/table_storage.h"
 #include "../storage_engine/storage_engine.h"
 #include "../utils/config_manager.h"
+#include "../sql_parser/ast/dml/ast_dml_nodes.h"
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
@@ -1261,6 +1263,27 @@ sqlcc::DatabaseManager::GetTableSchema(const std::string &table_name) {
   // 在实际实现中，这里应该从表文件中读取真实的表结构
   return "CREATE TABLE " + table_name +
          " (id INT PRIMARY KEY, name VARCHAR(50))";
+}
+
+// JOIN 查询执行 (存根)
+ExecutionResult DatabaseManager::ExecuteJoinQuery(const sql_parser::SelectStatement& stmt) {
+  std::lock_guard<std::mutex> lock(mutex_);
+  // 简化实现：返回错误，提示需要完整实现
+  return ExecutionResult(false, "JOIN query execution not fully implemented");
+}
+
+// GROUP BY 查询执行 (存根)
+ExecutionResult DatabaseManager::ExecuteGroupByQuery(const sql_parser::SelectStatement& stmt) {
+  std::lock_guard<std::mutex> lock(mutex_);
+  // 简化实现：返回错误，提示需要完整实现
+  return ExecutionResult(false, "GROUP BY query execution not fully implemented");
+}
+
+// 聚合查询执行 (存根)
+ExecutionResult DatabaseManager::ExecuteAggregateQuery(const sql_parser::SelectStatement& stmt) {
+  std::lock_guard<std::mutex> lock(mutex_);
+  // 简化实现：返回错误，提示需要完整实现
+  return ExecutionResult(false, "Aggregate query execution not fully implemented");
 }
 
 } // namespace sqlcc
