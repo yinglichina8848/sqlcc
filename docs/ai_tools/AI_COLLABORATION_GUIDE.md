@@ -23,8 +23,9 @@
 
 **所有 Agent 必须首先阅读**：
 1. `docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md` - SDD 规范
-2. `docs/ai_tools/AI_DEVELOPMENT_GUIDELINES.md` - AI 开发规范
-3. `docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md` - C++ 开发规范
+2. `.github/ISSUE_MULTI_AGENT_COLLABORATION.md` - 多Agent协作契约（Issue #9）
+3. `docs/ai_tools/AI_DEVELOPMENT_GUIDELINES.md` - AI 开发规范
+4. `docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md` - C++ 开发规范
 
 ---
 

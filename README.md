@@ -62,6 +62,39 @@
 
 ---
 
+## 🤖 多Agent跨平台协作开发 ⭐NEW
+
+### 概述
+
+SQLCC项目采用多个AI Agent（Claude、OpenCode、Gemini、Codex等）进行协同开发，必须遵循统一的协作规范。
+
+### ⭐⭐⭐ 必读：Issue #9 协作契约
+
+> **重要**: [Issue #9: Unified AI-CLI Workflow](.github/ISSUE_MULTI_AGENT_COLLABORATION.md) 是 SQLCC 多Agent协作的**默认契约**，定义了：
+> - **Agent 角色**: Human (审批), Codex (总控), Claude (主开发), OpenCode (验证), Gemini (复检)
+> - **工作目录**: `/Users/liying/sqlcc-*` 独立工作目录
+> - **分支命名**: `feat/claude/*`, `test/opencode/*`, `docs/gemini/*`
+> - **消息协议**: TASK_CLAIM, PROGRESS_UPDATE, BLOCKER_NOTIFICATION, TASK_COMPLETE
+> - **质量门禁**: 编译 → 测试 → 覆盖 → 评审 → 合并
+
+### Agent身份体系
+
+| Agent | 角色 | 工作目录 | 分支模式 |
+|-------|------|----------|----------|
+| **Claude** | 主开发 | `/Users/liying/sqlcc-claude` | `feat/claude/<task-id>-*` |
+| **OpenCode** | 验证 | `/Users/liying/sqlcc-opencode` | `test/opencode/<task-id>-verify` |
+| **Gemini** | 复检/文档 | `/Users/liying/sqlcc-gemini` | `docs/gemini/<task-id>-review` |
+| **Codex** | 总控 | `/Users/liying/sqlcc-codex` | `coord/codex/<topic>` |
+
+### 相关文档
+
+- [**多Agent协作规范Issue**](.github/ISSUE_MULTI_AGENT_COLLABORATION.md) - 完整协作契约
+- [**Agent配置通知**](docs/MULTI_AGENT_NOTIFICATION.md) - 配置指南
+- [**PR模板**](.github/pull_request_template.md) - PR强制检查项
+- [**多Agent并行协作指南**](docs/ai_tools/AI_COLLABORATION_GUIDE.md) - 详细协作流程
+
+---
+
 ## 📊 项目功能状态评估
 
 ### ✅ 核心功能完整性
