@@ -163,7 +163,7 @@ ExecutionResult DMLExecutionStrategy::executeUpdate(const sql_parser::UpdateStat
     }
 
     // 执行更新操作
-    auto result = context.db_manager->UpdateRecords(stmt.table_name, stmt.set_clause, stmt.where_clause);
+    auto result = context.db_manager->UpdateRecords(stmt.getTableName(), stmt.getAssignments(), stmt.getWhereClause());
     if (result.success) {
         updateExecutionStats(context, result.rows_affected);
         return createSuccessResult("Update successful, " + std::to_string(result.rows_affected) + " rows affected");
@@ -180,7 +180,7 @@ ExecutionResult DMLExecutionStrategy::executeDelete(const sql_parser::DeleteStat
     }
 
     // 执行删除操作
-    auto result = context.db_manager->DeleteRecords(stmt.table_name, stmt.where_clause);
+    auto result = context.db_manager->DeleteRecords(stmt.getTableNames(), stmt.getWhereClause());
     if (result.success) {
         updateExecutionStats(context, result.rows_affected);
         return createSuccessResult("Delete successful, " + std::to_string(result.rows_affected) + " rows affected");
