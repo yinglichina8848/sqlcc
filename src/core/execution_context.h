@@ -1,3 +1,15 @@
+/**
+ * @file execution_context.h
+ * @brief SQLCC执行上下文
+ * @author SQLCC Team
+ * @date 2026-02-11
+ * @copyright Copyright (c) 2026
+ *
+ * 文件用途说明：
+ * 本文件定义了SQL执行上下文，管理执行期间的状态信息。
+ * 采用前置声明模式减少头文件依赖，使用接口而非具体实现。
+ */
+
 #ifndef SQLCC_EXECUTION_CONTEXT_H
 #define SQLCC_EXECUTION_CONTEXT_H
 
@@ -6,10 +18,10 @@
 #include <unordered_map>
 #include <vector>
 
-// 包含完整类型定义，避免前向声明问题
-#include "core_database_manager.h"
-
 namespace sqlcc {
+
+// 前向声明 - 使用前置声明替代直接包含
+class DatabaseManager;
 
 // 前向声明
 class UserManager;

@@ -60,6 +60,10 @@
  */
 
 #include "execution_context.h"
+#include "core_database_manager.h"
+#include "user_manager.h"
+#include "system_database.h"
+#include "permission_validator.h"
 #include <sstream>
 
 namespace sqlcc {

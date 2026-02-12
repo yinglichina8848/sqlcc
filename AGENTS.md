@@ -31,14 +31,218 @@ git checkout -b feature/xxx
 # Refs: #<issue编号>
 ```
 
-### SDD 规范遵从要求
+### SDD-TDD 规范遵从要求（必须遵循）
 
-**所有 AI Agent 必须严格遵从以下规范**：
+**所有 AI Agent 必须严格遵从以下 SDD-TDD 规范**：
 
-1. **任务状态机**: `OPEN → CLAIMED → WIP → DONE → FROZEN`
-2. **消息协议**: 使用标准消息格式 (TASK_CLAIM, PROGRESS_UPDATE, BLOCKER_NOTIFICATION, TASK_COMPLETE)
-3. **沟通频率**: 进度更新每30分钟，阻塞即时通知
-4. **验收标准**: 编译通过 → 测试100% → 覆盖率达标 → 文档完整 → CHANGELOG 更新
+#### 1. 核心理念
+- **SDD (Spec-Driven Development)**: 先写规范，后写代码
+- **TDD (Test-Driven Development)**: 先写测试，后写实现
+- **流程**: 需求 → 规范 → 测试 → 实现 → 重构 → 验收
+
+#### 2. 开发流程（强制）
+
+```
+需求分析 → 编写规范 → 评审规范 → 编写测试 → 评审测试 → 编写实现 → 评审实现 → 重构优化
+```
+
+**每个阶段必须产出文档**：
+- **规范文档**: `docs/sdd/features/<feature_name>_spec.md`
+- **测试用例**: `tests/levelX_<module>/<feature_name>_test.cpp`
+- **实现代码**: `src/<module>/<feature_name>.cpp`
+- **验收报告**: `docs/sdd/features/<feature_name>_acceptance.md`
+
+#### 3. 规范文档模板
+
+每个功能必须包含以下规范文档：
+
+```markdown
+# 功能规范: <功能名称>
+
+## 1. 需求分析 (Why)
+- 业务背景
+- 用户需求
+- 技术挑战
+
+## 2. 设计方案 (What)
+- 接口设计
+- 数据结构
+- 算法流程
+- 边界条件
+
+## 3. 实现细节 (How)
+- 类/函数签名
+- 关键算法
+- 错误处理
+- 性能考虑
+
+## 4. 测试要求
+- 单元测试覆盖场景
+- 边界测试用例
+- 性能测试基准
+- 验收标准
+
+## 5. 风险评估
+- 潜在风险
+- 回滚方案
+- 兼容性影响
+```
+
+#### 4. 任务状态机
+
+```
+OPEN → CLAIMED → SPEC_REVIEW → TEST_REVIEW → WIP → CODE_REVIEW → REFACTOR → DONE → FROZEN
+```
+
+| 状态 | 说明 | 产出物 |
+|------|------|--------|
+| `OPEN` | 任务待认领 | 需求文档 |
+| `CLAIMED` | 已认领 | 认领声明 |
+| `SPEC_REVIEW` | 规范评审中 | 规范文档 |
+| `TEST_REVIEW` | 测试评审中 | 测试代码 |
+| `WIP` | 开发中 | 实现代码 |
+| `CODE_REVIEW` | 代码评审中 | PR/MR |
+| `REFACTOR` | 重构优化中 | 优化后代码 |
+| `DONE` | 已完成 | 验收报告 |
+| `FROZEN` | 已冻结 | 归档文档 |
+
+#### 5. 消息协议（必须遵守）
+
+**TASK_CLAIM** - 任务认领
+```
+[TASK_CLAIM] <任务ID>
+Agent: <Agent名称>
+Timestamp: <ISO8601>
+预计完成时间: <时间>
+```
+
+**PROGRESS_UPDATE** - 进度更新（每30分钟）
+```
+[PROGRESS_UPDATE] <任务ID>
+状态: <当前状态>
+完成度: <百分比>
+已完成: <列表>
+待完成: <列表>
+风险: <如有>
+```
+
+**BLOCKER_NOTIFICATION** - 阻塞通知（即时）
+```
+[BLOCKER_NOTIFICATION] <任务ID>
+阻塞原因: <详细描述>
+已尝试方案: <列表>
+需要帮助: <具体问题>
+影响范围: <说明>
+```
+
+**TASK_COMPLETE** - 任务完成
+```
+[TASK_COMPLETE] <任务ID>
+Agent: <Agent名称>
+产出物: <文件列表>
+测试结果: <通过/失败>
+覆盖率: <百分比>
+文档: <链接>
+变更日志: <摘要>
+```
+
+#### 6. 验收标准（强制检查清单）
+
+- [ ] **规范完整**: 包含 Why-What-How 全部内容
+- [ ] **测试先行**: 测试代码先于实现代码提交
+- [ ] **测试通过**: 所有测试用例 100% 通过
+- [ ] **覆盖率达标**: 新代码行覆盖率 ≥ 80%
+- [ ] **代码规范**: 符合 C++ 命名和风格规范
+- [ ] **文档完整**: API 文档、使用说明已更新
+- [ ] **安全审查**: 无内存泄漏、无越界访问
+- [ ] **性能基准**: 满足性能要求或无性能退化
+- [ ] **CHANGELOG 更新**: 变更已记录在 CHANGELOG.md
+
+#### 7. 沟通频率
+
+- **正常进度**: 每30分钟汇报一次
+- **遇到阻塞**: 立即通知，不超过5分钟延迟
+- **状态变更**: 状态切换时立即更新
+- **每日总结**: 每日结束时提交进度总结
+
+#### 8. 提交前本地验证（强制）
+
+**⚠️ 关键原则：任何代码提交到 GitHub 之前，必须先在本地完成测试和验证！**
+
+**必须执行的步骤**：
+
+1. **编译验证**
+   ```bash
+   # 必须能够编译通过
+   bazel build //src/<modified_module>:<target>
+   
+   # 示例
+   bazel build //src/core:core
+   bazel build //src/core/interfaces:interfaces
+   ```
+
+2. **语法检查**（如果无法编译）
+   ```bash
+   # 对修改的头文件进行语法检查
+   clang++ -std=c++20 -fsyntax-only <modified_file>
+   ```
+
+3. **自我检查清单**（Self-Check Checklist）
+   提交前必须完成以下检查：
+   - [ ] **类型一致性**: 检查类型定义是否一致（如 TransactionId）
+   - [ ] **命名规范**: 是否符合 PascalCase / snake_case 规范
+   - [ ] **注释完整**: 是否包含 @file, @brief, 参数, 返回值说明
+   - [ ] **头文件保护**: 是否有 #pragma once 或宏保护
+   - [ ] **包含顺序**: 是否符合规范（对应头文件 → 项目头文件 → 第三方 → 系统）
+   - [ ] **接口一致性**: 虚函数是否正确标记 override
+   - [ ] **内存安全**: 是否使用智能指针而非裸指针
+   - [ ] **常量正确性**: 查询方法是否标记 const
+
+4. **代码审查预览**
+   ```bash
+   # 查看修改内容
+   git diff --stat
+   git diff <modified_files>
+   
+   # 确认没有意外修改
+   # 确认没有遗漏文件
+   ```
+
+5. **测试运行**（如有测试）
+   ```bash
+   # 运行相关测试
+   bazel test //tests/<relevant_tests>:all --test_output=errors
+   ```
+
+**禁止行为**：
+- ❌ **严禁** 不经过本地验证就推送到 GitHub
+- ❌ **严禁** 在提交信息中虚假声称"编译通过"或"测试通过"
+- ❌ **严禁** 提交未完成的代码（WIP 状态除外，但必须明确标注）
+
+**如果本地环境无法编译**：
+1. 在提交信息中明确说明："本地环境缺少 XXX，待 CI 验证"
+2. 在 PR 描述中说明环境限制
+3. 等待 CI 结果后再标记为"准备合并"
+
+#### 9. 代码提交规范
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+Agent: <Agent名称>
+Refs: #<issue编号>
+```
+
+**Type 类型**:
+- `feat`: 新功能
+- `fix`: 修复bug
+- `docs`: 文档更新
+- `test`: 测试相关
+- `refactor`: 重构
+- `spec`: 规范文档
+- `perf`: 性能优化
 
 ### 多Agent协作流程
 
@@ -273,6 +477,11 @@ python3 tools/bazel_dependency_fixer.py
 | **常量** | kPascalCase 或 UPPER_SNAKE_CASE | `kDefaultPoolSize`, `MAX_PAGE_COUNT` |
 | **命名空间** | 全小写 | `namespace sqlcc` |
 | **宏/头文件保护** | UPPER_SNAKE_CASE | `SQLCC_BUFFER_POOL_SHARDED_H` |
+| **枚举** | 枚举名PascalCase，值kPascalCase | `enum class PageStatus { kDirty, kClean };` |
+| **模板参数** | PascalCase | `template<typename T, typename Alloc>` |
+| **概念（C++20）** | PascalCase | `template<Container C>` |
+| **私有方法** | snake_case | `void internal_helper()` |
+| **保护方法** | PascalCase 或 snake_case | `void ProtectedMethod()` |
 
 #### 头文件保护
 
@@ -332,15 +541,38 @@ public:
 throw BufferPoolException("Page not found: " + std::to_string(page_id));
 ```
 
-#### 注释规范
+#### 注释规范（强制要求）
 
-采用 **Why-What-How** 三层注释体系：
+**所有代码文件必须包含以下注释**：
+
+1. **文件头注释**: 每个 `.h` 和 `.cpp` 文件必须包含文件头注释
+2. **类/结构体注释**: 必须说明 Why-What-How
+3. **函数注释**: 公有方法必须包含参数、返回值、异常说明
+4. **复杂逻辑注释**: 复杂算法必须有行内注释说明
+
+**注释格式模板**:
 
 ```cpp
 /**
+ * @file buffer_pool_sharded.h
+ * @brief 分片缓冲池管理器
+ * @author SQLCC Team
+ * @date 2026-01-30
+ * @copyright Copyright (c) 2026
+ *
+ * 文件用途说明：
+ * 本文件实现了分片缓冲池管理器，用于管理数据库页面的内存缓存。
+ * 采用分片设计减少锁竞争，提高并发性能。
+ */
+
+#pragma once
+
+namespace sqlcc {
+
+/**
  * WHY: 为什么需要分片缓冲池而不是单锁设计？
  * 传统缓冲池使用单一互斥锁保护所有操作，导致高并发场景下的锁竞争激烈。
- * 分片设计通过减少锁粒度，提高并发性能。
+ * 分片设计通过减少锁粒度，将锁竞争分散到多个分片，提高并发性能。
  *
  * WHAT: 基于RocksDB风格的Sharded Buffer Pool实现
  * 特点：
@@ -354,11 +586,50 @@ throw BufferPoolException("Page not found: " + std::to_string(page_id));
  * 3. 在分片内查找页面
  * 4. 处理页面固定计数
  * 5. 释放锁，返回页面
+ *
+ * 性能指标:
+ * - 分片数量: 默认64个（2^6）
+ * - 每个分片容量: pool_size / num_shards
+ * - 锁竞争降低: ~90%（相比单锁设计）
  */
 class BufferPoolSharded {
-    // ...
+ public:
+    /**
+     * @brief 获取指定页面
+     * @param page_id 页面ID
+     * @return 页面指针，如果不存在则返回nullptr
+     * @throws BufferPoolException 如果缓冲池已满且无法淘汰页面
+     *
+     * 线程安全: 是（内部使用分片锁保护）
+     * 时间复杂度: O(1) 平均，O(n) 最坏（需要淘汰页面时）
+     */
+    Page* FetchPage(int32_t page_id);
+
+    /**
+     * @brief 将页面标记为脏页
+     * @param page_id 页面ID
+     * @param is_dirty 脏页标记
+     * @return true表示成功，false表示页面不存在
+     *
+     * 注意: 必须在持有页面引用时调用
+     */
+    bool MarkDirty(int32_t page_id, bool is_dirty);
+
+ private:
+    int32_t num_shards_;        ///< 分片数量
+    std::vector<Shard> shards_; ///< 分片数组
 };
+
+}  // namespace sqlcc
 ```
+
+**注释要求清单**:
+- [ ] 每个文件有文件头注释
+- [ ] 每个公有类/结构体有类注释
+- [ ] 每个公有方法有函数注释
+- [ ] 复杂算法有行内注释
+- [ ] 关键设计决策有说明注释
+- [ ] 使用 Doxygen 格式（@brief, @param, @return, @throws）
 
 ### Bazel BUILD文件规范
 
@@ -755,7 +1026,7 @@ python3 tools/bazel_dep_fixer_enhanced.py .
 
 ---
 
-**最后更新**: 2026-01-30
+**最后更新**: 2026-02-10
 **版本**: v1.3.9
 **维护者**: SQLCC开发团队
 **仓库**: https://gitee.com/yinglichina/sqlcc.git
