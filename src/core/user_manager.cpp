@@ -62,6 +62,7 @@
 #include <unordered_set>
 #include <chrono> // For std::chrono::system_clock::now()
 #include <ctime>  // For std::ctime
+#include <filesystem> // For std::filesystem::exists
 
 namespace sqlcc {
 
@@ -1064,7 +1065,7 @@ bool UserManager::CheckPermissionInMatrix(
             return true;
         }
     }
-    }
+
     // WHY: 在基于角色的访问控制（RBAC）模型中，权限不仅可以直接授予用户或其当前角色，
     // 还可以通过角色继承机制获得。如果一个角色没有直接的权限，它可能通过其父角色继承了该权限。
     // WHAT: 扩展`CheckPermissionInMatrix`的逻辑，使其在用户当前激活角色没有直接权限时，
