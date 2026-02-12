@@ -34,7 +34,7 @@ namespace sqlcc {
 ExecutionResult DMLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statement> stmt,
                                             ExecutionContext &context) {
     if (!stmt) {
-        return createErrorResult("Statement is null");
+        return ExecutionResult(false, "Statement is null");
     }
 
     // 根据语句类型调用相应的执行方法
@@ -52,7 +52,7 @@ ExecutionResult DMLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statem
             return executeSelect(dynamic_cast<const sql_parser::SelectStatement&>(*stmt),
                                context);
         default:
-            return createErrorResult("Unsupported DML statement type: " + 
+            return ExecutionResult(false, "Unsupported DML statement type: " +
                                    std::to_string(static_cast<int>(stmt->getType())));
     }
 }
@@ -60,7 +60,7 @@ ExecutionResult DMLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statem
 bool DMLExecutionStrategy::checkPermission(const sql_parser::Statement& stmt,
                                          const ExecutionContext& context) {
     // 权限检查实现
-    switch (stmt.type) {
+    switch (stmt.getType()) {
         case sql_parser::Statement::Type::INSERT:
             return checkInsertPermission(dynamic_cast<const sql_parser::InsertStatement&>(stmt),
                                        context);

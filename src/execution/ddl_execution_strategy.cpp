@@ -21,7 +21,7 @@ namespace sqlcc {
 ExecutionResult DDLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statement> stmt,
                                             ExecutionContext &context) {
     if (!stmt) {
-        return createErrorResult("Statement is null");
+        return ExecutionResult(false, "Statement is null");
     }
 
     // 根据语句类型调用相应的执行方法
@@ -42,7 +42,7 @@ ExecutionResult DDLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statem
             return executeDropIndex(dynamic_cast<const sql_parser::DropIndexStatement&>(*stmt),
                                   context);
         default:
-            return createErrorResult("Unsupported DDL statement type: " + 
+            return ExecutionResult(false, "Unsupported DDL statement type: " +
                                    std::to_string(static_cast<int>(stmt->getType())));
     }
 }
@@ -56,7 +56,7 @@ ExecutionResult DDLExecutionStrategy::execute(std::unique_ptr<sql_parser::Statem
 bool DDLExecutionStrategy::checkPermission(const sql_parser::Statement& stmt,
                                          const ExecutionContext& context) {
     // 根据DDL语句类型调用相应的权限检查方法
-    switch (stmt.type) {
+    switch (stmt.getType()) {
         case sql_parser::Statement::Type::CREATE_TABLE:
             // TODO(#DDL-001): checkCreateTablePermission需要从CreateTableStatement中获取表名等信息
             return hasCreateTablePermission(context); 
@@ -85,7 +85,7 @@ bool DDLExecutionStrategy::validate(const sql_parser::Statement& stmt,
         return false;
     }
 
-    switch (stmt.type) {
+    switch (stmt.getType()) {
         case sql_parser::Statement::Type::CREATE_TABLE: {
             const auto& create_table_stmt = dynamic_cast<const sql_parser::CreateTableStatement&>(stmt);
             // 验证表名是否已存在
