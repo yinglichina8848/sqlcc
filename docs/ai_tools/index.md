@@ -6,6 +6,19 @@
 
 ---
 
+## 🚨 必读：多Agent协作契约 ⭐⭐⭐
+
+**⭐⭐⭐ 必读文档**: [Issue #9: Unified AI-CLI Workflow](../.github/ISSUE_MULTI_AGENT_COLLABORATION.md)
+
+> **重要**: 本 Issue 是 SQLCC 多Agent协作的**默认契约**，定义了：
+> - Agent 角色分工（Human/Codex/Claude/OpenCode/Gemini）
+> - 分支命名规范（feat/claude/*, test/opencode/*, docs/gemini/*）
+> - 消息协议（TASK_CLAIM, PROGRESS_UPDATE, BLOCKER_NOTIFICATION, TASK_COMPLETE）
+> - 工作目录约定
+> - 质量门禁要求
+
+---
+
 ## 📁 文档目录
 
 ```

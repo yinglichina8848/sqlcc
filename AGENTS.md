@@ -7,9 +7,12 @@
 | 优先级 | 文档 | 说明 | 状态 |
 |--------|------|------|------|
 | 🔴 **P0** | `docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md` | **SDD 规范驱动开发指南** | ☐ |
+| 🔴 **P0** | `.github/ISSUE_MULTI_AGENT_COLLABORATION.md` | **多Agent跨平台协作规范** | ☐ |
 | 🔴 **P0** | `docs/ai_tools/AI_COLLABORATION_GUIDE.md` | **多Agent并行协作指南** | ☐ |
 | 🟡 P1 | `docs/ai_tools/AI_DEVELOPMENT_GUIDELINES.md` | AI 开发规范 | ☐ |
 | 🟡 P1 | `docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md` | C++ 开发规范 | ☐ |
+
+> **注意**: `.github/ISSUE_MULTI_AGENT_COLLABORATION.md` 是 Issue #9 的快照副本，作为默认协作契约。
 
 ### SDD 规范遵从要求
 
