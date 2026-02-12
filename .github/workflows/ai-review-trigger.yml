@@ -1,0 +1,53 @@
+name: AI Review Trigger
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  notify-ai-reviewer:
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.user.login == 'opencode-ai[bot]'
+    steps:
+      - name: Create Review Request Issue
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          echo "AI Review triggered for PR #$PR_NUMBER: $PR_TITLE"
+          echo "PR_URL=${{ github.event.pull_request.html_url }}" >> $GITHUB_ENV
+
+      - name: Add PR Comment for AI Review
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --repo ${{ github.repository }} \
+            --body "**AI Review Status**: Pending
+
+          This PR is queued for AI code review by Claude Code.
+
+          Review will cover:
+          - [ ] Compilation check (bazel build)
+          - [ ] Test verification (bazel test)
+          - [ ] Code quality review
+          - [ ] Coverage analysis
+
+          Estimated review time: 5-10 minutes"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  track-review-progress:
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'issue_comment' &&
+      contains(github.event.comment.body, 'AI Review: APPROVED')
+    steps:
+      - name: Log Approved Review
+        run: |
+          echo "PR #$(gh pr view ${{ github.event.pull_request.number }} --json number --jq '.number') approved by AI"

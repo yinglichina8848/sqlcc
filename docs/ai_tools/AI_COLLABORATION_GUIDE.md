@@ -1,7 +1,7 @@
-# SQLCC AI 协作开发指南 v1.0
+# SQLCC AI 协作开发指南 v2.0
 
-**版本**: 1.0  
-**日期**: 2026-02-02  
+**版本**: 2.0
+**日期**: 2026-02-12
 **适用范围**: 所有参与 SQLCC 项目的 AI Agent
 
 ---
@@ -9,70 +9,114 @@
 ## 1. 概述
 
 ### 1.1 目的
-本文档为 SQLCC 项目中的 AI Agent 提供多Agent并行协作的完整指南，确保多个 Agent 能够像人类团队一样高效协同工作。
+本文档为 SQLCC 项目中的 AI Agent 提供**多Agent分层协作**的完整指南，区分主规划者（Master Planner）和执行者（Worker）的职责。
 
-### 1.2 适用范围
-- 单用户多会话 Agent 并行开发
-- 团队协作开发（人类+AI 混合）
-- 分布式任务分解与执行
+### 1.2 核心原则
+
+| 原则 | 说明 |
+|------|------|
+| **主从分离** | Claude Code 负责规划+审核，Agent 负责执行 |
+| **规范优先** | 先 SDD 规划，后实现，再审核 |
+| **质量门禁** | 编译 → 测试 → 覆盖 → 评审 → 合并 |
 
 ### 1.3 前置要求
-**所有 Agent 必须首先阅读以下文档**：
+
+**所有 Agent 必须首先阅读**：
 1. `docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md` - SDD 规范
 2. `docs/ai_tools/AI_DEVELOPMENT_GUIDELINES.md` - AI 开发规范
 3. `docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md` - C++ 开发规范
-4. `docs/ai_tools/index.md` - AI 工具索引
 
 ---
 
 ## 2. Agent 角色定义
 
-| 角色 | 标识 | 职责 | 权限 |
-|------|------|------|------|
-| **主Agent (Master)** | 🤖 | 任务分解、进度汇总、最终交付 | 全权限 |
-| **开发Agent (Developer)** | 🔨 | 代码实现、单元测试 | 代码读写 |
-| **测试Agent (Tester)** | 🧪 | 测试执行、覆盖率分析 | 测试执行 |
-| **文档Agent (Documenter)** | 📝 | 文档编写、SDD维护 | 文档读写 |
-| **评审Agent (Reviewer)** | 👀 | 代码评审、规范检查 | 只读+评论 |
+### 2.1 Agent 能力矩阵
 
-### 2.1 Agent ID 命名规范
+| Agent | 主要能力 | 最佳用途 | 避免用途 |
+|-------|---------|---------|---------|
+| **Claude Code** | 架构设计、代码审查、复杂推理 | SDD 规范、PR 审核、架构决策 | 简单代码生成 |
+| **OpenCode** | 代码实现、快速迭代 | 已有明确规范的实现、单元测试 | 自主规划、架构设计 |
+| **Codex** | 代码生成、重构、模式匹配 | 模式代码生成、重复代码重构 | 逻辑设计、审查 |
+| **Gemini** | 多语言、长文本处理 | 文档生成、翻译、代码解释 | 复杂推理 |
 
-| 角色 | ID格式 | 示例 |
-|------|--------|------|
-| Master | `agent-master-{n}` | agent-master-1 |
-| Developer | `agent-developer-{n}` | agent-developer-1 |
-| Tester | `agent-tester-{n}` | agent-tester-1 |
-| Documenter | `agent-documenter-{n}` | agent-documenter-1 |
-| Reviewer | `agent-reviewer-{n}` | agent-reviewer-1 |
+### 2.2 角色职责
+
+| 角色 | Agent | 职责 | 权限 |
+|------|-------|------|------|
+| **Master Planner** | Claude Code | SDD 规范制定、任务分解、PR 审核、质量门禁 | 全权限 |
+| **Code Implementer** | OpenCode | 代码实现、单元测试、编译验证 | 代码读写 |
+| **Code Generator** | Codex | 模式代码生成、重构辅助 | 代码读写 |
+| **Documentation** | Gemini | 文档编写、翻译、代码解释 | 文档读写 |
+
+### 2.3 AI 身份标注规范
+
+**所有 GitHub 操作必须标注 AI 身份**：
+
+```markdown
+**AI Reviewer**: Claude Code (MiniMax-M2.1)
+**Generated**: 2026-02-12
+**Role**: Automated Code Review & Testing
+```
+
+**Agent 提交时使用**：
+```bash
+# Claude Code 审核评论
+gh pr comment 4 --body "**AI Reviewer**: Claude Code (MiniMax-M2.1)\n**Role**: PR Review"
+
+# OpenCode 实现提交
+git commit -m "feat(core): 实现接口 (AI: OpenCode)"
+```
 
 ---
 
-## 3. SDD 规范遵从
+## 3. 分层工作流
 
-### 3.1 SDD 工作流程
-
-所有 Agent 必须遵循 SDD 规范：
+### 3.1 工作流架构
 
 ```
-spec-init → spec-req → spec-design → spec-tasks → spec-impl → spec-verification → release
+┌─────────────────────────────────────────────────────────────────┐
+│                    Multi-Agent Workflow                          │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  人类 (You)                                                     │
+│     │                                                          │
+│     ▼                                                          │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │  CLAUDE CODE (Master Planner)                           │   │
+│  │  ─────────────────────────────────────────────────────  │   │
+│  │  • SDD 规范制定                                          │   │
+│  │  • 任务分解 (tasks.md)                                   │   │
+│  │  • PR 审核 (Review)                                     │   │
+│  │  • 质量门禁 (Compile → Test → Coverage → Review)        │   │
+│  └──────────────────────────┬──────────────────────────────┘   │
+│                             │                                   │
+│                             │ 任务分发                          │
+│                             ▼                                   │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │  执行者池 (Worker Pool)                                  │   │
+│  │  ┌───────────┐  ┌───────────┐  ┌───────────┐          │   │
+│  │  │ OPENCOD E  │  │   CODEX   │  │  GEMINI   │          │   │
+│  │  │ 执行者     │  │ 生成者    │  │ 文档者    │          │   │
+│  │  └───────────┘  └───────────┘  └───────────┘          │   │
+│  └─────────────────────────────────────────────────────────┘   │
+│                             │                                   │
+│                             │ 提交 PR                            │
+│                             ▼                                   │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │  GitHub PR                                               │   │
+│  │  • OpenCode 提交 PR                                      │   │
+│  │  • Claude Code 触发审核                                   │   │
+│  │  • 合并决策                                               │   │
+│  └─────────────────────────────────────────────────────────┘   │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-### 3.2 SDD 文档要求
-
-| 阶段 | 文档 | 责任Agent | 说明 |
-|------|------|----------|------|
-| spec-init | README.md | Master | 项目初始化 |
-| spec-req | requirements.md | Master | 需求定义 (EARS格式) |
-| spec-design | design.md | Master/Reviewer | 架构设计 (Mermaid) |
-| spec-tasks | tasks.md | Master | 任务分解 |
-| spec-impl | 代码实现 | Developer | 代码编写 |
-| spec-verification | verification.md | Tester | 验证确认 |
-
-### 3.3 任务状态机
+### 3.2 任务生命周期
 
 ```
                     ┌─────────────────────────────────────┐
-                    │              任务生命周期             │
+                    │           任务生命周期              │
                     └─────────────────────────────────────┘
 
         ┌─────────┐     ┌─────────┐     ┌─────────┐     ┌─────────┐
@@ -90,202 +134,160 @@ spec-init → spec-req → spec-design → spec-tasks → spec-impl → spec-ver
 
 | 状态 | 英文 | 代码 | 说明 |
 |------|------|------|------|
-| 开放 | OPEN | `0` | 任务待认领，任何Agent可认领 |
-| 已认领 | CLAIMED | `1` | 已被Agent认领，尚未开始 |
-| 进行中 | WIP | `2` | 正在积极开发中 |
-| 暂停 | PAUSED | `3` | 暂时停止，等待资源或依赖 |
-| 让出 | YIELDED | `4` | Agent主动释放，需重新认领 |
-| 阻塞 | BLOCKED | `5` | 等待前置任务或外部依赖 |
-| 完成 | DONE | `6` | 任务完成，已验证 |
-| 冻结 | FROZEN | `7` | 代码冻结，待发布 |
+| 开放 | OPEN | 0 | 任务待认领，任何 Agent 可认领 |
+| 已认领 | CLAIMED | 1 | 已被 Agent 认领，尚未开始 |
+| 进行中 | WIP | 2 | 正在积极开发中 |
+| 暂停 | PAUSED | 3 | 暂时停止，等待资源或依赖 |
+| 让出 | YIELDED | 4 | Agent 主动释放，需重新认领 |
+| 阻塞 | BLOCKED | 5 | 等待前置任务或外部依赖 |
+| 完成 | DONE | 6 | 任务完成，已验证 |
+| 冻结 | FROZEN | 7 | 代码冻结，待发布 |
 
 ---
 
-## 4. 消息通信协议
+## 4. 任务分配策略
 
-### 4.1 消息类型
+### 4.1 任务类型分配
 
-| 消息类型 | 方向 | 说明 |
-|----------|------|------|
-| `TASK_CLAIM` | Agent → Master | 任务认领 |
-| `TASK_RELEASE` | Agent → Master | 任务释放 |
-| `PROGRESS_UPDATE` | Agent → Master | 进度更新 |
-| `BLOCKER_NOTIFICATION` | Agent → Master | 阻塞通知 |
-| `TASK_COMPLETE` | Agent → Master | 任务完成 |
-| `ASSISTANCE_REQUEST` | Agent → Agent | 协助请求 |
-| `REVIEW_REQUEST` | Agent → Reviewer | 评审请求 |
-| `HEARTBEAT` | Agent → Master | 心跳保活 |
+| 任务类型 | 分配 Agent | 原因 |
+|---------|-----------|------|
+| SDD 规范制定 | Claude Code | 需要架构设计能力 |
+| PR 代码审核 | Claude Code | 需要质量判断能力 |
+| 接口实现 | OpenCode | 已有明确规范 |
+| 单元测试 | Codex/OpenCode | 模式化代码 |
+| 文档编写 | Gemini | 长文本处理 |
+| 重构任务 | Codex | 模式匹配能力强 |
+| Bug 修复 | Claude Code 分析 + OpenCode 实现 | 需要推理+实现 |
 
-### 4.2 消息格式
+### 4.2 任务队列管理
 
-#### 任务认领消息
-```json
-{
-  "type": "TASK_CLAIM",
-  "task_id": "TASK-XXX-001",
-  "agent_id": "agent-developer-1",
-  "timestamp": "2026-02-02T10:00:00Z",
-  "message": "认领 TASK-XXX-001: [任务名称]",
-  "estimated_duration": "4h"
-}
-```
-
-#### 进度更新消息
-```json
-{
-  "type": "PROGRESS_UPDATE",
-  "task_id": "TASK-XXX-001",
-  "agent_id": "agent-developer-1",
-  "timestamp": "2026-02-02T12:00:00Z",
-  "status": "WIP",
-  "progress_percent": 50,
-  "message": "已完成接口定义，开始实现核心逻辑",
-  "blockers": [],
-  "next_steps": ["实现函数A", "实现函数B"]
-}
-```
-
-#### 阻塞通知消息
-```json
-{
-  "type": "BLOCKER_NOTIFICATION",
-  "task_id": "TASK-XXX-002",
-  "agent_id": "agent-developer-2",
-  "timestamp": "2026-02-02T14:00:00Z",
-  "blocked_by": ["TASK-XXX-001"],
-  "message": "等待 TASK-XXX-001 完成依赖接口",
-  "severity": "P1",
-  "suggestion": "请 TASK-XXX-001 优先完成 [具体接口]"
-}
-```
-
-#### 任务完成消息
-```json
-{
-  "type": "TASK_COMPLETE",
-  "task_id": "TASK-XXX-001",
-  "agent_id": "agent-developer-1",
-  "timestamp": "2026-02-02T16:00:00Z",
-  "status": "DONE",
-  "summary": "完成接口定义和核心实现",
-  "files_created": ["src/xxx.cpp"],
-  "files_modified": ["src/xxx.h"],
-  "tests_added": ["tests/xxx_test.cpp"],
-  "verification": {
-    "compile": "SUCCESS",
-    "test": "SUCCESS",
-    "coverage": "95%"
-  }
-}
-```
-
-### 4.3 沟通频率
-
-| 事件 | 触发条件 | 响应时间 |
-|------|----------|----------|
-| 任务认领 | 认领时 | 即时 |
-| 进度更新 | 每30分钟或里程碑达成 | 5分钟内Master确认 |
-| 阻塞通知 | 发现阻塞时 | 即时 |
-| 任务完成 | 完成所有验收标准 | 即时 |
-| 协助请求 | 需要帮助时 | 15分钟内响应 |
-| 心跳 | 每5分钟 | - |
-
----
-
-## 5. 并行开发规范
-
-### 5.1 任务并行度
-
-```yaml
-parallel_development:
-  # 最大并行Agent数
-  max_concurrent_agents: 4
-
-  # 任务分配策略
-  assignment_strategy: "skill_based"  # skill_based / load_balanced / round_robin
-
-  # 任务依赖检查
-  dependency_check: true
-
-  # 冲突检测
-  conflict_detection: true
-
-  # 心跳间隔 (秒)
-  heartbeat_interval: 300
-
-  # 进度更新间隔 (秒)
-  progress_update_interval: 1800
-```
-
-### 5.2 资源冲突检测
-
-Agent 在认领任务前必须检查文件冲突：
-
-```bash
-# 检查任务文件是否与其他任务冲突
-./scripts/detect_file_conflicts.sh --task TASK-XXX-001
-```
-
-### 5.3 任务分配策略
-
-**基于技能分配** (skill_based):
-- 根据 Agent 技能标签匹配任务需求
-- 优先分配给最适合的 Agent
-
-**负载均衡分配** (load_balanced):
-- 统计各 Agent 当前任务数
-- 优先分配给任务最少的 Agent
-
-**轮询分配** (round_robin):
-- 按 Agent 列表顺序轮流分配
-- 确保任务均匀分布
-
----
-
-## 6. 任务看板管理
-
-### 6.1 看板视图
-
-Agent 必须维护最新的看板状态：
+**任务队列位置**: `docs/sdd/refactoring/level2_core/tasks.md`
 
 ```markdown
-## 任务看板 - [功能名称]
+## 任务看板 - [模块名称]
 
 ### TODO (待认领)
-| ID | 任务 | 优先级 | 预计时间 | 认领Agent |
-|----|------|--------|----------|-----------|
-| TASK-001 | [任务名] | P0 | 1h | - |
+| ID | 任务 | 类型 | 优先级 | 预计时间 | 认领Agent |
+|----|------|------|--------|----------|-----------|
+| TASK-001 | 实现接口 X | impl | P0 | 2h | - |
+| TASK-002 | 编写测试 Y | test | P1 | 1h | - |
 
 ### IN PROGRESS (进行中)
 | ID | 任务 | 负责人 | 进度 | 预计完成 |
 |----|------|--------|------|----------|
-| TASK-002 | [任务名] | @agent-1 | 50% | 17:00 |
+| TASK-003 | 实现接口 Z | OpenCode | 50% | 17:00 |
 
 ### IN REVIEW (评审中)
 | ID | 任务 | 作者 | 评审人 | 状态 |
 |----|------|------|--------|------|
-| TASK-003 | [任务名] | @agent-1 | @agent-reviewer-1 | PENDING |
+| TASK-004 | 接口 Z | OpenCode | Claude Code | PENDING |
 
 ### DONE (已完成)
 | ID | 任务 | 负责人 | 完成时间 |
 |----|------|--------|----------|
-| TASK-004 | [任务名] | @agent-2 | 2026-02-02 |
-
-### BLOCKED (阻塞)
-| ID | 任务 | 阻塞原因 | 解决方案 |
-|----|------|----------|----------|
-| TASK-005 | [任务名] | 等待 TASK-001 | TASK-001 优先 |
+| TASK-005 | 接口 W | OpenCode | 2026-02-12 |
 ```
 
-### 6.2 燃尽图跟踪
+---
 
-| 日期 | 剩余任务 | 累计完成 | 状态 |
-|------|----------|----------|------|
-| 2026-02-02 | 10 | 0 | 🟢 Day 1 |
-| 2026-02-03 | 8 | 2 | 🟢 Day 2 |
-| 2026-02-04 | 5 | 5 | 🟡 Day 3 |
-| 2026-02-05 | 2 | 8 | 🟡 Day 4 |
-| 2026-02-06 | 0 | 10 | ✅ Day 5 |
+## 5. PR 审核触发机制
+
+### 5.1 触发流程
+
+```
+1. Agent 提交 PR
+   └── GitHub webhook 触发
+           │
+           ▼
+2. Claude Code 收到通知 (via GitHub App 或手动)
+   └── 读取 PR 内容
+           │
+           ▼
+3. 执行审核流程
+   ├── 编译检查
+   ├── 测试验证
+   ├── 代码审查
+   └── 输出 Review 结果
+           │
+           ▼
+4. 合并决策
+   ├── APPROVE → Agent 合并
+   └── REQUEST_CHANGES → Agent 修复
+```
+
+### 5.2 Claude Code 审核清单
+
+```markdown
+## PR 审核清单
+
+### 1. 编译检查
+- [ ] bazel build //src/... 成功
+- [ ] 无编译警告
+
+### 2. 测试验证
+- [ ] bazel test //tests/... 成功
+- [ ] 测试覆盖率达标
+
+### 3. 代码审查
+- [ ] SOLID 原则
+- [ ] 命名规范
+- [ ] 注释完整
+- [ ] 依赖关系合理
+
+### 4. 文档检查
+- [ ] CHANGELOG 更新
+- [ ] 必要文档更新
+
+### 审核结果
+- [ ] APPROVE
+- [ ] REQUEST_CHANGES
+- [ ] COMMENTS
+```
+
+### 5.3 GitHub Actions 自动触发 (可选)
+
+```yaml
+# .github/workflows/ai-review-trigger.yml
+name: AI Review Trigger
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  notify-claude:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Claude Code Review
+        run: |
+          echo "PR #${PR_NUMBER} ready for review"
+          # Claude Code 监听此 webhook 并自动执行审核
+```
+
+---
+
+## 6. 消息通信协议
+
+### 6.1 消息类型
+
+| 消息类型 | 方向 | 说明 |
+|----------|------|------|
+| `TASK_CLAIM` | Agent → Claude Code | 任务认领 |
+| `TASK_RELEASE` | Agent → Claude Code | 任务释放 |
+| `PROGRESS_UPDATE` | Agent → Claude Code | 进度更新 |
+| `BLOCKER_NOTIFICATION` | Agent → Claude Code | 阻塞通知 |
+| `TASK_COMPLETE` | Agent → Claude Code | 任务完成 |
+| `REVIEW_REQUEST` | Agent → Claude Code | 评审请求 |
+| `REVIEW_RESULT` | Claude Code → Agent | 审核结果 |
+
+### 6.2 沟通频率
+
+| 事件 | 触发条件 | 响应时间 |
+|------|----------|----------|
+| 任务认领 | 认领时 | 即时 |
+| 进度更新 | 每 30 分钟或里程碑达成 | 5 分钟内 |
+| 阻塞通知 | 发现阻塞时 | 即时 |
+| 任务完成 | 完成所有验收标准 | 即时 |
+| 协助请求 | 需要帮助时 | 15 分钟内 |
 
 ---
 
@@ -293,25 +295,16 @@ Agent 必须维护最新的看板状态：
 
 ### 7.1 任务验收清单
 
-| 检查项 | Agent | 状态 |
+| 检查项 | 执行者 | 状态 |
 |--------|-------|------|
-| 编译通过 (bazel build) | Developer | ☐ |
-| 测试通过 (bazel test) | Tester | ☐ |
-| 覆盖率达标 | Tester | ☐ |
-| 代码评审通过 | Reviewer | ☐ |
-| 文档完整 | Documenter | ☐ |
-| CHANGELOG 已更新 | Documenter | ☐ |
+| 编译通过 (bazel build) | OpenCode | ☐ |
+| 测试通过 (bazel test) | OpenCode | ☐ |
+| 覆盖率达标 | Claude Code | ☐ |
+| 代码评审通过 | Claude Code | ☐ |
+| 文档完整 | Gemini | ☐ |
+| CHANGELOG 已更新 | OpenCode | ☐ |
 
-### 7.2 Agent 验收清单
-
-| 检查项 | 状态 | 说明 |
-|--------|------|------|
-| 任务状态正确 | ☐ | 按状态机流转 |
-| 进度更新及时 | ☐ | 符合沟通频率 |
-| 消息格式规范 | ☐ | 符合协议格式 |
-| 阻塞及时上报 | ☐ | 无遗漏阻塞 |
-
-### 7.3 覆盖率要求
+### 7.2 覆盖率要求
 
 | Level | 函数覆盖率 | 行覆盖率 | 分支覆盖率 |
 |-------|-----------|----------|-----------|
@@ -321,44 +314,9 @@ Agent 必须维护最新的看板状态：
 
 ---
 
-## 8. 故障处理
+## 8. 常用命令
 
-### 8.1 Agent 故障处理
-
-| 故障类型 | 检测方式 | 处理措施 |
-|----------|----------|----------|
-| Agent 超时 | 心跳缺失 (>10分钟) | 任务重新分配 |
-| Agent 失联 | 消息无响应 (>30分钟) | 任务释放，通知 Master |
-| Agent 冲突 | 文件冲突检测 | 协调执行顺序或重新分配 |
-| Agent 重复 | 同一任务多次认领 | 按优先级保留，其他释放 |
-
-### 8.2 任务恢复流程
-
-```markdown
-## 任务恢复流程
-
-### 步骤 1: 检测故障
-- Master Agent 检测心跳超时
-- 或用户报告 Agent 失联
-
-### 步骤 2: 确认状态
-- 检查任务最后状态
-- 评估已完成工作量
-
-### 步骤 3: 重新分配
-- 发送 TASK_RECOVERY 消息给其他 Agent
-- 提供任务上下文和已完成工作
-
-### 步骤 4: 继续执行
-- 新 Agent 从最后状态继续
-- 必要时回滚部分代码
-```
-
----
-
-## 9. 常用命令
-
-### 9.1 开发命令
+### 8.1 开发命令
 
 ```bash
 # 构建所有目标
@@ -377,46 +335,38 @@ bazel test //tests/level2_core:all
 bazel coverage //tests/level2_core:all
 ```
 
-### 9.2 协作命令
+### 8.2 协作命令
 
 ```bash
-# 启动并行开发
-./scripts/start_parallel_agents.sh --config .claude/parallel-config.yaml
-
 # 检查任务状态
 ./scripts/check_task_status.sh tasks.md
 
 # 同步进度
 ./scripts/sync_progress.sh tasks.md
-
-# 检测冲突
-./scripts/detect_conflicts.sh tasks.md
 ```
 
 ---
 
-## 10. 相关文档
+## 9. 相关文档
 
 | 文档 | 路径 | 说明 |
 |------|------|------|
 | SDD 规范 | `docs/sdd/SPEC_DRIVEN_DEVELOPMENT.md` | 规范驱动开发指南 |
 | AI 开发规范 | `docs/ai_tools/AI_DEVELOPMENT_GUIDELINES.md` | AI Agent 开发指南 |
 | C++ 开发规范 | `docs/ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md` | C++ 编码规范 |
-| 测试规范 | `docs/ai_tools/improvement_guide.md` | 测试开发规范 |
-| 构建规范 | `docs/ai_tools/BUILD_FILE_SPECIFICATION.md` | Bazel BUILD 文件规范 |
-| 多Agent模板 | `docs/sdd/templates/multi_agent_collaboration_template.md` | 多Agent协作模板 |
-| 验证模板 | `docs/sdd/templates/verification_template.md` | 验收验证模板 |
+| 任务队列 | `docs/sdd/refactoring/level2_core/tasks.md` | 任务跟踪 |
 
 ---
 
-## 11. 变更历史
+## 10. 变更历史
 
 | 版本 | 日期 | 变更内容 | 变更人 |
 |------|------|---------|--------|
+| 2.0 | 2026-02-12 | 新增多Agent分层协作设计 | Claude Code |
 | 1.0 | 2026-02-02 | 初始版本 | SQLCC AI |
 
 ---
 
-**维护者**: SQLCC AI 开发团队
-**最后更新**: 2026-02-02
-**版本**: v1.0
+**维护者**: Claude Code (Master Planner)
+**最后更新**: 2026-02-12
+**版本**: v2.0
