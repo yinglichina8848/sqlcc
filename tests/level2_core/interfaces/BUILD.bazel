@@ -1,0 +1,14 @@
+# tests/level2_core/interfaces/BUILD.bazel - Core 接口测试
+
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "core_interface_test",
+    srcs = ["core_interface_test.cpp"],
+    deps = [
+        "//src/core/interfaces:interfaces",
+        "@com_google_googletest//:gtest_main",
+    ],
+    tags = ["core", "interfaces"],
+    timeout = "short",
+)
