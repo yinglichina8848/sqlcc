@@ -407,3 +407,152 @@
 5. Claude Agent Skills Overview: https://docs.claude.com/en/docs/agents-and-tools/agent-skills
 6. OpenAI Skills Catalog（对比参考）: https://github.com/openai/skills
 7. AWS Agent Squad（多 Agent 编排参考）: https://github.com/awslabs/agent-squad
+
+---
+
+## 18. 方案 B 具体细化（执行蓝图）
+
+### 18.1 总体目标（仅 Level2 Core）
+
+1. 在不扩大到 L3 实现重构的前提下，建立 L2 可编译、可测试、可替换的接口轨道。
+2. 以最小增量完成从“接口契约”到“空实现”再到“适配接入”的闭环。
+3. 每一步都能独立回滚，避免一次性大改。
+
+### 18.2 任务波次（Wave）设计
+
+| Wave | 目标 | 产出 | 负责人 | 预计工作量 |
+|------|------|------|--------|------------|
+| W0 | 方案与边界冻结 | 审批版 requirements/design/tasks | Codex+Claude+Gemini+OpenCode | 2-3 Agent 日 |
+| W1 | 接口契约落地 | `interfaces_v2` + API 注释 + BUILD | Claude（开发）Gemini（评审） | 3-4 Agent 日 |
+| W2 | 测试先行 | `contract` 契约测试 + mock/stub 规范 | OpenCode（测试）Gemini（复核） | 2-3 Agent 日 |
+| W3 | 空实现闭环 | `impl_stub_v2` 可编译实现 + 注入点 | Claude（开发）OpenCode（验证） | 3-5 Agent 日 |
+| W4 | 适配层最小接入 | `adapters_v2` 接旧实现最小链路 | Claude（开发）Gemini（Linux复检） | 4-6 Agent 日 |
+| W5 | 单接口增量替换 | `real_impl_stepN`（每次一接口） | Claude 主改，OpenCode/Gemini 双评审 | 持续迭代 |
+
+### 18.3 每波次进入/退出条件
+
+1. 进入条件（Entry）
+- 上一波次 gate 全通过；
+- Issue #9/#10 证据链完整；
+- 无未决 P0 blocker。
+
+2. 退出条件（Exit）
+- 对应 target 编译/测试通过；
+- 评审结论达到 PASS 或 PASS_WITH_CONDITIONS（条件已闭环）；
+- 回滚方案已记录。
+
+---
+
+## 19. 多 AI 协作执行模型（方案 B）
+
+### 19.1 RACI 分工矩阵
+
+| 活动 | Codex | Claude | OpenCode | Gemini |
+|------|-------|--------|----------|--------|
+| 范围定义/冻结 | A/R | C | C | C |
+| 接口设计与落地 | C | A/R | C | C |
+| 契约测试设计 | C | C | A/R | C |
+| Linux clang-20 复检 | C | C | C | A/R |
+| Gate 复核与反例 | A | C | R | R |
+| 最终放行建议 | A/R | C | C | C |
+
+说明：A=Accountable，R=Responsible，C=Consulted。
+
+### 19.2 协作节奏（固定 cadence）
+
+1. 每 30 分钟：各 Agent 在 #9 发 `PROGRESS_UPDATE`。
+2. 任意阻塞 > 5 分钟：立即发 `BLOCKER_NOTIFICATION`，附已尝试方案。
+3. 每 2 小时：Codex 发一次 `COORDINATOR_STATUS_REFRESH`（状态/风险/下一步）。
+4. 每波次结束：提交 `WAVE_CLOSEOUT_PACKET`（证据汇总+未决风险）。
+
+### 19.3 交接物标准（Handoff Contract）
+
+每次交接必须包含：
+1. 分支名与 commit（可 fetch）
+2. 文件清单（新增/修改）
+3. gate 命令与关键输出
+4. 未解决风险与建议下一步
+5. 回滚点（上一个稳定 commit）
+
+### 19.4 冲突与跑偏处理
+
+1. 发现跨层改动：立即 `SCOPE_CHANGE_REQUEST`，默认不执行。
+2. 连续两轮 gate 失败：自动回退到上一波次（W-1）并补设计。
+3. 评审意见冲突：触发 `JOINT_REVIEW_PACKET`，由 Codex 做最终门禁裁决。
+
+---
+
+## 20. 方案 B 的 PR Stack 设计（可直接执行）
+
+### 20.1 推荐 PR 序列
+
+1. PR-0（spec）  
+- 仅文档：冻结边界与 gate 口径  
+- 合并条件：三方评审通过
+
+2. PR-1（refactor）  
+- 新增 `interfaces_v2`（不接业务实现）  
+- 合并条件：Gate-L2A 通过
+
+3. PR-2（test）  
+- 新增 `tests/level2_core_v2/contract`  
+- 合并条件：测试可运行（允许先 fail，需记录预期）
+
+4. PR-3（refactor）  
+- 新增 `impl_stub_v2`，使契约测试可编译运行  
+- 合并条件：Gate-L2B 通过
+
+5. PR-4（refactor）  
+- 新增 `adapters_v2` 最小接入  
+- 合并条件：Gate-L2C 通过
+
+6. PR-5+（refactor/fix）  
+- 单接口替换真实实现（一次只做一个接口）  
+- 合并条件：L2D 增量 gate 通过
+
+### 20.2 PR 审查重点
+
+1. 是否越界（是否引入 L3/L4 实现改动）
+2. 是否一 PR 多目标（接口+实现+测试混改）
+3. 是否具备可复核证据（命令、输出、commit）
+4. 是否包含回滚路径
+
+---
+
+## 21. 协作工具链建议（含 Skills）
+
+### 21.1 最小工具链
+
+1. 控制面：Issue #9（任务状态）+ Issue #10（Ops 日志）
+2. 代码面：Stacked PR + 小步合并
+3. 质量面：Bazel 增量 target + Linux clang-20 复检
+4. 流程面：Skills + hooks（自动门禁）
+
+### 21.2 Skills 实施清单（项目级）
+
+1. `.claude/skills/sqlcc-sdd-gate-check/`
+- 校验任务是否满足 SDD 阶段准入
+
+2. `.claude/skills/sqlcc-issue-sync/`
+- 校验 #9/#10 是否双写一致
+
+3. `.claude/skills/sqlcc-pr-audit/`
+- 检测 PR 是否越界或缺 gate 证据
+
+### 21.3 Hooks 建议（项目级）
+
+1. `TaskCompleted` hook：无 gate 证据则拒绝标记完成。
+2. `PreToolUse(Bash)` hook：拦截 `bazel build //...`（要求改为增量 target）。
+3. `TeammateIdle` hook（如使用 Agent Teams）：自动分配下一任务或要求补证据。
+
+---
+
+## 22. 方案 B 成功概率提升动作（关键 7 条）
+
+1. 先冻结边界，再动任何代码。
+2. 每次只推进一个 Wave，不并发跨波次实现。
+3. 只跑增量 gate，严禁全仓构建作为日常门禁。
+4. 先 contract test，再写 stub，再接 adapter。
+5. 每个 PR 必须可独立回滚。
+6. 三方评审必须包含“反例验证”。
+7. 连续失败两轮立即回退设计，不硬闯实现层。
