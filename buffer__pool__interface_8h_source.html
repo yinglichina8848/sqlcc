@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SQLCC Database Management System: buffer_pool_interface.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SQLCC Database Management System<span id="projectnumber">&#160;0.6.0</span>
+   </div>
+   <div id="projectbrief">一个用于教学的数据库管理系统，帮助学生理解数据库原理和实现</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7dcb077a4c8c4495a12c89124ab03608.html">storage_engine</a></li><li class="navelem"><a class="el" href="dir_7f0a8dd1fe8e7e8a706b487bbe8b773b.html">buffer_pool</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">buffer_pool_interface.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="buffer__pool__interface_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SQLCC_STORAGE_BUFFER_POOL_INTERFACE_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SQLCC_STORAGE_BUFFER_POOL_INTERFACE_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacesqlcc.html">sqlcc</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span>storage {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">class </span>Page;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">// PageId 保持与现有实现一致</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="namespacesqlcc_1_1storage.html#a1dad8bb9cf1b1156ad58961d33e0b010">   13</a></span><span class="keyword">using </span><a class="code hl_typedef" href="namespacesqlcc_1_1storage.html#a1dad8bb9cf1b1156ad58961d33e0b010">PageId</a> = int32_t;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="};">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage_1_1IBufferPool.html">   22</a></span><span class="keyword">class </span><a class="code hl_class" href="classsqlcc_1_1storage_1_1IBufferPool.html">IBufferPool</a> {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage_1_1IBufferPool.html#a0a51b608aae516b6acebc1a795fab1ee">   24</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classsqlcc_1_1storage_1_1IBufferPool.html#a0a51b608aae516b6acebc1a795fab1ee">~IBufferPool</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="comment">// ==================== 页面管理 ====================</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage_1_1IBufferPool.html#a165d1629f99e7c59f84b75f9427ba3e3">   33</a></span>    <span class="keyword">virtual</span> std::unique_ptr&lt;Page&gt; <a class="code hl_function" href="classsqlcc_1_1storage_1_1IBufferPool.html#a165d1629f99e7c59f84b75f9427ba3e3">FetchPage</a>(<a class="code hl_typedef" href="namespacesqlcc_1_1storage.html#a1dad8bb9cf1b1156ad58961d33e0b010">PageId</a> page_id) = 0;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage_1_1IBufferPool.html#ad6eacc2d2aa8a0f800e62d640716e9f6">   41</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1storage_1_1IBufferPool.html#ad6eacc2d2aa8a0f800e62d640716e9f6">UnpinPage</a>(<a class="code hl_typedef" href="namespacesqlcc_1_1storage.html#a1dad8bb9cf1b1156ad58961d33e0b010">PageId</a> page_id, <span class="keywordtype">bool</span> is_dirty) = 0;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage_1_1IBufferPool.html#aae8acb36f3947078ec7a4d5b387e8314">   47</a></span>    <span class="keyword">virtual</span> <a class="code hl_typedef" href="namespacesqlcc_1_1storage.html#a1dad8bb9cf1b1156ad58961d33e0b010">PageId</a> <a class="code hl_function" href="classsqlcc_1_1storage_1_1IBufferPool.html#aae8acb36f3947078ec7a4d5b387e8314">AllocatePage</a>() = 0;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage_1_1IBufferPool.html#afd0361bbe1f3e0ea594510a9011ed376">   54</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1storage_1_1IBufferPool.html#afd0361bbe1f3e0ea594510a9011ed376">DeallocatePage</a>(<a class="code hl_typedef" href="namespacesqlcc_1_1storage.html#a1dad8bb9cf1b1156ad58961d33e0b010">PageId</a> page_id) = 0;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="comment">// ==================== 生命周期 ====================</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage_1_1IBufferPool.html#af17aedab3ddfa37917e3ba331d0b7713">   62</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classsqlcc_1_1storage_1_1IBufferPool.html#af17aedab3ddfa37917e3ba331d0b7713">FlushAll</a>() = 0;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classsqlcc_1_1storage_1_1IBufferPool.html#aaabbbd23facd8653c57e7a837f64f090">   67</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classsqlcc_1_1storage_1_1IBufferPool.html#aaabbbd23facd8653c57e7a837f64f090">Shutdown</a>() = 0;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>};</div>
+</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>}  <span class="comment">// namespace storage</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>}  <span class="comment">// namespace sqlcc</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#endif </span><span class="comment">// SQLCC_STORAGE_BUFFER_POOL_INTERFACE_H</span></div>
+<div class="ttc" id="aclasssqlcc_1_1storage_1_1IBufferPool_html"><div class="ttname"><a href="classsqlcc_1_1storage_1_1IBufferPool.html">sqlcc::storage::IBufferPool</a></div><div class="ttdef"><b>Definition</b> buffer_pool_interface.h:22</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage_1_1IBufferPool_html_a0a51b608aae516b6acebc1a795fab1ee"><div class="ttname"><a href="classsqlcc_1_1storage_1_1IBufferPool.html#a0a51b608aae516b6acebc1a795fab1ee">sqlcc::storage::IBufferPool::~IBufferPool</a></div><div class="ttdeci">virtual ~IBufferPool()=default</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage_1_1IBufferPool_html_a165d1629f99e7c59f84b75f9427ba3e3"><div class="ttname"><a href="classsqlcc_1_1storage_1_1IBufferPool.html#a165d1629f99e7c59f84b75f9427ba3e3">sqlcc::storage::IBufferPool::FetchPage</a></div><div class="ttdeci">virtual std::unique_ptr&lt; Page &gt; FetchPage(PageId page_id)=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage_1_1IBufferPool_html_aaabbbd23facd8653c57e7a837f64f090"><div class="ttname"><a href="classsqlcc_1_1storage_1_1IBufferPool.html#aaabbbd23facd8653c57e7a837f64f090">sqlcc::storage::IBufferPool::Shutdown</a></div><div class="ttdeci">virtual void Shutdown()=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage_1_1IBufferPool_html_aae8acb36f3947078ec7a4d5b387e8314"><div class="ttname"><a href="classsqlcc_1_1storage_1_1IBufferPool.html#aae8acb36f3947078ec7a4d5b387e8314">sqlcc::storage::IBufferPool::AllocatePage</a></div><div class="ttdeci">virtual PageId AllocatePage()=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage_1_1IBufferPool_html_ad6eacc2d2aa8a0f800e62d640716e9f6"><div class="ttname"><a href="classsqlcc_1_1storage_1_1IBufferPool.html#ad6eacc2d2aa8a0f800e62d640716e9f6">sqlcc::storage::IBufferPool::UnpinPage</a></div><div class="ttdeci">virtual bool UnpinPage(PageId page_id, bool is_dirty)=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage_1_1IBufferPool_html_af17aedab3ddfa37917e3ba331d0b7713"><div class="ttname"><a href="classsqlcc_1_1storage_1_1IBufferPool.html#af17aedab3ddfa37917e3ba331d0b7713">sqlcc::storage::IBufferPool::FlushAll</a></div><div class="ttdeci">virtual bool FlushAll()=0</div></div>
+<div class="ttc" id="aclasssqlcc_1_1storage_1_1IBufferPool_html_afd0361bbe1f3e0ea594510a9011ed376"><div class="ttname"><a href="classsqlcc_1_1storage_1_1IBufferPool.html#afd0361bbe1f3e0ea594510a9011ed376">sqlcc::storage::IBufferPool::DeallocatePage</a></div><div class="ttdeci">virtual bool DeallocatePage(PageId page_id)=0</div></div>
+<div class="ttc" id="anamespacesqlcc_1_1storage_html_a1dad8bb9cf1b1156ad58961d33e0b010"><div class="ttname"><a href="namespacesqlcc_1_1storage.html#a1dad8bb9cf1b1156ad58961d33e0b010">sqlcc::storage::PageId</a></div><div class="ttdeci">int32_t PageId</div><div class="ttdef"><b>Definition</b> buffer_pool_interface.h:13</div></div>
+<div class="ttc" id="anamespacesqlcc_html"><div class="ttname"><a href="namespacesqlcc.html">sqlcc</a></div><div class="ttdef"><b>Definition</b> _deprecated_storage_headers/disk_manager.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>

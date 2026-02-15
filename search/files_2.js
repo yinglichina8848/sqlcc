@@ -18,6 +18,7 @@ var searchData=
   ['buffer_5fexception_2eh_15',['buffer_exception.h',['../buffer__exception_8h.html',1,'']]],
   ['buffer_5fpool_2eh_16',['buffer_pool.h',['../buffer__pool_8h.html',1,'']]],
   ['buffer_5fpool_2fbuffer_5fpool_2eh_17',['buffer_pool.h',['../buffer__pool_2buffer__pool_8h.html',1,'']]],
-  ['buffer_5fpool_5fsharded_2ecpp_18',['buffer_pool_sharded.cpp',['../buffer__pool__sharded_8cpp.html',1,'']]],
-  ['buffer_5fpool_5fsharded_2eh_19',['buffer_pool_sharded.h',['../buffer__pool__sharded_8h.html',1,'']]]
+  ['buffer_5fpool_5finterface_2eh_18',['buffer_pool_interface.h',['../buffer__pool__interface_8h.html',1,'']]],
+  ['buffer_5fpool_5fsharded_2ecpp_19',['buffer_pool_sharded.cpp',['../buffer__pool__sharded_8cpp.html',1,'']]],
+  ['buffer_5fpool_5fsharded_2eh_20',['buffer_pool_sharded.h',['../buffer__pool__sharded_8h.html',1,'']]]
 ];
