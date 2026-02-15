@@ -337,3 +337,33 @@ REVOKE语句用于撤销用户权限：
 2. **权限控制**：基于用户权限控制数据库访问
 3. **数据加密**：支持敏感数据加密存储
 4. **审计日志**：记录重要操作的审计日志
+
+---
+
+## 接口与依赖
+
+**核心接口**:
+- Executor: 执行入口
+- ExecutionContext: 执行上下文与资源管理
+- PlanNode: 执行计划节点
+
+**关键依赖**:
+- sql_parser
+- storage_engine
+- transaction
+- types / utils / exception
+
+---
+
+## 验证方式
+
+- 编译验证: `bazel build //src/execution:execution`
+- 测试验证: `bazel test //tests/level4_sql_processing/... --test_output=errors`
+- 覆盖率验证: `bazel coverage //tests/level4_sql_processing/...`
+
+---
+
+## 风险与权衡
+
+- 风险: 复杂执行计划导致性能波动
+- 权衡: 以正确性为先，逐步优化执行链路

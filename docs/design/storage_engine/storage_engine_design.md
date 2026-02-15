@@ -1120,3 +1120,32 @@ void BufferPool::BatchFlushDirtyPages(size_t batch_size) {
 ## 总结
 
 我们的存储引擎实现了基本的页式存储功能，包括磁盘管理、缓冲池和LRU替换策略。通过合理的架构设计和全面的测试，确保了系统的稳定性和正确性。未来可以在当前基础上添加更多高级功能，如并发控制、事务支持和索引结构。
+
+---
+
+## 接口与依赖
+
+**核心接口**:
+- BufferPool: 缓存与页面管理
+- DiskManager: 磁盘 I/O
+- TableStorage: 表存储管理
+- IndexManager: 索引管理
+
+**关键依赖**:
+- types / utils / exception
+- transaction（可选）
+
+---
+
+## 验证方式
+
+- 编译验证: `bazel build //src/storage_engine:storage_engine`
+- 测试验证: `bazel test //tests/level2_storage_engine/... --test_output=errors`
+- 覆盖率验证: `bazel coverage //tests/level2_storage_engine/...`
+
+---
+
+## 风险与权衡
+
+- 风险: 并发访问下的数据一致性与死锁风险
+- 权衡: 可靠性优先于极限性能

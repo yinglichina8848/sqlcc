@@ -1,8 +1,43 @@
-# SQLCC AI 工具索引 v1.3.10
+# SQLCC AI 工具索引 v1.3.11
 
-**版本**: v1.3.10
+**版本**: v1.3.11
 **更新日期**: 2026-02-02
 **索引范围**: docs/ai_tools/ 目录下所有 AI 辅助开发文档
+
+---
+
+## 🚀 多Agent跨平台协作开发 ⭐NEW
+
+**⭐ 必读文档**: [MULTI_AGENT_COLLABORATION_GUIDE.md](./MULTI_AGENT_COLLABORATION_GUIDE.md)
+
+这是**所有AI Agent进入SQLCC项目必须阅读的第一份文档**！
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│              🤖 AI Agent 快速入门                                         │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│   1️⃣  阅读多Agent协作指南                                                │
+│       📖 docs/ai_tools/MULTI_AGENT_COLLABORATION_GUIDE.md               │
+│                                                                         │
+│   2️⃣  配置Agent身份                                                     │
+│       ⚡ source scripts/sqlcc-agent-config.sh <agent-id>                │
+│                                                                         │
+│   3️⃣  开始协作开发                                                      │
+│       📝 遵循提交规范: Agent: + Scope: + Refs:                           │
+│       🔀 使用feature/*分支                                                │
+│       📋 提交PR前检查AI Self-Check                                       │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**核心内容**:
+- ✅ Agent身份体系（20个Agent ID）
+- ✅ 协作流程（任务状态机 + 消息协议）
+- ✅ 提交规范（Agent: + Scope: + Refs:）
+- ✅ PR规范（强制检查项）
+- ✅ 质量门禁（构建 + 覆盖率）
+- ✅ 快速开始指南
 
 ---
 
@@ -10,22 +45,23 @@
 
 ```
 docs/ai_tools/
-├── AI_COLLABORATION_GUIDE.md       # ⭐ 多Agent并行协作指南 v1.0 新增
-├── AI_DEVELOPMENT_GUIDELINES.md    # AI 开发规范
-├── BUILD_FILE_SPECIFICATION.md     # BUILD 文件规范 (含头文件规范)
-├── CPP_DEVELOPMENT_SPECIFICATION.md   # C++ 开发、测试与重构规范 ⭐新增
-├── improvement_guide.md            # 测试规范
+├── MULTI_AGENT_COLLABORATION_GUIDE.md  # ⭐⭐⭐ AI Agent 必读 ⭐⭐⭐
+├── AI_COLLABORATION_GUIDE.md           # 多Agent并行协作指南
+├── AI_DEVELOPMENT_GUIDELINES.md        # AI 开发规范
+├── BUILD_FILE_SPECIFICATION.md         # BUILD 文件规范 (含头文件规范)
+├── CPP_DEVELOPMENT_SPECIFICATION.md    # C++ 开发、测试与重构规范
+├── improvement_guide.md                # 测试规范
 ├── systematic_refactoring_knowledge_base.md # 重构规范
-├── bazel_tools_manual.md           # Bazel 工具手册
-└── index.md                        # 本索引文件
+├── bazel_tools_manual.md               # Bazel 工具手册
+└── index.md                            # 本索引文件
 
-docs/sdd/                           # 规范驱动开发 (SDD)
-├── SPEC_DRIVEN_DEVELOPMENT.md      # SDD 使用指南 ⭐新增
-└── templates/                      # SDD 模板 ⭐新增
-    ├── requirements_template.md    # 需求模板
-    ├── design_template.md          # 设计模板
-    ├── tasks_template.md           # 任务模板
-    ├── verification_template.md    # 验证模板
+docs/sdd/                               # 规范驱动开发 (SDD)
+├── SPEC_DRIVEN_DEVELOPMENT.md          # SDD 使用指南
+└── templates/                          # SDD 模板
+    ├── requirements_template.md        # 需求模板
+    ├── design_template.md              # 设计模板
+    ├── tasks_template.md               # 任务模板
+    ├── verification_template.md        # 验证模板
     └── multi_agent_collaboration_template.md # 多Agent协作模板
 ```
 
@@ -33,7 +69,31 @@ docs/sdd/                           # 规范驱动开发 (SDD)
 
 ## 🎯 核心规范文档
 
-### 1. 多Agent协作指南 ⭐新增
+### ⭐⭐⭐ 多Agent协作指南 ⭐⭐⭐
+
+**文件**: `MULTI_AGENT_COLLABORATION_GUIDE.md`
+**版本**: v1.0
+**适用范围**: **所有参与 SQLCC 项目的 AI Agent（必读）**
+
+**为什么必须阅读**:
+1. 定义了20个Agent身份，确保协作可追溯
+2. 规定了提交规范，防止混乱提交
+3. 定义了PR流程，确保代码质量
+4. 提供了快速开始指南，新Agent 5分钟上手
+
+**快速开始**:
+```bash
+# 1. 阅读指南
+cat docs/ai_tools/MULTI_AGENT_COLLABORATION_GUIDE.md
+
+# 2. 配置身份
+source scripts/sqlcc-agent-config.sh opencode-developer
+
+# 3. 验证
+git config user.name  # 应显示: SQLCC-AI(OpenCode-Developer)
+```
+
+### 1. 多Agent协作指南
 
 **文件**: `AI_COLLABORATION_GUIDE.md`
 **版本**: v1.0

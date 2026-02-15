@@ -4,6 +4,11 @@
 
 SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数据库系统，实现了完整SQL-92标准支持和高性能存储引擎。
 
+## 👥 维护者与协作
+
+- **项目维护者（平级）**：OpenClaw 高小原 / Codex 项目负责人
+- **协作规范**：[多Agent跨平台协作规范（Issue/PR驱动）](ISSUE_MULTI_AGENT_COLLABORATION.md)
+
 ## 🚀 快速开始
 
 ### 🆕 新用户入门 (推荐)
@@ -17,17 +22,26 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 - [**构建和测试指南**](development/guides/BUILD_AND_TEST_GUIDE.md) - Bazel构建说明
 
 ### 🤖 AI辅助开发
-- [**AI工具使用指南**](ai_tools/AI_TOOLS_USAGE_GUIDE.md) - AI工具最佳实践
+- [**AI工具索引**](ai_tools/index.md) - AI工具与规范入口
 - [**AI开发原则**](development/ai_development_principles.md) - AI辅助软件工程理念
 - [**AI开发规范 ⭐新增**](ai_tools/AI_DEVELOPMENT_GUIDELINES.md) - AI Agent 开发规范 (FIRST 原则)
+- [**🤖 多Agent跨平台协作开发 ⭐⭐⭐必读⭐⭐⭐**](ai_tools/MULTI_AGENT_COLLABORATION_GUIDE.md) - **所有AI Agent进入项目必须阅读的第一份文档！**
+- [**Issue/PR协作规范 ⭐新增**](ISSUE_MULTI_AGENT_COLLABORATION.md) - 多Agent协作的Issue/PR驱动流程
 - [**C++开发规范 ⭐新增**](ai_tools/CPP_DEVELOPMENT_SPECIFICATION.md) - C++ 开发、测试与重构规范
 - [**测试驱动开发**](development/guides/TEST_DRIVEN_DEVELOPMENT_GUIDE.md) - TDD理念与实践
+- [**TDD 开发指南（项目版）**](TDD_GUIDE.md) - TDD流程与最小覆盖矩阵要求
+- [**TDD/SDD 联合框架规范**](TDD_SDD_FRAMEWORK.md) - 规范驱动与测试驱动的联动流程
 - [**规范驱动开发 (SDD) ⭐新增**](sdd/SPEC_DRIVEN_DEVELOPMENT.md) - 规范驱动开发方法论
+- [**FDD 工作流规范**](fdd/FDD_WORKFLOW.md) - 功能驱动开发流程
+- [**FDD 功能分解树**](fdd/FEATURE_DECOMPOSITION.md) - 功能域与功能点清单
+- [**FDD 优先级矩阵**](fdd/FEATURE_PRIORITY_MATRIX.md) - 功能优先级与迭代规划
 
 ## 🏗️ 架构与设计
 
 ### 📐 系统架构
-- [**系统架构总览**](design/architecture.md) - 完整的系统架构说明
+- [**系统架构总览**](design/Architecture.md) - 完整的系统架构说明
+- [**架构文档索引**](architecture/DOCUMENT_INDEX.md) - 架构文档入口与阅读路线
+- [**架构新手指南**](architecture/BEGINNER_GUIDE.md) - 架构入门与关键概念导航
 - [**存储引擎架构**](design/storage_engine/storage_engine_redesign.md) - 存储引擎设计详解
 - [**配置管理架构**](design/config_manager/) - 配置系统设计
 - [**多任务执行器设计**](design/execution/) - 并发执行架构
@@ -56,11 +70,7 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 - [**v1.3.8 Release Notes**](releases/RELEASE_NOTES_v1.3.8.md) - SQL Parser模块化重构
 - [**v1.3.7 Release Notes**](releases/RELEASE_NOTES_v1.3.7.md) - Bazel构建系统重构
 - [**v1.3.6 Release Notes**](releases/RELEASE_NOTES_v1.3.6.md) - LLVM覆盖率工具链完善
-- [**v1.3.5 Release Notes**](releases/RELEASE_NOTES_v1.3.5.md) - 版本更新和文档完善
-- [**v1.3.4 Release Notes**](releases/RELEASE_NOTES_v1.3.4.md) - SQL-92特性深度集成
 - [**v1.3.3 Release Notes**](releases/RELEASE_NOTES_v1.3.3.md) - DDL/DCL功能补全
-- [**v1.3.2 Release Notes**](releases/RELEASE_NOTES_v1.3.2.md) - DDL语句真实执行验证
-- [**v1.3.1 Release Notes**](releases/RELEASE_NOTES_v1.3.1.md) - 测试改进
 - [**v1.3.0 Release Notes**](releases/RELEASE_NOTES_v1.3.0.md) - 功能发布
 - [**v1.2.x系列**](releases/) - v1.2.0-v1.2.15版本特性
 
@@ -78,12 +88,10 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 ### 💻 编码规范
 - [**编码标准**](api/code/coding_standards.md) - 代码规范和最佳实践
 - [**源码注释指南**](api/code/source_code_comments_guide.md) - Why-What-How三层注释体系
-- [**API设计原则**](api/code/api_design_principles.md) - 接口设计规范
 
 ### 🛠️ 开发工具
 - [**Doxygen配置**](development/guides/DOXYGEN_COVERAGE_CONFIGURATION.md) - 文档生成工具
 - [**Bazel工具手册**](ai_tools/bazel_tools_manual.md) - 构建工具使用
-- [**Bazel知识库**](ai_tools/bazel_knowledge_base.md) - 构建系统知识
 - [**开发指南**](development/guides/) - 开发指南集合
 
 ### 📐 开发规范 ⭐新增
@@ -115,23 +123,21 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 ### 🤝 贡献指南
 - [**贡献者指南**](development/guides/CONTRIBUTING.md) - 如何参与贡献
 - [**安全政策**](development/guides/SECURITY.md) - 安全问题报告
-- [**开发工作流**](ai_tools/bazel_workflow_guide.md) - 协作开发流程
+- [**开发工作流**](ai_tools/bazel_tools_manual.md) - 协作开发流程
 
 ### 🔧 工具和方法论
 - [**AI重构方法论**](ai_tools/systematic_refactoring_knowledge_base.md) - 系统化重构方法
-- [**测试改进计划**](testing/测试框架改进和性能测试扩展计划.md) - 测试系统改进
-- [**Bazel改进指南**](ai_tools/bazel_improvement_guide.md) - 构建系统优化
+- [**测试体系概览**](testing/README.md) - 测试文档入口
 
 ## 🔍 测试与质量
 
 ### 🧪 测试体系
 - [**测试文档**](testing/) - 测试文档集合
-- [**覆盖率数据**](testing/coverage/) - 测试覆盖率HTML报告
 - [**测试质量评估**](reports/evaluation/) - 测试质量评估报告
 
 ### 🎯 质量保证
 - [**内存安全培训**](design/security/memory_safety_training.md) - 安全编码培训
-- [**测试改进计划**](testing/测试框架改进和性能测试扩展计划.md) - 质量提升计划
+- [**测试改进计划**](testing/README.md) - 质量提升计划
 
 ## 📊 性能与监控
 
@@ -157,7 +163,7 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 - [**v1.3.8 版本报告**](project/versions/v1.3.8/) - SQL Parser模块化重构
 - [**v1.3.7 版本报告**](project/versions/v1.3.7/) - Bazel构建系统重构
 - [**v1.3.6 版本报告**](project/versions/v1.3.6/) - LLVM覆盖率工具链完善
-- [**v1.3.5 版本报告**](project/versions/v1.3.5/) - 版本更新和文档完善
+- [**v1.3.4 版本报告**](project/versions/v1.3.4/) - 版本更新和文档完善
 - [**v1.3.4 版本报告**](project/versions/v1.3.4/) - SQL-92特性深度集成
 - [**v1.3.3 版本报告**](project/versions/v1.3.3/) - DDL/DCL功能补全
 - [**v1.3.2 版本报告**](project/versions/v1.3.2/) - DDL语句真实执行验证
@@ -172,7 +178,7 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 - [**v1.2.12 版本报告**](project/versions/v1.2.12/) - 错误修正
 - [**v1.2.11 版本报告**](project/versions/v1.2.11/) - 层次4测试重构
 - [**v1.2.10 版本报告**](project/versions/v1.2.10/) - 覆盖率测试系统
-- [**v1.2.9 版本报告**](project/versions/v1.2.9/) - 覆盖率改进
+- [**v1.2.10 版本报告**](project/versions/v1.2.10/) - 覆盖率改进
 - [**v1.2.8 版本报告**](project/versions/v1.2.8/) - 编译改进
 - [**v1.2.7 版本报告**](project/versions/v1.2.7/) - 测试目录分析
 - [**v1.2.6 版本报告**](project/versions/v1.2.6/) - 核心组件注释补全计划
@@ -197,16 +203,16 @@ SQLCC（SQL Cloud-native Cluster）是一个企业级内存安全的云原生数
 
 ### 🎓 教材资源
 - [**《数据库系统原理与开发实践》**](textbook/《数据库系统原理与开发实践》.md) - 完整教材内容
-- [**教材提纲**](textbook/教材提纲.md) - 16章教学大纲
+- [**教材索引**](textbook/README.md) - 教材与章节索引
 - [**千年数据演化**](textbook/第1章.md) - 数据处理历史
 - [**技术发展史**](textbook/第2章.md) - 计算机技术演进
 - [**关系数据库基础**](textbook/第3章.md) - 数学基础与设计
 
 ### 📊 PPT课件
-- [**第一章：千年数据演化启示录**](textbook/第一章：千年数据演化启示录.pptx)
-- [**第二章：计算与数据共生史**](textbook/第二章：计算与数据共生史.pptx)
-- [**第三章：RDBMS设计思想**](textbook/第三章：RDBMS设计思想与工程实现全景解析（SQLCC）.pptx)
-- [**第四章：存储引擎设计**](textbook/第四章：存储引擎-操作系统到RDBMS的桥梁-思想算法全栈透视.pptx)
+- [**第一章：千年数据演化启示录**](textbook/slides/第一章：千年数据演化启示录 .pptx)
+- [**第二章：计算与数据共生史**](textbook/slides/第二章：计算与数据共生史.pptx)
+- [**第三章：RDBMS设计思想**](textbook/slides/第三章：RDBMS设计思想与工程实现全景解析（SQLCC）.pptx)
+- [**第四章：存储引擎设计**](textbook/slides/第四章：存储引擎-操作系统到RDBMS的桥梁-思想算法全栈透视.pptx)
 
 ## 📋 历史文档
 

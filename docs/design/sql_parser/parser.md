@@ -475,3 +475,32 @@ private:
 ### std::string errorMessage_
 
 错误信息，存储解析过程中遇到的错误。
+
+---
+
+## 接口与依赖
+
+**核心接口**:
+- Parser: 入口解析器，负责语法规则调度
+- ParserContext: 解析上下文与状态管理
+- ASTNode: 语法树节点构建与校验
+
+**关键依赖**:
+- lexer 模块（Token 流）
+- ast 结构定义
+- types / utils / exception
+
+---
+
+## 验证方式
+
+- 编译验证: `bazel build //src/sql_parser:sql_parser`
+- 测试验证: `bazel test //tests/sql_parser/... --test_output=errors`
+- 覆盖率验证: `bazel coverage //tests/sql_parser/...`
+
+---
+
+## 风险与权衡
+
+- 风险: 语法变更导致回归与错误恢复复杂度上升
+- 权衡: 优先保证解析正确性，再逐步优化性能
