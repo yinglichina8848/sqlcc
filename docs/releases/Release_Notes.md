@@ -1,88 +1,71 @@
-# SQLCC v1.2.15 发布说明 - Network模块编译和测试改进版本
+# SQLCC Release Notes 索引
 
-## 发布日期
-2026年1月10日
+本页为 Release Notes 汇总索引，详细内容见各版本文件或下方“近期详细发布说明”。
 
-## 版本摘要
-SQLCC v1.2.15 主要关注Network模块的编译和测试改进工作。通过系统性的构建系统修复、测试框架建设、覆盖率测试环境配置，成功实现了Network模块的核心功能验证和质量保障体系的建立。
+## 版本索引
+| 版本 | 发布日期 | Release Notes | ChangeLog | 主题/摘要 |
+|---|---|---|---|---|
+| v1.3.10 | 2026-02-02 | — | [CHANGELOG_v1.3.10.md](CHANGELOG_v1.3.10.md) | 规范驱动开发 (SDD) 体系 |
+| v1.3.9 | 2026-01-30 | [RELEASE_NOTES_v1.3.9.md](RELEASE_NOTES_v1.3.9.md) | [CHANGELOG_v1.3.9.md](CHANGELOG_v1.3.9.md) | Level 1 Foundation完整单元测试完成 |
+| v1.3.8 | 2026-01-22 | [RELEASE_NOTES_v1.3.8.md](RELEASE_NOTES_v1.3.8.md) | [CHANGELOG_v1.3.8.md](CHANGELOG_v1.3.8.md) | SQL Parser模块化重构完成 |
+| v1.3.7 | 2026-01-20 | [RELEASE_NOTES_v1.3.7.md](RELEASE_NOTES_v1.3.7.md) | [CHANGELOG_v1.3.7.md](CHANGELOG_v1.3.7.md) | Bazel构建系统重大重构和修复 |
+| v1.3.6 | 2026-01-19 | [RELEASE_NOTES_v1.3.6.md](RELEASE_NOTES_v1.3.6.md) | [CHANGELOG_v1.3.6.md](CHANGELOG_v1.3.6.md) | 测试系统全面修复和覆盖率工具链完善 |
+| v1.3.3 | 2026-01-13 | [RELEASE_NOTES_v1.3.3.md](RELEASE_NOTES_v1.3.3.md) | [CHANGELOG_v1.3.3.md](CHANGELOG_v1.3.3.md) | DDL/DCL功能补全和测试验证完成 |
+| v1.3.0 | 2026年6月17日 (预计) | [RELEASE_NOTES_v1.3.0.md](RELEASE_NOTES_v1.3.0.md) | — | SQLCC v1.3.0 Release Notes |
+| v1.2.15 | 2026年1月10日 | [RELEASE_NOTES_v1.2.15.md](RELEASE_NOTES_v1.2.15.md) | — | SQLCC v1.2.15 主要关注Network模块的编译和测试改进工作。通过系统性的构建系统修复、测试框架建设、覆盖率测试环境配置，成功实现了Network模块的核心功能验证和质量保障体系的建立。 |
+| v1.2.14 | 2026-01-10 | [RELEASE_NOTES_v1.2.14.md](RELEASE_NOTES_v1.2.14.md) | [CHANGELOG_v1.2.14.md](CHANGELOG_v1.2.14.md) | SQLCC v1.2.14 核心类实现和测试系统完善发布说明 |
+| v1.2.13 | 2025-12-29 | — | [CHANGELOG_v1.2.13.md](CHANGELOG_v1.2.13.md) | SQLCC v1.2.13 最终测试系统完善 |
+| v1.2.12.1 | 2025年12月30日 | [RELEASE_NOTES_v1.2.12.1.md](RELEASE_NOTES_v1.2.12.1.md) | — | SQLCC v1.2.12.1 是教育资源建设版本，完成了核心代码注释补全项目，为数据库系统学习提供了完整的教学资源体系。通过系统性的注释改进，将代码的可读性和教育价值提升到新的高度。 |
+| v1.2.12 | 2025-12-30 | — | [CHANGELOG_v1.2.12.md](CHANGELOG_v1.2.12.md) | SQLCC v1.2.12 全面测试系统重构优化 |
+| v1.2.11 | 2025-12-28 | — | [CHANGELOG_v1.2.11.md](CHANGELOG_v1.2.11.md) | SQLCC v1.2.11 层次化测试重构改进 |
+| v1.2.10 | 2025-12-28 | — | [CHANGELOG_v1.2.10.md](CHANGELOG_v1.2.10.md) | SQLCC v1.2.10 测试重构改进项目发布说明 |
+| v1.2.9 | 2025-12-25 | — | [CHANGELOG_v1.2.9.md](CHANGELOG_v1.2.9.md) | SQLCC v1.2.9 BUILD系统修复与覆盖率改进 |
+| v1.2.8 | 2025-12-24 | — | [CHANGELOG_v1.2.8.md](CHANGELOG_v1.2.8.md) | SQLCC v1.2.8 BUILD系统重构与标准化 |
+| v1.2.7 | 2025年12月24日 | [RELEASE_NOTES_v1.2.7.md](RELEASE_NOTES_v1.2.7.md) | [CHANGELOG_v1.2.7.md](CHANGELOG_v1.2.7.md) | SQLCC v1.2.7 Release Notes |
+| v1.2.6 | 2025年12月26日 | [RELEASE_NOTES_v1.2.6.md](RELEASE_NOTES_v1.2.6.md) | [CHANGELOG_v1.2.6.md](CHANGELOG_v1.2.6.md) | SQLCC v1.2.6 Release Notes |
+| v1.2.5 | 2025-12-20 | [RELEASE_NOTES_v1.2.5.md](RELEASE_NOTES_v1.2.5.md) | [CHANGELOG_v1.2.5.md](CHANGELOG_v1.2.5.md) | SQLCC v1.2.5 Release Notes |
+| v1.2.4 | 2025年12月20日 | [RELEASE_NOTES_v1.2.4.md](RELEASE_NOTES_v1.2.4.md) | [CHANGELOG_v1.2.4.md](CHANGELOG_v1.2.4.md) | SQLCC v1.2.4 版本发布说明 |
+| v1.2.3 | 2025年12月19日 | — | [CHANGELOG_v1.2.3.md](CHANGELOG_v1.2.3.md) | SQLCC v1.2.3 ChangeLog |
+| v1.2.1 | 2025年12月18日 | [RELEASE_NOTES_v1.2.1.md](RELEASE_NOTES_v1.2.1.md) | [CHANGELOG_v1.2.1.md](CHANGELOG_v1.2.1.md) | SQLCC v1.2.1 版本发布说明 |
+| v1.2.0 | 2025年12月17日 | — | [CHANGELOG_v1.2.0.md](CHANGELOG_v1.2.0.md) | SQLCC v1.2.0 ChangeLog |
+| v1.1.5 | 2025年12月16日 | [RELEASE_NOTES_v1.1.5.md](RELEASE_NOTES_v1.1.5.md) | [CHANGELOG_v1.1.5.md](CHANGELOG_v1.1.5.md) | SQLCC v1.1.5 版本发布说明 |
+| v1.1.4 | 2025年12月15日 | [RELEASE_NOTES_v1.1.4.md](RELEASE_NOTES_v1.1.4.md) | [CHANGELOG_v1.1.4.md](CHANGELOG_v1.1.4.md) | SQLCC # SQLCC v1.1.4 版本发布说明 |
+| v1.1.3 | 2025年12月11日 | [RELEASE_NOTES_v1.1.3.md](RELEASE_NOTES_v1.1.3.md) | [CHANGELOG_v1.1.3.md](CHANGELOG_v1.1.3.md) | SQLCC v1.1.3 版本发布说明 |
+| v1.1.2 | 2025年12月10日 | [RELEASE_NOTES_v1.1.2.md](RELEASE_NOTES_v1.1.2.md) | — | SQLCC v1.1.2 性能测试与测试套件修复 |
+| v1.1.1 | 2025-12-05 | [RELEASE_NOTES_v1.1.1.md](RELEASE_NOTES_v1.1.1.md) | [CHANGELOG_v1.1.1.md](CHANGELOG_v1.1.1.md) | SQLCC v1.1.1 版本发布说明 |
+| v1.1.0 | 2025-12-05 | [RELEASE_NOTES_v1.1.0.md](RELEASE_NOTES_v1.1.0.md) | [CHANGELOG_v1.1.0.md](CHANGELOG_v1.1.0.md) | SQLCC v1.1.0 版本发布说明 |
+| v1.0.9 | 2025-12-04 | [RELEASE_NOTES_v1.0.9.md](RELEASE_NOTES_v1.0.9.md) | [CHANGELOG_v1.0.9.md](CHANGELOG_v1.0.9.md) | SQLCC v1.0.9 版本发布说明 |
+| v1.0.8 | 2025-12-03 | [RELEASE_NOTES_v1.0.8.md](RELEASE_NOTES_v1.0.8.md) | [CHANGELOG_v1.0.8.md](CHANGELOG_v1.0.8.md) | SQLCC v1.0.8 版本发布说明 |
+| v1.0.7 | — | [RELEASE_NOTES_v1.0.7.md](RELEASE_NOTES_v1.0.7.md) | [CHANGELOG_v1.0.7.md](CHANGELOG_v1.0.7.md) | SQLCC v1.0.7 版本发布说明 |
+| v1.0.6 | — | [RELEASE_NOTES_v1.0.6.md](RELEASE_NOTES_v1.0.6.md) | [CHANGELOG_v1.0.6.md](CHANGELOG_v1.0.6.md) | SQLCC v1.0.6 版本发布说明 |
+| v1.0.5 | — | [RELEASE_NOTES_v1.0.5.md](RELEASE_NOTES_v1.0.5.md) | — | SQLCC v1.0.5 版本发布说明 |
+| v1.0.4 | — | [RELEASE_NOTES_v1.0.4.md](RELEASE_NOTES_v1.0.4.md) | — | SQLCC v1.0.4 版本发布说明 |
+| v1.0.2 | — | [RELEASE_NOTES_v1.0.2.md](RELEASE_NOTES_v1.0.2.md) | [CHANGELOG_v1.0.2.md](CHANGELOG_v1.0.2.md) | SQLCC v1.0.2 版本发布说明 |
+| v1.0.0 | 2025-11-25 | [RELEASE_NOTES_v1.0.0.md](RELEASE_NOTES_v1.0.0.md) | [CHANGELOG_v1.0.0.md](CHANGELOG_v1.0.0.md) | SQLCC v1.0.0 版本发布说明 |
+| v0.6.0 | 2025-11-15 | [RELEASE_NOTES_v0.6.0.md](RELEASE_NOTES_v0.6.0.md) | [CHANGELOG_v0.6.0.md](CHANGELOG_v0.6.0.md) | SQLCC v0.6.0 版本发布说明 |
+| v0.5.7 | 2025年11月22日 | [RELEASE_NOTES_v0.5.7.md](RELEASE_NOTES_v0.5.7.md) | — | SQLCC v0.5.7 发布说明 |
+| v0.5.6 | — | [RELEASE_NOTES_v0.5.6.md](RELEASE_NOTES_v0.5.6.md) | — | SQLCC 发布说明 - 版本 v0.5.6 |
+| v0.5.5 | — | [RELEASE_NOTES_v0.5.5.md](RELEASE_NOTES_v0.5.5.md) | — | SQLCC v0.5.5 发布说明 |
+| v0.5.4 | — | [RELEASE_NOTES_v0.5.4.md](RELEASE_NOTES_v0.5.4.md) | — | SQLCC v0.5.4 版本发布说明 |
+| v0.4.8 | 2025-11-18 | [RELEASE_NOTES_v0.4.8.md](RELEASE_NOTES_v0.4.8.md) | — | SQLCC v0.4.8 版本发布说明 |
+| v0.4.7 | 2025年11月15日 | [RELEASE_NOTES_v0.4.7.md](RELEASE_NOTES_v0.4.7.md) | [CHANGELOG_v0.4.7.md](CHANGELOG_v0.4.7.md) | SQLCC v0.4.7 版本发布说明 |
+| v0.4.5 | 2025年11月26日 | [RELEASE_NOTES_v0.4.5.md](RELEASE_NOTES_v0.4.5.md) | [CHANGELOG_v0.4.5.md](CHANGELOG_v0.4.5.md) | SQLCC v0.4.5 版本发布说明 |
+| v0.4.1 | — | [RELEASE_NOTES_v0.4.1.md](RELEASE_NOTES_v0.4.1.md) | — | SQLCC v0.4.1 发布说明 |
+| v0.4.0 | 2025年11月12日 | [RELEASE_NOTES_v0.4.0.md](RELEASE_NOTES_v0.4.0.md) | [CHANGELOG_v0.4.0.md](CHANGELOG_v0.4.0.md) | SQLCC v0.4.0 发布说明 |
+| v0.3.9 | 2025年11月25日 | [RELEASE_NOTES_v0.3.9.md](RELEASE_NOTES_v0.3.9.md) | [CHANGELOG_v0.3.9.md](CHANGELOG_v0.3.9.md) | SQLCC v0.3.9 版本发布说明 |
+| v0.3.6 | 2025年11月12日 | [RELEASE_NOTES_v0.3.6.md](RELEASE_NOTES_v0.3.6.md) | — | SQLCC v0.3.6 发布说明 |
+| v0.3.5 | — | [RELEASE_NOTES_v0.3.5.md](RELEASE_NOTES_v0.3.5.md) | — | SQLCC v0.3.5 版本发布说明 |
+| v0.3.3 | 2025年11月24日 | [RELEASE_NOTES_v0.3.3.md](RELEASE_NOTES_v0.3.3.md) | [CHANGELOG_v0.3.3.md](CHANGELOG_v0.3.3.md) | SQLCC v0.3.3 版本发布说明 |
+| v0.3.0 | 2025年11月23日 | [RELEASE_NOTES_v0.3.0.md](RELEASE_NOTES_v0.3.0.md) | [CHANGELOG_v0.3.0.md](CHANGELOG_v0.3.0.md) | SQLCC v0.3.0 版本发布说明 |
+| v0.2.6 | 2025年11月22日 | [RELEASE_NOTES_v0.2.6.md](RELEASE_NOTES_v0.2.6.md) | [CHANGELOG_v0.2.6.md](CHANGELOG_v0.2.6.md) | SQLCC v0.2.6 版本发布说明 |
+| v0.2.3 | 2025年11月21日 | [RELEASE_NOTES_v0.2.3.md](RELEASE_NOTES_v0.2.3.md) | [CHANGELOG_v0.2.3.md](CHANGELOG_v0.2.3.md) | SQLCC v0.2.3 版本发布说明 |
+| v0.2.1 | 2025年11月20日 | [RELEASE_NOTES_v0.2.1.md](RELEASE_NOTES_v0.2.1.md) | [CHANGELOG_v0.2.1.md](CHANGELOG_v0.2.1.md) | SQLCC v0.2.1 版本发布说明 |
+| v0.1.1 | 2025年11月18日 | [RELEASE_NOTES_v0.1.1.md](RELEASE_NOTES_v0.1.1.md) | [CHANGELOG_v0.1.1.md](CHANGELOG_v0.1.1.md) | SQLCC v0.1.1 版本发布说明 |
+| v0.0.1 | 2025年11月15日 | [RELEASE_NOTES_v0.0.1.md](RELEASE_NOTES_v0.0.1.md) | [CHANGELOG_v0.0.1.md](CHANGELOG_v0.0.1.md) | SQLCC v0.0.1 版本发布说明 |
 
-## 🎯 核心改进 - Network模块编译和测试改进
+## 近期详细发布说明
 
-### 1. Bazel构建系统深度修复
-- **BUILD文件语法修复**: 系统性修复30+个Bazel配置文件语法错误
-- **依赖关系优化**: 解决循环依赖和标签引用问题
-- **编译环境稳定化**: 实现零编译错误、零链接失败
-- **构建性能提升**: 编译时间显著缩短，环境更加稳定
-
-### 2. Network模块编译成功
-- **核心组件实现**: SessionManager、ConnectionStateMachine、DataTransmissionValidator、NetworkException
-- **模块完整性**: 网络通信模块完整编译通过，生成libnetwork.a和libnetwork.so
-- **功能验证**: 基础网络通信架构验证完成
-- **集成就绪**: 为后续网络功能开发奠定基础
-
-### 3. 分层测试框架建设
-- **基础类型测试**: 13个测试用例，验证C++基础操作和异常处理
-- **核心功能测试**: 18个测试用例，覆盖SessionManager和ConnectionStateMachine
-- **头文件验证**: 编译检查，确保头文件语法正确性
-- **测试执行**: 31个测试用例全部通过，瞬间完成
-
-### 4. 覆盖率测试环境配置
-- **Bazel覆盖率集成**: 配置--collect_code_coverage和--combined_report=lcov
-- **编译选项优化**: 添加--coverage、-fprofile-arcs、-ftest-coverage选项
-- **链接配置**: 配置-lgcov和--coverage链接选项
-- **工具链准备**: lcov工具安装和HTML报告生成环境就绪
-
-### 5. 测试质量验证
-- **SessionManager验证**: 会话创建、认证、权限检查、生命周期管理
-- **ConnectionStateMachine验证**: 状态转换、权限控制、错误处理、性能测试
-- **异常处理验证**: NetworkException创建和错误分类
-- **数据验证**: DataTransmissionValidator功能测试
-
-### 技术成果量化
-- **编译成功率**: 100% (Network模块和测试用例全部编译通过)
-- **测试通过率**: 100% (31个测试用例全部通过)
-- **构建稳定性**: 零错误，零超时，零失败
-- **测试执行效率**: 瞬间完成，无性能瓶颈
-- **代码覆盖率**: 核心功能100%覆盖率达成
-
----
-
-# SQLCC v1.2.12.1 发布说明 - 核心代码注释补全版本
-
-## 发布日期
-2025年12月30日
-
-## 版本摘要
-SQLCC v1.2.12.1 是教育资源建设版本，完成了核心代码注释补全项目，为数据库系统学习提供了完整的教学资源体系。通过系统性的注释改进，将代码的可读性和教育价值提升到新的高度。
-
-## 🎯 核心改进 - 注释补全项目
-
-### 1. Why/What/How三层注释体系建立
-- **WHY层**: 解释设计决策和选择理由 (6/6文件完整覆盖)
-- **WHAT层**: 描述代码功能和行为 (5/6文件完整覆盖)
-- **HOW层**: 说明技术实现细节 (4/6文件完整覆盖)
-- **教育导向**: 专门为大学二年级学生设计，包含学习路径指引
-
-### 2. 核心组件注释完善
-- **SQL Parser**: 递归下降算法详解，包含文法规则和错误恢复
-- **B+树索引**: 平衡树算法，磁盘I/O优化，范围查询性能分析
-- **缓冲池**: 分片并发设计，LRU策略，性能优化量化
-- **SQL Executor**: 统一执行器架构，设计模式应用
-- **DatabaseManager**: 外观模式实现，组件协作机制
-
-### 3. 质量保证体系
-- **自动化检查脚本**: `scripts/check_comment_coverage.sh`
-- **质量验证机制**: Why/What/How结构完整性检查
-- **维护机制**: 注释规范和持续改进流程
-
-### 4. 技术成果统计
-- **新增注释**: 300+行高质量教育性注释
-- **覆盖率提升**: 从基础级(10%-35%)提升到教育级(90%+)
-- **组件完善**: 7个核心组件全部重新注释
-- **文档体系**: 完整的注释补全指南和技术规范
-
----
-
+<a id="release-notes-v1-2-12"></a>
 # SQLCC v1.2.12 发布说明
 
 ## 发布日期

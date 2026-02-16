@@ -235,3 +235,31 @@ private:
 ### bool hasCachedToken_
 
 是否有缓存的Token，用于peekToken方法。
+
+---
+
+## 接口与依赖
+
+**核心接口**:
+- Lexer: 词法分析入口
+- Token: 语法单元与类型定义
+- NextToken(): 逐步生成 Token 流
+
+**关键依赖**:
+- types / utils / exception
+- 字符分类与关键字表
+
+---
+
+## 验证方式
+
+- 编译验证: `bazel build //src/sql_parser:sql_parser`
+- 测试验证: `bazel test //tests/sql_parser/... --test_output=errors`
+- 覆盖率验证: `bazel coverage //tests/sql_parser/...`
+
+---
+
+## 风险与权衡
+
+- 风险: 边界字符与转义处理不一致导致解析失败
+- 权衡: 词法严格性优先于宽松容错

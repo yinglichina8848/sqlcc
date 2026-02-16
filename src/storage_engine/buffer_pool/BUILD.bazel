@@ -1,4 +1,12 @@
 cc_library(
+    name = "buffer_pool_interface",
+    hdrs = [
+        "buffer_pool_interface.h",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
     name = "buffer_pool",
     srcs = [
         "buffer_pool_sharded.cpp",
@@ -8,6 +16,7 @@ cc_library(
         "buffer_pool_sharded.h",
     ],
     deps = [
+        ":buffer_pool_interface",
         "//src/utils:utils",
         "//src/storage_engine/disk_manager",
         "//src/storage_engine/replace_strategy:replace_strategy_headers",

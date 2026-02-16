@@ -68,6 +68,24 @@ gh pr comment 4 --body "**AI Reviewer**: Claude Code (MiniMax-M2.1)\n**Role**: P
 git commit -m "feat(core): 实现接口 (AI: OpenCode)"
 ```
 
+### 2.2 身份配置（必做）
+
+所有参与 SQLCC 的 Agent 必须配置唯一身份，用于提交记录与审计追溯。
+
+推荐方式：
+```bash
+source scripts/sqlcc-agent-config.sh <agent-id>
+git config user.name && git config user.email
+```
+
+手动方式：
+```bash
+git config user.name "SQLCC-AI(Codex-IDE)"
+git config user.email "sqlcc+codex-ide@users.noreply.github.com"
+```
+
+> 说明：本仓库由李哥指挥的 Codex（AI-IDE）工作时，提交与文档记录统一使用 Codex 身份。
+
 ---
 
 ## 3. 分层工作流

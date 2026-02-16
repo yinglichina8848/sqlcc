@@ -53,14 +53,17 @@
 #include "../../page/page.h"
 #include "../../utils/config_manager.h"
 #include "../../exception/exception.h"
+#include "buffer_pool_interface.h"
 
 namespace sqlcc {
 
 /**
  * @class BufferPoolSharded
  * @brief 分片缓冲池 - 现代多核数据库的标配实现
+ * 
+ * 实现 IBufferPool 接口，提供缓冲区管理功能
  */
-class BufferPoolSharded {
+class BufferPoolSharded : public IBufferPool {
 public:
     /**
      * @brief 构造函数
